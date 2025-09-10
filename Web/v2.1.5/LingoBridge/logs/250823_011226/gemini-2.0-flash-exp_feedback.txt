@@ -1,0 +1,77 @@
+在 Python 中，你可以使用多種方法來修改字串 `name`，將 `@` 字元替換為 `str1`。 以下提供幾個常見且簡潔的方式：
+
+**1. 使用 `replace()` 方法 (最推薦):**
+
+這是最直接且常用的方法。
+
+```python
+str1 = "Hello"
+LOG_TIME = "250823_003345"  # 假設 LOG_TIME 已經定義
+
+name = LOG_TIME + "@_feedback.txt"
+new_name = name.replace("@", str1)
+
+print(new_name)  # 輸出: 250823_003345Hello_feedback.txt
+```
+
+`replace()` 方法會將字串中所有出現的指定子字串替換為新的子字串。  `name.replace("@", str1)` 的意思是將 `name` 字串中所有 `@` 替換為 `str1` 的值。
+
+**2. 使用 f-string (Python 3.6+)**
+
+f-string 是一種方便的字串格式化方式，也可以用來替換字串。  雖然在這裡用來替換單個字元略顯 overkill，但如果你的替換邏輯更複雜，這會是個好選擇。
+
+```python
+str1 = "Hello"
+LOG_TIME = "250823_003345"
+
+name = f"{LOG_TIME}{'@_feedback.txt'.replace('@', str1)}"
+
+print(name)  # 輸出: 250823_003345Hello_feedback.txt
+```
+
+這裡，我們使用 f-string 將 `LOG_TIME` 和修改後的 `'@_feedback.txt'` 字串串接起來。
+
+**3. 使用 `split()` 和 `join()` (較少用，但可了解):**
+
+這種方法將字串分割成列表，然後再重新組裝。 雖然可行，但對於簡單的替換來說略顯複雜。
+
+```python
+str1 = "Hello"
+LOG_TIME = "250823_003345"
+
+name = LOG_TIME + "@_feedback.txt"
+parts = name.split("@")  # 將字串以 "@" 分割成列表
+new_name = str1.join(parts) # 用 str1 連接列表元素
+
+print(new_name)  # 輸出: 250823_003345Hello_feedback.txt
+```
+
+`split("@")` 將字串 `name` 在每個 `@` 字符處分割，生成一個列表。  `str1.join(parts)` 使用 `str1` 作为连接符，将列表 `parts` 中的元素连接成一个新的字符串。  注意，如果字符串中有多个 `@` 字符，此方法会用 `str1` 替换所有 `@` 字符。
+
+**總結：**
+
+`replace()` 方法通常是最佳選擇，因為它簡單易懂且效率高。  f-string 則適用於更複雜的字串格式化和替換場景。 `split()` 和 `join()` 方法雖然可行，但不如前兩者直接。
+
+**完整可執行範例：**
+
+```python
+str1 = "Hello"
+LOG_TIME = "250823_003345"
+
+# 使用 replace() 方法 (推薦)
+name = LOG_TIME + "@_feedback.txt"
+new_name = name.replace("@", str1)
+print(f"使用 replace(): {new_name}")
+
+# 使用 f-string
+name = f"{LOG_TIME}{'@_feedback.txt'.replace('@', str1)}"
+print(f"使用 f-string: {name}")
+
+# 使用 split() 和 join()
+name = LOG_TIME + "@_feedback.txt"
+parts = name.split("@")
+new_name = str1.join(parts)
+print(f"使用 split() 和 join(): {new_name}")
+```
+
+這個範例展示了所有方法的用法，並輸出結果，方便你比較和選擇最適合你的方式。  建議使用 `replace()` 方法，除非你有更複雜的字串處理需求。

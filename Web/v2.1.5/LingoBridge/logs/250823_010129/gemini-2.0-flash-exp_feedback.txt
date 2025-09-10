@@ -1,0 +1,67 @@
+```python
+str1 = "Hello"
+LOG_TIME = "250823_003345"  # 假設 LOG_TIME 的值
+
+name = LOG_TIME + "@_feedback.txt"
+new_name = name.replace("@", str1)
+
+print(f"原始字串: {name}")
+print(f"替換後的字串: {new_name}")
+```
+
+**說明:**
+
+1. **`name.replace("@", str1)`:**  這是關鍵所在。 `replace()` 是一個 Python 字串方法，它接受兩個參數：
+   - 第一個參數是要被替換的子字串 ("@" 在這裡)。
+   - 第二個參數是用於替換的新子字串 (`str1`，也就是 "Hello")。
+
+   `replace()` 方法會傳回一個*新的*字串，其中所有出現的 "@" 都被 "Hello" 取代。  它*不會*直接修改原始字串 `name`。
+
+2. **`new_name = ...`:** 我們將 `replace()` 方法的結果賦值給一個新的變數 `new_name`。  這確保了我們保存了替換後的新字串。
+
+3. **`print()`:**  只是為了方便你看到原始字串和替換後的字串。
+
+**輸出範例:**
+
+```
+原始字串: 250823_003345@_feedback.txt
+替換後的字串: 250823_003345Hello_feedback.txt
+```
+
+**如果 `name` 中有多個 "@" 字元:**
+
+`replace()` 方法會替換*所有*出現的 "@" 字元。  例如：
+
+```python
+str1 = "Hello"
+name = "user@example.com@feedback.txt"
+new_name = name.replace("@", str1)
+print(new_name)  # 輸出: userHelloexample.comHellofeedback.txt
+```
+
+**其他方法 (使用正則表達式):**
+
+如果你需要更複雜的替換模式，可以使用 `re` (正則表達式) 模組。  雖然在這裡可能有點過度，但為了完整性，提供一個例子：
+
+```python
+import re
+
+str1 = "Hello"
+name = LOG_TIME + "@_feedback.txt"
+
+new_name = re.sub(r"@", str1, name)  # re.sub(pattern, replacement, string)
+
+print(f"原始字串: {name}")
+print(f"替換後的字串: {new_name}")
+```
+
+在這個例子中：
+
+- `re.sub(r"@", str1, name)` 使用 `re.sub()` 函數進行替換。
+- `r"@"` 是一個正則表達式模式，匹配 "@" 字元。  `r` 前綴表示原始字串，避免 Python 對反斜線進行轉義。
+- `str1` 是替換字串。
+- `name` 是要進行替換的原始字串。
+
+雖然對於簡單的字元替換來說，正則表達式是過度的，但當你需要基於複雜模式進行替換時，它非常有用。
+
+總之，對於簡單的字元替換，`replace()` 方法是最好的選擇。 如果有更複雜的模式，則可以使用 `re` 模組。

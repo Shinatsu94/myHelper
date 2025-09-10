@@ -1,0 +1,5 @@
+在python中，我該如何幫 name 字串進行修改
+例如 我想把 @ 字元 替換為 str1
+
+str1 = "Hello"
+name = LOG_TIME + "@_feedback.txt" # eg. 250823_003345@_feedback.txt

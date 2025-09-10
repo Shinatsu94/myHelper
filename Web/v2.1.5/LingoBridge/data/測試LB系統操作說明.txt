@@ -1,0 +1,13 @@
+於topic目錄中開啟命令提示字元(CMD)
+C:\xampp\htdocs\topic>
+
+執行以下程式:
+
+$python LingoBridge/LingoBridge_v1.0.py data/5/2/homework_texts/Q1.txt data/5/2/homework/108/Q1/test.java
+
+python {程式位址} {題目位址} {作業位址}
+{程式位址} 必填，預設為空字串
+{題目位址} 必填，預設為空字串
+{程式位址} 選填，存在預設路徑 (eg. logs/feedback/)
+
+目前已修改預設路徑 可以直接執行LB系統，無需任何參數
