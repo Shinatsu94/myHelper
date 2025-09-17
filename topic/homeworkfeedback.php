@@ -32,6 +32,7 @@
 		<title><?php echo $homeworkName; ?></title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1"> <!--適配不同裝置的螢幕寬度-->
   	<!-- Facebook and 
 	  integration -->
@@ -252,7 +253,11 @@
 							$content = file_get_contents($filepath);
 							$pos = strpos($content, "1.");
 							$feedback = ($pos !== false) ? substr($content, $pos + 2) : $content;
-							echo '<pre style="white-space: pre-wrap;">' . htmlspecialchars($feedback) . '</pre>';
+                            
+                            // 用 <div> 存放 Markdown 原文，並給 JS 解析
+                            $safe_feedback = htmlspecialchars($feedback); // 防止 XSS
+                            echo '<pre style="white-space: pre-wrap;"><div class="markdown-content" data-md="' . $safe_feedback .'"></div></pre>';
+                            //echo '<pre style="white-space: pre-wrap;">' . htmlspecialchars($feedback) . '</pre>'; // 未使用 Markdown版本
 						} else {
 							echo "<p>尚未繳交作業</p>";
 						}
@@ -275,22 +280,31 @@
 	}
 	</script>
 
-		<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			// 對所有表單綁定 submit 事件
-			document.querySelectorAll("form").forEach(function (form) {
-				form.addEventListener("submit", function () {
-					// 顯示 loader 畫面
-					document.querySelector(".fh5co-loader").style.display = "block";
-					document.body.classList.add("loading");
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 對所有表單綁定 submit 事件
+        document.querySelectorAll("form").forEach(function (form) {
+            form.addEventListener("submit", function () {
+                // 顯示 loader 畫面
+                document.querySelector(".fh5co-loader").style.display = "block";
+                document.body.classList.add("loading");
 
-					// 鎖定這個表單裡的按鈕，避免多次點擊
-					const button = form.querySelector("button[type='submit']");
-					if (button) button.disabled = true;
-				});
-			});
-		});
-		</script>
+                // 鎖定這個表單裡的按鈕，避免多次點擊
+                const button = form.querySelector("button[type='submit']");
+                if (button) button.disabled = true;
+            });
+        });
+    });
+    </script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('.markdown-content').forEach(el => {
+            const md = el.getAttribute('data-md');
+            el.innerHTML = marked.parse(md); // 解析 Markdown 為 HTML
+        });
+    });
+    </script>
 
   	<div class="col-md-12 text-center">
 		<p>
