@@ -174,11 +174,13 @@
 				$content = "檔案不存在！";
 			}
             
+            echo '<form id="uploadForm" method="POST" enctype="multipart/form-data" action="./php/uploadhomework.php">';
             echo '<h4>題目 ' . $i .'：<br></h4>';
             echo '<pre style="white-space: pre-wrap; text-align:left;">' . htmlspecialchars($content) . '</pre>';
             echo '<input type="file" name="file" required accept=".c,.cpp,.cs,.java,.py" class="form-control mb-2">';
             echo '<input type="hidden" name="Question_id" value="' . $i . '">';
             echo '<button type="submit" class="btn btn-primary">上傳作業 ' . $i . '</button>';
+            echo '</form>';
             
             //echo '
             //<form id="uploadForm" method="POST" enctype="multipart/form-data" action="./php/uploadhomework.php">
