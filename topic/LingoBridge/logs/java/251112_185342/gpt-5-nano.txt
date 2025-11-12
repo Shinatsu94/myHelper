@@ -1,0 +1,52 @@
+90
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343205_1031_1.java
+ * 功能說明: 讀取整數 n 與 n 個整數，將其升序排序後輸出，元素以空格分隔，末尾換行。
+ * 作者: 你
+ * 日期: 2025-11-12
+ */
+
+import java.util.*;
+
+public class CSIE_41343205_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序以提升效率與穩定性
+        Arrays.sort(arr);
+
+        // 以單一字串輸出，避免結尾多餘的空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 將原本的選擇排序改為使用 Arrays.sort(arr)，提升時間效率至 O(n log n)，同時簡化程式邏輯，減少出錯點。
+- 將輸出改為使用 StringBuilder 並在元素間加入單一空格，避免輸出尾端多餘的空格，符合常見的輸出格式要求。
+- 加入程式標頭註解，說明檔案名稱、功能與日期，提升可維護性與可閱讀性。
+- 程式仍支援負數，且對 n=0 之情況亦能正常運作。
+
+一句話改進建議：
+考慮在排序前先檢查輸入的合法性與範圍，並在必要時處理輸入異常情況，以提升魯棒性與使用者體驗。

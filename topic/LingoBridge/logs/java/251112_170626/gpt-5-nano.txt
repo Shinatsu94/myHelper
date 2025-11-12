@@ -1,0 +1,60 @@
+88
+
+優化後程式碼（完整程式碼如下，附修改說明）：
+/*
+ * 文件名稱: CSIE_41343232_1031_1.java
+ * 功能說明: 讀取整數個數與數列，將數列由小到大排序，輸出排序結果（不帶尾端多餘空白）
+ * 作者: 學生
+ * 日期: 2025-11-12
+ * 備註: 符合題目需求；使用選擇排序，輸出格式改為不帶尾端空格，結尾換行
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343232_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int n = input.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 選擇排序：由小到大
+        for (int i = 0; i < n - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+            if (min != i) {
+                int tmp = arr[i];
+                arr[i] = arr[min];
+                arr[min] = tmp;
+            }
+        }
+
+        // 輸出：避免尾端多餘的空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+修改說明與原因：
+- 輸出格式改進：改用 StringBuilder 並在輸出時避免末尾的空格，確保輸出與題意範例完全一致，降低因尾空格造成的測資不通風險。
+- 程式標頭註解：新增標頭註解，包含檔案名稱、功能、作者與日期，符合備註中要求的註解需求，提升可維護性與可讀性。
+- 變數命名與可讀性：將長度變數改為 n，陣列改為 arr，提升命名意義與閱讀性。
+- 保留演算法邏輯：保留原本的選擇排序實作，簡單且易於理解，符合「簡單、合理、正確的邏輯」要求。
+- 輸入輸出穩定性：保留單次執行的特性，避免使用檔案結尾或 EOF 等機制，符合題目要求。
+
+改進建議/反饋（一句話）：
+- 建議在輸出時使用不帶尾端空格的格式，並加上標頭註解與更具可讀性的變數命名，以提升可維護性與測資通過率。

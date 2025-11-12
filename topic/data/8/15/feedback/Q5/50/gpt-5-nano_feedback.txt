@@ -1,0 +1,60 @@
+6
+
+評分標準與分數細項
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：6/10
+- 備註：0/10
+總分：6/100
+
+修改與說明
+1) 修改目的
+- 直接針對題目需求實作：讀取任意長度的一維整數陣列，進行由小到大的排序後輸出，避免與原始程式題意不符的矩陣運算。
+- 使用動態陣列長度與標準排序，確保能正確處理負數及任意長度的輸入。
+
+2) 修改要點
+- 使用 Scanner 讀取陣列長度 n，建立整數陣列 arr，讀取 n 個整數。
+- 使用 Arrays.sort 進行排序，確保正確性與簡潔性。
+- 輸出時用單行、以空格分隔，符合範例輸出格式。
+- 程式加入基本標頭註解與適當命名，提升可閱讀性與維護性。
+
+3) 優化後完整程式碼（可直接編譯執行）
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+檔案名稱: ArraySortAscending.java
+功能說明: 讀取一個整數 n，接著讀取 n 個整數，將它們由小到大排序後輸出成一行以空格分隔的字串。
+作者: 提交者
+日期: 2025-11-12
+*/
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改原因說明
+- 將原先與題意無關的矩陣與求逆運算移除，改為符合題意的排序實作。
+- 使用動態長度陣列與 Arrays.sort 提升正確性與可維護性，且能正確處理包含負數的情形。
+- 輸出格式改為單行、空格分隔，符合輸出樣例。
+
+一句話改進建議
+- 建議再加上對輸入數量不足或輸入格式錯誤的防呆檢查，以及更完善的保留輸入提示，以提高健壯性。

@@ -1,0 +1,42 @@
+8
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343150_1003_2.java
+功能: 讀入兩個整數 A 與 B，先印出 A 與 B，然後在不使用其他變數的情況下交換兩者的值並印出
+作者: 教師
+日期: 2025-11-11
+*/
+public class CSIE_41343150_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 先印出原始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，使用數學交換法
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 印出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 移除不必要的輸入提示與額外變數 C，嚴格符合題意「讀入兩個數字並交換後印出」。
+- 使用不額外變數的就地交換法（A = A + B; B = A - B; A = A - B;），符合題目對「不可使用其他變數進行交換」的限制。
+- 輸出改為僅輸出數值本身，依序印出原本的 A、B 與交換後的順序，避免多餘文字影響輸出結果。
+- 增加程式標頭註解與適當縮排，提升可讀性與維護性。
+
+改進建議或反饋（一句話）：
+- 建議在作業中嚴格遵循題目輸出格式，避免任何多餘提示文字，並在需要交換時以就地交換法實作以符合題意與限制。

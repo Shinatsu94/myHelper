@@ -1,0 +1,14 @@
+ 印出一個旋轉的棒子，並在旁邊顯示進度(e.g., 60%)，程式片段參考如下
+   ：
+    public static void main(String[] args)  throws Exception {
+       :
+       while(true) {
+             :
+             Thread.sleep(100);
+             :
+       }
+    }
+  輸出範例如下，其中棒子是旋轉中的其中一個樣態
+
+【OUTPUT】
+\ 10%

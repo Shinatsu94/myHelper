@@ -1,0 +1,81 @@
+7
+
+以下為依照題意重新實作的完整程式碼與修改說明。
+
+Java 程式碼（修改後完整程式）：
+```java
+/*
+檔案名稱: LeibnizPi.java
+功能說明: 
+  計算對於公式 pi = 4(1 - 1/3 + 1/5 - 1/7 + ... + (-1)^{i-1} / (2i-1)) 的結果。
+  (a) 依序輸出 i = 10000, 20000, ..., 100000 時的 pi 值，i 顯示六位，pi 顯示小數點後十位。
+  (b) 計算得到 pi = 3.14159 時，最小的 i 值，並輸出該 i 值（格式為 i = 136121）。
+作者: 助教
+日期: 2025-11-11
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int STEP = 10000;
+        final int MAX_I = 100000;
+
+        // (a) 計算並輸出 i = 10000, 20000, ..., 100000 的 pi 值
+        for (int i = STEP; i <= MAX_I; i += STEP) {
+            double sum = 0.0;
+            int sign = 1;
+            for (int k = 1; k <= i; k++) {
+                sum += sign * (1.0 / (2 * k - 1));
+                sign = -sign;
+            }
+            double pi = 4.0 * sum;
+            // i 顯示6位，pi顯示小數點後10位
+            System.out.println("i = " + String.format("%6d", i) +
+                               ", pi = " + String.format("%.10f", pi));
+        }
+
+        // (b) 找到最小的 i，使得 pi 近似等於 3.14159（以四捨五入到小數第五位為準）
+        double sum = 0.0;
+        int sign = 1;
+        int i = 0;
+        int foundI = -1;
+        while (true) {
+            i++;
+            sum += sign * (1.0 / (2 * i - 1));
+            sign = -sign;
+            double pi = 4.0 * sum;
+            long roundedTo5 = Math.round(pi * 100000); // 取整後四捨五入到小數第五位
+            if (roundedTo5 == 314159) {
+                foundI = i;
+                break;
+            }
+            // 安全防護，預防極端情況
+            if (i > 2000000) {
+                break;
+            }
+        }
+
+        // 輸出部分 (b) 的結果
+        if (foundI != -1) {
+            System.out.println("i = " + String.format("%6d", foundI));
+        } else {
+            System.out.println("i = " + String.format("%6d", -1));
+        }
+    }
+}
+```
+
+修改說明與原因：
+- 目的性與正確性：
+  - 原始作業 student 程式與題意完全不符，僅做「數字反轉」的輸出，無法計算 pi，也無法滿足輸出格式與多組 i 的要求。
+  - 新版程式直接實作莱布尼茲級數的計算，分別處理題目 (a) 的多組輸出與 (b) 的最小 i 資料需求，符合題意與輸出格式。
+- 設計與性能：
+  - (a) 直接對每個 i 重新逐項累加求和，使用 double 以提高數值穩定性，結果輸出固定小數點位數，並使用格式化字串確保 i 為六位、pi 為十位小數。
+  - (b) 使用增量式累加（在單一循環中逐步累加直到找到第一個讓 pi 四捨五入到小數第六位後等於 3.14159 的 i 值），避免重複從頭計算，提高效率。
+- 程式風格與可讀性：
+  - 增加完整的檔案說明註解（檔名、功能、作者、日期），使程式具可維護性。
+  - 移除原始程式的未使用輸入與無關邏輯，專注於正確解題。
+  - 使用清晰的變數命名與適當的縮排，提升可讀性與維護性。
+- 輸出格式：
+  - 使用 System.out.println 結合 String.format，確保 i 的顯示寬度為六位，pi 的顯示位數為十位，並符合題目要求的換行與格式。
+
+改進建議或反饋（一句話）：
+- 建議今後在提交前先確定需求面向「計算與輸出格式」的正確性，並以逐步驗證的方式實作與單元測試，避免僅做與題意不符的輸出操作。

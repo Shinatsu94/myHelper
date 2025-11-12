@@ -1,0 +1,43 @@
+2
+正確性: 0/50
+邏輯: 0/30
+格式: 2/10
+備註: 0/10
+
+修改後的程式碼（完整檔案內容）及修改說明如下：
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343124_0926_2.java
+功能說明: 依序印出「虎科大」與「林武杰」每個字及其對應的 Unicode 內碼（code point）。
+作者: 教師自行填寫
+日期: 請填寫日期
+*/
+public class CSIE_41343124_0926_2 {
+    public static void main(String[] args) {
+        // 定義需要輸出的字串
+        String school = "虎科大";
+        String studentName = "林武杰";
+
+        // 逐字印出及其對應的 Unicode 內碼
+        printCharsWithCodePoints(school);
+        printCharsWithCodePoints(studentName);
+    }
+
+    // 輔助方法：對給定字串中的每個字元，印出字元與其整數型的 code point
+    private static void printCharsWithCodePoints(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+}
+
+修改說明與改進原因：
+- 正確性與邏輯：原始程式與題意嚴重不符，未輸出所需的中文字與其內碼，且含有不必要的輸出與延遲。此次改為以明確的字串「虎科大」與「林武杰」逐字輸出，直接顯示每個字元及其 Unicode 內碼，確保符合題意且可自動取得正確的內碼，不依賴固定值。
+- 格式：建立清晰的檔案頭註解，使用有意義的變數名稱，並將功能拆分成輔助方法，提高可讀性與維護性。縮排與排版變得一致。
+- 備註：加入檔案頭註解說明檔案名稱、功能與日期，內容適當註解說明，符合要求。
+- 額外優化：移除原程式中的 busy-wait 與微秒級睡眠，避免不必要的延遲與混亂輸出，直接輸出結果即可。
+
+改進建議（一句話）：
+- 建議以字串逐字輸出並顯示各字的 Unicode 內碼，避免硬編碼數值與不必要的延遲，同時加上適當註解與標頭說明，提升可維護性。

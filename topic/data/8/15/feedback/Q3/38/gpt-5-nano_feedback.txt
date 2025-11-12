@@ -1,0 +1,71 @@
+4
+
+評分（0700?更正：0-100分制，以下為各項分數與總分）：
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：4/10
+- 備註：0/10
+- 總分：4/100
+
+說明與評語：
+- 核心問題：學生的程式未依題意建立陣列、讀取長度與元素、進行排序並輸出結果，僅輸出一次性星號金字塔，與題目需求嚴重不符。
+- 邏輯方面：目前的邏輯與題目無關，缺乏資料輸入、排序與輸出流程的設計。
+- 格式方面：程式有基本語法正確性，但缺乏易讀性與註解，類別命名雖可接受但與功能無關，且未包含適當的檔案標頭註解。
+- 備註：缺少標頭註解與說明，未達到教師要求的程式註解與檔案說明。
+
+修改後之完整程式碼（已符合題意，包含檔案標頭與適當註解）：
+/*
+ * 檔案名稱: CSIE_41343215_1031_3.java
+ * 功能: 讀取長度 n 與 n 個整數，將其排序後由小到大輸出，輸入支援負數
+ * 作者: 學生
+ * 日期: 2025-11-12
+ * 備註: 不使用 EOF，執行一次程式即可結束
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343215_1031_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數到陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，以 0 作為預設值
+                arr[i] = 0;
+            }
+        }
+        scanner.close();
+
+        // 進行排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素之間以空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與改動原因：
+- 從原先印出星號的輸出，改為讀取長度與數值、執行排序再輸出，符合題目需求。
+- 使用 Arrays.sort(arr) 進行排序，簡潔且穩定，降低實作錯誤風險，若未來想自訂排序演算法也較容易替換。
+- 增加檔案標頭註解與程式內容註解，提升可維護性與可閱讀性，符合作業要求的註解規範。
+- 引入輸入驗證與容錯：若輸入不足的情況，給予預設值並結束，避免例外發生；使用 StringBuilder 進行輸出拼接，效率較高。
+
+改進建議（一句話）：
+在提交前先用題意跑一遍測資確認輸出格式與邏輯正確，再加入適當註解與輸入驗證以提升穩定性與可維護性。

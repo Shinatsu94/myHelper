@@ -1,0 +1,65 @@
+83
+- 正確性: 45/50
+  - 程式能正確讀取長度與數字，並對陣列進行排序，輸出結果符合升序。不過原始版本輸出尾隨一個空格，若評測要求嚴格的輸出格式，可能被視為不合格。
+- 邏輯: 30/30
+  - 使用清晰的排序思路（改用內建排序提升穩定性與效率），邏輯正確且易於維護。
+- 格式: 7/10
+  - 變數命名較短，不夠具描述性；原始碼的縮排與排版有改進空間。
+- 備註: 1/10
+  - 原程式缺乏檔案頭註解（檔名、功能、作者、日期等說明）。修正版加入標頭註解與適當註解。
+
+修改與優化說明
+1) 將自訂的排序演算法改為使用 Arrays.sort，提升效率至 O(n log n)，並簡化程式碼。
+2) 將變數命名改為具描述性的名稱，改用 n 代表長度、ary 作為陣列。
+3) 輸出格式改為沒有尾端多餘空白、並在結尾換行。
+4) 加入檔案頭註解，提供檔案名稱、用途、作者與日期等說明，提升可讀性與維護性。
+5) 加入基本輸入防守性：在未取得整數時結束、讀完數字後關閉 Scanner。
+
+修改後完整程式碼
+/*
+File: CSIE_41343222_1031_1.java
+Description: 讀入長度 n 與 n 個整數，將其升序排序並輸出，輸出以空格分隔，末尾換行。支援負數。
+Author: 學生
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343222_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        int[] ary = new int[n];
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                ary[i] = scanner.nextInt();
+            } else {
+                ary[i] = 0; // 若輸入不足，暫以 0 填充
+            }
+        }
+
+        // 排序（使用內建排序提高效率）
+        Arrays.sort(ary);
+
+        // 輸出，避免尾端空格，並換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}
+
+一句話改進建議
+- 建議持續使用 Arrays.sort 這類標準函式以提升效能與穩定性，同時確保輸出格式完全符合測資要求（如避免尾端空格）。

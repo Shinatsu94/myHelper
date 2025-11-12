@@ -1,0 +1,50 @@
+0
+
+修改後完整程式碼：
+public class PiLeibniz {
+    public static void main(String[] args) {
+        // part (a): i 為 10000, 20000, ..., 100000，共 10 個點
+        int[] targets = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
+        for (int i : targets) {
+            double pi = leibnizPi(i);
+            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        }
+
+        // part (b): 找出最小的 i，使 pi ≈ 3.14159（以小數第六位與題意相符的條件判斷）
+        int minI = findMinIForPi3_14159();
+        System.out.println("i = " + minI);
+    }
+
+    // 使用 Leibniz 公式計算 pi，給定前 N 項
+    static double leibnizPi(int terms) {
+        double sum = 0.0;
+        for (int k = 0; k < terms; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+        }
+        return 4.0 * sum;
+    }
+
+    // 找出最小的 i，使 pi 的近似值落在 3.14159 的近似區間內（以 ±0.000005 為容忍度，即四捨五入到小數點後五位）
+    static int findMinIForPi3_14159() {
+        double target = 3.14159;
+        double sum = 0.0;
+        for (int k = 0; ; k++) {
+            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            double pi = 4.0 * sum;
+            if (Math.abs(pi - target) < 0.000005) {
+                return k + 1; // k 為從 0 開始，實際項數為 k+1
+            }
+        }
+    }
+}
+
+說明修改部分的原因：
+- 原始學生程式與題目需求無關，未輸出題目要求的 pi 近似值與格式，且缺少對損益計算的實作與註解。修改後的版本：
+  - 以 Leibniz 公式逐項計算 pi，對於題目 (a) 的 10 個 i 值分別輸出，格式符合要求（i 以六位寬度對齊，pi 為小數點後十位）。
+  - 新增一個找尋最小 i 使 pi 的近似值等於 3.14159 的方法，對應題目 (b) 的需求，並輸出結果。
+  - 變數與函式命名更具語意，程式結構更清晰，符合程式格式與可維護性要求。
+  - 加入清楚的註解與分段，方便他人閱讀與檢視。
+
+單句改進建議/反饋：
+- 建議在提交前先逐條對照需求撰寫測試用例，並將輸出格式與容忍度明確化，避免需求誤解或格式錯誤。

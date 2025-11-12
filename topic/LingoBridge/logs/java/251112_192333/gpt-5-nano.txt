@@ -1,0 +1,47 @@
+5
+
+修改說明與評分
+- 正確性：0/50。原程式的排序邏輯不正確，經過測試會得到非升序的輸出（如範例輸入會輸出 12 12 5 1 -1）。
+- 邏輯：0/30。使用「找最大值再覆蓋前面的元素」的做法本質上並非排序，且與題意不符，且在中途修改會影響後續計算。
+- 格式：3/10。程式排版與命名尚可改善，縮排不一致、變數命名不夠具意義，最後輸出使用了不必要的特殊處理（把最後元素設為 -1）。
+- 備註：2/10。有作者與日期的註解，但並非完整的程式標頭註解，且說明與實作不一致。
+
+修改後完整程式碼與修改說明
+修改後程式碼如下，採用 Java 內建排序 Arrays.sort，簡化邏輯並正確處理任意長度與負數輸入，並正確格式化輸出：
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343121_1031_2 {
+    /*
+     檔案名稱: CSIE_41343121_1031_2.java
+     功能: 讀取長度 n，讀入 n 個整數，進行升冪排序，輸出排序後結果
+     作者: 徐唯祐
+     日期: 10/31
+    */
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scn.nextInt();
+        }
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+        scn.close();
+    }
+}
+
+修改部分說明
+- 將原本複雜且錯誤的排序邏輯改為直接使用 Arrays.sort，確保正確性且支援任意長度與負數。
+- 輸出採用單一字串拼接，避免尾端多餘空格，符合常見輸出格式要求。
+- 增加程式標頭註解，提供檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+
+改進建議（一句話）
+建議以標準排序函式替代自寫排序邏輯，並強化輸出格式與註解，以提升正確性與可維護性。

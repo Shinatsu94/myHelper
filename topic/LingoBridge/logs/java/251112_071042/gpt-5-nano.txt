@@ -1,0 +1,54 @@
+96
+
+修改後完整程式碼（已改正輸出格式與邏輯，並加入清楚註解與標頭）：
+
+public class LeibnizPi {
+    /*
+     * 文件名稱: LeibnizPi.java
+     * 功能說明: 計算對於給定 i 的 Leibniz 近似 pi 值，並輸出指定格式；同時找出使 pi 落在 [3.14159, 3.14160) 的最小 i。
+     * 作者: 你的姓名
+     * 日期: 2025-11-11
+     * 備註: 程式內部有清楚註解，並依題目要求輸出格式化字串。
+     */
+
+    public static void main(String[] args) {
+        // (a) 輸出 i = 10000, 20000, ..., 100000 之 pi 值，保留小數點後10位
+        for (int terms = 10000; terms <= 100000; terms += 10000) {
+            double sum = 0.0;
+            int sign = 1;
+            // Leibniz 公式：pi = 4 * SUM_{k=1..n} (-1)^(k+1) / (2k-1)
+            for (int k = 1; k <= terms; k++) {
+                sum += 4.0 * sign / (2 * k - 1);
+                sign = -sign;
+            }
+            System.out.printf("i = %6d, pi = %.10f%n", terms, sum);
+        }
+
+        // 分隔行，符合題目「輸出文字，請使用單個空白\" \"進行換行」的需求
+        System.out.println();
+
+        // (b) 找到最小的 i，使 pi ≈ 3.14159，落在 [3.14159, 3.14160)
+        double sumB = 0.0;
+        int signB = 1;
+        int iMin = 0;
+        while (true) {
+            iMin++;
+            sumB += 4.0 * signB / (2 * iMin - 1);
+            signB = -signB;
+            if (sumB >= 3.14159 && sumB < 3.14160) {
+                break;
+            }
+        }
+        System.out.printf("i = %6d%n", iMin);
+    }
+}
+
+修改說明與原因：
+- 修正輸出格式：使用 i = %6d, pi = %.10f%n 以單一空白分隔並確保 i 顯示為六位寬度，pi 顯示到小數點後10位，符合題目輸出範例與要求。
+- 移除原程式的錯誤語句：原程式中的 "%ni = ..." 與未對應參數的輸出造成編譯錯誤，現已改為正確的輸出語句。
+- 結構與命名清晰化：使用更具語意的變數名稱 (terms, sum, sign)，並把 (a) 與 (b) 的邏輯分離清楚，易於閱讀與維護。
+- 加入適當註解與題目相關說明：在程式開頭加入標頭註解，說明檔案名稱、功能、日期與作者，並於關鍵區塊加註解。
+- 程式風格與可讀性：統一縮排與格式，確保每段邏輯清楚、易於他人審閱與批改。
+
+改進建議（一句話）：
+- 如要再提升可讀性，可將 (a) 與 (b) 的計算邏輯拆成獨立方法（如 computePiUsingLeibniz(int terms) 與 findMinimalIForPiInterval(double lower, double upper)），以便單元測試與重用。

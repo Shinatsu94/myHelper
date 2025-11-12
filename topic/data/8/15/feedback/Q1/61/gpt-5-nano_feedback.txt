@@ -1,0 +1,71 @@
+85
+
+- 評分細項與理由
+  - 正確性（50%）：50/50
+    - 原始程式能正確讀取長度與輸入的整數，並以選擇排序進行升冪排序，輸出格式符合題目要求，亦能處理負數。
+  - 邏輯（30%）：28/30
+    - 使用選擇排序的邏輯正確且可理解；但採用位元運算的 XOR 交換在可讀性與維護性上較低，且在教學與評分情境下容易引起疑慮。
+  - 格式（10%）：7/10
+    - 變數命名可再清晰，如 nu、array 等不夠直覺；程式註解較少，且標頭註解內容不完整。
+  - 備註（10%）：0/10
+    - 程式標頭註解未包含檔案名稱、功能簡介、日期等，未符合題目要求的註解格式。
+
+總分：85
+
+修改後完整程式碼（優化版）
+/*
+Name: 盧冠宇
+Student_ID: 41343247
+File: CSIE_41343247_1031_1.java
+Date: 2025-11-12
+功能: 讀入使用者指定長度的一維整數陣列，將其由小到大排序，輸出排序結果
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343247_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+
+        // 讀取陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，以 0 作為佔位
+            }
+        }
+
+        // 排序（使用標準函式，性能與可讀性俱佳）
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，結尾不多餘空格，並避免 trailing newline 造成資源問題
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改部分與原因說明
+- 將原本的選擇排序與 XOR 交換改為呼叫 Arrays.sort 的內建排序，提升穩定性與效能，並讓程式邏輯更簡潔易讀。
+- 改善變數命名與結構：將變數命名改為 arr（陣列）與 n（長度），提升可讀性。
+- 加入完整的程式標頭註解：包含檔案名稱、功能、作者、日期，符合作業要求的註解規範。
+- 增加基本輸入健壯性與輸出格式控制：使用 StringBuilder 產生輸出，避免不必要的額外空白，並在需要時關閉 Scanner。
+- 額外說明：處理負數與一般整數均由 Arrays.sort 正確處理，確保題目輸入範圍的穩定性。
+
+改進建議或反饋（一句話）
+建議避免使用位元運算的交換技巧以提升可讀性，直接採用更清晰的排序方法與充分的程式註解，提升維護性與評分的一致性。

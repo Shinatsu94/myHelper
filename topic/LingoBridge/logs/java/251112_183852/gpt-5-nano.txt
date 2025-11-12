@@ -1,0 +1,67 @@
+95
+
+修改後完整程式碼（已優化為分離排序與輸出、改善命名與可讀性）：
+public class CSIE_41143122_1031_1 {
+    // 將陣列做 selection sort，直接在原地排序，不輸出
+    public static void selectionSort(int[] array) {
+        for (int j = 0; j < array.length - 1; j++) {
+            int minIndex = j;
+            int minVal = array[j];
+            for (int i = j + 1; i < array.length; i++) {
+                if (array[i] < minVal) {
+                    minVal = array[i];
+                    minIndex = i;
+                }
+            }
+            // 交換
+            int temp = array[j];
+            array[j] = array[minIndex];
+            array[minIndex] = temp;
+        }
+    }
+
+    // 僅負責輸出陣列內容，中間不做其他處理
+    public static void printArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        }
+
+        int[] array = new int[n];
+        // 依序讀入陣列元素
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                array[i] = 0;
+            }
+        }
+
+        // 進行排序
+        selectionSort(array);
+        // 印出排序後的結果
+        printArray(array);
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 功能分離：把排序與輸出分成兩個方法（selectionSort、printArray），提高程式的可維護性與可重用性，符合單一職責原則。
+- 改善命名與可讀性：將變數命名改為 minIndex、minVal，清楚說明其意義，讓邏輯更易懂。
+- 邏輯修正與穩定性：優化內層迴圈的起始與條件（從 j+1 開始尋找最小值），避免不必要的比較，確保正確的最小值與索引被選取，並用清晰的交換步驟完成選擇排序。
+- 輸出與輸入分離：主程式僅負責輸入與呼叫流程，輸出集中在 printArray，符合題目需求且降低副作用。
+- 程式風格與可讀性提升：移除多餘註解與不必要的苗條輸出，整體縮排與排版更整潔，方便他人閱讀與維護。
+
+改進建議（一句話）：
+建議在輸入階段加入基本的健全性檢查與例外處理，並可在需求改變時快速切換輸出格式（如新增換行、檔案輸出等），以提升可擴充性。

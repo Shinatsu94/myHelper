@@ -1,0 +1,51 @@
+17
+
+- 正確性: 0/50
+- 邏輯: 5/30
+- 格式: 9/10
+- 備註: 3/10
+
+總評與建議：
+此學生的作業與題目要求嚴重不符，原程式讀取三個數字並輸出三個排序結果，與題意「讀入兩個數字、印出原值、交換後印出」相去甚遠，因此正確性貢獻為0分。雖然程式中使用了三元運算式來求最小/最大值、並用簡單算術方式計算中位數，呈現了不錯的資料處理邏輯，但因不符合題目需求，邏輯分數也只能給到中等偏低。檔案註解與標頭部分有基本描述，但與日期等資訊缺乏，故備註分數也偏低。整體格式尚可，變數命名較有意義，但檔案註解的內容與功能描述需改正。
+
+修改後完整程式碼（符合題意，且在不使用額外變數的前提下完成兩數交換）：
+
+/* file: CSIE_41343212_1003_2.java
+   student: 李品劭
+   ID: 41343212
+   function: read two integers A and B, print them, swap without using extra variables, print swapped
+   date: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1003_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int A = input.nextInt();
+        int B = input.nextInt();
+
+        // 先印出原值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，透過加減法交換 A 與 B
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        input.close();
+    }
+}
+
+修改說明與原因：
+- 將輸入變數改為兩個 A、B，符合題目需求的兩數輸入與輸出格式。
+- 使用不宣告新變數的交換方法（A = A + B; B = A - B; A = A - B;），滿足「不可使用其他變數進行數字交換」的限制。
+- 增加完整的檔頭註解，包含檔案名稱、作者、學號、功能說明與日期，並保留易讀的程式內容註解，提升可維護性與可讀性。
+
+一句話改進建議：
+若考量輸入範圍可能造成加法型溢位，建議改用異或交換法（A = A ^ B; B = A ^ B; A = A ^ B）以避免溢位風險，並加上必要的輸入範圍檢查以提升健壯性。

@@ -1,0 +1,40 @@
+88
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能: 讀入兩個整數，使用不依賴額外變數的 XOR 互換，並印出交換後的兩個值
+作者: 教授
+日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入兩個整數
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 使用位元異或互換，且不使用額外變數
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        // 輸出交換後的結果
+        System.out.println(first);
+        System.out.println(second);
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 將變數名稱改為 first、second，提升可讀性與有意義性，符合格式評分標準。
+- 加入檔案頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 加入關閉 Scanner 的語句，確保資源釋放。
+- 保留原本的 XOR 互換邏輯，符合題目不使用額外變數進行交換的要求並保持正確性。
+
+改進建議（一句話）：
+若日後需增加可讀性與可維護性，建議在交換邏輯外部加入更清晰的註解，或在必要時改用臨時變數以提升可理解度，前提是不違反題目限制。

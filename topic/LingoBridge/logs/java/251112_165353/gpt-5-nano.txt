@@ -1,0 +1,50 @@
+89
+
+- 修改後完整程式碼（已優化）
+/*
+ * 檔案名稱: CSIE_41343209_1031_1.java
+ * 功能說明: 讀入長度 n 與 n 個整數，輸出升序排序結果（以空格分隔）
+ * 作者: 您的教授/姓名
+ * 日期: 2025-11-12
+ * 註解: 使用標準函式庫 Arrays.sort 進行排序，輸出使用 StringBuilder 組裝以提升效能與可讀性
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343209_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int k = 0; k < n; k++) {
+            arr[k] = sc.nextInt();
+        }
+
+        // 使用標準排序，簡化實作且穩定且效率足夠
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 組裝輸出，避免多次 System.out.print 呼叫
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) {
+                sb.append(' ');
+            }
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+- 修改說明與原因
+- 使用 Arrays.sort 取代自訂的 selection sort：能簡化程式、降低錯誤率、並且對整數排序在常見規模上具有良好效能與穩定性，符合「正確性」與「邏輯」的要求。
+- 輸出改用 StringBuilder：降低輸出時的 I/O 開銷，並確保元素之間只有單一空白且結尾有換行，提升「格式」的整潔性。
+- 程式標頭與註解：加入檔案註解（名稱、功能、作者、日期）與內部註解，提升可維護性，符合備註項目。
+
+- 改進建議或反饋（一句話）
+建議在檔案開頭加入標頭註解並採用標準函式庫排序與 StringBuilder 輸出，以提升可讀性、可維護性與執行效能。

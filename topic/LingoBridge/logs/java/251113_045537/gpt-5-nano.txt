@@ -1,0 +1,55 @@
+3
+
+作業評分（0-100）細項：
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：3/10
+- 備註：0/10
+總分：3/100
+
+修改建議與說明：
+- 原學生程式與題目需求完全不符，僅做分數判定輸出，未印出「虎科大」與「你的中文姓名」的內碼，因此給予零分的正確性與邏輯分數。以下提供符合題意之修改版與說明。
+
+修改後完整程式碼（已符合題意：先印「虎科大」再印學生姓名的每個字及對應的內碼；姓名透過輸入提供，方便測試）：
+/**
+ * File: Main.java
+ * 功能: 輸出「虎科大」與使用者姓名每個字的 Unicode 內碼，先印虎科大再印姓名
+ * 作者: 教師說明用
+ * 日期: 2025-11-12
+ * 備註: 需提供姓名作為輸入（單行字串，通常為三個漢字）。
+ */
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String name = "";
+        if (sc.hasNextLine()) {
+            name = sc.nextLine().trim(); // 使用者姓名，預期為三個漢字，如 林武杰
+        }
+        sc.close();
+
+        // 先印出「虎科大」每個字及其內碼
+        printCharWithCode('虎');
+        printCharWithCode('科');
+        printCharWithCode('大');
+
+        // 再印出學生姓名每個字及其內碼
+        for (int i = 0; i < name.length(); i++) {
+            char ch = name.charAt(i);
+            printCharWithCode(ch);
+        }
+    }
+
+    private static void printCharWithCode(char ch) {
+        System.out.println(ch + " " + (int) ch);
+    }
+}
+
+修改原因說明：
+- 針對題目要求「印出虎科大」以及「學生中文姓名」每個字與對應的內碼，必須逐字輸出並顯示其內碼，因此改用逐字輸出方式，並透過輸入取得姓名以支援不同學生。
+- 使用 Unicode 內碼時，直接輸出 (int) char 的值即可取得該字元的內碼，適用於 BMP 字元（一般常見的漢字都在此範圍）。
+- 增加檔案標頭註解以符合備註條件，並將類別命名改為常見的 Main，提升可讀性與相容性；並加入適當的內文註解以說明每段功能。
+
+一句話改進建議：
+- 若測試需要固定姓名且不接受輸入，未來可以改為直接把姓名寫死為測試字串並加上容錯處理，或提供參數選擇模式以支援自動測試。

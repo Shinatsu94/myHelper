@@ -1,0 +1,64 @@
+16
+
+評分明細
+- 正確性：0/50
+- 邏輯：10/30
+- 格式：6/10
+- 備註：0/10
+
+修改後完整程式碼與說明
+
+修改後的完整程式碼
+/*
+ * 檔案名稱: CSIE_41343242_1031_2.java
+ * 功能: 讀入長度與元素，將整數陣列由小到大排序，並輸出排序結果
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 版本: 1.0
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343242_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] ary = new int[n];
+        for (int i = 0; i < n; i++) {
+            ary[i] = sc.nextInt();
+        }
+        sc.close();
+
+        // 使用簡單的選擇排序，將陣列由小到大排序
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (ary[j] < ary[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                int tmp = ary[i];
+                ary[i] = ary[minIndex];
+                ary[minIndex] = tmp;
+            }
+        }
+
+        // 輸出排序後的結果，元素以空白分隔，無尾部多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+修改說明
+- 將錯誤的排序邏輯改為正確的選擇排序，避免覆蓋元素、未移動原值的情況，且不再對最後一個元素做任意替換 (-1)，以免破壞排序結果。
+- 加入清晰的註解與 header 注解，說明檔案名稱、功能與作者等資訊，提升可維護性。
+- 使用更具可讀性的命名與格式，並在輸出端避免尾端多餘的空格。
+
+改進建議（一句話）
+若要提升效能且簡化程式，建議改用 Arrays.sort(ary) 直接排序，或改用更穩定的排序演算法（如歸併排序或快速排序）的實作，同時保持輸入輸出格式不變。

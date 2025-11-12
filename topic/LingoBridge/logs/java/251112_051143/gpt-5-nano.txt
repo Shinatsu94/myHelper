@@ -1,0 +1,62 @@
+86
+
+修改後完整程式碼：
+/*
+檔案名稱: LeibnizPi.java
+功能說明: 使用勒布尼茲級數近似圓周率。輸出 i = 10000, 20000, ..., 100000 時的 pi 值（保留小數點後10位），
+以及找出使 pi 至 3.14159 的最小 i（以 pi*1e5 向下取整等於 314159 為判斷條件，並以空行分隔輸出）。
+作者: 教師
+日期: 2025-11-11
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int MAX_I = 100000;
+
+        // 使用勒布尼茲級數：sum_{i=1..n} (-1)^{i+1} / (2i-1)
+        double sum = 0.0;
+
+        // 部分輸出：每增加 10000 次輸加，輸出一次 pi 值
+        for (int i = 1; i <= MAX_I; i++) {
+            double term = 1.0 / (2 * i - 1);
+            if ((i & 1) == 1) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+            if (i % 10000 == 0) {
+                double pi = sum * 4.0;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // 尋找使 pi 至 3.14159 的最小 i
+        int i = MAX_I + 1;
+        while (true) {
+            double term = 1.0 / (2 * i - 1);
+            if ((i & 1) == 1) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+            double pi = sum * 4.0;
+            long floorPiTimes1e5 = (long) Math.floor(pi * 100000.0);
+            if (floorPiTimes1e5 == 314159) {
+                System.out.println();
+                System.out.printf("i = %6d", i);
+                break;
+            }
+            i++;
+        }
+    }
+}
+
+說明修改部分的原因：
+- 移除了不必要的輸入（Scanner 未使用），避免資源浪費與混淆。
+- 使用更清晰的變數命名與常量，sum 代表目前的勒布尼茲級數和，MAX_I 表示要計算的最大 i，讓程式可讀性提高。
+- 將第二段尋找最小 i 的判斷條件改為以 floor(pi*1e5) 取得整數部分再與 314159 比較，提升可讀性與穩健性，並避免直接依賴浮點相等判定。
+- 增加標頭註解，清楚描述檔案名稱、功能、作者與日期，符合備註要求。
+- 變數命名如 term、sum 等更具語意，apple 之類的臨時變數名已移除，整體可維護性提升。
+- 統一輸出格式，確保 pi 計算結果以十位小數呈現，i 以六位寬度對齊，符合題目要求。
+
+一句話改進建議：
+- 建議將輸出格式與邏輯分離成函式，並在註解中明確描述輸出規則與終止條件，以提升可讀性與可維護性。

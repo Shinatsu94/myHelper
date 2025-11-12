@@ -1,0 +1,70 @@
+4
+
+修改後完整程式碼：
+/**
+ * ArrayProcessor.java
+ * 功能: 讀取長度與元素，將陣列內容由小到大排序後輸出
+ * 檔案名稱: ArrayProcessor.java
+ * 作者: [你的名字]
+ * 日期: 2025-11-12
+ * 說明: 使用內建排序 Arrays.sort，處理可能的負數與長度為 1 的情形，並在輸出時避免多餘空格。
+ */
+
+import java.util.Scanner;
+
+public class ArrayProcessor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 取得陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 處理非正長度情況
+        if (n <= 0) {
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 輸入不足，結束
+                scanner.close();
+                return;
+            }
+        }
+
+        // 排序（由小到大）
+        java.util.Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔，末尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 將原本用於「取得右側最大值」的逆向賦值邏輯改為直接使用 Arrays.sort(arr) 進行排序，符合題目要求的升序排序（由小到大）。
+- 移除不正確的 length == 1 特例與 -1 的特殊輸出，改為若長度為 1 則輸出該元素本身。
+- 加入適當的輸入驗證與註解，保留原有的輸入格式檢查但不影響排序結果。
+- 增加程式標頭註解，說明檔案名稱、功能、日期、作者，並在程式內容加入適當註解以提升可讀性。
+- 程式碼格式與命名保持清晰一致，使用清楚的變數名與適當註解。
+
+改進建議或反饋（一句話）：
+建議未來直接使用內建排序且加入基本輸入檢查與註解，以提升正確性、可讀性與穩定性，同時避免不必要的特殊情況處理。

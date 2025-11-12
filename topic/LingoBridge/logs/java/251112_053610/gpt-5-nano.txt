@@ -1,0 +1,67 @@
+0
+
+以下為依照題意重構且優化後的完整程式碼，以及修改說明與建議。
+
+修改後完整程式碼 (Java)
+```java
+/*
+檔案名稱: LeibnizPi.java
+功能說明: 依據 Leibniz 公式計算 pi 的近似值，輸出
+          (a)  i = 10000, 20000, ..., 100000 時 pi 的近似值，格式符合題目要求
+          (b) 找到使 pi 首次達到 3.14159 的最小 i，並輸出該 i 值
+作者: 你的名字
+日期: 2025-11-11
+日期更新: 2025-11-11
+說明: 使用逐次累加的方式累積 Σ (-1)^k / (2k+1)，以避免重複計算。
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int maxI = 100000;       // a) 最大 i 值
+        final int reportStep = 10000;   // a) 每次輸出間隔
+        double sum = 0.0;
+
+        int nextReport = reportStep;
+        // 部分 (a): 輸出 i = 10000, 20000, ..., 100000 的 pi 近似值
+        for (int k = 0; k < maxI; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+            int count = k + 1;
+            if (count == nextReport) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", nextReport, pi);
+                nextReport += reportStep;
+            }
+        }
+
+        // 部分 (b): 找到使 pi 首次 >= 3.14159 的最小 i
+        // 重新遍歷或持續累加直到滿足條件
+        sum = 0.0;
+        int maxSearch = 2000000; // 避免無限迴圈，設定合理上限
+        for (int k = 0; k < maxSearch; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+            double pi = 4.0 * sum;
+            if (pi >= 3.14159) {
+                int iMin = k + 1;
+                System.out.println("i = " + iMin);
+                break;
+            }
+        }
+    }
+}
+```
+
+修改說明與原因
+- 對題目需求的對應性：
+  - 原學生程式與題目毫無關聯，實作的是「判斷是否為 well-ordered number」，與本題目的 pi 近似計算不符。
+  - 新版本直接實作 leibniz 公式，符合題意，並輸出所需格式。
+- 計算與輸出格式：
+  - 使用累加方式逐步計算 sum，減少重複計算、提升效能。
+  - 第 a 部分採用逐步輸出並以格式化字串 "i = %6d, pi = %.10f" 來精確控制輸出寬度與小數位數，符合題目規範。
+  - 第 b 部分找出第一個 pi >= 3.14159 的最小 i，並輸出該 i 值，與題目要求一致。
+- 程式可讀性與可維護性：
+  - 增加完整註解與標頭說明檔案名稱、功能、作者、日期，方便後續維護。
+  - 變數名稱使用直覺化，如 sum、pi、k，提升可讀性；每段落有註解分段說明。
+
+改進建議（一句話）
+- 建議在實作中加入輸入開關（例如允許使用者選擇是否輸出全部報告點或改用檔案輸入/輸出），以及考慮把搜尋範圍與誤差門檻寫成可配置的常數，以提高可重用性與易測試性。

@@ -1,0 +1,74 @@
+總分：16/100
+
+評語與分數細項：
+- 正確性：0/50
+  - 原提供之學生程式與題目需求完全不符，未能解題或產出題目要求的輸出。
+- 邏輯：0/30
+  - 程式邏輯與題意無關，判斷位數是否整齊等與本題無關，未具解題邏輯。
+- 格式：6/10
+  - 程式有基本註解與可讀性，命名尚可，但與題意與格式要求不符，排版偶有不一致之處，仍有改進空間。
+- 備註：10/10
+  - 有程式標頭註解，包含名稱、功能、日期、姓名與學號等。
+  
+以下為修改內容
+
+修改後完整程式碼（解題版本，符合題意要求的實作）：
+```java
+import java.util.Locale;
+
+/**
+ * 程式名稱 : Leibniz Pi 計算
+ * 功能說明：計算李布尼茲級數逼近 圓周率 pi，輸出 i = 10000, 20000, ..., 100000
+ *            以及找出使 pi >= 3.14159 的最小 i。
+ * 日期: 2025/11/11
+ * 姓名: 不同實作示例
+ * 學號: 00000000
+ */
+public class LeibnizPiCalculator {
+
+    public static void main(String[] args) {
+        final double TARGET_PI = 3.14159;
+        final int STEP = 10000;
+        final int MAX_I = 100000;
+
+        double sum = 0.0;
+        int k = 0; // k 為項數 minus 1，因為 term for k=0 对应 1/(2*0+1)
+
+        // 逐步累加，輸出 i = 10000, 20000, ..., 100000 的 pi 值
+        for (; k < MAX_I; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += 4.0 * term;
+            if ((k + 1) % STEP == 0) {
+                int currentI = k + 1;
+                System.out.printf(Locale.US, "i = %6d, pi = %.10f%n", currentI, sum);
+            }
+        }
+
+        // 找到使 pi >= 3.14159 的最小 i
+        int minIForTarget = MAX_I;
+        if (sum < TARGET_PI) {
+            int iIndex = MAX_I; // 已經計算到 MAX_I 個項
+            while (sum < TARGET_PI) {
+                iIndex++;
+                double term = ((iIndex % 2 == 0) ? 1.0 : -1.0) / (2.0 * iIndex + 1.0);
+                sum += 4.0 * term;
+            }
+            minIForTarget = iIndex;
+        } else {
+            minIForTarget = MAX_I;
+        }
+
+        System.out.printf(Locale.US, "i = %6d%n", minIForTarget);
+    }
+}
+```
+
+修改說明與原因：
+- 重新針對題目需求實作：原學生程式與題意完全不符，未解題。新的版本採用李布尼茲級數（Leibniz series）逐步累加，並在需要的 i 值區間輸出 pi 值，以滿足題目 (a) 的輸出需求。
+- 逐步累加提升效率：使用增量法從 1/(2k+1) 累加到 i 的不同值，避免重複從頭計算，提高執行效率，尤其在 i 到 100000 時。
+- 輸出格式與對齊：依需求使用 i6 位寬度對齊與 pi 的 10 位小數，保證輸出符合題目範例樣式（i =  10000, pi = 3.1414926536；注意兩個空白是由寬度對齊產生的效果）。
+- 增加額外需求的實作：額外計算出使 pi >= 3.14159 的最小 i，並輸出，符合 (b) 的要求。
+- 註解與檔案說明：增加程式標頭註解，說明程式名稱、功能、日期、作者等，便於批改與維護。
+
+改進建議或反饋（一句話）：
+- 作業應該直接落實題目需求與輸出格式，避免跑題；建議未來在提交前先用自動化測試驗證輸出與格式是否符合規格。

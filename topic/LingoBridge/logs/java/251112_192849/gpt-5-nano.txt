@@ -1,0 +1,55 @@
+8
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: CSIE_41343205_1031_2.java
+ * 功能說明: 建立任意長度的一維陣列，從輸入中讀取長度與元素，將內容進行升序排序，輸出排序後的陣列。
+ * 作者: 你
+ * 日期: 2025-11-12
+ */
+public class CSIE_41343205_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        // 使用內建排序，保證正確性與效率
+        Arrays.sort(arr);
+
+        // 輸出時避免在最後留有多餘的空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改原因說明：
+- 正確性：原本的排序邏輯嚴重錯誤，會產生非遞增的輸出。改用 Arrays.sort(arr) 可以可靠地將整數陣列從小到大排序，且對負數同樣適用。
+- 邏輯：改為簡單且正確的排序流程，避免複雜且易出错的手寫排序邏輯，提升穩定性與可維護性。
+- 格式：增加檔案頭註解，保持變數命名有意義，輸出使用 StringBuilder 以避免尾端多餘空格，且最後以 println 顯示換行。
+- 備註：加入程式註解，說明檔案名稱、功能、日期，提升可讀性與維護性。
+
+改進建議或反饋（一句話）：
+建議在輸出時避免尾端空格，並以內建排序函式（Arrays.sort）替代自訂排序以確保正確性與可維護性。

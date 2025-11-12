@@ -1,0 +1,80 @@
+88
+
+修改後完整程式碼與修改說明如下：
+
+修改後完整程式碼（Java）：
+```java
+/*
+檔案名稱: CSIE_41343128_1031_1.java
+功能說明: 讀入一個整數 n，接著讀入 n 個整數，將它們由小到大排序，並輸出排序結果（空格分隔）。
+作者: 需要提供
+日期: 2025-11-12
+說明: 使用選擇排序，並加入基本的輸入檢驗與資源關閉，提升可讀性與穩健性。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343128_1031_1 {
+
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取長度
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        if (n <= 0) {
+            // 無元素時，直接結束或輸出空行
+            System.out.println();
+            scn.close();
+            return;
+        }
+
+        // 讀取陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0（不影響通過測資的正確性，亦避免例外）
+            }
+        }
+
+        // 選擇排序（由小到大）
+        for (int a = 0; a < arr.length - 1; a++) {
+            int minIndex = a;
+            for (int b = a + 1; b < arr.length; b++) {
+                if (arr[minIndex] > arr[b]) {
+                    minIndex = b;
+                }
+            }
+            int temp = arr[a];
+            arr[a] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+
+        // 輸出，確保元素之間以單一空格分隔，且不在末尾多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scn.close();
+    }
+}
+```
+
+修改重點與原因：
+- 將程式標頭移到檔案前方，且補上檔案名稱、功能說明等，符合備註對程式標頭註解的要求，提升可讀性與維護性。
+- 使用更具語意的變數名稱 arr，並統一程式風格與縮排，提升可讀性與維護性。
+- 加入輸入安全檢查與極端情況處理（n <= 0），避免對應上測試時的極端輸入造成例外。
+- 將輸出改為使用 StringBuilder 組裝輸出字串，確保輸出格式一致且效率較高，且仍維持末尾不出現多餘空格的需求。
+- 加入資源釋放（scn.close()），上述變更提升程式的穩定性與資源管理。
+- 保留原本的選擇排序邏輯，並在命名上加入 minIndex、arr 等以增進可讀性；整體邏輯未改變，僅提升可讀性與魯棒性。
+
+一句話改進建議：
+- 若需求允許，可以考慮用內建排序（Arrays.sort）以降低實作錯誤風險，同時保留原有的輸入/輸出格式與健全的錯誤處理作法。

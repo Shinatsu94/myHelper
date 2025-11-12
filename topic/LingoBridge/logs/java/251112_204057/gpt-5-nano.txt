@@ -1,0 +1,72 @@
+6
+
+- 評分依據與結果
+  - 正確性 0/50：原始作業程式未實作題目需求的「任意長度一維陣列、輸入長度與元素、升冪排序後輸出」的功能，改為查找三角陣中的數值位置，與題目不符，結果不可用於測資。
+  - 邏輯 0/30：邏輯與題意嚴重不符，未使用排序或標準輸入流程，整體設計不符合需求。
+  - 格式 6/10：程式在縮排與命名方面尚可閱讀，但缺乏統一的註解與標頭說明，且主題不符合題意，影響整體評価。
+  - 備註 0/10：缺少檔案標頭註解（檔案名稱、功能、作者、日期等），未滿足備註要求。
+
+以下提供符合題意且經優化後的完整程式碼與修改說明。
+
+一、修改說明與重點
+- 重新設計成符合題意的流程：
+  - 讀取整數 n 作為陣列長度。
+  - 讀取 n 個整數，填入陣列。
+  - 使用 Arrays.sort 對整數陣列做升冪排序。
+  - 以一行輸出排序後的陣列，元素間以空格分隔。
+- 改善程式結構與可讀性：
+  - 增加標頭註解，說明檔案名稱、功能、作者與日期。
+  - 變數命名採用更具語意的名稱。
+  - 加入基本的輸入安全檢查，避免輸入不足的情況導致例外。
+- 負數支援：Arrays.sort 能正確排序包含負數的陣列，無需額外處理。
+
+二、修改後完整程式碼
+/*
+ filename: ArraySortAscending.java
+ 功能: 讀入整數 n 代表長度，接著讀入 n 個整數，將它們升冪排序並輸出，使用單行輸出，以空格分隔。
+ 作者: 你的名字
+ 日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 對於非正長度，直接結束
+            return;
+        }
+
+        // 讀取 n 個整數並放入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，補 0 以避免例外；實務上應該提示錯誤或終止
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：單行、元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+三、改進建議／反饋（用一句話）
+- 建議在提交前先以題目需求為基礎完整實作功能，並加上標頭註解與輸入驗證，以提升可讀性與穩定性。

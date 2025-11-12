@@ -1,0 +1,48 @@
+6
+
+評分總覽
+- 正確性: 0
+- 邏輯: 0
+- 格式: 6
+- 備註: 0
+
+修改說明與改進
+- 需求改寫成正確輸出：將「虎科大」與學生姓名「林武杰」逐字輸出，且同時顯示每個字的內碼（Unicode code point），以便對應查閱。
+- 采用 Unicode code point 計算方式，避免手動填寫可能錯誤的數值，且能正確處理任何字元。
+- 增加程式標頭註解與清晰註解，提升可讀性與維護性。
+- 提升程式格式與可讀性：使用有意義的函式名稱、統一縮排、並以單一方法遍歷字元輸出結果。
+
+修改後完整程式碼
+/**
+ * File: Main.java
+ * Description: 印出「虎科大」與學生姓名「林武杰」各字的內碼，依序列印
+ * Author: 教授
+ * Date: 2025-11-12
+ */
+public class Main {
+    public static void main(String[] args) {
+        String school = "虎科大";
+        String student = "林武杰";
+
+        // 先印出「虎科大」的每個字及其內碼，再印出學生姓名的每個字及內碼
+        printCharsWithCode(school);
+        printCharsWithCode(student);
+    }
+
+    // 輸出字元及其 Unicode code point（十進位）
+    private static void printCharsWithCode(String s) {
+        // 使用 codePoints() 逐個字元取得對應的 code point，對於 BMP 字元也適用
+        s.codePoints().forEach(cp -> {
+            String ch = new String(Character.toChars(cp)); // 將 code point 轉回字元
+            System.out.println(ch + " " + cp);
+        });
+    }
+}
+
+修改部分原因說明
+- 使用 codePoints() 並將每個 code point 轉回字元輸出，確保即便遇到代理對也能正確處理，並且不依賴手動維護每個字的內碼。
+- 增加標頭註解與清晰註解，符合備註評分標準，提升可維護性與可理解性。
+- 採用易懂的變數名稱與單一責任的方法（printCharsWithCode），降低耦合度並提升可維護性。
+
+改進建議
+- 如欲輸出內碼以十六進位顯示，可在輸出時將 cp 轉為十六進位字串，例如用 Integer.toHexString(cp) 並標配適當的格式。

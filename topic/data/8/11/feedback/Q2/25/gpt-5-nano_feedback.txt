@@ -1,0 +1,58 @@
+3
+
+批改結果與分數
+- 正確性（50%）：0/50
+  - 原作業未符合題意：未僅用 Scanner 讀入兩個數字 A、B，且輸出與題意不符，且需等待第三個輸入才會執行，輸出也非題目期望的結果。
+- 邏輯（30%）：0/30
+  - 程式企圖以排序三數的方式觀察待證的中位數，但與「兩數交換並印出」的需求不符，邏輯錯置。
+- 格式（10%）：3/10
+  - 程式有中文變數名稱、缺乏程式註解與檔案頭說明，整體命名與風格不符合一般作業要求；縮排尚可，但可再加強一致性。
+- 備註（10%）：0/10
+  - 缺少檔案頭註解（檔名、功能說明、作者、日期）與程式內容註解。
+
+總分：3/100
+
+優化後程式碼與說明
+以下提供符合題意且僅用兩個變數交換的改良版本，且符合「除了建立 Scanner 物件讀取使用者輸入之外，不可使用其他變數進行數字交換」的限制，且輸出與題目給定範例一致（先交換後輸出兩個值，分行呈現）。
+
+完整程式碼：
+/*
+File: SwapTwoNumbers.java
+Description: Reads two integers A and B, swaps their values using only A and B (no extra variables),
+prints the swapped values (A then B) to match the sample output.
+Author: 你的姓名
+Date: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int A = input.nextInt();
+        int B = input.nextInt();
+
+        // 使用不需要額外變數的加法與減法交換 A 與 B
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 輸出交換後的兩個數值，符合題目範例輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        input.close();
+    }
+}
+
+修改原因說明
+- 符合題意：改用兩個變數 A、B，並在不新增額外變數的情況下完成交換，輸出結果與提供的範例一致。
+- 簡化結構：移除原程式中的多餘變數與與題意無關的邏輯（例如 c、total、min、max 等計算），避免混淆與錯誤。
+- 程式風格與可讀性：加入檔案頭註解、清晰的中文說明、統一變數命名、適當縮排，使程式更易於讀取與維護。
+
+改進建議或反饋（一句話）
+建議在提交時確保輸出格式嚴格符合題意，並以清晰的變數命名與適當註解提升可讀性與可維護性。
+
+其他補充
+- 如輸入數值可能接近整數上限，使用加法/減法交換有溢位風險；若工件允許，需考慮使用長整型或使用暫存變數進行交換以避免溢位。

@@ -1,0 +1,66 @@
+3
+
+修改後完整程式碼（Java）
+import java.util.Locale;
+
+public class PiLeibnizCalculator {
+    /*
+     * 檔案名稱: PiLeibnizCalculator.java
+     * 功能說明: 使用Leibniz級數計算 pi。
+     * 作者: 你可以填寫
+     * 日期: 2025-11-11
+     * 說明: 依題意輸出 i 為 10000,20000,...,100000 時的 pi，格式為
+     *       i = 6位數字, pi = 十位小數；之後找出使 pi 最接近 3.14159 的最小 i，並輸出
+     *       i = 136121（若符合條件則輸出該值）。
+     */
+
+    public static void main(String[] args) {
+        // 設定輸出格式的 Locale，避免逗號等格式的地區差異
+        Locale.setDefault(Locale.US);
+
+        // Phase 1: 計算並輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
+        int maxI = 100000;
+        double sum = 0.0; // sum_{k=0}^{i-1} (-1)^k / (2k+1)
+        for (int k = 0; k < maxI; k++) {
+            double term = ((k % 2 == 0) ? (1.0) : (-1.0)) / (2.0 * k + 1.0);
+            sum += term;
+            int i = k + 1;
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // Phase 2: 找到使 pi 逼近 3.14159 的最小 i（以 5 位小數四捨五入等於 3.14159 為準）
+        // 以原有 sum 為起點繼續累加，直到條件滿足
+        int iFound = -1;
+        // 從 maxI 開始往後繼續累加
+        for (int k = maxI; k < 2000000; k++) { // 安全上限，避免無限迴圈
+            double term = ((k % 2 == 0) ? (1.0) : (-1.0)) / (2.0 * k + 1.0);
+            sum += term;
+            int i = k + 1;
+            double pi = 4.0 * sum;
+            if (Math.abs(pi - 3.14159) < 0.000005) { // 逼近至 5 位小數的容許誤差
+                iFound = i;
+                break;
+            }
+        }
+        if (iFound != -1) {
+            System.out.println("i = " + iFound);
+        } else {
+            System.out.println("i = not_found"); // 當找不到符合條件的 i
+        }
+    }
+}
+
+說明修改部分與原因
+- 將原本與題意無關的判斷與輸出邏輯移除，改以數值計算形式實作 Lehnbiz/Leibniz 公式計算 pi。
+- 使用漸進累加的方式，避免每次都重新計算整個級數，提升效率，特別是當計算到 100000 或以上時。
+- 輸出格式與題目要求對齊：
+  - i 的輸出以 6 位寬度右對齊，符合 i 顯示到6位數的要求。
+  - pi 輸出為小數點後 10 位。
+- 增加程式標頭註解，說明檔案名稱、功能與作者，提升可讀性與可維護性。
+- 適度加入註解，並維持整潔的縮排與變數命名（例如用 sum、maxI、i、pi 等使意義清楚）。
+
+改進建議或反饋（一句話）
+建議在作業中直接以題目要求的數學模型實作，並完整實作輸出格式與邊界條件，同時加上適當註解與清楚的變數命名，以便日後維護與評分。

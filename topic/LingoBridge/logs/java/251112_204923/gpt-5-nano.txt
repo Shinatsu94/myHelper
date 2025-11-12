@@ -1,0 +1,56 @@
+6
+
+修改後完整程式碼（已改為符合題意的單維陣列排序：從小到大，輸入 n 與 n 個整數，輸出排序結果）：
+```java
+/*
+檔案名稱: Main.java
+功能: 依題意讀入整數長度 n 與 n 個整數，輸出由小到大排序的結果
+作者: 教師
+日期: 2025-11-12
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0（題目通常保證輸入正確，故此為防禦性處理）
+            }
+        }
+
+        // 進行升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改說明與理由：
+- 將原始程式從與題意無關的下三角矩陣與搜尋數字改為一維整數陣列的讀取與排序，符合「建立任意長度的一維陣列，將內容排序」的要求。
+- 使用 Arrays.sort 設計簡單且穩定的升冪排序，能正確處理負數與任意整數輸入，並且程式簡潔易懂。
+- 輸入輸出流程改為：先讀取長度 n，接著讀入 n 個整數，最後輸出排序結果，格式符合題目輸出要求（單行、數字以空格分隔）。
+- 加上程式標頭註解，描述檔案名稱、功能、作者與日期；保持較清晰的註解風格，方便日後維護。
+
+一句話改進建議：
+- 若要處理更健全的輸入與錯誤情況，可以在讀取過程中加入更多的輸入驗證與例外處理，並考慮在輸入不足時給出友善的錯誤訊息。
+
+評分總結：6/100

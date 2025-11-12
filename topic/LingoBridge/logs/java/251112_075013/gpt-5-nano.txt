@@ -1,0 +1,60 @@
+3
+
+修改後完整程式碼：
+public class LeibnizPiCalculator {
+    /*
+     * 檔案名稱: LeibnizPiCalculator.java
+     * 功能說明: 計算並輸出 pi 的近似值（Leibniz 公式）：
+     *         a) 對 i = 10000, 20000, ..., 100000，輸出 pi 的近似值，格式符合題目要求
+     *         b) 找到最小的 i，使 pi 四捨五入到小數點後五位等於 3.14159，並輸出該 i
+     * 作者: 風格化示例
+     * 日期: 2025-11-11
+     *
+     * 注意: 本程式不讀取外部輸入，直接輸出結果以符合題目需求。
+     */
+    public static void main(String[] args) {
+        // 部分 (a): 逐步累加，輸出 i 為 10000 的倍數時的 pi 值
+        double sum = 0.0;
+        int sign = 1; // 第 i 項符號，當 i 從 1 開始時，符號為 +1, -1, +1, ...
+        final int MAX_I = 100000;
+
+        for (int i = 1; i <= MAX_I; i++) {
+            sum += 4.0 * sign / (2 * i - 1);
+            if (i % 10000 == 0) {
+                // i 顯示到六位數，pi 顯示到小數點後 10 位
+                System.out.printf("i = %6d, pi = %.10f%n", i, sum);
+            }
+            sign = -sign;
+        }
+
+        // 空一行作為區隔，符合題目輸出格式
+        System.out.println();
+
+        // 部分 (b): 找到最小的 i，使 pi 四捨五入到五位小數為 3.14159
+        double sumForB = 0.0;
+        int signB = 1;
+        int iFound = -1;
+
+        for (int i = 1; ; i++) {
+            sumForB += 4.0 * signB / (2 * i - 1);
+            double rounded5 = Math.round(sumForB * 100000.0) / 100000.0;
+            if (rounded5 == 3.14159) {
+                iFound = i;
+                break;
+            }
+            signB = -signB;
+        }
+
+        System.out.println("i = " + iFound);
+    }
+}
+
+修改說明與原因：
+- 將原本的需求改成逐步累加的方式，避免每次都重新計算整個前面的項目，提高效率與可控性。
+- 新增清楚的標頭註解與檔案說明，提升可維護性與可讀性，並使用有意義的變數名稱（例如 sum、sign、sumForB）。
+- 輸出格式調整為固定欄位寬度，使用 System.out.printf 並設定 i 為六位寬、pi 為小數點後十位，以符合題目要求的輸出格式。
+- 部分 (b) 使用相同的累加機制，直接遍歷直到滿足條件，確保正確找到最小 i，並輸出。
+- 移除不必要的輸入輸出邏輯，專注於題目給定的輸出需求，避免外部輸入干擾結果。
+
+一句話改進建議或反饋：
+- 使用單一漸進式累加結構與固定格式輸出，不僅能保證結果一致性，還能提升執行效率與可讀性，建議在實作中再加入浮點誤差管理與可配置輸出格式的選項。

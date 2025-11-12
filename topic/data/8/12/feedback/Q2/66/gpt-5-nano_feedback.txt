@@ -1,0 +1,53 @@
+2
+評分明細
+- 正確性 (50%): 0
+- 邏輯 (30%): 0
+- 格式 (10%): 2
+- 備註 (10%): 0
+
+修改與建議
+- 原程式與題意無關，僅做數字位數判斷，無法解答題目要求的 π 近似與輸出格式需求。
+- 提供的修改版本以 Leibniz 公式計算 π，並符合題目要求的輸出格式：i 輸出到六位寬度，π 輸出小數點後十位；另外尋找最小 i 使 π 四捨五入至小數點後五位為 3.14159。
+- 為了可維護性，新增了計算函式 computePi，其餘流程保持清晰的結構與註解。
+
+修改後的完整程式碼（可直接執行）：
+/*
+ 檔案名稱: LeibnizPi.java
+ 功能: 計算使用 Leibniz 公式近似圓周率 pi；輸出 i=10000,20000,...,100000 的 pi，並找出最小 i 使 pi 四捨五入至小數點第五位為 3.14159。
+ 作者: AI 助手
+ 日期: 2025-11-12
+*/
+public class LeibnizPi {
+    private static double computePi(int terms) {
+        double sum = 0.0;
+        int sign = 1;
+        for (int k = 1; k <= terms; k++) {
+            sum += sign * (1.0 / (2 * k - 1));
+            sign = -sign;
+        }
+        return 4.0 * sum;
+    }
+
+    public static void main(String[] args) {
+        // 輸出 i = 10000, 20000, ..., 100000 的 pi 值
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double pi = computePi(i);
+            System.out.println("i = " + String.format("%6d", i) + ", pi = " + String.format("%.10f", pi));
+        }
+
+        // 找出最小的 i 使 pi 四捨五入到小數點後五位為 3.14159
+        int iMin = -1;
+        for (int i = 1; i <= 2000000; i++) {
+            double pi = computePi(i);
+            long rounded = Math.round(pi * 100000); // 四捨五入到小數點後五位
+            if (rounded == 314159) {
+                iMin = i;
+                break;
+            }
+        }
+        System.out.println("i = " + String.format("%6d", iMin));
+    }
+}
+
+一句話改進建議
+- 建議在提交作業前，先確保程式內容與題意高度一致，並補充完整註解與標頭資訊，以利評分與後續維護。

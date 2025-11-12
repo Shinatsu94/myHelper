@@ -1,0 +1,45 @@
+4
+
+修改後完整程式碼：
+public class CSIE_41343212_1031_3b {
+    public static void main(String[] args) {
+        // 需求：建立一個任意長度的一維陣列，將內容升序排序，先輸入長度再輸入元素，最後輸出排序結果
+        java.util.Scanner input = new java.util.Scanner(System.in);
+        int n = 0;
+        if (input.hasNextInt()) {
+            n = input.nextInt();
+        } else {
+            input.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                arr[i] = 0; // 缺少輸入時，以 0 作為預設值
+            }
+        }
+
+        java.util.Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+修改說明：
+- 直接以一維整數陣列存放輸入值，符合題目的需求；原始程式使用了與題目無關的二維三角陣列與座標計算，與排序無關，因此無法達成作業目標。
+- 使用 Java 標準的 Arrays.sort(陣列) 進行排序，時間複雜度為 O(n log n)，簡單且適用於負數與任意長度的輸入。
+- 輸入與輸出的流程改為：先讀取長度 n，再讀取 n 個整數，最後輸出排序後的陣列，輸出使用空格分隔且結尾換行，符合常見的 judging 規範。
+- 程式中加入基本的容錯處理：若輸入不足，會以預設值或直接結束，避免例外發生；並保持程式結束時關閉 Scanner。
+
+一句話改進建議或反饋：
+建議盡量以內建排序方式實作，並在輸入不足時報錯或給出清晰的訊息，同時在程式開頭加入標頭註解以符合作業要求。

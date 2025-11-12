@@ -1,0 +1,62 @@
+3
+
+以下為評分與修改說明
+
+- 原始作業評分
+  - 正確性：0/50
+  - 邏輯：0/30
+  - 格式：3/10
+  - 備註：0/10
+  總分：3/100
+
+- 修改後的完整程式碼
+/*
+ * 檔案名稱: CSIE_41343205_1031_3b.java
+ * 功能: 依題意讀取長度與整數，排序並輸出
+ * 作者: 學生
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343205_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0，以避免例外
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+- 修改部分與原因說明
+  - 改善正確性與邏輯：原程式僅處理單一數字並以不相關的三角數索引進行輸出，與題意完全不符。新程式完整讀入 n 個整數，放入陣列，使用 Arrays.sort 進行升序排序，最後輸出排序後的陣列，符合題目要求。
+  - I/O 與變數命名：使用清楚的變數名稱，並在必要處加入註解，確保閱讀與維護性。避免未定義輸入時的程式崩潰情況，若不足輸入提供預設值但仍以最少的容錯處理呈現結果。
+  - 格式與註解：加入檔案頭註解（檔案名稱、功能、作者、日期），並維持適當的縮排與可讀性。
+  - 效能與穩健性：使用 O(n log n) 的排序，且針對可能的缺失輸入做了防呆處理，符合一般測資需求。
+
+- 一句話的改進建議或反饋
+  建議在提交前先完整閱讀題目需求，並用多組測資（包括負數、不同長度、最小/最大長度）自行驗證程式輸出是否符合要求。

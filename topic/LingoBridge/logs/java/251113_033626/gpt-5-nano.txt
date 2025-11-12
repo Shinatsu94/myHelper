@@ -1,0 +1,44 @@
+85
+
+作業評分與依據
+- 正確性 (50/50)：程式能依序輸出「虎科大」的每個字與對應的內碼，之後再輸出學生姓名的每個字與對應內碼，具備正確性。注意題目與樣本輸出在姓名部份可能有不一致的字元（樣本顯示林武杰，但學生作答為黃仕傑），此處以學生作答字元為準。
+- 邏輯 (28/30)：採用迴圈逐字印出字元與對應內碼的思路正確，若未考慮到超出 BMP 的代理對字元，對本題的常見中文字仍然正確。可以再將共用邏輯獨立成方法以提升可維護性。
+- 格式 (7/10)：原始程式有基本縮排與佈局，但變數命名較不具意義（text1、text2）且缺少檔案註解，格式可再提升。
+- 備註 (0/10)：缺少程式檔案註解與說明，未符合作業要求的標頭註解。
+
+修改說明與優化后的程式碼
+以下為優化後的實作，包含清楚的程式註解、具有描述性的變數名稱、以及使用 codePoints 的較 robust 字元處理方式。此版本也可未來更容易擴充到其他中文字的情況。
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能說明: 印出「虎科大」與學生姓名的每個中文字及對應的 Unicode 內碼
+作者: 你可以填入姓名
+日期: 2025-11-12
+*/
+public class Main {
+    public static void main(String[] args) {
+        String schoolName = "虎科大";     // 先印出虎科大
+        String studentName = "黃仕傑";    // 再印出學生中文姓名
+
+        printCharsWithCode(schoolName);
+        printCharsWithCode(studentName);
+    }
+
+    // 輔助方法：逐個 Unicode code point 印出字元與對應的內碼
+    private static void printCharsWithCode(String s) {
+        s.codePoints().forEach(cp -> {
+            String ch = new String(Character.toChars(cp)); // 將 code point 還原為字元字串
+            System.out.println(ch + " " + cp);
+        });
+    }
+}
+
+修改部分說明與原因
+- 加入檔案標頭註解：符合作業備註要求，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 使用具建議語意的變數名稱：將 text1、text2 改為 schoolName、studentName，使程式內容更易懂。
+- 將共用邏輯抽成方法 printCharsWithCode(String s)：提升可重用性與可讀性，方便未來擴充或修改同樣的輸出需求。
+- 使用 Code Points 處理（s.codePoints() 並搭配 Character.toChars(cp) 生字回轉）：能正確處理 BMP 以外的代理對字元，提升魯棒性，雖然本題以中文常用字為主，但此作法更通用。
+
+一句話改進建議
+建議在作業中統一學生姓名與題目範例的輸出，並加上註解與可讀性更好的變數命名與方法分離，以提升可維護性。

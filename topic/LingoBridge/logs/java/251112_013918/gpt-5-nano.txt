@@ -1,0 +1,55 @@
+2
+正確性: 0/50
+邏輯: 0/30
+格式: 2/10
+備註: 0/10
+總分: 2/100
+
+評語與建議要點
+- 這份作業題目要求讀入兩個整數 A, B，印出其值經過交換後的結果；同時要求「不可使用額外變數」來完成交換。學生的程式與題目需求嚴重不符，僅實作了一個與題目無關的數字和計算邏輯，且未讀取第二個輸入，輸出也不符合題目規定。
+- 整體邏輯與正確性皆為不符合，格式與註解方面也未遵循題目對於註解與檔案標頭的要求。
+
+修改說明與優化後程式碼
+以下提供符合題意的修改版程式，重點：
+- 讀取兩個整數 A、B。
+- 以不使用額外變數的方式進行交換（XOR 交換法）。
+- 只輸出交換後的兩個數值，各占一行，符合範例輸出。
+- 增加程式標頭註解，並保留適當的註解以提升可讀性。
+
+修改後完整程式碼:
+/*
+ * File: SwapTwoNumbers.java
+ * Function: Read two integers A, B from standard input and print them after swapping
+ *           using XOR swap (without a temporary variable).
+ * Author: Your Name
+ * Date: 2025-11-11
+ */
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用不使用額外變數的交換方法：XOR 交換
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改部分原因說明
+- 重新實作符合題意：讀取兩個數字、交換並輸出，避免原程式的多餘迴圈與與題目無關的邏輯。
+- 使用 XOR 交換能在不引入臨時變數的前提下完成 A 與 B 的互換，滿足「不可使用其他變數進行數字交換」的限制，同時避免整數溢位的風險（相較於 A = A + B 的做法）。
+- 加入適當的程式註解與標頭資訊，符合題目對註解與檔案說明的要求。
+
+改進建議或反饋（一句話）
+- 建議在實作時先對題意與輸出格式做清楚的確認，並在程式中加入註解與頭部說明，以提升可讀性與可維護性；若允許使用臨時變數，且資料範圍允許，亦可用一個暫存變數提升直覺性。

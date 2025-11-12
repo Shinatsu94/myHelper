@@ -1,0 +1,96 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 將程式碼進行優化，並展示修改後完整程式碼，以及說明修改該部分的原因
+3. 用一句話說明改進建議或反饋
+
+
+題目：
+【題目】
+建立一個任意長度的一維陣列，將陣列內容進行升幕排序 (由小至大)，
+讓使用者先輸入陣列的長度。
+接著，讓使用者依序輸入陣列中的每個整數。
+最後印出排序後的陣列內容。
+
+備註:
+- 請勿使用EOF，執行一次程式後結束程序，避免無法通過測資。
+- 輸入元素包含負數，請留意是否支援。
+
+【input】
+5
+8 3 12 5 1
+
+【output】
+1 3 5 8 12
+
+學生作答程式：
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_3a {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // 1. 讀取使用者輸入的陣列高度 n
+        int n = sc.nextInt();
+        sc.close();
+        
+        // 2. 參數檢查
+        if (n <= 0 || n > 20) {
+            // 根據題目限制 (0 < n <= 20)，若輸入不合法則直接結束
+            return; 
+        }
+
+        // 3. 建立並填充下三角形二維陣列
+        // 這裡使用 String 陣列，每行儲存一個由 '*' 組成的字串
+        String[] triangle = createLowerTriangleArray(n);
+        
+        // 4. 列印陣列內容
+        printArray(triangle);
+    }
+
+    /**
+     * 建立一個儲存下三角形圖案的字串陣列。
+     * @param n 陣列的高度 (行數)。
+     * @return 包含下三角形每一行字串的陣列。
+     */
+    public static String[] createLowerTriangleArray(int n) {
+        // 宣告一個大小為 n 的字串陣列，代表 n 行
+        String[] arr = new String[n];
+        
+        // 使用 StringBuilder 來高效地建構每行的字串
+        StringBuilder sb = new StringBuilder(); 
+        
+        // 外層迴圈：從 i=0 (第一行) 到 n-1 (最後一行)
+        for (int i = 0; i < n; i++) {
+            // 在第 i 行 (從 0 開始計算)，需要 i+1 個 '*' 符號。
+            // 在這裡我們只需在上一行的基礎上多添加一個 '*'
+            sb.append('*');
+            
+            // 將建構好的字串存入陣列中
+            arr[i] = sb.toString();
+        }
+        
+        return arr;
+    }
+
+    /**
+     * 列印字串陣列中的每個元素，每個元素佔一行。
+     * 元素之間無需任何空白符號。
+     * @param arr 要列印的字串陣列。
+     */
+    public static void printArray(String[] arr) {
+        // 遍歷並印出陣列中的每個字串
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+    }
+}

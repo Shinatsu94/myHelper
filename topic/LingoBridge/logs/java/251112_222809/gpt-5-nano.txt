@@ -1,0 +1,29 @@
+88
+
+- 成績分項與評語
+  - 正確性 (50/50): 程式會輸出正確的字串 "Hello World!"，符合題意。
+  - 邏輯 (30/30): 顯示輸出用途單純、邏輯清晰，符合「Hello World」範例要求。
+  - 格式 (10/10): 原程式雖能編譯，但 System .out.println 中間有不必要的空格，屬於風格層面的微小違規，對可讀性有些許影響，因此扣除部分分數。
+  - 備註註解 (10/10): 原程式缺少檔案標頭註解，未滿足題目對註解的要求，因此扣分。
+
+修改後程式碼（完整內容）：
+/**
+ * File: HelloWorld.java
+ * Description: Hello World 程式，輸出 Hello World!
+ * Author: 教師
+ * Date: 2025-11-12
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+
+修改說明與理由：
+- 將類別名稱改為 HelloWorld，並建議對應檔名 HelloWorld.java，以符合 Java 的命名與檔案對應規範，提升可讀性與維護性。
+- 增加檔案標頭註解，包含檔案名稱、描述、作者與日期，滿足作業對註解的要求，便於後續追蹤與評分。
+- 將 System .out.println 的空格移除，統一為 System.out.println，符合 Java 的常見慣例與可讀性標準。
+- 程式結構與縮排保持清晰一致，符合基本格式要求。
+
+一句話改進建議：
+為每份作業加入標頭註解並使用統一的命名與格式規範，即可大幅提升可讀性與評分一致性。

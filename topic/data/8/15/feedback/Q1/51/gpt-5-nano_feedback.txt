@@ -1,0 +1,52 @@
+82
+
+修改後完整程式碼（優化版）：
+/*
+檔案名稱: CSIE_41343232_1031_1.java
+功能說明: 讀取整數個數 n，接著讀入 n 個整數，將它們升冪排序後輸出，輸出以空格分隔，結尾換行。
+作者: 教師姓名
+日期: 2025-11-12
+說明: 使用內建 Arrays.sort 進行排序，輸出時避免尾端多餘的空格，並加入基本輸入有效性檢查。
+*/
+public class CSIE_41343232_1031_1 {
+    public static void main(String[] args) {
+        java.util.Scanner in = new java.util.Scanner(System.in);
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+
+        int n = in.nextInt();
+        if (n <= 0) {
+            in.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+        }
+
+        // 使用內建排序，簡潔且效率穩定
+        java.util.Arrays.sort(arr);
+
+        // 輸出時避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        in.close();
+    }
+}
+
+修改說明與原因：
+- 使用 Arrays.sort 取代自訂的選擇排序：內建排序通常實作更穩定、效率更佳且維護成本低。對於任意長度的陣列，能確保正確性與效能，且減少程式碼複雜度。
+- 輸出格式修正：改用 StringBuilder 逐個加入數字，並以空格分隔，避免最後一個數字後出現多餘空格，且改以 println 結束輸出，符合常見測資的比對方式。
+- 輸入健保與變數命名：改用 arr 作為整數陣列名稱，n 作為長度，提升可讀性與維護性；增加基本的輸入檢查（若 n <= 0，直接結束）。
+- 程式標頭與說明註解：加入檔案說明、功能、作者與日期等註解，提升可維護性與可閱讀性。
+
+一次話語的改進建議或反饋（一句話）：
+建議採用內建排序與穩健的輸出格式，以提升可讀性、穩定性與對測資的通用性。

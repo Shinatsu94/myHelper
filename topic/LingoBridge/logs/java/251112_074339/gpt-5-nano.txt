@@ -1,0 +1,68 @@
+0
+
+以下是對學生作業的評分與改進版本。
+
+作業評分
+- 正確性：0
+- 邏輯：0
+- 格式：0
+- 備註：0
+總分：0
+
+程式優化後完整程式碼
+/*
+文件名稱: LeibnizPi.java
+功能說明: 使用 Leiniz 公式 4 * sum_{k=0}^{n-1} (-1)^k / (2k+1) 計算 pi 的近似值。
+           輸出 i = 10000, 20000, ..., 100000 時的 pi 值（ pi 介於小數點第十位）。
+           另找出最小的 i 使 pi 的小數點後五位為 3.14159，並輸出該 i。
+作者: 你的名字
+日期: 2025-11-11
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int STEP = 10000;
+        final int MAX_I = 100000;
+
+        double sum = 0.0;
+        for (int i = 1; i <= MAX_I; i++) {
+            // 第 i 項的符號與分母(2i-1)
+            double term = (i % 2 == 1) ? (1.0 / (2 * i - 1)) : (-1.0 / (2 * i - 1));
+            sum += term;
+            if (i % STEP == 0) {
+                double pi = 4.0 * sum;
+                // i 以6位數寬度輸出，pi 輸出小數點後10位
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // 找出最小的 i，使 pi 的小數點後五位為 3.14159
+        double sumForTarget = 0.0;
+        int minI = -1;
+        final long TARGET_ROUNDED = 314159L; // 3.14159 乘以 1e5 後取整
+
+        // 設定合理上限，避免無限迴圈
+        for (int i = 1; i <= 2000000; i++) {
+            double term = (i % 2 == 1) ? (1.0 / (2 * i - 1)) : (-1.0 / (2 * i - 1));
+            sumForTarget += term;
+            double pi = 4.0 * sumForTarget;
+            long rounded = Math.round(pi * 100000L); // 四捨五入到五位小數
+            if (rounded == TARGET_ROUNDED) {
+                minI = i;
+                break;
+            }
+        }
+
+        if (minI != -1) {
+            System.out.println("i = " + minI);
+        }
+    }
+}
+
+修改說明與原因
+- 改為依題意實作勒貝尼茲級數計算 pi：原程式與題目無關，此版本以 4 ∑_{k=0}^{i-1} (-1)^k/(2k+1) 的逐項累加方式計算 pi，符合題目所需的輸出格式與精度要求。
+- 輸出格式與對齊：使用 System.out.printf 搭配 "%6d" 與 "%.10f" 以滿足 i 欄位顯示為六位數寬，pi 顯示為小數點後十位，且每行以單一逗點分隔，符合題目給定的輸出要求。
+- 分段輸出與效率：在 i = 10000、20000、...、100000 這些特定 i 值時輸出中間結果，避免不必要的重複計算，且逐項累加可降低時間複雜度與記憶體需求。
+- 找到最小 i 使 pi 逼近 3.14159：新增單獨迴圈逐項累加直到 pi 四捨五入到 5 位小數等於 3.14159，並輸出該最小 i，採用以 1e5 乘以後再四捨五入的整數比對，避免浮點精度問題。
+
+改進建議或反饋（一句話）
+建議在未來的作業中加入單元測試與輸出格式自動驗證，並加上對誤差容忍度的說明以提升學生對數值穩定性的理解。

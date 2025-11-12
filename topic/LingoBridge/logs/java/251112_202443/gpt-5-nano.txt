@@ -1,0 +1,56 @@
+3
+正確性：0
+邏輯：0
+格式：3
+備註：0
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: Main.java
+ * 功能說明: 讀取整數 n，接著讀取 n 個整數，將陣列內容由小到大排序，輸出排序結果。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 並結束後續處理
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與修改的原因：
+- 將原本與題目無關的三角形陣列定位邏輯移除，改為讀取指定長度的整數陣列並進行排序，符合題目需求。
+- 使用 Arrays.sort 進行排序，語意清晰且效能足夠；比起自行實作排序更少錯誤。
+- 引入清楚的檔案 Header 註解，包含檔案名稱、功能、作者與日期，提升可維護性。
+- 改用較具可讀性的主類名 Main，符合大多數線上判題機制的預期檔名與類名。
+- 增加健全的輸入處理：先判斷是否有整數輸入，再讀取 n 個整數，並將輸出以換行結尾，提升穩定性與測資相容性。
+- 變數命名改成簡潔且具意義的樣式，程式結構更清晰且易於閱讀與維護。
+
+改進建議或反饋（一句話）:
+建議在輸出結尾加上換行，並在輸入不足時給出明確的錯誤處理與訊息，以讓程式在各種測資條件下都更穩定。

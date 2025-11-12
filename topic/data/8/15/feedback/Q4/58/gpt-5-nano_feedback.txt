@@ -1,0 +1,99 @@
+11
+
+- 評分明細
+  - 正確性：0/50
+  - 邏輯：0/30
+  - 格式：6/10
+  - 備註：4/10
+  - 總分：11/100
+
+說明與建議
+- 針對題目需求，學生提交的程式與題意不符：題目要求建立一個任意長度的一維陣列，將內容由小到大排序並輸出；但原程式實作的是「建立一個下三角矩陣並查找某個數字的位置」的功能，與題目毫無關聯，因此正確性與邏輯評分皆為0。格式與註解部分保留部分良好，但未能達到題意，因此總分較低。
+- 修改與優化內容（修改後完整程式碼如下）：
+ 1) 提供符合題意的實作：讀取整數 n 與 n 個整數，將其由小到大排序，輸出排序後的內容。
+ 2) 使用快速輸入方法與 Arrays.sort 進行排序，能正確處理負數與任意長度的一維陣列。
+ 3) 輸出格式：以空格分隔，單行輸出，不輸出多餘的換行符，符合題意範例。
+
+修改後完整程式碼（符合題意的正確實作）：
+```java
+/*
+檔案名稱: SortArrayAscending.java
+功能: 讀取長度 n 與 n 個整數，將它們由小到大排序，並輸出排序結果。
+作者: 教師
+日期: 2025-11-12
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class SortArrayAscending {
+    // 簡易的快速輸入，支援整數輸入，且可處理負數
+    private static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) { in = is; }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' '); // 跳過空白字元
+
+            if (c == '-') { sign = -1; c = read(); }
+
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
+            return;
+        }
+        if (n <= 0) {
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = fs.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+改動重點與原因說明
+- 將原先的下三角矩陣與查找功能移除，改為正確實作題意：排序並輸出一維整數陣列。
+- 使用自定義快速輸入（FastScanner）提升效能，並確保能處理多行輸入與負數。
+- 使用 Arrays.sort 做排序，簡潔且穩定，避免自行實作排序演算法帶來的錯誤與效能問題。
+- 輸出時以空格分隔，只有單一輸出行，符合題目給定的輸出格式。
+
+一句話改進建議
+- 在提交前先確認題意與題目描述的一致性，避免因搭配其他未關聯的題外程式而影響分數，並加上完整的程式註解與檔案描述以利評分與維護。

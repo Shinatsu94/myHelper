@@ -1,0 +1,53 @@
+87
+
+評分明細
+- 正確性：50
+- 邏輯：28
+- 格式：9
+- 備註：0
+
+修改後完整程式碼與說明
+
+修改後完整程式碼（使用 Arrays.sort 提升效率，並補上標頭註解與改善輸出與命名）：
+/*
+ * 檔案名稱: SortArrayAsc.java
+ * 功能說明: 依序讀入長度 n 與 n 個整數，將陣列內容由小到大排序，並輸出空白分隔的結果。
+ * 作者: 教師姓名
+ * 日期: 2025-11-12
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升效能與穩定性，簡化實作
+        Arrays.sort(array);
+
+        // 輸出，元素之間以單一空格分隔，最後不額外多出空格
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+        // System.out.println(); // 如需換行，可取消註解
+        sc.close();
+    }
+}
+
+修改原因與說明：
+- 將原本的手寫選擇排序替換為 Arrays.sort，原因是：
+  - 正確性與穩定性更高，且處理負數等情況更穩健。
+  - 程式碼更簡潔易懂，降低自訂排序的錯誤風險。
+  - 時間複雜度從 O(n^2) 降至 O(n log n) 在大多數情況下更高效。
+- 增加程式標頭註解與檔案說明，符合備註分數的需求，有助於後續維護與閱讀。
+- 輸出格式維持單一空格分隔且避免尾端多餘空格，符合題目輸出格式。
+- 變數與檔案命名更具可讀性（SortArrayAsc，array 呈現含義清晰）。
+
+改進建議（一句話）：
+建議在輸出結尾加上換行，確保不同執行環境的一致性與可讀性。

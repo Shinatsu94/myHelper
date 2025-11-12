@@ -1,0 +1,72 @@
+8
+
+評分明細:
+- 正確性: 0
+- 邏輯: 0
+- 格式: 8
+- 備註: 0
+
+程式修改與說明
+以下為優化後的完整程式碼，實作需求的 Pi 值近似與格式輸出，並解出 (b) 的最小 i。
+
+- 說明修改部分及原因
+  - 將題目需求改為使用 Leibniz 串求和法來近似圓周率 π，並逐步累加以提高效率（避免重複計算），符合題目提供的輸出格式。
+  - 先輸出 i = 10000, 20000, ..., 100000 對應的 π 值，格式為 i 使用寬度6對齊，π保留小數點後10位。
+  - 接著以同一累加和從 100001 開始繼續累加，找出最小的 i 使 π ≥ 3.14159，並在單獨一行輸出 i。
+  - 移除原本與題目無關的輸入/檢查邏輯，改為單元測試式的自包含程式。
+  - 程式包含適當的標頭註解，符合備註標準。
+
+完整修改後程式碼 (PiLeibniz.java)：
+/*
+File: PiLeibniz.java
+Description: 使用 Leibniz 級數近似 π，輸出 i=10000,20000,...,100000 的 pi 值，並找出最小 i 使 pi >= 3.14159。
+Author: 你的名字
+Date: 2025-11-11
+*/
+
+public class PiLeibniz {
+    public static void main(String[] args) {
+        final int groupMax = 100000; // 題意(a)的最大 i 值
+        final double targetPi = 3.14159;
+        double sum = 0.0;
+
+        // 使用累加方式計算 Lehmer/Leibniz 級數：pi ≈ 4 * sum_{k=1}^{n} (-1)^{k+1} / (2k-1)
+        for (int terms = 1; terms <= groupMax; terms++) {
+            double term = ((terms & 1) == 1) ? 1.0 : -1.0;
+            term = term / (2.0 * terms - 1.0);
+            sum += term;
+
+            if (terms % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", terms, pi);
+            }
+        }
+
+        // 題意(b): 找出最小 i 使 pi >= 3.14159
+        int minI = -1;
+        for (int terms = groupMax + 1; terms <= 200000; terms++) {
+            double term = ((terms & 1) == 1) ? 1.0 : -1.0;
+            term = term / (2.0 * terms - 1.0);
+            sum += term;
+
+            if (4.0 * sum >= targetPi) {
+                minI = terms;
+                break;
+            }
+        }
+
+        System.out.println();
+        if (minI != -1) {
+            System.out.println("i = " + String.format("%6d", minI));
+        } else {
+            System.out.println("i = " + String.format("%6d", groupMax));
+        }
+    }
+}
+
+修改原因簡述
+- 轉換成正確解題邏輯：從作業原始不相關的檢查程序，改為實際計算 pi 的累加式解法，並符合輸出格式與需求。
+- 提升可讀性與可維護性：使用明確的變數命名與註解，並把輸出格式嚴格控制在題目要求之內。
+
+改進建議（一句話）
+- 建議在實作中採用逐步累加以避免重複計算，並考慮使用更高精度的數值型態（如 BigDecimal）以穩定長時間累加的精度。

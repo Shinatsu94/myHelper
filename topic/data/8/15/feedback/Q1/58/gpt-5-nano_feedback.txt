@@ -1,0 +1,57 @@
+100
+
+修改後完整程式碼
+//Date:2025/10/31
+//Creator:黃榮裕
+//File: CSIE_41343240_1031_1.java
+//Function: 讀入使用者輸入的任意長度一維陣列，先取得長度再讀入元素，之後使用內建排序法 Arrays.sort 進行升序排序，最後輸出排序結果
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class CSIE_41343240_1031_1 {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder input = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            input.append(line).append(' ');
+        }
+
+        StringTokenizer st = new StringTokenizer(input.toString());
+        if (!st.hasMoreTokens()) return;
+
+        int n = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (st.hasMoreTokens()) {
+                arr[i] = Integer.parseInt(st.nextToken());
+            } else {
+                arr[i] = 0; // 若輸入元素不足，預設為 0
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) out.append(' ');
+            out.append(arr[i]);
+        }
+        System.out.println(out.toString());
+    }
+}
+
+修改說明與原因
+- 將自訂的 selectionSort 改為使用 Arrays.sort（變更後的核心改動）
+  - 原因：Arrays.sort 使用更高效的 O(n log n) 排序，適合任意長度的輸入，能提升執行效率，特別是較大數據量時性能明顯改善，同時程式碼更簡潔。
+- 使用 BufferedReader + StringTokenizer 以一次性將整個輸入內容轉換成 tokens
+  - 原因：讓輸入處理對換行、空白、以及多行輸入更為 robust，避免依賴特定換行格式，且仍能在不使用 EOF 的情況下準確取得 n 與 n 個元素。
+- 保留輸出格式，確保數字之間以單一空格分隔，末尾換行
+  - 原因：符合題目要求的輸出格式，且避免多餘的空格。
+- 標頭與註解增加檔案名稱與功能說明，保持變數命名有意義
+  - 原因：符合備註要求，讓程式維護性提升。
+
+一句話的改進建議或反饋
+- 建議進一步加入基本的輸入驗證與邊界處理（如 n <= 0 的情況），並在需要時針對不同測資規模選擇合適的排序與 I/O 策略。

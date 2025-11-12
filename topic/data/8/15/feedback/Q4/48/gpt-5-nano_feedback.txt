@@ -1,0 +1,59 @@
+4
+正確性: 0/50
+邏輯: 0/30
+格式: 4/10
+備註: 0/10
+
+修改與評語說明：
+- 重新實作為正確解法：原學生程式與題目不符，題目要求將輸入的整數排序後輸出；新版本直接讀取長度 n 與 n 個整數，並對它們做升序排序再輸出。
+- 輸入與輸出處理：採用 Array.sort 以確保正確性與穩定性，輸出以空格分隔且不留尾隙，符合題目輸出格式。
+- 增加程式註解與文件頭：加入檔案說明與作者/日期等說明，符合備註要求。
+
+修改後完整程式碼（已優化並註解）：
+```java
+import java.util.*;
+
+public class CSIE_41343227_1031_3b {
+    /*
+     * File: CSIE_41343227_1031_3b.java
+     * Description: 讀取長度 n 與 n 個整數，排序並輸出升序
+     * Author: 修改後提交
+     * Date: 2025-11-12
+     */
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補 0，避免例外
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+一句話改進建議或反饋：
+- 作業應先確定需求，先實作基本功能（排序與輸出）再考慮延伸或變化，避免出現與題意不符的實作分支。

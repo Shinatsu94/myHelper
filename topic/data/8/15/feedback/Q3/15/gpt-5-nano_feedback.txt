@@ -1,0 +1,56 @@
+4
+
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：4/10
+- 備註：0/10
+- 總分：4/100
+
+修改後程式碼與說明：
+
+修改後程式碼
+```java
+/**
+ * 檔名: CSIE_41343101_1031_3a.java
+ * 功能: 讀取長度 n 與 n 個整數，將其從小到大排序後輸出，元素以空格分隔
+ * 作者: 你的教授
+ * 日期: 2025-11-12
+ * 說明: 使用 Arrays.sort 直接排序，輸出避免尾端多餘空格，並加入適當註解
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343101_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();            // 讀取陣列長度
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();       // 依序讀入 n 個整數
+        }
+
+        Arrays.sort(arr);                // 排序（從小到大）
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');   // 以空格分隔，避免尾端空格
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString()); // 輸出排序結果
+        sc.close();
+    }
+}
+```
+
+修改說明與原因：
+- 針對題意實作完整流程：讀取長度 n、讀入 n 個整數、對整數陣列排序、輸出排序後的結果，符合題目需求。
+- 使用 Arrays.sort 提升排序效率與穩定性，較適合處理任意長度陣列。
+- 輸出格式改為以空格分隔，且避免尾端多餘空格，符合題目輸出要求。
+- 加上完整的檔案註解與程式註解，提升可讀性與維護性；變數命名採用較清楚的命名與結構，方便他人理解。
+- 使用Scanner進行單次讀取，避免使用 EOF 的設計，符合「執行一次程式後結束」的要求。
+
+改進建議或反饋（一句話）：
+建議在輸入過程中加上基本的輸入驗證與例外處理，以提高對不符合預期格式輸入的穩健性。

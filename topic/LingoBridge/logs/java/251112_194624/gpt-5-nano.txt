@@ -1,0 +1,59 @@
+8
+
+評分明細：
+- 正確性：0/50
+- 邏輯：5/30
+- 格式：3/10
+- 備註：0/10
+總分：8/100
+
+修改與優化說明
+
+修改後完整程式碼：
+```java
+/**
+ * 檔案名稱: SortArrayAscending.java
+ * 功能說明: 讀入長度 n，接著讀入 n 個整數，將它們升序排列，並輸出排序結果（以空格分隔）。
+ * 作者: 你自行填寫
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = sc.nextInt();
+        }
+
+        // 使用內建排序，確保正確且效率良好
+        Arrays.sort(numbers);
+
+        // 輸出排序結果，元素之間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(numbers[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改原因與重點說明：
+- 正確性與邏輯
+  - 原程式的排序邏輯嚴重錯誤，會破壞原始資料並無法保證正確的升序結果。新版本使用 Arrays.sort(numbers) 直覺且穩定地得到正確的升序結果，並且適用任意長度與負數元素。
+- 可讀性與格式
+  - 改用更具語意的變數名稱（numbers、n），並加入清楚的檔案標頭註解以說明檔案名稱、功能、日期等，提升可維護性。
+  - 輸出部分改成使用 StringBuilder 進行拼接，避免多次 I/O 呼叫，且輸出格式與題目要求（以空格分隔、結尾換行）一致。
+- 備註
+  - 加入程式標頭註解，符合作業要求中的註解與文件說明需求；移除原本的自製排序邏輯與特殊值設定（如 array[n-1] = -1）以避免副作用。
+
+一語話改進建議或反饋：
+建議使用標準排序函式並加入適當的程式註解與檔案標頭，以提高正確性與可維護性。

@@ -1,0 +1,65 @@
+6
+
+評分細項
+- 正確性 (0/50)：程式未輸出題目要求的排序結果，也未完成排序功能。
+- 邏輯 (0/30)：未採用正確且簡單的演算法完成題目需求，程式邏輯與題意嚴重不符。
+- 格式 (6/10)：基本可編譯，縮排與大括號大致正確，但命名不具意義且缺少註解與標頭說明。
+- 備註 (0/10)：缺少標頭註解與說明。
+
+修改與原因說明
+- 重新設計為完整的排序流程：讀取長度 n、再讀入 n 個整數，使用 Bubble Sort 由小到大排序。
+- 增強輸入輸出：支援任意整數（包含負數），輸出以單一空格分隔，末尾換行。
+- 增加可閱讀性與維護性：採用有意義的變數名稱、加入註解與程式標頭，方便他人閱讀與維護。
+- 使用可控的排序結構：Bubble Sort 雖非最優，但符合題意「升冪排序」之要求，且易於理解與實作。
+
+修改後完整程式碼
+/*
+檔案名稱: SortArray.java
+功能說明: 讀入長度 n 與 n 個整數，將陣列由小到大排序後輸出。
+作者: 你的姓名
+日期: 2025-11-12
+註解: 使用 Bubble Sort，支援負數，輸出格式為以單一空格分隔的排序結果。
+*/
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // Bubble Sort: 由小到大
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break; // 已排序完成
+        }
+
+        // 輸出排序結果，元素以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+一句話改進建議或回饋
+建議未來改以內建排序（如 Arrays.sort）配合清晰的輸入輸出格式，以提升效率與穩定性，同時保留良好的註解與命名以利維護。

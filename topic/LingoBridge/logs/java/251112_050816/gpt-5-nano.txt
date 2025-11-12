@@ -1,0 +1,56 @@
+90
+
+評分明細
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：8/10
+- 備註：4/10
+
+修改後程式碼（完整，已優化註解與命名）：
+```java
+/*
+檔案名稱: LeibnizPiCalculator.java
+功能: 計算 pi 的近似值（Leibniz 公式）：
+      pi = 4 * (1 - 1/3 + 1/5 - 1/7 + ... + (-1)^(n+1) / (2n-1))
+      (a) 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，格式符合題目要求
+      (b) 找到最小的 i 使 pi（四倍和）到小數點後 5 位等於 3.14159
+作者: 教授
+日期: 2025-11-11
+*/
+public class LeibnizPiCalculator {
+    public static void main(String[] args) {
+        // (a) 逐步列出 i 為 10000 的倍數時的 pi 值
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double sum = 0.0;
+            for (int j = 1; j <= i; j++) {
+                double term = 1.0 / (2 * j - 1);
+                sum += (j % 2 == 1) ? term : -term;
+            }
+            double pi = sum * 4.0;
+            System.out.println("i = " + String.format("%6d", i) + ", pi = " + String.format("%.10f", pi));
+        }
+
+        System.out.println();
+
+        // (b) 找出使 pi 的近似值到小數第 5 位為 3.14159 的最小 i
+        int terms = 0;
+        double sum = 0.0;
+        // sum 為當前前 terms 項的和；檢查的條件是 floor(sum*4*100000)/100000 是否等於 3.14159
+        while (Math.floor(sum * 4 * 100000.0) / 100000.0 != 3.14159) {
+            terms++;
+            double term = 1.0 / (2 * terms - 1);
+            sum += (terms % 2 == 1) ? term : -term;
+        }
+        System.out.println("i = " + String.format("%6d", terms));
+    }
+}
+```
+
+修改說明與原因：
+- 新增完整檔案註解區塊，清楚說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將變數命名統一為小寫（pi、sum、terms），提升可讀性與一致性，避免使用不直覺的大寫變數名。
+- 保留原有輸出格式與對齊方式，透過 String.format("%6d", i) 與 String.format("%.10f", pi) 來滿足題目對齊與小數精度需求。
+- (b) 使用單一累加累成的方式尋找最小的 i，並於每次迭代累加下一項以檢查條件，結構清晰且易於閱讀與維護。
+
+改進建議（一句話）
+- 若要提高效率與穩定性，建議在 (a) 與 (b) 部分分別採用累積型計算（自前一次結果延伸），避免不必要的重複計算，並加上適當的容錯處理以避免浮點比較造成的邏輯風險。

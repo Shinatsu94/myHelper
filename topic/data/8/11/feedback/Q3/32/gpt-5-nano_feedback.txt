@@ -1,0 +1,42 @@
+4
+
+修改後完整程式碼如下（已符合題意：讀入兩個數字，就地交換並輸出，未使用額外變數進行交換，並附上檔案說明與註解）：
+
+/*
+ * File: SwapTwo.java
+ * Description: 讀入兩個數字，將其值就地交換後輸出，避免使用額外變數進行交換。
+ * Author: 教師
+ * Date: 2025-11-11
+ */
+
+import java.util.Scanner;
+
+public class SwapTwo {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        long A = sc.nextLong();
+        long B = sc.nextLong();
+
+        // 就地交換 A 與 B，避免使用額外變數
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 輸出交換後的結果（符合題意：先輸出交換後的第一個數，然後第二個）
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+修改說明（為何這樣改）：
+- 針對題目要求，改成一次讀入兩個數字並做就地交換，輸出交換後的兩個數字；原始作業與題意不符，且使用了不恰當的功能，故重新設計。
+- 使用就地交換法（A = A + B; B = A - B; A = A - B），僅用原本的兩個變數完成交換，符合「不可使用其他變數進行數字交換」的限制。
+- 將程式結構整理成清晰的類名 SwapTwo 並補充檔案頭註解，增強可讀性與可維護性。
+- 使用 long 類型以降低整數溢位風險，若輸入範圍確實很大，避免溢位問題。
+
+改進建議（一句話）：
+若未來需要支援更大範圍的整數，可以考慮改用長整數型別（long）或使用位元運算的交換法（如 A = A ^ B; B = A ^ B; A = A ^ B）以避免溢位風險，同時保持不使用額外變數的要求。

@@ -1,0 +1,49 @@
+5
+
+修改後完整程式碼如下（已修正邏輯錯誤，改用直接升序排序並正確輸出；並加上標頭註解與適當說明）：
+
+/**
+ * File: csie_41343137_1031_2.java
+ * 功能: 讀取任意長度的一維整數陣列，進行升序排序，輸出排序結果
+ * 作者: 教授姓名
+ * 日期: 2025-11-12
+ * 備註: 不使用 EOF，輸入先給長度 n，接著輸入 n 個整數，輸出排序後的內容
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class csie_41343137_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 直接對陣列做升序排序
+        Arrays.sort(arr);
+
+        // 使用較穩定的輸出方式，空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 移除了原程式中的不當反轉邏輯 (Rmax 相關區段)；該區段使輸出成了非預期的結果，且與題意相悖。
+- 直接使用 Arrays.sort(arr) 進行升序排序，符合題意且簡潔易懂。
+- 使用 StringBuilder 拼接輸出，避免頻繁的字串拼接，提升效能與穩定性。
+- 加入程式標頭註解，提供檔案名稱、功能、作者與日期等資訊，符合備註要求，並在程式內加入註解說明關鍵步驟。
+- 完整的資源釋放與輸出格式控制：在結尾使用 System.out.println，並關閉 Scanner，提升良好編程習慣。
+
+一句話改進建議：
+- 如需處理更大規模輸入，考慮使用 BufferedReader 搭配穩定的字串解析方式，並在需要時加入輸出快取以提升效能。

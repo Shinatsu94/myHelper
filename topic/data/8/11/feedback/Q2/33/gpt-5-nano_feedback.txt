@@ -1,0 +1,37 @@
+3
+
+修改後完整程式碼（已符合題意：讀入兩數、交換後印出，且不使用額外變數進行交換）：
+/*
+檔案名稱: CSIE_41343208_1003_2.java
+功能: 讀入兩整數，交換後印出
+作者: 教師
+日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class CSIE_41343208_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 不使用臨時變數，透過加減法在原地交換 A 與 B 的值
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 移除原程式中的不必要第三個輸入 C，改為只讀取兩個整數 A、B，符合題目要求。
+- 以不使用臨時變數的方式完成交換：A = A + B; B = A - B; A = A - B，達成題目限制。
+- 交換完成後才印出兩個值，並且輸出順序與樣例相符（交換後的值）。
+- 增加程式開頭註解與說明，並在結尾加入 sc.close()，提升可讀性和資源釋放。
+
+改進建議或反饋（一句話）：
+若輸入數值可能很大而造成溢位，建議改用位元運算 XOR 的交換法（A = A ^ B; B = A ^ B; A = A ^ B）以避免整數溢位風險，且仍不使用臨時變數。

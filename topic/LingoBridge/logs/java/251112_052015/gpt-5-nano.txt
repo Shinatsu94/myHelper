@@ -1,0 +1,83 @@
+總分（第一行單獨列出）：
+53
+
+評分細項（以滿分為基準，括號內為此項得分）：
+- 正確性：25/50
+- 邏輯：16/30
+- 格式：6/10
+- 備註：6/10
+
+評語與原因摘要：
+- 程式能計算並輸出 (a) 部分的 i 與 pi，但未正確滿足 (b) 部分需求，且結束條件與判斷邏輯不夠穩健（以浮點數精確等於 314159 的判斷很容易失敗）。
+- 變數命名與註解較少，整體可讀性較低，未完全符合題目關於註解與檔案資訊的要求。
+- 程式格式有基本對齊，但仍可加強一致性與註解。
+
+修改說明與優化後程式碼
+修改重點與原因：
+- 將 Leibniz 級數的計算改成單一循環，明確累加 4/(2i+1) 並以正負交替累加，確保正確性。
+- (a) 部分改成每累積到 10000 項時輸出一次結果，直到 i = 100000（含），符合題目輸出格式。
+- (b) 部分改用穩健的四捨五入判斷：pi 取小數點前 5 位四捨五入後是否等於 3.14159，若相符則記錄當前的 i。在整段計算完成後再輸出該 i，避免依賴浮點數的嚴格等於比較。
+- 增加更清晰的註解與一致的排版，提升可讀性與維護性。
+- 輸出格式保持與題目要求一致：i 以 6 位寬度對齊、pi 取到小數點後 10 位；並於輸出末尾加上一個空行再輸出最小 i。
+
+修改後的完整程式碼（Java）：
+public class PiLeibniz_Optimized {
+    public static void main(String[] args) {
+        final int PRINT_INTERVAL = 10000; // 每 10000 項輸出一次 (a) 的結果
+        final int MAX_PRINT_I = 100000;   // (a) 要輸出到 i = 100000
+        double pi = 0.0;
+        int minIForFiveDecimals = -1;     // (b) 最小的 i 使 pi 四捨五入後等於 3.14159
+        int i;
+
+        // 安全的最大迭代次數，避免無限迴圈
+        int MAX_ITERS = 2000000;
+
+        for (i = 0; i < MAX_ITERS; i++) {
+            double term = 4.0 / (2 * i + 1);
+            if ((i & 1) == 0) {
+                pi += term;
+            } else {
+                pi -= term;
+            }
+
+            int currentCount = i + 1;
+
+            // (a) 部分輸出
+            if (currentCount % PRINT_INTERVAL == 0 && currentCount <= MAX_PRINT_I) {
+                System.out.printf("i = %6d, pi = %.10f%n", currentCount, pi);
+            }
+
+            // (b) 判斷 pi 四捨五入到小數點後 5 位是否為 3.14159
+            long roundedFive = Math.round(pi * 100000.0);
+            if (roundedFive == 314159 && minIForFiveDecimals == -1) {
+                minIForFiveDecimals = currentCount;
+                // 不立即中斷，為確保 (a) 的輸出已完成且穩健性更好，仍繼續計算直到滿足條件
+            }
+
+            // 如果已找到 (b) 的 i，且已完成必要的輸出，停止迴圈
+            if (minIForFiveDecimals != -1 && currentCount > MAX_PRINT_I) {
+                break;
+            }
+
+            // 防護機制：過久仍未找到，避免過長執行
+            if (i > 10000000) {
+                break;
+            }
+        }
+
+        // (b) 輸出最小的 i
+        if (minIForFiveDecimals != -1) {
+            System.out.printf("\ni = %6d", minIForFiveDecimals);
+        }
+    }
+}
+
+修改後程式碼說明：
+- 類別與檔案命名以 PiLeibniz_Optimized 為主，便於辨識此為優化版本。
+- 主要循環內使用單一變數 pi 進行累加，避免不必要的臨時變數。
+- 對 (a) 的輸出採用固定格式輸出，確保 i 為 6 位寬度，pi 為小數點後十位。
+- 對 (b) 使用穩健的四捨五入判斷，確保在 pi 四捨五入到 5 位小數時等於 3.14159 即紀錄對應的 i，並於結尾輸出該值。
+- 程式中加入適當註解，提升可讀性與可維護性。
+
+改進建議（一句話）：
+建立一個清晰的輸出與判斷邏輯，使用穩健的四捨五入條件分別處理 (a) 與 (b) 的需求，並增加充足註解以提升可讀性。

@@ -1,0 +1,38 @@
+5
+
+修改後完整程式碼（符合題意：僅讀入兩個數字，兩數交換後輸出，且不使用額外變數）：
+import java.util.Scanner;
+
+/**
+ * 文件名稱: SwapTwoNumbers.java
+ * 功能: 讀入兩個整數 A, B，交換其值後輸出。
+ * 作者: 您的姓名
+ * 日期: 2025-11-11
+ * 備註: 使用不新增額外變數的位元運算交換法，符合題意。
+ */
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 無額外變數的交換：使用 XOR
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 移除原程式中多餘的第三個輸入變數 C，符合題意「只需讀入兩個數字」的要求，避免等待第三輸入。
+- 以兩個變數 A, B 進行交換，沒有額外新增變數，符合題目明確限制。
+- 使用 XOR 交換法實作，能在不使用額外變數的前提下完成交換，並且可避免可能的整數溢出問題（相較於某些運算式的做法）。
+- 程式增加註解與檔案描述註解，提升可讀性與維護性，輸出僅包含交換後的兩個數字，與題意一致。
+
+改進建議（一句話）：
+請在提交前再次核對題意與輸出格式，確保僅以兩個變數進行交換並僅輸出交換後的結果，避免不必要的輸入與變數使用。

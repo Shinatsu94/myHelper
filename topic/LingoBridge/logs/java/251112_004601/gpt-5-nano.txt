@@ -1,0 +1,41 @@
+0
+
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 0/10
+- 備註: 0/10
+
+修改後的完整程式碼（符合題意：僅用 a、b 兩個變數完成交換，交換後輸出新值）：
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 使用 XOR 交換法，避免使用其他變數
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        // 依樣例輸出：交換後的兩個值，每行一個
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因：
+- 移除了原作中多餘的變數及不相關的三數排序邏輯，專注於題目要求的兩數交換與輸出。
+- 使用 XOR 交換法在不引入其他暫存變數的前提下，完成 A、B 的互換，符合題目「不可使用其他變數進行數字交換」的限制。
+- 先讀入兩個整數 A、B，之後輸出交換後的值，與題目給定的輸出格式一致。
+- 程式結構與命名更清晰，包含必要的註解與資源釋放（關閉 Scanner）。
+
+一句話改進建議或反饋：
+- 在提交前先與樣例輸出逐項比對，確保交換方式遵循「只能用 A、B 變數交換且輸出順序符合樣例」，以避免因輸出順序或額外變數而失分。

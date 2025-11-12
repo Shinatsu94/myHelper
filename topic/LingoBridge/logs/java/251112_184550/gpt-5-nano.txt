@@ -1,0 +1,62 @@
+85
+
+修改後完整程式碼（優化與風格改善版本）
+```java
+/* 
+檔案名稱: SortArrayAsc.java
+功能: 讀入整數 n 與 n 個整數，將陣列內容由小到大排序，輸出排序結果
+作者: 你可以填寫
+日期: 2025-11-12
+說明: 使用 Arrays.sort 提升穩定性與效能，並加入基本的輸入健全性與程式結構化註解。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足的輸入，用 0 佔位，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因
+- 改善正確性與穩健性
+  - 使用 Arrays.sort 取代自寫的冒泡排序，確保排序正確性與效率（時間複雜度 O(n log n)），並避免自寫排序時可能的錯誤。
+  - 加入對輸入的健全性處理：若輸入數量不足，使用預設值 0，避免程式在極端情況下崩潰。
+  - 設定輸入結束後自動關閉 Scanner，養成良好資源管理習慣。
+- 調整命名與結構
+  - 將類別名稱改成較具描述性的 SortArrayAsc，符合一般命名慣例，並避免與檔案命名不一致導致的編譯問題（假設檔案名為 SortArrayAsc.java）。
+  - 使用清楚的註解區分檔案屬性與功能，提升可讀性。
+- 輸出格式與穩定性
+  - 使用 StringBuilder 构造輸出，避免在迴圈中頻繁呼叫 System.out.print，提高執行效率。
+  - 輸出為單行且元素間以空格分隔，符合題意與示例輸出。
+
+改進建議（一句話）
+採用標準函式庫排序可提升穩定性與效能，同時增加對極端輸入的健全處理與程式可讀性，若要更嚴格符合作業規範，建議在註解中明確列出程式版本與日期。

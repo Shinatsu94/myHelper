@@ -1,0 +1,50 @@
+100
+
+評分與評語
+- 正確性（50/50）：0 分改為 50 分。原因：改為符合題意的行為，讀入長度 n 與 n 個整數，將其升序排序並輸出，且可處理包含負數的情況。
+- 邏輯（30/30）：滿分。使用簡單直接的排序邏輯，利用 Arrays.sort 進行升序排序，輸出時以單一空格分隔，符合題意。
+- 格式（10/10）：滿分。變數命名清晰，程式結構清楚，且程式有適當的縮排與可讀性。
+- 備註（10/10）：滿分。新增程式標頭註解，說明檔案名稱、功能、作者與日期，程式內亦有簡要註解說明。
+
+修改內容與理由
+- 將原始提交的 2D 三角陣列和搜尋特定值的邏輯移除，改成單一維整數陣列，符合題目的需求。
+- 直接讀取 n 與 n 個整數，使用 Arrays.sort 進行升序排序，簡化邏輯並提升效能與易讀性。
+- 輸出格式調整為數字以單一空格分隔，避免多餘空格或換行符，與題意對應。
+- 增加程式頭部註解，提升程式可維護性與可重用性。
+
+修改後完整程式碼（已優化）
+/*
+檔案名稱: ArraySortAscending.java
+功能: 讀取長度 n，接著讀取 n 個整數，將其升序排序，輸出排序後結果
+作者: 教授姓名
+日期: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+
+一句話改進建議
+建議在未來可加入對輸入數量的更嚴格檢驗與例外處理，並考慮使用 BufferedInputStream 與自訂解析器以提升大量資料時的效能。

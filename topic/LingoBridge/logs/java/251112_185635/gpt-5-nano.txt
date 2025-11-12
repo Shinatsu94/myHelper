@@ -1,0 +1,52 @@
+100
+
+修改後完整程式碼與修改說明如下：
+
+修改後程式碼（完整內容）
+```java
+/*
+File: CSIE_41343212_1031_1.java
+功能: 讀入長度與對應長度的整數，輸出其升序排序結果
+作者: 您
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343212_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int length = input.nextInt();
+        int[] arr = new int[length];
+
+        // 依序讀入陣列元素
+        for (int i = 0; i < length; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 使用內建排序提升穩定性與效能，符合「由小到大」的要求
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+```
+
+修改原因說明
+- 移除不必要的匯入：原程式含有未使用的 import java.sql.Array; 移除以提升程式整潔度與編譯清晰度。
+- 加入檔案註解：加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 使用內建排序 Arrays.sort：以內建穩定且效率更高的排序取代自行實作的選擇排序，提升可讀性與效能，且適用於負數與任意長度的情況。
+- 輸出格式穩健化：使用 StringBuilder 組裝輸出字串，避免多次字串拼接，輸出格式與題目要求一致。
+
+一句話改進建議或反饋
+- 建議在日後的作業中優先使用內建排序以提升可讀性與穩定性，同時保留註解與適當的錯誤處理以提升專案品質。

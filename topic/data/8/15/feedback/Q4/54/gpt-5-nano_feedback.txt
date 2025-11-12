@@ -1,0 +1,50 @@
+6
+
+作業評分與說明
+- 正確性 (50%): 0/50
+- 邏輯 (30%): 0/30
+- 格式 (10%): 6/10
+- 備註 (10%): 0/10
+總分：6/100
+
+修改後完整程式碼
+/*
+ * File: Main.java
+ * 功能: 從輸入讀取一維整數陣列，對其升冪排序，輸出排序後的內容
+ * 作者: 教授
+ * 日期: 2025-11-12
+ */
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+        Arrays.sort(a);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+改動說明與原因
+- 直接將輸入的 n 個整數排序並輸出，符合題目要求的「一次性輸入、升冪排序後輸出」的功能；原程式與題意相去甚遠，採用了不相關的三角形資料結構和查找流程。
+- 使用 Arrays.sort 排序，語法清晰易懂，且對負數有完善支援，不需額外處理。
+- 使用簡潔的輸入處理（Scanner），程式結構更直覺，便於維護。
+- 程式標頭註解完善，包含檔案名稱、功能、作者與日期，符合備註要求。若要更嚴格的註解，可在程式內容關鍵步驟加上簡短說明。
+
+改進建議（一句話）
+- 建議在實作中避免不必要的資料結構，直接對輸入的陣列進行排序並輸出以符合題意與增進可讀性與效率。

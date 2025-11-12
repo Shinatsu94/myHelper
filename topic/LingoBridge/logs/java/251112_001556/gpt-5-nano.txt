@@ -1,0 +1,43 @@
+88
+
+評分細項
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 8/10
+- 備註: 0/10
+總分: 88/100
+
+修改後完整程式碼（已優化變數命名、補上程式檔案註解與說明，並保持不使用額外變數進行交換的限制）
+import java.util.Scanner;
+/**
+ * 檔案名稱: CSIE_41343203_1003_1.java
+ * 功能說明: 讀入兩個整數，交換其值後輸出。僅使用兩個變數進行交換，不使用其他變數輔助交換。
+ * 作者: 未提供
+ * 日期: 未提供
+ */
+public class CSIE_41343203_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int numA = sc.nextInt();
+        int numB = sc.nextInt();
+
+        // 使用位元異或來交換兩個整數，且不使用額外變數
+        numA = numA ^ numB;
+        numB = numA ^ numB;
+        numA = numA ^ numB;
+
+        System.out.println(numA);
+        System.out.println(numB);
+
+        sc.close();
+    }
+}
+
+修改說明與原因
+- 將變數命名改為 numA、numB，以提升可讀性與維護性，避免僅使用 a、b 這種不具描述性的命名。
+- 增加檔案註解區塊，清楚說明檔案名稱、功能、作者與日期，符合格式要求的備註部分。
+- 保留原題目給定的交換行為（XOR 交換法），確保在不使用額外變數的條件下完成交換，並維持輸出順序與原本邏輯。
+
+改進建議（一句話）
+建議未來加入更完整的錯誤處理與輸入提示，並保持良好命名與註解習慣，以提升可讀性與可維護性。

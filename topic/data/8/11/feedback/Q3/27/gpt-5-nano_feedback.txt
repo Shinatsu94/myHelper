@@ -1,0 +1,38 @@
+3
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: SwapTwoIntegers.java
+ * 功能說明: 讀入兩個整數，將其值在不使用額外變數的情況下互換，並輸出交換後的結果。
+ * 作者: 你(教授)
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class SwapTwoIntegers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用 XOR 交換法，僅使用 A、B 兩個變數，不使用其他變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 將程式改為符合題意：讀入兩個整數並在交換後輸出，原程式只讀取 A、且與題意無關的邏輯，導致錯誤結果。
+- 僅使用 A、B 兩個變數完成交換：採用 XOR 交換法，符合「不可使用其他變數進行數字交換」的要求，避免額外變數造成違規。
+- 增加程式標頭註解與明確的變數命名，提升可讀性；改用 SwapTwoIntegers 類別與清楚的輸出順序（先輸出交換後的 A 再輸出 B）。
+- 加上 scanner 關閉，資源釋放較完整。
+
+改進建議（一句話）：
+建議在程式中加入輸入有效性檢查與更完整的錯誤處理，同時保持註解清楚以提升可讀性與維護性。

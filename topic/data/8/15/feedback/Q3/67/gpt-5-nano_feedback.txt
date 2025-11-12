@@ -1,0 +1,70 @@
+97
+
+- 正確性: 50
+- 邏輯: 28
+- 格式: 9
+- 備註: 10
+
+以下為對作業的修改與優化說明
+
+修改後完整程式碼
+// 檔案名稱: CSIE_51015120_1031_3b.java
+// 功能說明: 讀取整數陣列長度 n，接著輸入 n 個整數，輸出由小到大排序的結果
+// 作者: 以實作為主的範例
+// 日期: 2025-11-12
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_51015120_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取正整數 n
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+        while (n <= 0) {
+            // 若輸入為非正整數，則重新讀取
+            if (!sc.hasNextInt()) {
+                sc.close();
+                return;
+            }
+            n = sc.nextInt();
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        // 輸出排序結果，單行，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明與原因
+- 移除原樣本中不相關的矩陣與星號輸出，專注於題目需求的任意長度一維整數陣列排序，符合正確性要求。
+- 改用一維整數陣列 arr，直接讀入 n 個整數，並使用 Arrays.sort 進行排序，邏輯更清晰且效率較高。
+- 允許處理負數，並在輸入不足時給予合理預設或結束，提升魯棒性。
+- 輸出格式改為單行、數字以空格分隔，符合題目輸出樣式。
+- 增加程式標頭註解，包含檔案名稱、功能、日期等，提升可維護性與可讀性。
+
+改進建議或反饋 (一句話)
+建議在實際評分時，若題目有固定輸入格式，可再加上對輸入格式錯誤的更嚴格檢查與錯誤訊息，以提高使用者友善度與程式健壯性。

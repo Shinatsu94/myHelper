@@ -1,0 +1,65 @@
+2
+
+評分明細
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 2/10
+- 備註: 0/10
+總分: 2/100
+
+修改說明與評語
+- 問題重點在於使用 Leibniz 公式計算 pi 並依題意輸出指定格式，而學生原程式與題目毫無關聯，僅做數字並判斷遞增性，未達成題目需求，因此正確性與邏輯評分皆為0，格式僅有基本可讀性，未包含註解與清晰命名，因此格式給分偏低。建議在提交作業時先對題意做完整分析，再用清晰註解與有意義的變數、函式命名實作。
+
+程式修改與改進要點
+- 使用 Leibniz 公式進行 pi 的計算，並輸出 i 為 10000、20000、…、100000 時的 pi 值，格式符合要求：i 以 6 位數對齊，pi 以小數點後 10 位顯示，且每行以「i = %6d, pi = %.10f」的格式輸出，符合題目樣例。
+- 增設額外的部分，計算 pi 等於 3.14159（五位小數四捨五入後）時的最小 i，並輸出該值。採用 BigDecimal 做五位小數的比較，避免浮點數精度問題，確保結果穩定且符合題意。
+- 優化與重構：避免與原程式無關的輸入輸出，使用清晰的類別名稱、適當註解，以及明確的變數命名。
+
+修改後完整程式碼
+```java
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class PiLeibnizCalculator {
+    public static void main(String[] args) {
+        // Part (a): compute pi with i = 10000, 20000, ..., 100000
+        double sum = 0.0;
+        int maxI = 100000;
+        for (int i = 1; i <= maxI; i++) {
+            int j = i - 1;
+            double term = ((j % 2 == 0) ? 1.0 : -1.0) / (2.0 * j + 1.0);
+            sum += term;
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // Part (b): find minimal i such that pi rounds to 3.14159 at 5 decimals
+        sum = 0.0;
+        int iTerm = 0;
+        int minimalI = -1;
+        final BigDecimal TARGET = new BigDecimal("3.14159");
+        while (true) {
+            int j = iTerm;
+            double term = ((j % 2 == 0) ? 1.0 : -1.0) / (2.0 * j + 1.0);
+            sum += term;
+            iTerm++;
+            double pi = 4.0 * sum;
+            BigDecimal piRounded = BigDecimal.valueOf(pi).setScale(5, RoundingMode.HALF_UP);
+            if (piRounded.equals(TARGET)) {
+                minimalI = iTerm;
+                break;
+            }
+            // 安全機制，避免無限迴圈
+            if (iTerm > 2000000) {
+                break;
+            }
+        }
+        System.out.printf("i = %6d%n", minimalI);
+    }
+}
+```
+
+一句話改進建議
+- 建議在提交作業前先用測試樣例驗證輸出格式與計算正確性，並附上清晰註解與變數命名，以提升可讀性與可維護性。

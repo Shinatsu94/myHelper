@@ -1,0 +1,58 @@
+2
+
+修改後完整程式碼：
+
+/*
+ * File: SortArrayAsc.java
+ * Description: 讀入任意長度的整數陣列，將內容由小到大排序後輸出
+ * Author: 你的姓名
+ * Date: 2025-11-12
+ * Note: 不使用 EOF，讀取一次後結束。
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀入陣列元素
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補回 0，避免例外
+            }
+        }
+
+        sc.close();
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出結果，避免末尾多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與原因：
+- 將原程序的 3x3 矩陣與矩陣求逆的內容替換為「讀取長度、讀入整數、排序、輸出」的流程，符合題目要求與輸入輸出示例。
+- 使用 Arrays.sort 進行整數陣列排序，簡潔且效率良好，支援負數與任意長度。
+- 設計輸出格式，避免最後多餘空格，符合常見輸出格式約定。
+- 加入程式檔案開頭註解，包含檔名、功能描述、作者與日期，提升可維護性。
+
+改進建議（一句話）
+建議加入基本的輸入錯誤處理與範例測資檢查，提升魯棒性與使用者友善性。

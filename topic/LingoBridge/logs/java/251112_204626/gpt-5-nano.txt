@@ -1,0 +1,69 @@
+2
+
+作業评分
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 2/10
+- 備註: 0/10
+總分: 2/100
+
+修改後完整程式碼（已符合題目需求：讀取長度、讀入整數、由小到大排序、輸出結果，支援負數，僅執行一次且無需 EOF）
+
+檔案名稱建議：SortArrayAscending.java
+
+內容：
+/*
+檔案名稱: SortArrayAscending.java
+功能: 讀取整數長度 n 與後續 n 個整數，將其由小到大排序並以單行輸出
+作者: 教授
+日期: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+        int n = in.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                arr[i] = 0; // 若不足 n 個，預設為 0，避免例外
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：以空格分隔，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        in.close();
+    }
+}
+
+修改說明與原因
+- 功能重構為題目需求：原程式與題意毫無關聯，改為正確讀取陣列長度與元素並排序輸出。
+- 使用 Arrays.sort 進行排序：簡潔且穩定，支援負數及任意長度的整數排序。
+- 輸出格式調整：單行輸出，元素之間以空格區隔，避免尾端多餘空格。
+- 程式標頭與註解：加入檔案說明、功能描述、作者與日期，並在程式內容中保持適當註解，符合題目備註的要求。
+- 變數命名與可讀性：使用 arr、n 等具備意義的名稱，增強可讀性與維護性。
+
+一條改進建議
+- 如需求變動為大量資料或高效執行，建議改用 BufferedInputStream 與自訂快速輸入解析，且避免 Scanner 的較高開銷。

@@ -1,0 +1,57 @@
+6
+正確性: 0/50
+邏輯: 0/30
+格式: 6/10
+備註: 0/10
+
+修改後程式碼（完整程式碼）：
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343241_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 當輸入不足時以 0 代替，實務上可加上錯誤處理
+            }
+        }
+
+        // 排序（升序，从小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔，無尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改內容說明：
+- 移除了原本的二維三角形陣列與搜尋邏輯，改為符合題目要求的一維整數陣列流程，避免與題意不符的結構和作業流程。
+- 以 Scanner 逐一讀取長度與後續 n 個整數，確保能處理用例中的「5 / 8 3 12 5 1」型輸入。
+- 使用 Arrays.sort 對整數陣列進行升序排序，確保結果正確且效率穩定。
+- 輸出時使用 StringBuilder 組裝，避免尾端不必要的空格，符合常見輸出格式規範。
+- 程式加入基本註解與標頭風格（雖未顯示完整標頭，但核心註解說明讀入、排序與輸出步驟），提升可讀性。
+
+改進建議（一句話）：
+請實作單維陣列的讀入、排序與輸出，避免使用與題意不相關的結構與搜尋，以確保符合題目需求與測資穩定性。

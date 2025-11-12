@@ -1,0 +1,55 @@
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_3b {
+
+    public static void main(String[] args) {
+        // 建立 Scanner 物件，用於讀取使用者輸入
+        Scanner sc = new Scanner(System.in);
+        
+        // 讀取陣列的最大行數 n (使用 long 型別，可能很大)
+        long n = sc.nextLong(); 
+        // 讀取要尋找的序列號 num
+        int num = sc.nextInt(); 
+
+        // 參數檢查：num 必須在有效範圍內 (1 <= num < 100000)
+        if (num <= 0 || num >= 100000) {
+             System.out.println("not find " + num + " in array.");
+             sc.close();
+             return;
+        }
+
+        // 核心邏輯：計算 num 所在的行 r (Row)
+        
+        // r 變數代表當前嘗試的行號 (從 1 開始)
+        long r = 1;
+        
+        // 陣列元素是按照三角數序列 (1, 3, 6, 10, ...) 累加的。
+        // 第 r 行的「最大編號」是第 r 個三角數：T(r) = r * (r + 1) / 2
+        // 這個 while 迴圈尋找第一個使得 T(r) >= num 的行號 r。
+        while (r * (r + 1) / 2 < num) {
+             r++;
+        }
+
+        // 3. 判斷 num 是否在 n 行的陣列範圍內
+        
+        // 如果計算出來的行號 r 超過使用者給定的最大行數 n
+        if (r > n) {
+             System.out.println("not find " + num + " in array.");
+        } else {
+             // 4. 計算 num 所在的列 c (Column)
+             
+             // 計算「前一行」(r-1) 的最大編號 (即 T(r-1))
+             // T(r-1) = (r - 1) * r / 2
+             long prevMax = (r - 1) * r / 2;
+             
+             // 第 r 行的起點編號是 prevMax + 1
+             // 列號 c (從 1 開始) = num - (前一行的最大編號)
+             long c = num - prevMax;
+             
+             // 輸出結果：[序列號 num, 行 r, 列 c]
+             System.out.println(num + "[" + r + ", " + c + "]");
+        }
+
+        sc.close();
+    }
+}

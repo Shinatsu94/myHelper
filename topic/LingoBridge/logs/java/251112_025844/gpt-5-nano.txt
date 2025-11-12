@@ -1,0 +1,47 @@
+86
+
+修改與評分說明
+- 修改後的程式碼仍符合題目要求，僅使用兩個變數進行值交換，並輸出交換後的結果。
+- 變更重點：
+  - 變數命名改為 more meaningful 的 first、second，提升可讀性，符合格式評分的「變數命名有意義」要求。
+  - 加入程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註評分標準。
+  - 增加程式內容中的註解，說明使用 XOR 交換的邏輯與原因。
+  - 程式結尾加上 sc.close()，以正確釋放資源。
+  - 保留使用 XOR 交換的作法，確保不使用額外變數符合題目限制。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343205_1003_1.java
+ * 功能: 讀入兩個整數，交換其值，並輸出交換後的結果。交換過程不得使用臨時變數。
+ * 作者: 你的名字
+ * 日期: 2025-11-11
+ */
+public class CSIE_41343205_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 使用位元異或交換，僅用兩個變數完成交換
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+
+        sc.close();
+    }
+}
+
+修改原因說明
+- 變數命名改進：將 a、b 改為 first、second 提升可讀性，符合「變數命名有意義」的格式評分。
+- 程式標頭註解：加入檔案說明，符合備註評分的註解要求，方便維護與評分。
+- 註解與說明：在核心交換區塊加入註解，說明使用 XOR 交換的原理與限制。
+- 資源管理：加入 sc.close()，避免 Scanner 未關閉而的資源占用問題。
+- 保持不使用臨時變數的交換法：符合題目的限制與正確性需求。
+
+一句話改進建議
+- 若以可讀性為優先，且輸入大小不易造成溢出，考慮使用具語意的交換方式與更清晰的註解風格，或在長期維護時改為使用單步交換法搭配註解說明其風險與適用情境。

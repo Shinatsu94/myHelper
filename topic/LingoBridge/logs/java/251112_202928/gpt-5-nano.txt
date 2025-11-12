@@ -1,0 +1,55 @@
+0
+正確性: 0/50
+邏輯: 0/30
+格式: 0/10
+備註: 0/10
+
+修改後完整程式碼：
+/*
+檔案名稱: ArraySortAscending.java
+功能: 由使用者輸入長度 n，接著輸入 n 個整數，將陣列內容升序排序後輸出，元素可為負數。
+作者: 學生
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，以 0 作為預設
+            }
+        }
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出，元素之間用單一空格分隔，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+
+修改說明（修改過的部分與原因）：
+- 使用陣列收集輸入值：原程式未建立陣列結構且只處理累加與條件輸出，與題意不符；使用 int[] 來儲存長度 n 的整數序列，利於後續排序與輸出。
+- 使用 Arrays.sort 進行排序：直接且穩定地實作升序排序，能正確處理負數，且符合「由小至大」的要求。
+- 輸出格式調整：以空格分隔輸出，確保不在最後輸出多餘空格，符合題目輸出樣式。
+- 程式標頭與註解：加入檔案頭註解（檔名、功能、作者、日期）與適當內聯註解，提升可讀性與維護性。
+
+改進建議（一句話）：
+建議在遇到輸入格式變動時增加輸入驗證與錯誤處理，並可提供使用者友善的錯誤訊息或預設值。

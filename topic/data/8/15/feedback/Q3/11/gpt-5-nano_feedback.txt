@@ -1,0 +1,69 @@
+8
+
+修改後完整程式碼：
+
+import java.io.*;
+import java.util.*;
+
+public class ArraySortAscending {
+    /*
+       filename: ArraySortAscending.java
+       function: 讀入長度 n，接著 n 個整數，將陣列內容由小到大排序，並輸出排序後的陣列。
+       author: 教師改寫版本
+       date: 2025/11/12
+       version: 1.0
+    */
+    private static class FastScanner {
+        BufferedReader br;
+        StringTokenizer st;
+
+        FastScanner(InputStream is) {
+            br = new BufferedReader(new InputStreamReader(is));
+        }
+
+        String next() throws IOException {
+            while (st == null || !st.hasMoreElements()) {
+                String line = br.readLine();
+                if (line == null) return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+
+        Integer nextInt() throws IOException {
+            String s = next();
+            if (s == null) return null;
+            return Integer.parseInt(s);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        Integer nObj = fs.nextInt();
+        if (nObj == null) return;
+        int n = nObj;
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            Integer v = fs.nextInt();
+            a[i] = (v != null) ? v : 0;
+        }
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+修改說明：
+- 針對題目需求，原學生程式與任務不符，改寫為解決「任意長度的一維整數陣列排序」的程式。
+- 採用快速且穩健的輸入處理（FastScanner，基於 BufferedReader 與 StringTokenizer），避免對 EOF 的依賴，適用多行輸入情境。
+- 使用 Arrays.sort 進行升序排序，並用 StringBuilder 組裝輸出，輸出格式與題目要求一致，且能正確處理負數。
+- 程式檔頭加入檔案名稱、功能、作者、日期等註解，提升可維護性與可讀性。
+- 變數命名清晰、縮排與結構整齊，符合基本的格式要求。
+
+改進建議或反饋（用一句話）：
+建議進一步在輸出末尾加上換行符號，並確保在極大數量輸入時仍保持良好效能與穩定性。

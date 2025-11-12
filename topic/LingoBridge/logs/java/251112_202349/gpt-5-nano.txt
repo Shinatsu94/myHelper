@@ -1,0 +1,58 @@
+4
+
+修改後完整程式碼如下：
+/*
+  filename: SortArray_ASC.java
+  功能: 建立任意長度的一維整數陣列，讀取長度與元素，將內容由小到大排序，並輸出排序後的陣列。
+  作者: 教師或學生
+  日期: 2025-11-12
+  version: 1.0
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray_ASC {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        int[] arr = new int[n];
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（可依需求調整成失敗或終止）
+                arr[i] = 0;
+            }
+        }
+        scanner.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與原因：
+- 核心功能正確性：改用一維 int 陣列讀入長度 n 與 n 個整數，接著使用 Arrays.sort 進行由小到大排序，最後輸出同一行、以空格分隔的排序結果，符合題目要求。
+- 移除原本與題目不符的內容：原作非題意的下三角矩陣與尋找特定數字位置的邏輯，與本題「排序一維陣列」無關，已移除以避免混淆與錯誤輸出。
+- 設計與風格：加入清晰的程式 header 註解，定義檔名、功能、日期等，並保持適當的縮排與變數命名；使用簡單直接的流程，提升可讀性與維護性。
+- 程式健壯性：在讀取元素時，若輸入不足仍能平穩執行（以 0 作為預設值），並在結束前關閉 Scanner，避免資源洩漏。
+- 輸出格式：確保輸出為單行、元素之間以空格分隔，符合題目範例。
+
+改進建議（一句話）：
+- 建議在正式提交時，加入更嚴謹的輸入驗證與例外處理，例如若輸入不足則應先報错或結束，並可考慮支援多行輸入的健全處理，以增強魯棒性與可用性。

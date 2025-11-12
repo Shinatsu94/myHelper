@@ -1,0 +1,58 @@
+2
+
+正確性: 0
+邏輯: 0
+格式: 2
+備註: 0
+總分: 2
+
+修改與評語說明：
+- 重新實作題目需求的核心演算法：改用 Leibniz 公式逐項累加，並在每當累加到 10000、20000、…、100000 項時輸出當前的 i 與 pi 值（pi 取到小數點後 10 位）。
+- 移除原始提交的與題目無關的數字翻轉函式與輸入輸出邏輯，專注於正確計算與固定格式輸出。
+- 增加程式註解、使用有意義的變數名稱、並遵循較穩健的輸出格式（i 使用六位寬度對齊，pi 使用十位小數）。
+- 將輸出放在一次性建立字串再輸出，提升效能與穩定性。
+
+修改後完整程式碼（已優化並符合題意）：
+```java
+/*
+文件名稱: LeibnizPiPrinter.java
+功能說明: 使用萊布尼茲公式計算 pi，輸出 i 為 10000, 20000, ..., 100000 時的 pi 值
+作者: 論文/作業批改
+日期: 2025-11-11
+說明: pi 使用 10 位小數輸出，i 使用六位寬度對齊輸出
+*/
+
+import java.util.Locale;
+
+public class LeibnizPiPrinter {
+    public static void main(String[] args) {
+        // 設定常用的十進位格式，以避免地區設定影響小數點
+        Locale.setDefault(Locale.US);
+
+        StringBuilder out = new StringBuilder();
+
+        double sum = 0.0;
+        int maxTerms = 100000;
+
+        for (int k = 0; k < maxTerms; k++) {
+            double term = 1.0 / (2.0 * k + 1.0);
+            if (k % 2 == 0) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+
+            int terms = k + 1;
+            if (terms % 10000 == 0) {
+                double pi = 4.0 * sum;
+                out.append(String.format("i = %6d, pi = %.10f%n", terms, pi));
+            }
+        }
+
+        System.out.print(out.toString());
+    }
+}
+```
+
+一語建議或反饋：
+- 若未來要同時支援多種精度或輸出格式，建議將計算與輸出分離成方法，並允許透過參數設定輸出精度與輸出區間，增加程式的可重用性與測試性。

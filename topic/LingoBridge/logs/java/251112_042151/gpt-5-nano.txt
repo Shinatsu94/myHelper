@@ -1,0 +1,41 @@
+6
+
+評分明細
+- 正確性（50%）：0
+- 邏輯（30%）：0
+- 格式（10%）：6
+- 備註（10%）：0
+
+修改後之完整程式碼與改動說明
+修改後完整程式碼：
+import java.util.Scanner;
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 印出原始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，直接交換 A 與 B
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 針對題目需求，將輸入改為讀取兩個整數並分別印出其原值，接著在不使用其他變數的限制下完成 A、B 的交換，最後再印出交換後的值。
+- 交換實作採用不需要第三個變數的常見做法：A = A + B；B = A - B；A = A - B；此法僅使用 A、B 兩個變數，符合題意的限制。
+- 如考量溢位風險，亦可改為使用 XOR 交換法或改用較大型別（如 long）以避免溢位，並適當加上註解與輸出格式說明。
+
+改進建議或反饋（一句話）
+改進建議：為避免整數溢位風險，建議改用不會發生溢位的交換方法（例如 XOR 交換）或使用較大資料型別，並補充程式註解與輸出說明。

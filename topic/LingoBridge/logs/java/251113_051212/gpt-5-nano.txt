@@ -1,0 +1,50 @@
+13
+
+評分細項
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 7/10
+- 備註: 6/10
+總分：13/100
+
+修改與解釋
+- 問題重點與學生原始作業不符：原程式做的是輸入分數並判斷及格、補考、不及格，與題目要求「印出虎科大與學生姓名之內碼」完全不相干，因此正確性與邏輯評分皆為0。
+- 優化重點：
+  - 改成固定字串輸出，符合題目需求：先印“虎科大”，再印學生姓名“林武杰”。
+  - 使用字符的 Unicode 內碼（Code Point）輸出，確保跨平台與字元編碼的穩定性。
+  - 使用支援高位元組字符的安全遍歷方式：codePointAt與 charCount，未來若遇擴充字元也能正確處理。
+  - 改善可讀性與可維護性：將輸出邏輯做成通用方法，便於日後擴充或更改字符集。
+  - 程式碼風格與註解：修正為正確的檔案結構與具意義的命名，並以簡短註解說明功能。
+
+修改後完整程式碼
+// 檔案名稱: CSIE_41343233_0926_3.java
+// 功能說明: 依序輸出「虎科大」及學生姓名「林武杰」的每一個字及其對應的內碼（Unicode Code Point）。
+// 作者/日期等註解可依實際需求補充。
+
+public class CSIE_41343233_0926_3 {
+    public static void main(String[] args) {
+        String org = "虎科大";
+        String name = "林武杰";
+
+        printWithCode(org);
+        printWithCode(name);
+    }
+
+    // 印出字串中每個字元及其 Unicode 內碼（以十進位表示）
+    private static void printWithCode(String s) {
+        for (int i = 0; i < s.length();) {
+            int cp = s.codePointAt(i);
+            String ch = new String(Character.toChars(cp)); // 取得字元字串表示
+            System.out.println(ch + " " + cp);
+            i += Character.charCount(cp);
+        }
+    }
+}
+
+修改部分說明
+- 將原本用途改為輸出字與對應內碼的功能，取代原先的分數輸入與判斷。
+- 使用 codePointAt 與 charCount，以正確處理可能的代理對（surrogate pairs），提升穩定性與相容性。
+- 將字串與輸出邏輯分離，方便日後維護與擴充。
+
+改進建議與反饋
+- 建議在作業中直接依題意輸出固定字元的內碼，並理解「內碼」在不同編碼下的含義差異，若需要也可補充支援多編碼的輸出。

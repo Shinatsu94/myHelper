@@ -1,0 +1,106 @@
+95
+
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：9/10
+- 備註：8/10
+
+修改說明與改動重點：
+- 使用自定義快速輸入FastScanner替換Scanner，避免大量感覺性I/O開銷，並且不依賴EOF就能正確取得固定數量的輸入。
+- 保留原先的選擇排序（selection sort）實作，符合題目需求。
+- 輸出改為透過 StringBuilder 組裝，避免多次呼叫 System.out.print，提升效能與輸出一致性。
+- 增加檔案頭說明與維持檔案名稱與類別名稱一致，確保編譯與檔案對齊。
+- 對輸入長度為0的情況亦能正常輸出空行，提升魯棒性。
+
+修改後完整程式碼（已優化）：
+```java
+// Date:2025/10/31
+// Creator:41343240 黃榮裕
+// File: CSIE_41343240_1031_1.java
+// Function: 讀入使用者輸入的任意長度一維陣列，先輸入長度再輸入元素，使用 Selection Sort 排序，輸出排序後內容
+
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class CSIE_41343240_1031_1 {
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        selectionSort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+
+    // 選擇排序：由小到大
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                int temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+        }
+    }
+
+    // 簡單且高效的快速輸入：避免使用 EOF
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            this.in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+
+            int sign = 1;
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+
+            int val = 0;
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}
+```
+
+一句話改進建議：
+- 建議在程式檔案的標頭註解中同時列出檔案名稱、功能簡述、作者、日期等資訊，並保持輸入/輸出部分的清晰註解，提升可維護性與可讀性。

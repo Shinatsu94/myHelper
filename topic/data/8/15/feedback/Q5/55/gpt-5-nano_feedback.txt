@@ -1,0 +1,52 @@
+6
+
+修改後程式碼（完整）：
+```java
+/*
+ * File: ArraySort.java
+ * 功能: 讀入長度 n 與 n 個整數，將其升序排序並輸出
+ * 作者: 你（教授，根據需求自行填寫）
+ * 日期: 2025-11-12
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySort {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀入陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以單一空格分隔，無尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}
+```
+
+修改說明：
+- 將原本的 3x3 矩陣與反矩陣計算邏輯，改為符合題意的 1D 整數陣列排序實作。原因：題目要求建立任意長度的一維陣列並排序，原程式與題意不符，且使用複雜的矩陣運算會造成不必要的混淆。
+- 改用可變長度的陣列 n 作為輸入長度，並依序讀入 n 個整數。原因：支援任意長度，符合需求。
+- 使用 Arrays.sort(arr) 進行升序排序，並以 StringBuilder 組裝輸出，避免尾端空格問題。原因：簡潔且高效，輸出格式符合題目要求。
+- 程式加上頭註解，並給出檔案名稱與功能描述，提升可讀性與維護性。原因：符合備註說明的最佳實踐。
+- 保留負數支援，因 Arrays.sort 與整數型別恰好支援負數排序。原因：滿足題目「元素包含負數」的需求。
+
+改進建議（一句話）：
+請務必遵循題意撰寫格式正確的排序程式；如果輸入可能包含不同的分隔形式，考慮增加容錯與輸入驗證以提高穩定性。

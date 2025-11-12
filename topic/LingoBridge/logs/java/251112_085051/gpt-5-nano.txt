@@ -1,0 +1,66 @@
+0
+
+修改後完整程式碼：
+/*
+檔案名稱: PiLeibnizPrinter.java
+功能說明: 依題意計算並輸出利用莱布尼茲公式近似的圓周率 pi， 
+           以及找出使 pi 四捨五入到小數第六位且等於 3.14159 的最小項數 i。
+作者: ChatGPT
+日期: 2025-11-12
+說明: 程式內附註解，並符合 Java 編碼風格與格式要求。
+*/
+
+public class PiLeibnizPrinter {
+
+    public static void main(String[] args) {
+        // Part (a): 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，pi 以小數點後10位顯示
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double pi = leibnizPi(i);
+            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        }
+
+        // 空行分隔輸出區段
+        System.out.println();
+
+        // Part (b): 找到最小的 i，使 pi 四捨五入到小數點後5位等於 3.14159
+        int minIForPi = findMinIForPiRoundedFiveDecimals(3.14159, 1000000); // 安全上限較大
+        System.out.println("i = " + minIForPi);
+    }
+
+    // 計算前 terms 項的 Leibniz 公式近似 pi 值
+    private static double leibnizPi(int terms) {
+        double sum = 0.0;
+        for (int k = 0; k < terms; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+        }
+        return 4.0 * sum;
+    }
+
+    // 找到最小的 i，使 pi 的值四捨五入到五位小數等於目標值
+    private static int findMinIForPiRoundedFiveDecimals(double targetPiFiveDecimals, int maxTerms) {
+        double sum = 0.0;
+        for (int k = 0; k < maxTerms; k++) {
+            // 第 k+1 項
+            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            double piVal = 4.0 * sum;
+            double roundedFive = Math.round(piVal * 1e5) / 1e5;
+            if (roundedFive == targetPiFiveDecimals) {
+                return k + 1; // i 為項數
+            }
+        }
+        return -1; // 未在上限內找到
+    }
+}
+
+修改說明：
+- 從原先的錯誤作業改為正確的解題邏輯：改用莱布尼茲公式逐項計算 pi，並對指定的 i 條件輸出。
+- 新增了 clear 的方法結構與命名：包含 leibnizPi(terms) 與 findMinIForPiRoundedFiveDecimals(target, maxTerms) 兩個方法，讓功能單一且可重用。
+- 移除不相關的輸入輸出（Scanner），改採固定輸出流程，符合題目要求的輸出格式。
+- 輸出格式調整為符合題目要求：i 使用寬度 6（%6d），pi 使用小數點後十位（%.10f）。
+- 新增程式標頭註解與適當的內文註解，提升可讀性與維護性。
+- 類別命名改為可辨識的英文名稱 PiLeibnizPrinter，符合命名慣例。
+- 增加註解說明整體流程，利於閱讀與日後維護。
+
+改進建議（單句）：
+若要提升執行效率與穩定性，可考慮對高精度需求改用更穩定的高精度數值類型或演算法，且在輸出格式與例外處理上再加強邊界條件的檢查。

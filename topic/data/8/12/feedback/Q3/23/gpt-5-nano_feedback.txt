@@ -1,0 +1,66 @@
+3
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 3/10
+- 備註: 0/10
+
+修改後完整程式碼（可直接執行，輸出符合題目規範：i 以六位寬度對齊，pi 印十位小數，part (b) 會輸出最小的 i，使近似值四捨五入到 3.14159）：
+
+public class LeibnizPi {
+    /*
+     * 檔案名稱: LeibnizPi.java
+     * 功能: 計算 pi 的 Leibniz 近似值，輸出 Part (a) 的多個 i 與對應 pi，並找出使 pi 四捨五入到 5 位小數等於 3.14159 的最小 i。
+     * 作者: AI 助手
+     * 日期: 2025-11-12
+     * 說明: 使用累積方式避免重複計算，大幅提升效率；輸出格式遵循題目要求。
+     */
+
+    public static void main(String[] args) {
+        final int maxI = 100000;
+        final int step = 10000;
+
+        // Part (a): 從 i = 1 開始累加到 maxI，並在每個 step 輸出結果
+        double sum = 0.0;
+        for (int i = 1; i <= maxI; i++) {
+            // 第 i 項的符號與分母：(-1)^(i-1) / (2*(i-1) + 1)
+            double term = (((i - 1) % 2) == 0) ? 1.0 : -1.0;
+            sum += term / (double)(2 * (i - 1) + 1);
+
+            if (i % step == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // Part (b): 找到最小的 i，使 pi 四捨五入到 5 位小數後等於 3.14159
+        // 從當前的 sum 與 i 距離之後繼續累加，直到符合條件為止
+        double piTargetRounded = 3.14159;
+        double currentSum = sum; // 目前在 i = maxI 的狀態
+        int i = maxI;
+        while (true) {
+            i++;
+            double term = ((((i - 1) % 2) == 0) ? 1.0 : -1.0) / (double)(2 * (i - 1) + 1);
+            currentSum += term;
+            double currentPi = 4.0 * currentSum;
+            double rounded = Math.round(currentPi * 1e5) / 1e5;
+            if (rounded == piTargetRounded) {
+                System.out.printf("i = %6d%n", i);
+                break;
+            }
+            // 防止無窮迴圈之安全保護
+            if (i > 2000000) {
+                System.out.println("未找到符合條件的最小 i。");
+                break;
+            }
+        }
+    }
+}
+
+修改說明（重點改動與原因）：
+- 將原始錯誤的輸入/反轉數字的程式改為實作 Lehigiz-Leibniz 公式的計算程式，符合題意的 pi 近似計算需求。
+- 以持續累加的方式計算，重用前一輪的結果以提升效率，避免每次重新從頭計算，符合較佳的演算法邏輯。
+- 輸出格式採用固定寬度與指定的小數位數，使用 System.out.printf 並設定 i 為六位寬度、pi 為小數點後十位，符合題目指定的輸出格式。
+- 加入了程式標頭註解，說明檔案名稱、功能、作者與日期，並在程式內做適當的註解，提升可讀性與維護性。
+
+一句話改進建議/反饋：
+- 建議在提交作業時附上完整的題解說明與測試案例，以及适當的註解與程式標頭，能更清楚地呈現思路與輸出格式需求，同時保持可讀性與可維護性。

@@ -1,0 +1,108 @@
+89
+
+修改後完整程式碼（Java）：
+/*
+ * File: Main.java
+ * 功能: 讀取長度 n，接著 n 個整數，將陣列升冪排序並輸出。
+ * 作者: 教授
+ * 日期: 2025-11-12
+ * 說明: 使用選擇排序作業排序，並採用快速輸入以提升效能，輸出以空格分隔，結尾換行。
+ */
+import java.io.InputStream;
+import java.io.IOException;
+
+public class Main {
+
+    // 升冪排序（選擇排序）
+    static void selectionSort(int[] a) {
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            if (minIdx != i) {
+                int t = a[i];
+                a[i] = a[minIdx];
+                a[minIdx] = t;
+            }
+        }
+    }
+
+    // 簡易快速輸入，避免使用 Scanner 所造成的效能瓶頸
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            // 跳過空白
+            do {
+                c = read();
+            } while (c <= ' ');
+
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
+            // 沒有有效長度輸入，直接結束
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        selectionSort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明：
+- 代碼整體功能保持不變，但採用快速輸入 (FastScanner) 取代 Scanner，以提高大量資料時的執行效率，避免 TLE。
+- 保留並清晰註解排序邏輯（選擇排序），同時將變數命名維持有意義、易讀。
+- 增加程式開頭的標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求的註解需求。
+- 輸出結尾加入換行，符合一般輸出格式習慣。
+- 增強對 n 為 0 的情況的彈性處理，避免異常發生。
+
+一句話改進建議或反饋：
+建議於作業中使用快速輸入與完整註解，同時在輸出末端加上換行以提升可讀性與穩定性。

@@ -1,0 +1,75 @@
+42
+
+- 正確性: 20/50
+- 邏輯: 12/30
+- 格式: 6/10
+- 備註: 4/10
+
+修改後完整程式碼 (已修正排序邏輯、輸出格式與程式註解)：
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343128_1031_2.java
+功能: 讀入陣列長度與元素，將陣列內容由小到大排序，輸出排序結果
+作者: 陳廷鑫（示例）
+日期: 2025-11-12
+說明: 使用正確的選擇排序實作，避免原程式的覆蓋與-1 的錯誤作法，並加上適當註解與格式。
+*/
+public class CSIE_41343128_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        } else {
+            scn.close();
+            return;
+        }
+
+        // 讀取陣列內容
+        int[] list = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                list[i] = scn.nextInt();
+            } else {
+                list[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序：選擇排序 (由小到大)
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (list[j] < list[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 list[i] 與 list[minIndex]
+            int tmp = list[i];
+            list[i] = list[minIndex];
+            list[minIndex] = tmp;
+        }
+
+        // 輸出排序結果，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(list[i]);
+        }
+        System.out.print(sb.toString());
+
+        scn.close();
+    }
+}
+
+修改說明與原因：
+- 將排序邏輯改為正確的選擇排序，避免原程式中單次賦值會破壞原本元素與產生重複值的問題，並且移除不正確的 list[n-1] = -1 的作法，保留整個排序過程後再輸出。
+- 輸出部分改為以空格分隔且不修改原始陣列尾端的值，確保輸出符合題目預期格式。
+- 增加程式註解與檔案標頭，描述檔案名稱、功能、作者與日期，提升可讀性與維護性。
+- 變數命名與縮排調整，增進可讀性；保留原有類別命名以符合檔名與測資要求。
+- 將輸入與輸出流程整理成穩定的邏輯路徑，避免因輸入不足而造成未定行為。
+
+改進建議/反饋（一句話）：
+若要更簡潔且穩定，考慮直接使用 Arrays.sort(list) 進行排序，並在輸出前後加上必要的輸入檢核與註解，即可達到相同功能且維護成本較低。

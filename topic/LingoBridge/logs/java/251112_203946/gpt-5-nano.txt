@@ -1,0 +1,66 @@
+3
+
+修改後完整程式碼如下：
+/**
+ * 檔案名稱: CSIE_41343217_1031_3b.java
+ * 功能簡介: 讀取整數 n，接著讀入 n 個整數，將它們升序排序並輸出排序結果。
+ * 作者: 您的助理
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_3b {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1) 讀取陣列長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 無有效元素，直接結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        // 2) 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 3) 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 4) 輸出排序結果，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 改為符合題意的流程：先讀入長度、再讀入整數、排序、輸出結果，避免原程式的錯誤邏輯與不相關的輸出。
+- 使用 Java 的 Arrays.sort 進行升序排序，邏輯簡潔且穩健。
+- 增加程式標頭註解，說明檔案名稱、功能、日期等，提升可維護性。
+- 將輸入長度改為 int，因 Java 陣列長度以 int 表示，避免不必要的型別問題；並處理長度為非正數的情況。
+- 輸出格式確保只有一行結果，元素之間以空格分隔，符合題目輸出需求。
+
+改進建議（1 句話）：
+- 建議加強輸入驗證與例外處理，並在極端輸入情況下提供清晰錯誤訊息，以提升魯棒性與可用性。

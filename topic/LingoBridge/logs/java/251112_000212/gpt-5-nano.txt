@@ -1,0 +1,43 @@
+86
+
+- 評分明細（依你的標準）
+  - 正確性（50%）：50/50
+  - 邏輯（30%）：30/30
+  - 格式（10%）：6/10
+  - 備註（10%）：0/10
+
+修改後完整程式碼與說明如下：
+
+修改後完整程式碼
+// 檔案名稱：Main.java
+// 功能：讀入兩個整數 A 與 B，印出其值，之後不使用額外變數，使用 XOR 交換並印出交換後的值。
+// 作者與日期：請於此加入您的姓名與日期
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 確保 Scanner 能夠自動關閉
+        try (Scanner scanner = new Scanner(System.in)) {
+            int A = scanner.nextInt();
+            int B = scanner.nextInt();
+
+            // 不使用臨時變數，透過位元異或運算進行交換
+            A = A ^ B;
+            B = A ^ B;
+            A = A ^ B;
+
+            // 印出交換後的值
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}
+
+修改原因說明
+- 程式檔案頭註解與說明：新增檔案名稱、功能、作者與日期等註解，便於評分與維護。
+- 使用 try-with-resources：確保 Scanner 的資源能自動關閉，提升資源管理的穩定性。
+- 簡化輸出與清理語法：移除多餘的「+」符號，提升閱讀性與一致性。
+- 保留不使用臨時變數的交換法：符合題目要求仍用 XOR 交換，避免引入額外變數。
+
+一句話改進建議
+建議在提交前統一加入完整的程式註解與檔案頭信息，並保持一致的縮排與風格，讓評分與後續維護更為順暢。

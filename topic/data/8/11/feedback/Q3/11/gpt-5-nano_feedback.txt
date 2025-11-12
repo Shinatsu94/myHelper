@@ -1,0 +1,37 @@
+0
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41143122_1003_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入兩個整數，分別存入 A, B
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 先印出原始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用其他變數，使用位元運算交換 A, B
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 將原先與題目不相符的計數邏輯移除，改為符合題意的兩數字輸入與交換流程，並在交換前後分別印出結果。
+- 使用位元異或（XOR）交換法，僅用 A、B 兩個變數完成交換，符合「不可使用其他變數」的限制，避免可能的整數溢位情況（相較於加減法 swap）。
+- 增加清楚註解說明流程與交換方式，維持良好可讀性；並加入 scanner.close() 以釋放資源。
+
+改進建議或反饋（一句話）：
+建議在程式開頭或註解中清楚說明為何選用 XOR 交換，以及在真實應用中考量若需要處理非整數輸入時的魯棒性與例外處理。

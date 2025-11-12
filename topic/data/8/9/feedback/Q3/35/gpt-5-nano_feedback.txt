@@ -1,0 +1,53 @@
+7
+
+評分明細：
+- 正確性 (50%): 0/50
+- 邏輯 (30%): 0/30
+- 格式 (10%): 7/10
+- 備註 (10%): 0/10
+總分: 7/100
+
+修改與理由
+- 問題需求與提交程式不符：原始作業是輸出「你的中文姓名」與「虎科大」及其內碼，但學生提交的程式與成績判定邏輯無關，僅做成績判定的輸出。
+- 提出可通用的正確實作：提供一份更符合題意的示範程式，能印出「虎科大」每個字及對應的內碼（以 Unicode 十進位碼點表示），並同時印出學生姓名每個字及對應的內碼。此寫法能清楚顯示每個字的內碼，且易於在實作中替換姓名。
+- 設計重點
+  - 使用直覺的輸出格式：每行輸出「字 空格 內碼」的格式，符合題意的輸出風格。
+  - 將程式加入清楚的檔案註解與標頭，以符合備註評分項的要求。
+  - 引入可維護性較高的結構：建立輔助方法 printCharWithCode，減少重複程式碼。
+
+修改後完整程式碼（符合題意的示例實作）
+// File: PrintChineseWithUnicode.java
+/*
+  文件名稱: PrintChineseWithUnicode.java
+  功能: 印出虎科大及學生姓名每個字的 Unicode 內碼
+  作者: 教師姓名
+  日期: 2025-11-12
+*/
+public class PrintChineseWithUnicode {
+    public static void main(String[] args) {
+        // 先印出「虎科大」每個字及其 Unicode 碼點
+        printCharWithCode('虎');
+        printCharWithCode('科');
+        printCharWithCode('大');
+
+        // 學生姓名（示範用，實際可改為動態輸入或替換為該生姓名）
+        String name = "林武杰";
+        for (int i = 0; i < name.length(); i++) {
+            char ch = name.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+
+    private static void printCharWithCode(char ch) {
+        System.out.println(ch + " " + (int) ch);
+    }
+}
+
+修改說明
+- 將原本與題目無關的成績判定邏輯移除，改以輸出中文字與其對應的內碼(Open Unicode code point)為核心任務。
+- 透過 printCharWithCode 方法統一印出單字及其碼點，提升可讀性與重用性。
+- 對「虎科大」三字與學生名字的每個字，分別印出該字與其 Unicode 十進位碼點，符合「一行一字及對應內碼」的格式要求。
+- 加入檔案頭註解，描述檔案名稱、功能、作者與日期，提升格式符合度。
+
+一句話改進建議
+- 建議改為讓使用者動態輸入姓名，並以同樣方式輸出每個字的內碼，這樣就能自動支援不同學生的名字，避免硬編碼。

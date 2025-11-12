@@ -1,0 +1,55 @@
+2
+- 正確性: 0
+- 邏輯: 0
+- 格式: 2
+- 備註: 0
+
+修改後完整程式碼及說明如下：
+
+修改後完整程式碼
+/*
+ * 檔案名稱: CSIE_41343119_1031_3.java
+ * 功能說明: 讀取使用者輸入的長度 n，接著讀入 n 個整數，將它們由小到大排序，最後輸出排序結果。
+ * 作者: 金宗翰
+ * 日期: 2025-11-12
+ */
+import java.util.*;
+
+public class CSIE_41343119_1031_3 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n;
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        n = scn.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入數量不足，預設為 0
+            }
+        }
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        scn.close();
+    }
+}
+
+修改說明
+- 改為正確讀取 n 與接著的 n 個整數，並對整數陣列進行排序，滿足題目需求。
+- 使用 Arrays.sort 進行排序，簡潔且效率良好，能正確處理負數。
+- 輸出使用 StringBuilder 組裝，避免多次 System.out.print，並避免尾端多餘空格。
+- 加上程式檔案的標頭註解，說明檔名、功能、作者與日期，提升可讀性與維護性。
+- 變數命名與排版做適度調整，提升格式與可讀性。
+
+改進建議（一句話）
+建議加強輸入錯誤與例外處理，例如檢查是否真的有足夠的數字輸入，並更完善的錯誤訊息與例外處理。

@@ -1,0 +1,61 @@
+5
+
+評分明細
+- 正確性：0
+- 邏輯：0
+- 格式：5
+- 備註：0
+總分：5
+
+修改與原因說明
+- 將作業改為實作 Leibniz 級數求 π 的正確演算法，避免原程式與題意毫無關聯的判斷。
+- 使用增量式累加方式逐步累計 1/(2k-1) 的符號，避免每次都重新計算整個級數，提高效率。
+- 輸出格式改為符合題目需求：
+  - i 以寬度 6 顯示，pi 以小數點後 10 位顯示，輸出格式為「i = %6d, pi = %.10f」。
+- 加入第二部份需求：找出使 π 的近似值四捨五入到小數點後 5 位等於 3.14159 的最小 i，並輸出該 i。
+- 增加程式說明註解與適當的標頭註解，提升可讀性與維護性。
+
+修改後完整程式碼
+// 檔案名稱: LeibnizPi.java
+// 功能: 計算 π 的 Leibniz 近似值，輸出 i = 10000~100000 的近似結果，並找出最小 i 使近似值四捨五入為 3.14159
+// 作者: [你的姓名]
+// 日期: 2025-11-11
+// 備註: 使用增量式累加以提升效率，輸出格式符合題目要求
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // Part (a): 逐步計算 i 為 10000, 20000, ..., 100000 時的 pi 近似值
+        double sum = 0.0;
+        for (int i = 1; i <= 100000; i++) {
+            // 第 i 項:  (-1)^(i+1) / (2i-1)
+            sum += ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // Part (b): 找出最小的 i 使 pi 的近似值四捨五入為 3.14159
+        sum = 0.0;
+        int minIForFiveDec = -1;
+        // 這裡設定一個較大的上限以確保能找到答案；若找不到再輸出相應訊息
+        for (int i = 1; i <= 2000000; i++) {
+            sum += ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
+            double pi = 4.0 * sum;
+            // 以五位小數四捨五入比較
+            String roundedTo5 = String.format(java.util.Locale.US, "%.5f", pi);
+            if ("3.14159".equals(roundedTo5)) {
+                minIForFiveDec = i;
+                break;
+            }
+        }
+        if (minIForFiveDec != -1) {
+            System.out.println("i = " + minIForFiveDec);
+        } else {
+            System.out.println("i = not found");
+        }
+    }
+}
+
+改進建議一句話
+- 建議在正式作業中再把輸出格式與需求細節以檔名與註解清楚說明，並把核心演算法拆成方法以提高可讀性與可測試性。

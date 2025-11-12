@@ -1,0 +1,58 @@
+2
+正確性: 0
+邏輯: 0
+格式: 2
+備註: 0
+
+修改後完整程式碼（改為符合題意的排序功能，並加上適當的註解與標頭）
+/*
+檔案名稱: CSIE_41343128_1031_3a.java
+功能: 建立任意長度的一維整數陣列，將內容由小到大排序，輸出排序後的陣列。
+作者: 學生
+日期: 2025-11-12
+說明: 讀取第一個整數作為長度 n，接著讀取 n 個整數，排序後以空格分隔印出。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343128_1031_3a {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        } else {
+            scn.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0; // 缺少數值時預設為 0，避免例外
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}
+
+修改說明：
+- 移除原程式的 2D char 陣列與星號輸出，改用整數陣列與 Arrays.sort，直接滿足題目「任意長度、一維整數陣列排序」的需求。
+- 輸入部分使用 Scanner 逐一讀取長度 n 與 n 個整數，並在輸出時以空格分隔，符合題目格式與範例。
+- 增加檔案標頭註解，說明檔案名稱、功能、作者、日期及基本邏輯，提升維護性與可讀性。
+- 為穩健性加入少量輸入檢核，避免輸入不足時造成例外；並在結尾關閉 Scanner。
+
+改進建議（一句話）：
+建議加入更完整的輸入驗證與錯誤處理，例例如非整數輸入的情況，以及使用更高效的輸入讀取方式（如 BufferedInputStream 與 StringTokenizer）以提升性能與穩定性。

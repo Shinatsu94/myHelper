@@ -1,0 +1,60 @@
+13
+
+修改後程式碼：
+```java
+/**
+ * 檔案名稱: ArraySorter.java
+ * 功能: 讀取長度與整數序列，將序列升序排序後輸出
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySorter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int length = scanner.nextInt();
+
+        // 建立陣列，長度為 input 的長度（若長度為 0，創建空陣列）
+        int[] array = new int[Math.max(0, length)];
+
+        // 依序讀取長度個整數放入陣列
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（不影響排序結果的核心需求）
+                array[i] = 0;
+            }
+        }
+
+        // 進行升序排序
+        Arrays.sort(array);
+
+        // 輸出排序後的陣列，元素用空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+```
+
+修改原因與說明：
+- 正確性與邏輯：原程式是輸出「右側最大值的前綴替換」，與題目要求的「升序排序」不符。已改用 Arrays.sort 直接對整數陣列進行升序排序，符合題意且穩定可靠。
+- 格式與可讀性：加入清晰的檔案標頭註解與適當內嵌註解，變數命名保持有意義，整體結構更易閱讀。
+- 邊界與健壯性：支援長度為 0 的情況，輸出空行；讀取輸入時也加上防呆處理，避免有缺失的數字導致例外。
+
+改進建議（一句話）：
+建議在實作中加入輸入格式驗證與錯誤處理，例如若長度與實際輸入數量不符，給出使用者友善的錯誤訊息或退出策略。

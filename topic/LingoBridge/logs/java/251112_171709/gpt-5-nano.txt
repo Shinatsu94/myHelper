@@ -1,0 +1,50 @@
+88
+
+評分細項
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：8/10
+- 備註：2/10
+
+修改後的完整程式碼（已優化重點說明在下方）
+/*
+File: CSIE_51015130_1031_1.java
+Description: 將輸入的一維整數陣列由小到大排序，輸出排序後結果。
+Author: (尚未提供)
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_51015130_1031_1{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] score = new int[n];
+
+        for(int i = 0; i < n; i++){
+            score[i] = sc.nextInt();
+        }
+
+        Arrays.sort(score); // 自然排序
+
+        // 輸出時避免尾端多餘的空格，並確保輸出換行
+        for(int i = 0; i < n; i++){
+            if(i > 0) System.out.print(" ");
+            System.out.print(score[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
+
+修改說明
+- 輸出格式改進：原本輸出在結尾有可能出現多餘的空格，改為僅在數字之間插入空格，避免尾端空白，符合常見比較嚴格的測資要求。
+- 加入換行：輸出結尾加上換行符號，提升可讀性與相容性。
+- 程式標頭註解：加入檔案名稱、描述等註解，方便維護與溝通。
+- 純粹語法與結構：保留原本的演算法與邏輯，僅改善輸出與註解的品質。
+
+改進建議（一句話）
+建議在輸出結尾加入換行並避免尾端空格，同時補上完整的檔案標頭註解，提升可讀性與測資相容性。

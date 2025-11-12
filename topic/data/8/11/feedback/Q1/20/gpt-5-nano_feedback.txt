@@ -1,0 +1,37 @@
+86
+
+修改後完整程式碼如下：
+/**
+ * File: CSIE_41343112_1003_1.java
+ * 功能: 讀入兩個整數，印出其交換後的值（不使用額外變數）。
+ * 作者: 教師
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class CSIE_41343112_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 不使用額外變數，透過位元異或進行交換
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 新增檔案標頭註解，包含檔名、功能、作者與日期，符合備註要求。
+- 統一程式排版與縮排，提升可讀性。
+- 將兩個輸出改為兩次 println，確保每個數字各自佔一行，並符合常見輸出格式。
+- 保留原先的 XOR 交換方式以滿足「不可使用其他變數進行交換」的限制，且適用於整數型態。
+
+改進建議或反饋：
+建議在符合題意的前提下，加入檔案標頭與適當註解，並統一使用 println 以穩定輸出格式。

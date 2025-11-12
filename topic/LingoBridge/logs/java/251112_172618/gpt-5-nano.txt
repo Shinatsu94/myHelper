@@ -1,0 +1,69 @@
+5
+
+評分說明與結果：
+- 正確性(50%): 0/50
+  - 學生的排序邏輯錯誤，程式無法正確輸出由小到大排序結果，且最後將 arr[n-1] 設為 -1，會污染輸出內容。
+- 邏輯(30%): 0/30
+  - 內部排序邏輯不正確，且程式流程難以誤導性地達成題意，未使用正確的排序演算法或輸出格式處理。
+- 格式(10%): 5/10
+  - 變數命名雖可接受，但整體縮排與編排尚可改善；缺少一致縮排與可讀性提升的風格。
+- 備註(10%): 0/10
+  - 程式標頭註解缺失，未說明檔案名稱、功能、作者與日期等。
+
+總分：5/100
+
+修改與優化說明：
+- 需求要點：讀取 n 與 n 個整數，對陣列進行由小到大排序，輸出排序結果，並支援負數；另外避免使用 EOF，讓程式一次性結束。
+- 使用 Arrays.sort 作為排序核心，簡潔且正確，能正確處理負數與任意長度的陣列。
+- 增加程式標頭註解（檔案名稱、功能描述、作者、日期），提升格式與可讀性。
+- 輸出部分避免尾端多餘空格，直接逐個輸出並在元素間加空格，符合題目輸出格式。
+- 關閉 Scanner 條件下釋放資源，提升程式的整體質量。
+
+修改後的完整程式碼（可直接執行）：
+/*
+檔案名稱: Main.java
+功能說明: 讀取整數 n 與 n 個整數，將它們由小到大排序後輸出
+作者: 教授
+日期: 2025-11-12
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+
+修改部分說明：
+- 將原本錯誤的排序邏輯與多餘的字串處理改為使用 Arrays.sort，確保正確性與可讀性。
+- 增加標頭註解，提升作業格式符合要求。
+- 使用 StringBuilder 來組裝輸出字串，避免不必要的 IO 操作與尾端空格問題。
+- 保留負數支援與一般情況，輸出格式符合樣例。
+
+改進建議或反饋（一句話）：
+- 建議使用內建排序函式 Arrays.sort 與清晰的輸出格式，能快速正確地完成排序需求並提升可讀性與維護性。
+
+如果你願意，我也可以提供不使用 Arrays.sort 的自訂排序實作作為替代練習。

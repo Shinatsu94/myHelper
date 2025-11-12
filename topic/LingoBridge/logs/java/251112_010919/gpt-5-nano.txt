@@ -1,0 +1,38 @@
+100
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: SwapTwoNumbers.java
+ * 功能: 讀入兩個整數，印出交換後的結果（不使用額外變數進行交換）。
+ * 作者: 你的名字
+ * 日期: 2025-11-11
+ */
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用不宣告新變數的方式進行交換
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 移除了學生原本多餘的變數與複雜的排序邏輯，改用兩個變數 A 與 B 直接完成交換，符合「不使用其他變數進行交換」的規範。
+- 交換採用不新增變數的加法法（A = A + B; B = A - B; A = A - B），簡單且直覺，適合此題的教育情境。
+- 程式結構清晰，命名使用 A、B 以對應題意的兩個變數，同時保持縮排與註解，以符合格式評分標準。
+- 將輸出改為僅輸出交換後的結果以符合題目給出的範例輸出需求。
+
+改進建議（一句話）：
+在面臨多次輸入與複雜邏輯時，建議先確定輸出需求再決定是否輸出中間結果，避免與題意或範例輸出不一致。

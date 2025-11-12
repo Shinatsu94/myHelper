@@ -1,0 +1,54 @@
+88
+
+評分依據與評語
+- 正確性（50/50）：程式能正確讀取 n 與 n 個整數，對陣列進行排序後輸出，並支援負數。符合題意。
+- 邏輯（30/30）：原作使用選擇排序實作，邏輯清晰、正確，排序結果符合由小到大的需求。
+- 格式（8/10）：變數命名尚可，但有些地方排版不夠一致，且缺少標頭註解與說明性註解，影響可讀性。
+- 備註（0/10）：缺少檔頭註解（檔案名稱、功能、作者、日期等說明），未符合備註要求。
+
+修改後完整程式碼（優化版本）
+```java
+import java.util.*;
+
+public class csie_41343137_1031_1 {
+    /*
+     * 檔案名稱: csie_41343137_1031_1.java
+     * 功能: 讀取長度 n 與 n 個整數，輸出升序排序結果
+     * 作者: 請填入
+     * 日期: 請填入
+     * 說明: 使用 Arrays.sort 提升排序效率，並使用 StringBuilder 組裝輸出，維持與原題相容的輸入格式。
+     */
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升效率
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 組裝輸出，避免多次 System.out.print
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因
+- 加入標頭註解：補齊檔案名稱、功能、作者、日期等資訊，符合備註要求，提升可維護性與可讀性。
+- 改用 Arrays.sort（提升效率）：原程式使用自寫的選擇排序，時間複雜度為 O(n^2)，在大量資料時較慢。改用 Arrays.sort 以 O(n log n) 的時間複雜度完成排序，並保持輸出格式不變。
+- 輸出改用 StringBuilder：用字串拼接會頻繁產生臨時物件，使用 StringBuilder 改善效能與可讀性，對於中等及以上資料量更有效率。
+- 關閉 Scanner：結束後關閉資源，養成良好資源管理習慣。
+- 變數與程式風格：維持與題意相符的輸入方式，保持跨行與空格輸入的穩定性；但如要更嚴格的命名風格，輸入變數可再命名為更具語意的名稱（如 length, nums 等），此版本保留原有命名以避免過度改動。
+
+改進建議與回饋（一句話）
+建議在題目允許的情況下，採用內建排序（如 Arrays.sort）以提升效率，並增加完整的程式標頭與註解以提升可維護性。

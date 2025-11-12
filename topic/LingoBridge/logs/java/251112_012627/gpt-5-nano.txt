@@ -1,0 +1,41 @@
+3
+
+修改後完整程式碼：
+/*
+檔案名稱: SwapTwoIntegers.java
+功能: 讀入兩個整數 A、B，先印出其值；在不使用額外變數的情況下交換兩數，再印出交換結果。
+作者: 你的姓名
+日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class SwapTwoIntegers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 初始值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，利用位元運算交換 A 與 B
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 交換後的值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+說明修改該部分的原因：
+- 針對題目要求，原始程式與題目需求毫無關聯，且使用了許多不必要的變數與複雜邏輯，無法達成「先印出兩數值再互換並印出」的功能，因此必須重新設計核心邏輯。
+- 新版本以最小型且符合題意的做法實作：讀入兩個整數後，先印出原值，再用不額外變數的位元運算做交換，最後印出交換後的值，確保符合「不可使用其他變數進行數字交換」的限制。
+- 為提升可讀性與維護性，加入標頭註解描述檔案名稱、功能、作者與日期，並使用有意義的變數名稱與適當的縮排。
+
+一句話改進建議或反饋：
+清楚註解交換方法與輸入範圍，有助於日後維護與溝通，若可能出現溢位風險時，考慮提供替代的交換實作與輸入驗證。

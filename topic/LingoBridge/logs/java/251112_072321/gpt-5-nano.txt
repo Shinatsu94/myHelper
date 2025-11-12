@@ -1,0 +1,63 @@
+86
+
+修改後完整程式碼：
+/*
+檔案名稱: LeibnizPiCalculator.java
+功能: 使用 Leibniz 極級數計算π的近似，輸出部分結果並找出使近似值在小數點後五位四捨五入為 3.14159 的最小項次。
+作者: 教授
+日期: 2025-11-11
+*/
+public class LeibnizPiCalculator {
+    public static void main(String[] args) {
+        final int MAX_TERMS = 100000; // part (a) 使用的最大項數
+        double sum = 0.0;
+
+        // Part (a): 每 10000 項輸出一次 pi 的近似值
+        for (int k = 0; k < MAX_TERMS; k++) {
+            double term = 1.0 / (2 * k + 1);
+            if (k % 2 == 0) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+            if ((k + 1) % 10000 == 0) {
+                double piApprox = sum * 4.0;
+                System.out.printf("i = %6d, pi = %.10f%n", (k + 1), piApprox);
+            }
+        }
+
+        // Part (b): 找到最小的 i，使 pi 四捨五入至小數點後五位等於 3.14159
+        sum = 0.0;
+        for (int k = 0; ; k++) {
+            double term = 1.0 / (2 * k + 1);
+            if (k % 2 == 0) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+            double piApprox = sum * 4.0;
+            long roundedFiveDec = Math.round(piApprox * 100000.0);
+            if (roundedFiveDec == 314159) {
+                System.out.println(); // 輸出前的空行，符合輸出格式
+                System.out.printf("i = %6d%n", (k + 1));
+                break;
+            }
+        }
+    }
+}
+
+說明修改部分與原因：
+- 結構與可讀性
+  - 將程式重構為清楚的分段：part (a) 與 part (b) 各自獨立處理，方便閱讀與維護。
+  - 移除了未使用的 Scanner，避免不必要的資源與混淆。
+  - 使用有意義的變數名稱與註解，提升可讀性。
+  - 改用單一主程式與輔助區塊，方便日後擴充與測試。
+- 正確性與魯棒性
+  - Part (a) 依照題意以 100000 項為上限，輸出每 10000 項的 pi 值，格式符合要求且顯示到小數點後 10 位。
+  - Part (b) 改用穩健的判斷條件：以 piApprox 四捨五入到小數點後五位，等於 3.14159 為條件，找出最小的 i。這比單純檢查整數截斷的方式更穩定，且符合題目「最小 i」的要求。
+- 格式與註解
+  - 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的註解慣例。
+  - 輸出格式與原題相符，i 使用六位數寬度，pi 顯示到小數點後 10 位，並在 part (b) 之前插入空行以符合輸出要求。
+
+一句話改進建議或反饋：
+建議進一步把計算與條件判定分離成獨立方法，並在部份邏輯上改用「四捨五入到五位小數」的穩健判斷，即可提升穩定性與可維護性。

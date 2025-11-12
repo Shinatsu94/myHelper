@@ -1,0 +1,63 @@
+第一行分數（0-100）：8
+
+修改後完整程式碼：
+/*
+檔案名稱: SortArrayAscending.java
+功能: 讀入使用者輸入的任意長度整數陣列，第一個為長度 n，接著輸入 n 個整數，輸出升序排序的陣列內容（以空格分隔）。
+作者: 資訊工程系教授
+日期: 2025-11-12
+說明: 原作為嘗試把陣列內容替換成「之後出現的最大值」，與題目需求不符。此版本改用內建排序，正確且穩健地輸出從小到大排序的結果。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 先讀取長度 n
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        if (n <= 0) {
+            scn.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                a[i] = scn.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(a);
+
+        // 輸出，元素以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+        System.out.println();
+
+        scn.close();
+    }
+}
+
+修改說明：
+- 正確性與邏輯：改用 Arrays.sort(a) 直接對整數陣列進行升序排序，確保符合題目需求，避免原作的「每個元素取之後的最大值再替換」的邏輯錯誤。
+- 輸出格式：改為使用 StringBuilder 並以單一空格分隔輸出，避免前導或尾端多餘空格，且輸出結尾加上換行，符合常見輸出格式。
+- 可讀性與維護性：變數命名更清楚、加入適當註解、並修正程式結構與排版。
+- 程式結構與穩健性：加入對輸入長度與資料不足的處理，並在結束時關閉資源（Scanner）。
+- 註解與檔案資訊：新增完整檔案開頭註解，說明檔案名稱、功能、作者、日期等。
+
+改進建議或反饋（一句話）：
+建議以內建排序（Arrays.sort）完成排序以確保正確性與效率，並加上清晰的輸出格式與完整註解，以提升可讀性與可維護性。

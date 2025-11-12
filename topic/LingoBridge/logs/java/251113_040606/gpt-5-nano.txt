@@ -1,0 +1,41 @@
+2
+
+修改後完整程式碼（優化後，符合題意，直接印出每個字及其對應的內碼）：
+
+```java
+/**
+ * 檔案名稱: CSIE_41343131_0926_2.java
+ * 功能說明: 印出「虎科大」與學生中文姓名中的每個字，並顯示該字的 Unicode 內碼（十進位）。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+
+public class CSIE_41343131_0926_2 {
+    // 輔助方法：印出字串中每個字及其對應的整數編碼
+    private static void printWithCode(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+
+    public static void main(String[] args) {
+        // 先印「虎科大」
+        String tigerDa = "虎科大";
+        // 再印學生中文姓名的各字，範例為「林武杰」
+        String studentName = "林武杰";
+
+        printWithCode(tigerDa);
+        printWithCode(studentName);
+    }
+}
+```
+
+修改說明與原因：
+- 移除了原程式中與題意無關的刪除模擬動畫與隨機進度顯示，直接實作題目要求的輸出，符合正確性需求。
+- 新增一個通用的輔助方法 printWithCode，將「字串中每個字與其內碼」的輸出邏輯獨立出來，提升可讀性與重用性。
+- 使用有意義的變數名稱（tigerDa、studentName、printWithCode），並加入程式註解與檔案頭說明，符合格式與備註的要求，提升維護性。
+- 確保輸出順序符合題意：先虎科大，再印學生姓名的每個字。
+
+一句話改進建議：
+- 若未來需要動態處理不同姓名或支援更複雜的輸出格式，建議再加入輸入機制與錯誤處理，並支援非固定字串的輸出需求。

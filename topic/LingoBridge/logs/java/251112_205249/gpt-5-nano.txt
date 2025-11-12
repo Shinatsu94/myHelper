@@ -1,0 +1,67 @@
+2
+
+評分與理由：
+- 正確性（50%）：0
+  - 程式未依需求實作「任意長度一維陣列排序並輸出」，而是產生並查找一個三角陣列中的數值，與題目需求嚴重不符。
+- 邏輯（30%）：0
+  - 程式邏輯與題意嚴重不符，缺乏排序與輸出結果的邏輯。
+- 格式（10%）：2
+  - 程式有基本縮排與可辨識的變數名稱，但命名和結構可改進，且缺少註解與標頭說明。
+- 備註（10%）：0
+  - 缺少程式檔案註解與元資料說明。
+
+修改說明與改進後程式碼：
+- 變更重點
+  - 重新實作為一維整數陣列的讀取、排序與輸出，符合題目需求。
+  - 使用 1D int[] 陣列儲存輸入的 n 個整數，避免不必要的多維結構。
+  - 使用 Arrays.sort 進行排序，支援負數與任意整數。
+  - 加入清楚的程式檔案註解與有意義的變數命名，提升可讀性與維護性。
+- 修改內容原因
+  - 目標是排序輸入的一維陣列，原程式使用不相關的 2D 三角陣列與查找機制，與需求嚴重不符。
+  - 透過簡單直接的流程，降低複雜度並提升正確性與穩定性。
+  - 增加程式頭註解與清楚命名，符合軟體工程的基本慣例。
+
+修改後完整程式碼（Sort1D.java）：
+/*
+ * File: Sort1D.java
+ * 功能: 讀取整數 n 後，再讀入 n 個整數，將其排序並以空格分隔輸出
+ * 作者: YourName
+ * 日期: 2025-11-12
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Sort1D {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+
+        int length = in.nextInt();
+        int[] numbers = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (in.hasNextInt()) {
+                numbers[i] = in.nextInt();
+            } else {
+                // 若輸入數量不足，預設為 0，避免 ArrayIndexOutOfBounds
+                numbers[i] = 0;
+            }
+        }
+
+        Arrays.sort(numbers);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numbers.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(numbers[i]);
+        }
+
+        System.out.print(sb.toString());
+        in.close();
+    }
+}
+
+改進建議與一語句反饋：
+- 改進建議：可加入更完善的輸入驗證與錯誤處理，並考慮不同輸入格式（如換行分隔、多組測資等）的健壯性。

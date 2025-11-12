@@ -1,0 +1,38 @@
+7
+
+修改後完整程式碼（符合題意，並於程式開頭加入註解、使用就地交換且只用 Scanner 輸入）：
+// File: SwapTwoNumbers.java
+// 功能: 讀入兩個整數 A 和 B，印出原始值，然後在不使用額外變數的情況下交換兩數並印出新值
+// 作者: 教師姓名
+// 日期: 2025-11-11
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+        sc.close();
+
+        // 印出原始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 在不新增其他變數的情況下完成交換（使用加法與減法，避免 temp 變數）
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+    }
+}
+
+修改說明：
+- 針對題目需求，改用兩個變數 A 與 B 直接輸入，並先印出原始值，之後以就地交換的方式交換兩數，最後再印出交換後的值，符合「不使用額外變數進行交換」的限制。
+- 移除了原作中未使用的 digitSum 函式與相關邏輯，避免與本題需求混淆。
+- 在檔案開頭加入程式標頭註解，描述檔案名稱、功能、作者與日期，提升可維護性。
+- 程式變數命名保持清晰（A、B 為輸入變數），並維持適當的縮排與註解。
+
+改進建議或反饋（一句話）：請確保題意與輸出樣本一致，若樣本僅顯示交換後的兩個值，建議在實作與輸出說明中同步說明輸出順序，以免混淆。

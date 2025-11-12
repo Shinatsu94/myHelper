@@ -1,0 +1,36 @@
+總分（第一行單獨列出）: 12
+
+修改後完整程式碼
+/*
+File: CSIE_41343247_0926_3.java
+Name: 盧冠宇
+Student_ID: 41343247
+Description: 印出「虎科大」與學生中文姓名「林武杰」各字的內碼（Unicode 十進位），每行一字與其內碼。
+Date: 2025-11-12
+*/
+public class CSIE_41343247_0926_3 {
+    public static void main(String[] args) {
+        printCharsWithCode("虎科大");
+        printCharsWithCode("林武杰");
+    }
+
+    // 輸出字元及其 Unicode 編碼（十進位）
+    private static void printCharsWithCode(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            int code = (int) ch; // 取得該字的內碼（十進位）
+            System.out.println(ch + " " + code);
+        }
+    }
+}
+
+修改說明（針對原始程式的改動與原因）
+- 正確性：原作業需輸出指定的字與對應的內碼，但學生程式與題意毫無關聯。改用直接輸出「虎科大」與「林武杰」各字及其 Unicode 十進位碼，符合題目需求。
+- 邏輯：改為單一輔助方法 printCharsWithCode，對任意字串逐字輸出其內碼，邏輯清晰且易於維護；避免不必要的使用者輸入與條件判斷。
+- 格式：改善了註解與方法命名，保持一致的縮排與易讀性，程式結構更加清晰。
+- 備註：補充了檔案標頭註解，說明檔名、作者、學號、檔案功能與日期，提升可追溯性與可維護性。
+
+改進建議（一句話）
+提交前請務必與題目需求對照，確保輸出內容與格式完全符合題意，並考慮使用 Unicode 編碼輸出以避免未來在不同字集環境的差異。
+
+說明：這次的原始作業與題意嚴重不符，因此在正確性與邏輯部分給予較低評分；改進後的程式直接實作題目需求，並以清晰結構與註解提升可維護性與可讀性。若要更完整地檢核，也可考慮讓程式自動計算並輸出每個字的 Unicode 碼點，或擴充以支援超出 BMP 的字元（使用 codePointAt 與 charCount 的組合）。

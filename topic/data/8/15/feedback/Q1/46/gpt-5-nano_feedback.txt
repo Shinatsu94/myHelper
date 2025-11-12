@@ -1,0 +1,46 @@
+100
+
+修改後程式碼：
+/**
+ * 程式名稱 : 陣列排序（使用 Arrays.sort）
+ * 功能說明：從使用者讀入長度 n 與 n 個整數，將陣列由小到大排序，並以空格分隔輸出。
+ * 日期 : 2025/11/12
+ * 作者 : 張竣傑（改良版，依需求使用內建排序提高效率與穩定性）
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343224_1031_1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt();
+        int[] array = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            array[i] = in.nextInt();
+        }
+
+        // 使用內建排序，確保正確性與效能
+        Arrays.sort(array);
+
+        // 使用 StringBuilder 一次性輸出，避免多次 System.out.print 的成本
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        in.close();
+    }
+}
+
+修改說明：
+- 將原本的選擇排序改為使用 Arrays.sort，原因是內建排序通常具有更佳的時間複雜度與效能，且程式碼更簡潔，正確性更高。
+- 使用 StringBuilder 組裝輸出，取代在迴圈中逐個輸出的做法，降低 I/O 次數與提升效率。
+- 保留原先的輸入邏輯與輸出格式，仍依序從輸入中讀取長度與元素，輸出時以空白分隔，並在結尾輸出換行，符合一般測資與輸出習慣。
+- 程式標頭、註解與變數命名維持清晰，便於他人閱讀與維護。
+
+一句話改進建議或反饋：
+考慮以內建排序與一次性輸出提升效能與可讀性，未來可直接使用 Arrays.sort 並以 StringBuilder 輸出以避免多次 I/O 呼叫。

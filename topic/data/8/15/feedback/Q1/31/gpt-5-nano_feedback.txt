@@ -1,0 +1,87 @@
+88
+
+評分細項
+- 正確性（50%）: 50
+  程式能正確讀取長度與數值，並以選擇排序由小到大排序，輸出結果符合題意。
+- 邏輯（30%）: 30
+  演算法選用簡單且正確的選擇排序，邏輯清晰、易於理解。
+- 格式（10%）: 8
+  變數命名基本清楚，但函式名稱ss較不具描述性，整體縮排尚可維持一致性；輸出尾端有多餘空格的情況在原作中存在。
+- 備註（10%）: 0
+  未包含程式檔案註解（標頭說明、作者、日期、功能等）。
+
+修改說明與修改後程式碼
+變更重點
+- 增加程式檔案的標頭註解，說明檔名、功能、作者與日期，符合備註要求。
+- 將排序函式改名為 sortArray，提升語意清楚度。
+- 修改輸出格式，避免最後一項後面多餘空格，改以不帶尾隨空格的輸出，並於結尾加上必要的換行或直接結束輸出以符合常見 judged 要求。
+- 加入必要的資源釋放（關閉 Scanner），提升資源管理。
+- 保留原邏輯，但加上適度的內部註解，讓程式更易維護。
+
+修改後完整程式碼（已優化）
+/*
+ * File: CSIE_41343203_1031_1.java
+ * 功能: 讀取整數 n 與 n 個整數，將它們由小到大排序後輸出，元素以空格分隔。
+ * 作者: (請自行填寫)
+ * 日期: 2025-11-12
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n && sc.hasNextInt(); i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        sortArray(arr);
+
+        // 輸出時避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+
+    // 將整數陣列做由小到大排序（選擇排序）
+    private static void sortArray(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+            if (min != i) {
+                int temp = arr[min];
+                arr[min] = arr[i];
+                arr[i] = temp;
+            }
+        }
+    }
+}
+
+改動原因說明
+- 增加標頭註解可提升可維護性與符合作業要求的文件註解規範。
+- 將函式命名改為 sortArray，提高程式可讀性與維護性。
+- 改善輸出格式，避免尾端多餘空格以符合一般自動評測的嚴格匹配。
+- 關閉 Scanner，釋放系統資源，雖然在短暫程式中不致命，但為良好習慣。
+- 保留原有選擇排序邏輯，保持結果正確性與可讀性。
+
+一句話改進建議
+建議在輸出時避免尾端空格並加入完整的檔案註解，以提升可讀性與自動評分的相容性。

@@ -1,0 +1,42 @@
+86
+
+修改後完整程式碼如下（已加入標頭註解、變數命名改為更具意義、移除通用型匯入、保留原本的排序與輸出格式）：
+
+/*
+檔案名稱: CSIE_41343229_1031_1.java
+功能: 讀取第一個整數 n 與後續 n 個整數，將它們升序排序 (由小到大)，並以空白分隔輸出排序結果。
+作者: [作者名字]
+日期: 2025-11-12
+說明: 本程式使用 Arrays.sort 進行排序，並確保支援負數。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343229_1031_1 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            Arrays.sort(arr);
+
+            for (int i = 0; i < n; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(arr[i]);
+            }
+        }
+    }
+}
+
+修改說明與原因：
+- 新增程式標頭註解：符合備註要求，清楚描述檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 變數命名改為 arr：將「a」改為「arr」，讓變數名稱更具語意，便於理解與日後維護。
+- 移除通配符匯入：改為僅匯入必要的 java.util.Arrays 與 java.util.Scanner，提升可讀性與避免不必要的命名衝突。
+- 保留原有邏輯與輸出格式：仍以 Arrays.sort 進行排序，印出時以空白分隔，與題目輸出格式一致；未強制換行以符合範例輸出習慣。
+- 負數支援：採用 Arrays.sort 將整數排序，天然支援負數輸入。
+
+改進建議（一句話）：
+建議在程式標頭加入完整註解並使用更具描述性的變數名稱，以提升可讀性與維護性。

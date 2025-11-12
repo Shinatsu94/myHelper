@@ -1,0 +1,11 @@
+[input]
+123
+
+[output]
+234
+
+[input]
+567
+
+[output]
+678

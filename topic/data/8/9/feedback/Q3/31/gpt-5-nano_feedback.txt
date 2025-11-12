@@ -1,0 +1,38 @@
+6
+
+修改後完整程式碼（可執行版本）
+/*
+檔案名稱: CSIE_41343203_0926_3.java
+功能說明: 印出虎科大與學生姓名的每個字以及對應的Unicode內碼，格式為 "<字> <內碼>"
+作者: 教授
+日期: 2025-11-12
+*/
+public class CSIE_41343203_0926_3 {
+    public static void main(String[] args) {
+        String institution = "虎科大";
+        String studentName = "林杰武";
+
+        // 先輸出虎科大中的每個字及其內碼
+        printCharsWithCode(institution);
+        // 再輸出學生姓名中的每個字及其內碼
+        printCharsWithCode(studentName);
+    }
+
+    // 輔助方法：給定字串，逐字輸出 "<字> <內碼>"
+    private static void printCharsWithCode(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            int codePoint = (int) ch; // 取得該字的Unicode內碼 (十進位)
+            System.out.println(ch + " " + codePoint);
+        }
+    }
+}
+
+調整說明與原因
+- 將原本作業中不相關的分數判定邏輯移除，改以直接輸出題目要求的字串與內碼，符合題意。
+- 將輸出邏輯抽取成輔助方法 printCharsWithCode，提高可讀性與可維護性，若未來需要處理其他字串也可重複使用。
+- 使用清晰具意義的變數名稱（institution、studentName、printCharsWithCode），提升可讀性。
+- 加上完整的程式標頭註解，符合備註評分項的需求，方便他人理解檔案內容與用途。
+
+改進建議（一句話）
+建議在正式提交時，依題意固定字串與輸出格式，並考慮支援更多字元（例如超出基本多語言平面的字元）時的編碼處理與測試。

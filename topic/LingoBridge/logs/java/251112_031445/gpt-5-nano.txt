@@ -1,0 +1,43 @@
+81
+
+- 正確性: 46/50
+- 邏輯: 26/30
+- 格式: 9/10
+- 備註: 0/10
+
+修改後完整程式碼與修改原因如下：
+
+修改後程式碼（使用 XOR 交換，避免 A+B 可能的溢位；加入檔案標頭與 try-with-resources 確保 Scanner 自動關閉）：
+
+/*
+檔案名稱: CSIE_41343236_1003_1.java
+功能: 讀入兩個整數，交換它們的值，並印出交換後的結果
+作者: 你的名字
+日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class CSIE_41343236_1003_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources，避免忘記關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+
+            // 使用位元運算交換，避免 A+B 可能溢位
+            A = A ^ B;
+            B = A ^ B;
+            A = A ^ B;
+
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}
+
+修改原因說明：
+- 使用 XOR 交換可避免 A + B 可能發生的整數溢位風險，符合「不可使用額外變數」的限制同時提升穩定性。
+- 加入檔案標頭註解與清楚的內部註解，提升程式的可讀性與維護性；使用 try-with-resources 確保 Scanner 在結束後自動關閉，避免資源洩漏。
+
+改進建議或反饋（一句話）：
+若未來輸入範圍可能超過 int 的表示，建議改用 long 並相應調整交換邏輯，或在必要時採用更健全的輸入驗證與例外處理。

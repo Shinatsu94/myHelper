@@ -1,0 +1,67 @@
+88
+
+- 正確性：50/50
+- 邏輯：30/30
+- 格式：8/10
+- 備註：0/10
+
+修改與優化說明
+- 主要改進點
+  - 增加標頭註解，清楚說明檔案名稱、功能、作者與日期。
+  - 改用 Java 標準函式 Arrays.sort 進行排序，提升可讀性、穩定性與正確性，同時簡化程式碼。
+  - 輸出加入換行，並避免在極端輸入情況下的未預期行為（如空輸入時的處理）。
+  - 以更嚴謹的輸入處理與結尾資源釋放（關閉 Scanner）提升健壯性。
+- 為何這樣修改
+  - Arrays.sort 內部實作經過優化，且對負數與整數排序正確性高，能降低自寫排序邏輯的錯誤風險。
+  - 加上標頭與註解有助於維護與評分時的可讀性與說明性。
+  - 對於空輸入或負長度的情況，加入保護性處理避免例外發生。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343101_1031_1.java
+ * 功能: 讀取長度 n 與 n 個整數，輸出升序排列結果
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343101_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 輸出空行，結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
+
+改動原因簡述
+- 使用 Arrays.sort 提升可讀性與穩定性，並確保負數與各種整數的排序正確。
+- 加入標頭註解與適當的輸出格式，提升可維護性與符合作業要求。
+
+改進建議（一句話）
+建議繼續採用內建排序與完善的程式標頭註解，以提升可讀性與維護性，並在輸出末尾固定換行以符合常見輸出格式。

@@ -1,0 +1,59 @@
+85
+正確性: 50
+邏輯: 28
+格式: 7
+備註: 0
+修改後程式碼與說明：
+以下為優化後的完整程式碼。改動重點包含：使用 Arrays.sort 取代自製排序以確保正確性與效率；加入標頭註解與更清晰的變數命名；改善輸出格式與程式結構；加入對 n 的檢查與資源關閉，提升健壯性。
+
+/**
+ * File: SortArrayAscending.java
+ * 功能: 依序讀入長度與元素，輸出升序排序的陣列
+ * 作者: 徐唯祐
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        if (n <= 0) {
+            // 若長度為 0，直接結束
+            scn.close();
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                a[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                a[i] = 0;
+            }
+        }
+
+        // 使用內建排序提升穩定性與效能
+        Arrays.sort(a);
+
+        // 使用 StringBuilder 組裝輸出，避免多次字串拼接
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}
+
+一句話改進建議或反饋：
+建議以內建排序（Arrays.sort）取代自訂排序，搭配良好命名與補充註解，以提升可讀性與穩健性。

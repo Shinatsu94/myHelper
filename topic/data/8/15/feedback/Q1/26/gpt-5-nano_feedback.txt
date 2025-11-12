@@ -1,0 +1,71 @@
+85
+
+評分明細
+- 正確性: 50/50
+- 邏輯: 28/30
+- 格式: 7/10
+- 備註: 0/10
+總分: 85/100
+
+修改說明與改進理由
+- 新增程式檔案標頭註解，清楚說明檔案名稱、功能、作者和日期，提升可讀性與維護性。
+- 將排序演算法改成標準的選擇排序，內層迴圈改為從 i+1 開始尋找最小值並一次交換，避免不必要的比較與不直觀的交換步驟。
+- 交換使用暫存變數 tmp，避免可能的溢位風險與不直覺的數學交換式。
+- 使用 StringBuilder 組裝輸出，提升輸出效能；輸出結尾加上換行以符合常見輸出格式。
+- 關閉 Scanner，避免資源未釋放的情況。
+- 增加對輸入少於預期的保護性檢查，穩定性提高。
+
+修改後完整程式碼
+/*
+File: CSIE_41343136_1031_1.java
+Description: 讀取整數 n，接著讀入 n 個整數，排序成升冪，輸出排序結果。
+Author: 你的名字
+Date: 2025-11-12
+*/
+import java.util.Scanner;
+
+public class CSIE_41343136_1031_1
+{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 選擇排序：每次選出未排序部分的最小值，放到前方
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            if (minIdx != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIdx];
+                arr[minIdx] = tmp;
+            }
+        }
+
+        // 輸出排序結果，元素以空格區隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        System.out.println();
+
+        sc.close();
+    }
+}
+
+一句話改進建議
+- 建議直接使用 Arrays.sort 來排序，以簡化程式並提高穩定性與效能，若學習需求允許可視情境保留自寫排序。

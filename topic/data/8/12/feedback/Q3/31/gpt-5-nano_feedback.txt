@@ -1,0 +1,65 @@
+總分: 4
+
+評分與說明
+- 正確性(50%): 0
+  - 提交的程式與題目需求毫無關聯，未計算 pi 或輸出指定格式的結果。
+- 邏輯(30%): 0
+  - 程式未呈現解題邏輯，僅做數字反轉，與題意完全不符。
+- 格式(10%): 2
+  - 程式具基本結構與縮排，但命名與排版未符合題意的輸出格式要求，與題目需求不一致。
+- 備註(10%): 2
+  - 未提供與題意相符的註解與檔案說明，建議加上標頭註解與必要說明。
+
+修改與優化建議的程式碼（完整可直接執行）：
+// File: LeibnizPi.java
+// 功能: 計算 Leibniz 求 pi 的近似值，並輸出指定格式的結果
+// 作者: 教師自行提供
+// 日期: 2025-11-12
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // Part (a): 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
+        double sum = 0.0;
+        int sign = 1;
+        StringBuilder sb = new StringBuilder();
+        int maxI = 100000;
+        for (int k = 0; k < maxI; k++) {
+            sum += sign * 1.0 / (2 * k + 1);
+            sign = -sign;
+            int i = k + 1;
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                sb.append("i = ").append(String.format("%6d", i))
+                  .append(", pi = ").append(String.format("%.10f", pi))
+                  .append(System.lineSeparator());
+            }
+        }
+        System.out.print(sb.toString());
+        System.out.println();
+
+        // Part (b): 找到最小的 i 使 pi >= 3.14159
+        sum = 0.0;
+        sign = 1;
+        int i;
+        for (i = 1; ; i++) {
+            sum += ((i % 2 == 1) ? 1.0 : -1.0) / (2 * i - 1);
+            double pi = 4.0 * sum;
+            if (pi >= 3.14159) {
+                break;
+            }
+        }
+        System.out.println("i = " + String.format("%6d", i));
+    }
+}
+
+修改內容與原因說明：
+- 移除不必要的輸入需求，改為直接輸出題目指定的內容，符合題意的輸出格式與流程。
+- Part (a) 採用單一累加變數 sum 逐步累計到 100000 項，並在每 10000 項時輸出當前的 i 與 pi，避免重複從頭計算，提升效率。
+- Part (b) 以獨立迴圈從 i=1 開始逐項累加，直到 pi >= 3.14159，得到最小的 i，符合題目的要求。
+- 輸出格式控制：
+  - i 使用寬度 6 的格式化輸出，符合題目所需的「i 顯示到6位數」要求。
+  - pi 使用小數點後 10 位輸出，符合題目「pi 顯示到小數點後10位」。
+  - 運用空白與換行符號確保輸出格式與範例一致，包含中間空行分隔。
+
+改進建議與回饋（一句話）：
+- 建議在實作時先以題意逐條驗證輸出格式與計算流程，再以單一 pass 的累加策略提升效率，這份優化版已更貼近題意且具有良好的可讀性與性能。

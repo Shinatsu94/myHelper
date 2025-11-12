@@ -1,0 +1,56 @@
+6
+
+修改後完整程式碼（新版本，符合題目需求）：
+```java
+/*
+File: ArraySortAscending.java
+功能: 讀取一個整數 n，接著讀入 n 個整數，將它們升冪排序後輸出為單行，以空白分隔。
+作者: 教師
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (!sc.hasNextInt()) {
+                // 不足的輸入直接結束
+                return;
+            }
+            arr[i] = sc.nextInt();
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明與原因：
+- 改回應題目需求核心：原程式與題意無關，改成讀取一維整數陣列並進行升冪排序。
+- 輸入方式與資料型態：改用整數型 int，支援負數，先讀取長度 n，接著讀入 n 個整數，避免依賴 EOF 或額外數字。
+- 排序演算法：使用 Arrays.sort 提供穩定且高效的升冪排序，簡化邏輯並降低錯誤機率。
+- 輸出格式：輸出以單行、元素之間以空格分隔，避免多餘空格與尾字元，符合題目輸出樣例。
+- 程式結構與命名：檔案名稱與 public 類別名稱對應，並新增標頭註解，提升可讀性與維護性。
+
+One-sentence 改進建議：
+建議加上標頭註解並確保輸入輸出格式嚴格符合題目要求，以提升可讀性與評分一致性。

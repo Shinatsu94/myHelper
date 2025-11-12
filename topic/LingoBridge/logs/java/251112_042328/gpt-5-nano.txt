@@ -1,0 +1,38 @@
+4
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343219_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 原始值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數、僅用 A、B 進行交換（XOR 交換法）
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 交換後輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 正確性與邏輯
+  - 針對題意，改為一次讀入兩個整數 A、B，分別印出原值，然後在不新增其他變數的前提下完成交換並再印出兩個值。採用位元異或交換法（XOR swap）以避免額外變數，且不會因資料型別轉換而造成額外開銷。
+- 格式與命名
+  - 使用具有意義的變數名稱 A、B，並保持適當的縮排與註解，提升可讀性。程式碼語法正確且可執行。
+- 備註
+  - 新的版本加入說明性註解，並保留清晰的結構；可考慮在檔案開頭加入檔案名稱（Class 名稱）與作者、日期等標頭註解，以符合備註需求。
+
+改進建議（一句話）：
+- 建議在程式開頭加入標頭註解與說明，以利維護與評分，同時保留清晰的變數命名與註解，並確保交換方法符合題目限制且不易造成溢位風險。

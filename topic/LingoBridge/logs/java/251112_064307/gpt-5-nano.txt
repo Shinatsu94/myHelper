@@ -1,0 +1,76 @@
+6
+
+評分與理由
+- 正確性（50%）：0
+  - 提交的程式與題目需求完全不符，未計算或輸出 pi、也未依題意印出 i 的對應值與格式。
+- 邏輯（30%）：0
+  - 程式邏輯與題意無關，僅進行整數反轉，與本題之「Leibniz 公式求 pi」沒有邏輯連結。
+- 格式（10%）：6
+  - 程式本身有基本可讀性與縮排，但與題目需求無關；缺乏與題目輸出格式直接相關的條件處理與註解。
+- 備註（10%）：0
+  - 缺乏檔案名稱、功能、作者、日期等程式標頭註解，以及對主要邏輯的註解說明。
+
+修改建議與原因
+- 針對題目需求，改回寫一份能計算 Leibniz 公式、輸出 i=10000,20000,...,100000 對應 pi 值（小數點十位）、以及最小 i 使 pi 等於 3.14159 的程式，並附上適當的程式標頭註解與內部註解，以便批改與維護。
+
+修改後完整程式碼（可直接執行，輸出格式符合題目要求）
+```java
+/*
+ * 檔案名稱: LeibnizPiCalculator.java
+ * 功能: 使用 Leibniz 公式計算圓周率 pi：
+ *       pi = 4 * (1 - 1/3 + 1/5 - 1/7 + ... + (-1)^(n-1) / (2n-1))
+ *       輸出 i = 10000, 20000, ..., 100000 時對應的 pi（保留 10 位小數）
+ *       並找出最小的 i 使 pi 接近 3.14159（容差 1e-5）
+ * 作者: 你的名字
+ * 日期: 2025-11-11
+ */
+public class LeibnizPiCalculator {
+    public static void main(String[] args) {
+        final long STEP = 10000;      // 每次輸出時的 i 間隔
+        final long MAX_I_PART_A = 100000; // (a) 的最後一個 i
+        final long MAX_I_PART_B = 200000; // 為了尋找 (b) 的 i，設為較大的上限
+        final double TARGET = 3.14159;    // (b) 目標 pi
+        final double TOL = 1e-5;            // 容許的誤差
+
+        // 累加的和，從 i = 1 開始逐項累加
+        double sum = 0.0;
+        long minIForTarget = -1;
+
+        // 逐次增加 i，使用自左至右累加的方式，避免重複計算
+        for (long i = 1; i <= MAX_I_PART_B; i++) {
+            // 第 i 項的符號與分母：( -1 )^(i-1) / (2i - 1)
+            double term = (((i & 1) == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
+            sum += term;
+
+            // 輸出 Part (a) 的 pi 值，僅在 i 為 10000, 20000, ..., 100000 時輸出
+            if (i % STEP == 0 && i <= MAX_I_PART_A) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+
+            // 找出最小的 i，使 pi 接近 TARGET（容差 TOL）
+            double currentPi = 4.0 * sum;
+            if (minIForTarget == -1 && Math.abs(currentPi - TARGET) <= TOL) {
+                minIForTarget = i;
+            }
+        }
+
+        // 輸出 (b) 的結果：最小 i
+        if (minIForTarget != -1) {
+            System.out.println("i = " + minIForTarget);
+        } else {
+            // 若未找到，保守輸出 -1 作為標識
+            System.out.println("i = -1");
+        }
+    }
+}
+```
+
+修改說明與重點
+- 改用 Leibniz 公式逐項計算，並以累加方式逐步求出 pi 值，能正確對應題目之 i 值與輸出格式。
+- 透過分段輸出與格式化輸出，滿足題目「i 顯示到6位數、pi 顯示到小數點后10位」的要求，同時確保輸出行格式符合樣例。
+- 增加程式標頭註解與程式內部註解，提升可讀性與可維護性。
+- 為提升效率，採用逐項累加而不是每次從頭計算，並以單一迴圈完成 a、b 兩個需求的計算，方便批改與擴充。
+
+改進建議（簡要）
+- 後續可加入單元測試，驗證不同 i 的 pi 值是否符合預期，並可提供更高精度的浮點運算測試與誤差分析，或改用 BigDecimal 等高精度數值以提高穩定性。

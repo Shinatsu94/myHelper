@@ -1,0 +1,45 @@
+3
+
+修改後完整程式碼（已符合題意並附上說明）：
+
+/*
+ File: SwapTwoNumbers.java
+ 功能: 讀入兩個整數 A, B，先印出原值，之後在不使用額外變數的情況下交換兩數，最後再印出交換後的值。
+ 作者: 教師
+ 日期: 2025-11-11
+ 說明: 使用位元運算 XOR 交換法，避免使用其他臨時變數。
+*/
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 原始值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，使用 XOR 交換
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 交換後的值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 將原作業內容改為符合題意的功能：原作業僅讀取一個數字並進行不相關的判斷，與題目要求「讀入兩個數字並印出、再交換並印出」嚴重不符，因此必須重新實作。
+- 新增兩個變數 A、B，分別接收使用者輸入，並先分別輸出其原始值，符合題目第一步要求。
+- 在不使用額外變數的前提下完成交換：採用 XOR 交換法 A = A ^ B; B = A ^ B; A = A ^ B；符合題目的「不可使用其他變數進行數字交換」限制。
+- 增加標頭註解：說明檔案名稱、功能、作者、日期，並註明使用的交換方法，提升可讀性與維護性。
+- 程式格式與命名：採用清楚的類別名稱 SwapTwoNumbers，並添加適當註解與結構，提升可讀性與格式規範性。
+
+一句話改進建議或反饋：
+建議在提交作業時，直接實作符合題意的功能，並加上清晰註解與標頭，避免包含與題目不相關的演算法與變數。

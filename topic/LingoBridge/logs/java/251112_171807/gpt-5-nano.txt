@@ -1,0 +1,47 @@
+18
+
+修改後完整程式碼如下（已優化成排序並符合題意，支援負數，並符合一般競賽輸出格式）：
+/*
+ filename: Main.java
+ function: 讀入使用者輸入的任意長度一維陣列，先讀取長度再讀入元素，輸出排序後的內容（由小到大）
+ author: 你的教授助理
+ datetime: 2025/11/12
+ version: 1.1
+*/
+public class Main {
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // 使用內建排序，簡潔且正確地處理負數與任意長度
+        java.util.Arrays.sort(array);
+
+        // 印出排序後的結果，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 將原本自訂的「把每個元素替換為其右側最大值」邏輯改成直接使用 Arrays.sort 進行整數排序，直接滿足題目需求（由小到大排序），也避免邏輯錯誤與難以維護的替換演算法。
+- 類別名稱改為 Main 並移除不必要的包裝，符合大多數線上評測系統的執行要求與命名規範。
+- 使用 Arrays.sort 能正確處理負數與任意長度陣列，穩定且效能良好。
+- 增加清晰的輸入輸出處理，避免多餘輸出，且使用 StringBuilder 連接輸出以避免尾端多餘空格。
+- 程式標頭加入說明，並保留原始的注釋風格，讓程式說明更清楚，便於維護。
+
+一句話改進建議/回饋：
+- 以內建排序取代自訂替換邏輯，能提升正確性與可維護性，且在負數與大資料量情況下也更穩定。

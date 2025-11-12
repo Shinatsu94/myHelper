@@ -1,0 +1,90 @@
+7
+
+作業評分與修改建議
+- 正確性 0/50
+- 邏輯 0/30
+- 格式 6/10
+- 備註 1/10
+總分 7/100
+
+修改後程式碼（完整程式）與說明
+修改說明要點：
+- 完全改寫成「讀取任意長度的一維整數陣列，依序排序，輸出升序結果」的需求。
+- 使用穩健的輸入方式，支援分行或同一行多個數字的輸入。
+- 使用 Arrays.sort 進行整數排序，確保效率與正確性。
+- 輸出格式改為以空格分隔，且避免尾端多餘空白，符合範例輸出格式。
+- 加上適當的程式檔案註解與清楚的變數命名。
+
+修改後完整程式碼如下：
+
+/*
+File: ArraySortAscending.java
+Description: 讀取使用者輸入的長度 n 與 n 個整數，將這 n 個整數升序排序後輸出，元素可為負數。
+Author: 你的教授
+Date: 2025-11-12
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class ArraySortAscending {
+    // 簡單的快速輸入工具，能處理多行輸入與不同分隔符號
+    private static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+        FastScanner() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+        String next() throws IOException {
+            while (st == null || !st.hasMoreElements()) {
+                String line = br.readLine();
+                if (line == null) return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            FastScanner fs = new FastScanner();
+            String nStr = fs.next();
+            if (nStr == null) {
+                return; // 沒有輸入直接結束
+            }
+            int n = Integer.parseInt(nStr);
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                String s = fs.next();
+                if (s == null) {
+                    System.err.println("輸入不足，缺少數字。");
+                    return;
+                }
+                arr[i] = Integer.parseInt(s);
+            }
+
+            // 排序
+            Arrays.sort(arr);
+
+            // 輸出，元素間以空格分隔，避免尾端多餘空白
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.print(sb.toString());
+        } catch (Exception e) {
+            System.err.println("輸入格式錯誤或資料不足。");
+        }
+    }
+}
+
+修改部分原因說明：
+- 代替原本的 3x3 矩陣逆矩陣邏輯，改為通用的動態長度排序，因題目需求為任意長度的一維陣列排序。
+- 使用簡潔高效的排序機制 Arrays.sort，確保正確性與效率。
+- 輸入處理採用自訂的 FastScanner，能正確讀取分行與各種空白字元，且可處理負數，提升魯棒性。
+- 輸出格式調整成單行且數字間以單一空格分隔，符合示例輸出。
+- 增加檔案頭註解與清楚的變數命名，提高可維護性與可讀性。
+
+改進建議（一句話）
+- 建議加入基本的輸入驗證（例如檢查 n 的範圍與實際讀取數字的數量），並考慮在遇到錯誤時給予明確的回饋訊息與穩健的退出機制。

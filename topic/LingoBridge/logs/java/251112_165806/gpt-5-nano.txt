@@ -1,0 +1,75 @@
+88
+
+修改後完整程式碼：
+```java
+/*
+ * 檔案名稱: CSIE_41343217_1031_1.java
+ * 功能說明: 讀取整數 n，接著讀入 n 個整數，將陣列內容升序排序，並輸出排序後的結果（以空格分隔）。
+ * 作者: (你的姓名)
+ * 日期: (日期)
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_1 {
+
+    public static void main(String[] args) {
+        // 建立 Scanner 物件，用於讀取使用者輸入
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        int n = sc.nextInt();
+
+        // 只使用一個陣列來儲存輸入的整數
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 對陣列 a 進行排序
+        selectionSort(a);
+
+        // 印出排序後的陣列
+        printArray(a);
+
+        // 關閉 Scanner
+        sc.close();
+    }
+
+    // 選擇排序 (Selection Sort) 的實作方法
+    public static void selectionSort(int[] a) {
+        int n = a.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            // 交換 a[i] 與 a[minIdx]
+            int tmp = a[i];
+            a[i] = a[minIdx];
+            a[minIdx] = tmp;
+        }
+    }
+
+    // 印出陣列內容的方法，元素之間以單一空格分隔
+    public static void printArray(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(a[i]);
+        }
+        System.out.println();
+    }
+}
+```
+
+修改說明與原因：
+- 加入檔案開頭的標頭註解，包含檔案名稱、功能、作者與日期，符合備註要求，提升可維護性與可閱讀性。
+- 移除不必要的 original 陣列，改為僅用單一陣列 a 儲存輸入，減少記憶體使用與避免混淆，也提升程式整體清晰度。
+- 保持原有的選擇排序法（Selection Sort），保留簡單且可理解的排序邏輯；並在交換時使用常見的三步驟寫法，提升可讀性。
+- 簡化輸出函式 printArray：改用先檢查是否為第一個元素再決定是否印空格的策略，讓輸出格式更穩定且避免在最後再額外處理逗號/空格，提升可讀性與一致性。
+
+一句話改進建議或反饋：
+- 建議在提交時加入完整的檔案標頭註解並移除未使用的變數，以提升程式風格與可維護性。

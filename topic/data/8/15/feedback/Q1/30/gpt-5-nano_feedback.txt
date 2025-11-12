@@ -1,0 +1,80 @@
+87
+
+修改後完整程式碼（已優化與加上註解與更清晰命名）：
+
+```java
+/*
+ * File: CSIE_41343202_1031_1.java
+ * 功能: 依序輸入長度與整數，建立一維陣列並進行升序排序，輸出排序後結果。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343202_1031_1 {
+
+    // 使用簡單的選擇排序算法，將陣列 arr 由小到大排序
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[min]
+            int temp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int length = 0;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        }
+
+        // 避免負數長度造成異常
+        if (length < 0) {
+            length = 0;
+        }
+
+        int[] array = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，缺省為 0
+                array[i] = 0;
+            }
+        }
+
+        selectionSort(array);
+
+        // 輸出排序後的陣列
+        for (int i = 0; i < length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
+```
+
+修改說明與原因：
+- 將不具描述性的函式名稱 SS 改為 selectionSort，提升可讀性與維護性，符合「邏輯」與「格式」標準。
+- 移除未使用的 originalArray 變數，避免混淆與無效資源，符合格式與清晰度。
+- 增加檔案頭註解與程式內部註解，提升備註分數並幫助他人理解程式用途與邏輯。
+- 增加對輸入的基本檢查與健壯性處理（length 的負數處理、未足輸入時的默認值），避免極端情況造成例外。
+- 輸出格式調整，使輸出在元素之間僅有單一空格，且在結尾換行，符合題目輸出格式要求。
+
+改進建議（用一句話）：
+建議在實作時使用更具描述性的命名並加入完整註解，同時避免未使用變數，以提升程式的可讀性與可維護性。

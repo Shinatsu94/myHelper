@@ -1,0 +1,79 @@
+89
+
+評分與評論
+- 正確性 (50/50)：程式能正確讀取長度與元素，使用選擇排序從小到大排序，並輸出以空格分隔的結果。對負數亦無問題。
+- 邏輯 (30/30)：採用合理且正確的排序邏輯（選擇排序），能在任意長度陣列上運作，輸出格式正確。
+- 格式 (9/10)：變數名稱具備意義（array、minIdx、tmp 等），縮排與圈邏輯清楚。原程式的命名與排版略顯零碎，經重整後表現更一致。
+- 備註 (0/10)：原程式缺少程式頭註解與檔案相關註解，未顯示檔案名稱/功能/作者/日期等，故此項給分為 0。
+
+原作業總分：89/100
+
+修改說明與優化點
+- 將類別名稱改為 Main，符合 Java 主流執行環境的預設需求，並方便在大多數編譯環境直接執行。
+- 加入檔案頭註解，說明檔案名稱、功能、作者、日期等，提高可維護性。
+- 加入適當的程式結尾換行與資源釋放（關閉 Scanner）。
+- 增加對 n <= 0 的防護，避免不合理輸入造成錯誤。
+- 使用 StringBuilder 組裝輸出字串，避免在迴圈中頻繁呼叫 println/printf，提升效率與輸出穩定性。
+- 保留原有的排序演算法（選擇排序）以符合題意並便於理解；若未來需要更高效排序，可再改為 Arrays.sort。
+
+修改後完整程式碼（已優化）
+
+```java
+/*
+File: Main.java
+Description: 讀入長度與元素，將元素升序排序，並以空格分隔輸出。
+Author: 故筆者
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+
+        int n = in.nextInt();
+        if (n <= 0) {
+            in.close();
+            System.out.println();
+            return;
+        }
+
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = in.hasNextInt() ? in.nextInt() : 0;
+        }
+
+        // 選擇排序：由小到大
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (array[j] < array[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            int tmp = array[minIdx];
+            array[minIdx] = array[i];
+            array[i] = tmp;
+        }
+
+        // 輸出結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        in.close();
+    }
+}
+```
+
+一句話改進建議
+- 若非必須保留自訂排序演算法，可考慮使用 Arrays.sort 以簡化程式並提升執行效率與穩定性，同時維持正確的輸入輸出格式。

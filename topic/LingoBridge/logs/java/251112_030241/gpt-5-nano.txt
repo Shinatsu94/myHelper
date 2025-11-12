@@ -1,0 +1,43 @@
+80
+
+- 正確性: 50/50
+- 邏輯: 25/30
+- 格式: 5/10
+- 備註: 0/10
+
+修改後完整程式碼（符合題目要求，並提升可讀性與註解）：
+/*
+ * 檔案名稱: SwapTwoNumbers.java
+ * 功能說明: 讀入兩個整數，交換兩值後輸出。遵循不使用第三變數進行交換的約束，使用 XOR 交換法。
+ * 作者: CSIE_41343215
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入兩個整數，並以具代表性的變數名稱命名
+        int firstNumber = scanner.nextInt();
+        int secondNumber = scanner.nextInt();
+
+        // 使用不會用到額外變數的 XOR 交換法，交換兩個變數的值
+        firstNumber = firstNumber ^ secondNumber;
+        secondNumber = firstNumber ^ secondNumber;
+        firstNumber = firstNumber ^ secondNumber;
+
+        // 依題目需求，交換後分別輸出兩個值
+        System.out.println(firstNumber);
+        System.out.println(secondNumber);
+    }
+}
+
+修改說明與原因：
+- 將變數名稱由 a、b 改為 firstNumber、secondNumber，使變數命名更具語意，提升可讀性與維護性。
+- 新增檔案級註解，包含檔名、功能、作者、日期，符合備註項目需求。
+- 保留 XOR 交換法以符合題目「不可使用其他變數進行交換」的限制，同時加上註解說明原因與作法，讓他人易於理解。
+- 保持與原作相同的輸出順序（交換後的值），符合提供的輸出範例。
+
+改進建議或反饋（一句話）：
+若題目允許，為提升可讀性可選用清楚的變數名稱與必要的註解，而若允許使用臨時變數，使用簡單的暫存變數會讓程式更直覺易懂。

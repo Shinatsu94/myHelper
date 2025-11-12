@@ -1,0 +1,65 @@
+9
+
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 7/10
+- 備註: 2/10
+
+修改後完整程式碼與說明如下：
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: ArraySortAscending.java
+ * 功能說明: 讀取長度 n，接著讀入 n 個整數，將整數以升冪排序，最後輸出排序結果（以空格分隔）。
+ * 作者: 說明者
+ * 日期: 2025-11-12
+ */
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，補 0 並結束
+                arr[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出結果，數字以空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 重新實作核心需求：原程式與題目不符，實作應該是讀入長度、再讀入對應數量的整數，做升序排序並輸出；使用了不相關的「找數字在三角矩陣的座標」的邏輯，無法通過測資。
+- 使用標準排序：採用 Arrays.sort(int[]) 直接對整數陣列排序，簡潔且正確，且支援負數。
+- 輸入與輸出設計：使用 Scanner.nextInt 系列輸入，對空白與換行皆友善；輸出使用空格分隔且於結尾換行，符合題目輸出格式。
+- 程式結構與命名：加入標頭註解說明檔案名稱、功能、日期與作者；變數命名具備語意（array、n），提升可讀性。
+- 設計健全性：加入簡易的輸入驗證（判斷是否有整數輸入）、避免未預期輸入造成例外；並在完成後關閉 Scanner。
+
+一句話改進建議：
+若要更穩健，建議再加上輸入長度 n 的範圍驗證與例外處理，避免極端輸入造成非預期行為。

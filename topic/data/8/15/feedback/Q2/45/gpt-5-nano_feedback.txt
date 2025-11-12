@@ -1,0 +1,66 @@
+14
+
+修改後完整程式碼（優化後的正確實作）
+```java
+/*
+檔案名稱: Main.java
+功能: 依題意讀取整數長度 n 與 n 個整數，將陣列由小到大排序，輸出排序後內容
+作者: 教師
+日期: 2025-11-12
+說明: 使用 Arrays.sort 進行升冪排序，處理負數與不同輸入情況，並加入基本容錯與清晰註解
+*/
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            // 沒有有效輸入，結束
+            System.out.println();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 若 n 為負，視為無效輸入，直接結束
+        if (n <= 0) {
+            System.out.println();
+            return;
+        }
+
+        int[] a = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                a[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(a);
+
+        // 輸出，元素以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明（重點修正與原因）
+- 取代原本錯誤的就地排序邏輯：原程式使用奇怪的右邊最大值動態替換，且將最後一格設為 -1，會造成輸出不正確且與題意不符。改用 Arrays.sort 直接對整數陣列進行升冪排序，確保正確性與穩定性。
+- 加入輸入容錯與邊界處理：處理 n <= 0 的情況，以及檢查輸入是否有足夠的整數。如果輸入不足時提供預設值，避免例外中斷。
+- 提升可讀性與可維護性：使用清晰變數命名、適當註解、避免奇異的硬編碼（如 -1），使程式更易於理解與測試。
+- 程式標頭與註解：新增檔案頭註解，描述檔案名稱、功能、作者與日期，符合備註要求的註解規範。
+
+改進建議（單一句話）
+- 建議始終使用標準排序函式（如 Arrays.sort）並結合基本的輸入檢查與單元測試，以保證在各種負數與邊界輸入下皆能正確輸出期望結果。

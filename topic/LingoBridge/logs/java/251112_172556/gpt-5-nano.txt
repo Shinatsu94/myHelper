@@ -1,0 +1,52 @@
+7
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343131_1031_2 {
+    /**
+     * 文件名稱：CSIE_41343131_1031_2.java
+     * 功能描述：讀取一個整數 n，接著讀入 n 個整數，將它們由小到大排序，並輸出排序結果。
+     * 作者：歷史題目教學用例
+     * 日期：2025-11-12
+     */
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = 0;
+        if (in.hasNextInt()) {
+            n = in.nextInt();
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                a[i] = in.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 直接使用內建排序，確保正確與效率
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.println(sb.toString());
+        in.close();
+    }
+}
+
+說明修改部分的原因：
+- 正確性與穩定性：原本的 strange_sort 函式會覆寫陣列元素且最後再放置 -1，導致結果錯誤且輸出非升序。改為使用 Arrays.sort 進行整數的升序排序，確保能正確處理任意長度與包含負數的情況。
+- 邏輯清晰度：移除原本的自訂排序邏輯與不合適的結果處理，改用成熟的排序函式，讓程式邏輯更簡單、易於維護。
+- 格式與可讀性：加入程式標頭註解，統一命名與縮排風格，並將輸出格式固定為以單一空格分隔、尾端換行，符合題目輸出格式。
+- 備註與健壯性：針對輸入不足時提供預設值（0），避免拋出例外；使用資源管理（關閉 Scanner）以釋放資源。
+
+改進建議/反饋一句話：
+建議以內建的排序函式做排序，並補上標頭註解與一致的輸出格式，以提升正確性、可讀性與維護性。

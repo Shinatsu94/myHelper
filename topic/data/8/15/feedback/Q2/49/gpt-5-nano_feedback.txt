@@ -1,0 +1,42 @@
+4
+
+修改後完整程式碼：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+ * 檔案名稱: CSIE_41343229_1031_2.java
+ * 功能: 對輸入的整數陣列進行升冪排序並輸出
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 註解: 使用 Arrays.sort 進行排序，確保正確性與效率；輸出格式以空格分隔，無多餘空格。
+ */
+public class CSIE_41343229_1031_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) return;
+            int n = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextInt();
+            }
+
+            Arrays.sort(a);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.print(sb.toString());
+        }
+    }
+}
+
+修改說明：
+- 將原先以自訂的「逐步追溯最大右值」邏輯改為使用 Arrays.sort 直接對整數陣列升冪排序，理由是原本的邏輯無法正確產生排序結果，且在含有多種數值（含負數）時容易產生錯誤；使用內建排序可保證正確性與效能。
+- 加入清晰的檔案頭註解與外部說明，方便維護與評分。
+- 輸出格式改為以單一空格分隔，避免尾端多餘空格，符合題意。
+
+改進建議或反饋（一句話）：
+本次作業核心問題在於排序邏輯，建議直接採用內建排序函式並加上適當註解與輸出格式控制，以確保正確性與可讀性。

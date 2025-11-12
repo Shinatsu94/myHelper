@@ -1,0 +1,61 @@
+92
+
+修改後完整程式碼（已優化，分離排序與輸出，使用更清晰的命名與實作方式）：
+
+import java.util.Scanner;
+/*
+    filename: CSIE_41143122_1031_1.java
+    function: 讀入使用者輸入的任意長度一維陣列，先輸入長度再輸入內容，使用 selection sort 將陣列由小到大排序，最後輸出排序後的內容
+    author: 林柏儒 資工四甲 41143122
+    datetime: 2025/10/31
+     version: 1.1
+*/
+public class CSIE_41143122_1031_1 {
+    // 使用 Selection Sort 將整數陣列由小到大排序，但不輸出
+    public static void selectionSort(int[] array) {
+        for (int j = 0; j < array.length - 1; j++) {
+            int minIndex = j;
+            for (int i = j + 1; i < array.length; i++) {
+                if (array[i] < array[minIndex]) {
+                    minIndex = i;
+                }
+            }
+            int temp = array[j];
+            array[j] = array[minIndex];
+            array[minIndex] = temp;
+        }
+    }
+
+    // 將整數陣列依需求格式輸出，例如 "1 3 5 8 12"
+    public static void printArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // 排序並輸出
+        selectionSort(array);
+        printArray(array);
+        // 可選：System.out.println(); // 若需要在結尾換行
+        scanner.close();
+    }
+}
+
+修改原因說明：
+- 將排序與輸出分離：原程式把輸出放在排序函式中，不利於重複使用與測資管理。分離後，排序函式負責演算法，輸出函式負責格式化輸出，提升可維護性與可讀性。
+- 使用清晰、穩定的實作：採用標準的 Selection Sort 實作方式，使用 minIndex 追蹤最小元素索引，邏輯更直覺且易於理解。
+- 輸出格式一致：新增 printArray 方法，統一輸出格式，避免尾端多餘空格，並方便在未來需要時調整輸出換行等需求。
+- 程式風格與命名：變數命名採用更具可讀性的名稱（minIndex），整體縮排與結構更符合常見 Java 編碼慣例。
+- 兼容負數與一般整數：選擇排序本身與實作不受正負數影響，確保可處理負數輸入。
+
+改進建議或反饋（一句話）：
+建議將排序與輸出分離並採用更清晰的變數命名與標準縮排，以提升可讀性與未來維護性。

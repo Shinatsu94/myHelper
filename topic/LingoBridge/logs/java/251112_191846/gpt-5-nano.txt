@@ -1,0 +1,40 @@
+17
+修改後完整程式碼與說明如下：
+
+修改後程式碼
+/*
+    filename: CSIE_41143122_1031_2.java
+    function: 讀入使用者輸入的任意長度一維陣列，先輸入陣列長度，然後輸入元素，最後輸出升冪排序結果
+    author: 林柏儒 資工四甲 41143122
+    datetime: 2025/11/12
+    version: 1.1
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41143122_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = scanner.nextInt();
+        }
+        Arrays.sort(array);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.print(sb.toString());
+        scanner.close();
+    }
+}
+
+修改原因說明
+- 正確性與邏輯：以常用且可控的排序演算法（Arrays.sort）直接把整個陣列升冪排序，符合題目需求「升冪排序」。原程式為把每個元素替換為其右側的最大值，與題意大相逕庭，無法產出正確結果。
+- 格式與註解：加入清晰的檔案標頭註解，並維持良好的縮排與命名習慣；輸出使用 StringBuilder 以避免尾端多餘空白。
+- 輸入輸出穩定性：直接讀取長度 n 與 n 個整數，確保單次執行結束後程式結束且不需要依賴 EOF。
+
+改進建議（一句話）
+建議直接使用內建的排序方法（如 Arrays.sort）進行排序，避免自訂不必要且易錯的替換邏輯，同時確保輸出格式正確。

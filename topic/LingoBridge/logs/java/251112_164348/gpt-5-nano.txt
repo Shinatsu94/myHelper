@@ -1,0 +1,72 @@
+84
+
+評分細項（依據您的標準逐項給分，總分 0-100）：
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：6/10
+- 備註：0/10
+
+修改與優化說明：
+- 程式標頭註解（備註部分）與檔案相關資訊：加入檔案名稱、用途、作者與日期的註解區塊，符合作業的備註要求。
+- 變數命名與可讀性：將變數命名改為更具語意的名稱，如 n、a，提升可讀性。
+- 輸出效率與穩定性：改用 StringBuilder 組裝輸出字串，避免在迴圈中多次呼叫 System.out.print，提升效能，且最終輸出結尾自動換行。
+- 邊界條件處理：加入 n <= 0 的處理，若陣列長度為 0，直接輸出換行並結束，避免未定義行為。
+- 程式結尾與資源管理：適當關閉 Scanner，針對資源管理做小幅改進。
+- 一致性與格式：一致縮排、括號與迴圈樣式，提升閱讀性。
+
+修改後完整程式碼（已完成上述優化）：
+/*
+Filename: CSIE_41343111_1031_1.java
+Description: 讀取整數個數 n，接著讀入 n 個整數，將它們升序排序，並以空格分隔輸出。
+Author: 你可以填入作者姓名
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343111_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            // 輸出換行符以符合一般輸出格式，並結束
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}
+
+說明修改該部分的原因：
+- 增加檔案頭部註解與描述信息，符合題目對備註的要求，方便他人理解與維護。
+- 使用有意義的變數名稱與一致縮排，提升閱讀與維護性。
+- 使用 StringBuilder 拼接輸出，降低 IO 操作成本，特別是在輸出塊較長時更有效率。
+- 加入對 n <= 0 的處理，避免異常或不預期情況，提升健壯性。
+- 最後輸出加上換行，符合常見輸出慣例與測資比對的穩定性。
+
+一句話改進建議或反饋：
+- 建議加入使用者提示文字與基本輸入驗證，並在輸出末尾再補一個換行，以符合多數測資的輸出格式與直覺。
+
+若您願意，我也可以依照您提供的老師姓名與日期，替換掉範例中的註解內容，並再度提交符合您實際需求的版本。

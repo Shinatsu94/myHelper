@@ -1,0 +1,66 @@
+6
+正確性: 0/50
+邏輯: 0/30
+格式: 6/10
+備註: 0/10
+
+修改說明：
+- 本次作業需實作「讀取長度、依序輸入整數、升序排序並輸出」，學生提交的程式與題意毫無相關，故正確性與邏輯分數為零。格式方面，原程式的排版尚可，但未附程式說明與註解，且未符合題目要求，因此僅給予有限的格式分數。
+- 下方提供符合題意的改寫版本，使用 1 維整數陣列與 Arrays.sort 進行排序，輸出格式符合「以空格分隔，末尾無多餘空格」的要求；並新增適當的程式檔案註解與清晰的命名。
+
+修改後完整程式碼：
+```java
+/*
+ * File: Main.java
+ * 功能: 讀取第一個整數作為長度 n，接著讀入 n 個整數，將其升序排序後輸出，元素以空格分隔。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 無元素時不輸出內容
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.hasNextInt() ? sc.nextInt() : 0;
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，尾端不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改部分的原因：
+- 使用一維整數陣列與 Arrays.sort，直接且有效地完成題目需求，且支援負數輸入。
+- 加入程式頭註解，明確說明檔案名稱、功能、日期等，符合備註分數的要求。
+- 透過 StringBuilder 組裝輸出字串，避免不必要的字串拼接與空格問題。
+
+一句話改進建議或反饋：
+- 建議在未來提交時，先對題意進行快速閱讀與測資模擬，避免提交跑題的內容，並在檔案註解中清楚標註輸入與輸出格式以利評分。

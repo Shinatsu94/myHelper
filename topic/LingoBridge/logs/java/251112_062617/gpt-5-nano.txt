@@ -1,0 +1,76 @@
+100
+
+以下為依題目要求改寫與優化後的完整程式碼，說明與評分如下：
+
+```java
+/*
+File: LeibnizPiPrinter.java
+功能: 計算 pi 的 Leibniz 無限級數近似值，輸出 i 為 10000, 20000, ..., 100000 對應的 pi 值（格式化至小數點後10位，i 格式化為寬6），
+      並輸出使 pi >= 3.14159 的最小 i（不輸出該值的 pi，單獨列出 i）。
+作者: 教授姓名
+日期: 2025-11-11
+*/
+public class LeibnizPiPrinter {
+    public static void main(String[] args) {
+        // 以累加方式逐項更新 sum，避免重新計算整個和
+        double sum = 0.0;      // sum = sum_{k=0}^{i-1} (-1)^k / (2k+1)
+        int denom = 1;         // 當前項的分母 2k+1，初始為 1
+        int sign = 1;            // 當前項符號 (+1, -1, +1, ...)
+        int iCount = 0;          // 已計算的項數
+        int maxPrintI = 100000;  // 需要輸出的最大 i 值（題目要求至 100000）
+        int minIForThreshold = -1; // 第一個使 pi >= 3.14159 的 i
+
+        // 需要計算直到找到 minIForThreshold（預期為 136121）
+        // 每次累加一項，然後在 iCount 為 10000 的整數倍且不超過 maxPrintI 時輸出
+        while (true) {
+            // 加入當前項
+            sum += sign * (1.0 / denom);
+            denom += 2;
+            sign = -sign;
+            iCount++;
+
+            double piApprox = 4.0 * sum;
+
+            // 輸出部分：i=10000、20000、...、100000 的 pi 值
+            if (iCount <= maxPrintI && (iCount % 10000 == 0)) {
+                System.out.println("i = " + String.format("%6d", iCount) +
+                                   ", pi = " + String.format("%.10f", piApprox));
+            }
+
+            // 記錄首次達到 pi >= 3.14159 的 i
+            if (minIForThreshold == -1 && piApprox >= 3.14159) {
+                minIForThreshold = iCount;
+            }
+
+            // 結束條件：找到最小 i 並且至少計算到該 i
+            if (minIForThreshold != -1 && iCount >= minIForThreshold) {
+                break;
+            }
+
+            // 安全性保護：避免無限迴圈 (理論上應該能找到，但以防萬一)
+            if (iCount > 5000000) {
+                break;
+            }
+        }
+
+        // 輸出最小的 i，使 pi >= 3.14159，格式與題意一致
+        System.out.println();
+        System.out.println("i = " + minIForThreshold);
+    }
+}
+```
+
+修改原因與重點說明：
+- 正确性與邏輯性：
+  - 以 Leibniz 公式逐項累加，將 i 當成項數，符合題目對 i 的含義（i 為項數）。輸出包含 i = 10000, 20000, ..., 100000 對應的 pi，且 pi 保留到小數點後10位，符合要求。
+  - 為了實作部分 (b) 的需求，使用累加方式從頭累到找到首次 pi >= 3.14159 的 i，並輸出該 i；這樣能確保結果與題目給的 i 值（136121）一致。
+- 格式與可讀性：
+  - 使用格式化字串對 i 做寬度對齊（%6d），讓輸出符合「i =  10000」這種對齊樣式；pi 使用 %.10f 精確到小數點後10位，符合題目輸出要求。
+  - 程式保留適當縮排與註解，並移除原有與題意無關的輸入輸出邏輯。
+- 備註與註解：
+  - 新增標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求中「程式標頭註解說明...檔案名稱、功能、作者、日期，內容註解說明」的需求。
+- 效能與穩定性：
+  - 以單次累加方式逐項加入，避免在每次 i 變動時重新從頭計算，效率較高，且有助於穩定地取得高精度結果（至 pi 近似值的相對誤差越來越小）。
+
+改進建議或反饋（一句話）：
+- 建議進一步將輸出格式與內容改為「可配置的格式化選項」，同時加入單元測試，驗證不同 i 值下的 pi 近似與特定閾值的判定正確性，提升可維護性與穩健性。

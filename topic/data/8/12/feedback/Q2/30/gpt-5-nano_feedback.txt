@@ -1,0 +1,52 @@
+0
+修改後程式碼：
+/*
+檔案名稱: LeibnizPi.java
+功能說明: 使用Leibniz級數計算 pi，輸出指定的 i 值對應的 pi，並找出最小 i 使 pi 四捨五入至小數第5位為 3.14159。
+作者: 依需求自行填寫
+日期: 2025-11-11
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // (a) 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，pi 顯示到小數點後10位
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double sum = 0.0;
+            for (int k = 0; k < i; k++) {
+                // 第 k 項的符號：k 偶數為 +，奇數為 -
+                double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+                sum += term;
+            }
+            double pi = sum * 4.0;
+            System.out.printf("i =%6d, pi = %.10f%n", i, pi);
+        }
+
+        // (b) 找出最小的 i，使 pi 四捨五入至小數點後5位為 3.14159
+        // 使用整數比較避免浮點數四捨五入的不確定性
+        long targetRoundedInt = Math.round(3.14159 * 100000.0); // 314159
+        double cumulative = 0.0;
+        int minimalI = -1;
+        int maxTerms = 2000000; // 避免無限迴圈，設定上限
+        for (int k = 0; k < maxTerms; k++) {
+            cumulative += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            double pi = cumulative * 4.0;
+            long roundedInt = Math.round(pi * 100000.0);
+            if (roundedInt == targetRoundedInt) {
+                minimalI = k + 1; // k 從 0 開始，i 為項數
+                break;
+            }
+        }
+
+        if (minimalI == -1) minimalI = 0;
+        System.out.println("i = " + minimalI);
+    }
+}
+
+說明修改之理由與重點改動：
+- 針對題目要求改寫成真正的巴式計算：改用 Leibniz 級數 4 * sum_{k=0}^{i-1} (-1)^k/(2k+1) 來計算 pi，並將 i 從 10000 到 100000 每次增加 10000，輸出 pi 至小數點後 10 位。
+- 輸出格式調整：採用 System.out.printf，利用格式字串 %6d 使 i 以寬度六位對齊，pi 使用 %.10f 顯示十位小數，符合題目要求。
+- (b) 部分計算最小 i：為避免浮點數誤差引發的判斷問題，改以整數比較方式進行四捨五入判定：將 pi 四捨五入到小數點後五位轉為整數比較，尋找最小的 i。
+- 移除原學生程式中與題目無關的部分：原本的程式與題目無關的檢驗與輸出（如 ISW、FOD、well-ordered），已刪除，取而代之的是清晰的計算流程與輸出邏輯。
+- 程式結構與可讀性：加入檔案註解、清楚的變數命名與適當的排版，提升可維護性與可讀性。
+
+改進建議或反饋（一句話）：
+建議未來直接以問題需求為核心逐步實作，並利用分段測試驗證每個部分的正確性與格式輸出，避免牽涉與題意不相關的功能。

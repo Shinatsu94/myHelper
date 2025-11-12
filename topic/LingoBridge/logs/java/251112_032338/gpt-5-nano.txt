@@ -1,0 +1,37 @@
+90
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_51015120_1003_1.java
+ * Description: 讀入兩個整數 A, B，印出交換後的結果。交換使用位元異或運算，且不使用額外變數。
+ * Author: 差異化作者
+ * Date: 2025-11-11
+ */
+
+public class CSIE_51015120_1003_1 {
+    public static void main(String[] args) {
+        try (java.util.Scanner sc = new java.util.Scanner(System.in)) {
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+
+            // XOR 交換，且不使用其他變數
+            A = A ^ B;
+            B = A ^ B;
+            A = A ^ B;
+
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}
+```
+
+修改原因說明：
+- 增加檔案標頭註解，符合備註欄位的需求（檔案名稱、功能、作者、日期），提升可閱讀性與維護性。
+- 採用 try-with-resources 於 Scanner，以自動關閉資源，降低資源洩漏風險。
+- 變數名稱改為 A、B，與題意對應，提升變數意義的清楚度。
+- 保留原本使用 XOR 的交換邏輯，仍符合“不使用額外變數進行數字交換”的要求，並確保在一般情境下的正確性與穩定性。
+
+改進建議或反饋（一句話）：
+- 建議在正式環境中加入輸入異常處理與範圍檢查，並考慮在必要時提供更易於閱讀的交換方法或註解以增強可維護性。

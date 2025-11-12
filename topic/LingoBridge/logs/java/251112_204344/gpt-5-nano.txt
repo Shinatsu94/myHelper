@@ -1,0 +1,77 @@
+0
+- 正確性: 0/50
+  作業題目要求建立一個任意長度的一維陣列，先讀長度再讀入長度個整數，最後輸出升序排序的結果。學生的程式與題意毫無關聯，實作的是尋找三角形數列中某個數值的位置，且輸入與輸出格式不符合題意，因此正確性為 0。
+- 邏輯: 0/30
+  程式邏輯與題意麼毫無相符之處，屬於另一種問題的解法，缺乏解題合理性。
+- 格式: 0/10
+  雖然原程式有基本縮排，但檔案標頭與說明與實際功能不符，且未提供一致且清晰的註解與命名約定，故視為格式方面缺失。
+- 備註: 0/10
+  頁首註解與實際功能不符，且題目要求與提交內容嚴重脫節，未提供清楚且符合要求的檔案說明。
+
+改良後的完整程式碼（可直接執行，符合題意）
+/**
+ * 檔案名稱 : Main.java
+ * 功能說明 : 讀取一個整數 n，接著讀入 n 個整數，將它們升序排序後輸出，空格分隔。
+ * 作者 : 教師
+ * 日期 : 2025-11-12
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+            // 讀取 n
+            String line = br.readLine();
+            while (line != null && line.trim().isEmpty()) {
+                line = br.readLine();
+            }
+            if (line == null) return;
+            int n = Integer.parseInt(line.trim());
+
+            int[] a = new int[n];
+            int idx = 0;
+
+            // 讀取後續 n 個整數，可能分布在多行
+            while (idx < n) {
+                line = br.readLine();
+                if (line == null) break;
+                StringTokenizer st = new StringTokenizer(line);
+                while (st.hasMoreTokens() && idx < n) {
+                    a[idx++] = Integer.parseInt(st.nextToken());
+                }
+            }
+
+            // 排序
+            Arrays.sort(a);
+
+            // 輸出：單行、空格分隔，尾端不多餘空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.println(sb.toString());
+
+        } catch (IOException e) {
+            // 簡單的錯誤處理，遇到 IO 問題就結束
+            e.printStackTrace();
+        }
+    }
+}
+
+修改說明（重點說明為何要這些改動）
+- 將原本與題意無關的三角形定位邏輯移除，改以實作題目需求的核心功能：讀取長度、讀入長度個整數、排序並輸出。
+- 直接使用 Arrays.sort 進行升序排序，邏輯清晰、正確且高效。
+- 改用 BufferedReader 結合 StringTokenizer 的穩健輸入方法，能容忍輸入跨多行或多個空白分隔，符合「任意長度陣列、含負數」的情境。
+- 輸出格式固定為單行空格分隔，符合常見自動評分測資格式。
+- 加入標頭註解，說明檔案名稱、功能、日期與作者，提升可閱讀性與維護性。
+
+改進建議或反饋（一句話）
+建議日後直接以排序作為核心解法，並確保輸入與輸出格式嚴謹對應題目需求，避免與題意無關的實作分支混入。

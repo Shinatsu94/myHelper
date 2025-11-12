@@ -1,0 +1,24 @@
+90
+
+修改後完整程式碼：
+/**
+ * File: HelloWorld.java
+ * 功能: 顯示 Hello World!
+ * 作者: 學生
+ * 日期: 2025-11-12
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        // 輸出 Hello World! 字串
+        System.out.println("Hello World!");
+    }
+}
+
+修改說明：
+- 將檔案名稱與公開的類別名稱改為 HelloWorld.java 與 HelloWorld，符合 Java 的檔案命名慣例，並提升可閱讀性。
+- 增加標頭註解，包含檔案名稱、功能、日期等，滿足作業規範的註解要求。
+- 在程式中加入單行註解說明，方便日後維護。
+- 調整縮排為 4 個空格，保持一致的程式碼格式。
+
+一句話改進建議/回饋：
+建議在提交前加入完整的標頭註解並使用符合慣例的類名與對應檔名，以提升可讀性與一致性。

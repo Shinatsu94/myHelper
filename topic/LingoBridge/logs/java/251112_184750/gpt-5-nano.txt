@@ -1,0 +1,48 @@
+34
+
+修改後完整程式碼：
+// 文件名稱: CSIE_41343131_1031_1.java
+// 功能: 讀取整數 n 與 n 個整數，將陣列內容升序排序，輸出排序結果
+// 作者: 教授
+// 日期: 2025-11-12
+// 說明: 改用 Arrays.sort 提升穩定性與可讀性，並加上適當註解與統一命名。
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343131_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = 0;
+        if (sc.hasNextInt()) n = sc.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) a[i] = sc.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明（為何修改、修改內容重點）：
+- 編譯問題與風格調整：
+  - 移除了原程式中在方法結束後多餘的分號，避免造成語法錯誤。
+  - 將 main 與排序函式改為以標準的 public static 形式，符合 Java 常見慣例。
+- 提升正確性與可讀性：
+  - 使用 Java 標準函式 Arrays.sort 進行排序，確保正確且處理負數等任意整數範圍，並減少自訂排序邏輯可能帶來的錯誤。
+  - 增加程式標頭註解，清楚描述檔案名稱、功能、作者與日期，符合作業要求的備註規範。
+  - 保留輸入格式為：先輸入長度 n，再輸入 n 個整數，輸出排序後的結果，符合題目輸入輸出格式。
+- 輸入與輸出：
+  - 仍然先讀取長度 n，接著讀取 n 個整數，最後以空白分隔輸出排序結果，若 n 為 0，則輸出空字串（符合一般預期）。
+
+改進建議或反饋（用一句話）：
+建議保持一致的程式風格與註解，並在需要時使用標準函式庫（如 Arrays.sort）以提升穩定性與可維護性，同時善用輸入驗證與單元測試確保極端情況的正確性。

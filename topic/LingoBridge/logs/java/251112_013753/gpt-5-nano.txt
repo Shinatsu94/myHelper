@@ -1,0 +1,49 @@
+7
+
+評分明細
+- 正確性: 0
+- 邏輯: 0
+- 格式: 7
+- 備註: 0
+
+修改後完整程式碼與說明
+- 修改重點與原因
+  - 依照題意，改為讀取兩個整數 A、B，先印出兩者的原值，再在不使用其他變數的前提下利用 A、B 兩個變數本身進行交換，最後再印出交換後的值。
+  - 為避免溢位風險，採用 XOR 交換法，確保在整數範圍內可靠地互換兩個變數，且不需要額外變數。
+  - 加入基本註解與清晰的程式結構，確保可讀性。
+
+修改後程式碼如下：
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入兩個整數
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 交換前的值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 使用 XOR 交換，僅用 A、B 兩個變數，無需額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+說明修改部分的原因：
+- 直接滿足題目要求的交換需求，確保只使用 A、B 兩個變數進行交換，符合「不可使用其他變數進行數字交換」的限制。
+- XOR 交換方法避免了整數加法可能造成的溢位風險，較為穩健。
+- 針對可讀性與維護性，加入註解並使用清晰的類別名稱與縮排。
+
+改進建議（一句話）
+建議在提交前，先把程式的測資與預期輸出再對照一次，確保輸入與輸出格式嚴謹符合題意，並在必要時加入簡短的註解以提升可讀性。

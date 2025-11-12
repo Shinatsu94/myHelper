@@ -1,0 +1,52 @@
+4
+- 正確性: 0
+- 邏輯: 0
+- 格式: 4
+- 備註: 0
+
+修改說明與修正內容
+- 修改點1：採用 Arrays.sort(arr) 進行整數排序，確保正確性與效率，取代原本錯誤且不完整的自訂排序邏輯。
+- 修改點2：輸出改為避免尾端多餘空格的格式，使用 StringBuilder 組裝輸出內容。
+- 修改點3：加入標頭註解與較清楚的變數命名，提升可讀性；保留適當的內部註解以說明關鍵作法。
+- 修改點4：避免不必要的特殊值（如原程式的 -1）出現在輸出結果，符合題目要求。
+
+修改後完整程式碼
+/*
+檔名: SortArray.java
+功能: 讀入 n 與 n 個整數，輸出升序排序的結果；一次執行結束，輸入可包含負數。
+作者: 資工系教授
+日期: 2025-11-12
+*/
+import java.util.*;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序並輸出
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+
+一句話改進建議
+- 使用內建排序與簡潔的輸出格式即可確保正確與可讀性，同時加入完整的程式標頭與輸入檢查可提升穩定性。

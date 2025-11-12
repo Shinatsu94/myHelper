@@ -1,0 +1,78 @@
+87
+
+修改後完整程式碼（已優化並加入完整註解與可讀性改進）：
+/*
+Name: 盧冠宇
+Student_ID: 41343247
+File: CSIE_41343247_1031_1.java
+功能: 建立任意長度的一維陣列，將內容進行升序排序，輸出排序後的結果
+日期: 2025-11-12
+*/
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        } else {
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        if (n <= 0) {
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        // 讀入陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 選擇排序（升序）
+        for (int i = 0; i < n; i++) {
+            int minIndex = i;
+            for (int j = i; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
+        }
+
+        // 輸出結果，元素之間以空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println(); // 結尾換行
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 新增完整程式標頭註解，清楚說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將變數命名與結構調整為更具可讀性：將陣列改名為 arr，長度改為 n，方便理解與維護。
+- 移除 XOR 交換法，改為使用標準的臨時變數交換，提升可讀性與穩定性，避免在某些極端情況下造成疑慮。
+- 加入基本輸入健全性檢查，遇到輸入不足或長度為 0 的情況，穩定輸出空行並結束。
+- 輸出加入結尾換行，符合一般競賽與自動測資的輸出格式要求。
+- 程式內加入註解，說明每段的功能，提升維護性。
+
+改進建議或反饋（一句話）：
+建議以清晰註解與易讀的變數命名為基礎，並採用廣泛被接受的交換寫法，以提升可讀性與後續維護效率，同時保留對負數與不同輸入情境的魯棒性。

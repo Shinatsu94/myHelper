@@ -1,0 +1,64 @@
+84
+
+評分明細
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：6/10
+- 備註：0/10
+總分：84/100
+
+修改後完整程式碼（已改為更清晰且穩健的版本，保持原作 class 名稱以利評分環境）
+import java.util.Scanner;
+
+public class csie_41343235_1031_1
+{
+    /*
+     * 檔案名稱: csie_41343235_1031_1.java
+     * 功能: 讀取一個整數 n，接著讀入 n 個整數，將它們升冪排序，並輸出排序結果（以空格分隔）
+     * 作者: 教師
+     * 日期: 2025-11-12
+     * 註解: 使用清晰變數名稱、完整區塊語句與資源自動關閉，並於輸出新增換行
+     */
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以確保 Scanner 能正確關閉
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) return;
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            // 選擇排序（Selection Sort）
+            for (int i = 0; i < n - 1; i++) {
+                int min = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[min]) min = j;
+                }
+                int t = arr[i];
+                arr[i] = arr[min];
+                arr[min] = t;
+            }
+
+            // 輸出結果，避免尾端多餘空白，並加上換行
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}
+
+修改說明與原因
+- 新增標頭註解：加入檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 變數命名改善：將 a / b 重新命名為 n 與 arr，變數含義更清楚，方便後續維護與他人閱讀。
+- 強化程式結構： inner for 使用完整區塊語句，雖原本可運作，但增加大括號可避免未來易於產生的誤解與維護風險。
+- 資源管理：使用 try-with-resources 關閉 Scanner，避免資源未關閉的情況。
+- 輸出格式穩定化：改用 StringBuilder 組裝輸出，確保輸出格式穩定且最後換行，避免不同環境對尾端空白的差異。
+- 可讀性提升：保留原有演算法（選擇排序，適用於任意長度整數陣列且支援負數），但整體結構與註解更清楚。
+
+改進建議或反饋（一句話）
+建議在正式提交時加入完整的程式註解與檔案標頭，並用清晰的變數名稱與穩健的輸出格式，以提升可讀性與維護性。

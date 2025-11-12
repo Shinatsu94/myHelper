@@ -1,0 +1,67 @@
+88
+
+評分明細
+- 正確性: 50
+- 邏輯: 30
+- 格式: 8
+- 備註: 0
+- 總分: 88
+
+修改後完整程式碼（已優化與完善，並符合標準格式）
+```java
+/*
+ * 文件名稱: SortAscending.java
+ * 功能說明: 讀取陣列長度與元素，將元素由小到大排序，輸出排序結果（以空格分隔）
+ * 作者: 您的名字
+ * 日期: 2025-11-12
+ * 備註: 不使用 EOF，單次執行結束；支援負數
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        int length = 0;
+        if (sc.hasNextInt()) {
+            length = sc.nextInt();
+        }
+
+        // 讀取陣列元素
+        int[] a = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序：使用內建 Arrays.sort 以提升穩定性與性能
+        Arrays.sort(a);
+
+        // 輸出，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因
+- 加入標頭註解與清晰的檔案說明，符合「備註」項目的要求。
+- 使用更具語意的類別名稱與參數命名，提升可讀性與維護性（SortAscending、args）。
+- 將排序改用內建 Arrays.sort，提高程式的可靠性與效能，同時保持輸出結果符合需求。
+- 輸出使用 StringBuilder，避免在迴圈中不必要的字串拼接，提升效率。
+- 依題意保持一次性輸入與輸出結束，並妥善處理負數與不同的輸入情境。
+
+改進建議（一句話）
+- 在實際專案中，若確定需要自訂排序演算法，可改為自訂穩定且原地的排序實作（如優化版選擇排序或冒泡排序），同時保留使用內建排序作為性能對照以確保穩定性。

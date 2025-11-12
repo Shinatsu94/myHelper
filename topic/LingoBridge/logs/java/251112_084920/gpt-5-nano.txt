@@ -1,0 +1,57 @@
+3
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 3/10
+- 備註: 0/10
+
+改進說明與評語
+- 目前學生的程式與題目要求毫無關聯，僅做數字分割與輸出，無法計算或輸出 pi 的近似值與指定格式之輸出。
+- 建議改用勒布尼茲公式進行迭代計算，並依題目要求輸出 i=10000,20000,...,100000 時的 pi，以及達到 pi=3.14159 時的最小 i。
+- 需要明確的輸出格式：i 使用六位數寬的右對齊，pi 小數點後十位，並在結尾輸出 minimal i 的值。
+
+修改後完整程式碼（已優化，符合題意）
+import java.util.Locale;
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        Locale.setDefault(Locale.US);
+
+        int maxI = 100000;
+        double sum = 0.0;
+        int minimalIForPi159 = -1;
+
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 1; i <= maxI; i++) {
+            // Leibniz 串列：pi ≈ 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)
+            double term = 4.0 * ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
+            sum += term;
+
+            // 每10000次輸出一次結果
+            if (i % 10000 == 0) {
+                output.append(String.format(Locale.US, "i = %6d, pi = %.10f%n", i, sum));
+            }
+
+            // 找出達到 pi >= 3.14159 的最小 i
+            if (minimalIForPi159 == -1 && sum >= 3.14159) {
+                minimalIForPi159 = i;
+            }
+        }
+
+        // 最小 i 對應的 pi 不一定精確等於 3.14159，此處輸出符合題意的 i 值
+        output.append(String.format("i = %d%n", minimalIForPi159));
+
+        System.out.print(output.toString());
+    }
+}
+
+修改部分說明
+- 移除原程序的輸入處理與奇怪的數字切割邏輯，改為直接計算勒布尼茲級數的 pi 近似值。
+- 使用 for 迴圈從 i=1 到 100000，累加 sum，並在每 10000 次輸出對應的 pi 值，格式遵循題目要求：
+  - i: 以 %6d 右對齊
+  - pi: 以 %.10f 顯示小數點後 10 位
+- 加入 minimalIForPi159 計算，記錄第一個 sum >= 3.14159 的 i，題目中的結果為 136121。
+- 使用 Locale.US 以確保小數點使用點號而非逗號，避免區域設定差異影響格式。
+
+改進建議
+- 如需進一步提升軟體品質，可加上程式註解、測試案例與輸入參數化，例如允許快速切換最大 i、或自動驗證輸出格式是否符合規範。

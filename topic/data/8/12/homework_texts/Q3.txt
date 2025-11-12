@@ -1,0 +1,23 @@
+reverse digit order of an integer given by the user.
+e.g. 123 --> 321, 2500 --> 52, 8531 --> 1358
+
+題目要求:
+- 程式僅執行一次就結束，無需使用EOF
+
+【INPUT】
+123
+
+【OUTPUT】
+321
+
+【INPUT】
+2500
+
+【OUTPUT】
+52
+
+【INPUT】
+8531
+
+【OUTPUT】
+1358

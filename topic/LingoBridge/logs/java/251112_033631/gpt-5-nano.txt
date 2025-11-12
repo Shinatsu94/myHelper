@@ -1,0 +1,43 @@
+10
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能: 讀入兩個整數 A, B，先印出兩個數值，再在不新增其他變數的情況下交換兩數，最後印出交換後的結果。
+作者: 你的名字
+日期: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 先印出初始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，使用位元 XOR 互換
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 移除了原作中多餘的第三個變數 C，符合題目要求僅用 A、B 兩個變數完成交換。
+- 直接用兩變數進行交換，使用 XOR 交換法（A = A ^ B; B = A ^ B; A = A ^ B;）避免新增變數，符合「不可使用其他變數進行數字交換」的限制。
+- 依照題意，保持輸出格式：先印出初始的 A、B 值，再印出交換後的結果，輸出每個數字一行。
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與維護性。
+
+改進建議（一句話）：
+若對於整數溢位有顧慮，可以改用兩次臨時變數的暫存法或使用更穩定的輸入驗證機制，但在此情境的整數範圍內 XOR 交換法已符合需求且簡潔。

@@ -1,0 +1,64 @@
+4
+
+- 正確性(50%): 0/50
+- 邏輯(30%): 0/30
+- 格式(10%): 4/10
+- 備註(10%): 0/10
+- 總分: 4/100
+
+評語與建議
+- 原作在排序與輸出方面都有嚴重問題：誤把選擇排序寫成改寫比較的錯誤賦值，且輸出格式包含了多餘的文字與括號，與題目預期不符，且能處理負數但邏輯未正確實現。
+- 建議在提交作業前先用範例輸入驗證輸出是否符合題目要求，並避免在輸出中混入提示文字，保持純粹的數字輸出以利自動測資比對。
+- 若要快速修正，建議採用基本的選擇排序或直接使用 Arrays.sort，並確保輸出格式為以空格分隔的一行數字，結尾換行。
+
+修改後完整程式碼
+/*
+ * 檔案名稱: SelectionSortExample.java
+ * 功能說明: 從輸入讀取陣列長度與元素，對陣列做升冪排序，並輸出排序結果。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ */
+
+import java.util.Scanner;
+
+public class SelectionSortExample {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+
+        // 逐一輸入陣列內容
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 排序（選擇排序，升冪）
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+
+        // 輸出排序後的陣列，元素以空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        input.close();
+    }
+}
+
+一句話改進建議
+- 使用純輸入輸出格式並採用正確的排序演算法，可確保在各種輸入情況下都會輸出符合預期的結果。

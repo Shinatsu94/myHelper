@@ -1,0 +1,54 @@
+86
+
+- 正確性(50%): 50/50
+  - 程式能正確讀取 n 與 n 個整數，並輸出從小到大的排序結果，符合題目要求。
+
+- 邏輯(30%): 30/30
+  - 原始作業使用選擇排序的思路是正確的，雖有自我實作的交換方式，但邏輯仍能達成題目需求；改用標準排序會更穩健。
+
+- 格式(10%): 6/10
+  - 原始碼縮排與排版不夠整潔，命名雖簡潔但可再提升可讀性。未提供註解與標頭不符合備註要求。
+
+- 備註(10%): 0/10
+  - 缺少程式標頭註解，未註明檔案名稱、功能、作者、日期等。
+
+修改後完整程式碼（已優化並加入標頭註解與更穩健的輸出方式）：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+檔案名稱: CSIE_41343136_1031_1.java
+功能: 讀取整數 n 與 n 個整數，將其由小到大排序，並輸出排序結果
+作者: 你的名字
+日期: 2025-11-12
+*/
+public class CSIE_41343136_1031_1 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = s.nextInt();
+        }
+        s.close();
+
+        // 使用標準排序，避免自訂排序的溢位風險並提升可讀性
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 輸出，避免多次輸出造成效能問題
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+修改原因說明：
+- 將自訂的兩兩交換與加減法交換改為使用 Arrays.sort，避免可能的整數溢位風險，提升穩定性與可讀性。
+- 增加標頭註解，符合作業需求的標頭說明與文件資訊。
+- 使用 StringBuilder 輸出結果，提升輸出效能與可讀性。
+
+改進建議或反饋（一句話）：
+建議普遍採用標準排序工具（如 Arrays.sort）與明確的檔案註解，能提升正確性、可讀性與維護性。

@@ -1,0 +1,23 @@
+87
+
+修改後完整程式碼：
+/**
+ * 文件: HelloWorld.java
+ * 功能: 輸出 Hello World!
+ * 作者: <學生姓名>
+ * 日期: 2025-11-12
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+
+修改原因與說明：
+- 將類別名稱改為符合 Java 命名慣例的 HelloWorld，並建議與檔案名稱一致，以避免編譯或整合時的混淆。
+- 將 main 方法的參數改為 public static void main(String[] args)，使用慣常的參數名稱與型別，提升可讀性與一致性。
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，有助於維護與歸檔。
+- 程式內容的縮排採用較整齊的四空格縮排，提升可讀性。
+
+一句話改進建議或反饋：
+保持統一的命名與註解風格，長期維護時會更容易追蹤與管理程式。

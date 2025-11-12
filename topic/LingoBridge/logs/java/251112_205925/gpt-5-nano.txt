@@ -1,0 +1,80 @@
+3
+
+修改後完整程式碼（正確解題，支援任意長度與負數）：
+
+/*
+ * 檔案名稱: ArraySortAsc.java
+ * 功能說明: 讀取整數個數 n 與 n 個整數，將它們由小到大排序後輸出，以空格分隔成一行。
+ * 作者: 教授
+ * 日期: 2025-11-12
+ * 備註: 範例輸入可包含換行與空白；不使用 EOF，程式執行結束後即結束。
+ */
+import java.io.*;
+import java.util.*;
+
+public class ArraySortAsc {
+    // 簡易快速掃描器，跨行讀取 token
+    static class FastScanner {
+        BufferedReader br;
+        StringTokenizer st;
+
+        FastScanner() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() throws IOException {
+            while (st == null || !st.hasMoreElements()) {
+                String line = br.readLine();
+                if (line == null) return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() throws IOException {
+            String s = next();
+            if (s == null) throw new EOFException();
+            return Integer.parseInt(s);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            FastScanner fs = new FastScanner();
+
+            String sN = fs.next();
+            if (sN == null) return;
+            int n = Integer.parseInt(sN);
+            if (n <= 0) {
+                // 若長度為0，直接不輸出任何內容
+                return;
+            }
+
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = fs.nextInt();
+            }
+
+            Arrays.sort(arr);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+
+            System.out.print(sb.toString());
+        } catch (Exception e) {
+            // 為避免測資因非預期輸入而中斷，簡單輸出空輸出，或可換成更完善的錯誤處理
+        }
+    }
+}
+
+說明修改部分的原因：
+- 將原先 3x3 矩陣與特徵矩陣運算的內容完全移除，改為動態長度的一維整數陣列，符合題意「任意長度的一維陣列」。
+- 使用快速掃描器（FastScanner）跨行與多個空白字元的輸入，能穩定解析任意格式的整數序列，且避免依賴 EOF。
+- 直接使用 Arrays.sort 進行排序，簡潔且正確，符合「由小到大」的需求，且能正確處理負數。
+- 輸出格式改為單行輸出、元素之間以空格分隔，符合題目給定的輸出格式。
+
+一語改進建議：
+- 建議再加入輸入驗證與例外處理，例如處理非整數輸入或超出記憶體的極端情況，並在輸出結尾補上換行符以提升輸出穩定性。

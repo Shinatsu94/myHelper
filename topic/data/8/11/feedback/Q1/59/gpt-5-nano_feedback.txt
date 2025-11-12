@@ -1,0 +1,46 @@
+22
+- 正確性：0
+- 邏輯：15
+- 格式：7
+- 備註：0
+
+修改後完整程式碼（已新增原值輸出與註解，並在不使用暫存變數的前提下完成再輸出）：
+/*
+ * File: CSIE_41343241_1003_1.java
+ * Description: 讀入兩個整數 A, B，先印出原值，然後在不使用暫存變數的情況下交換，再印出互換後的值。
+ * Author: 你/學生姓名
+ * Date: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class CSIE_41343241_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 先印出原值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用暫存變數的交換：XOR 交換
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 再印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+說明修改部分的原因：
+- 先輸出原始值：符合題目要求「印出其值」的順序，原本作業只印出交換後的值，缺少第一階段的輸出。
+- 使用不使用暫存變數的 XOR 交換：保留了原題目對「不使用其他變數進行數字交換」的限制，同時將兩個變數在原地互換。
+- 程式標頭與註解：新增檔案說明與內部註解，提升可讀性與維護性，符合備註評分要點。
+- 變數命名與格式：使用有意義的變數名稱(A, B)，並加入整潔的排版與註解，提升格式分數。
+
+改進建議（一句話）：
+盡量在輸出前就顯示原始值，並保持清晰的註解與命名，以利他人理解邏輯與流程。

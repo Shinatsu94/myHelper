@@ -1,0 +1,39 @@
+89
+
+修改後完整程式碼：
+/*
+ * File: csie_1003_41343214.java
+ * 功能: 讀入兩個整數 A, B，交換其值，輸出交換後的結果（A、B 各佔一行）。
+ * 作者: [作者姓名]
+ * 日期: 2025-11-11
+ * 備註: 使用 XOR 交換法，不需要額外變數。
+ */
+import java.util.Scanner;
+
+public class csie_1003_41343214 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用 XOR 交換法，僅使用 A、B 兩個變數完成交換
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 加入程式檔案說明註解：新增檔案說明區塊，包含檔案名稱、功能、作者、日期與交換法說明，提升可讀性與維護性。
+- 統一與整理程式格式：移除多餘空白行與不一致的排版，保持縮排與變數命名的整齊，符合格式評分標準。
+- 保留原有演算法：繼續使用 XOR 交換法以滿足題目不允許用第三變數的限制，同時保留兩個變數 A、B 的資料交換過程，確保輸出符合範例。
+- 輸出順序與行數：仍以 A, B 兩個變數的交換後值輸出，與題目樣例一致。
+
+一句話改進建議：
+增加更完整的註解與統一命名，以提升可讀性與可維護性，同時保留邏輯不變性。

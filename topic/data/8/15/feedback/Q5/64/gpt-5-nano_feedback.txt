@@ -1,0 +1,72 @@
+6
+
+評分細項
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 0/10
+- 總分: 6/100
+
+修改後程式碼
+以下為符合題意的優化版本，完整程式碼已包含檔案說明與註解，並能正確處理任意長度的一維整數陣列，進行升冪排序後輸出：
+
+```java
+/*
+ * 檔案名稱: SortingArray.java
+ * 功能說明: 讀取使用者輸入的整數長度 n，以及 n 個整數，對其進行升序排序，並輸出結果
+ * 作者: 你的姓名
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortingArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 讀取陣列內容
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（可依需求調整為拋出例外）
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改原因與說明
+- 將原本的 3x3 矩陣與行列式/反矩陣相關程式改為處理一維整數陣列，符合題目需求：任意長度的一維陣列、升序排序、輸出。
+- 使用 Arrays.sort(...) 進行排序，簡潔且效率高，且能自動處理包含負數的情況。
+- 新增完整程式檔案註解區塊，包含檔案名稱、功能、作者與日期等資訊，符合備註部分的要求。
+- 加入基本的輸入檢查與防呆設計（如長度為非正數時結束程式、輸入不足時預設為 0），提高穩定性。
+
+一句話改進建議
+- 建議在正式題庫環境中再增加輸入格式的嚴謹驗證與例外處理，並將使用者輸入的格式限制在單行或多行皆可，提升測資容錯性。

@@ -1,0 +1,46 @@
+95
+
+修改後完整程式碼（可直接在 Java 環境執行）：
+/*
+檔名: LeibnizPi.java
+功能: 使用 Leibniz 演算法計算 pi，輸出 i=10000,20000,...,100000 對應的 pi 值
+作者: 教師
+日期: 2025-11-11
+說明: pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)，其中 i 為項數；輸出格式符合題目要求。
+*/
+import java.util.Locale;
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        Locale.setDefault(Locale.US); // 確保小數點使用英文格式
+        final int maxI = 100000;
+        final int step = 10000;
+
+        double sum = 0.0;
+        StringBuilder output = new StringBuilder();
+
+        // 從 k = 0 開始逐項計算，i 代表已加總的項數
+        for (int i = 1; i <= maxI; i++) {
+            int k = i - 1;
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+
+            // 當 i 為 10000 的倍數時輸出結果
+            if (i % step == 0) {
+                double pi = 4.0 * sum;
+                output.append(String.format("i = %6d, pi = %.10f%n", i, pi));
+            }
+        }
+
+        System.out.print(output.toString());
+    }
+}
+
+說明修改部分的原因：
+- 從原本與題目無關的反轉整數程式，改為實作一個正確能輸出題目指定結果的 pi 近似演算法，符合作業需求。
+- 使用 Leibniz 公式並以逐項累加方式計算，以保證計算的正確性與可追蹤性，且效率足以輸出 10 條結果。
+- 輸出格式依據要求設定：i 使用寬度6對齊，pi 為小數點後10位，且每行以單一換行符號結束。
+- 加入檔案頭註解，包含檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+
+改進建議（一句話）：
+- 如需進一步提升精度或計算效能，可改用高精度位元運算或分段/區間累加法，並在輸出前做誤差分析以驗證收斂速度。

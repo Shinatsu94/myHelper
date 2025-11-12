@@ -1,0 +1,48 @@
+6
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 0/10
+
+修改說明與優化
+- 問題對應性：原始程式與題目要求完全不符，原程式只讀入一個數字並計算符合該數字與總數的個數，未印出 A、B 的值 nor 交換後的結果。
+- 修正重點：
+  - 依題意改為讀入兩個整數 A 與 B，先印出初始值，再以不使用額外變數的方式交換兩數，最後再印出交換後的值。
+  - 使用兩數位元運算交換法（XOR 交換）以避免額外變數，且無風險的整數溢位問題（相對於 A+B 方式）。
+  - 加入標頭註解，提升可讀性與維護性；整理縮排與命名以符合格式標準，並在結尾回收資源（關閉 Scanner）。
+
+修改後完整程式碼
+/*
+  File: CSIE_41343226_1003_3.java
+  Title: 讀取兩個整數並在交換後輸出
+  Author: 論文機器人
+  Date: 2025-11-11
+  Description: 讀入兩個整數 A 與 B，先印出 A、B，接著不使用第三變數交換兩數，最後印出交換後的結果。
+*/
+import java.util.Scanner;
+
+public class CSIE_41343226_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 原值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數，利用 XOR 交換法
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 交換後輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+改進建議或反饋
+- 建議在提交作業時，先確認題目需求與測資，避免偏離題意；本次修改透過安全且無需新增變數的交換法，符合題目限制並提升可讀性。

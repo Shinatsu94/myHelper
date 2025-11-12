@@ -1,0 +1,55 @@
+13
+
+修改後完整程式碼：
+/*
+ * File: Sorting1DArray.java
+ * 功能: 讀取一個整數 n，接著讀入 n 個整數，將它們由小到大排序後輸出。
+ * 作者: 教師姓名
+ * 日期: 2025-11-12
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Sorting1DArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 保底，避免輸入不足時發生例外
+            }
+        }
+
+        // 排序（考慮負數，並避免手撰排序的錯誤）
+        Arrays.sort(arr);
+
+        // 輸出，避免結尾多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+說明修改部分的原因：
+- 將原先的自製排序邏輯改為使用 Arrays.sort，確保正確性與穩定性，並能正確處理負數。
+- 新增輸出格式控制，避免尾端出現多餘的空格，更符合常見輸出格式。
+- 增加標頭註解，並保持適當的變數命名與註解，提升可讀性與維護性。
+- 加入基本的輸入檢查與容錯處理（在輸入不足時使用預設值），提高健壯性。
+
+一句話改進建議或反饋：
+- 建議以內建排序函式搭配清晰的輸出格式，即使面臨較大資料量也能確保正確與高效，若需自訂排序可實作快速排序或合併排序並加入分治策略的分析。

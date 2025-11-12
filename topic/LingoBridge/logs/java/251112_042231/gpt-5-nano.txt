@@ -1,0 +1,31 @@
+0
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 2/10
+- 備註: 0/10
+
+修改後完整程式碼與說明：
+/*
+ * 檔案名稱: SwapTwoNumbers.java
+ * 功能: 讀入兩個整數 A、B，印出 B 與 A，達成交換的輸出效果（不使用額外變數做交換）。
+ * 作者: 教授
+ * 日期: 2025-11-11
+ * 備註: 使用 Scanner 讀取輸入，直接輸出交換後的順序。
+ */
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+        // 直接輸出交換後的結果，不使用額外變數進行交換
+        System.out.println(B);
+        System.out.println(A);
+        sc.close();
+    }
+}
+
+修改原因與說明：
+- 移除原作的多餘邏輯與迴圈，直接根據題意讀取兩個整數並以 B 先於 A 的順序輸出，達成「交換後的印出」需求，符合不可使用外部變數進行交換的限制，且避免不必要的計算與變數造成混亂。
+
+一句話改進建議或反饋：
+- 直接依題意輸出交換後的值即可，避免不必要的複雜邏輯與變數，能提升正確性與可讀性。

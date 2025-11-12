@@ -1,0 +1,70 @@
+13
+
+作業評分與改良說明可分為以下部分。
+
+- 正確性 (50%): 0/50
+  - 原程式的排序邏輯錯誤，最終會把最後一個元素設為 -1，且並未正確完成整體排序，輸出結果不符合題目要求。
+
+- 邏輯 (30%): 5/30
+  - 學生嘗試以「從剩餘元素取最大值再填回當前位置」的方式進行排序，但邏輯設計不完整，未正確實作排序演算法，且影響結果正確性。
+
+- 格式 (10%): 6/10
+  - 變數命名尚算清楚、註解有部分說明，但整體排版與程式風格仍可改善，且缺少正式的程式檔案標頭註解。
+
+- 備註 (10%): 2/10
+  - 缺少程式標頭註解（檔案名稱、功能、作者、日期等），雖有一些內嵴註解，但未符合要求的標頭規範；仍有部份內嵴註解可接受。
+
+總分 = 0 + 5 + 6 + 2 = 13
+
+修改後完整程式碼（可直接執行，使用內建排序以確保正確性）：
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: Main.java
+ * 功能: 建立任意長度的一維陣列，將內容由小到大排序，並輸出
+ * 作者: 指派教師
+ * 日期: 2025-11-12
+ * 註解: 程式將輸入的整數排序並輸出，支援負數。
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        // 使用內建排序確保正確性與簡潔性
+        Arrays.sort(arr);
+
+        // 輸出格式：數字以空格分隔，無多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改原因說明：
+- 將原本自訂的排序邏輯替換成 Java 內建的 Arrays.sort，能確保排序正確且穩定，且能正確處理包含負數的情況。
+- 加入全面的檔案頭註解，符合題目對「程式標頭註解」的要求，並以 Main 類別命名，利於編譯與測資。
+- 使用 StringBuilder 進行輸出組裝，避免多次 print 導致效率下降，且可確保輸出格式無多餘空格。
+
+改進建議（一句話）：
+- 以內建排序取代自訂排序，並加強輸入輸出與註解，以提升正確性與可維護性。

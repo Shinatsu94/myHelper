@@ -1,0 +1,44 @@
+4
+
+修改後完整程式碼：
+/*
+檔案名稱: SwapTwoNumbers.java
+功能說明: 讀入兩個整數 A, B，先印出原值，然後在不使用第三個變數的情況下交換兩數，再印出交換後的值。
+作者: 你
+日期: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 輸出初始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 使用位元運算（XOR）進行交換，且不引入第三個變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 針對題目要求改寫輸入與輸出流程，直接讀入兩個整數 A、B，並先後輸出未交換前的值與交換後的值，以符合題目兩次輸出各自的需求。
+- 使用不引入第三變數的交換方法（XOR 交換法），符合「不可使用其他變數進行數字交換」的限制，避免新增臨時變數，並保留整數型態的可行性。
+- 移除原始程式中的無關邏輯與檢查，專注於題意的正確實作。
+- 加入程式頭註解，說明檔案名稱、功能、作者、日期，並在程式適當處增加註解以提升可讀性與維護性。
+
+一句話改進建議：
+若日後需要更穩健的交換，考慮同時處理極端情況（如極大整數範圍或溢位可能）並提供使用者輸入格式說明與錯誤處理，以提升使用者體驗與容錯性。

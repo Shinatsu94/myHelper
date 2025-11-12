@@ -1,0 +1,63 @@
+5
+
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 3/10
+- 備註: 2/10
+
+評語重點與問題說明
+- 原程式未建立與輸出任意長度陣列，亦未進行排序，僅進行與題意無關的計算與輸出，故正確性與邏輯皆不符合題目要求。
+- 程式的格式與註解不完整：缺少檔案標頭註解，變數命名不具代表性，縮排與程式結構可再提升。
+- 建議同時加入完整的檔案註解，採用簡潔清楚的變數命名，並使用標準排序邏輯與輸出格式。
+
+修改後的完整程式碼與修改說明
+修改後程式碼（可直接編譯執行，符合題目需求）：
+/*
+檔案名稱: SortArrayAscending.java
+功能: 讀取整數個數 n，接著讀取 n 個整數，將它們升冪排序並輸出，以空格分隔。
+作者: 你的姓名
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0，避免拋出異常
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        scn.close();
+    }
+}
+
+修改部分與原因說明
+- 重新實作輸入與存放機制：建立整數陣列並正確讀入 n 個整數，符合「建立一個任意長度的一維陣列，並依序輸入陣列中的每個整數」的需求。
+- 排序方式：使用 Arrays.sort(arr) 進行升冪排序，簡單且穩定，且能正確處理負數與任意整數範圍。
+- 輸出格式：使用單一空格分隔並換行輸出整個排序後陣列，符合題目輸出格式。
+- 設計風格與註解：加入檔案標頭註解，使用具意義的類別名稱 SortArrayAscending，並在程式中保留適當註解，提升可讀性與維護性。
+
+一句話改進建議或反饋
+建議在提交前，先撰寫清楚的程式註解與檔案頭資訊，並以正確的輸入輸出流程實作題目需求，避免跑題或漏掉排序與輸出格式。

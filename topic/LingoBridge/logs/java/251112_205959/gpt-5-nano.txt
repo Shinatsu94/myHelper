@@ -1,0 +1,74 @@
+7
+
+評分
+- 正確性 (50%): 0/50
+  - 作業題目要求建立任意長度的一維整數陣列、由小到大排序並輸出，但學生程式與題意完全無關，實作的是 3x3 矩陣的反矩陣運算。
+- 邏輯 (30%): 0/30
+  - 程式邏輯與題意不符，未實作排序或讀取並排序 1D 陣列的流程。
+- 格式 (10%): 7/10
+  - 程式碼結構清晰、變數命名尚可、縮排良好，雖有多餘的註解與未使用的導入，但整體可讀性尚可。
+- 備註 (10%): 0/10
+  - 缺少程式標頭註解（檔案名稱、功能、作者、日期等說明），以及不足的註解以說明整體邏輯。
+
+修改與優化
+
+修改後完整程式碼 (符合題意：讀取長度、再讀入該長度的整數、排序並輸出)：
+
+```java
+/**
+ * 檔案名稱: ArraySortAscending.java
+ * 功能: 讀入整數陣列，升序排序，輸出結果
+ * 作者: 改善示例
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySortAscending {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            // 沒有元素直接輸出空行
+            System.out.println();
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，補 0
+            }
+        }
+        sc.close();
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改原因說明：
+- 將原本與題意無關的 3x3 矩陣與反矩陣運算，改為對一維整數陣列的排序與輸出，符合「任意長度的一維陣列、升序排序、輸出排序後的內容」的需求。
+- 使用 Java 標準庫的 Arrays.sort 進行排序，簡潔且效率良好，避免自寫排序演算法可能帶來的錯誤。
+- 加入適當的程式標頭註解、適當的變數命名與必要的輸入檢查，提升可讀性與可維護性。
+- 確保一次執行就結束，不依賴 EOF，符合作業要求。
+
+一句話改進建議或反饋：
+- 建議在正式提交前，補上完整的程式標頭註解並嚴格符合題意邏輯，避免不相關的實作誤導評分與測資通過問題。

@@ -1,0 +1,53 @@
+83
+
+分數明細：
+- 正確性：48/50
+- 邏輯：28/30
+- 格式：5/10
+- 備註：2/10
+總分：83/100
+
+修改後完整程式碼（已優化，並附修改說明）：
+```java
+/*
+ * 檔案名稱: CSIE_41343112_1031_1.java
+ * 功能: 從標準輸入讀取長度 n 與 n 個整數，升序排序並輸出結果
+ * 作者: 李宗懌
+ * 日期: 2025-11-12
+ */
+import java.util.*;
+
+public class CSIE_41343112_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用 Java 內建排序，提升正確性與效率
+        java.util.Arrays.sort(arr);
+
+        // 輸出結果，數字之間以空格分隔，且結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因：
+- 將原本的自訂氣泡排序替換為 Arrays.sort（O(n log n)），提升正確性與執行效率，且能原生支援負數與各種整數值排序，避免手寫排序可能出錯或行難以維護的情況。
+- 增加程式檔案標頭註解，說明檔案名稱、功能、作者與日期，符合作業規範的備註要求。
+- 使用 StringBuilder 組裝輸出字串，避免多次 System.out.print 呼叫，提高效能並確保輸出格式正確（數字間以單一空格分隔，結尾換行）。
+- 針對資源管理，使用 sc.close() 關閉 Scanner，養成良好習慣。
+- 讓程式具備更清晰的可讀性與可維護性（變數命名、註解與標頭的完善）。
+
+改進建議或反饋（一句話）：
+建議未來在輸入部分加入基本的輸入合法性檢查與例外處理，並考慮加入單元測試以驗證各種輸入情境。

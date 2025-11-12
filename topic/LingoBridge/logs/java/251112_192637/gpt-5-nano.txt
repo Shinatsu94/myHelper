@@ -1,0 +1,41 @@
+6
+
+修改後完整程式碼：
+/*
+Filename: Main.java
+功能: 讀取一個整數 n，接著讀入 n 個整數，將其升冪排序，輸出排序結果
+作者: 教授示範
+日期: 2025-11-12
+*/
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+修改說明：
+- 移除原程式中不當的逆向與最大值更新邏輯，直接使用 Arrays.sort(arr) 進行升冪排序，保證輸出正確。
+- 使用 StringBuilder 組裝輸出字串，避免多次 System.out.print 帶來的效能問題，且容易控制空格分隔。
+- 加入檔案說明的註解區塊（檔案名稱、功能、作者、日期），提升可維護性與可讀性。
+- 將類別名稱固定為 Main，與檔名相符，確保編譯與使用更穩定。
+- 程式結尾使用 println，以符合常見輸出慣例並避免末尾缺少換行。
+- 保留原本的掃描器用法，保持簡單且符合題目要求的單次輸入流程。
+
+改進建議（一句話）：
+去除不必要的倒序處理，直接排序並整齊輸出即可，並補充程式註解與適當的檔案命名。

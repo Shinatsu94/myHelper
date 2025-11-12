@@ -1,0 +1,61 @@
+6
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 0/10
+
+修改後完整程式碼：
+```java
+// 檔案名稱: Main.java
+// 功能: 讀取一個整數 n，接著讀入 n 個整數，將它們升序排序並以一行印出
+// 作者: 教師
+// 日期: 2025-11-12
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 如果輸入不足，預設為 0
+                a[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(a);
+
+        // 輸出：在一行，以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明：
+- 將原本的輸出星號的階層式內容改為實際的整數排序需求，符合題目「將陣列內容進行升序排序」的要求。
+- 使用單純的陣列讀入與 Arrays.sort 進行排序，邏輯更加清晰、穩定，且時間複雜度為 O(n log n)。
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，並在程式內容中加入適當註解以提升可讀性。
+- Class 名稱改為 Main，以符合常見 Java 執行環境的入口類別要求，且輸出格式符合題目需求：單行輸出且數字間以空格分隔。
+
+一句話改進建議：
+直接按照題意讀入 n 與 n 個整數，使用排序與單行輸出，並加上適當的程式註解與錯誤處理，能更穩定通過測資。

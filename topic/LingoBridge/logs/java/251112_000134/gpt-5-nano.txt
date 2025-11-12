@@ -1,0 +1,46 @@
+87
+
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 7/10
+- 備註: 0/10
+
+修改說明與優化後程式碼
+改動重點：
+- 改用更有意義的變數名稱 a、b，提升可讀性。
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 移除多餘的註解與除錯輸出，讓程式更整潔。
+- 程式結尾加入 scanner.close()，養成資源釋放的好習慣。
+- 保留題目要求的無額外變數交換法（XOR 交換法），確保符合「不可使用其他變數進行交換」的要求。
+- 輸出與題目樣本保持一致：先交換後印出兩個數值，各佔一行。
+
+修改後完整程式碼：
+/*
+File: SwapTwoNumbers.java
+Description: 讀入兩個整數，交換後分別印出
+Author: YourName
+Date: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+        // 使用不額外變數的 XOR 交換法，符合題目限制
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        scanner.close();
+    }
+}
+
+改進建議／反饋一句話
+若要提升穩健性與可維護性，可在未來考慮使用更直觀的交換方法（例如暫存變數），並加強輸入有效性檢查與例外處理，同時保持適當的程式風格與註解完整性。

@@ -1,0 +1,58 @@
+99
+
+評分細項
+- 正確性：50/50
+- 邏輯：30/30
+- 格式：9/10
+- 備註：10/10
+
+修改後的完整程式碼（已加入程式標頭註解、健壯性改善與輸出優化）：
+
+/*
+ * 檔案名稱: CSIE_41343236_1031_1.java
+ * 功能說明: 讀取整數 n，接著讀取 n 個整數，將它們升冪排序，最後輸出排序結果。
+ * 作者: [你的姓名]
+ * 日期: 2025-11-12
+ * 備註: 使用 Arrays.sort 進行排序，支援負數，若 n 為 0 亦能正常輸出換行。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343236_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner，提升健壯性
+        try (Scanner scanner = new Scanner(System.in)) {
+            // 讀取陣列長度
+            int n = scanner.nextInt();
+
+            // 建立長度為 n 的整數陣列並讀入元素
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = scanner.nextInt();
+            }
+
+            // 將陣列排序（由小到大）
+            Arrays.sort(arr);
+
+            // 組裝輸出字串，避免逐次輸出造成效能下降
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < arr.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+
+            // 輸出排序結果並換行
+            System.out.println(sb.toString());
+        }
+    }
+}
+
+修改說明（關於本次改動的重點與原因）：
+- 加入程式標頭註解：補齊檔案名稱、功能、作者與日期，符合作業要求的備註規範，便於辨識與維護。
+- 使用 try-with-resources 讀取輸入：自動關閉 Scanner，提升程式穩定性與資源管理，避免忘記關閉造成的潛在問題。
+- 輸出改用 StringBuilder：將排序後的結果組裝為單一字串後再一次性輸出，提升輸出效能且讓輸出格式更穩定。
+- 保留負數支援與原有邏輯：Arrays.sort 會正確處理負整數，且整體流程清晰，符合題目需求。
+
+改進建議（簡短一句話）：
+建議在讀取 n 之前添加基本的輸入驗證，並處理 n 為 0、非整數輸入等極端情況，以提高健壯性。

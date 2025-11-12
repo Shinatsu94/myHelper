@@ -1,0 +1,79 @@
+88
+
+評分明細
+- 正確性: 50/50
+  - 具備讀取 n 與 n 個整數、對陣列進行排序、再輸出排序結果的基本需求，輸出的內容會是排序後的數字序列。
+- 邏輯: 30/30
+  - 使用正統的選擇排序（選出未排序部分的最小值並交換）來實現由小到大排序，邏輯正確且穩定。
+- 格式: 8/10
+  - 變數命名尚可再加強可讀性（例如 arr、n 等已具含義），但整體縮排與結構清晰。輸出原本會有尾隨空格，建議改為不輸出尾隨空格。
+- 備註: 0/10
+  - 原始程式缺乏標頭註解與程式說明註解，未符合題目要求的註解規範。
+
+修改說明與優化重點
+- 將排序函式改為更具描述性的名稱 sortArray，提升可讀性。
+- 將輸出改為不產生尾隨空格：使用 StringBuilder 與逐項拼接，確保輸出格式符合題目期望。
+- 加入程式標頭註解與在程式內加入說明性註解，提升可讀性與維護性。
+- 加入適當的資源釋放（關閉 Scanner），以及保留原有的穩定排序邏輯，確保負數與任意長度的輸入皆正確處理。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343203_1031_1.java
+ * 功能說明: 依序讀入長度 n 與 n 個整數，將陣列內容升序排序，輸出排序後的結果（以空格分隔，不在結尾留空格）。
+ * 作者: 你的姓名
+ * 日期: 2025-11-12
+ */
+
+public class CSIE_41343203_1031_1 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        sortArray(arr);
+
+        // 輸出：不在最後留尾隨空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+
+    // 選擇排序 - 由小到大
+    private static void sortArray(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+            if (min != i) {
+                int tmp = arr[min];
+                arr[min] = arr[i];
+                arr[i] = tmp;
+            }
+        }
+    }
+}
+```
+
+修改部分說明的關鍵點
+- 將原本 ss 方法替換為 sortArray，並在主程式中呼叫，讓名字更具語意且易於維護。
+- 使用 StringBuilder 產出輸出字串，避免尾隨空格，符合輸出格式要求。
+- 加入標頭註解與行內註解，提升可讀性與程式自述性。
+- 保留原有的正確性與邏輯性，同時提升易讀性與外部維護性。
+
+改進建議或反饋（一句話）
+- 建議在輸出時避免尾隨空格，並加上完整的檔案標頭與說明註解，以提升可讀性與評分的完整性。

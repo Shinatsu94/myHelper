@@ -1,0 +1,30 @@
+11
+
+- 修改說明與原因：
+  - 直接輸出題目要求的字與其對應的內碼，去除原作業中的 loading spinner 與進度條，讓輸出符合題意與評分標準。
+  - 新增通用方法 printWithCode，對任意字串逐字輸出每個字及其 Unicode 碼點，方便重用與未來延展。
+  - 增加檔案標頭註解，符合備註項的要求，提升可維護性與可讀性。
+
+修改後完整程式碼（UTF-8 編碼，Java）：
+/*
+ * 檔案名稱: CSIE_41343101_0926_2.java
+ * 功能: 依題意輸出「虎科大」與學生姓名「林武杰」的每個字及對應的Unicode碼點
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+public class CSIE_41343101_0926_2 {
+    public static void main(String[] args) {
+        // 直接輸出每個字及其Unicode碼點，先印「虎科大」再印姓名
+        printWithCode("虎科大");
+        printWithCode("林武杰");
+    }
+
+    private static void printWithCode(String s) {
+        for (char ch : s.toCharArray()) {
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+}
+
+一句話改進建議：
+建議在正式作業中以固定格式輸出字與其內碼，避免不相關的介面動畫，以提升可讀性與評分的一致性。

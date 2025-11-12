@@ -1,0 +1,46 @@
+87
+
+修改後完整程式碼（優化版）
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+ * File: SortArray.java
+ * 功能: 讀入長度 n、n 個整數，將陣列內容由小至大排序，並輸出排序結果。
+ * 作者: 你的姓名
+ * 日期: 2025-11-12
+ */
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 使用內建快速排序，時間複雜度 O(n log n)
+        Arrays.sort(a);
+
+        // 使用 StringBuilder 進行輸出拼接，避免多次 System.out.print
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因
+- 移除未使用的 original 陣列，降低記憶體使用與混淆性。
+- 改用 Arrays.sort 進行排序，將時間複雜度提升至 O(n log n)，相較原本的選擇排序（O(n^2)）更高效，且可正確處理包含負數的情況。
+- 使用 StringBuilder 結合單次輸出，避免逐個 System.out.print 造成的效能降低。
+- 增加程式標頭註解，說明檔案名稱、功能、日期等，提升可維護性與可閱讀性。
+
+改進建議或反饋（一句話）
+建議採用內建排序（Arrays.sort）並加上檔案標頭註解，以提升效能與可維護性。

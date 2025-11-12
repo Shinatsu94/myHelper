@@ -1,0 +1,64 @@
+6
+
+修改後程式碼：
+/*
+  檔案名稱: SortArray.java
+  功能說明: 讀取使用者輸入的長度 n，以及 n 個整數，將它們由小到大排序，輸出排序結果。
+  作者: 教師助理
+  日期: 2025-11-12
+  版本: 1.0
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 對於長度為 0 或以下，直接輸出空行並結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數到一維陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若不足 n 個數字，預設補 0（需求未明確此情況，此處為穩健處理）
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 進行排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以單一空格分隔，末尾不留多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明：
+- 將原本與題意不符的 3x3 矩陣與矩陣求逆的實作，改為符合需求的一維整數陣列排序功能，避免與題目不相關的邏輯與輸出。
+- 讀入方式改為單次讀取長度 n，隨後讀取 n 個整數，直接支援負數，並避免使用 EOF。
+- 使用 Arrays.sort 直接排序，邏輯清晰、效率高，且易於維護。
+- 增加標頭註解，包含檔案名稱、功能、作者、日期，並保留適當的註解，改善可讀性與維護性。
+- 輸出格式調整為「以空格分隔，不在末尾出現多餘空格」，符合常見的輸出規範。
+
+改進建議或反饋（用一句話）：
+建議在實作時先確認題意再設計資料結構與演算法，並加入基本的輸入錯誤處理與輸出格式檢查，以提升健壯性與通用性。

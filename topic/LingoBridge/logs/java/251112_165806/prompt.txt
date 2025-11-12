@@ -1,0 +1,111 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 將程式碼進行優化，並展示修改後完整程式碼，以及說明修改該部分的原因
+3. 用一句話說明改進建議或反饋
+
+
+題目：
+【題目】
+建立一個任意長度的一維陣列，將陣列內容進行升幕排序 (由小至大)，
+讓使用者先輸入陣列的長度。
+接著，讓使用者依序輸入陣列中的每個整數。
+最後印出排序後的陣列內容。
+
+備註:
+- 請勿使用EOF，執行一次程式後結束程序，避免無法通過測資。
+- 輸入元素包含負數，請留意是否支援。
+
+【input】
+5
+8 3 12 5 1
+
+【output】
+1 3 5 8 12
+
+學生作答程式：
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_1 {
+
+    public static void main(String[] args) {
+        // 建立 Scanner 物件，用於讀取使用者輸入
+        Scanner sc = new Scanner(System.in);
+        
+        // 讀取接下來要輸入的整數數量 n
+        int n = sc.nextInt();
+        
+        // 宣告並初始化兩個大小為 n 的整數陣列
+        int[] a = new int[n];
+        // 雖然在這個程式中沒有使用到，但它被宣告用於儲存原始輸入
+        int[] original = new int[n]; 
+
+        // 迴圈讀取 n 個整數，並將它們存入陣列 a 和 original
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+            original[i] = a[i]; // 將輸入值同時儲存到 original 陣列
+        }
+
+        // 呼叫 selectionSort 方法對陣列 a 進行排序
+        selectionSort(a);
+
+        // 呼叫 printArray 方法印出排序後的陣列 a
+        printArray(a);
+
+        // 關閉 Scanner 物件，釋放資源
+        sc.close();
+    }
+
+    // 選擇排序 (Selection Sort) 的實作方法
+    public static void selectionSort(int[] a) {
+        // 取得陣列的長度
+        int n = a.length;
+        
+        // 外層迴圈：遍歷所有未排序的元素 (從第一個到倒數第二個)
+        for (int i = 0; i < n - 1; i++) {
+            // 假設當前位置 i 就是最小元素的索引
+            int minIdx = i;
+            
+            // 內層迴圈：從 i+1 的位置開始，尋找未排序部分中最小元素的索引
+            for (int j = i + 1; j < n; j++) {
+                // 如果找到比當前最小元素 a[minIdx] 更小的元素 a[j]
+                if (a[j] < a[minIdx]) {
+                    // 更新最小元素的索引為 j
+                    minIdx = j;
+                }
+            }
+            
+            // 執行交換：將找到的最小元素 (a[minIdx]) 放到當前位置 (a[i])
+            // 步驟 1: 將最小元素的值暫存起來
+            int temp = a[minIdx];
+            // 步驟 2: 將當前位置 a[i] 的值移到原最小元素的位置 a[minIdx]
+            a[minIdx] = a[i];
+            // 步驟 3: 將暫存的最小元素值移到當前位置 a[i]
+            a[i] = temp;
+        }
+    }
+
+    // 印出陣列內容的方法，元素之間以空格隔開
+    public static void printArray(int[] a) {
+        // 迴圈遍歷陣列的所有元素
+        for (int i = 0; i < a.length; i++) {
+            // 印出當前元素
+            System.out.print(a[i]);
+            
+            // 如果不是陣列中的最後一個元素，則印出一個空格
+            if (i < a.length - 1) {
+                System.out.print(" ");
+            }
+        }
+        // 印出一個換行符號，結束這一行的輸出
+        System.out.println();
+    }
+}

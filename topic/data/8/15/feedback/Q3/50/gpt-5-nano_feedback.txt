@@ -1,0 +1,50 @@
+6
+
+- 批改結果概述
+  - 正確性(50%): 0/50
+  - 邏輯(30%): 0/30
+  - 格式(10%): 6/10
+  - 備註(10%): 0/10
+  - 總分: 6/100
+
+- 修改後完整程式碼（可直接編譯執行）
+/*
+ * 檔案名稱: Main.java
+ * 功能: 將輸入的整數陣列由小到大排序，並輸出結果
+ * 作者: 教授
+ * 日期: 2025-11-12
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+- 修改說明與原因
+  - 取代原本與題意無關的星號輸出邏輯，改為讀取一維整數陣列、排序並輸出，符合題目需求。
+  - 使用 Arrays.sort(int[]) 進行升冪排序，簡潔且穩定，便於閱讀與維護。
+  - 增加合理的程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與可維護性。
+  - 輸出格式使用空白分隔且不在末尾輸出多餘空格，符合常見輸出格式要求。
+  - 變數命名清晰：n 代表長度，arr 代表陣列，提升可讀性。
+  - 支援負數：int 本身支援負數，且 Arrays.sort 會正確排序負數與正數。
+
+- 一句話改進建議
+  建議在實作中加入輸入長度檢查與例外處理，若輸入數量不足或格式有誤，能給出友善的錯誤訊息或補救處理。

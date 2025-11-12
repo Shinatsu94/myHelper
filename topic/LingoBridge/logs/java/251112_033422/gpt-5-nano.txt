@@ -1,0 +1,37 @@
+11
+
+/*
+ * 檔案名稱: js13.java
+ * 功能說明: 讀入兩個整數 A, B，印出其原始值；在不使用額外變數的條件下交換兩者，並印出交換後的值。
+ * 作者: (請填寫)
+ * 日期: (請填寫)
+ */
+import java.util.Scanner;
+
+public class js13 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int A = s.nextInt();
+        int B = s.nextInt();
+
+        // 輸出原值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數進行交換（位元異或交換法）
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+        s.close();
+    }
+}
+
+改進說明:
+- 直接滿足題目需求：僅使用 A、B 兩個變數，並在不新增變數的前提下完成交換，輸出順序也符合題目要求。
+
+改進建議（一句話）:
+- 建議在正式提交時補上程式檔案的標頭註解與作者資訊，並考慮加入例外處理與輸入確認以提高健壯性。

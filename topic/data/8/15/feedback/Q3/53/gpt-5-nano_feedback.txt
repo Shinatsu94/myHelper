@@ -1,0 +1,68 @@
+7
+
+評分明細
+- 正確性（50%）：0/50
+- 邏輯（30%）：0/30
+- 格式（10%）：7/10
+- 備註（10%）：0/10
+- 總分：7/100
+
+修改與說明
+1) 修改後完整程式碼
+```java
+/*
+ * 檔案名稱: Main.java
+ * 功能說明: 讀取一維整數陣列長度與元素，將元素做升冪排序後輸出。
+ * 作者: 教授
+ * 日期: 2025-11-12
+ */
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            return; // 無有效長度，結束程式
+        }
+
+        int[] arr = new int[n];
+
+        // 逐一讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 輸入不足時，預設為 0（實務上可改為拋出異常或其他處理）
+                arr[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出單行、以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+2) 修改部分與原因
+- 由原本的二維字符陣列與星號輸出改為一維整數陣列並排序：符合題目需求，避免不必要的資料結構與輸出格式。
+- 使用 Arrays.sort 進行升冪排序，簡潔且效率良好。
+- 改用單行輸出，元素以空白分隔，符合輸出格式要求，並避免尾端多餘空格。
+- 增加程式標頭註解與清晰的變數命名與註解，提升可讀性與可維護性。
+- 增加基本的輸入檢核與預設值，避免因輸入不足而產生異常結束。
+
+3) 改善建議或反饋（一句話）
+建議加入完整的輸入驗證與錯誤處理（例如檢查是否為整數、處理輸入不足情況），以提升對測資與使用情境的魯棒性。

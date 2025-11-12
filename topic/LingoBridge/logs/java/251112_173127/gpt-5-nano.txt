@@ -1,0 +1,43 @@
+13
+修改後完整程式碼：
+
+/*
+檔案名稱: CSIE_41343212_1031_2.java
+功能: 讀取使用者輸入的長度與整數陣列，將陣列由小至大排序，輸出排序後的內容。
+作者: 你的助手
+日期: 2025-11-12
+說明: 使用 Arrays.sort 進行正向排序，支援負數，並加入基本註解與整潔的輸出格式。
+*/
+public class CSIE_41343212_1031_2 {
+    public static void main(String[] args) {
+        java.util.Scanner input = new java.util.Scanner(System.in);
+        int length = input.nextInt();
+        int[] arr = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 使用 Java 提供的排序方法，確保正確性與穩定性 (小到大)
+        java.util.Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+修改說明：
+- 將原本的自訂排序邏輯替換為 Java 內建的 Arrays.sort，確保正確且穩定地由小到大排序，兼容負數輸入。
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可閱讀性與維護性。
+- 使用 StringBuilder 進行輸出拼接，避免在循環中直接多次呼叫字串連接，提升效率與可讀性。
+- 保留原先對輸入的直覺處理方式（先讀長度，再依序讀取數字），符合題意「不使用 EOF、一次執行結束」的限制。
+
+改進建議：
+- 從使用者角度，若未輸入足夠的整數會發生例外，建議加入基本錯誤處理或輸入檢查以提高健壮性。

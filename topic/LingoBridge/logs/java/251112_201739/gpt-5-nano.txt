@@ -1,0 +1,74 @@
+7
+
+評分明細
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：7/10
+- 備註：0/10
+
+修改說明與修改後程式碼
+修改說明要點
+- 改為符合題目要求的行為：讀取一個整數 n，接著讀取 n 個整數，將它們由小到大排序，最後以空格分隔輸出，否認原程式的雜訊輸出（星號三角形）。
+- 使用動態陣列 arr(n) 以支援任意長度的輸入，移除原程式對長度的上限限制。
+- 使用 Arrays.sort(arr) 進行升序排序，支援負數。
+- 輸出格式改為單行輸出，元素之間以空格分隔，末尾換行。
+- 增加標頭註解和程式內部註解，變數命名更具意義，提升可讀性。
+
+修改後完整程式碼
+/*
+ 檔案名稱: SortIntArray.java
+ 功能: 讀取使用者輸入的長度 n，接著讀取 n 個整數，將它們由小到大排序後輸出，元素可為負數。
+ 作者: 教授
+ 日期: 2025-11-12
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortIntArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        // 讀取長度，必須為正整數
+        while (true) {
+            if (!sc.hasNextInt()) {
+                sc.close();
+                return;
+            }
+            n = sc.nextInt();
+            if (n > 0) break;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 輸入不足時，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        // 輸出：以空格分隔、換行結尾
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改部分說明與原因
+- 取代原先的三角形輸出邏輯，改以符合題意的排序輸出。
+- 移除對長度的硬性上限，改用動態陣列長度 n，能處理任意長度的輸入。
+- 使用 Arrays.sort 提供穩定且正確的升序排序，且能正確處理負數。
+- 輸出改為單行數字，符合輸出格式規範，避免額外的星號輸出。
+- 加入程式標頭與內文註解，提升可讀性與可維護性。
+
+一句話改進建議
+- 直接以使用者輸入的數值排序並輸出，避免不相關的輸出（如星號/三角形），並加強對輸入不足的健壯性處理（可考慮拋出例外或提示錯誤。）

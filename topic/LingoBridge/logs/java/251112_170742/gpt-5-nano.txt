@@ -1,0 +1,77 @@
+90
+
+評分說明
+- 正確性 (50/50): 正確地讀取長度、讀入元素、排序並輸出，能處理負數與任意長度情況（零長度亦可）。
+- 邏輯 (30/30): 邏輯清晰，採用直接且正確的排序與輸出流程，符合題意。
+- 格式 (10/10): 變數命名有意義，縮排與註解整潔，整體可讀性高。
+- 備註 (0/10): 缺少程式標頭註解（檔案名稱、功能、作者、日期等），未符合此項要求，因此扣分。
+
+修改與優化說明
+1) 將 I/O 方式由 Scanner 改為 BufferedReader 與 StringTokenizer
+- 原因：Scanner 在處理大量輸入時較慢，若測資較大容易成為效能瓶頸。使用 BufferedReader 搭配 StringTokenizer 可提升讀取效率，且能更好地控制輸入格式與容錯。
+2) 加入程式標頭註解
+- 原因：符合作業要求的備註部分，方便他人理解程式檔案名稱、功能、作者與日期等資訊。
+3) 輸出使用 StringBuilder
+- 原因：多次呼叫 System.out.print 會增加 I/O 開銷，使用 StringBuilder 組裝輸出再一次性輸出可提升效能與穩定性。
+4) 容錯與穩健性改進
+- 原因：先讀取第一行非空字串作為 n，避免前導空白造成解析錯誤；在輸入不完整時仍能穩定執行。
+5) 保留原有核心邏輯
+- Arrays.sort(arr) 仍保持簡單且正確的升冪排序方式，符合題意。
+
+修改後完整程式碼
+/*
+ * 檔案名稱: Main.java
+ * 功能: 建立任意長度的一維整數陣列，將內容由小到大排序並輸出
+ * 作者: 教授
+ * 日期: 2025-11-12
+ * 備註: 使用 BufferedReader 與 StringTokenizer 進行 I/O，以提升效率並具容錯性
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // 讀取 n，跳過前導空白行
+        String line;
+        int n = 0;
+        while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if (!line.isEmpty()) {
+                n = Integer.parseInt(line);
+                break;
+            }
+        }
+
+        int[] arr = new int[n];
+        int idx = 0;
+
+        // 與題意相符，讀入 n 個整數，允許分布在多行
+        while (idx < n && (line = br.readLine()) != null) {
+            StringTokenizer st = new StringTokenizer(line);
+            while (st.hasMoreTokens() && idx < n) {
+                arr[idx++] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+
+改動原因摘要
+- 提升 I/O 效能、增強容錯性與可讀性，同時符合題目對於註解與清單輸出的要求。
+
+改進建議
+- 建議在正式專案中加入嚴格的輸入驗證與例外處理，並考慮支援更大資料量與多種分隔格式，必要時可加入自動化測試用例以確保不同情境下的正確性與穩定性。

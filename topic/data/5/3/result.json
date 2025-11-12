@@ -1,0 +1,10 @@
+{
+    "generated_at": "2025-09-04T19:21:53+02:00",
+    "qpath": "C:/xampp/htdocs/topic/data/5/3/homework_texts/Q1.txt",
+    "ppath": "C:/xampp/htdocs/topic/data/5/3/homework_texts/params.auto.json",
+    "cmd": "python \"C:\\xampp\\htdocs\\topic\\LingoBridge\\WebtoLB.py\" \"C:/xampp/htdocs/topic/data/5/3/homework_texts/Q1.txt\" \"C:/xampp/htdocs/topic/data/5/3/homework_texts/params.auto.json\"",
+    "exit_code": 1,
+    "score": null,
+    "score_max": null,
+    "feedback": ""
+}

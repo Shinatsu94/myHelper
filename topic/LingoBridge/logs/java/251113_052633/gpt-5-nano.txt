@@ -1,0 +1,73 @@
+4
+
+評分細項
+- 正確性(50%): 0
+- 邏輯(30%): 0
+- 格式(10%): 4
+- 備註(10%): 0
+
+修改與評語說明
+- 原作業與題目需求嚴重不符：原程式只是讀入一個整數並依照閾值輸出三種文字，與「印出虎科大及中文姓名各字對應的內碼」無關。故正確性與邏輯皆為0。
+- 在格式方面，原程式有基本縮排與結構，但缺乏註解與符合題意的輸出，故給予部分分數。
+- 提供的修改版本：以不需要外部輸入的方式，直接輸出「虎、科、大、林、武、杰」六個字及其對應的內碼。內碼的計算以特定編碼（Big5）取得每個字的兩字節表示，再將兩字節組成一個整數作為內碼；若該編碼不可用，提供回落使用 Unicode 編碼的保守策略，確保程式仍可編譯與執行。
+- 另外新增程式註解與統一的檔名/類別命名慣例，提升可讀性與可維護性。
+
+修改後完整程式碼與修改說明
+程式說明
+- 功能：印出虎科大與學生中文姓名的六個字及其對應的內碼（以 Big5 編碼計算，若該編碼不可用則回落到 Unicode）。
+- 設計要點：避免外部輸入，使用陣列儲存字元，迴圈逐一輸出；內碼計算採用字元串轉字節的方式，針對雙位元字做組合，便於在不同編碼下得到一致的「內碼」表示（若編碼不存在則用 Unicode 作為保底）。
+
+完整程式碼（修改後）
+/*
+ * 程式檔案名稱: CSIE_PrintTigerKeDaLinWuJie.java
+ * 功能說明: 印出「虎科大」與學生中文姓名六字的對應內碼。內碼以 Big5 編碼的兩字節組合表示，如無 Big5 支援則改以 Unicode 顯示。
+ * 作者: 你自行填寫
+ * 日期: 2025-11-12
+ */
+
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
+
+public class CSIE_PrintTigerKeDaLinWuJie {
+    public static void main(String[] args) {
+        // 要輸出的六個字
+        char[] chars = {'虎','科','大','林','武','杰'};
+
+        // 嘗試使用 Big5 編碼來取得「內碼」。若不支援，改用 UTF-8 的 Unicode 路徑作為降級方案。
+        final String encodingName = "Big5";
+        Charset cs;
+        boolean useEncoding = true;
+        try {
+            cs = Charset.forName(encodingName);
+        } catch (UnsupportedCharsetException e) {
+            // 回落到 UTF-8（Unicode）作為保底
+            cs = Charset.forName("UTF-8");
+            useEncoding = false;
+        }
+
+        for (char ch : chars) {
+            int code;
+            if (useEncoding) {
+                String s = String.valueOf(ch);
+                byte[] b = s.getBytes(cs);
+                if (b.length >= 2) {
+                    code = ((b[0] & 0xFF) << 8) | (b[1] & 0xFF);
+                } else {
+                    code = b[0] & 0xFF;
+                }
+            } else {
+                // Unicode 的碼點表示（作為降級備案）
+                code = ch;
+            }
+            System.out.println(ch + " " + code);
+        }
+    }
+}
+
+修改原因與重點
+- 對應題意：直接輸出六個字及其內碼，避免不必要的輸入與邏輯分支。
+- 內碼計算：以 Big5 編碼取得兩字節，再合併為一個整數，較符合中文作業常見的「內碼」概念；若環境不支援該編碼，提供穩健的回落機制以避免執行失敗。
+- 可讀性與可維護性：使用清晰的陣列與迴圈，加入註解與一致的命名，方便日後維護與擴充。
+
+一句話改進建議
+- 建議在作業中先與學生對齊「內碼」的定義與編碼規範（例如固定使用 Big5 或特定編碼），再實作具體編碼轉換，避免不同環境造成輸出差異，並在程式中清楚註解所採用的編碼規範。

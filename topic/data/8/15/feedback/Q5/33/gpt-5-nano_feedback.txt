@@ -1,0 +1,56 @@
+0
+
+評分明細：
+- 正確性: 0 / 50
+- 邏輯: 0 / 30
+- 格式: 0 / 10
+- 備註: 0 / 10
+- 總分: 0 / 100
+
+修改後的完整程式碼與說明如下：
+
+修改後程式碼（已優化並符合題意）：
+/**
+ * File: SortIntArray.java
+ * 功能: 讀入長度 n，接著讀入 n 個整數，將它們由小到大排序並輸出。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortIntArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，以 0 代替
+            }
+        }
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明（主要變更與原因）：
+- 針對題目需求，改用一維整數陣列與排序，移除原作業中與題意無關的矩陣與行列式計算，避免混淆與錯誤。
+- 使用 Arrays.sort 進行整數排序，簡潔且效率高，能正確處理正負數並保證穩定性（對基本型別排序而言是非穩定/穩定皆可，此處以效率為主）。
+- 逐個讀取 n 個整數，確保輸入長度與內容符合需求；若輸入不足，提供預設值以避免例外。
+- 輸出控制為以空格分隔，且避免尾端多餘空格，符合常見輸出格式。
+- 程式檔案-header 註解完善，包含檔案名稱、功能、作者、日期，提升可讀性與維護性。
+
+改進建議（一句話）：
+建議再加入完整的輸入錯誤處理與例外狀況處理，例如非整數輸入的情況，並提供使用者友善的錯誤提示與重新輸入機制。

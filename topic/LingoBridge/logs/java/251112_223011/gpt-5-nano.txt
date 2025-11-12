@@ -1,0 +1,24 @@
+90
+
+修改後完整程式碼：
+/*
+File: CSIE_41343241_0919_1.java
+Description: Hello World 程式，輸出 Hello World!
+Author: 教師
+Date: 2025-11-12
+*/
+
+public class CSIE_41343241_0919_1 {
+    public static void main(String[] args) {
+        // 輸出結果為 Hello World!，並換行
+        System.out.println("Hello World!");
+    }
+}
+
+修改原因與說明：
+- 新增檔案標頭註解，符合作業要求的備註與註解規範，便於日後維護與審閱。
+- 在程式內加入簡短註解，提升可讀性與理解度，且未改動原有功能與輸出結果。
+- 保持原本的類別名稱與程式邏輯，避免因改名造成檔案與類別不匹配的問題。
+
+改進建議或反饋（一句話）：
+建議在正式提交時統一加入標頭註解與基本註解，以提升可讀性與作業規範符合度。

@@ -1,0 +1,62 @@
+42
+
+以下是基於您的評分標準所評得的分數與修正內容。
+
+修改後完整程式碼與修改原因：
+- 說明：已去除不必要的輸入提示與多餘輸出，改用正確的排序演算法，並將輸出格式改為符合題目需求的單行、以空格分隔的整數列表，支援負數。也補上程式頭註解與適當的註解，並改用有意義的命名。
+
+參考修改後完整程式碼（SelectionSortExample.java）：
+/**
+ * 檔案名稱: SelectionSortExample.java
+ * 功能說明: 讀取一維整數陣列長度與元素，將陣列內容由小到大排序，輸出排序結果（以空格分隔的一行）。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+
+public class SelectionSortExample {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = input.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一讀入陣列內容
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 使用選擇排序將陣列由小到大排序
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+
+        // 輸出排序結果：以空格分隔，單行輸出
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        input.close();
+    }
+}
+
+修改部分的原因說明：
+- 取消多餘的輸入提示與輸出文字，確保程式輸出符合題目樣例與自動評分的比對方式。
+- 修正排序演算法：原程式內層條件與賦值語句會覆蓋原值且未正確完成排序，應使用正確的排序邏輯（此處採用選擇排序，透過尋找最小值再交換）。
+- 輸出格式統一為單行、以空格分隔，避免括號、逗號、以及不必要的字串輸出，且支援負數。
+- 新增程式標頭與適當註解，提升可讀性與維護性；變數命名保持清楚，便於理解流程。
+
+一句話改進建議：
+- 建議在 I/O 規範與排序演算法上保持一致，避免額外提示文字，並以穩定且可讀的排序方式呈現結果（例如選擇排序或 Arrays.sort），以確保正確性與可維護性。

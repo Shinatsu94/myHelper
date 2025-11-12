@@ -1,0 +1,77 @@
+100
+
+以下為改寫後的完整程式碼與修改說明。
+
+程式碼（改良後）
+/**
+ * 檔案名稱: CSIE_41343219_1017_3.java
+ * 功能描述: 計算 pi 的近似值，使用莱布尼茲公式；輸出 i=10000,20000,...,100000 對應的 pi(十位小數)。
+ *           另外求出最小的 i，使 pi 的五位小數為 3.14159，並輸出該 i。
+ * 作者: 教授
+ * 日期: 2025-11-12
+ * 程式說明: 使用逐項累加的方式計算，採用半區間校正（Kahan 求和）以提升數值穩定性。
+ */
+
+import java.util.Locale;
+
+public class CSIE_41343219_1017_3 {
+    public static void main(String[] args) {
+        // 要輸出的 i 值集合
+        int[] targets = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
+
+        // 對每個 i 計算 pi，並輸出
+        for (int i : targets) {
+            double sum = 0.0;
+            double c = 0.0; // Kahan 求和校正項
+            for (int k = 0; k < i; k++) {
+                double term = ((k & 1) == 0 ? 1.0 : -1.0) / (2.0 * k + 1.0);
+                // Kahan 求和
+                double y = term - c;
+                double t = sum + y;
+                c = (t - sum) - y;
+                sum = t;
+            }
+            double pi = 4.0 * sum;
+            // i 以 width 6 右對齊，pi 顯示到小數點後10位
+            System.out.printf(Locale.US, "i = %6d, pi = %.10f%n", i, pi);
+        }
+
+        // 求最小的 i 使 pi 的五位小數為 3.14159
+        double targetFive = 3.14159;
+        double sum = 0.0;
+        double c = 0.0;
+        int minI = -1;
+        for (int k = 0; ; k++) {
+            double term = ((k & 1) == 0 ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            double y = term - c;
+            double t = sum + y;
+            c = (t - sum) - y;
+            sum = t;
+
+            double pi = 4.0 * sum;
+            String s = String.format(Locale.US, "%.5f", pi);
+            if (s.equals("3.14159")) {
+                minI = k + 1;
+                break;
+            }
+
+            // 安全防呆，防止極端情況下無限迴圈
+            if (k > 2000000) {
+                minI = -1;
+                break;
+            }
+        }
+        System.out.println("i = " + minI);
+    }
+}
+
+修改說明與原因
+- 使用落地的莱布尼茲公式實作正確的 pi 近似計算，輸出要求的多組 i 對應的 pi 值。
+- 為提升數值穩定性與精度，採用 Kahan 求和法來減少浮點誤差，尤其在累加大量項數時效果顯著。
+- 組織結構與命名改為較有意義的寫法，並完整註解程式開頭的檔案資訊與功能，方便維護。
+- 輸出格式：
+  - i 使用 width 6 的右對齊輸出，符合「i 顯示到6位數」的需求，並搭配 pi 的小數點後 10 位輸出。
+  - 對於分離列與換行，採用標準換行，確保輸出符合題目給定的格式。
+
+改進建議（一句話）
+- 建議在實作中再加入單元測試或比對基準值的自動驗證，並考慮使用更高精度的數值庫（如 BigDecimal 配合分數運算）以進一步提升長序列累加的穩定性與再現性。

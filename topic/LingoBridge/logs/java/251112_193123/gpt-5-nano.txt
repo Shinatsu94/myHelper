@@ -1,0 +1,63 @@
+7
+- 正確性: 0
+- 邏輯: 0
+- 格式: 7
+- 備註: 0
+
+程式優化與修改說明
+- 原因與修改重點：
+  - 原程式使用了從右到左的「最大值傳遞」邏輯，實際上無法實作升序排序，輸出結果與預期相差甚遠，且對負數的處理不穩定（max 初始值為 -1，遇到全為負數會出現錯誤）。
+  - 使用 Arrays.sort 直接對整數陣列進行升序排序，能正確處理任意長度與包含負數的情況，語法簡潔且效率穩定。
+  - 加入程式標頭註解，並在輸出時避免尾端多餘的空格，輸出格式更加穩定。
+- 修改後完整程式碼（保持原檔案名稱 csie_1031_41343214_2.java，以利編譯與比對）：
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+檔案名稱: csie_1031_41343214_2.java
+功能說明: 將讀入的任意長度整數陣列進行升序排序，輸出排序結果
+作者: 你的姓名
+日期: 2025-11-12
+說明: 使用 Arrays.sort 以正確處理負數與任意長度的輸入，輸出以單行空格分隔的排序結果。
+*/
+public class csie_1031_41343214_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+改動說明要點：
+- 將原先的自訂排序邏輯改為直接使用 Arrays.sort，以確保正確性與可讀性。
+- 加入清楚的程式註解與檔案標頭，符合備註欄要求。
+- 輸出格式改為避免尾端多餘的空格，提升穩定性。
+
+改進建議（一句話）
+- 建議採用內建排序工具（如 Arrays.sort）並確保輸出格式穩定，這樣能快速且穩健地滿足題目需求。

@@ -1,0 +1,57 @@
+11
+
+評分明細：
+- 正確性：0/50
+- 邏輯：5/30
+- 格式：4/10
+- 備註：2/10
+總分：11/100
+
+修改與改進說明：
+- 將排序演算法改為使用 Java 內建的 Arrays.sort，確保對負數與任意長度的正確性與穩定性，避免自寫複雜邏輯導致排序錯誤。
+- 將類別名稱改為 Main，並提供符合檔案 Main.java 的標頭註解，以符合題目規範與編譯要求。
+- 使用簡潔的輸出方式，避免不必要的副作用，確保輸出格式符合題目需求（數字之間用空白分隔，結尾換行）。
+- 程式內部增加清晰註解，並保持合理縮排與命名。
+
+修改後完整程式碼（Main.java）：
+/*
+ * 檔案名稱: Main.java
+ * 功能: 讀取整數 n 與 n 個整數，輸出從小到大排序的結果
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 使用內建排序，確保正確且簡潔
+        Arrays.sort(arr);
+
+        // 輸出，數字之間以單一空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
+
+修改原因說明：
+- 內建 Arrays.sort 能穩定且快速地對整數陣列做排序，能正確處理包含負數的情況，並避免自行撰寫錯誤的排序邏輯。
+- 將公有類別改為 Main，符合題目要求的檔案命名與類別名稱對應，避免編譯錯誤。
+- 輸出格式統一、可讀性提升，避免多餘的字元與空白。
+
+改進建議（一句話）：
+以簡單可靠的內建排序取代自訂排序邏輯，並嚴格遵守檔案與類別命名規範，能快速正確地通過測資。

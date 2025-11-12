@@ -1,0 +1,69 @@
+6
+
+評分與分析
+- 正確性(50%): 0/50
+  - 原作不會輸出題目範例的排序結果，是錯誤的排序邏輯，靠尋找尾端最大值的做法無法產生升序排列。
+- 邏輯(30%): 0/30
+  - 原作的邏輯並非排序演算法，且最終輸出包含 -1 等不符要求的值，整體邏輯不成立。
+- 格式(10%): 6/10
+  - 原程式有適當的縮排與結構，但命名風格不符合常見慣例，且缺乏註解與檔案標頭說明。
+- 備註(10%): 0/10
+  - 程式缺乏 header 註解說明檔名、功能、作者、日期，未包含說明性註解。
+
+修改與優化說明
+- 核心變動
+  - 改用內建排序 Arrays.sort 直接對整數陣列進行升冪排序，保證正確性與效率（時間複雜度 O(n log n)）。
+  - 加入清晰的程式頭註解，描述檔案名稱、功能、作者、日期等資訊。
+  - 簡化輸入與輸出流程：先讀長度，再依序讀取長度個整數，最後以空格分隔輸出排序結果。
+  - 移除原本的 MA、pA 等不必要的方法，讓程式結構更清晰。
+- 修改後程式碼
+  (請使用者將下列程式存成對應的檔名並編譯執行)
+
+  import java.util.Scanner;
+  import java.util.Arrays;
+
+  /*
+   * 檔案名稱: CSIE_41343202_1031_2.java
+   * 功能: 對輸入的一維整數陣列進行升冪排序並輸出
+   * 作者: 學生
+   * 日期: 2025-11-12
+   */
+
+  public class CSIE_41343202_1031_2 {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+
+          // 讀取陣列長度
+          int length;
+          if (!scanner.hasNextInt()) {
+              scanner.close();
+              return;
+          }
+          length = scanner.nextInt();
+
+          // 讀取陣列元素
+          int[] array = new int[length];
+          for (int i = 0; i < length; i++) {
+              array[i] = scanner.nextInt();
+          }
+
+          // 排序
+          Arrays.sort(array);
+
+          // 輸出排序結果，元素之間以空格分隔
+          StringBuilder sb = new StringBuilder();
+          for (int i = 0; i < length; i++) {
+              if (i > 0) sb.append(' ');
+              sb.append(array[i]);
+          }
+          System.out.println(sb.toString());
+
+          scanner.close();
+      }
+  }
+
+- 修改原因說明
+  - 使用 Arrays.sort 能確保正確的升序排列，且程式結構簡潔，易於維護與理解；另外添加頭註解提升可讀性與可追溯性，符合一般作業檔案標準。
+
+一句話改進建議
+- 盡量使用內建排序或標準排序演算法，避免自行設計不正確的排序邏輯，以確保正確性與效率。

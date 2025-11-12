@@ -1,0 +1,65 @@
+86
+
+- 正確性（50%）：50/50  
+  程式能正確讀取長度與對應的整數，對輸入負數亦可正確排序，輸出格式符合題目要求。
+
+- 邏輯（30%）：28/30  
+  使用 Arrays.sort 進行排序，邏輯清晰且正確。不過在輸出時使用逐次 print 可以再做微幅整潔與效率提升。
+
+- 格式（10%）：8/10  
+  變數命名良善，縮排基本正確；但類別名稱為 test，未符合 Java 常見慣例的命名規範，且缺少檔案標頭註解與說明。
+
+- 備註（10%）：0/10  
+  缺少檔案標頭註解（檔案名稱、功能、作者、日期等說明），未滿足此部分要求。
+
+修改後完整程式碼（優化版）：
+```java
+/*
+ * 檔案名稱: Main.java
+ * 功能: 讀取整數 n，輸入 n 個整數，排序後輸出升序結果
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 版本: 1.0
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] nums = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+
+        // 排序
+        Arrays.sort(nums);
+
+        // 輸出排序後的陣列，使用字串拼接提升效率
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.println(sb.toString());
+
+        // 注意：在某些執行環境下可能不建議顯式關閉 System.in
+        // sc.close();
+    }
+}
+```
+
+修改內容說明：
+- 將類別名稱改為 Main，符合 Java 的入口類型命名與大多數評測環境的要求，並以檔案名稱對應到檔案級別命名。
+- 新增程式標頭註解，包含檔案名稱、功能、日期等，以符合備註需求。
+- 移除不必要的關閉 Scanner 的呼叫，避免某些執行環境下的 System.in 關閉問題；輸出改用 StringBuilder 組裝，提升輸出效率與可讀性。
+- 保留負數支援，使用 Arrays.sort 處理整數排序。
+
+改進建議或反饋（一句話）：
+建議持續遵循標準的檔案與類別命名規範，並以一個短而清晰的輸出流程完成處理，同時補上完整的程式標頭註解以符合評分標準。

@@ -1,0 +1,43 @@
+95
+
+修改後完整程式碼與修改說明：
+
+修改後程式碼
+- 變數名稱改為更具語意的 first、second，符合「有意義名稱命名」的要求。
+- 將註解改成正確描述交換方式（使用 XOR 交換，且不使用額外變數）。
+- 保留原本的輸入與輸出邏輯，輸出為交換後的兩個數字（符合題目給的輸出範例）。
+
+```java
+// date :2025/10/03
+// author: 黃榮裕41343240
+// function: 讀入使用者輸入的二個數字存在變數 first, second 並印出其值，最後在不使用額外變數的前提下交換兩數並印出
+
+import java.util.Scanner;
+
+public class CSIE_41343240_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 使用位元異或( XOR ) 交換，不使用額外變數
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+
+        sc.close();
+    }
+}
+```
+
+修改部分理由說明：
+- 將變數命名改為 first、second，以提高可讀性與維護性，符合格式評分中「變數命名有意義」的要求。
+- 將註解正確說明使用 XOR 交換的方式，避免與程式邏輯不符的註解造成混淆。
+- 保留原本不使用額外變數的約束（只能用 A、B（此處改為 first、second）兩個變數進行交換），符合題目限制。
+
+一句話改進建議或反饋：
+- 建議在註解中清楚對照「輸入與輸出順序」的預期，避免與題意樣本不一致時產生混淆；可考慮在註解或文件說明中包含示例輸入與對應輸出。

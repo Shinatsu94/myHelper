@@ -1,0 +1,72 @@
+10
+
+以下是依照你的標準對學生作業的評分與改寫結果。
+
+- 評分摘要
+  - 正確性 (50%): 0
+  - 邏輯 (30%): 0
+  - 格式 (10%): 4
+  - 備註 (10%): 6
+  - 總分: 10/100
+
+- 修改後完整程式碼與修改說明
+
+修改後的程式碼（功能：讀取一個整數 n，接著讀入 n 個整數，將其升序排序後以空格分隔輸出；支援負數；避免使用 EOF，僅執行一次）：
+/**
+ * 程式名稱 : OneDimensionalArraySortAscending
+ * 功能說明：建立任意長度的一維整數陣列，讀入數值並進行升序排序，最後輸出排序結果（以空格分隔）。
+ * 日期: 2025/11/12
+ * 作者: 教師評分示例
+ * 學號: XXXXXXX
+ */
+
+// 引入必要的套件
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class OneDimensionalArraySortAscending {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!in.hasNextInt()) {
+            return;
+        }
+        int n = in.nextInt();
+        if (n <= 0) {
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                // 不足的輸入以 0 代替，避免發生例外
+                arr[i] = 0;
+            }
+        }
+
+        // 對陣列進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改原因與重點說明：
+- 將目標改為符合題意：原程式與題意不符，改為實作「讀取長度、讀取對應元素、排序、輸出」的直覺流程。
+- 使用 Arrays.sort 做排序：穩定且高效，能正確處理負數與任意整數，符合「由小至大」的需求。
+- 輸出格式處理：使用 StringBuilder 逐步組合輸出，避免尾端多餘空格，與題目輸出格式一致。
+- 變數命名與註解：採用更具代表性的名稱，同時加入適當註解以提升可讀性。
+- 程式標頭與註解：加入檔案名稱、功能說明、日期等註解，符合你對備註分數的要求。
+
+- 改進建議（一句話）
+  建議在提交前先確認題意與輸出格式，並採用直覺且高效的實作方式（如使用 Arrays.sort 進行排序）以提升可讀性與正確性。

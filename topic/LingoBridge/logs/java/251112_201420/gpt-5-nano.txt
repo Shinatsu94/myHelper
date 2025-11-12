@@ -1,0 +1,53 @@
+6
+
+修改後完整程式碼：
+/*
+ 程式名稱: ArraySortAscending
+ 作者: 教師批改
+ 日期: 2025/11/12
+ 功能: 讀取長度 n，接著 n 個整數，將其由小到大排序並輸出
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!in.hasNextInt()) {
+            return;
+        }
+        int n = in.nextInt();
+
+        // 讀取 n 個整數並存入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，給定預設值
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素之間以單一空格分隔，末尾不留多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明（重點修改的部分以及原因）：
+- 將原程式中使用的二維 char 陣列與星號輸出，改為一維 int 陣列以存放輸入的整數，符合題意的數值型資料處理需求，避免無意義的字符輸出。
+- 使用 Java 標準庫的 Arrays.sort 直接對整數陣列進行升序排序，提升正確性與實作效率，並讓程式更易維護。
+- 以 Scanner 進行輸入，直接逐一讀取 n 與 n 個整數，支援包含負數的情況；最後以 StringBuilder 組裝輸出，避免尾端多餘空格，符合輸出格式要求。
+- 增加程式標頭註解，明確說明檔案名稱、功能、作者與日期，並在程式內加入必要註解，提升可讀性與可維護性。
+
+一句話改進建議或反饋：
+- 請直接按照題目需求處理整數輸入與排序，避免不相關的資料結構與輸出，並在提交前用負數與多組測資進行驗證以確保魯棒性。

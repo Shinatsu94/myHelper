@@ -1,0 +1,55 @@
+74
+
+修改後完整程式碼（優化後，包含清晰註解與穩定輸出格式）：
+/*
+檔案名稱: CSIE_41343109_1031_01.java
+功能: 讀入任意長度的一維整數陣列，先輸入長度 n，接著輸入 n 個整數，最後輸出由小到大排序的結果。
+作者: 教師
+日期: 2025-11-12
+*/
+
+public class CSIE_41343109_1031_01 {
+    public static void main(String[] args) {
+        java.util.Scanner scn = new java.util.Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        int[] a = new int[n];
+
+        // 讀取 n 個整數元素
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                a[i] = scn.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0，避免例外
+            }
+        }
+
+        // 進行排序，採用 Java 標準函式庫的 Arrays.sort，效率較高
+        java.util.Arrays.sort(a);
+
+        // 輸出排序後的陣列，元素以單一空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}
+
+修改說明與原因：
+- 將原本手寫的選擇排序/冒泡式排序改為使用 Arrays.sort，提升穩定性與效率，避免自行實作錯誤邏輯與較高的時間複雜度。
+- 統一輸出格式：改用單一空格作為分隔，且不在尾端留空格，確保輸出符合題意的格式要求。
+- 增加標頭註解與程式內部註解，提升可讀性與維護性。
+- 加入輸入檢查與資源釋放（scn.close），對極端情況有更穩健的行為。
+- 使用 StringBuilder 進行輸出串接，提升效能，且方便未來延展。
+
+改進建議或反饋（一句話）：
+- 建議直接使用 Arrays.sort 等標準函式庫排序以簡化實作、提升穩定性，並確保輸出格式嚴格符合題目要求。

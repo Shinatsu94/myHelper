@@ -1,0 +1,82 @@
+87
+
+評分細項
+- 正確性（50/50）：50
+- 邏輯（30/30）：28
+- 格式（10/10）：9
+- 備註（10/10）：0
+
+修改說明與優化後程式碼
+- 變更重點
+  - 加入標頭註解，清楚說明檔案名稱、功能、作者與日期，符合備註要求。
+  - 將計算拆分為小型獨立方法，提升可讀性與重用性（part (a) 與 part (b) 分離）。
+  - 對變數命名做些微清晰化，如使用 leibnizSum 來計算指定項數的 Leviniz 級數和。
+  - 統一輸出格式，使用 System.out.printf with %n 以符合換行需求，確保 i、pi 的輸出格式與題目要求一致。
+  - part (b) 仍以穩健的累加方式找出最小 i，使得 pi 近似至 3.14159，但以清晰的容錯與邏輯判斷提升可讀性。
+- 改善說明
+  - header 缺失：補充註解，讓後續維護者可快速了解檔案用途與作者資訊。
+  - 程式結構：把重複的計算封裝成方法，降低主流程的複雜度，易於測試與維護。
+  - 變數命名：避免過度使用單字母變數，降低閱讀難度。
+  - 輸出格式：確保 i 顯示六位數、pi 顯示十位小數，並維持單空白換行格式的要求。
+- 修改後完整程式碼
+ 將原程式重構成如下（保留原邏輯與輸出結果一致性）：
+
+/**
+ * File: LeibnizPi.java
+ * 功能: 使用 Leibniz 級數近似 pi，輸出 Part (a) 不同項數的 pi 值，以及 Part (b) 使 π 約至 3.14159 的最小 i。
+ * 作者: 您的姓名
+ * 日期: 2025-11-11
+ */
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // Part (a): 依序輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
+        for (int cnt = 10000; cnt <= 100000; cnt += 10000) {
+            double sum = leibnizSum(cnt);
+            System.out.printf("i = %6d, pi = %.10f%n", cnt, 4 * sum);
+        }
+
+        System.out.println();
+
+        // Part (b): 找出最小的 i 使得 pi 的近似值截斷到 5 位小數等於 3.14159
+        int minimalI = findMinimalIForPi3_14159();
+        System.out.printf("i = %6d%n", minimalI);
+    }
+
+    // 計算 Leibniz 級數前 terms 項的和
+    private static double leibnizSum(int terms) {
+        double sum = 0.0;
+        for (int k = 0; k < terms; k++) {
+            double term = 1.0 / (2 * k + 1);
+            sum += (k % 2 == 0) ? term : -term;
+        }
+        return sum;
+    }
+
+    // 找出最小的 i，使得 4 * sum(i) 截斷為 314159（即 3.14159 * 100000）
+    private static int findMinimalIForPi3_14159() {
+        double sum = 0.0;
+        long target = 314159L; // 3.14159 * 100000
+        int i = 0;
+        while (true) {
+            double term = 1.0 / (2 * i + 1);
+            sum += (i % 2 == 0) ? term : -term;
+            long truncated = (long) (4 * sum * 100000);
+            if (truncated == target) {
+                return i + 1; // 因為 i 是從 0 開始的，輸出要 i+1
+            }
+            i++;
+            // 安全機制，避免無限迴圈
+            if (i > 200000000) {
+                return -1;
+            }
+        }
+    }
+}
+
+- 修改原因摘要
+  - 提升可讀性與維護性：分離邏輯、清晰命名、加入註解。
+  - 確保符合題目輸出格式與要求的輸出精度。
+  - 保持輸出格式與原題樣式一致，並增強程式的魯棒性。
+
+一句話改進建議
+建議改用穩健的容許誤差判斷（如設定較小的差值容忍度）取代嚴格整數截斷比較，避免極端情況下找不到符合條件的 i 並提升可測試性。

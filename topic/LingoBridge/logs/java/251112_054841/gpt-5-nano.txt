@@ -1,0 +1,64 @@
+6
+
+正確性: 0/50
+邏輯: 0/30
+格式: 6/10
+備註: 0/10
+
+修改後完整程式碼（已根據題意重新實作，並提供說明）：
+import java.util.Locale;
+
+public class LeibnizPiSolver {
+    public static void main(String[] args) {
+        // 對於 i = 10000, 20000, ..., 100000 計算 pi，並輸出格式
+        // 計算方式：pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)
+        Locale.setDefault(Locale.US); // 確保小數點格式一致
+
+        double sum = 0.0;
+        int sign = 1;
+        int nextPrint = 10000;
+        int iFinal = 100000;
+
+        // 使用單次迴圈累加，避免多次重新計算
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= iFinal; i++) {
+            sum += sign / (2.0 * i - 1);
+            sign = -sign;
+
+            if (i == nextPrint) {
+                double pi = 4.0 * sum;
+                sb.append(String.format("i = %6d, pi = %.10f%n", i, pi));
+                nextPrint += 10000;
+            }
+        }
+
+        // 找出最小的 i 使得 pi (以四捨五入至小數第5位的值) 為 3.14159
+        // 這裡以逐步累加的方式，並以四捨五入判定是否為 3.14159
+        double sumForMin = 0.0;
+        int signForMin = 1;
+        int iMin = -1;
+        for (int i = 1; i <= 2000000; i++) { // 上限設定為較大的安全範圍
+            sumForMin += signForMin / (2.0 * i - 1);
+            signForMin = -signForMin;
+            double piVal = 4.0 * sumForMin;
+            long rounded = Math.round(piVal * 100000); // 四捨五入到小數第5位
+            if (rounded == 314159) {
+                iMin = i;
+                break;
+            }
+        }
+
+        // 輸出結果
+        System.out.print(sb.toString());
+        System.out.println("i = " + iMin);
+    }
+}
+
+修改說明：
+- 使用勒貝日公式（Leibniz）直接計算 pi，並針對 i=10000, 20000, ..., 100000 逐步輸出，避免先前作業的與題意無關的判断。
+- 以單次迴圈累加並逐步輸出，提升效率與可維護性；並移除不相關的輸入判斷與外部條件檢查。
+- 新增計算最小 i 使近似值在五位小數四捨五入後等於 3.14159 的邏輯，透過逐步累加並使用四捨五入判定以符合題目“i 值最小”的要求。
+- 輸出格式改為符合題目要求的格式化輸出：i 以寬度6顯示，pi 保留小數點後10位，且每行以換行分隔。
+
+改進建議（一句話）：
+建議改用大數浮點運算的穩定策略（例如用 BigDecimal）以避免浮點誤差影響五位小數的判定，並加入基本的輸入/錯誤處理以增強魯棒性。

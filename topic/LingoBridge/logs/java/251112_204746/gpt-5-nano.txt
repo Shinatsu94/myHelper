@@ -1,0 +1,97 @@
+6
+
+作業評分結果
+- 正確性(50%): 0
+- 邏輯(30%): 0
+- 格式(10%): 6
+- 備註(10%): 0
+
+修改與改進建議
+
+修改說明與原因
+- 重新實作符合題意的功能：原程式與題目完全不符，未讀取並排序一維陣列，改以正確的輸入模式讀取 n 與 n 個整數，並輸出排序後的內容。
+- 使用穩健的輸入方式與效能考量：採用自製快速掃描 FastScanner，支援負數且效率較高，避免輸入量較大時性能瓶鬥。
+- 提升程式可讀性與維護性：使用有意義的變數命名，並在程式中加入註解與檔案標頭（名稱、功能、作者、日期等）以符合作業要求。
+- 輸出格式對齊需求：輸出以空格分隔的排序結果，符合題目示例。
+
+修改後完整程式碼
+// 檔案名稱: Main.java
+// 功能: 讀取使用者輸入的長度 n 與 n 個整數，將陣列內容升冪排序後輸出
+// 作者: 教授
+// 日期: 2025-11-12
+// 備註: 使用快速掃描器以提高輸入效能，支援負數，輸出數字以空格分隔，末尾換行。
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        FastScanner fs = new FastScanner(System.in);
+        if (!fs.hasNext()) return;
+
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+
+    // 快速掃描器，支援整數讀取
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            this.in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        boolean hasNext() throws IOException {
+            int c;
+            while ((c = read()) != -1) {
+                if (c > ' ') {
+                    ptr--;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        int nextInt() throws IOException {
+            int c;
+            do { c = read(); } while (c <= ' ' && c != -1);
+            int sign = 1;
+            if (c == '-') { sign = -1; c = read(); }
+            int val = 0;
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}
+
+修改說明與修改部分的原因
+- 已替換為符合題目需求的排序輸出功能，並以高效的輸入方式實作，保留程式可讀性與可維護性，加入程式標頭註解以符合作業要求。
+
+改進建議
+- 在提交前可加入簡單的單元測資與測資檢核，例如提供不同長度與含負數的測資，確保輸出格式嚴格符合題意。

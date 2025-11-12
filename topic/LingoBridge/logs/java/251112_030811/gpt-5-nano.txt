@@ -1,0 +1,40 @@
+88
+
+修改後完整程式碼：
+/**
+ * File: CSIE_41343223_1003_1.java
+ * 功能: 讀入使用者輸入的兩個數字並互換其值後印出
+ * 作者: 教師
+ * 日期: 2025-11-11
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343223_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 使用 long 以擴大表示範圍，並用位元運算交換以避免溢位
+        long A = scanner.nextLong();
+        long B = scanner.nextLong();
+
+        // XOR 交換，不使用額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 將整數型別由 int 改為 long，提升對極值輸入的容許度，減少溢位風險。
+- 使用位元交換（XOR swap）取代相加相減的交換方式，避免可能的溢位問題，同時仍不需要額外變數。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性及維護性。
+- 程式結尾加入 scanner.close()，符合資源管理的好習慣。
+
+改進建議或反饋（一句話）：
+建議在提交時附上完整的標頭註解，並考慮極值情境，改用 long 與 XOR 交換以避免溢位並提升可讀性。

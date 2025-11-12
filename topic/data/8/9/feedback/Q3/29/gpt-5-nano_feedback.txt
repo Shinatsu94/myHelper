@@ -1,0 +1,60 @@
+12
+
+評分明細
+- 正確性: 0/50
+  此作業要求印出「虎科大」及學生中文姓名的每個字及其對應內碼；提交的程式與題目無關，僅讀取分數並輸出及格/補考等文字，未輸出指定內容。
+- 邏輯: 5/30
+  程式具有自洽的控制流程與輸出結構，但與題意毫無關聯，屬於錯誤的問題解法，因此邏輯上僅對原程式的語句結構有所貢獻。
+- 格式: 7/10
+  程式有一致的縮排與基本可讀性，但命名與整體結構與題意不符，且缺乏註解與適當標頭。
+- 備註: 0/10
+  程式缺少檔案說明、作者、日期等註解。
+
+總分：12/100
+
+優化後的完整程式碼與說明
+修改原因與內容要點
+- 將程式改為符合題意：直接輸出「虎科大」以及學生姓名的每個字，並印出對應的內碼。本例以 Unicode 編碼點作為「內碼」，用 Java 動態取得字元的 Unicode 編碼點，並逐字印出。
+- 使用穩健的字元處理：透過 codePointAt 與 charCount 處理，避免未來遇到超出 BMP 的字元時的問題。
+- 程式命名與結構改良：改為具描述性的類名與方法，並新增註解說明用途。
+- 增加註解與程式標頭：放置程式功能說明、作者與日期等，提升可維護性。
+
+修改後完整程式碼
+```java
+// 檔案名稱: NameEncodingPrinter.java
+// 功能: 印出「虎科大」及學生姓名的每個字，並顯示對應的 Unicode 內碼
+// 作者: 你
+// 日期: 2025-11-12
+// 備註: 不需要用到輸入，直接輸出固定字串與其內碼
+
+public class NameEncodingPrinter {
+    public static void main(String[] args) {
+        // 先印出「虎科大」
+        String header = "虎科大";
+        printCodePoints(header);
+
+        // 再印出學生姓名，這裡以示例姓名「林武杰」
+        String name = "林武杰";
+        printCodePoints(name);
+    }
+
+    // 輸出字串中每一個字及其 Unicode 內碼
+    private static void printCodePoints(String s) {
+        for (int i = 0; i < s.length();) {
+            int codePoint = s.codePointAt(i);
+            String ch = new String(Character.toChars(codePoint));
+            System.out.println(ch + " " + codePoint);
+            i += Character.charCount(codePoint);
+        }
+    }
+}
+```
+
+修改部分說明
+- 從原本的輸入與成績判定邏輯，改為直接輸出固定字串與對應內碼，符合題意要求。
+- 使用 codePointAt 與 charCount 的迴圈以正確處理 Unicode 字元，未來若有超出 BMP 的字元也能正確取得其實際編碼點。
+- 增加程式註解與標頭資訊，提升可讀性與維護性。
+- 變數命名改為 header、name、printCodePoints，使程式更易理解。
+
+一句話改進建議
+- 若以實際輸入為主，可以改成接受使用者輸入的中文姓名與校名，並在輸出前做基本字元驗證與編碼轉換，讓程式更具彈性與通用性。

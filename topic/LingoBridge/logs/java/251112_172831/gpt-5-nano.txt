@@ -1,0 +1,49 @@
+16
+
+修改後完整程式碼（已優化，並符合題目需求）：
+// File: CSIE_41343202_1031_2.java
+// Description: 讀取整數長度 n，接著 n 個整數，將其升序排序，並輸出結果。
+// Author: 教授
+// Date: 2025-11-12
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343202_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int length;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        } else {
+            scanner.close();
+            return;
+        }
+
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(array);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改原因與改進點說明：
+- 正確性提升：原作為 MA 方法取最大值並輸出，結果與題意的升序排序不符，且最後一個元素為 -1。改為使用 Java 標準排序 Arrays.sort，能正確處理任意長度與包含負數的整數陣列，輸出符合題目需求的升序結果。
+- 邏輯清晰與魯棒性：直接讀取長度與對應元素，之後排序並輸出，流程簡單、直觀，減少不必要的中間變數與錯誤來源。
+- 格式與可讀性：加入適當的程式標頭註解，並使用有意義的變數與字串組裝輸出（使用 StringBuilder），提升可讀性與效能。
+- 備註遵循：在程式頭加入檔案名稱、功能描述、作者與日期等註解，符合備註要求。
+
+一句話改進建議：
+建議採用內建排序（例如 Arrays.sort）以確保正確性與效能，同時搭配適當的輸入檢查與註解，提升整體可維護性。

@@ -1,0 +1,54 @@
+6
+
+優化後程式碼（完整內容）：
+/*
+ 檔案名稱: LeibnizPiCalculator.java
+ 功能: 計算 π 的黎曼級數近似，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值（pi 至小數點後10位，i 至六位數顯示），並找出使 pi 四捨五入至小數點第六位後為 3.14159 的最小 i，輸出該 i。
+ 作者: 教師
+ 日期: 2025-11-12
+*/
+public class LeibnizPiCalculator {
+    public static void main(String[] args) {
+        // Part (a): i = 10000, 20000, ..., 100000
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double sum = 0.0;
+            for (int t = 0; t < i; t++) {
+                double term = 1.0 / (2 * t + 1);
+                sum += (t % 2 == 0) ? term : -term;
+            }
+            double pi = 4.0 * sum;
+            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        }
+
+        // 空行分隔
+        System.out.println();
+
+        // Part (b): 找出最小的 i，使 pi 四捨五入至小數第六位等於 3.14159
+        double sum = 0.0;
+        int minI = 0;
+        for (int i = 1; ; i++) {
+            double term = 1.0 / (2 * i - 1);
+            sum += (i % 2 == 1) ? term : -term; // 第 i 項的符號：奇數項正，偶數項負
+            double pi = 4.0 * sum;
+            double rounded = Math.round(pi * 1e5) / 1e5; // 四捨五入到 5 位小數
+            if (rounded == 3.14159) {
+                minI = i;
+                break;
+            }
+            // 安全保護，避免無窮迴圈（實務上不太可能到這裡，但仍留保護機制）
+            if (i > 2000000) {
+                break;
+            }
+        }
+        System.out.println("i = " + minI);
+    }
+}
+
+說明修改部分的原因：
+- 目的對齊題目需求：把程式改為實際計算黎曼級數以近似 pi，輸出指定 i 的情況，以及找出最小 i 使近似值符合要求，與原始提交的「判斷數字是否為遞增序列」內容完全不同。
+- 逐步計算與格式化：使用雙層迴圈分別實作部份 (a) 的多組 i 的近似計算與輸出，並使用 System.out.printf 控制 i 為六位數寬、pi 為十位小數，符合題目格式要求。
+- 效率與穩定性：採用逐項累加的方式計算 sum，避免不必要的重複計算；部份 (b) 透過逐步累加直到條件符合才終止，並以四捨五入檢核結果，確保符合題目的近似准確度需求。
+- 程式可讀性與維護性：新增檔案註解、統一變數命名、清晰分段（Part (a) 與 Part (b)），使後續維護更容易。
+
+改進建議或反饋（一句話）：
+- 建議在提交作業時，先閱讀題意並以標準輸出格式直接實作，避免偏離題目主旨，以及在程式開頭加入完整註解以符合評分規範。

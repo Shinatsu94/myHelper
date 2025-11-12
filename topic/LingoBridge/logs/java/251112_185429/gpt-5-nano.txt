@@ -1,0 +1,106 @@
+85
+
+修改後完整程式碼（原程式，未修改前的版本）
+import java.util.Scanner;
+
+public class CSIE_41343208_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+         
+        // Selection Sort
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+
+        // 輸出排序後
+
+        for (int i = 0; i < n-1; i++) {
+            System.out.print(arr[i] + " ");
+        }
+	System.out.print(arr[n-1]);
+	System.out.println();
+    }
+}
+
+修改說明與原因
+- 標頭註解與檔案資訊缺失：原程式未包含檔案名稱、功能、作者、日期等註解，降低可讀性與可維護性，建議加入標頭註解。
+- 邊界條件處理不足：若長度 n 為 0，原程式會在輸出階段嘗試 arr[n-1]，導致執行錯誤。需要對 n=0 做特別處理。
+- 輸出格式穩定性與可讀性：改用 StringBuilder 並在迴圈中統一輸出，避免在特殊情況下出現尾端空格與避免直接操作 arr[n-1] 的風險。
+- 資源釋放：加入 sc.close()，養成良好的資源管理習慣。
+- 保持原有的排序邏輯與功能：依然使用選擇排序，確保對負數等整數皆有正確排序，同時維持原作的直覺性。
+
+修改後的完整程式碼（優化版本）
+import java.util.Scanner;
+
+public class CSIE_41343208_1031_1 {
+    // 檔案名稱: CSIE_41343208_1031_1.java
+    // 功能: 讀入一個整數 n 與 n 個整數，將其內容升序排序，並輸出排序結果
+    // 作者: [作者名稱]
+    // 日期: 2025-11-12
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        int[] arr = new int[Math.max(0, n)];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            }
+        }
+
+        // 若長度為 0，直接輸出換行
+        if (arr.length == 0) {
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        // 選擇排序（Selection Sort）
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+
+        // 輸出排序結果，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+改進建議（單一句話）
+建議加上程式標頭註解、處理 n=0 的情況並統一輸出格式，以提升可讀性與健壮性。

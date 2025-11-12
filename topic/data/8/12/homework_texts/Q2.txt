@@ -1,0 +1,24 @@
+a number is called a well-ordered number if all of its digits are strictly incressing from left to right.
+For example, 258 (2 < 5 < 8) is a well-ordered number.
+Write a program to determine a user input number whether it is a well-ordered number.
+
+題目要求:
+- 程式僅執行一次就結束，無需使用EOF
+
+【INPUT-1】
+258
+
+【OUTPUT-1】
+258 is well-ordered number.
+
+【INPUT-2】
+255
+
+【OUTPUT-2】
+255 is not well-ordered number.
+
+【INPUT-3】
+285
+
+【OUTPUT-3】
+285 is not well-ordered number.

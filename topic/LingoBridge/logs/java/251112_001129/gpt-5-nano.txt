@@ -1,0 +1,34 @@
+98
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343128_1003_1 {
+    public static void main(String[] args) {
+        int first, second;
+        // 使用 try-with-resources 自動關閉 Scanner，避免資源洩漏
+        try (Scanner scanner = new Scanner(System.in)) {
+            first = scanner.nextInt();
+            second = scanner.nextInt();
+
+            // 不使用額外變數，採用 XOR 交換法
+            first = first ^ second;
+            second = first ^ second;
+            first = first ^ second;
+        }
+
+        System.out.println(first);
+        System.out.println(second);
+    }
+}
+
+/*
+檔案名稱: CSIE_41343128_1003_1.java
+功能說明: 讀入兩個整數，交換它們的值，印出交換後的結果。使用 XOR 交換法且僅使用兩個變數，輸入由 Scanner 取得，並透過 try-with-resources 自動關閉 Scanner。
+作者: 陳廷鑫
+日期: 2025/10/03
+註解說明: 程式內加入適當註解，說明變數含意與交換方法。
+*/
+
+一句話改進建議或反饋：
+在不允許使用額外變數的前提下，XOR 交換法是可行且高效的，但為提高可讀性與維護性，建議在註解清楚說明此交換法的原理，或在條件允許時改用有明確臨時變數的交換法以提升可讀性。

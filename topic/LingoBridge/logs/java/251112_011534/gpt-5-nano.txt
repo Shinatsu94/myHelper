@@ -1,0 +1,35 @@
+11
+
+修改後完整程式碼
+// 檔案名稱：SwapTwoNumbers.java
+// 功能：讀入兩個整數，先印出原值，再以交換後的順序印出（不使用額外變數進行交換）
+// 作者：老師/授課學生
+// 日期：YYYY-MM-DD
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 先印出原值
+        System.out.println(a);
+        System.out.println(b);
+
+        // 不使用額外變數，直接印出交換後的順序
+        System.out.println(b);
+        System.out.println(a);
+
+        sc.close();
+    }
+}
+
+說明修改該部分的原因
+- 正確性與符合題意：原程式讀入三個數字並進行排序，且輸出三個值，與僅需讀兩個數字並輸出其原值與交換後之值的要求不符。改用僅兩個變數的設計，直接印出原值與交換後的值，符合題意。
+- 邏輯性：避免不必要的複雜邏輯與多餘變數（如 max/min/mid）之使用，改為使用最直接的思路以最小步驟達成需求。
+- 格式與可讀性：加上適當的檔案標頭註解、統一的縮排與命名慣例（類名改為符合 Java 命名規範的 CamelCase），方便維護與檢閱。
+- 備註：新增程式標頭註解，說明檔案名稱、功能、作者與日期，並保留程式內的註解說明。
+
+一句話改進建議或反饋
+- 建議在實作前先澄清輸出格式與邏輯期望（例如是否需要同時顯示原值與交換後的四行輸出），以避免偏離題意或測資不一致的情況。

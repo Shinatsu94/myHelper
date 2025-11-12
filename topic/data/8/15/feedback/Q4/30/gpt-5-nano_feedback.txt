@@ -1,0 +1,67 @@
+3
+
+評分明細
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：3/10
+- 備註：0/10
+總分: 3/100
+
+修改後完整程式碼（優化後的正確解法）
+```java
+/*
+檔案名稱: CSIE_41343202_1031_3B.java
+功能: 讀取一維整數陣列長度 n 與 n 個整數，輸出其升序排序的結果
+作者: 教師
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343202_1031_3B {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 以避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+```
+
+修改說明與原因
+- 將原始程式的無關邏輯與迴圈移除，改為直接滿足題目需求：讀取長度 n 與 n 個整數，對整數陣列進行升序排序，並輸出結果。
+- 使用 Arrays.sort(arr) 來實作排序，簡潔且效率良好，適用於任意長度的整數陣列，且支援負數。
+- 增加清晰的程式頭註解與檔案註解，並保留適當的內部註解，提升可讀性與維護性。
+- 輸入部分採用單次執行結束的模式，符合題目要求的「執行一次程式後結束」原則；對於輸入不足的情況，提供預設值以避免例外，但實務上應該保證輸入完整。
+- 命名與格式保持整潔、縮排一致，提升可讀性。
+
+改進建議（一句話）
+建議未來改用自訂快速輸入與支援多組測資的機制，並強化輸出格式以符合競賽需求。

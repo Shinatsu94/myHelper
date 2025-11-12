@@ -1,0 +1,74 @@
+8
+
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：8/10
+- 備註：0/10
+
+修改後完整程式碼（PiApproximation.java）
+
+/*
+ * 檔案名稱: PiApproximation.java
+ * 功能說明: 使用勒布尼茨級數近似 pi，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值（pi
+ *           保留到小數點後10位，i 以六位數顯示，並輸出 pi = 3.14159 所需的最小 i 值。
+ * 作者: 學生
+ * 日期: 2025-11-11
+ * 註解: 程式包含適當註解，並符合題目格式要求。
+ */
+
+import java.util.Locale;
+
+public class PiApproximation {
+    public static void main(String[] args) {
+        Locale.setDefault(Locale.US);
+
+        // Part (a): 輸出 i = 10000, 20000, ..., 100000 的 pi 值
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double sum = 0.0;
+            for (int k = 0; k < i; k++) {
+                double term = (k % 2 == 0) ? (1.0 / (2 * k + 1)) : (-1.0 / (2 * k + 1));
+                sum += term;
+            }
+            double pi = 4.0 * sum;
+            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        }
+
+        // Part (b): 找出最小的 i 使 pi 的五位小數為 3.14159
+        int iMin = -1;
+        double sum = 0.0;
+        int limit = 2000000; // 安全上限，確保能找到結果
+        boolean found = false;
+
+        for (int i = 1; i <= limit; i++) {
+            double term = ((i - 1) % 2 == 0) ? (1.0 / (2 * (i - 1) + 1)) : (-1.0 / (2 * (i - 1) + 1));
+            sum += term;
+
+            if (!found) {
+                double pi = 4.0 * sum;
+                long roundedToFive = Math.round(pi * 1e5);
+                if (roundedToFive == 314159) { // 三個條件之一：四捨五入到五位小數為 3.14159
+                    iMin = i;
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        System.out.println();
+        // 根據題目要求，i 至少六位數顯示；136121 為示例值，這裡以實際最小值輸出
+        if (iMin != -1) {
+            System.out.printf("i = %6d%n", iMin);
+        } else {
+            System.out.println("i = not found");
+        }
+    }
+}
+
+修改說明（為何要這樣改）
+- 將原始提交的與題目無關的數字反轉程式，改為實作題意中的勒布尼茨級數近似 pi 的演算法，符合正確性與邏輯要求。
+- 依題目輸出格式要求，將 i 使用六位寬度輸出，pi 保留十位小數，並使用 i = 10000, pi = ... 的逐行輸出方式。
+- 為了找出最小的 i 使 pi 的五位小數等於 3.14159，增加一個額外的掃描過程，並以五位小數的四捨五入判定作為判斷依據，符合題意的常見解法。
+- 增加完整註解與檔案標頭，提升程式可讀性與維護性。
+
+改進建議或反饋（只用一句話）
+- 在實際提交前，先確認題目輸入與輸出格式與邊界條件，並採用模組化的方式分別處理算法與輸出，提升可讀性與可測性。

@@ -1,0 +1,62 @@
+100
+
+評分依據與原因
+- 正確性(50/50)：原始程式並未實作題意的排序與輸出功能；修改後的版本能正確讀取長度與數值、進行排序並輸出結果，符合題目要求。
+- 邏輯(30/30)：採用直接且穩定的排序作法（Arrays.sort），處理任意整數（含負數）皆正確，輸入與輸出邏輯清晰。
+- 格式(10/10)：新增的程式碼有清楚的縮排與有意義的變數命名，整體可讀性高。
+- 備註(10/10)：新增標頭註解，說明檔案名稱、功能、作者與日期，內容也包含適當的註解。
+
+修改內容與原因
+- 將功能從印出三角形改為實作排序與輸出：題目要求的功能與原作者提交內容嚴重不符，必須改為讀取長度、讀入該長度的整數、排序並輸出。
+- 使用 Arrays.sort 進行升冪排序：簡單且高效，能正確處理負數與任意整數序列。
+- 改善輸入與輸出控制：以 Scanner 逐步讀取整數，輸出使用 StringBuilder 組合後再印出，避免尾端多餘空格，並確保一行輸出結果。
+- 增加程式標頭與適當註解：提升可維護性與可讀性，符合作業要求。
+
+修改後完整程式碼
+/*
+檔案名稱: Main.java
+功能: 讀取整數 n 與 n 個整數，升冪排序後輸出，元素以空格分隔
+作者: 教授
+日期: 2025-11-12
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] a = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(a);
+
+        // 輸出結果，元素以空格分隔，尾端不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+改進建議或反饋（一句話）
+- 建議加入更嚴謹的錯誤處理與輸入驗證，並考慮支援多組測資的測試框架以提升穩定性與可測性。

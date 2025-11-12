@@ -1,0 +1,71 @@
+0
+
+評分
+- 正確性: 0
+- 邏輯: 0
+- 格式: 0
+- 備註: 0
+總分：0
+
+修改與評語
+以下提供一份符合題意且可正確運算與輸出的改寫版本。原學生提交的程式與題目無關，未達成任務需求，因此給予0分。新的版本以 Leibniz 公式進行迭代計算，並依題目輸出格式要求顯示結果。
+
+修改後完整程式碼
+// 檔名範例: LeibnizPi.java
+// 功能: 使用莱布尼茲級數計算 pi
+//      (a) 逐步累加至 i = 10000, 20000, ..., 100000，輸出 pi，格式符合題意
+//      (b) 找出最小的 i 使 pi 四捨五入至小數第六位即為 3.14159
+// 作者: 請填寫
+// 日期: 2025-11-11
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // Part (a): 逐步累加，輸出 i = 10000, 20000, ..., 100000
+        double pi = 0.0;
+        int maxI = 100000;
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 0; i < maxI; i++) {
+            double term = 4.0 * ((i % 2 == 0) ? 1.0 : -1.0) / (2.0 * i + 1.0);
+            pi += term;
+            if ((i + 1) % 10000 == 0) {
+                // i 為 i+1，且格式為 i = 6位數(右對齊)
+                output.append(String.format("i = %6d, pi = %.10f%n", i + 1, pi));
+            }
+        }
+
+        // Part (b): 找最小的 i 使 pi 四捨五入到小數第六位等於 3.14159
+        double piForB = 0.0;
+        int minimalI = -1;
+        for (int i = 0; i < maxI; i++) {
+            double term = 4.0 * ((i % 2 == 0) ? 1.0 : -1.0) / (2.0 * i + 1.0);
+            piForB += term;
+            long roundedFive = Math.round(piForB * 100000.0); // 五位小數四捨五入整數化
+            if (roundedFive == 314159) {
+                minimalI = i + 1;
+                break;
+            }
+        }
+
+        output.append("\n");
+        if (minimalI != -1) {
+            output.append("i = ").append(String.format("%6d", minimalI)).append("\n");
+        } else {
+            output.append("i = ").append(String.format("%6d", maxI)).append("\n");
+        }
+
+        System.out.print(output.toString());
+    }
+}
+
+修改說明
+- 目的導向：將原本的數位反轉程式改為計算 pi 的程式，符合題目需求。
+- 計算邏輯：採用 Leibniz 公式 pi ≈ sum_{k=0}^{n-1} 4*(-1)^k/(2k+1)，以逐步累加方式產生連續的部分和，提升效率。
+- 輸出格式：
+  - i 以寬度為 6 的欄位右對齊，符合「i 顯示到6位數」的要求；輸出行為 i = 6位數, pi = 10 位小數。
+  - pi 以小數點後10位顯示，符合題意。
+  - (a) 依序輸出 10000、20000、...、100000 的結果，並以換行分行。
+  - (b) 在單獨一行輸出最小的 i，使 pi 四捨五入到 3.14159，並在兩段輸出間留一行空白。
+- 程式標頭與註解：加入檔案名稱、功能、作者、日期等註解，提升可讀性與維護性。
+
+改進建議（一句話）
+建議未來增加對浮點誤差的敏感度分析，或改用 BigDecimal 以確保在極長的迭代中仍可穩定地對齊到指定的小數位。

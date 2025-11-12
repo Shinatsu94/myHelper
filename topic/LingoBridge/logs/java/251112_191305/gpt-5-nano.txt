@@ -1,0 +1,62 @@
+95
+
+評分明細
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 9/10
+- 備註: 6/10
+
+修改後程式碼（完整，已優化）
+/*
+檔案名稱: CSIE_41343242_1031_1.java
+功能: 讀入一個整數 n，接著讀取 n 個整數，將它們升序排序，並輸出結果
+作者: 教師
+日期: 2025-11-12
+註解:
+- 使用 BufferedReader 與 StringTokenizer 進行快速輸入
+- 使用 Arrays.sort 進行排序，支援負數與重複值、且更穩定
+- 只輸出排序後的結果，格式為用空格分隔，行末換行
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class CSIE_41343242_1031_1 {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        line = line.trim();
+        if (line.isEmpty()) return;
+        int n = Integer.parseInt(line);
+        int[] arr = new int[n];
+        int idx = 0;
+
+        // 讀取可能分在多行的 n 個整數
+        while (idx < n) {
+            line = br.readLine();
+            if (line == null) break;
+            StringTokenizer st = new StringTokenizer(line);
+            while (st.hasMoreTokens() && idx < n) {
+                arr[idx++] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改原因說明
+- 輸入與排序的穩定性：改用 BufferedReader 與 StringTokenizer 提升輸入效率，並用 Arrays.sort 確保對整數的正確排序，天然支援負數與重複值。
+- 可讀性與維護性：新增標頭註解與適當註解，變數命名保持清晰，整體結構更易於維護與理解。
+- 兼容性與健壯性：即使輸入分行或在同一行多個數字，也能正確解析，並以單一輸出行列印結果，符合題目要求。
+
+改進建議
+- 如欲進一步提高健壮性，建議加入對 n 的範圍檢查與輸入格式驗證，並在遇到非法輸入時給予明確錯誤訊息與適當的例外處理。

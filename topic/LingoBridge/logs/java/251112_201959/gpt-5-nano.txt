@@ -1,0 +1,65 @@
+8
+
+正確性 (50/50): 0/50
+邏輯 (30/30): 0/30
+格式 (10/10): 6/10
+備註 (10/10): 2/10
+總分: 8/100
+
+修改後完整程式碼（已修正為符合題意的排序功能）：
+/*
+Name: 盧冠宇
+Student_ID: 41343247
+File: CSIE_41343247_1031_3a.java
+Description: 讀取長度 n、接著讀入 n 個整數，將其由小到大排序，並輸出排序結果
+Author: 盧冠宇
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343247_1031_3a {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = 0;
+		// 取得陣列長度
+		if (sc.hasNextInt()) {
+			n = sc.nextInt();
+		} else {
+			sc.close();
+			return;
+		}
+
+		int[] arr = new int[n];
+		// 讀入 n 個整數
+		for (int i = 0; i < n; i++) {
+			if (sc.hasNextInt()) {
+				arr[i] = sc.nextInt();
+			} else {
+				arr[i] = 0; // 若輸入不足，預設為 0，避免例外
+			}
+		}
+		sc.close();
+
+		// 進行升序排序
+		Arrays.sort(arr);
+
+		// 輸出排序後的整數，元素之間以空格分隔
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			if (i > 0) sb.append(' ');
+			sb.append(arr[i]);
+		}
+		System.out.println(sb.toString());
+	}
+}
+
+修改說明：
+- 將原本的 2D char 陣列改為 1D int[]，直接儲存整數並排序；這樣更符合題目的需求，並避免無關的資料結構造成混亂與資源浪費。
+- 使用 Arrays.sort 進行穩定且簡潔的排序實作，提升可讀性與可靠性。
+- 增加有效的輸入處理與註解，並在輸出階段以單行、以空格分隔的格式輸出，符合題目輸出範例。
+- 適當補充程式標頭註解，包含檔案名稱、功能說明、作者、日期，提升可維護性。
+
+改進建議或反饋（一句話）：
+建議將程式設計與題目需求嚴格對齊，改用直接排序整數陣列並統一輸出格式，以提升正確性與可維護性。

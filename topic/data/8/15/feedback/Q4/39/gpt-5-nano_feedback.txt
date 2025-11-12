@@ -1,0 +1,43 @@
+21
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能: 讀入任意長度的一維陣列，將內容由小到大排序後輸出
+作者: 系統評分示例
+日期: 2025-11-12
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();      // 讀取陣列長度
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();   // 依序讀入陣列元素
+        }
+
+        Arrays.sort(a);              // 對整數陣列排序（由小到大）
+
+        // 輸出排序後的內容，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+修改說明：
+- 移除原作題意之外的二維不規則陣列與定位查找邏輯，改為直接使用一維整數陣列處理。
+- 正確讀取輸入：先讀取 n，接著讀入 n 個整數作為陣列內容，符合題意且避免 EOF 的風險。
+- 使用 Arrays.sort 直接對整數陣列排序，支援負數與任意長度，且時間複雜度為 O(n log n)。
+- 輸出格式改為在同一行以空格分隔的排序結果，符合範例輸出。
+- 新增檔案頭告知檔名、功能與基本資訊，並保留適當的註解以提升可讀性。
+
+改進建議（一句話）：
+- 建議在輸入時增加容錯處理（如 n 為負數、讀取失敗等情況）並在使用者輸入多行數字時也能穩定解析；目前的版本假設輸入完全符合規範。

@@ -1,0 +1,51 @@
+86
+
+修改後的完整程式碼（優化後）：
+/*
+ * File: CSIE_41343226_1031_1.java
+ * 功能: 讀取整數 n 與 n 個整數，輸出升序排序結果
+ * 作者: 未知
+ * 日期: 2025-11-12
+ *
+ * 設計說明:
+ * - 使用 Arrays.sort 進行排序，保證穩定且效率高
+ * - 使用 StringBuilder 拼接輸出，避免多次 I/O
+ * - 讀取使用 Scanner，並在結尾關閉資源
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343226_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.print(sb.toString());
+        System.out.println();
+
+        scanner.close();
+    }
+}
+
+修改內容與原因說明：
+- 替換自訂的排序邏輯為 Arrays.sort(a)：原程式使用雙迴圈進行交換排序，功能正確但較為繁瑣且可讀性較低；改用內建的排序方法 Arrays.sort 提升可讀性與穩定性，同時在大多數情況下性能更佳。
+- 變數命名改為具描述性的名稱：n、a，提升程式語意與可讀性。
+- 輸出改用 StringBuilder 並在結尾補上換行：提升效能，避免多次 I/O 操作，且輸出格式更符合一般題目需求（通常需要換行結束）。
+- 加入程式標頭註解與說明：符合作業格式要求，方便閱讀與維護，同時也註明檔案功能與日期，提升可維護性。
+- 關閉 Scanner：養成良好資源管理習慣，避免資源洩漏。
+
+改進建議（一句話）：
+建議在題目需要自行實作排序時仍可維持自訂排序邏輯的同時，保留註解與清楚命名；若允許使用內建排序，則可用 Arrays.sort 以提升可讀性與穩定性。

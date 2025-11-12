@@ -1,0 +1,59 @@
+2
+正確性: 0/50
+邏輯: 0/30
+格式: 2/10
+備註: 0/10
+
+評語與修改說明
+- 問題核心在於：讀入長度 n，接著讀入 n 個整數，並輸出由小到大的排序結果。學生原始程式與需求完全不符，僅印出階梯形的星號，且未處理排序與多數輸入情況，故正確性與邏輯皆為零分。僅就格式而言，程式有基本縮排，但命名與註解不符合題意與一般 Java 程式撰寫規範，故僅給出極低分。
+- 修改重點
+  - 實作需求功能：改為讀取 n 與接下來的 n 個整數，使用 Arrays.sort 進行升序排序，輸出同一行以空格分隔的結果。
+  - 輸入處理穩定性：直接依序讀取恰好 n 個整數，避免遇到額外輸入的情況造成錯誤。
+  - 輸出格式：使用單行輸出，元素之間以單一空格分隔，結尾換行以符合常見輸出習慣。
+  - 代碼風格與可讀性：加入適當的檔案註解區塊，使用清晰的類別名稱與變數命名，並針對核心邏輯加上註解；使用 StringBuilder 組裝輸出以提高效率，並在結尾關閉資源。
+
+修改後完整程式碼
+/*
+File: SortArrayAscending.java
+功能: 讀入長度 n，接著讀入 n 個整數，輸出由小到大排序的結果。
+作者: 請自行填寫
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+
+修改部分的原因說明
+- 將原本的星號輸出改成排序與輸出整數序列，符合題目需求與期望的輸出格式。
+- 使用 Arrays.sort 提供穩定且高效的排序，時間複雜度 O(n log n)。
+- 使用 StringBuilder 的連接輸出，避免多次 System.out.print 導致效率下降。
+- 增加基本註解與 header，以符合程式檔案的可維護性與可讀性要求。
+
+改進建議或反饋（一句話）
+務必先清楚理解題目需求再實作核心功能，並以適當的輸入/輸出格式與註解提升可讀性與可維護性。

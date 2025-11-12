@@ -1,0 +1,45 @@
+4
+
+修改後的完整程式碼（已優化）：
+
+/*
+ File: SortingAscending.java
+ 功能: 建立任意長度的一維陣列，將內容由小到大排序，輸出排序後結果。
+ 作者: 你的名字
+ 日期: 2025-11-12
+ 說明: 讀取長度 n，接著讀入 n 個整數，排序後以空格分隔輸出。
+*/
+import java.util.*;
+
+public class SortingAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+修改原因與說明：
+- 正確性與邏輯：完全符合題意，讀取先給定的長度 n，接著讀入 n 個整數，使用 Arrays.sort 進行升序排序，最後以空格分隔輸出，能支援負數且不依賴 EOF。
+- 格式與命名：採用更具語意的變數命名與清晰的程式結構，並新增檔案標頭註解，方便維護與閱讀。
+- 註解：在程式頂端加入完整說明與檔案資訊，便於他人理解程式用途與使用方式。
+
+改進建議（一句話）：
+請在每個程式檔案加入完整的標頭註解與錯誤處理，並搭配測資自動化驗證以確保在各種輸入情境下皆能穩定執行。

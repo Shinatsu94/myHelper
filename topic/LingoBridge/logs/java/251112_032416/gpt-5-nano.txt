@@ -1,0 +1,47 @@
+87
+
+評分細項
+- 正確性 (50/50): 50
+  - 程式輸出為交換後的兩個數字，符合題目給定的輸出（先印出交換後的 a 與 b）。
+- 邏輯 (30/30): 30
+  - 使用不使用額外變數的 XOR 交換法，邏輯正確且適用於整數型別。
+- 格式 (10/10): 7
+  - 基本縮排與結構尚可，但變數命名較不具可讀性；未提供適當的程式標頭註解及變數命名規範。
+- 備註 (10/10): 0
+  - 缺少程式標頭註解（檔名、功能、作者、日期等說明）與於程式內容的註解。
+
+修改與優化說明
+- 將變數命名改為具有說明性的名稱（first、second），提升可讀性，同時保持 XOR 交換法，不違反題目“不可使用其他變數進行數字交換”的限制。
+- 加入程式頭註解、說明檔案用途、作者與日期等以配合作業要求的備註部分，提升專案檔案管理與維護性。
+- 在程式結尾加入 sc.close()，提升資源管理的良好習慣。
+- 在必要處增添內部註解，說明使用 XOR 交換的原因與原理，讓閱讀者能快速理解交換過程。
+
+修改後完整程式碼（優化版本）
+/**
+ * File: CSIE_51015130_1003_1.java
+ * Function: 讀入兩個整數，印出交換後的值（不使用額外變數的 XOR 交換法）
+ * Author: 你的姓名
+ * Date: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class CSIE_51015130_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 使用不使用額外變數的 XOR 交換法
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+
+        sc.close();
+    }
+}
+
+一句話改進建議
+- 建議補上程式頭註解與更具可讀性的變數命名，並在不影響需求的前提下加入必要的資源管理註解與說明，以提升可維護性與可讀性。

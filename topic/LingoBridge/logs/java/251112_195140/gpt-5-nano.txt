@@ -1,0 +1,59 @@
+11
+
+評分細項
+- 正確性（50%）: 0
+- 邏輯（30%）: 0
+- 格式（10%）: 5
+- 備註（10%）: 6
+總分: 11/100
+
+修改與說明
+- 作業需求與學生原程式嚴重不符，原程式輸出的是等腰三角形的星號陣列，未完成排序與輸入輸出需求，故正確性與邏輯分數為零。改為實作「任意長度的一維整數陣列，讀入長度 n 及 n 個整數，進行由小到大排序，輸出排序結果」的功能。
+- 主要修改點與原因：
+  - 將資料結構改為一維整數陣列 int[] arr，以符合題目需求。
+  - 使用 Arrays.sort(arr) 進行整數排序，簡潔且穩定，能正確處理負數與重複值。
+  - 重新實作輸入與輸出：先讀長度 n，接著讀入 n 個整數，排序後以空格分隔輸出，避免多餘的結尾空白。
+  - 增加了程式標頭註解，包含檔案名稱、功能、作者與日期，提升可讀性與維護性；對變數命名使用更具意義的名稱。
+  - 程式結尾輸出換行，以符合常見輸出格式。
+- 修改後完整程式碼如下：
+
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343107_1031_3_a.java
+ * 功能: 讀取長度 n，接著讀 n 個整數，將陣列內容由小到大排序後輸出
+ * 作者: 王世豪
+ * 日期: 2025/10/31
+ */
+public class CSIE_41343107_1031_3_a {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        in.close();
+    }
+}
+```
+
+改進建議與反饋（一句話）
+- 建議在提交前先確認需求規格，並以最小可行解實作核心功能，並搭配多組測資測試以確保對負數與邊界的穩健性。

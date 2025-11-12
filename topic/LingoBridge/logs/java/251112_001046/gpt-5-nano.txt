@@ -1,0 +1,45 @@
+88
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 8/10
+- 備註: 0/10
+總分: 88/100
+
+修改後完整程式碼（優化後，符合不使用額外變數進行交換的條件，並加上註解與資源釋放）：
+
+```java
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41343124_1003_1.java
+ * Title: 兩數交換（不使用額外變數）
+ * Description: 讀入兩個整數 A, B，先印出原值，然後交換兩數並印出新值。
+ * Author: 教授
+ * Date: 2025-11-11
+ */
+public class CSIE_41343124_1003_1 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int a = s.nextInt();
+        int b = s.nextInt();
+
+        // 使用位元異或交換法，避免加減法可能造成的整數溢位
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        s.close();
+    }
+}
+```
+
+修改說明與原因：
+- 改用 XOR 交換法取代加減法交換（a += b; b = a - b; a = a - b;），避免在極大/極小整數值時出現整數溢位的風險，符合「不使用額外變數進行數字交換」的約束，同時保持僅使用 a、b 兩個變數進行交換。
+- 加入程式檔案的註解區塊（檔案名稱、用途、作者、日期等）以符合備註評分標準，提升可讀性與維護性。
+- 關閉 Scanner 以處理資源釋放，提升穩定性與良好習慣。
+
+一句話建議或反饋：
+- 建議採用位元 XOR 交換法以避免溢位風險，並補上檔案註解與資源釋放以提升可讀性與健全性。

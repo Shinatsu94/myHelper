@@ -1,0 +1,64 @@
+9
+
+- 正確性: 0/50
+- 邏輯: 5/30
+- 格式: 4/10
+- 備註: 0/10
+
+總分：9/100
+
+說明與評語：
+- 這份作業的原始程式未正確實作排序邏輯，輸出與題意不符；內層邏輯混亂且會覆蓋變數，結果會是未排序的數列。
+- 已提供改善版本，採用健全且穩定的排序方式，並加上適當的程式標頭與註解，提升可讀性與可維護性。
+
+修改說明與重點修改內容：
+- 使用內建排序 Arrays.sort 取代原本錯誤的排序邏輯
+  - 原因：原程式的排序邏輯錯誤，容易導致輸出與預期不符；使用 Arrays.sort 可確保正確且穩定地把整數由小到大排序，且支援負數。
+- 改善輸入與輸出流程
+  - 原因：原程式在排序邏輯上有誤，輸出格式雖然正確，但內容不對；使用 StringBuilder 來拼接輸出字串，避免逐次 printf 造成成本較高。
+- 加入標頭註解與命名與格式優化
+  - 原因：符合作業要求的標頭註解，並使用清晰的類別名 Main，提升可讀性與符合常見的編譯慣例。
+- 完整改寫後的程式碼（修改後的完整程式碼）：
+檔案名稱: Main.java
+功能: 讀取長度與該長度個整數，輸出由小到大排序的結果
+作者: 學生
+日期: 2025-11-12
+
+public class Main {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int len = sc.nextInt();
+        int[] nums = new int[len];
+
+        // 讀取陣列元素
+        for (int i = 0; i < len; i++) {
+            nums[i] = sc.nextInt();
+        }
+        sc.close();
+
+        // 排序：由小到大，負數亦適用
+        java.util.Arrays.sort(nums);
+
+        // 輸出排序後的陣列
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改部分說明:
+- 使用 Arrays.sort 取代自訂排序邏輯，理由是正確性、效率與穩定性均提升，且能正確處理負數。
+- 使用 StringBuilder 組裝輸出，提升可讀性與效能，避免多次字串拼接。
+- 加入基本的輸入檢查與註解，提升程式的可維護性與清晰度。
+
+改進建議（一句話）：
+- 建議後續若要支援更大量資料，除了使用 Arrays.sort 外，也可以考慮自訂排序演算法的時間與空間複雜度分析，並加入輸入驗證以對抗非整數輸入情形。

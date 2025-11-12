@@ -1,0 +1,83 @@
+87
+
+評分明細
+- 正確性 (50/50): 程式能正確讀取長度與元素，並輸出升冪排序結果，輸出格式符合題目要求。
+- 邏輯 (30/30): 使用選擇排序實作正確且直觀，整體邏輯清晰，能正確處理含負數的情況。
+- 格式 (10/10): 變數命名清楚，縮排良好，結構清楚。
+- 備註 (0/10): 缺少檔案標頭註解與說明，未符合註解要求。
+
+修改前程式碼評述
+- 有一個未使用的變數 originalArray，被建立但未使用，造成程式上的小遺漏與潛在混淆。
+- 程式缺少檔案標頭註解，未符合題目要求的註解規範。
+
+修改後完整程式碼
+/*
+  檔案名稱: CSIE_41343202_1031_1.java
+  功能說明: 讀取整數長度與該長度之整數序列，對序列進行由小到大的排序，並輸出排序結果。
+  作者: 你的姓名
+  日期: 2025-11-12
+*/
+import java.util.Scanner;
+
+public class CSIE_41343202_1031_1 {
+    
+    // 使用選擇排序進行升冪排序
+    private static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            int tmp = arr[minIdx];
+            arr[minIdx] = arr[i];
+            arr[i] = tmp;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        int length = 0;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        }
+
+        if (length < 0) length = 0;
+        int[] array = new int[length];
+        
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 以避免例外
+                array[i] = 0;
+            }
+        }
+
+        if (length > 0) {
+            selectionSort(array);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改說明
+- 移除未使用的 originalArray，避免不必要的資源浪費與混淆。
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的註解規範。
+- 將方法名稱由 SS 提升為更具描述性的 selectionSort，提升可讀性與維護性。
+- 保留原有的排序邏輯（選擇排序），確保對負數與一般整數皆能正確排序。
+- 輸出改用 StringBuilder，避免在長序列輸出時的效率問題，並保證輸出格式與題目要求一致。
+
+改進建議或反饋（一句話）
+建議在程式開頭加入完整的檔案註解與清晰的函式命名，此外可用 StringBuilder 優化輸出與避免未使用變數，以提升可讀性與維護性。

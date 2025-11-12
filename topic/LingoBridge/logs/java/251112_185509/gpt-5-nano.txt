@@ -1,0 +1,54 @@
+88
+
+修改評分說明（逐項評分與依據）：
+- 正確性 (50/50)：程式能正確讀入長度與數值，對整數陣列進行升序排序，並輸出間隔為空格的結果，符合題意與範例輸出。負數亦支援。給予滿分。
+- 邏輯 (30/30)：原程式採用選擇排序，邏輯正確且穩定；修改後仍保持正確性，且使用更簡潔的排序方式，邏輯清晰、合理。
+- 格式 (8/10)：原程式的縮排基本上可讀，但命名與可維護性較差（類名不具可辨識性、缺少註解）。修改後採用更具描述性的類名與結構，並以 StringBuilder 提升輸出效率。原始版本仍算可讀，但在一致性與命名方面稍弱。
+- 備註 (0/10)：原程式缺少檔案頭註解（檔名、用途、作者、日期等），未符合題目要求的註解規範。給 0。
+
+總結：88/100
+
+修改後的完整程式碼（優化重點放在可讀性、可維護性與輸出效率）：
+// 檔案名稱示例：SortingAscending.java
+// 功能: 讀取長度為 n 的整數陣列，將內容升序排序並輸出
+// 作者: 教師姓名
+// 日期: 2025-11-12
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortingAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用 Java 標準排序提高穩定性與可讀性
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 組字串，避免多次輸出造成效能下降
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改部分說明與理由：
+- 使用 Arrays.sort(arr) 替代自訂的選擇排序：簡化實作、降低錯誤機率，且對整數陣列提供標準且高效的排序，提升程式的可讀性與維護性。
+- 輸出改為使用 StringBuilder：避免在迴圈中多次呼叫 System.out.print，提升效能，且可以更整齊地處理間格放置，輸出結果與格式更穩定。
+- 增加檔案頭註解（檔案名稱、功能、作者、日期）：符合備註要求，方便日後維護與評分。
+- 變數與類別命名改為描述性名稱：例如 class SortingAscending，讓程式意圖更清楚，便於他人閱讀。
+
+一句話改進建議或回饋：
+- 建議加上完整的檔案頭註解並採用更具描述性的類名與適度的錯誤處理，以提高可維護性與可讀性，同時可考慮使用標準排序函式以提升穩定性與表現。

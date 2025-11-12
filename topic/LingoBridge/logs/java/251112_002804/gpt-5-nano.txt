@@ -1,0 +1,43 @@
+88
+
+修改後完整程式碼如下：
+
+```java
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343229_1003_1.java
+ * 功能說明: 讀入兩個整數，交換其值後印出結果（不使用額外變數進行交換）。
+ * 作者: 教授
+ * 日期: 2025-11-11
+ */
+public class CSIE_41343229_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入兩個整數
+        int firstNumber = sc.nextInt();
+        int secondNumber = sc.nextInt();
+
+        // 不使用額外變數的 XOR 交換方式
+        firstNumber ^= secondNumber;
+        secondNumber ^= firstNumber;
+        firstNumber ^= secondNumber;
+
+        // 輸出交換後的結果
+        System.out.println(firstNumber);
+        System.out.println(secondNumber);
+
+        sc.close();
+    }
+}
+```
+
+修改說明與原因：
+- 將變數名稱從 A、B 改為 firstNumber、secondNumber，以提升可讀性與維護性，名稱更具語意。
+- 添加檔案頭註解，說明檔案名稱、功能、作者與日期，符合備註要求，方便他人快速理解與維護。
+- 保留原有的「不使用額外變數進行交換」限制，改以更具可讀性的描述性變數名保持 XOR 交換法，風險與功能不變。
+- 增加適當的註解，說明每個步驟的意圖，提升程式易讀性。
+
+改進建議或反饋（一句話）：
+- 建議在日後的作業中，除了功能實作外，優先強化變數命名與註解，讓程式更容易被他人閱讀與維護。

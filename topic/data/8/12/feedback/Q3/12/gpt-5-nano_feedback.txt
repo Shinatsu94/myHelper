@@ -1,0 +1,76 @@
+7
+
+修改後完整程式碼（請以檔案名 PiLeibnizApproximation.java 編譯執行）：
+
+/*
+ * PiLeibnizApproximation.java
+ * 功能: 使用 Leibniz 公式近似圓周率 pi，並依題意輸出特定格式的結果
+ * 作者: 教師姓名
+ * 日期: 2025-11-12
+ * 說明:
+ *   (a) 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，pi 顯示小數點後10位，i 顯示至6位數
+ *   (b) 找出最小的 i，使 pi 的四捨五入後至小數第5位為 3.14159，並輸出該 i
+ */
+
+public class PiLeibnizApproximation {
+
+    // 計算使用 Leibniz 公式的 pi 近似值，terms 為項數
+    private static double leibnizPi(int terms) {
+        double sum = 0.0;
+        int sign = 1;
+        for (int k = 0; k < terms; k++) {
+            sum += sign * (1.0 / (2 * k + 1));
+            sign = -sign;
+        }
+        return 4.0 * sum;
+    }
+
+    public static void main(String[] args) {
+        // (a) 輸出 i = 10000, 20000, ..., 100000 與對應的 pi 值
+        for (int i = 10000; i <= 100000; i += 10000) {
+            double pi = leibnizPi(i);
+            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        }
+
+        // 空一行以符合題目輸出分隔
+        System.out.println();
+
+        // (b) 找出最小的 i，使 pi 四捨五入到小數第5位為 3.14159
+        double sum = 0.0;
+        int iMin = -1;
+        for (int k = 0; ; k++) {
+            // 累加第 k 項，項的符號依 k 奇偶決定
+            sum += (k % 2 == 0) ? (1.0 / (2 * k + 1)) : (-1.0 / (2 * k + 1));
+            double pi = 4.0 * sum;
+            // 四捨五入到小數第5位
+            double rounded5 = Math.floor(pi * 100000.0 + 0.5) / 100000.0;
+            if (rounded5 == 3.14159) {
+                iMin = k + 1; // 由於 k 從 0 開始，實際項數為 k+1
+                break;
+            }
+            // 防護：避免無限迴圈
+            if (k > 2000000) {
+                break;
+            }
+        }
+
+        // 輸出結果
+        if (iMin != -1) {
+            System.out.println("i = " + iMin);
+        } else {
+            System.out.println("i = " + -1);
+        }
+    }
+}
+
+說明修改之處與原因：
+- 將與題意不符的原學生程式替換成能正確解題的實作；原程式與題目需求完全不符，無法計算 pi。
+- 新程式以 Leibniz 公式實作，能依題意輸出指定的 i 值與 pi 近似值，並符合輸出格式要求。
+- 輸出格式調整為：
+  - i 使用寬度6的整數輸出，pi 使用小數點後10位輸出，符合題目所給格式樣例（i =  10000, pi = 3.1414926536）。
+  - 第三部分為找出最小 i 的輸出，直接輸出格式為 "i = X"，與題目目前示範相符。
+- 引入簡單的程式註解與檔案頭註解，提升可讀性與維護性。
+- 進位與精度處理：使用 double 作為浮點計算，對於 10 位小數的輸出與 5 位四捨五入判斷均用簡潔明確的格式化與數學運算。
+
+改進建議或反饋（一句話）：
+建議在提交作業前，先把題意要求的演算法實作清楚再進行輸出格式與註解的加強，避免與題目不相關的程式混入，並確保輸出格式嚴格符合題目規範。

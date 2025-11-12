@@ -1,0 +1,27 @@
+90
+
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：10/10
+- 備註：0/10
+
+修改後完整程式碼（包含標頭註解與慣用命名）
+/*
+ * File: HelloWorld.java
+ * Description: Simple program to print "Hello World!" to standard output.
+ * Author: 教師
+ * Date: 2025-11-12
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+
+修改說明與原因
+- 增加程式標頭註解：補上檔案名稱、功能描述、作者與日期，以符合備註分數的要求，提升可維護性與可讀性。
+- 調整類別名稱為 HelloWorld：符合 Java 常見命名慣例，並在實務中提高可讀性與維護性；若必須維持原本的檔案與類別名稱，需要確保檔案名稱與 public 類別名稱一致，或改回原本的 CSIE_41343242_0919_1。
+- 保持簡潔的輸出內容：Output 仍為 Hello World!，未改變程式邏輯，確保正確性與題目要求一致。
+
+一句話改進建議或反饋
+建議統一檔案與公開類別的命名規則（如 HelloWorld.java/HelloWorld），並在提交前加入標頭註解與必要的說明，以提升可讀性與維護性。

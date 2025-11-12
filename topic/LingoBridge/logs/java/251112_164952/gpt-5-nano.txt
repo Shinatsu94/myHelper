@@ -1,0 +1,66 @@
+71
+
+修改說明與評分項目
+- 正確性 (40/50)：學生的演算法本身能正確排序，且對負數支援良好；但輸入處理過於依賴單行輸入，若輸入間有多個空格或換行，可能導致程式執行失敗，故給予較保守的分數。
+- 邏輯 (24/30)：邏輯正確，使用氣泡排序；但輸入解析部分較脆弱，且未處理多行或多餘空格的情境，減少分數。
+- 格式 (7/10)：變數命名與縮排可再清晰，程式結構基本可讀，但缺乏一致的命名規範與內部註解。
+- 備註 (0/10)：缺少程式標頭註解與說明，未符合題目要求的註解規範。
+
+總分：71
+
+修改後完整程式碼與修改說明
+修改原因概述
+- 對輸入部分改為逐一讀取整數，避免依賴單一行輸入，提升魯棒性，並正確處理负數。
+- 使用更清晰的變數命名與結構，並加上保守的排序優化（早期退出）以提升效率。
+- 輸出改為不產生尾端多餘空格，輸出更標準。
+- 增加程式標頭註解並在適當位置加入說明性註解，提升可維護性，並在結尾關閉 Scanner。
+
+完整程式碼：
+/**
+ * File: BubbleSortArray.java
+ * 功能: 讀取整數長度 n，接著讀入 n 個整數，將陣列由小到大排序，最後印出排序結果。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+
+public class BubbleSortArray {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int n = input.nextInt();
+        int[] arr = new int[n];
+
+        // 逐個讀取 n 個整數，容錯與格式更為健壯
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 氣泡排序，加入早期結束優化
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break; // 沒有交換，已排序完畢
+        }
+
+        // 輸出：單一空格分隔，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+改進建議（一句話）
+建議改用逐個讀取整數的方式並加上適度的輸出格式控制與排序優化，提升魯棒性與可讀性，同時避免對單一輸入格式的過度依賴。

@@ -1,0 +1,64 @@
+2
+
+評分明細
+- 正確性: 0
+- 邏輯: 0
+- 格式: 2
+- 備註: 0
+
+修改後的完整程式碼與說明
+
+修改後程式碼：
+/*
+檔案名稱: SortArray_ASC.java
+功能說明: 讀取使用者輸入的長度 n 與 n 個整數，將陣列內容進行由小到大的升冪排序，最後輸出排序後的陣列內容，元素以空格分隔。
+作者: 教師
+日期: 2025-11-12
+*/
+import java.util.*;
+
+public class SortArray_ASC {
+    public static void main(String[] args) {
+        // 建立 Scanner 以讀取使用者輸入
+        Scanner sc = new Scanner(System.in);
+
+        // 先讀取陣列長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數，存入一維陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，以避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 將陣列排序（升冪）
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+修改說明與改進之處：
+- 以一維整數陣列取代原本的星號輸出，符合任務需求「建立任意長度的一維陣列、將內容升冪排序」。
+- 使用 Arrays.sort 直接完成排序，簡潔且可靠，能正確處理含負數的情況。
+- 讀取輸入的機制保持穩健，先讀長度 n，再逐一讀入 n 個整數；若輸入不足，給予預設值，避免執行異常。
+- 輸出格式改為用空格分隔的數字，符合題目輸出範例。
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，並加入適當的程式內容註解，提升可維護性。
+- 程式命名改成意義明確的排序程式主類別名稱，避免與測資環境的檔名衝突。
+
+改進建議（一句話）：
+- 建議在程式開頭就明確註記輸入格式與輸出格式，並在必要時對輸入數量進行嚴格驗證，增加錯誤處理與使用者提示。

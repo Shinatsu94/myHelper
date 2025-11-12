@@ -1,0 +1,40 @@
+5
+
+評分明細
+- 正確性：0
+- 邏輯：0
+- 格式：4
+- 備註：0
+
+修改與說明
+修改後完整程式碼（符合題意：讀入 A、B，印出兩數，接著在不使用額外變數的情況下交換值並印出）
+public class CSIE_41343217_1003_3 {
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        long A = scanner.nextLong();
+        long B = scanner.nextLong();
+
+        // 原始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數進行值交換（只用 A、B 自身）
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 交換後值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改原因說明
+- 移除原程式中的未使用方法 sumDigits 與與題意無關的邏輯，直接實作題目需求。
+- 使用兩個變數 A、B 並透過 A = A + B; B = A - B; A = A - B; 的方式完成交換，符合「不可使用其他變數」的限制，且改用 long 以避免溢位風險。
+
+改進建議（一句話）
+建議補上程式註解、加入基本輸入驗證與邊界測試，以提升可讀性與穩健性。

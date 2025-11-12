@@ -1,0 +1,63 @@
+6
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 0/10
+
+修改前程式碼評語與問題
+- 完全未依題意求解：僅輸出一個 n 的等腰三角形星號，與題目要求的排序功能嚴重不符。
+- 未讀取待排序的元素，也未輸出排序結果。
+- 內容與題意不符，但程式格式基本正確（有縮排與基本語法結構）。
+
+修改建議與修改原因
+- 依照題意，讀取 n 並讀入 n 個整數，將它們排序後輸出，以空格分隔。
+- 使用 Arrays.sort() 處理整數排序，負數亦適用，並確保輸出不帶尾端多餘空格。
+- 增加程式標頭註解，並加入適當的程式內註解，以提升可讀性與維護性。
+
+修改後完整程式碼（已優化，符合題意）
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * 檔案名稱：CSIE_41343216_1031_3.java
+ * 功能說明：讀取一個整數 n，接著讀入 n 個整數，將它們升序排序，輸出排序後的結果（以空格區隔）。
+ * 作者：改為学生提交者
+ * 日期：2025-11-12
+ */
+
+public class CSIE_41343216_1031_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+修改部分說明
+- 將原本的輸出與需求無關的三角形輸出移除，改為讀入整數陣列並排序。
+- 使用 Arrays.sort 進行整數排序，能正確處理負數，且對任意長度的整數陣列皆適用。
+- 輸出採用 StringBuilder 並依序加入，避免尾端多餘空格，輸出格式符合題目要求。
+
+改進建議或反饋（一句話）
+建議在輸出結束後加上換行，並對 n 的邊界做檢查與輸入格式驗證，以提升穩健性。

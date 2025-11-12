@@ -1,0 +1,31 @@
+2
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 使用不額外變數的 XOR 交換法，符合題目限制
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 就題意改為正確讀入兩個整數 A、B，並在交換後輸出交換結果，與樣例輸出相符（先印出經交換的 A，再印出經交換的 B）。
+- 使用不額外變數進行交換：A = A ^ B; B = A ^ B; A = A ^ B，符合「不可使用其他變數進行數字交換」的限制。
+- 移除原作誤用的單變數與多餘運算，簡化邏輯，提升可讀性與穩定性。
+- 程式結構改為公開類名與清晰縮排，便於維護。
+
+一句話改進建議：
+請確認輸出格式完全符合題意（是否只輸出交換後的兩個值，或需同時輸出交換前後的值），以避免評分時因輸出格式不一致而扣分。

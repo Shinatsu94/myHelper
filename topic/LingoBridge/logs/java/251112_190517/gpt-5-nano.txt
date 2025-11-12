@@ -1,0 +1,77 @@
+86
+
+評分細項：
+- 正確性（50%）: 50/50
+  - 程式能讀入長度、依序讀取整數，執行升序排序，並輸出排序結果，符合題意。
+- 邏輯（30%）: 28/30
+  - 使用正確的選擇排序演算法，邏輯清晰、實作正確。但可再加上輸入輸出容錯與註解以提升可讀性與可維護性。
+- 格式（10%）: 8/10
+  - 程式碼大致可讀，但有少許縮排與空格不一致，且缺乏清晰的程式標頭註解。
+- 備註（10%）: 0/10
+  - 缺少檔案標頭註解（檔案名稱、功能、作者、日期等）。
+
+修改後完整程式碼與改動說明：
+修改後程式碼（新增註解與改良輸出，保留原有功能與結構）：
+/*
+檔案名稱: SelectionSort.java
+功能: 讀取 n 與 n 個整數，對陣列做選擇排序，輸出升序結果
+作者: 你的名字
+日期: 2025-11-12
+*/
+import java.util.Scanner;
+
+public class SelectionSort {
+    // 進行選擇排序，為原地排序，從小到大
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+
+    public static void main(String[] args) {
+        // 讀取長度與元素
+        Scanner s = new Scanner(System.in);
+        int capacity = s.nextInt();
+
+        int[] arr = new int[capacity];
+        for (int i = 0; i < capacity; i++) {
+            arr[i] = s.nextInt();
+        }
+
+        // 進行排序
+        selectionSort(arr);
+
+        // 使用 StringBuilder 一次輸出，避免多次 I/O
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        // 不關閉 System.in，以避免影響後續測資（若需要）
+        // s.close();
+    }
+}
+
+修改部分說明：
+- 新增檔案標頭註解，符合備註要求，讓程式檔案名稱、功能、作者、日期等資訊清楚可見，提升可維護性。
+- 增加段落註解，清楚標示排序函式與主流程的目的，提升可讀性與可理解性。
+- 輸出部分改用 StringBuilder 組合整體輸出，避免多次 System.out.print 呼叫，提升執行效率與輸出穩定性。
+- 保留原有的選擇排序邏輯，確保正確性；同時新增適當註解描述排序邏輯。
+- 程式格式微調（如縮排、空格）以提升可讀性，並保留原有功能與結構。
+
+一句話改進建議或回饋：
+建議在檔案開頭加入標頭註解並以單次輸出完成結果，以提升可維護性與執行效率。

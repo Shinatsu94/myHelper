@@ -1,0 +1,49 @@
+總分: 12
+
+評分明細
+- 正確性（50%）: 0/50
+  - 原作業僅輸出「虎科大 丁祥誌」一行，並未逐字輸出每個字的內碼，也未按照題目要求先印出「虎科大」再印出學生姓名並逐字顯示內碼，因此不符合題目需求。
+- 邏輯（30%）: 5/30
+  - 願意使用字串與輸出，但未採用逐字取得內碼的邏輯，缺乏對每個字逐一處理的合理流程。
+- 格式（10%）: 7/10
+  - 程式結構基本正確，語法正確；但變數命名與排版可再加強一致性，且缺乏註解與標頭說明的格式慣例。
+- 備註（10%）: 0/10
+  - 原檔案缺少程式標頭註解（檔案名稱、功能、作者、日期等說明）。
+
+修改後的完整程式碼（已優化，符合題目要求）
+/**
+ * 檔案名稱: Main.java
+ * 功能: 印出「虎科大」與「丁祥誌」每個字及其對應的內碼（Unicode 代碼點），
+ *       先印虎科大再印學生姓名，每行一個字與其內碼。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ */
+public class Main {
+    public static void main(String[] args) {
+        String chineseName = "丁祥誌";
+        String school = "虎科大";
+
+        // 先印虎科大，再印學生中文姓名，每個字一行，後面為該字的內碼（Unicode 代碼點）
+        printCharsWithCode(school);
+        printCharsWithCode(chineseName);
+    }
+
+    // 輸出字元與對應的 Unicode 代碼點，並以字元本身顯示於左側
+    private static void printCharsWithCode(String s) {
+        for (int i = 0; i < s.length();) {
+            int codePoint = s.codePointAt(i);
+            int charCount = Character.charCount(codePoint);
+            String ch = new String(Character.toChars(codePoint));
+            System.out.println(ch + " " + codePoint);
+            i += charCount;
+        }
+    }
+}
+
+修改說明
+- 以逐字處理字串，使用 Unicode 代碼點(codePoint)取得方式，並配合 Character.toChars() 轉換回字元，以正確處理可能的代理對字元，保證在不同環境下都能正確輸出。
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期等，符合「程式內容有適當註解說明」的要求。
+- 將輸出改為逐字輸出且每行一字及其對應內碼，滿足「一行印一個中文字與其對應的內碼，先印虎科大再印學生姓名」的要求；並維持原本變數名稱的語意清晰。
+
+一句話改進建議或回饋
+- 建議在開始撰寫前先規劃輸出格式（逐字輸出與編碼方式），並使用 Unicode 代碼點輸出以提升跨平台穩定性與可讀性。

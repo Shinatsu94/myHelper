@@ -1,0 +1,61 @@
+總分：7
+
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 7/10
+- 備註: 0/10
+
+說明與建議：
+- 這份學生作業的程式與題意毫無對應，原程式處理的是成績判斷，完全無法輸出「虎科大」與學生姓名的內碼。
+- 建議未來作業先建立清楚的輸入輸出規格：讀取學生中文姓名，輸出虎科大三字及姓名每個字的對應內碼（Unicode Code Point），並在程式中加入標頭與適當註解。
+
+修改後完整程式碼與修改說明：
+- 透過讀入使用者輸入的中文姓名，依序輸出「虎」「科」「大」及姓名每個字的 Unicode code point（十進位）。
+- 移除了原作業的分數判斷與迴圈，改用簡潔、直覺的輸出流程，並加上程式標頭註解與方法說明，提升可讀性與可維護性。
+
+修改後程式碼（完整，含註解與標頭）：
+```java
+/**
+ * File: CSIE_51015120_0926_3.java
+ * 功能: 印出「虎科大」以及使用者輸入的中文姓名每個字的內碼(Unicode 十進位)
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+
+import java.util.Scanner;
+
+public class CSIE_51015120_0926_3 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取使用者輸入的中文姓名；若無輸入，name 會為空字串
+        String name = "";
+        if (input.hasNextLine()) {
+            name = input.nextLine().trim();
+        }
+
+        // 依序印出「虎科大」三個字及對應的內碼（Unicode 十進位）
+        printWithCode("虎");
+        printWithCode("科");
+        printWithCode("大");
+
+        // 逐字印出使用者姓名的每一個字及對應的內碼
+        for (int i = 0; i < name.length(); i++) {
+            char ch = name.charAt(i);
+            if (Character.isWhitespace(ch)) continue; // 避免空白字元影響
+            printWithCode(Character.toString(ch));
+        }
+
+        input.close();
+    }
+
+    // 輔助方法：輸出單個字的內容與其 Unicode 內碼（十進位）
+    private static void printWithCode(String s) {
+        int codePoint = s.codePointAt(0);
+        System.out.println(s + " " + codePoint);
+    }
+}
+```
+
+一句話改進建議：
+- 建議於程式中明確定義輸入輸出規格（例如指定輸入姓名的格式與分隔）並加入完整註解，以提升可讀性與測試性。

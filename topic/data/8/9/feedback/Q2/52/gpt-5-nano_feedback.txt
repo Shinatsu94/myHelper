@@ -1,0 +1,53 @@
+10
+
+評分標註：
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：4/10
+- 備註：6/10
+合計：10/100
+
+修改後完整程式碼與說明
+
+檔案名稱: CSIE_41343233_0926_2.java
+功能說明: 印出「虎科大」與「林武杰」各字的內碼，逐字列印成「字 元內碼」的格式，順序先虎科大再印姓名。
+
+修改後程式碼
+/* 檔案名稱: CSIE_41343233_0926_2.java
+   作者: 你的名字
+   日期: 2025-11-12
+   程式說明: 印出「虎科大」與學生姓名的每個字及其對應的內碼(Unicode碼點)，每行輸出「字 空格 內碼」。
+*/
+public class CSIE_41343233_0926_2 {
+    public static void main(String[] args) {
+        String first = "虎科大";        // 先印虎科大
+        String name  = "林武杰";        // 再印學生中文姓名
+
+        printCharsWithCode(first);
+        printCharsWithCode(name);
+    }
+
+    // 輸出字與其對應的Unicode碼點，支援Unicode字元（包含非BMP字元的代理對）
+    private static void printCharsWithCode(String s) {
+        for (int offset = 0; offset < s.length(); ) {
+            int codePoint = s.codePointAt(offset);                 // 取得碼點
+            String ch = new String(Character.toChars(codePoint));   // 將碼點轉回字元字串
+            System.out.println(ch + " " + codePoint);               // 輸出 "字 內碼"
+            offset += Character.charCount(codePoint);               // 移動至下一個字元
+        }
+    }
+}
+
+修改說明與改動重點
+
+- 功能與正確性
+  - 原程式與題目需求無關，呈現的是逐步旋轉的進度條，與「印出每個中文字及其內碼」的要求不符。修改後的程式直接輸出虎科大與姓名每個字及其對應的內碼，符合題目需求。
+- 邏輯與穩健性
+  - 使用 Unicode 號點與字符位元數的方式（codePointAt 與 charCount），能正確處理 BMP 以外的字元與代理對，提升穩健性，未來若字元為高位面字元也能正確處理。
+- 格式與可讀性
+  - 新增清晰的註解與良好命名（first、name、printCharsWithCode），並統一縮排與換行，提升可讀性與維護性。
+- 程式標頭與註解
+  - 更新了標頭內容，加入檔案說明與功能描述，方便學生與批閱者理解該檔案的用途。
+
+改進建議一句話
+- 建議在提交前先確認需求與輸出格式，並在程式中加入測試用例與更多註解，以提升可讀性與可維護性。

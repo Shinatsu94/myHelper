@@ -1,0 +1,35 @@
+3
+正確性：0
+邏輯：0
+格式：3
+備註：0
+修改後完整程式碼（改為符合題意：讀入 A, B，交換且輸出交換後的值，且不使用額外變數進行交換；並加上清楚的註解與標頭）
+/*
+Filename: SwapTwoNumbers.java
+Purpose: 讀入兩個整數，交換其值（不使用額外變數），並輸出交換後的結果
+Author: Your Name
+Date: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 使用不額外變數的三步驟交換法
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 輸出交換後的結果（符合範例：先輸出 A 的新值，再輸出 B 的新值）
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+一句話改進建議或反饋：
+建議在提交作業時附上完整的題意對應說明與測試案例，並加入適當的註解與檔案標頭以提升可讀性與維護性。

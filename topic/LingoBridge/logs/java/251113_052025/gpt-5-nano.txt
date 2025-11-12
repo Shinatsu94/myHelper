@@ -1,0 +1,41 @@
+0
+正確性: 0/50
+邏輯: 0/30
+格式: 0/10
+備註: 0/10
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_YourName_Output {
+    public static void main(String[] args) {
+        // 固定字串：虎科大，依序印出每個字與其內碼
+        String tiger = "虎科大";
+
+        // 讓使用者輸入中文姓名（例如 林武杰），再逐字印出每個字與其對應的內碼（Unicode 編碼點，十進位表示）
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine();
+        sc.close();
+
+        // 印出虎科大三個字及其編碼
+        for (int i = 0; i < tiger.length(); i++) {
+            char ch = tiger.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+        // 印出姓名每個字及其編碼
+        for (int i = 0; i < name.length(); i++) {
+            char ch = name.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+}
+
+修改說明與原因：
+- 從原始作業（讀取分數並輸出及格/補考/不及格）的內容，改為符合題目要求的輸出：逐字印出「虎科大」以及學生中文姓名的每個字與對應的內碼（此處使用 Unicode 編碼點的十進位表示，作為內碼的近似呈現）。
+- 使用固定字串 tiger = "虎科大" 以確保先印出虎科大，再印出學生姓名。
+- 透過逐字取字符並輸出 (int) ch 取得每個字的編碼點，確保對不同字的內碼對應正確。
+- 讀入姓名採用單行輸入，方便使用者直接輸入含多字的中文姓名。
+- 程式結構清楚、變數命名具意義，符合基本格式要求。
+
+一句話改進建議或反饋：
+建議在實作時明確指定內碼的表示方式（如 Unicode 十進位或十六進位），以及考慮是否需要處理空白/多行輸入與不同編碼環境的相容性，確保跨平台輸出一致。

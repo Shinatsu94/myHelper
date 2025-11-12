@@ -1,0 +1,69 @@
+6
+
+- 正確性(50%): 0/50
+- 邏輯(30%): 0/30
+- 格式(10%): 6/10
+- 備註(10%): 0/10
+
+以下為修改後的完整程式碼與修改原因：
+
+修改後完整程式碼
+```java
+/**
+ * 檔案名稱: Sort1DArray.java
+ * 功能: 讀取使用者輸入的長度 n 與 n 個整數，將其升冪排序，輸出排序後的結果。支援負數。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Sort1DArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數，放入一維陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足輸入時，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 對陣列進行升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的內容，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明與原因
+- 將原本的 2D 三角矩陣實作改為一維陣列（符合題目要求的任意長度一維陣列），以簡化邏輯並提高可讀性。
+- 改用 Arrays.sort 對一維整數陣列進行升冪排序，實作簡單且效率合理，避免手寫排序邏輯可能造成的錯誤。
+- 直接輸出排序結果，元素之間以單一空格分隔，避免尾端多餘空格，輸出格式符合題目期望。
+- 加入標頭註解，說明檔案名稱、功能、日期等，以及在程式內給予適當註解，提升可維護性。
+- 變數命名與結構稍作整理，提升可讀性與後續維護性（例如 class 名稱、變數名稱更具語意）。
+- 對輸入不足的情況做基本保護與預設值處理，並在結尾關閉 Scanner，避免資源未釋放的問題。
+
+改進建議或反饋（口頭一句話）
+- 這份作業偏離題意很多，建議從頭以一維陣列與排序為核心實作，避免不必要的二維結構與額外邏輯，並盡量讓輸入與輸出符合題目規範。

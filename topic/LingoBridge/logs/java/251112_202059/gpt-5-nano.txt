@@ -1,0 +1,71 @@
+5
+
+評分明細
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：5/10
+- 備註：0/10
+- 總分：5/100
+
+修改與說明
+- 問題重點：題目要求讀取長度 n、接著輸入 n 個整數，將它們由小到大排序，並以單行空格分隔輸出。學生原程式僅輸出一個等腰三角形，與題意完全不符，且未處理排序與輸入陣列。
+- 修改重點
+  - 使用整型陣列 int[] 存放輸入的 n 個整數，避免不必要的 2D 陣列與畫星號的無用操作。
+  - 使用 Arrays.sort(arr) 進行排序，簡潔且正確。
+  - 以單行輸出排序後的數字，元素間以單空格分隔，避免 trailing space。
+  - 增加程式頭註解，描述檔案名稱、功能、作者、日期等，提升可讀性與維護性。
+  - 保留基本的輸入流程，支援負數與任意長度的陣列，符合題意。
+- 修改後的實作要點
+  - 讀取 n，宣告整型陣列 arr[n]，逐一讀入 n 個整數。
+  - 將 arr 排序。
+  - 使用 StringBuilder 組裝輸出，避免在迴圈中頻繁呼叫 System.out.print，並確保輸出格式為單行且元素以空格分隔。
+
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_51015105_1031_3.java
+ * 功能: 讀取長度 n，輸入 n 個整數，將其由小到大排序後輸出為一行，元素以空格分隔
+ * 作者: ...
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_51015105_1031_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改原因說明
+- 透過使用 Arrays.sort 與整數陣列，能正確且効率地完成排序需求；避免原程式無意義的輸出與結構。
+- 維持單行輸出格式，符合題目輸出要求，且具備對負數的正確處理能力。
+- 加入程式頭註解提升可讀性與維護性，符合備註中的註解要求。
+
+改進建議（一句話）
+建議在提交前加入基本的輸入驗證與穩健處理，例如處理輸入不足的情況，以及在遇到非整數輸入時的合理回應，以提高魯棒性。

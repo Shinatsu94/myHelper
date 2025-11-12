@@ -1,0 +1,65 @@
+5
+
+評分項目
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 5/10
+- 備註: 0/10
+總分: 5/100
+
+修改後完成程式碼（完整版本）
+/**
+ * 文件名稱: CSIE_1031_SortArray.java
+ * 功能: 讀取長度 n，接著讀入 n 個整數，將其以升冪排序，並輸出排序結果（以空格分隔）
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_1031_SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數到一維陣列
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                a[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(a);
+
+        // 輸出：以空格分隔，末尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明（原因與要點）
+- 將原本的 2D 陣列與不相關的尋找邏輯移除，改為使用一維整數陣列，符合題意且簡化實作。
+- 使用 Arrays.sort 進行升冪排序，邏輯更直接、穩定且效率良好，能覆蓋包含負數的情況。
+- 輸出格式改為單行、由小到大、數字間以空格分隔，符合題目輸出要求。
+- 加入程式檔案註解與標頭資訊，提升可讀性與維護性；並加強輸入容錯處理（若輸入不足數量，預設為 0），避免發生例外。
+
+一句話改進建議
+建議：繼續以最直接的資料結構與語言內建函式解題，避免不必要的資料結構與冗餘邏輯，並確實對輸入格式與輸出格式做嚴謹的對應。

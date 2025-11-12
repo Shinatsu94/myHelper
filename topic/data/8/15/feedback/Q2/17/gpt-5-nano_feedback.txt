@@ -1,0 +1,52 @@
+15
+
+批改結果
+- 正確性：0/50
+- 邏輯：5/30
+- 格式：6/10
+- 備註：4/10
+
+修改與原因說明
+- 原程式核心邏輯錯誤：它僅計算每個元素右側的最大值，最後再輸出，並非對整個陣列進行升序排序，因此輸出與題意不符。
+- 建議改用內建排序：使用 Arrays.sort(a) 可以正確且高效地將整數陣列升序排序，時間複雜度為 O(n log n)。
+- 輸入輸出優化：使用 try-with-resources 自動關閉 Scanner，避免資源洩漏；使用 StringBuilder 拼接輸出，避免頻繁 I/O。
+- 程式註解與命名：新增檔案頭註解，並採用更清晰的變數命名，方便維護。
+- 符合題意：確保一次執行即可結束、輸出格式為「數字以空格分隔，無多餘空格」，且支援負數。
+
+修改後的完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343107_1031_2.java
+功能: 將輸入的一維整數陣列進行升序排序，並輸出結果
+作者: 王世豪
+日期: 2025/10/31
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343107_1031_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) return;
+            int n = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextInt();
+            }
+            Arrays.sort(a);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.print(sb.toString());
+        }
+    }
+}
+```
+
+改進說明
+- 主要改動是將自訂排序邏輯改為使用 Arrays.sort，配合良好的輸入輸出與註解，讓程式正確且易於閱讀與維護。
+
+改進建議（一句話）
+建議使用內建的排序（Arrays.sort）來實作升序排序，並補齊檔案註解與命名，以提升正確性與可讀性。

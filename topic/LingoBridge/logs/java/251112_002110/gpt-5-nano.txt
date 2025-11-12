@@ -1,0 +1,42 @@
+86
+
+修改後完整程式碼與說明如下：
+
+修改後程式碼（Java）
+```java
+/*
+檔案: CSIE_41343215_1003_1.java
+功能: 讀取兩個整數，輸出交換後的值（使用不額外變數的 XOR 交換）。
+作者: 教師
+日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class CSIE_41343215_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 使用更有意義的變數名稱
+        int first = scanner.nextInt();
+        int second = scanner.nextInt();
+
+        // 不使用額外變數的 XOR 交換法
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        // 輸出交換後的結果
+        System.out.println(first);
+        System.out.println(second);
+    }
+}
+```
+
+修改部分說明：
+- 加入程式標頭註解，包含檔案名稱、功能、作者、日期，符合備註要求。
+- 將變數命名改為具有語意的 first、second，以提升可讀性，符合格式分數的命名規範。
+- 使用原先符合題意的不使用額外變數之交換法（XOR 交換），保持題要求的限制，並在註解中清楚說明原理。
+- 增加簡要註解說明每個步驟，提升程式可閱讀性。
+
+改進建議（一句話）：
+建議在輸出結構上明確說明“交換後的輸出”與“原始輸出”之差異，若要同時顯示原始值與交換後值可考慮增加輸出格式或額外說明。

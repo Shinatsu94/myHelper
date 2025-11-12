@@ -1,0 +1,61 @@
+3
+
+評分明細
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：3/10
+- 備註：0/10
+- 總分：3/100
+
+修改後的完整程式碼（優化與修正）
+修改原因概要：原學生作業與題目需求完全不符；需要直接輸出指定字與其內碼，並以中文題意的順序印出虎科大的三個字與學生姓名的三個字及其內碼。新增檔案註解、清楚的輸出內容，以及使用直覺的輸出方式避免不必要的輸入。
+
+版本 A（直接輸出，易於維護）
+/*
+File: PrintNameUnicode.java
+功能: 輸出「虎科大」與學生中文姓名之字與對應的 Unicode 內碼，一行一字
+作者: 你的名字
+日期: 2025-11-12
+*/
+public class PrintNameUnicode {
+    public static void main(String[] args) {
+        // 虎科大
+        System.out.println("虎 " + (int) '虎');
+        System.out.println("科 " + (int) '科');
+        System.out.println("大 " + (int) '大');
+        // 學生姓名：林武杰
+        System.out.println("林 " + (int) '林');
+        System.out.println("武 " + (int) '武');
+        System.out.println("杰 " + (int) '杰');
+    }
+}
+
+版本 B（若要更易於擴展，可用陣列與迴圈）
+/*
+File: PrintNameUnicode.java
+功能: 輸出「虎科大」與學生中文姓名之字與對應的 Unicode 內碼，一行一字
+作者: 你的名字
+日期: 2025-11-12
+*/
+public class PrintNameUnicode {
+    public static void main(String[] args) {
+        char[] firstThree = {'虎','科','大'};
+        char[] studentName = {'林','武','杰'};
+
+        for (char c : firstThree) {
+            System.out.println(c + " " + (int) c);
+        }
+        for (char c : studentName) {
+            System.out.println(c + " " + (int) c);
+        }
+    }
+}
+
+修改說明
+- 將任務改為直接輸出指定字與其內碼，不再誤用與題目無關的成績輸入與判斷。
+- 加上檔案頭註解與清楚的類別命名，符合格式要求
+- 使用直覺的輸出格式：字 + 空格 + 內碼，符合題意的輸出樣式；版本 B 以陣列與迴圈實作，提升可維護性與擴充性
+- 保留了中文註解，讓後續維護者易於理解
+
+改進建議或反饋（一句話）
+- 建議在作業中直接根據題意輸出固定字與對應的內碼，避免不必要的輸入與邏輯分支，並加上完善的檔案註解與清晰的變數命名，以提升可讀性與維護性。

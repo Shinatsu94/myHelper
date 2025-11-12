@@ -1,0 +1,63 @@
+4
+
+評分明細
+- 正確性(50%): 0
+- 邏輯(30%): 0
+- 格式(10%): 4
+- 備註(10%): 0
+總分：4
+
+修改後程式碼（完整）
+/*
+檔名: CSIE_41343233_1031_4_Optimized.java
+功能: 讀入一維整數陣列長度 n，接著讀入 n 個整數，將陣列從小到大排序，輸出排序後的內容，用空格分隔。
+作者: 您的學生
+日期: 2025-11-12
+說明: 替換原本的 3x3 矩陣與行列式計算邏輯，改為一般的一維整數排序，並處理負數與任意長度輸入。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343233_1031_4_Optimized {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        if (!in.hasNextInt()) {
+            // 無有效輸入，直接結束
+            return;
+        }
+
+        int n = in.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 以避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 排序：由小到大
+        Arrays.sort(arr);
+
+        // 輸出：同一行，以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與原因
+- 將資料結構從 3x3 的 double[][] 矩陣改為一維整數陣列 int[]，符合題意的「任意長度的一維陣列」要求，並更貼近實作需求。
+- 移除不必要且與題意無關的矩陣運算（行列式、伴隨矩陣、反矩陣等），避免混淆與錯誤。
+- 使用 Arrays.sort 直接排序，程式邏輯更簡潔、穩定，且正確性更高，支援負數與任意長度輸入。
+- 加入輸入長度檢查與缺失輸入的保護機制，避免例外並確保程式穩定結束。
+- 加上清晰的註解與 header，符合備註欄要求，便於日後維護。
+
+改進建議（一句話）
+- 建議在輸出結束後再添加換行或指定格式，並考慮處理輸入中多餘的數字或分隔符，讓輸入更具魯棒性。

@@ -1,0 +1,58 @@
+4
+
+- 正確性: 0
+- 邏輯: 0
+- 格式: 4
+- 備註: 0
+
+修改後完整程式碼：
+// 檔案名稱: CSIE_41343101_1031_2.java
+// 功能: 讀入任意長度整數陣列，升序排序後輸出
+// 作者: 資訊工程系教授
+// 日期: 2025-11-12
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343101_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補0以避免例外
+            }
+        }
+
+        // 排序升序
+        Arrays.sort(arr);
+
+        // 輸出，確保不出現尾端多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 將原本錯誤的排序邏輯改為使用 Arrays.sort 進行升序排序，確保正確性與穩定性，並簡化程式。
+- 修正輸出方式，避免在最後輸出時出現多餘的 -1，並避免尾端有額外空白。
+- 增加程式標頭註解與內部註解，提升可維護性與可理解性；使用更具描述性的變數名稱。
+- 對輸入不足的情況加入保險處理，避免意外例外。
+
+改進建議（一句話）：
+建議加入更多單元測試案例，確保在負數、邊界長度與輸入不足等情況下都能正確輸出。

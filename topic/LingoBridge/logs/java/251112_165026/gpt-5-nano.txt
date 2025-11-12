@@ -1,0 +1,44 @@
+88
+
+修改後完整程式碼：
+/*
+ * 檔名: CSIE_41343150_1031_1.java
+ * 功能: 讀入整數長度 n 與 n 個整數，將陣列升序排序，輸出排序結果
+ * 作者: 教授
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343150_1031_1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        in.close();
+    }
+}
+
+修改說明：
+- 將自訂的排序演算法改為使用 Arrays.sort(arr)，提升穩定性、效率與可讀性，避免潛在的邏輯細節錯誤。
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，符合作業要求的備註標準。
+- 使用 StringBuilder 組合輸出，避免多次 System.out.print 提高效能與可維護性。
+- 變數命名與結構略做整理，使程式邏輯更清晰，便於閱讀與維護。
+- 印出最後加入換行，符合常見輸出習慣與測資穩定性。
+
+改進建議（一句話）：
+建議加入輸入長度 n 的邊界檢查與例外處理，讓程式對非法輸入更具魯棒性。

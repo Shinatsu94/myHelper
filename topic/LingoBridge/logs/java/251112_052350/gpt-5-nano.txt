@@ -1,0 +1,53 @@
+82
+
+修改後完整程式碼（經重構與優化，保留原題輸出格式，並加入適當註解）：
+
+/*
+檔案名稱: PiLeibniz.java
+功能簡述: 使用萊布尼茨公式計算 π，(a) 輸出 i 為 10000, 20000, ..., 100000 時的 π 值，(b) 找到使 π 四捨五入到小數點後5位等於 3.14159 的最小 i。
+作者: 教授
+日期: 2025-11-11
+*/
+public class PiLeibniz {
+    public static void main(String[] args) {
+        // (a) 逐步計算 n 個項的近似值，n 為 10000, 20000, ..., 100000
+        for (int terms = 10000; terms <= 100000; terms += 10000) {
+            double sum = 0.0;
+            // sum_{k=0}^{n-1} (-1)^k / (2k+1)
+            for (int k = 0; k < terms; k++) {
+                double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+                sum += term;
+            }
+            double pi = 4.0 * sum;
+            // i 為項數 n，格式需求 i 為 6 位數，pi 保留小數點後 10 位
+            System.out.printf("i = %6d, pi = %.10f%n", terms, pi);
+        }
+
+        // (b) 找出最小的 i，使 pi 四捨五入到小數點後 5 位等於 3.14159
+        int i = 0;
+        double partialSum = 0.0;
+        double piValue = 0.0;
+        while (true) {
+            partialSum += ((i % 2 == 0) ? 1.0 : -1.0) / (2.0 * i + 1.0);
+            piValue = 4.0 * partialSum;
+            double roundedTo5 = Math.round(piValue * 100000.0) / 100000.0;
+            if (roundedTo5 == 3.14159) {
+                break;
+            }
+            i++;
+        }
+
+        // 僅輸出 i 的值，符合題目第二部分的需求
+        System.out.println("i = " + i);
+    }
+}
+
+修改原因與說明：
+- 結構分離：將 (a) 與 (b) 的邏輯清楚分離成兩段，便於閱讀與維護。
+- 變數命名與精簡：使用 terms 作為「項數」，清楚代表需要進行的加總的項數；內層循環使用 k 表示與項的索引，讓公式更容易理解與驗證。
+- 輸出格式符合題意：針對 (a) 輸出 i 與 pi，i 使用六位寬度輸出，pi 輸出到小數點後 10 位；(b) 只輸出最小 i 值，符合題目提供的最終輸出需求。
+- 加入標頭註解：提供檔案名稱、功能、作者與日期等資訊，提升可維護性與可讀性。
+- 避免雜湊變數：使用獨立變數名稱避免在同一作用域內混淆，提升可讀性與可維護性。
+
+改進建議（一句話）：
+若要進一步提升可讀性與可維護性，建議把兩部分的計算各自包成獨立方法（如 computePiByTerms(int n) 與 findMinimalIForPiFiveDecimals()），並加入單元測試以確保長期穩定性。

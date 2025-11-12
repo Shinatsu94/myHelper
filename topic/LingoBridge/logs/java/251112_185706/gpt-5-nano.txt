@@ -1,0 +1,53 @@
+85
+
+修改後完整程式碼（已優化輸出格式，並補充標頭註解與說明）：
+import java.util.Scanner;
+
+/**
+ * File: csie_1031_41343214.java
+ * 功能: 依使用者輸入的長度與數值，對整數陣列進行升序排序，並輸出排序結果（以空格分隔，無尾隨空格）。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ */
+public class csie_1031_41343214 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用簡單的選取排序（Selection Sort）排序 arr
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) minIndex = j;
+            }
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+
+        // 輸出時避免尾隨空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 輸出格式修正：原程式在最後輸出時會在每個數字後補一個空格，造成尾隨空格與題目示例不同。改用 StringBuilder 先組裝輸出字串，僅在數字之間插入單一空格，避免尾端有多餘空格，符合常見自動化測資的格式檢查。
+- 標頭註解與檔案說明：加入檔案頭註解，說明檔案名稱、功能、作者與日期，提升程式可讀性與可維護性，以符合備註需求。
+- 讓程式具備更清楚的結構註解：在排序區段保留原本的選取排序邏輯，並在重要步驟上加入註解，方便日後維護與理解。
+- 未改動核心演算法：保留原本的選取排序實作，保持與原作業意圖一致，確保正確性與可理解性。
+
+改進建議或反饋（一句話）：
+若要更簡潔且效能更好，建議改用內建排序 Arrays.sort(arr)，並保持輸出格式的同樣要求。

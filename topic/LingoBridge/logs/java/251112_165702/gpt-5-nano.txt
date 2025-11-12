@@ -1,0 +1,91 @@
+88
+
+評分明細：
+- 正確性（50%）：50/50
+- 邏輯（30%）：30/30
+- 格式（10%）：8/10
+- 備註（10%）：0/10
+總分：88/100
+
+修改前的觀察與理由：
+- 沒有頭註解與檔案描述，違反備註欄的註解要求。
+- 使用 Scanner 進行 I/O，較慢且對大量資料的表現不友善。
+- 程式結構相對正確，但可改進可讀性與效率，特別是輸出與註解部分。
+
+修改後程式碼（完整程式，已加入註解與快速 I/O）：
+/*
+ File: CSIE_41343215_1031_1.java
+ 功能: 建立任意長度的一維陣列，輸入長度與元素，排序後輸出由小到大的序列
+ 作者: 教師
+ 日期: 2025-11-12
+ 說明: 使用快速 I/O（自訂 FastScanner 與 StringBuilder 輸出）以提升效率，並加入程式說明註解。
+*/
+import java.io.*;
+import java.util.*;
+
+public class CSIE_41343215_1031_1 {
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+        Arrays.sort(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+
+    // 簡潔高效的 FastScanner，使用輸入緩衝區以提升 I/O 效率
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1;
+            int val = 0;
+            // 跳過空白字元
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+            // 負號
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            // 讀取數字
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}
+
+說明修改部分的原因：
+- 以快速 I/O 取代 Scanner，提升效能，特別是在測資較大的情況下。
+- 加入檔案開頭的註解與說明，符合作業要求的備註欄。
+- 用 StringBuilder 組裝輸出內容，避免逐次輸出造成的效率問題，且格式保持一致。
+- 保留原有功能與輸出格式，確保與題目輸出範例相符。
+
+改進建議（一句話）：
+- 請繼續養成在程式開頭加入完整註解與變數命名規範，並考慮以快速 I/O 與緹輸出策略提升大資料量的執行效率。

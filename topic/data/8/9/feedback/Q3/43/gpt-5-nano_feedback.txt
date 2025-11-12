@@ -1,0 +1,51 @@
+8
+
+以下為修改後的完整程式碼，以及修改說明。
+
+/*
+ * 檔案名稱: CSIE_41343221_0926_3.java
+ * 功能說明:
+ *   印出「虎科大」三個字及其對應的內碼（Unicode code point），
+ *   接著印出學生的中文姓名每個字及其對應的內碼。若未提供姓名，預設使用示例名稱 "林武杰"。
+ * 作者: 額外提供者（根據任務需求自行修改）
+ * 日期: 2025-11-12
+ * 備註: 程式內含註解，並採用合理的變數命名與排版。
+ */
+
+public class CSIE_41343221_0926_3 {
+    public static void main(String[] args) {
+        // 先印出「虎科大」三個字及其對應的 Unicode 編碼點
+        char[] universityChars = {'虎', '科', '大'};
+        for (char ch : universityChars) {
+            System.out.println(ch + " " + (int) ch);
+        }
+
+        // 取得學生中文姓名；若未提供，使用預設示例姓名
+        String name = "林武杰";
+        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {
+            if (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line != null && !line.trim().isEmpty()) {
+                    name = line.trim();
+                }
+            }
+        } catch (Exception e) {
+            // 若發生例外，保留預設姓名
+        }
+
+        // 將姓名的每一個字逐字印出及其對應的 Unicode 編碼點
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            System.out.println(c + " " + (int) c);
+        }
+    }
+}
+
+修改原因與重點說明：
+- 直接符合題意：將虎科大三字與學生中文姓名逐字輸出，並顯示每個字的內碼。原始程式與題目需求相差甚遠，故以新的輸出邏輯取代原有的考試成績示範邏輯。
+- 動態姓名支援：改用從輸入取得姓名（若有提供），否則以預設值 "林武杰" 作為示例，方便在不同測試情境下使用並避免程式阻塞等待輸入。
+- 內碼的取得方式：改為直接輸出每個字元的 Unicode 編碼點 (int) ch，確保內碼的正確性，且不依賴外部知識去手動填寫數值，增加穩健性與可移植性。
+- 程式風格與可讀性：加入適當註解、保持縮排整齊、變數命名清晰；保留原有 class 名稱以符合檔案命名約束，方便提交與編譯。
+
+改進建議（或反饋）：
+- 建議在題目要求的輸出格式上再提供一個固定的測試姓名範例以利自動評分，或強制提供測試輸入，避免因未提供姓名而造成輸出內容不一致的情況。

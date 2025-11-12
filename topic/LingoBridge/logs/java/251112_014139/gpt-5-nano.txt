@@ -1,0 +1,35 @@
+6
+
+- 正確性：0
+- 邏輯：0
+- 格式：6
+- 備註：0
+
+修改後的程式碼（符合題意：讀入兩數 A、B，交換後輸出，且不使用額外變數）：
+```java
+import java.util.Scanner;
+
+public class SwapTwoNumbersNoTemp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 不使用其他變數，使用 XOR 交換兩個整數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+```
+修改說明：
+- 將原始程式與題目不符的邏輯移除，改以正確的兩數交換與輸出流程實作。使用只有 A、B 的位元運算（XOR Swap）可滿足「不可使用其他變數進行數字交換」的限制，且避免加法帶來的整數溢位風險；輸出改為交換後的兩個數，符合給定範例。
+
+改進建議或反饋（一句話）：
+- 建議直接依題意輸出交換後的兩個數，並以不使用額外變數的方式實作，提升可讀性與穩定性，避免額外邏輯干擾理解。

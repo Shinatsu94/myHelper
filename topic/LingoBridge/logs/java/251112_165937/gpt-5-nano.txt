@@ -1,0 +1,42 @@
+85
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343220_1031_1.java
+ * 功能: 讀入陣列大小與元素，輸出排序結果（由小到大）
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 說明: 使用內建排序 Arrays.sort 提高可讀性與穩定性，並使用 StringBuilder 組裝輸出以提高效能。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343220_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] data = new int[n];
+        for (int i = 0; i < n; i++) {
+            data[i] = sc.nextInt();
+        }
+        Arrays.sort(data);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(data[i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+
+修改說明：
+- 移除未使用變數 big 與 kal，減少雜訊與潛在混淆。
+- 將原本自訂的排序演算法改為使用 Arrays.sort(data)，提升可讀性、正確性與效能，且適用於整數、包含負數的情況。
+- 增加檔案標頭註解，包含檔案名稱、功能、作者與日期，提升可維護性。
+- 使用 StringBuilder 組裝輸出，避免逐次 System.out.print 導致的效率問題。
+- 變數命名改為具意義的 n、data，提升可讀性。
+- 加入 sc.close() 以釋放資源，符合良好資源管理。
+
+一句話回饋與改進建議：
+改進建議：建議採用內建排序（Arrays.sort）並配合完整的檔案標頭註解與更一致的程式格式，以提升可讀性與可維護性。

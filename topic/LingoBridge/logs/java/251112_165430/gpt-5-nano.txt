@@ -1,0 +1,81 @@
+13
+
+評分明細
+- 正確性：0/50
+  - 原程式使用的從右到左以右邊最大值替換的作法，無法正確排序，甚至在多數情況下輸出並非遞增或正確的序列。
+- 邏輯：5/30
+  - 嘗試用單次遍歷與最大值概念處理，但邏輯與需求嚴重脫節，未能正確達成排序目的。
+- 格式：8/10
+  - 變數命名清晰，縮排較為一致，註解以中文說明部分流程。
+- 備註：0/10
+  - 缺少程式標頭註解（檔案名稱、功能、作者、日期等）以及較完整的程式內註解。
+
+總分：13/100
+
+修改與優化說明
+修改重點與原因
+- 以內建排序取代自訂排序邏輯，確保正確性且支援負數。
+- 增加標頭註解，符合作業要求的檔案註解規範。
+- 保留輸入讀取方式，仍以 Scanner 讀整數，並輸出排序後的陣列。
+- 變數命名更具語意，並確保輸入長度 n > 0 的基本檢查。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343211_1031_2.java
+功能: 讀取使用者輸入的整數長度與元素，輸出升序排列的陣列
+作者: 請填寫
+日期: 2025-11-12
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343211_1031_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+        int n = input.nextInt();
+        if (n <= 0) {
+            System.out.println("陣列長度必須大於 0");
+            input.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 使用內建排序，確保正確且支援負數
+        Arrays.sort(arr);
+
+        // 輸出結果
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        input.close();
+    }
+}
+
+修改說明
+- 替換原本的自訂排序邏輯為 Arrays.sort(arr)，原因是 Arrays.sort 能正確處理所有整數（含負數），且時間複雜度為 O(n log n)，更穩定且簡潔。
+- 增加程式頭部註解，符合作業要求，方便後續維護與閱讀。
+- 增加對輸入的前置檢查（hasNextInt），避免非整數輸入造成例外；若輸入不足，將不足的元素設定為 0，提升容錯性。
+- 變數命名維持清晰，保留原有的輸入流程與輸出格式，確保與題目輸入/輸出一致。
+
+改進建議或反饋（一句話）
+- 建議使用內建排序還原正確性，並補充標頭註解與基本輸入檢查，以提升穩定性與可維護性。

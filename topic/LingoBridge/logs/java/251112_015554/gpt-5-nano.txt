@@ -1,0 +1,38 @@
+7
+
+- 正確性：0
+- 邏輯：5
+- 格式：2
+- 備註：0
+總分：7/100
+
+修改後的完整程式碼（優化並符合題意，使用不額外變數的交換方法）：
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 不使用其他變數進行數字交換：使用不需額外變數的交換法
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+```
+
+修改說明：
+- 直接讀取兩個整數 A、B，符合題目需求，移除了原始程式中多餘且未使用的變數與複雜的迴圈邏輯。
+- 使用不新增臨時變數的交換方法 (A = A + B; B = A - B; A = A - B) 以滿足「不可使用其他變數進行數字交換」的限制，且輸出交換後的兩個值，與題意之輸出範例一致。
+- 程式格式與命名做了整理，使用清晰的縮排與適當的註解，並在結尾加入 sc.close() 以釋放資源。
+
+一句話改進建議：
+- 建議在實作前先確認題意輸出格式（是否僅輸出交換後的兩個值），並盡量避免不必要的複雜邏輯，以提升可讀性與正確性。

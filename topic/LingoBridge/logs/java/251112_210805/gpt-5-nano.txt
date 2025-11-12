@@ -1,0 +1,54 @@
+0
+
+修改後完整程式碼：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+ * File: SortOneDArray.java
+ * 功能: 讀取一個整數 n，接著讀取 n 個整數，將其升序排序，輸出排序後的陣列元素。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ * 說明: 適用任意長度的一維整數陣列，支援負數，避免使用 EOF，輸入固定次數後結束。
+ */
+
+public class SortOneDArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與改動原因：
+- 從原本與題目無關的矩陣反演程式，改成解題所需的單維排序功能，符合「任意長度的一維陣列升序排序」的需求。
+- 使用 int[] 取代 double[][]，以符合整數排序且避免浮點格式化問題。
+- 使用 Arrays.sort 直接實作升序排序，邏輯簡潔且正確，利於維護與閱讀。
+- 改善輸入處理：先讀入長度 n，再逐一讀取 n 個整數，能穩定處理多行或單行輸入，且不使用 EOF。
+- 加入適當的程式標頭註解與文件說明，並清楚命名類別與變數，提升可讀性與維護性。
+
+改進建議（一句話）：
+建議再加入更嚴謹的輸入驗證與錯誤處理（例如長度與數字範圍檢查），並在輸出末尾加上換行以符合各測資的格式要求。

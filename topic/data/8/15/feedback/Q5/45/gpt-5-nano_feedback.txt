@@ -1,0 +1,79 @@
+0
+
+正確性: 0/50
+邏輯: 0/30
+格式: 0/10
+備註: 0/10
+
+修改後完整程式碼與說明
+
+修改後程式碼（符合題目需求，能讀取長度與對應的整數、排序並輸出）：
+```java
+/*
+File: SortArray.java
+功能: 讀入整數 n，接著讀入 n 個整數，將它們由小到大排序後輸出
+作者: 資訊工程系教授
+日期: 2025-11-12
+說明: 使用動態長度陣列與 Arrays.sort 進行排序，輸出以空格分隔。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入長度 n
+        if (!sc.hasNextInt()) {
+            System.err.println("輸入格式錯誤：未提供長度 n。");
+            return;
+        }
+        int n = sc.nextInt();
+        if (n < 0) {
+            System.err.println("長度 n 不可為負數。");
+            return;
+        }
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (!sc.hasNextInt()) {
+                System.err.println("輸入不足，缺少第 " + (i + 1) + " 個整數。");
+                return;
+            }
+            arr[i] = sc.nextInt();
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改內容與原因說明：
+- 由原本的 3x3 矩陣與矩陣運算，改為符合題意的任意長度一維整數陣列排序：
+  - 原程式與題目需求不符，且編譯會失敗（類別名稱包含空白、讀取 9 個數字等）。
+  - 新程式直接讀取長度 n，接著 n 個整數，符合「先輸入長度，再輸入陣列內容，最後輸出排序結果」的流程。
+- 使用 Arrays.sort 進行升序排序：
+  - 簡潔且高效，時間複雜度 O(n log n)。
+- 輸入與輸出處理：
+  - 使用 Scanner 進行簡單的輸入，確保對負數也能正確處理。
+  - 加入基本的輸入驗證與錯誤訊息，提升穩健性。
+  - 輸出以單行、空格分隔，符合常見的線上評測格式。
+- 程式結構與命名：
+  - 類別名稱改為 SortArray，檔案命名也相容（SortArray.java）。
+  - 變數命名具有表意性，增加可讀性。
+- 程式註解與標頭：
+  - 加入檔案註解（文件名、功能、作者、日期、說明），符合備註要求。
+
+一句話改進建議：
+若想提升穩健性且更適合大型輸入，建議改用緩衝輸入（例如 BufferedInputStream 配合自訂解析器）並加入例外處理，以提升效能與容錯能力。

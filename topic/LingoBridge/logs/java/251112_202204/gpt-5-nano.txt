@@ -1,0 +1,69 @@
+3
+
+評分總覽
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：3/10
+- 備註：0/10
+- 總分：3/100
+
+修改與評語說明
+- 原作業程式與題目需求嚴重不符：原程式僅輸出一個星號三角形，未讀取或排序整數，也未輸出結果陣列。故正確性與邏輯皆為 0 分。
+- 程式格式方面，只有極少數變數命名與基本縮排有些許規整，但存在未使用變數（max）等問題，仍僅得到 3/10。
+- 建議策略：以符合題意的資料結構與演算法實作，使用陣列存放輸入的整數，接著排序，最後輸出排序結果，並加入適當的程式標頭註解與註解說明。
+
+優化後的完整程式碼（符合題意，含註解與標頭）
+/*
+File: SortingArray.java
+Description: 讀取長度 n，接著讀入 n 個整數，對它們由小到大排序，輸出排序後的內容，元素可為負數。
+Author: 你的姓名
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortingArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，數字之間以空格分隔，末尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明
+- 替換原本的星號星形輸出與27行的多維陣列設計，改為直接處理整數陣列，以符合題目需求。
+- 使用 Arrays.sort 進行排序，簡潔且對負數皆適用。
+- 增加標頭註解，並在程式內加入必要註解，提升可讀性與維護性。
+- 輸出處理避免尾端多餘空格，符合常見輸出格式預期。
+
+改進建議（一句話）
+建議在正式提交前加入輸入驗證與錯誤處理，並為未輸入完整整數時給出明確的錯誤訊息或預設策略。

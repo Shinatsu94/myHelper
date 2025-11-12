@@ -1,0 +1,47 @@
+11
+
+- 評分明細
+  - 正確性: 0/50
+  - 邏輯: 5/30
+  - 格式: 4/10
+  - 備註: 2/10
+
+修改後完整程式碼（已優化為正確的升序排序，並修正輸出格式與註解）：
+```java
+/*
+檔案名稱: CSIE_41343121_1031_2.java
+功能: 讀取長度 n，接收 n 個整數，輸出升序排序的結果
+作者: 徐唯祐
+日期: 2025-11-12
+說明: 使用 Arrays.sort 進行排序，避免原始遞增邏輯錯誤，支援負數。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343121_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scn.nextInt();
+        }
+        Arrays.sort(a);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+        scn.close();
+    }
+}
+```
+
+修改說明：
+- 正確性與輸出：原程式採用自訂的「找最大值放前面」邏輯，且最後以 -1 作為尾端輸出，無法正確排序且輸出格式不正確。改為使用 Arrays.sort 直接對整數陣列做升序排序，能正確處理任意長度與含負數的情況，且輸出格式統一為單行、以空白分隔的數字序列。
+- 清晰度與維護性：引入清晰的註釋、統一的變數命名與適當的縮排，刪除不必要的特殊尾端值設定，讓程式更易閱讀與維護。
+- 格式與可讀性：使用 StringBuilder 組裝輸出，避免在迴圈中頻繁建立字串，提高效率，並在結尾輸出換行符號，使輸出符合常見題目要求。
+
+一句話改進建議：
+- 建議直接使用內建排序（如 Arrays.sort）並以統一的輸出格式呈現，提升正確性與可讀性，同時避免不必要的自訂排序邏輯。

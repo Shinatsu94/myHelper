@@ -1,0 +1,38 @@
+32
+
+修改後完整程式碼：
+public class CSIE_41343131_0926_1 {
+    /**
+     * 檔案名稱: CSIE_41343131_0926_1.java
+     * 功能: 印出「虎科大」與學生姓名的每個字以及對應的內碼（Unicode 編碼）
+     * 作者: 教師
+     * 日期: 2025-11-12
+     *
+     * 輸出格式為：每行一個字與其對應的內碼，先印「虎科大」的三個字，再印學生的名字三個字。
+     */
+
+    public static void main(String[] args) {
+        final String SCHOOL = "虎科大";
+        final String STUDENT_NAME = "林武杰";
+
+        printCharactersWithCode(SCHOOL);
+        printCharactersWithCode(STUDENT_NAME);
+    }
+
+    // 輔助方法：逐字印出字元與其 Unicode 內碼
+    private static void printCharactersWithCode(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+}
+
+修改說明與原因：
+- 正確性與需求對齊：將輸出分成兩部分，先輸出虎科大三個字再輸出學生姓名三個字，逐字印出與其 Unicode 內碼，符合題目要求的順序與格式。原程式混合了虎科大與學生姓名，且包含未使用的區段，容易造成語意混亂。
+- 可讀性與維護性：改用清晰的常數字串名稱（SCHOOL 與 STUDENT_NAME），避免使用難以閱讀或不尋常的中文變數名稱；新增一個輔助方法 printCharactersWithCode 以避免重複程式碼，提升可讀性與維護性。
+- 程式結構與註解：加入正式的程式標頭註解，說明檔案名稱、功能、作者與日期，並在程式內部給出關於輸出格式的說明；同時移除原本多餘且未使用的區塊，使程式更整潔。
+- 風格與一致性：使用一致的縮排與大括號風格，變數命名改為英文命名風格，提升跨團隊協作時的可讀性與相容性。
+
+改進建議（一句話）：
+在字元處理與輸出格式方面，保持字串與輸出分離、並以清晰的輔助方法來處理字元與內碼的對應，能大幅提升可讀性與擴充性，同時避免因直接在主程序中混雜不同字串而造成邏輯混淆。

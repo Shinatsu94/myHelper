@@ -1,0 +1,64 @@
+87
+
+修改後完整程式碼：
+/*
+檔案名稱: csie_41343137_1031_1.java
+功能: 讀取整數長度 n，輸入 n 個整數，將陣列內容升冪排序，輸出排序結果
+作者: (作者姓名)
+日期: 2025-11-12
+*/
+import java.util.*;
+
+public class csie_41343137_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        selectionSort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+
+    static void selectionSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j] < a[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int tmp = a[i];
+            a[i] = a[minIndex];
+            a[minIndex] = tmp;
+        }
+    }
+}
+
+修改說明（重點改動與原因）：
+- 程式標頭註解與檔案說明：新增檔案說明區塊，符合備註中對程式標頭的要求，方便日後維護與評分審核。
+- 變數命名清晰化：將原本的 oin 改名為 minIndex，避免語意模糊，提升可讀性。
+- 輸出部分優化：改用 StringBuilder 結合輸出，避免多次 System.out.print 呼叫，且輸出格式更穩定（同一行以單一呼叫換出）。
+- 程式結構的小幅穩定性修正：在讀取開始增加對輸入的防呆檢查，並於結尾關閉 Scanner，確保資源釋放。
+- 保留演算法：仍使用選擇排序以符合原作業需求與題意，若允許使用內建排序可考慮改用 Arrays.sort 提升效率。
+
+若考慮更高效的排序（選擇性建議）：
+- 可以改用內建排序 Arrays.sort(arr) 以達到 O(n log n) 的效能，並減少程式複雜度；若要保留自訂排序演算法，上述修改已改善可讀性與穩定性。
+
+一句話改進建議/反饋：
+建議改用內建排序 Arrays.sort 提升效能，同時在程式開頭加上完整註解與使用更清晰的變數名稱，以提升維護性與可讀性。

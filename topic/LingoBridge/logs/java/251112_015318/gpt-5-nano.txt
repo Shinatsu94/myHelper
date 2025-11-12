@@ -1,0 +1,55 @@
+6
+
+評分明細
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 0/10
+總分: 6/100
+
+修改後的程式碼與修改說明
+
+修改後完整程式碼（已符合題意：一次讀入兩個整數 A、B，先印出原值，之後在不使用額外變數的情況下交換並印出新值，並加入適當的檔案註解與內部註解）：
+```java
+/*
+ * File: SwapTwoNumbers.java
+ * Description: 讀入兩個整數，印出原值，之後在不使用額外變數的情況下交換兩數，並印出結果。
+ * Author: 教師
+ * Date: 2025-11-11
+ */
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 輸出原值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用新變數的交換法：使用位元 XOR 的交換，以避免額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+```
+
+修改原因說明：
+- 需求變更與檢核點：必須從輸入中取得兩個數字，先印出原值，接著在不引入第三個變數的情況下完成交換，再印出新值。原程式僅處理單一數字並進行與題意無關的數字列舉與求和，與題意完全不符。
+- 採用的交換方法：選用位元異或交換（A = A ^ B; B = A ^ B; A = A ^ B;）以避免額外變數，並避免算術交換可能產生的整數溢位風險。
+- 程式可讀性與維護性：新增檔案級註解與內部註解，變數命名維持 A、B 以符合題意並保持清晰；加入 scanner.close() 以釋放資源。
+- 格式與風格：保持適當縮排與註解，類別名稱使用簡潔且符合 Java 命名慣例的名稱。
+
+一句話改進建議或反饋：
+- 建議在實作中同時提供其他交換方式的註解與風險說明（例如溢位風險與測試案例），讓學生了解不同寫法的利弊，並在正式專案中選用更穩健的做法。

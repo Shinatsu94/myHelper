@@ -1,0 +1,49 @@
+8
+
+修改後完整程式碼（LeibnizPi.java）：
+/*
+檔案名稱: LeibnizPi.java
+功能: 以 Leibniz 公式近似圓周率，輸出 i=10000, 20000, ..., 100000 對應的 pi 值，並找出使 pi >= 3.14159 的最小 i。
+作者: 教師
+日期: 2025-11-12
+說明: 程式以逐步累加的方式計算 pi，並在需要時輸出指定 i 的 pi；最後輸出滿足 pi >= 3.14159 的最小 i。
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int MAX_PRINT_I = 100000;      // 要輸出的 i 的上限（10000, 20000, ..., 100000）
+        final int PRINT_INTERVAL = 10000;    // 輸出間隔
+        final int MAX_I_TOTAL = 150000;      // 為了找出 pi >= 3.14159 的最小 i，設定較大的上限
+        double sum = 0.0;
+        int sign = 1;
+        int minIForPi159 = -1;
+
+        for (int i = 1; i <= MAX_I_TOTAL; i++) {
+            sum += sign * (1.0 / (2 * i - 1)); // 級數的第 i 項
+            // 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
+            if (i % PRINT_INTERVAL == 0 && i <= MAX_PRINT_I) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+            // 找出 pi >= 3.14159 的最小 i
+            if (minIForPi159 == -1) {
+                double pi = 4.0 * sum;
+                if (pi >= 3.14159) {
+                    minIForPi159 = i;
+                }
+            }
+            sign = -sign;
+        }
+
+        // 輸出滿足 pi >= 3.14159 的最小 i
+        System.out.println("i = " + minIForPi159);
+    }
+}
+
+修改說明：
+- 將原先與題目不相關的數字反轉輸入程式，改為實作勒貝金公式的 pi 近似計算，符合作業題意。
+- 使用逐步累加的方式進行求和，避免重複計算並提升效率；同時能在需要時輸出指定的 i 值對應的 pi。
+- 輸出格式調整為符合題目要求：pi 保留小數點後10位，i 以寬度6對齊顯示，並使用單行輸出分隔。
+- 新增程式標頭註解，包含檔案名稱、功能、作者與日期，以及適當的註解以提升可讀性與維護性。
+
+改進建議或反饋（一句話）：
+建議改用高精度數值類型或演算法（如 BigDecimal 與適當的誤差處理）以提升浮點計算穩定性，並可在累加時採用如 Kahan 求和等技巧以減少浮點誤差。

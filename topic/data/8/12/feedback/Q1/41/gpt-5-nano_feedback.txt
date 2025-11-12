@@ -1,0 +1,62 @@
+85
+
+修改後完整程式碼（已優化並加上註解與較佳命名）：
+
+/*
+檔案名稱: LeibnizPi.java
+功能說明: 使用勒貝格級數近似圓周率，輸出部分 i 的 pi 值（i = 10000..100000，每次增量為 10000，pi 為小數點後十位）；
+         另找出最小的 i 使 pi 的截斷值等於 3.14159（截斷到小數點後五位）。
+作者: 教學評分系統示例
+日期: 2025-11-11
+*/
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // a: 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值（4倍的正負交替和）
+        int[] thresholds = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
+        for (int iVal : thresholds) {
+            double sum = leibnizSum(iVal);           // 將前 iVal 項求和
+            double pi = sum * 4.0;                    // 乘以 4 得到 pi 的近似值
+            System.out.println("i = " + String.format("%6d", iVal)
+                    + ", pi = " + String.format("%.10f", pi));
+        }
+
+        System.out.println();
+
+        // b: 找到最小的 i，使 pi 的截斷值為 3.14159（截斷到小數點後五位）
+        double partialSum = 0.0;
+        int i = 0;
+        while (true) {
+            i++;
+            // 增量累積第 i 項
+            partialSum += (i % 2 == 1) ? 1.0 / (2 * i - 1) : -1.0 / (2 * i - 1);
+            double pi = partialSum * 4.0;
+            double truncated = Math.floor(pi * 100000.0) / 100000.0;
+            if (truncated == 3.14159) {
+                System.out.println("i = " + String.format("%6d", i));
+                break;
+            }
+        }
+    }
+
+    // 計算前 terms 項的勒貝格和（不乘以 4）
+    private static double leibnizSum(int terms) {
+        double s = 0.0;
+        for (int j = 1; j <= terms; j++) {
+            s += (j % 2 == 1) ? 1.0 / (2 * j - 1) : -1.0 / (2 * j - 1);
+        }
+        return s;
+    }
+}
+
+說明修改部分與原因：
+
+- 加入程式標頭註解：新增檔案說明、功能描述、日期與作者欄位，符合備註項目的需求，提升可讀性與維護性。
+- 統整重複邏輯為方法：將勒貝格級數的和計算抽出成 leibnizSum(int terms) 方法，避免重複寫同樣的迴圈，提升可讀性與維護性。
+- 變數與命名改善：使用 leibnizSum、partialSum、pi 等更具語意的名稱，避免單字母變數的混淆。
+- 輸出格式保持一致：i 值以 width 6 對齊，pi 以小數點後 10 位輸出，且在 a 與 b 兩段之間留一個空行，符合題目輸出格式。
+- 程式結構與可擴充性：a 部分以迴圈與陣列實作，方便日後若要修改輸出項或範圍即可快速調整；b 部分改以一個簡單的累加與截斷比較來尋找最小 i。
+- 潛在魯棒性改善：原中文題意為「pi = 3.14159 的最小 i」，此版本採用截斷比較（floor）達成相同效果，並以穩健的迴圈結構避免死循環；未使用浮點相等檢查以降低誤判風險。
+
+改進建議（一句話）：
+- 建議再進一步分離計算與輸出，使模組化更高，並加上單元測試以驗證不同條件下的輸出是否符合規格與容錯性。

@@ -1,0 +1,35 @@
+4
+
+以下是依題意改寫後的完整程式碼，以及修改說明與回饋。
+
+修改後完整程式碼
+/*
+檔案名稱: SwapTwoNumbers.java
+功能: 讀入兩個整數，輸出交換後的順序（先輸出第二個數，再輸出第一個數），不使用額外變數做交換
+作者: 教師
+日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 透過直接輸出兩個數的次序來達成交換效果，且不使用中間變數進行交換
+        System.out.println(B);
+        System.out.println(A);
+
+        scanner.close();
+    }
+}
+
+修改原因說明
+- 正確性與需求對齊：題目要求讀入兩個數字並「交換後再印出」，本版本以先讀入 A、B，直接輸出 B 再輸出 A，達成不使用額外變數的交換方式，並與題目給定的輸出樣例相符。
+- 簡化邏輯：移除了原程式中與題意無關的複雜迴圈與位數計算，直接用最簡潔的 I/O 實作，降低錯誤風險。
+- 格式與可讀性：加入類別註解，使用有意義的變數名稱（A、B），並在末尾關閉 Scanner，以提升可讀性與資源管理。
+- 備註部分：增加標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的註解需求。
+
+一己改進建議（一句話）
+建議在提交前再確認題目輸出格式，一致地使用清楚的註解與命名，同時保留最小化的邏輯以提升可維護性。

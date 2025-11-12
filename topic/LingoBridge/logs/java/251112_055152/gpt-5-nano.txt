@@ -1,0 +1,87 @@
+11
+
+以下是對學生作業的評分與修正內容。
+
+一、評分
+- 正確性: 0/50
+  - 學生的程式與題目無關，未實作求解 pi 的演算法與輸出格式，亦未完成題目 (a) 與 (b) 的需求。
+- 邏輯: 0/30
+  - 程式邏輯與題意完全不符，只有一個與題意毫無關聯的「數字是否遞增的檢查」測試邏輯，未展現解題思路。
+- 格式: 4/10
+  - 程式有基本縮排與結構，但檔名與類別命名較不具語意，且未遵循題目需求的輸出格式與用途，註解不足。
+- 備註: 0/10
+  - 無程式標頭註解與必要說明。
+
+總分：11/100
+
+二、修改後完整程式與修改說明
+修改目的：
+- 直接以題意為核心，實作 Leibniz 公式求 pi 的近似值，輸出指定的 i 與 pi 值。
+- 使用增量累加以提高效率，避免每次都重新計算整段和。
+- 輸出格式嚴格符合題目要求（i 使用寬度 6 併入 i = 前綴，pi 以小數點後 10 位顯示）。
+- 在檔案頂端加入標頭註解，並使用具意義的變數命名。
+- 移除與題意無關的輸入輸出邏輯，改為自動輸出固定的計算步驟與結果。
+
+修改後程式碼（LeibnizPi.java）：
+/*
+檔案名稱: LeibnizPi.java
+功能說明: 使用勒布尼茲級數計算 pi 的近似值，輸出 i = 10000, 20000, ..., 100000 對應的 pi；
+          之後找出使 pi >= 3.14159 的最小 i 值，輸出形如 "i = 136121"。
+作者: 你可以填寫
+日期: 2025-11-11
+*/
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int MAX_TERMS = 100000;
+        double sum = 0.0; // sum = sum_{k=0}^{i-1} (-1)^k / (2k+1)
+        
+        // 輸出 a) 結果：i = 10000, 20000, ..., 100000
+        for (int i = 1; i <= MAX_TERMS; i++) {
+            int k = i - 1;
+            double term = ( (k % 2 == 0) ? 1.0/(2*k + 1) : -1.0/(2*k + 1) );
+            sum += term;
+            
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.println(String.format("i = %6d, pi = %.10f", i, pi));
+            }
+        }
+        
+        // 輸出 b) 結果：使 pi >= 3.14159 的最小 i
+        final double TARGET_PI = 3.14159;
+        // 從 MAX_TERMS + 1 開始，逐步增加並累加直到 pi >= TARGET_PI
+        double partialSum = sum; // 已計算到 MAX_TERMS 的和
+        int terms = MAX_TERMS;   // 已計算到的項數
+        while (true) {
+            int k = terms;
+            double nextTerm = ( (k % 2 == 0) ? 1.0/(2*k + 1) : -1.0/(2*k + 1) );
+            partialSum += nextTerm;
+            terms++;
+            double piEstimate = 4.0 * partialSum;
+            if (piEstimate >= TARGET_PI) {
+                System.out.println();
+                System.out.println(String.format("i = %d", terms));
+                break;
+            }
+            // 安全機制，避免無限迴圈
+            if (terms > 2000000) {
+                System.out.println();
+                System.out.println(String.format("i = %d", terms));
+                break;
+            }
+        }
+    }
+}
+
+說明修改部分的原因：
+- 直接對題意作答，避免保留與題目無關的判斷邏輯（如原程式的「是否為遞增字串」檢查）。
+- 以增量方式累加勒布尼茲級數，提高效率，避免每次重新計算整段和。
+- 透過字串格式化與固定寬度，確保輸出符合題目指定的格式與對齊效果。
+- 加入檔案標頭註解，提升可維護性與可理解性。
+- 變數命名清晰化，提升可讀性。
+
+三、改進建議或反饋（用一句話）
+建議未來在提交前先對題目需求做一次對應性檢核，避免提交與題意無關的測試程式，並於實作中加入單元測試與排版規範檢查，以提升整體品質與可維護性。
+
+若你需要，我也可以提供一份更精簡或以單元測試為主的版本，或加上使用者輸入自訂區間的版本。

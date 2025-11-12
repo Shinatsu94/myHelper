@@ -1,0 +1,41 @@
+7
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: Main.java
+ * 功能: 讀入兩個整數 A, B，先印出原始值，再在不使用額外變數的情況下交換兩數，並印出交換後的值。
+ * 作者: 教師姓名（可自行替換）
+ * 日期: 2025-11-11
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 原始值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        // 使用 XOR 交換 A 與 B，不使用額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 交換後輸出
+        System.out.println(A);
+        System.out.println(B);
+    }
+}
+
+說明修改部分的原因：
+- 移除了原作使用的第三個變數 C，並把交換限制改為只用 A、B 進行，符合題目要求「不可使用其他變數進行數字交換」。
+- 採用 XOR 交換法在不使用其他變數的前提下完成 A 與 B 的互換，避免算術溢位風險。
+- 將輸出改為符合題意：先輸出原始兩個值，再輸出交換後的兩個值，總共四行輸出。
+- 加入標頭註解與統一的類別名稱 Main，使程式更具可讀性與維護性。
+
+改進建議／反饋（一句話）：
+務必嚴格符合題意的輸出格式（包括行數與順序），並在程式中加入清楚的註解與一致的檔案與類別命名以提升維護性。

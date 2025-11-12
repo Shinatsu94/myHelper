@@ -1,0 +1,58 @@
+4
+
+正確性：0/50
+邏輯：0/30
+格式：4/10
+備註：0/10
+總分：4/100
+
+修改後完整程式碼（正確版本，使用內建排序實作正確、可處理負數，並含程式標頭與註解）：
+
+/*
+ * 檔案名稱: CSIE_41343215_1031_2.java
+ * 功能說明: 讀取一維整數陣列，將其內容由小到大排序後輸出
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ * 備註: 不使用 EOF，只需執行一次即可結束
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343215_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 使用內建排序，確保正確性與對負數的支援
+        Arrays.sort(arr);
+
+        // 輸出格式：數字之間以空白分隔，結尾有換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改說明與原因：
+- 由原本的「maxFromRight」法則改為直接使用 Arrays.sort 進行排序。原因如下：
+  - 原實作無法正確產生升序輸出，且在包含負數時會造成錯誤與覆蓋原值（例如把最後一個元素設為 -1 的做法會污染結果）。
+  - Arrays.sort 是穩定且經過測試的排序實作，能正確處理整數、負數，且語法更簡潔，易於維護。
+- 加入標頭註解與適當註解：
+  - 提供檔案名稱、功能、作者與日期，符合作業要求的註解需求。
+  - 程式中也加入了簡要註解，說明排序的原因與輸出格式。
+- 輸出處理改為使用 StringBuilder 組裝輸出，避免不必要的字串拼接與多次 I/O 呼叫，提升效率並確保輸出格式正確（數字之間以空白分隔，結尾換行）。
+- 保留簡單且直覺的輸入流程：先讀取 n，再讀取 n 個整數，最後輸出排序結果。
+
+一句話改進建議：
+- 直接使用內建排序與清晰的輸出格式即可達成需求，避免複雜且易出錯的自訂排序邏輯；若需要進一步提升，我建議加上錯誤處理與輸入驗證，避免輸入不足時程式異常。

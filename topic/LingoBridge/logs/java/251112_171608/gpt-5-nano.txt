@@ -1,0 +1,51 @@
+86
+
+修改後完整程式碼
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: Main.java
+ * 功能: 讀取一維整數陣列，將其內容由小到大排序，並輸出排序後的結果。
+ * 作者: (請填寫)
+ * 日期: (請填寫)
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列內容
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用標準庫排序，效率更高且支援負數
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+修改說明
+- 移除了不必要的第二個陣列 question，減少記憶體使用與程式複雜度，避免混淆。
+- 改用 Java 標準函式庫 Arrays.sort 進行排序，提升排序效率與穩定性，同時能正確處理負數。
+- 將類別改為公開且命名為 Main，並以符合一般 Java 專案的檔案命名與結構，便於編譯執行。
+- 加入檔案頭註解，說明檔案名稱、功能與其他資訊，提升可讀性與維護性；以及在程式中加入適當註解。
+- 使用 StringBuilder 組裝輸出，避免多次寫入造成效能影響，且輸出格式符合題目樣例（第一個數字前不加空格，之後空格分隔）。
+- 將不實用的註解改為正確描述（原先標示為「氣泡排序」，實際上為一般排序）。
+
+改進建議或反饋（一句話）
+建議採用 Arrays.sort 等 Java 標準函式庫進行排序，並移除未使用的變數與冗餘內容，以提升效能、可讀性與維護性。

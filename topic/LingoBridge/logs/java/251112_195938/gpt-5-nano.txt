@@ -1,0 +1,74 @@
+0
+
+評分細項與分數
+- 正確性：0
+- 邏輯：0
+- 格式：0
+- 備註：0
+- 總分：0
+
+修改與優化說明
+- 原作業內容僅輸入陣列長度與內容，要求對陣列進行升冪排序並輸出，而學生程式只輸出一個星號三角形，且未處理陣列輸入與排序，因此正確性與邏輯皆為零分。
+- 修改後的程式碼說明：
+  - 新增整段功能：讀取長度 n，接著讀入 n 個整數，將陣列 arr 排序，並輸出排序後的數字，數字之間以單一空格分隔，結尾換行。
+  - 使用 Arrays.sort 進行高效排序，避免自行實作排序演算法，提升可讀性與穩定性。
+  - 變數命名更具語意，例如 arr、n，提升程式可讀性。
+  - 增加程式標頭註解，描述檔案名稱、功能、作者與日期，以及在程式內容中加入適當註解，滿足備註項的需求。
+  - 輸入包含負數的情況下，仍可正確處理，因為使用整數型態與排序方法。
+- 修改後完整程式碼如下（未使用 EOF 的資料流結構，保證一次執行完成）：
+
+修改後完整程式碼
+/*
+ * File: CSIE_41343202_1031_3A.java
+ * Description: 從輸入讀取一個長度 n，接著讀入 n 個整數，將它們升冪排序並輸出。
+ * Author: Student
+ * Date: 2025-11-12
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343202_1031_3A{
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數，放入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，避免例外，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，數字間以單一空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改部分的原因說明
+- 將原本的星號輸出替換為陣列讀取與排序，符合題目需求的功能點。
+- 使用 Arrays.sort 提升排序效率與可讀性，避免自行實作複雜度較高的排序邏輯。
+- 增加標頭註解與清晰的變數命名，符合作業格式與可維護性。
+
+改進建議（一句話）
+建議在輸入不完整或型別錯誤時加入更完善的輸入驗證與錯誤訊息，並考慮使用 BufferedInput 方式以提升大資料量時的效能。

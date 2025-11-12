@@ -1,0 +1,69 @@
+82
+- 正確性(40/50)：基本功能正確，能讀入長度與數字並輸出升序結果，且對負數支援正常。不過在長度為 0 的極端情況下原程式會在 a[n-1] 取值時發生例外，未处理該情境。
+- 邏輯(28/30)：使用選擇排序實作邏輯清楚且正確，輸出格式也正確分隔；若題目允許改用內建排序，整體邏輯可再簡化。
+- 格式(7/10)：變數命名普遍可讀，但排版與縮排較為零碎，且程式標頭註解位置較不理想（註解在檔末）。
+- 備註(7/10)：程式有作者姓名與日期的註解，但標頭註解應放在檔案最前端，且內文註解可以更詳盡地說明功能與設計決策。
+
+以下提供修改後的完成版程式碼與修改說明。
+
+修改後的完整程式碼（優化要點在說明下方）
+/*
+檔案名稱: CSIE_41343107_1031_1.java
+功能: 讀取指定長度的整數陣列，並輸出升序排序的結果
+作者: 王世豪
+日期: 2025/11/12
+*/
+import java.util.Arrays;
+
+public class CSIE_41343107_1031_1 {
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        int n;
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                a[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                a[i] = 0;
+            }
+        }
+        scanner.close();
+
+        if (n <= 0) {
+            System.out.println();
+            return;
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與原因
+- 將程式標頭註解移至檔案開頭，清楚描述檔案名稱、功能、作者與日期，符合程式設計的良好慣例。
+- 使用更具語意的變數命名（例如 scanner 與 a），提升可讀性。
+- 對於長度 n <= 0 的情況新增保護：直接輸出空行並結束，避免 a[n-1] 的存取造成例外，提升穩健性。
+- 使用 Arrays.sort(a) 取代原本的選擇排序實作，提升可讀性與穩定性，且在大多數情況下介面效能較好。
+- 完整讀入與輸出時加上輸入檢核與結束前關閉 Scanner，養成良好資源管理。
+- 輸出使用 StringBuilder 組裝，避免多次 string 連接，提升效率與格式穩定性。
+- 整體輸出仍以空格分隔，最後以換行結束，符合題目輸出格式。
+
+一語話改進建議
+- 建議在輸入不足或格式錯誤時給出明確的錯誤訊息，並更嚴謹地處理極端情況（如 n 為 0、輸入數量不足等）。
+
+若想再進一步提升：
+- 若題目允許，直接使用內建排序並搭配嚴格的輸入驗證，可以更穩健地處理各種輸入情境，同時保留清晰的程式結構。

@@ -1,0 +1,81 @@
+2
+
+- 正確性(50%): 0/50
+- 邏輯(30%): 0/30
+- 格式(10%): 2/10
+- 備註(10%): 0/10
+總分: 2
+
+以下為優化後的完整作業範例程式碼與說明
+
+優化後的完整程式碼
+--------------------------------
+/*
+檔案名稱: LeibnizPi.java
+功能: 使用 Leibniz 公式 (pi = 4 * sum_{k=0}^{n-1} (-1)^k / (2k+1)) 計算
+      a) 當 n 為 10000, 20000, ..., 100000 時分別輸出 pi 的近似值，格式符合題意。
+      b) 計算最小的 n，使 pi 的近似值在五位小數四捨五入後等於 3.14159，並輸出該 n。
+作者: 教師/作者姓名
+日期: 2025-11-11
+*/
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // Part (a): 逐步輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
+        int[] steps = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
+        for (int i = 0; i < steps.length; i++) {
+            int terms = steps[i];
+            double pi = computePi(terms);
+            System.out.printf("i = %6d, pi = %.10f%n", terms, pi);
+        }
+
+        // 額外空一行，符合題目輸出示例的區隔
+        System.out.println();
+
+        // Part (b): 找到最小的 n 使 pi 的近似值在五位小數四捨五入後等於 3.14159
+        int minimalN = findMinimalNForTarget(3.14159, 0.000005);
+        System.out.printf("i = %6d%n", minimalN);
+    }
+
+    // 使用 Leibniz 公式計算 pi 的前 terms 項近似值
+    private static double computePi(int terms) {
+        double sum = 0.0;
+        for (int k = 0; k < terms; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+        }
+        return 4.0 * sum;
+    }
+
+    // 找到最小的 n，使 4 * sum_{k=0}^{n-1} (-1)^k/(2k+1) 的結果在
+    // 四捨五入到小數點後五位後等於 3.14159
+    private static int findMinimalNForTarget(double target, double tolerance) {
+        double sum = 0.0;
+        int n = 0;
+        while (true) {
+            double term = ((n % 2 == 0) ? 1.0 : -1.0) / (2.0 * n + 1.0);
+            sum += term;
+            double pi = 4.0 * sum;
+            if (Math.abs(pi - target) < tolerance) {
+                // n 為0-based次數，題意的 i 為項數，因此回傳 n+1
+                return n + 1;
+            }
+            n++;
+            // 為了避免極端情況的無窮迴圈，理論上不會到這裡，但可加上保護性條件
+            if (n > Integer.MAX_VALUE / 2) {
+                throw new RuntimeException("無法在合理範圍內找到符合條件的 n");
+            }
+        }
+    }
+}
+--------------------------------
+
+修改原因與說明
+- 需求偏離：原學生程式與題意無關，僅判斷「位數有序性」的問題，且缺乏任何 pi 相關計算。
+- 正確性改進：改用Leibniz級數逐項計算 pi 的近似值，並依題意輸出指定格式，包含 i 的欄位寬度與小數點位數。
+- 邏輯清晰度與可讀性：將功能分成兩個方法 computePi(terms) 與 findMinimalNForTarget(target, tolerance)，分工明確，易於後續維護與測試。
+- 格式與命名：新增標頭註解，使用具有意義的類別名稱與方法名稱；輸出格式使用 System.out.printf 以保證 i 的欄位寬度為6且 pi 顯示到小數點後十位，符合題目要求。
+- 設計評考點對應：在正確性與邏輯兩大面向提供可驗證的輸出結果，同時提升可讀性與可維護性，並符合輸出格式要求。
+
+一點建議（改進意見，單句）
+- 建議增加可配置的輸出參數與單元測試，例如把要輸出的 i 值集合與目標 pi、容忍度放在可設定的常數或參數中，方便未來重用與自動化測試。

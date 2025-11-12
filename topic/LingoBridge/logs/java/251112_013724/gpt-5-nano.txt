@@ -1,0 +1,47 @@
+2
+
+以下為修改後的完整程式碼與修改說明：
+
+```java
+// 檔名: CSIE_41343209_1003_3.java
+// 功能: 讀入使用者輸入的兩個整數 A, B，先印出 A、B，然後在不使用額外變數的情況下交換兩數值，再各印出一次。
+// 作者: 教師
+// 日期: 2025-11-11
+
+import java.util.Scanner;
+
+public class CSIE_41343209_1003_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取兩個整數
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+        // 先印出原值
+        System.out.println(a);
+        System.out.println(b);
+
+        // 不使用額外變數，利用三步交換法（a = a + b; b = a - b; a = a - b;）
+        // 注意：若數值極大，可能會有溢位風險；此處先以此方法符合題意與限制
+        a = a + b;
+        b = a - b;
+        a = a - b;
+
+        // 再印出交換後的值
+        System.out.println(a);
+        System.out.println(b);
+
+        scanner.close();
+    }
+}
+```
+
+修改說明與原因：
+- 以符合題意的邏輯重寫：原程式未讀取兩個輸入、也未進行交換，輸出結果與題目需求完全不符；因此改寫成讀取兩個整數並依序印出、再交換、再印出。
+- 交換方法改為不使用額外變數的算術交換法，僅使用變數 a、b 兩個，符合「不可使用其他變數進行數字交換」的限制。
+- 增加標頭註解與必要註解，並改良程式命名與排版，提升可讀性與維護性。
+- 程式結尾加入 scanner.close()，釋放資源。
+
+一句話改進建議：
+考量整數溢位風險，若輸入可能接近整數極限，建議改用 XOR 位元交換法（a ^= b; b ^= a; a ^= b;）以避免溢位，或改用專門的輸出方式避免實際交換需求時的副作用。

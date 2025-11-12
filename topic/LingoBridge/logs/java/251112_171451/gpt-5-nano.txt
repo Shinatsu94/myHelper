@@ -1,0 +1,49 @@
+88
+- 正確性: 50
+- 邏輯: 30
+- 格式: 8
+- 備註: 0
+
+修改後完整程式碼（採用 Arrays.sort，並新增標頭與註解、關閉資源、變數命名更清晰）：
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: CSIE_51015105_1031_1.java
+ * 功能: 讀取整數長度 n 與 n 個整數，將其升序排序，輸出結果（以空格分隔）
+ * 作者: 教授
+ * 日期: 2025-11-12
+ */
+public class CSIE_51015105_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升穩定性與可維護性
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 加入完整的檔案註解標頭（檔案名稱、功能、作者、日期）以符合備註評分標準。
+- 改用 Arrays.sort 取代手寫的選擇排序，簡化邏輯、降低出錯機率，同時對負數也能正確處理。
+- 使用 StringBuilder 組字串輸出，避免多次 System.out.printf 呼叫，提高效能與可讀性。
+- 釋放資源：在結尾加上 sc.close()。
+- 變數命名改為 arr、sc、n 等更具含意，提升可讀性。
+
+改進建議或反饋：
+- 建議在提交前加入完整的程式註解與 header，並盡量使用內建排序以提升穩定性與維護性。

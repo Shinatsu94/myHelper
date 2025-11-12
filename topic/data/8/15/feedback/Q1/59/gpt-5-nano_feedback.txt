@@ -1,0 +1,65 @@
+82
+
+評分明細
+- 正確性: 50/50
+- 邏輯: 26/30
+- 格式: 6/10
+- 備註: 0/10
+
+修改與原因
+- 改用內建排序 Arrays.sort，取代原本的手寫排序演算法。原因：提高正確性與效能，且程式碼更簡潔易讀，降低維護成本。
+- 改善輸出格式，使用 StringBuilder 並避免尾端多餘空格，輸出更符合題目要求的格式。
+- 增加程式標頭與程式內註解，並善用清晰的變數命名，提升可讀性與維護性。
+- 關閉 Scanner，避免資源洩漏。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343241_1031_1.java
+功能: 讀取指定長度的一維整數陣列，將內容由小到大排序，並輸出排序結果
+作者: 教師
+日期: 2025-11-12
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343241_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int length = sc.nextInt();
+
+        // 讀取整數，放入陣列
+        int[] score = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (sc.hasNextInt()) {
+                score[i] = sc.nextInt();
+            } else {
+                score[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序（由小到大）
+        Arrays.sort(score);
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(score[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+改進建議或反饋（一句話）
+- 建議繼續採用內建工具與清晰輸出格式，同時在程式開頭加入標頭註解以提升可維護性與可讀性。

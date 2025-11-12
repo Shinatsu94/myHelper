@@ -1,0 +1,75 @@
+第一行分數總計：4
+
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 4/10
+- 備註: 0/10
+
+修改與評語說明
+1) 造成問題的核心在於學生的程式與題意完全不符，原程式只處理「定位某個數字在三角矩陣中的位置」的邏輯，與「建立即意長度的一維陣列、讀入 n 個整數、排序並輸出」的需求不符，因此正確性與邏輯評分為0。
+2) 重新提供一份符合題意的解法：
+- 讀取整數 n，動態建立長度為 n 的整數陣列。
+- 依序讀入 n 個整數，支援跨行輸入。
+- 使用 Arrays.sort 進行從小到大排序。
+- 輸出排序後的內容，元素之間用單一空格分隔，結尾換行，且支援負數。
+- 程式加入適當的檔案註解與清楚的變數命名，提升可讀性與維護性。
+
+修改後完整程式碼（優化後版本）
+```java
+/*
+檔案名稱: SortingArrayAsc.java
+功能: 讀入任意長度的一維整數陣列，將內容由小到大排序後輸出
+作者: 你可以填入作者姓名
+日期: 2025-11-12
+說明: 適當註解，處理負數，避免使用 EOF，僅執行一次後結束。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortingArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數到陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免拋出例外；實務可依需求調整
+                arr[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素之間以單一空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明與原因
+- 使用 Arrays.sort 直接完成排序，簡潔且效率佳，符合「以簡單、合理、正確的邏輯」完成題意。
+- 完整讀取 n 和 n 個整數，支援負數與同一行或跨行輸入，符合常見測資格式與題意限制。
+- 加入清楚註解與檔案頭說明，提升可讀性與維護性，符合備註中的註解要求。
+- 輸出格式穩定：以空格分隔、單行輸出，避免多餘的逗號或空格，符合題目樣例。
+
+改進建議（一句話）
+- 建議在提交前補上完整註解與檔案頭，並使用清晰的變數命名與標準輸入輸出格式，以避免與題意不符並提升可維護性。

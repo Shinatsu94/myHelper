@@ -1,0 +1,88 @@
+90
+
+評分細項
+- 正確性：50/50
+- 邏輯：30/30
+- 格式：10/10
+- 備註：0/10
+
+修改與優化說明
+- 原因與改動點
+  - 增加程式標頭註解，符合備註要求的註解需求（檔案名稱、功能、作者、日期）。
+  - 將 I/O 方式從 Scanner 改為快速輸入法 FastScanner，以提升效能並更穩定地處理多行、任意分隔的輸入。
+  - 使用 StringBuilder 組裝輸出，避免多次 System.out.print 呼叫，降低 I/O 開銷。
+  - 保留核心功能：讀取長度 n、讀取 n 個整數，排序再輸出（由小到大）。
+  - 其他維持原程式的簡潔與可讀性，確保對負數亦相容，因 Arrays.sort 內建可處理。
+
+修改後完整程式碼
+```java
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    /*
+     * 檔案: Main.java
+     * 功能: 讀取長度 n，讀取 n 個整數，排序後輸出由小到大，元素以單一空格分隔。
+     * 作者: 自動化評分系統
+     * 日期: 2025-11-12
+     */
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = fs.nextInt();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+
+    private static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}
+```
+
+修改原因說明
+- 使用快速輸入與輸出緩衝，能提升對較大資料量的處理效率，並降低 I/O 成為瓶頸的風險，同時維持與原題目輸入格式的兼容性。
+- 增添檔案標頭註解，符合作業要求的檔案說明與元資料。
+
+改進建議（一句話）
+建議在長期專案中，繼續採用快讀與輸出緩衝方案，並在程式開頭提供完整的標頭註解，以提升可維護性與可追蹤性。

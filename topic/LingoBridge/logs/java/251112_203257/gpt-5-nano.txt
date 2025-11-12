@@ -1,0 +1,66 @@
+總分（先行顯示於第一行）：
+2
+
+評分細項：
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：2/10
+- 備註：0/10
+總分：2/100
+
+修改與說明：
+- 這份作業的實作與題意嚴重不符，未完成「讀取長度 n 與 n 個整數、將其升冪排序再輸出」的功能，且輸出格式與負數支援均未正確處理，因此正確性與邏輯得分為零，備註部分未提供適當的程式註解。
+- 已提供一份符合題意的改良版本，使用 Array.sort 進行排序，能正確處理包含負數的情況，並以空格分隔輸出排序結果，同時改善程式結構與可讀性。
+
+修改後完整程式碼（可直接執行）：
+// 檔案名稱：SortArrayAscending.java
+// 功能：讀取長度 n 與 n 個整數，將它們由小到大排序，輸出排序結果（以空格分隔）。
+// 作者：請填寫
+// 日期：請填寫
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        int[] arr = new int[n > 0 ? n : 0];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+        scn.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改部分的原因與重點：
+- 用 Arrays.sort 取代原始的錯誤邏輯（原程式僅處理三角形數列，與題意不符）。
+- 正確讀取 n 與 n 個整數，並處理包含負數的情況，Arrays.sort 會正確處理負數。
+- 輸出格式改為單行、以空格分隔，符合題目範例。
+- 新增程式頭部註解，並使用有意義的變數名稱與清晰的縮排，提升可閱讀性與維護性。
+
+改進建議（一句話）：
+建議在輸入資料不完整時加入明確的錯誤處理與提示，並考慮多測資情況的穩健性，例如直接在輸入不足時結束或報錯，以提高程式的魯棒性。

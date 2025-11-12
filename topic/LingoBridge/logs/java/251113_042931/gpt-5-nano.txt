@@ -1,0 +1,40 @@
+15
+
+正確性: 0/50
+邏輯: 5/30
+格式: 7/10
+備註: 3/10
+總分: 15/100
+
+修改說明與原因
+- 需求不符合：原作業僅有旋轉棒與進度輸出，未印出「虎科大」與學生姓名的中文字與內碼，因此必須改成直接輸出每個字的字元與對應的內碼。
+- 改用 Unicode 碼點輸出：改用 codePointAt 與 Character.toChars，能正確處理中文字，且未來擴充姓名時也不易出現错位。
+- 結構與可讀性提升：新增單獨的 printCharsWithCode 方法，對任意字串逐字輸出其 Unicode 碼點，便於重複使用與維護；同時保留原始檔案命名與注解欄位，便於追蹤。
+- 資料與註解補充：在程式頭部補充功能說明與日期，提升備註品質，並使用更具說明性的變數與方法註解。
+
+修改後完整程式碼
+// file name: CSIE_41343240_0926_2.java
+// username&number: 黃榮裕41343240
+// date: 2025-11-12
+// function: 輸出「虎科大」與學生姓名的每個字及其 Unicode 內碼
+public class CSIE_41343240_0926_2 {
+    public static void main(String[] args) {
+        // 先印虎科大，依序輸出每個字與對應的內碼
+        printCharsWithCode("虎科大");
+        // 再印學生姓名（假設為林武杰），依序輸出每個字與對應的內碼
+        printCharsWithCode("林武杰");
+    }
+
+    // 將字串中的每個字元逐一輸出其 Unicode 碼點
+    private static void printCharsWithCode(String s) {
+        for (int i = 0; i < s.length(); ) {
+            int codePoint = s.codePointAt(i);                 // 取得 Unicode 碼點
+            String ch = new String(Character.toChars(codePoint)); // 將碼點轉回字元
+            System.out.println(ch + " " + codePoint);          // 印出字元與內碼
+            i += Character.charCount(codePoint);               // 移至下一字元
+        }
+    }
+}
+
+一句話改進建議
+- 建議在輸出時再附上字元的名稱或描述，以及對應的編碼方式說明，以提升可讀性與可維護性。

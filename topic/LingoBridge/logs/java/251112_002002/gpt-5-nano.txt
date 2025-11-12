@@ -1,0 +1,52 @@
+95
+
+- 正確性(50%): 50/50
+  - 輸入兩個整數後，使用 XOR 交換，輸出結果符合題意與樣例。
+
+- 邏輯(30%): 30/30
+  - 使用無臨時變數的 XOR 交換法，邏輯正確且符合題目「不可使用其他變數進行交換」的要求。
+  
+- 格式(10%): 8/10
+  - 程式整體可讀性良好，縮排正確，但變數命名較不具描述性（a, b），若改為 A, B 類似題意命名會更直覺。
+  
+- 備註(10%): 7/10
+  - 程式標頭註解包含檔名、作者與功能，但缺少日期說明。可補上日期以符合要求。
+
+修改後的完整程式碼與說明：
+修改後程式碼（使用更具描述性的變數名稱 A、B，並保留 XOR 交換法，增添註解與資源釋放）：
+/* file name: CSIE_41343212_1003_1.java
+   author: 李品劭
+   ID: 41343212
+   date: 2025-11-11
+   function: read two numbers, print them swapped using XOR without extra variables
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1003_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取兩個整數
+        int A = input.nextInt();
+        int B = input.nextInt();
+
+        // 使用 XOR 交換，避免額外變數
+        A ^= B;
+        B ^= A;
+        A ^= B;
+
+        // 輸出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        input.close();
+    }
+}
+
+修改原因說明：
+- 將變數名稱由 a, b 改為 A, B，使變數名稱與題意更一致，提升可讀性與自我說明性。
+- 加入註解與日期欄位，符合題目對程式標頭註解的要求，便於日後維護與評分。
+
+改進建議（一句話）：
+- 建議在註解中補上日期並使用更具描述性的變數名稱，以增強可讀性與紀錄完整性。

@@ -1,0 +1,39 @@
+6
+
+分數細項:
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 0/10
+總分: 6/100
+
+修改後完整程式碼與修改原因：
+/**
+ * 檔案名稱: CSIE_41343227_0926_2.java
+ * 功能: 印出虎科大以及學生姓名的每個字及其內碼（Unicode code point）
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 說明: 直接輸出每個中文字及其 Unicode 內碼，符合題意需求，並移除原程式中與題意無關的 Spinner 顯示與嘗試。
+ */
+public class CSIE_41343227_0926_2 {
+    public static void main(String[] args) {
+        // 目標字元順序：虎 科 大 林 武 杰
+        String target = "虎科大林武杰";
+
+        // 逐字輸出該字的內碼（Unicode code point）
+        for (int i = 0; i < target.length();) {
+            int codePoint = target.codePointAt(i);
+            String ch = new String(Character.toChars(codePoint));
+            System.out.println(ch + " " + codePoint);
+            i += Character.charCount(codePoint);
+        }
+    }
+}
+
+修改原因說明：
+- 移除了原本的 Spinner/Progress 實作，因該內容與題意無關，無法正確滿足「印出虎科大與學生姓名各字的內碼」的需求。
+- 直接使用 Unicode code point 的方式輸出每個字，並以可延展的字串方式處理，確保未來新增字元時仍具可讀性與可維護性。
+- 增加標頭註解與在程式內部加入註解，以符合「程式標頭註解說明檔名、功能、作者、日期，並對內容有適當註解」的要求。
+
+改進建議或反饋（一句話）：
+- 建議直接以字串逐字輸出及其 Unicode 內碼，避免不相關的 UI 動作，並採用可擴充的字串處理以提升可讀性與可維護性。

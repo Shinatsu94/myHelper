@@ -1,0 +1,43 @@
+7
+
+評分明細
+- 正確性(50%): 0/50
+- 邏輯(30%): 0/30
+- 格式(10%): 7/10
+- 備註(10%): 0/10
+總分: 7/100
+
+修改與說明
+- 提出一個符合題意的 Java 程式，直接輸出「虎科大」與學生姓名「林武杰」各字的 Unicode 編碼點，順序先印出虎科大，再印學生中文姓名。
+- 使用字串與字元迭代，將每個字元轉為整數型態的編碼點，輸出格式為「字元 編碼點(十進位)」，符合題目「一行印一個中文字與其對應的內碼」的要求。
+- 加入適當的程式標頭註解，並將程式命名與結構做整理，提升可讀性與可維護性。
+- 移除原作業中與題意無關的輸入處理與判斷邏輯，避免混淆與誤導。
+
+修改後完整程式碼
+/*
+File: PrintUnicodeCodePoints.java
+Purpose: 印出「虎科大」與「林武杰」的每個字及其對應的 Unicode 編碼點
+Author: 你的姓名
+Date: 2025-11-12
+*/
+public class PrintUnicodeCodePoints {
+    public static void main(String[] args) {
+        printCharsWithCode("虎科大");
+        printCharsWithCode("林武杰");
+    }
+
+    private static void printCharsWithCode(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            System.out.println(ch + " " + (int) ch);
+        }
+    }
+}
+
+改動部分說明
+- 以字串常量保存需要輸出的中文字，避免硬編碼多次印出，提升穩定性與可修改性。
+- 使用單一輔助方法 printCharsWithCode，將字元逐一輸出及其編碼點，便於未來擴充或改成其他字串時的重用。
+- 輸出編碼點使用十進位整數，符合一般學習者對「內碼」的直覺理解；如需十六進位可將 (int) ch 改為 Integer.toHexString((int) ch)。
+
+改進建議/回饋
+- 建議在交付作業時把預期輸出格式與編碼點解釋清楚，並將檔案命名、作者與日期等註解完整寫在檔頭，以符合作業規範。

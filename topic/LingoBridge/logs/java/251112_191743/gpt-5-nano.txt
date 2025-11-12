@@ -1,0 +1,55 @@
+86
+
+- 正確性 50/50
+  - 程式能正確讀入長度 n，讀入 n 個整數，並對它們進行升冪排序，最後輸出排序結果。負數也由 Arrays.sort 正确处理。若考慮嚴格比對輸出格式，尾端可能出現多餘空格，但題意通常接受空格分隔的輸出。
+
+- 邏輯 26/30
+  - 使用標準函式 Arrays.sort，邏輯清晰且正確；輸出過程簡單明確。不過原始版本輸出時在最後一個數字之後會帶有尾端空格，若評測嚴格，可能需要避免尾空格。
+
+- 格式 6/10
+  - 程式結構基本整齊，但變數命名「score」名用在整數陣列不夠具描述性。此外輸出未控制尾端空格與換行，若評測嚴格，需改進。
+
+- 備註 4/10
+  - 程式缺少標頭註解（檔案名稱、功能、作者、日期等說明），且有閒置的註解區塊。整體註解不足以清楚說明程式設計意圖。
+
+修改後完整程式碼（優化版，保留原有檔案名慣例；如需請自行改檔名與類別名以符合檔案名稱）：
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * File: CSIE_51015130_1031_1.java
+ * 功能: 讀取長度 n 與 n 個整數，升冪排序並輸出結果（以空格分隔，末尾不留空格）。
+ * 作者: AI 助手
+ * 日期: 2025-11-12
+ * 備註: 使用 try-with-resources 以確保 Scanner 關閉，輸出使用單一空格分隔，避免尾端空格。
+ */
+public class CSIE_51015130_1031_1 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            // 讀取長度
+            if (!sc.hasNextInt()) return;
+            int n = sc.nextInt();
+            int[] nums = new int[n];
+
+            // 讀入 n 個整數
+            for (int i = 0; i < n; i++) {
+                nums[i] = sc.nextInt();
+            }
+
+            // 升冪排序
+            Arrays.sort(nums);
+
+            // 輸出，避免尾端多餘空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < nums.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(nums[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}
+
+一句話改進建議或反饋：
+建議在輸出時避免尾端空格，並加上完整的程式標頭註解與有意義的變數命名，以提升可讀性與可維護性。

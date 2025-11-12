@@ -1,0 +1,46 @@
+20
+
+評分明細
+- 正確性: 0
+- 邏輯: 10
+- 格式: 6
+- 備註: 4
+
+修改後完整程式碼與說明
+修改後程式碼（PrintChineseInternalCode.java）：
+/*
+ * project name: PrintChineseInternalCode
+ * file name: PrintChineseInternalCode.java
+ * function: 依題意印出「虎科大」與學生姓名「林武杰」的內碼（以 Unicode 編碼點表示）
+ * 作者: 教師
+ * 日期: 2025-11-12
+ */
+public class PrintChineseInternalCode {
+
+    public static void main(String[] args) {
+        // 先定義虎科大，再定學生姓名
+        char[] tigerUniversity = {'虎','科','大'};
+        char[] studentName = {'林','武','杰'};
+
+        // 逐字輸出：字元與其對應的內碼（Unicode 編碼點，十進位表示）
+        printCharsWithCodePoints(tigerUniversity);
+        printCharsWithCodePoints(studentName);
+    }
+
+    // 輔助方法：輸出每個字元及其編碼點
+    private static void printCharsWithCodePoints(char[] chars) {
+        for (char c : chars) {
+            int codePoint = (int) c; // Unicode 編碼點的十進位表示
+            System.out.println(c + " " + codePoint);
+        }
+    }
+}
+
+修改說明與原因：
+- 將任務改為符合題意：改為輸出「虎科大」與學生姓名「林武杰」的內碼，使用 Unicode 編碼點表示，避免跨編碼系統的混淆。
+- 使用陣列與共用方法：將字元集合放在陣列中，使用共用的輔助方法 printCharsWithCodePoints 做輸出，提升可讀性與可維護性，方便日後擴充或改成動態輸入。
+- 增加清楚的註解與標頭：提供檔案說明、功能與日期，符合程式標頭註解的需求。
+- 改善變數命名與格式：使用 clear 的變數名稱與單一責任的方法，提升格式與可讀性。
+
+改進建議（一句話）：
+建議將內碼定義方式再說明清楚（例如註明此處使用 Unicode 編碼點的十進位表示），並未來可讓使用者動態指定姓名與對應字清單以提高靈活性。

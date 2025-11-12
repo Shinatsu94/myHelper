@@ -1,0 +1,62 @@
+89
+
+評分細項
+- 正確性 (50/50)：程式能正確讀入長度與元素，對陣列進行升冪排序，並輸出排序結果，符合題目需求。
+- 邏輯 (30/30)：採用標準的選擇排序，清楚地找出子序列中的最小值並交換，邏輯正確且易於理解。
+- 格式 (9/10)：變數命名雖非極致，但仍具可讀性（ary、i、j 等），排版與括號風格相對一致；程式結構清晰。
+- 備註 (0/10)：原作缺少程式標頭註解（檔案名稱、功能、作者、日期等說明），因此未達此項要求。
+
+修改後完整程式碼
+```java
+import java.util.Scanner;
+
+public class CSIE_41343219_1031_1 {
+    // 檔案名稱: CSIE_41343219_1031_1.java
+    // 功能: 讀入陣列長度與元素，對陣列內容進行升冪排序，並輸出排序後結果
+    // 作者: (您的名字)
+    // 日期: (日期)
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] ary = new int[n];
+        for (int i = 0; i < n; i++) {
+            ary[i] = sc.nextInt();
+        }
+
+        // 選擇排序 (升冪)
+        for (int i = 0; i < n - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (ary[j] < ary[min]) {
+                    min = j;
+                }
+            }
+            if (min != i) {
+                int tmp = ary[i];
+                ary[i] = ary[min];
+                ary[min] = tmp;
+            }
+        }
+        sc.close();
+
+        // 輸出排序結果，元素之間以空格分隔，結尾不多印空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+修改說明
+- 增加程式標頭註解：加入檔案名稱、功能、作者、日期等說明，符合備註評分標準，提升可維護性與可讀性。
+- 變數命名與結構優化：將長度存於 n，陣列命名為 ary，讓程式語意更清晰，並將排序與輸出分開易於維護。
+- 增強閱讀性與穩定性：將內層最小值搜索改為 if 判斷式寫法，提升可讀性；使用 StringBuilder 組合輸出以提升效率與穩定性（避免大量字串拼接）。
+- 保持功能與輸入輸出一致性：仍以標準輸入讀取、標準輸出輸出排序結果，且保持與題目樣例相符的格式。
+
+改進建議或反饋（一句話）
+- 建議加入更完整的註解與分模塊設計（例如提取排序成一個獨立方法），並考慮使用高效的 I/O 方式（如 BufferedInput/Output）以支援更大資料量的測資。

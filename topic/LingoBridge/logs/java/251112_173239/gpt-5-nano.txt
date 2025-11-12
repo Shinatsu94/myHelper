@@ -1,0 +1,64 @@
+7
+評分與建議
+- 正確性（50%）：0/50
+  - 原作在排序演算法上並未實作正確的排序；輸出示例與題意不符，甚至在多數情況下會輸出非排序結果（例如給定範例會輸出 12 12 5 1 -1，而非 1 3 5 8 12）。
+- 邏輯（30%）：0/30
+  - 使用的演算法只是把元素以某種機制「覆蓋」到前幾個位置，並未達成排序目的，且對負數與任意長度的輸入未特別處理，邏輯不符合需求。
+- 格式（10%）：7/10
+  - 變數命名多為一般名稱，整體縮排尚可，少了必要的區塊註解與程式標頭註解，少了清晰的輸入與輸出說明。
+- 備註（10%）：0/10
+  - 缺少檔案標頭註解，如檔名、功能、作者、日期等說明。
+
+總結：7/100
+
+修改與優化
+以下提供正確且簡潔的解法，採用內建排序 Arrays.sort，能正確處理包含負數的任意長度輸入，且輸出格式符合題意。
+
+修改後完整程式碼（請直接複製執行）：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+ * 檔名: CSIE_41343215_1031_2.java
+ * 功能: 讀取長度 n 與 n 個整數，輸出升序排序結果
+ * 作者: 教學助理
+ * 日期: 2025-11-12
+ */
+
+public class CSIE_41343215_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 如果輸入不足，預設為 0
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}
+
+修改說明與理由
+- 使用 Arrays.sort(arr) 取代手動排序邏輯，能正確處理任意長度與包含負數的情況，且時間複雜度為 O(n log n)，實作簡潔穩定。
+- 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 保留簡單的輸入流程與輸出格式，避免原先使用的「覆蓋式」轉換造成輸出錯誤。
+- 引入 StringBuilder 組裝輸出，提升輸出效率，且輸出格式符合題目要求（數字以空格分隔，末尾無多餘空格）。
+
+一句話改進建議
+直接使用內建排序能確保正確性與簡潔性，同時能穩健支援負數與任意長度的輸入，建議以 Arrays.sort 取代自訂排序邏輯。

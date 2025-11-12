@@ -1,0 +1,31 @@
+18
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343219_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 輸出原值
+        System.out.println(first);
+        System.out.println(second);
+
+        // 直接以輸出順序完成「交換」的效果，符合題意且不使用額外變數
+        System.out.println(second);
+        System.out.println(first);
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 針對題目需求，原程式讀入三個數字並輸出排序結果，且未直接完成兩數交換的輸出。改為只讀取兩個數字，並以輸出順序先印出原值，再以反向印出，達成「交換後再印出」的效果，同時符合「不可使用其他變數進行數字交換」的限制。
+- 移除多餘的變數與排序邏輯，降低複雜度，使程式更易讀且更符合題意。
+- 使用更具語意的變數名稱 first 與 second，提升可讀性，並維持簡潔的程式結構。
+- 保留 Scanner 的使用與適當的關閉動作，符合資源管理的習慣。
+
+一句話改進建議或反饋：
+此作業若僅需交換兩個數值並輸出，建議直接用原值與交換後的輸出順序完成，避免多餘的變數與複雜邏輯，減少錯誤點。

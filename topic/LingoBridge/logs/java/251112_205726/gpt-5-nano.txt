@@ -1,0 +1,62 @@
+0
+
+分數明細
+- 正確性（50%）: 0/50
+- 邏輯（30%）: 0/30
+- 格式（10%）: 2/10
+- 備註（10%）: 0/10
+- 總分（100%）: 0/100
+
+修改後程式碼
+/*
+檔案名稱: SortIntArray.java
+功能: 建立任意長度的一維整數陣列，將內容從小到大排序，並輸出排序結果。
+作者: 教師
+日期: 2025-11-12
+說明: 使用動態長度的整數陣列、Arrays.sort 進行排序，適用於正確處理負數與任意長度輸入。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortIntArray {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scn.hasNextInt()) {
+            return;
+        }
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔，結尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與改動重點
+- 目的改為符合題意：原作為固定 3x3 矩陣的內容與矩陣逆運算，與「一維任意長度整數陣列排序」無關。將整體邏輯改為動態長度讀入、排序並輸出。
+- 變數與結構改為適合任意長度：改用 int[] arr 取代原本的 int[][] list，移除不必要的矩陣運算。
+- 排序演算法：使用 Java 標準函式 Arrays.sort，簡潔且可靠，能正確處理負數與任意長度。
+- 輸入輸出處理：讀取長度 n 與接續的 n 個整數，輸出排序結果，確保不使用 EOF，符合題目需求。
+- 程式風格與註解：加入檔案頭註解，清楚描述檔案功能、作者與日期；在程式內加入必要的註解，提升可讀性。
+
+改進建議（一句話）
+建議以簡潔的 IO 與標準排序方法取代自訂矩陣演算法，並在實作中添加基本的錯誤處理與輸入驗證以提升健壯性。

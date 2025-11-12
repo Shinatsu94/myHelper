@@ -1,0 +1,77 @@
+8
+正確性(50%): 0/50
+邏輯(30%): 0/30
+格式(10%): 8/10
+備註(10%): 0/10
+總分: 8/100
+
+評語摘要:
+- 原作業完全未符合題意，未建立任意長度一維陣列並進行升序排序與輸出，改為全新實作以符合需求。
+
+修改與原因說明：
+- 修改目標：
+  - 將任務改為一維整數陣列排序，輸入先讀取長度 n，接著讀入 n 個整數，最後輸出排序後的內容，以符合題目需求。
+- 主要改動：
+  - 使用一維整數陣列 int[]，直接讀入 n 個整數並使用 Arrays.sort(a) 進行升序排序，簡潔且穩定。
+  - 輸出時以空格分隔，避免尾端多餘空格，並輸出換行。
+  - 加入檔案頭註解，描述檔案名稱、功能、作者、日期，並保留適當的程式內註解。
+  - 輸入處理上使用 Scanner 以容許各種空白分隔輸入，符合一般測資格式；若輸入不足，亦做基本保護處理。
+- 變更前後比較：
+  - 變更前：使用二維下三角矩陣與查找某個數字，與題目完全無關。
+  - 變更後：專注於題目需求，正確性、可讀性與維護性提升。
+
+修改後完整程式碼（符合題意的版本）：
+/*
+ * 檔案名稱: SortArrayAsc.java
+ * 功能說明: 讀入整數長度 n，接著讀入 n 個整數，將其排序並以空格分隔輸出升序結果。
+ * 作者: 你的姓名
+ * 日期: 2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] a = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，以避免例外
+                a[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        // 進行升序排序
+        Arrays.sort(a);
+
+        // 輸出結果，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改部分的理由：
+- 使用一維陣列與 Arrays.sort 可以直接、正確地完成題目需求，且效率足以應對常見測資。
+- 透過 StringBuilder 連接輸出，避免多次 I/O 呼叫，提高效能與輸出穩定性。
+- 加入檔案註解與內部註解提升可讀性與維護性。
+
+改進建議或反饋（一句話）：
+- 建議加入更完整的錯誤處理與輸入驗證，並考慮使用更高效的輸入方法（如 BufferedInputStream 與 StringTokenizer）以因應大型測資。

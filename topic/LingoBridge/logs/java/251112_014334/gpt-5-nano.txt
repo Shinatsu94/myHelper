@@ -1,0 +1,44 @@
+11
+
+修改後完整程式碼：
+/*
+ * CSIE_41343223_1003_3.java
+ * 功能: 讀取兩個整數 A, B，先印出 A、B，然後在不使用額外變數的情況下交換兩值，最後再各自印出交換後的結果。
+ * 作者: 你的名字
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class CSIE_41343223_1003_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入兩個整數 A 與 B
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 先輸出原始的 A 與 B
+        System.out.println(A);
+        System.out.println(B);
+
+        // 不使用額外變數進行交換（A = A + B; B = A - B; A = A - B）
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 再輸出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 依需求改為正確解題：先讀入兩個數字並分別印出，再在不使用額外變數的前提下進行兩數交換，最後再印出交換後的結果。
+- 使用不使用臨時變數的交換方法 A = A + B; B = A - B; A = A - B，符合題目限制。
+- 加上完整的程式文件頭註解，提升可讀性與維護性，並保持適當縮排與清楚的變數命名。
+- 程式結尾加上 scanner.close() 的資源釋放。
+
+改進建議（一句話）：
+若擔心整數溢位風險，可改用位元異或交換法（A ^= B; B ^= A; A ^= B）以避免溢位，但需確保輸入型別與語言行為符合預期。

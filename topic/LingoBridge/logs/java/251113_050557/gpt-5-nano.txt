@@ -1,0 +1,59 @@
+3
+
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 3/10
+- 備註: 0/10
+
+總分: 3/100
+
+修改後程式碼（已優化以符合題意，並提供每個字的內碼輸出）
+```java
+/*
+檔案名稱: PrintNameWithCodes.java
+功能說明: 輸入使用者的中文姓名，先輸出「虎科大」三個字及其對應的 Unicode 內碼，
+再逐字輸出使用者姓名的每一個字及其對應的 Unicode 內碼（內碼以十進位表示）。
+作者: 論文/課程助教
+日期: 2025-11-12
+說明: 程式包含標頭註解與清晰的註解，變數命名有意義，格式整齊。
+*/
+import java.util.Scanner;
+
+public class PrintNameWithCodes {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 提示使用者輸入中文姓名
+        System.out.print("請輸入你的中文姓名（僅包含中文字符；可留空以結束程式）：");
+        String name = scanner.nextLine();
+        // 移除可能的空白字元，以避免影響輸出
+        name = name == null ? "" : name.replaceAll("\\s+", "");
+
+        // 先輸出「虎科大」3個字及其對應的內碼
+        printCharWithCode('虎');
+        printCharWithCode('科');
+        printCharWithCode('大');
+
+        // 再輸出學生的中文姓名每個字及其對應的內碼
+        for (char ch : name.toCharArray()) {
+            printCharWithCode(ch);
+        }
+
+        scanner.close();
+    }
+
+    // 協助方法：輸出單一字與其十進位內碼
+    private static void printCharWithCode(char ch) {
+        System.out.println(ch + " " + (int) ch);
+    }
+}
+```
+
+修改說明
+- 將作業題意轉換為實作：改為輸出「虎科大」三字及使用者姓名每個字的 Unicode 十進位碼，符合題目「每行印一個中文字與其對應的內碼」的要求。
+- 允許使用者輸入姓名：新增輸入機制，讓程式能動態輸出任意使用者的中文姓名。
+- 清晰的程式結構與註解：加入完整的檔案註解、適當的註解以及清晰的變數/方法命名，提升可讀性與維護性。
+- 錯誤處理與輸入清理：對輸入進行去空白處理，避免因空格影響輸出。
+
+改進建議與反饋
+- 建議未來考慮支援更廣的字集（例如超過 BMP 的字元）與各種編碼情境，並考慮以字集或碼點層級處理，以避免因字元的編碼方式不同而造成輸出差異。

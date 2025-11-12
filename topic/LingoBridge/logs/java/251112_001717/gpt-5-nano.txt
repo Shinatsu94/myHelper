@@ -1,0 +1,42 @@
+85
+
+/*
+ * 檔案名稱: CSIE_41343205_1003_1.java
+ * 功能說明: 讀入兩個整數 A、B，以不使用額外變數的方式交換其值，並輸出交換後的結果。
+ * 作者: 教師姓名
+ * 日期: 2025-11-11
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343205_1003_1{
+    public static void main(String[] args){
+        // 建立 Scanner 讀取使用者輸入
+        Scanner sc = new Scanner(System.in);
+
+        // 以有意義的變數名稱讀入
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 使用 XOR 交換，符合「不可使用其他變數」的要求
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        // 關閉資源
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 增加標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與識讀性。
+- 將變數名稱改為 A、B（具意義的命名相較於 a、b 更易理解，符合格式性要求）。
+- 加入程式內註解，說明使用 XOR 交換的原因與步驟，方便後人維護。
+- 加入 sc.close() 以釋放資源，遵循良好資源管理慣例。
+
+改進建議或反饋（一句話）：
+建議在程式開頭加入標頭註解、使用具有意義的變數名並於結束時關閉 Scanner，以提升可讀性與資源管理，同時保持不使用額外變數的交換方法。

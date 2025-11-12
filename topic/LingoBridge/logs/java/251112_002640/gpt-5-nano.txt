@@ -1,0 +1,41 @@
+95
+
+- 正確性：50
+- 邏輯：28
+- 格式：7
+- 備註：10
+
+修改後完整程式碼（符合題意且在不使用第三變數交換的限制下，並加入少許可讀性與資源管理改進）：
+
+import java.util.Scanner;
+
+public class CSIE_41343224_1003_1 {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int a = input.nextInt();
+        int b = input.nextInt();
+
+        // 使用不產生第三變數的位元運算交換，若相等則不需要交換
+        if (a != b) {
+            a = a ^ b;
+            b = a ^ b;
+            a = a ^ b;
+        }
+
+        System.out.println(a);
+        System.out.println(b);
+
+        input.close();
+    }
+}
+
+修改原因說明：
+- 將程式縮排與命名做適當整理，以提升可讀性與一致性。
+- 在交換前添加 a != b 的判斷，避免在數字相等時仍執行三次 XOR，雖然結果不變但可節省運算與增強可讀性。
+- 加上 input.close() 以釋放資源，符合良好習慣。
+- 保留原本的無第三變數交換限制，確保符合題意。
+
+改進建議（一句話）：
+- 建議在不改變題意的前提下，增加少量自我檢查（如 a != b 的判斷）並維持清晰的變數命名，能提升可讀性與穩定性。

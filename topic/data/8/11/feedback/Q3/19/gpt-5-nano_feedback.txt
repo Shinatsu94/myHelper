@@ -1,0 +1,48 @@
+2
+
+評分明細:
+- 正確性(50%): 0/50
+- 邏輯(30%): 0/30
+- 格式(10%): 2/10
+- 備註(10%): 0/10
+
+修改後程式碼（完整，符合題意的修正版）：
+/*
+ * 檔名: CSIE_41343111_1003_3.java
+ * 功能: 讀入兩個整數，印出原值，然後在不使用額外變數的情況下交換兩數並印出新值
+ * 作者: 你的名字
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class CSIE_41343111_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long a = sc.nextLong();
+        long b = sc.nextLong();
+
+        // 印出原始值
+        System.out.println(a);
+        System.out.println(b);
+
+        // 不使用額外變數的交換法：a = a + b; b = a - b; a = a - b;
+        a = a + b;
+        b = a - b;
+        a = a - b;
+
+        // 印出交換後的值
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 移除學生原程式的無關邏輯（原先的數字和位數總和邏輯與題目需求完全不符），改以正確的輸入與輸出流程實作。
+- 新增標頭註解，符合作業要求的檔案名稱、功能、作者與日期說明，提升程式可讀性與可維護性。
+- 使用兩個變數 a、b 儲存輸入值，並使用不引入額外中間變數的算術交換法（a = a + b; b = a - b; a = a - b）來滿足題目「不可使用其他變數進行數字交換」的限制。
+- 新程式採用 long 型別，降低整數溢位風險，並在結尾關閉 Scanner，提升資源管理。
+
+一句話改進建議：
+- 若題目限定只能使用 int，請改為使用 int 並評估極端數值的溢位風險，或改用 XOR 交換法以避免溢位。

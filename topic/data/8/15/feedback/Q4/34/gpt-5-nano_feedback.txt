@@ -1,0 +1,74 @@
+7
+
+評分細項
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：7/10
+- 備註：0/10
+- 總分：7/100
+
+分析與評語
+- 這份作業的程式並未實作題目要求的功能：建立任意長度的一維整數陣列並進行從小到大的排序後輸出。學生程式實作的是一個與題意無關的「三角形陣列搜尋」功能，且輸入與輸出格式亦與題意不符。
+- 程式結構雖然能編譯，但與題目的輸入格式與輸出格式不匹配，且缺少必要的程式標頭註解與說明。
+
+修改後完整程式碼（優化版）
+```java
+/**
+ * File: CSIE_41343209_1031_3b.java
+ * 功能: 讀取整數長度 n，接著讀入 n 個整數，將它們由小到大排序後輸出起
+ *       串成一行，元素以空格分隔。
+ * 作者: 你的名字
+ * 日期: 2025-11-12
+ * 版本: 1.0
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343209_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（實務上可改成丟出錯誤訊息）
+                arr[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+修改原因說明
+- 將原程式的二維三角形結構改為一維陣列，直接符合題目「任意長度的一維陣列」的需求，並避免不必要的資料結構與複雜度。
+- 使用 Arrays.sort 直接完成排序，邏輯清晰且效能佳，符合「由小到大」的排序需求，且能處理包含負數的情況。
+- 加入程式標頭註解，說明檔名、功能、作者與日期等，提升可讀性與維護性。
+- 增加輸入過程的穩健性檢查（例如 hasNextInt），並在結束時關閉 Scanner，符合良好資源管理。
+- 輸出部分避免尾端多餘空格，輸出格式更符合題目要求。
+
+改進建議一句話
+- 建議在實作前先明確對照題意進行需求設計與單元測試，並在輸入不完整時給予明確錯誤處理或提示，以提升題目通過率與使用體驗。

@@ -1,0 +1,69 @@
+8
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 6/10
+- 備註: 2/10
+
+程式評語與改進方向
+- 評語：學生提交的程式與題意完全不符，實作的是一個輸出星號三角形的功能，未對任意長度整數陣列進行升序排序，也未按要求處理輸入格式與輸出格式。僅有基本的程式格局與縮排，尚需大量修正以符合題目需求。
+- 改進方向：改寫成能讀取第一個整數作為長度，接著讀入該長度的整數並排序，最後輸出排序結果。增加基本的輸入驗證、使用適當的資料結構與輸出格式，以及完善的程式註解。
+
+修改後完整程式碼與說明
+修改後的程式碼 (完整可執行版本)：
+
+// Date: 2025-11-12
+// File: SortArrayAsc.java
+// Function: 讀入任意長度的一維整數陣列，並輸出其升序排序結果（由小到大）。
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1) 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 2) 依長度讀入整數
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，以預設0補齊，避免例外
+                a[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 3) 排序
+        Arrays.sort(a);
+
+        // 4) 輸出（以空格分隔，避免尾端多空格）
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與原因
+- 將任務改為符合題意：原程式與題目不符，改為讀取長度與對應的整數，並用 Arrays.sort 進行升序排序。
+- 增強輸入驗證與穩定性：若長度 n <= 0，直接結束程式；若輸入不足提供預設值，避免兌現例外。
+- 提升效能與可讀性：使用 Arrays.sort 進行排序，並以 StringBuilder 組合輸出，避免不必要的字串拼接。
+- 變數與檔案命名清晰：類別名稱改為 SortArrayAsc，檔案註解清楚說明檔名、功能與日期。
+
+改進建議
+- 建議在競賽或測資環境中採用快速輸入/輸出（如 BufferedInputStream 與自訂解析器）以提升效能，特別是在大資料量時。
+
+若你需要，我也可以提供更嚴謹的測資驗證與更多防呆處理的版本。

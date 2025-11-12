@@ -1,0 +1,79 @@
+2
+
+評分項目與分數（依照您的標準逐項給分）：
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：2/10
+- 備註：0/10
+- 總分：2/100
+
+作業評語與建議：
+- 這份學生作業未完成題目需求，程式僅做了將輸入整數反轉的動作，與要求的求 pi 的 Leibniz 公式計算完全無關，正確性與邏輯皆未符合題意。建議新增完整的演算法實作、輸出格式，以及必要的註解。
+
+修改後完整程式碼（符合題意需求的實作，含正確輸出格式與迭代計算）：
+// 文件名稱：LeibnizPi.java
+// 功能：利用 Leibniz 公式計算近似 pi，輸出指定 i 值對應的 pi，並找出使 pi 四捨五入至小數點第5位等於 3.14159 的最小 i。
+// 作者：AI 助手
+// 日期：2025-11-12
+
+import java.io.PrintWriter;
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        PrintWriter out = new PrintWriter(System.out);
+
+        // (a) i 取 10000, 20000, ..., 100000，輸出 pi 值，格式為
+        // i =  六位寬度的數字, pi = 十位小數
+        double sum = 0.0; // sum_{k=0}^{i-1} (-1)^k / (2k+1)
+        int maxI = 100000;
+
+        // 逐步累加，避免每次都從頭計算，適合這個題目的多次輸出需求
+        for (int iTerms = 1; iTerms <= maxI; iTerms++) {
+            int k = iTerms - 1;
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+
+            if (iTerms % 10000 == 0) {
+                double piEstimate = 4.0 * sum;
+                out.printf("i = %6d, pi = %.10f%n", iTerms, piEstimate);
+            }
+        }
+
+        // (b) 找出最小的 i，使 pi 四捨五入到小數點後第5位等於 3.14159
+        // 從上面的 sum 與 iTerms 繼續累加直到符合條件
+        int iTerms = maxI;
+        double targetRounded = 3.14159;
+        int foundI = -1;
+        // 以避免無窮迴圈，設定上限
+        while (iTerms < 2000000) {
+            iTerms++;
+            int k = iTerms - 1;
+            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            double piEstimate = 4.0 * sum;
+            double rounded = Math.round(piEstimate * 100000.0) / 100000.0;
+            if (rounded == targetRounded) {
+                foundI = iTerms;
+                break;
+            }
+        }
+
+        if (foundI != -1) {
+            out.println("i = " + foundI);
+        } else {
+            out.println("i = not found");
+        }
+
+        out.flush();
+    }
+}
+
+修改部分說明與原因：
+- 取代原本輸入並將整數反轉的無關邏輯：學生程式僅做了讀取整數、統計位數、反轉數字並輸出，與題意中的 pi 近似演算法完全無關，需改用 Leibniz 公式的逐項累加計算。
+- 新增算法實作：採用逐步累加的方式計算 sum_{k=0}^{i-1} (-1)^k/(2k+1)，並在 i = 10000, 20000, ..., 100000 時輸出 pi=4*sum；這樣可避免每次都從頭計算，提高效率。
+- 輸出格式調整：使用格式化輸出，i 以六位寬度對齊，pi 保留十位小數，符合題目要求的輸出格式。
+- (b) 找最小 i 使 pi 四捨五入到五位小數等於 3.14159：繼續累加直到四捨五入值等於目標，最後輸出該 i；此處以保證可接受的上限避免無窮迴圈。
+- 程式註解與檔案頭：加入檔案名稱、功能描述、作者與日期等註解，提升可維護性與可讀性。
+- 類別命名與結構：採用單一檔案 Main 類別（此範例改為 LeibnizPi 類別，主入口 main）以清楚呈現邏輯，確保可編譯執行。
+
+一句話改進建議（Feedback）：
+- 建議在實作中以逐步累加且正確處理輸出格式與註解，同時加入適當的註解與單元測試，以避免題意偏離與格式錯誤。

@@ -1,0 +1,42 @@
+3
+
+評分明細
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 3/10
+- 備註: 0/10
+
+修改後的完整程式碼與說明
+
+修改後程式碼：
+/*
+檔案名稱: NameCodePrinter.java
+功能: 印出虎科大與學生中文姓名的每一個字及其對應的內碼
+作者: 教師
+日期: 2025-11-12
+說明: 直接輸出六個字及其對應的內碼，順序先印「虎 科 大」再印學生姓名「林 武 杰」。
+*/
+public class NameCodePrinter {
+    public static void main(String[] args) {
+        printCharCode('虎');
+        printCharCode('科');
+        printCharCode('大');
+        printCharCode('林');
+        printCharCode('武');
+        printCharCode('杰');
+    }
+
+    private static void printCharCode(char ch) {
+        int code = ch; // char 在 BMP 內，其數值即為 Unicode 編碼值
+        System.out.println(ch + " " + code);
+    }
+}
+
+修改原因與說明：
+- 直接符合題意：題目要求逐字印出「虎科大」與「你的中文姓名」，並顯示每個字的內碼。原程式與題意完全不符，僅處理分數評分，未輸出指定內容，因此必須改為直接輸出六行字與對應的內碼。
+- 增加可讀性與維護性：使用 printCharCode() 做單字與編碼的輸出，若之後要新增或修改字元，只需調用同一個方法即可，便於維護。
+- 命名與結構：採用有意義的類別名稱 NameCodePrinter，並加入程式開頭的註解區塊，符合備註欄的要求；程式結構與縮排保持整齊，便於他人閱讀。
+- 編碼安全性：確保輸出使用 UTF-8 的源文件，且字元直接寫在字面值中，避免編碼錯誤；若未來需在檔案中使用超出 BMP 的字元，建議改用 Character.toCodePoint() 取得實際編碼。
+
+一句話改進建議：
+可增加自動化測試，確認輸出格式與數值是否穩定，並在程式開頭加入更完整的註解與使用說明。

@@ -1,0 +1,56 @@
+11
+
+作業評分
+- 正確性: 0 / 50
+- 邏輯: 5 / 30
+- 格式: 6 / 10
+- 備註: 0 / 10
+總分: 11 / 100
+
+改寫後程式碼（完整，請直接執行）
+/*
+ * 檔案名稱: CSIE_41343226_1031_2.java
+ * 功能說明: 讀入整數長度 n，接著讀入 n 個整數，排序後輸出升序結果
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 備註: 使用 Arrays.sort 以確保正確性，支援負數
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343226_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(arr); // 使用內建排序確保正確性與簡潔性
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        scanner.close();
+    }
+}
+
+修改說明與原因
+- 將原本錯誤的排序邏輯替換為 Arrays.sort(arr)，避免自訂排序時的邏輯錯誤，確保正確性與可維護性。
+- 使用 Arrays.sort 可自動處理負數與各種整數範圍，提升穩定性。
+- 輸出改為僅輸出排序後的數字，項與項之間以空格分隔，避免多餘空格，並保持簡潔。
+- 加入檔案開頭註解與說明，符合備註要求，並使用有意義的變數名稱（n、arr）提升可讀性。
+- 使用 StringBuilder 組裝輸出，提升效率，並確保輸出格式符合期望。
+
+改進建議或反饋（一句話）
+建議未來直接使用內建排序與清晰的輸出處理，以提升正確性與可維護性，並在檔案頂部加入檔案註解以符合要求。

@@ -1,0 +1,51 @@
+86
+
+修改後的程式碼（完整檔案內容，建議檔名：Main.java）
+```java
+/*
+ * 檔案名稱: Main.java
+ * 功能: 讀取長度 n 與 n 個整數，將其升序排序並輸出。
+ * 作者: 具體作者可自行填入
+ * 日期: 2025-11-12
+ * 說明: 使用 Scanner 讀取輸入，Arrays.sort 進行排序，輸出以空格分隔。
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int len = sc.nextInt();
+        int[] nums = new int[len];
+
+        // 讀取陣列元素
+        for (int i = 0; i < len; i++) {
+            nums[i] = sc.nextInt();
+        }
+        // 不在此關閉 System.in，以避免影響後續測資
+
+        // 進行排序
+        Arrays.sort(nums);
+
+        // 輸出排序後的陣列，元素以空格隔開，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明與原因
+- 將類別名稱改為 Main，並提供對應的檔案頭註解，符合大多數線上 judging 環境對檔名與類別名稱的期望，增強可移植性與可讀性。
+- 移除對 System.in 的顯式關閉（sc.close），避免在某些測資環境中因關閉 System.in 而影響後續測資或測資框架的輸入流處理。
+- 加入完整的程式頭註解，說明檔案名稱、功能與日期，符合作業要求的註解規範。
+- 使用 StringBuilder 組裝輸出字串，避免多次 System.out.print 呼叫，提升輸出效率並使輸出格式更穩定。
+- 保留並使用 Arrays.sort 對整數陣列排序，符合題意「由小至大」的排序要求，邏輯清晰且效能良好。
+
+改進建議（一句話）
+- 建議加入基本的輸入驗證與例外處理（例如檢查 len 是否為正整數，或在讀取元素時捕捉非整數輸入），以提升對非標準輸入的健壯性。

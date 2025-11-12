@@ -1,0 +1,58 @@
+0
+
+以下為依照題目需求所提供的改寫與說明。
+
+程式修改後完整程式碼
+// Leibniz pi 計算程式：輸出指定 i 值下的 pi 近似值，並找出使 pi 四捨五入至小數點第 5 位為 3.14159 的最小 i。
+// 輸出格式遵循題目要求：i 以寬度為 6 的欄位顯示，pi 保留小數點後 10 位。
+// 輸出樣式會符合「i =  10000, pi = 3.1414926536」等格式，以及兩段輸出之間的空行。
+public class LeibnizPiCalculator {
+    public static void main(String[] args) {
+        // 先輸出 i 為 10000, 20000, ..., 100000 的 pi 值
+        double sum = 0.0;
+        int maxTerms = 100000; // 總項數
+        int reportStep = 10000; // 每多少項輸出一次
+        for (int k = 0; k < maxTerms; k++) {
+            // 第 k 項：(-1)^k / (2k+1)
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+            // 當已計算到第 k+1 項，且是報告點時輸出
+            if ((k + 1) % reportStep == 0) {
+                int i = k + 1;
+                double pi = 4.0 * sum;
+                System.out.println(String.format("i = %6d, pi = %.10f", i, pi));
+            }
+        }
+
+        // 空一行，符合題目輸出區塊分隔的樣式
+        System.out.println();
+
+        // 找到使 pi 四捨五入至小數點第 5 位為 3.14159 的最小 i
+        sum = 0.0;
+        int targetI = -1;
+        for (int k = 0; k < maxTerms; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+            double pi = 4.0 * sum;
+            long rounded = Math.round(pi * 100000.0); // 四捨五入到小數點第 5 位
+            if (rounded == Math.round(3.14159 * 100000.0)) {
+                targetI = k + 1;
+                break;
+            }
+        }
+
+        // 輸出最小 i 值（若找到）
+        if (targetI != -1) {
+            System.out.println(String.format("i = %6d", targetI));
+        }
+    }
+}
+
+程式修改原因說明
+- 將原 Student 端提供的與題目無關的反轉整數程式改為實作題目所需的 Leibbiz 公式近似計算，符合題意的正確性要求。
+- 以增量方式逐步計算級數，避免每次都從頭計算，提升效率，且可以在需要時快速輸出到指定的 i 值（如 10000, 20000,…）。
+- 輸出格式遵循題目規範，使用粗細字格式化讓 i 為寬度 6 的欄位，pi 為小數點後 10 位，且符合「i =  10000, pi = …」的樣式。
+- 增加找尋最小 i 使 pi 四捨五入為 3.14159 的邏輯，並輸出該結果。
+
+改進建議（一句話）
+- 建議在正式提交前加入更多註解與單元測試，並把輸入、輸出分離成方法，提升可讀性與可維護性。

@@ -1,0 +1,30 @@
+12
+
+修改後完整程式碼：
+/* file name: CSIE_41343212_0926_2.java
+   student: 李品劭
+   ID: 41343212
+   function: print 虎科大 與學生姓名的對應內碼（以 Unicode code point 表示）
+   date: 2025-11-12 */
+public class CSIE_41343212_0926_2 {
+    public static void main(String[] args) {
+        printCharWithCode('虎');
+        printCharWithCode('科');
+        printCharWithCode('大');
+        printCharWithCode('林');
+        printCharWithCode('武');
+        printCharWithCode('杰');
+    }
+
+    private static void printCharWithCode(char ch) {
+        System.out.println(ch + " " + (int) ch);
+    }
+}
+
+修改說明：
+- 將原先的 spinner 程式改為符合題目需求的輸出：逐行印出「虎科大」三字以及學生姓名的各個字，並附上對應的內碼（採用 Unicode code point 的十進位表示）。
+- 修正檔案標頭的註解：加入正確的 /* … */ 註解結束，確保編譯時不會因註解語法問題而出錯；同時更新功能描述以清楚表述程式用途。
+- 簡化程式結構：使用單一輔助函式 printCharWithCode，提升可讀性與可重用性，確保每一行輸出格式一致。
+
+改進建議或反饋（一句話）：
+建議直接依題意輸出每個字及其內碼（以 Unicode code point 表示），避免多餘的動畫效果，並在註解中清楚標示輸出格式與使用的編碼方式。

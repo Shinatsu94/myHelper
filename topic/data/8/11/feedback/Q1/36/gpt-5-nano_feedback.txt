@@ -1,0 +1,47 @@
+94
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 6/10
+- 備註: 8/10
+
+修改前程式碼要點回顧
+- 使用 XOR 交換法在兩個整數變數間互換，並符合「不使用額外變數進行交換」的要求。
+- 變數命名為 a、b，未嚴格符合題意要求的 A、B 命名。
+- 程式註解與檔案資訊雖有基本註解，但缺少日期資訊， header 註解未全面符合題意。
+
+修改後完整程式碼
+/* file name: CSIE_41343212_1003_1.java
+   student: 李品劭
+   ID: 41343212
+   function: using XOR to swap A, B
+   date: 2025-11-11
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1003_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int A = input.nextInt();
+        int B = input.nextInt();
+
+        // 使用 XOR 交換法，不使用中間變數
+        A ^= B;
+        B ^= A;
+        A ^= B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        input.close();
+    }
+}
+
+修改原因與說明
+- 變數命名改為 A 與 B：符合題目要求的變數命名規範，增強可讀性與一致性，便於對照輸入輸出規格。
+- 增加檔案日期與完整註解：符合要求的程式標頭註解，便於日後追蹤與維護。
+- 加入 input.close()：釋放資源的良好做法，雖然在競賽環境通常不嚴格，但提升健全性。
+- 保留 XOR 交換法：保持原題指定的交換方式，不使用第三變數，符合「不使用其他變數進行數字交換」的限制。
+
+改進建議（一句話）
+建議未來在保持題意交換方式的情況下，統一使用 A、B 的命名並完整記錄日期，提升可讀性與專案文件的一致性。

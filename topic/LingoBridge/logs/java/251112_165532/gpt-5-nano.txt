@@ -1,0 +1,50 @@
+99
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343212_1031_1.java
+功能: 讀取長度與對應整數序列，排序後輸出（由小到大）
+作者: 教師
+日期: 2025-11-12
+說明: 使用 Arrays.sort 提升效能，加入程式標頭註解與內容註解，輸出使用 StringBuilder 避免多餘空格
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343212_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int length = input.nextInt();
+        int[] arr = new int[length];
+
+        // 依序讀取陣列元素
+        for (int i = 0; i < length; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔，末尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+說明修改內容的原因：
+- 加入檔案標頭註解與清楚的註解，提升可讀性與維護性，符合作業標準的備註要求。
+- 移除未使用的 import，避免編譯與閱讀時的混亂。
+- 改用 Arrays.sort 以提升排序效率與可讀性，避免自行實作可能的錯誤。
+- 使用 StringBuilder 產出輸出字串，避免逐次打印造成的性能問題與尾端空格處理困難。
+- 保留對負數的支援，int 型別已可涵蓋。
+
+改進建議（一句話）：
+建議繼續採用內建排序與清晰註解，同時保持一致的輸出格式與檔案標頭，以提高可讀性與可維護性。

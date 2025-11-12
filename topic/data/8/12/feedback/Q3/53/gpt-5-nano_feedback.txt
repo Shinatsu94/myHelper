@@ -1,0 +1,60 @@
+5
+
+修改後完整程式碼如下：
+
+/*
+檔案名稱: LeibnizPi.java
+功能: 使用萊布尼茲公式計算 π 的近似值，輸出指定格式的 i 與 pi 值（i 於 10000,20000,...,100000），
+      並找出使 π 接近 3.14159 的最小 i。輸出格式符合題意：i 以寬度6顯示，pi 保留小數點後10位。
+作者: 教學助理
+日期: 2025-11-12
+*/
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int maxN = 200000;     // 為了能找到使 pi 接近 3.14159 的最小 i，設定較大的最大迭代次數
+        final int period = 10000;     // 每隔 10000 輸出一次 pi 的近似值
+        double sum = 0.0;              // 部分和：sum_{n=1}^{k} (-1)^{n-1} / (2n-1)
+        long minIFor159 = -1;          // 使 pi 接近 3.14159 的最小 i，預設未找到
+
+        StringBuilder output = new StringBuilder();
+
+        for (int n = 1; n <= maxN; n++) {
+            if ((n & 1) == 1) {                 // n 為奇數，符號為 +1
+                sum += 1.0 / (2 * n - 1);
+            } else {                              // n 為偶數，符號為 -1
+                sum -= 1.0 / (2 * n - 1);
+            }
+
+            // 輸出 i = 6位寬，pi=10位小數，當 n 為 10000, 20000, ..., 100000
+            if (n % period == 0) {
+                double pi = sum * 4.0;
+                output.append(String.format("i = %6d, pi = %.10f%n", n, pi));
+            }
+
+            // 找最小的 i 使 pi 接近 3.14159，容忍誤差在 0.00001 以內
+            double piCurrent = sum * 4.0;
+            if (minIFor159 == -1 && Math.abs(piCurrent - 3.14159) < 0.00001) {
+                minIFor159 = n;
+            }
+        }
+
+        // 最小 i 的輸出
+        if (minIFor159 != -1) {
+            output.append("i = " + minIFor159 + "\n");
+        } else {
+            output.append("i = -1\n"); // 找不到的情況（極端情況下不太可能發生）
+        }
+
+        System.out.print(output.toString());
+    }
+}
+
+修改說明與原因：
+- 從原本與題意無關的反轉整數輸入程式，改為實作萊布尼茲級數計算 π 的解法，符合題目需求的核心功能。
+- 以增量累加方式計算 sum，並在每個 n 步更新 pi，效率高且易於控制輸出格式，避免重新計算整個級數。
+- 使用適當的輸出格式：i 以寬度 6 顯示（符合 i =  10000 的樣式），pi 保留小數點後 10 位，並在需要時輸出最小的 i 使 pi 對應到 3.14159。
+- 增加完整的程式註解與檔案標頭，使程式具可讀性與維護性，符合備註評分要求。
+
+改進建議或反饋（一句話）：
+建議在提交前先閱讀題意，確保程式直接針對題目需求實作輸出格式與邏輯，避免提交與題意不符的程式。

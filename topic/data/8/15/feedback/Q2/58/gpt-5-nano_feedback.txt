@@ -1,0 +1,46 @@
+6
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+檔案名稱: CSIE_41343240_1031_2.java
+功能: 讀取整數長度 n 與 n 個整數，輸出其升序排列結果
+作者: 教師
+日期: 2025-11-12
+*/
+public class CSIE_41343240_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 直接對陣列排序（升冪）
+        Arrays.sort(arr);
+
+        // 輸出結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+
+修改原因與說明：
+- 正確性與邏輯：原程式採用「將每個元素替換為右側的最大值」的做法，無法得到升序排序且對負數也不適用。改用直接排序 Arrays.sort，能正確處理任意長度與包含負數的整數，且符合題目需求。
+- 格式與命名：新增程式標頭註解，維持有意義的變數命名與清楚的段落註解，並使用 StringBuilder 產出輸出，提升可讀性與效率。
+- 設計整體：輸入-排序-輸出流程清晰，能在單次執行中完成任務，符合「勿使用 EOF、執行一次程式就結束」的要求。
+
+改進建議或反饋（一句話）：
+建議採用內建排序或成熟的排序演算法，直接對整數陣列排序，並以適當的輸出格式呈現，能確保正確性且易於維護。

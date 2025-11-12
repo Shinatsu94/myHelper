@@ -1,0 +1,57 @@
+84
+- 正確性: 50/50
+- 邏輯: 28/30
+- 格式: 6/10
+- 備註: 0/10
+
+以下為依照改善建議後的最終版本與說明。
+
+修改後完整程式碼（已優化）
+/*
+檔案名稱: SortArrayAsc.java
+功能: 讀取長度n與n個整數，將陣列由小到大排序，輸出排序後的內容（以空格分隔）。
+作者: 你的姓名
+日期: 2025-11-12
+說明: 使用內建排序 Arrays.sort 取代自訂雙迴圈排序，輸出不含尾端多餘的空格，最後換行。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+        }
+
+        // 使用內建排序提升穩定性與效能
+        Arrays.sort(arr);
+
+        // 輸出：避免尾端空格，並換行結束
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        in.close();
+    }
+}
+
+修改說明與原因
+- 使用內建排序 Arrays.sort(arr)：
+  - 原程式使用自製的雙循環排序，雖然可運作，但可讀性較低且效率較低（O(n^2)），且邏輯較易出錯。改用 Java 內建排序可簡化邏輯、提升執行效率，且對負數與各種整數排序都正確。
+- 輸出格式調整：
+  - 原程式在輸出最後會產生尾端的空格，且缺乏換行。改用 StringBuilder 串接，統一在結尾輸出換行，避免尾端空格造成的評分問題。
+- 程式標頭與可讀性：
+  - 加入檔案標頭註解，描述檔案名稱、功能、作者與日期，提升可維護性與可閱讀性。
+  - 變數命名改為較具語意的名稱（n、arr），提升可讀性與維護性。
+- 程式結構與資源管理：
+  - 結尾給 Scanner 加上 close，釋放資源，養成好習慣。
+  - 總結：整體提升可維護性、可讀性與穩定性，同時確保輸出格式符合常見測資要求。
+
+一句話改進建議
+- 以內建排序取代自訂排序，並務必處理輸出格式（避免尾端空格與不可預期換行），同時補上程式標頭註解以利維護與評分。

@@ -1,0 +1,77 @@
+6
+
+評分明細（以原學生提交的作業為評分基準，滿分100分）
+- 正確性：0/50
+  - 程式與題目需求毫無關聯，未實作排序與輸出排序結果。
+- 邏輯：0/30
+  - 程式邏輯完全偏離題意，僅產生星號三角形，未解析輸入與排序流程。
+- 格式：6/10
+  - 程式語法正確，排版基本整齊，變數使用較一般命名，但功能與輸出嚴重不符，評分僅就排版層面給分。
+- 備註：0/10
+  - 程式標頭註解缺乏，未說明檔案名稱、功能、作者、日期等。
+
+修改後的完整程式碼與說明
+修改後程式碼（可直接編譯執行，符合題意：讀取長度與內容，排序後輸出）
+/*
+ * 檔案名稱: SortArrayAscending.java
+ * 功能: 建立一個任意長度的一維陣列，將內容由小到大排序後輸出。
+ * 作者: 自動批改系統
+ * 日期: 2025-11-12
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!input.hasNextInt()) {
+            System.out.println("invalid input.");
+            input.close();
+            return;
+        }
+        int n = input.nextInt();
+        if (n <= 0) {
+            System.out.println("invalid input.");
+            input.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免失敗
+                arr[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的內容，元素間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+修改說明與原因
+- 將原先的星號三角陣列作業改為實作題目所需的數字排序功能，符合正確性需求。
+- 以整數陣列 arr 取代不相關的 char 二維陣列，直接對使用者輸入的 n 個整數進行排序，並以空格分隔輸出，符合輸出格式。
+- 使用 Arrays.sort 來進行升冪排序，邏輯清晰、穩定且效率良好。
+- 增加程式開頭註解與檔案說明，提升可讀性與維護性；同時保留適當的輸入驗證與穩健性處理。
+- 輸出結果格式固定為單行、元素間以空格分隔，與題目輸出示例一致。
+
+改進建議（一句話）
+建議再加入對非整數輸入的更嚴謹處理與提示訊息，提升輸入容錯性與使用者指引。
+
+如需，我也可以提供更完整的單元測試樣例，涵蓋負數、只有一個元素、以及長度上限等情境。

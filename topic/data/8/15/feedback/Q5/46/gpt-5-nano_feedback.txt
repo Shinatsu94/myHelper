@@ -1,0 +1,59 @@
+6
+
+修改後完整程式碼如下（已符合題意：讀取長度、再讀入該長度的整數、升冪排序並輸出，支援負數，避免使用 EOF）：
+
+/**
+ * 文件名稱：SortArray.java
+ * 功能說明：讀取使用者輸入的長度 n，接著讀取 n 個整數，將其由小到大排序，並輸出結果。
+ * 作者：老師
+ * 日期：2025-11-12
+ * 備註：修正原作業內容，改用內建陣列排序以符合題目需求；提供適當註解與清晰命名。
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 取得陣列長度
+        int n;
+        if (input.hasNextInt()) {
+            n = input.nextInt();
+        } else {
+            input.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[Math.max(n, 0)];
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                // 不足的輸入時，預設為 0（可根據需求改為跳出或其他處理）
+                arr[i] = 0;
+            }
+        }
+
+        // 排序（從小到大）
+        Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+修改說明（重點）：
+- 將任務重心改為「讀取長度 + 讀取該長度之整數」後排序輸出，使用 Arrays.sort 提高穩定性與效率，且天然支援負數。
+- 重新命名類別與檔案名稱為 SortArray，並加入清晰的檔案註解與功能說明，符合題目要求的格式與註解慣例。
+- 說明輸出格式：以空格分隔、單行輸出，與題意一致，且保留換行結束。
+
+改進建議（一句話）：建議在輸入時嚴格處理資源與例外情況（例如 n 為負數的情況、輸入不足的情況），並在測資中保持一致的輸出格式與單行輸出。

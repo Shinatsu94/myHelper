@@ -1,0 +1,75 @@
+8
+
+正確性: 0/50
+邏輯: 0/30
+格式: 8/10
+備註: 0/10
+
+以下是改寫後的完整程式碼與修改說明。
+
+修改後完整程式碼（Java）
+```java
+/*
+ * 檔案名稱: LeibnizPi.java
+ * 功能說明: 使用萊布尼茨級數計算圓周率近似值，輸出
+ *          i 為 10000, 20000, ..., 100000 時的 pi 值，格式為：
+ *          i = 6位數, pi = 10位小數
+ *          另找出最小的 i 使 pi >= 3.14159，並輸出該 i
+ * 作者: 你的姓名
+ * 日期: 2025-11-12
+ */
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // 輸出 i 為 10000, 20000, ..., 100000 對應的 pi 值
+        System.out.printf("i = %6d, pi = %.10f%n", 10000, computePiByTerms(10000));
+        for (int i = 20000; i <= 100000; i += 10000) {
+            System.out.printf("i = %6d, pi = %.10f%n", i, computePiByTerms(i));
+        }
+
+        // 找出最小的 i 使 pi >= 3.14159
+        int minI = findMinIForPiAtLeast(3.14159);
+        System.out.println("i = " + minI);
+    }
+
+    // 計算使用 i 項的萊布尼茨級數 pi 值
+    private static double computePiByTerms(int terms) {
+        double sum = 0.0;
+        for (int k = 0; k < terms; k++) {
+            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
+            sum += term;
+        }
+        return 4.0 * sum;
+    }
+
+    // 漸進計算直到 pi >= target，回傳最小的項數 i
+    private static int findMinIForPiAtLeast(double target) {
+        double sum = 0.0;
+        int terms = 0;
+        while (true) {
+            double term = ((terms % 2 == 0) ? 1.0 : -1.0) / (2.0 * terms + 1.0);
+            sum += term;
+            double pi = 4.0 * sum;
+            terms++;
+            if (pi >= target) {
+                break;
+            }
+            // 安全上限，避免極端情況造成無窮迴圈
+            if (terms > 2000000) {
+                break;
+            }
+        }
+        return terms;
+    }
+}
+```
+
+修改說明（重點改動與原因）
+- 從原本與題目無關的數字翻轉程式改為專注於題目需求的演算法實作，提升正確性與可用性。
+- 新增萊布尼茨級數計算 pi 的實作，並針對題目要求輸出格式使用 System.out.printf，確保 i 以 width 6 的格式輸出、pi 以小數點後 10 位輸出。
+- 針對部分輸出需求，使用分段輸出：先輸出 i=10000, 20000, …, 100000 的 pi 值，再單獨計算出最小的 i 使 pi >= 3.14159。
+- 增加程式標頭註解，清楚描述檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 內部演算法採用逐項累加的方式計算 pi，對於 10000、20000、…、100000 的多次計算，採用獨立函式計算，結構清晰且易於測試。
+
+改進建議（一句話）
+- 建議在正式作業中，先以單一輸入來源與單一輸出格式設計再實作不同輸出需求，避免多段輸出邏輯混雜造成維護困難。

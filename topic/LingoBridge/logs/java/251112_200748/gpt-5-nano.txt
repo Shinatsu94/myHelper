@@ -1,0 +1,65 @@
+6
+
+以下為改寫與評分說明：
+
+修改後程式碼（完整、可編譯執行版本）：
+/**
+ * 檔案名稱: CSIE_Optimized_1031_3.java
+ * 功能: 讀入長度 N，讀入 N 個整數，輸出由小到大排序的結果（一行，以空格分隔）
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 說明: 使用 Arrays.sort 對整數陣列排序，支援負數與任意長度的輸入。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_Optimized_1031_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1) 讀取陣列長度 N
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int N = sc.nextInt();
+        if (N <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 2) 讀取 N 個整數
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 讀取不足時，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 3) 排序
+        Arrays.sort(arr);
+
+        // 4) 印出排序後的結果，一行，以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改說明與原因：
+- 目的對照：將原題要求的“建立任意長度的一維陣列、依序輸入 N 個整數、由小到大排序並輸出結果”實作出來。原程式僅輸出星號三角形，與題意嚴重不符。
+- 輸入與資料結構：改用整數陣列 int[] 存放 N 個整數，具備任意長度與負數支援。
+- 排序機制：使用 Arrays.sort(arr) 簡潔且高效地排序整數陣列，確保正確性與可讀性。
+- 輸出格式：將排序後的整數用空格連接成單行輸出，符合題目示例的輸出格式。
+- 改善可讀性與風格：變數命名改為直覺化的 arr、N，並添加適當註解與標頭註解，滿足「備註」中的程式標頭與內容註解要求。
+- 風險與穩定性：移除了原本對長度的限制與無法處理的輸出邏輯，確保能夠處理任意長度與負數輸入，並在輸入不足時給予預設值以避免例外。
+
+改進建議或反饋（一句話）：
+建議在輸入不足時提供錯誤說明並適當處理異常情況，並將輸入與輸出與題目格式嚴格對齊，以提升使用者友善度與測資穩定性。

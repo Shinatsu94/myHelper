@@ -1,0 +1,60 @@
+8
+
+評分明細
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：8/10
+- 備註：0/10
+總分：8/100
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: Main.java
+功能: 依序讀入陣列長度與元素，輸出升序排序的結果
+作者: 教授
+日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 需求對應實作：
+        // 1) 先讀入整數 n，代表陣列長度
+        // 2) 依序讀入 n 個整數
+        // 3) 將陣列內容由小到大排序，並輸出成同一行，元素以空格分隔
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
+
+修改說明與原因
+- 將原始學生程式的 3x3 矩陣反矩陣計算改為一維整數陣列的升序排序，符合題目要求的「任意長度的一維陣列升幕排序」需求。
+- 使用 Java 標準的 Main 類與合理的變數命名，提升可讀性與相容性（避免特定作業系統或編譯環境需求）。
+- 加上完整的程式註解與標頭註解，說明檔案名稱、功能、日期與作者，提升可維護性與可追溯性。
+- 輸出格式調整為單行空格分隔，與題目範例一致，且自動處理負數，因 Arrays.sort 對整數型別自動排序，無需額外邏輯。
+
+改進建議
+- 後續可以採用更高效的輸入方式（例如使用自訂快速掃描器與 StringTokenizer）以提升大數量輸入時的效能，但對此題規模而言 Scanner 與 Arrays.sort 已足夠。

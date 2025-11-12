@@ -1,0 +1,56 @@
+85
+
+正確性：50
+邏輯：28
+格式：7
+備註：0
+
+修改後完整程式碼（已優化為單一增量計算，避免多次從頭計算，並符合輸出格式要求；同時加入標頭註解與清晰註解）：
+
+/*
+ * File: LeibnizPiCalculator.java
+ * Description: 使用 Leiniz 級數近似圓周率，輸出 i=10000,20000,...,100000 時的 pi 值，並找出最小 i 使 pi(i) 的小數 5 位為 3.14159。
+ * Author: 教師姓名
+ * Date: 2025-11-11
+ * Notes: 使用單一迴圈累加以提升效率，輸出格式調整以符合題意。
+ */
+
+public class LeibnizPiCalculator {
+    public static void main(String[] args) {
+        int maxI = 100000;
+        double sum = 1.0; // 第1項
+        int sign = -1;    // 第2項開始符號為 -1
+        // 以單一迴圈累加到 maxI，並在每個 10000 的 i 時輸出結果
+        for (int i = 2; i <= maxI; i++) {
+            sum += sign / (double) (2 * i - 1);
+            sign = -sign;
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // 從 maxI 之後繼續累加，找出最小的 i 使 floor(pi(i) * 100000) == 314159
+        int i = maxI;
+        while (true) {
+            i++;
+            sum += sign / (double) (2 * i - 1);
+            sign = -sign;
+            double pi = 4.0 * sum;
+            if (Math.floor(pi * 100000.0) == 314159.0) {
+                System.out.println();
+                System.out.printf("i = %6d%n", i);
+                break;
+            }
+        }
+    }
+}
+
+說明修改之處與原因：
+- 改善輸出與格式：改用 System.out.printf，確保 i 為六位長度，pi 為小數點後十位，符合題目要求的輸出格式。
+- 優化演算法：改為單一從 i=2 開始的增量累加，逐步更新累加和 sum，避免對每個 i 重新從頭計算，提升效率與可讀性。
+- 設計清晰的流程：先輸出 i=10000 到 100000 的 pi 值，然後在同一執行流中繼續累加找出最小的 i 使 pi(i) 的前 5 位小數等於 3.14159，並在結果前加入空行以符合樣例格式。
+- 程式標頭與註解：加入檔案說明註解（檔名、功能、作者、日期），並在主要區段附上註解，提升可維護性與可讀性。
+
+改進建議（一句話）：
+建議再把輸出與最小 i 的尋找邏輯分離成獨立方法，並加入單元測試以確保在不同環境下的輸出格式與數值穩定性。

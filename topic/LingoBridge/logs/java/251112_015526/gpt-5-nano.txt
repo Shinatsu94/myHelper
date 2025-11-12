@@ -1,0 +1,32 @@
+8
+
+修改後完整程式碼（可直接執行）
+
+/*
+ * 文件名稱: SwapTwoNumbers.java
+ * 功能: 讀取使用者輸入的兩個整數 A, B，輸出 B 再輸出 A（不使用額外變數進行交換）。
+ * 作者: 教師
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+        // 直接輸出交換後的結果，未使用額外變數進行交換
+        System.out.println(B);
+        System.out.println(A);
+        sc.close();
+    }
+}
+
+修改說明
+- 直接符合題意：改用同一個程式，只讀取兩個整數 A、B，並以 B 先印、A 後印的順序輸出，達成交換的效果，同時遵守「不可使用其他變數進行數字交換」的限制。
+- 清理原有無關邏輯：移除了與本題無關的 digitSum 及其相關邏輯、額外判斷與迴圈，避免混淆與錯誤。
+- 加入檔案頭註解：提供檔名、功能、作者、日期等資訊，符合備註分數的要求。
+- 變數命名與格式：使用 A、B 作為直觀變數名稱，程式結構清晰，適當縮排，易於閱讀。
+
+改進建議或反饋（一句話）
+- 建議在正式提交前，先閱讀題意並以最簡潔的方式實作，並加入完整的檔案頭註解與說明，以提升可讀性與可維護性。

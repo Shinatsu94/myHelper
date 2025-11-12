@@ -1,0 +1,41 @@
+0
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343205_1003_2.java
+功能: 讀入兩個整數 A, B，先印出原值，然後不使用額外變數交換兩數值，最後印出交換後的值。
+作者: (請填入作者姓名)
+日期: 2025-11-11
+*/
+public class CSIE_41343205_1003_2 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 印出原值
+        System.out.println(a);
+        System.out.println(b);
+
+        // 不使用臨時變數進行交換（使用 XOR 交換）
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        // 印出交換後的值
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}
+
+修改說明：
+- 移除原程式的多餘變數 c、以及不符合題意的排序邏輯，改以符合題目「讀入兩數並交換」的需求。
+- 使用位元運算的 XOR 做法在不使用額外變數的情況下完成 a 和 b 的互換，符合題目限制。
+- 增加清楚的程式標頭註解與內部註解，並改用更易懂的變數名稱 a、b，整體格式與縮排更整齊。
+- 直接輸出原值與交換後的兩個值，與題意輸出順序保持一致；也補上 sc.close()，提高資源管理。
+
+一句話改進建議：
+若未來考慮到溢位風險或想避免使用位元運算，可改用無溢位安全的交換方法並加上輸入校驗，提升魯棒性。

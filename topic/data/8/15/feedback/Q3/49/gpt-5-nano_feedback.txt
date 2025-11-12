@@ -1,0 +1,53 @@
+6
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343229_1031_3.java
+ * 功能: 讀入一個整數長度 n，接著讀入 n 個整數並輸出由小到大的排序結果
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 版本: 1.0
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343229_1031_3 {
+    public static void main(String[] args) {
+        // 讀取長度 n
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，單行，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+
+修改原因說明：
+- 將需求聚焦於題目核心：讀取長度 n 與 n 個整數，並對其進行由小到大的排序，最後輸出排序結果。使用 Arrays.sort(arr) 能以簡潔且可靠的方式完成整數排序，且同時支援負數。
+- 讀入與輸出流程改為單次一次性完成：避免使用多餘的 2D 結構與未使用的輸出，確保輸出格式符合題目要求（單行、以空格分隔，不多餘空格）。
+- 變數命名與註解：增加註解以說明輸入、排序與輸出步驟，並保留清楚的變數名稱（arr）。
+
+一句話改進建議或反饋：
+建議在輸入不足時給出明確的錯誤訊息或退出機制，並考慮處理 n 為負數的情況，以及讓使用者知道該程式預期的輸入格式。

@@ -1,0 +1,75 @@
+84
+- 正確性: 50/50
+- 邏輯: 28/30
+- 格式: 6/10
+- 備註: 0/10
+
+修改後完整程式碼與說明
+
+修改後完整程式碼（已優化並完整註解）：
+/*
+檔案名稱: CSIE_41343221_1031_1.java
+功能: 讀入整數 n，接著讀入 n 個整數，將它們由小到大排序並輸出結果。
+作者: 教授
+日期: 2025-11-12
+說明: 使用氣泡排序，包含早停機制與整潔輸出；使用 try-with-resources 確保 Scanner 釋放。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343221_1031_1 {
+
+    public static void main(String[] args) {
+        // 使用自動關閉資源的方式，確保輸入資源釋放
+        try (Scanner scanner = new Scanner(System.in)) {
+            int n = scanner.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = scanner.nextInt();
+            }
+
+            // 對陣列進行氣泡排序，加入早停機制以提高常見情況的效能
+            bubbleSortAscending(arr);
+
+            // 組裝輸出字串，避免多次輸出呼叫，並維持輸出格式
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < arr.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+
+    // 氣泡排序：由小到大，含早停機制
+    private static void bubbleSortAscending(int[] a) {
+        int n = a.length;
+        boolean swapped;
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (a[j] > a[j + 1]) {
+                    int tmp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = tmp;
+                    swapped = true;
+                }
+            }
+            // 若一輪內沒有發生交換，代表已排序完成，提前結束
+            if (!swapped) break;
+        }
+    }
+}
+
+修改說明與原因
+- 程式標頭註解與檔案資訊：新增檔案名稱、功能、作者、日期等註解，提升可維護性與可讀性。
+- 變數命名改進：將 a 改為 n、將 x 改為 arr，命名更具描述性，便於理解程式結構。
+- 資源管理：改用 try-with-resources 包裝 Scanner，確保程式結束時資源正確釋放，增加穩健性。
+- 模組化排序：將排序邏輯抽成 bubbleSortAscending 方法，提升程式結構清晰度，方便未來修改或替換排序演算法。
+- 優化排序效能：加入早停機制（若某輪未發生交換即提前結束），在已接近排序情況下可提升效能。
+- 輸出效率與格式：使用 StringBuilder 組裝輸出，避免多次 System.out.print，並維持原有輸出格式（元素以空格分隔、末尾換行）。
+- 相容性與數字範圍：原本即可處理負數，優化後仍保留此能力，確保題目需求。
+
+改進建議或反饋（一句話）
+建議持續保持清晰的變數命名與註解，並在排序演算法中保持簡潔與穩健的邊界條件，同時考慮在輸入不符合預期時提供適當的錯誤訊息。

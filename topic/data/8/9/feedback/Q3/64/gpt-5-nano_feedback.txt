@@ -1,0 +1,52 @@
+7
+
+- 正確性(50%): 0/50
+- 邏輯(30%): 0/30
+- 格式(10%): 7/10
+- 備註(10%): 0/10
+
+評語與修改建議
+- 評語：原學生的程式與題目需求完全不符，且使用輸入分數判定的邏輯與輸出內容無關，未能正確產出指定格式的輸出。
+- 修改建議：若要完成題目需求，應直接輸出固定字元及其內碼，避免多餘的輸入處理；並養成清晰的程式註解與有意義的命名。
+
+修改說明與修改後程式碼
+- 為符合題目需求，改用固定字元陣列，逐字輸出該字的Unicode碼點（內碼），先印虎科大三字，再印林武杰三字。
+- 使用清楚的變數名稱與程式註解，並加入檔案標頭註解。
+- 程式不再需要輸入處理，使輸出可預期且穩定。
+
+修改後完整程式碼（NameCodePrinter.java）
+/*
+ * File: NameCodePrinter.java
+ * Description: Print虎科大及林武杰等中文姓名及其Unicode內碼，每行輸出一字與其碼點，先印虎科大再印學生姓名。
+ * Author: 教師
+ * Date: 2025-11-12
+ */
+
+public class NameCodePrinter {
+    public static void main(String[] args) {
+        // 先印虎科大三字
+        char[] firstGroup = {'虎', '科', '大'};
+        // 再印學生姓名三字
+        char[] secondGroup = {'林', '武', '杰'};
+
+        // 印出第一組字與其Unicode碼點
+        for (char ch : firstGroup) {
+            int codePoint = (int) ch;
+            System.out.println(ch + " " + codePoint);
+        }
+
+        // 印出第二組字與其Unicode碼點
+        for (char ch : secondGroup) {
+            int codePoint = (int) ch;
+            System.out.println(ch + " " + codePoint);
+        }
+    }
+}
+
+修改部分原因說明
+- 將需求改為固定輸出，避免不必要的輸入處理，提升穩定性與可讀性。
+- 以字元陣列與迴圈方式管理輸出，方便未來若要改成輸出更多字或改為其他順序時的維護。
+- 使用Unicode碼點的直接轉換，確保內碼是正確且自動取得，避免手動填寫可能產生的錯誤。
+
+改進建議或反饋（一句話）
+建議直接輸出固定字元與其Unicode碼點，避免不必要的輸入處理，並保持良好註解與有意義的命名以提升可維護性。

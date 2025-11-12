@@ -1,0 +1,37 @@
+88
+
+修改後完整程式碼：
+/*
+ 文件名稱: SwapTwoNumbers.java
+ 功能: 讀入兩個整數，交換後輸出結果
+ 作者: 教授
+ 日期: 2025-11-11
+*/
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 使用不需要額外變數的 XOR 交換法
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+
+        sc.close();
+    }
+}
+
+修改說明與原因：
+- 新增程式標頭與註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 將變數名稱由 a/b 改為 first/second，使意義更明確，符合「有意義名稱」的格式要求。
+- 新增簡單註解說明交換方法為不使用額外變數的 XOR 交換法，與題意相符，並保持原有邏輯後不影響結果。
+- 加上 sc.close()，更完整的資源管理。
+
+一句話改進建議或反饋：
+加入程式頭註解與更具語意的變數名稱可提升可讀性與維護性，並在題意允許時維持不使用額外變數的交換法。

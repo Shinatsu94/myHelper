@@ -1,0 +1,38 @@
+61
+
+修改後完整程式碼與修改說明如下：
+
+修改後程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343241_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 1) 先印出初始值，符合題意「印出其值」
+        System.out.println(A);
+        System.out.println(B);
+
+        // 2) 使用 XOR 交換法，在不使用額外變數的前提下互換 A 與 B
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 3) 印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}
+
+修改原因與說明：
+- 變數命名與語意清楚化：將 dataa/datab 改為 A、B，讓變數名稱具有直覺含義，提升可讀性與維護性。
+- 完整滿足題意的輸出流程：在交換前先印出初始值，接著進行交換並印出交換後的值，符合題目描述與提供的範例需求。
+- 保留不使用暫存變數進行交換的限制：仍使用 XOR 交換法，符合「不可使用其他變數進行數字交換」的要求。
+- 程式結構與註解：加入適當註解，提升可讀性；變動範圍僅於變數命名、輸出順序與註解，未改動演算法核心。
+
+一句話改進建議：
+務必依題意完整輸出流程，並在程式檔案開頭加入檔案說明註解以提升可維護性。

@@ -1,0 +1,51 @@
+22
+
+分數明細
+- 正確性: 0/50
+- 邏輯: 15/30
+- 格式: 7/10
+- 備註: 0/10
+總分: 22/100
+
+修改後完整程式碼，並說明修改原因：
+
+/*
+檔案名稱: CSIE_41343212_1031_2.java
+功能: 對輸入的任意長度整數陣列進行升序排序，輸出排序結果
+作者: 教學助理
+日期: 2025-11-12
+說明: 使用 Arrays.sort 進行升序排序，輸入為先給長度再給定長度的整數序列，輸出以空白分隔的升序結果。
+*/
+import java.util.*;
+
+public class CSIE_41343212_1031_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int length = input.nextInt();
+        int[] arr = new int[length];
+        for (int i = 0; i < length; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 使用內建排序提升正確性與可讀性
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+
+修改說明與原因：
+- 將自訂的排序邏輯改為使用 Arrays.sort，確保正確性與穩定性（對基本型別是快速且可靠的升序排序），並降低程式複雜度，利於未來維護與閱讀。
+- 保留先讀入長度、再逐一讀入元素的流程，與題意一致，且能處理包含負數的情況。
+- 輸出改為使用 StringBuilder 組合字串，避免逐次輸出時可能的效能問題，且保留輸出格式（各數字以單個空格分隔，行尾換行）。
+- 增加程式標頭註解，說明檔案名稱、功能、作者及日期，提升可維護性與專案 документа。
+
+一句話改進建議：
+採用標準排序函式並加強程式註解與命名，可以讓程式更穩定、易於理解與維護。

@@ -1,0 +1,68 @@
+6
+正確性: 0/50
+邏輯: 0/30
+格式: 6/10
+備註: 0/10
+
+修改後完整程式碼：
+```java
+/*
+File: CSIE_41343242_1031_3a.java
+功能: 讀入一個整數 n，接著讀入 n 個整數，將它們升序排序後以一行輸出。
+作者: 由 AI 協助的示例修正
+日期: 2025-11-12
+說明:
+- 支援負數
+- 不使用 EOF，程式執行一次即結束
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343242_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數到陣列
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 以避免例外；實務上可改為異常處理
+                a[i] = 0;
+            }
+        }
+
+        // 排序並輸出
+        Arrays.sort(a);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改原因與說明：
+- 針對題目需求，改用整數陣列讀取與升序排序（使用 Arrays.sort），而不是原先的星號輸出模式，確保能正確處理正負整數並符合輸出格式。
+- 移除原本的長度上限（n > 20 的檢查），讓程式能處理任意合理長度的輸入，符合「任意長度的一維陣列」的要求。
+- 增加程式開頭的註解與檔案資訊，並完善程式說明、變數命名與註解，提升可讀性與維護性。
+- 使用單行輸出的字串組合，避免尾端多餘空格，輸出格式與題目示例相符。
+
+改進建議/反饋（一句話）：
+- 建議在使用者輸入時加強輸入驗證與錯誤處理，並可增加提示訊息以提升使用者體驗與程式的穩定性。

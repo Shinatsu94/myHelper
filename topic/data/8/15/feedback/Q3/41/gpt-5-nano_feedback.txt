@@ -1,0 +1,52 @@
+2
+
+作業評分
+- 正確性：0
+- 邏輯：0
+- 格式：2
+- 備註：0
+- 總分：2
+
+修改說明與評語
+- 原程式未實作排序與輸出功能，且在讀取第一個整數後就關閉 Scanner，導致無法讀取後續輸入；整體功能與題意嚴重不符。
+- 修改後的程式以整數陣列存放輸入的數字，使用 Arrays.sort(arr) 進行從小到大的排序，並以空格分隔輸出排序結果，符合題意。
+- 移除了原程式中不相關的矩陣和星號輸出，避免浪費資源與混淆輸出。
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 程式結構與命名變得清晰，輸出格式穩定，且處理負數與任意長度的輸入皆正確。
+
+修改後完整程式碼（優化後）
+/*
+檔案名稱: CSIE_41343219_1031_3.java
+功能: 讀取 n 與 n 個整數，排序後輸出
+作者: 教授
+日期: 2025-11-12
+*/
+public class CSIE_41343219_1031_3 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        java.util.Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+
+修改部分說明
+- 將原本用於顯示三角矩陣星號的輸出替換為實作讀取、排序與輸出整數陣列的功能，符合「任意長度的一維陣列，排序後輸出」的題意。
+- 使用 Arrays.sort 以簡潔且正確的方式實作升序排序，並使用 StringBuilder 組裝輸出字串，避免多次 I/O 呼叫。
+
+一句話改進建議或反饋
+- 建議再加入輸入驗證與錯誤處理，並考慮支援多組測資的情境，以提升程式的健壯性與實務應用性。

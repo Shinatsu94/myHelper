@@ -1,0 +1,53 @@
+89
+
+評分明細
+- 正確性：50/50
+- 邏輯：30/30
+- 格式：9/10
+- 備註：0/10
+總分：89/100
+
+修改與優化說明
+- 變更重點
+  - 將原本的選擇排序改為使用 Arrays.sort 進行排序，提高效率，時間複雜度由 O(n^2) 降至 O(n log n)。
+  - 增加程式標頭註解，符合備註欄要求，提升可維護性與可讀性。
+  - 保留原本的輸入輸出機制，輸出時避免尾端多餘空格，輸出格式保持與題目一致。
+  - 程式尾部加入關閉資源的動作（sc.close()），避免資源洩漏。
+- 修改後完整程式碼
+/*
+檔案名稱: CSIE_41343227_1031_1.java
+功能: 讀取整數 n 與 n 個整數，對陣列進行升序排序，輸出排序結果
+作者: 
+日期: 2025-11-12
+*/
+import java.util.*;
+
+public class CSIE_41343227_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用 Arrays.sort 提升效率與穩定性
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+
+修改部分原因說明
+- 將自訂的排序改為 Arrays.sort 以提升排序效率，並簡化程式邏輯，降低出錯機率。
+- 加入完整的檔案標頭註解符合作業規範，提升可維護性與可追蹤性。
+- 保留原輸入輸出行為，確保與測資相容，並在輸出時避免尾端多餘空格。
+
+改進建議或反饋（一句話）
+建議採用內建排序 Arrays.sort 並補上檔案頭註解以提升效能與可維護性。

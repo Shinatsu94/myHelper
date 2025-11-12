@@ -1,0 +1,41 @@
+84
+
+修改後完整程式碼與修改說明如下：
+
+修改後完整程式碼
+```java
+import java.util.Scanner;
+
+/*
+File: SwapTwoNumbers.java
+Description: 讀入兩個整數 A, B，印出交換後的結果（不使用額外變數進行交換）。
+Author: 你的名字
+Date: 2025-11-11
+*/
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int A = scanner.nextInt();
+            int B = scanner.nextInt();
+
+            // 不使用額外變數，利用加法交換
+            A = A + B;
+            B = A - B;
+            A = A - B;
+
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}
+```
+
+修改說明
+- 新增程式標頭註解：包含檔案名稱、功能描述、作者與日期，符合備註項的要求。
+- 將類別名稱改為 SwapTwoNumbers，以提高可讀性與語意清晰度。
+- 使用 try-with-resources 管理 Scanner，確保程式結束時自動關閉資源，提升資源管理的穩健性。
+- 保留原始的不使用額外變數的交換邏輯（A = A + B; B = A - B; A = A - B），並添加註解說明交換方法。
+- 程式排版與註解增補，提升整體可讀性。
+
+改進建議或反饋（一句話）
+建議在提交時加入檔案註解與更具描述性的類別名稱，同時註記可能的整數溢位風險以增強程式魯棒性。

@@ -1,0 +1,61 @@
+95
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343227_1031_1.java
+功能: 建立任意長度的一維陣列，將內容升序排序，並輸出排序結果。
+作者: 研究生/教師
+日期: 2025-11-12
+*/
+import java.util.*;
+
+public class CSIE_41343227_1031_1 {
+    public static void main(String[] args) {
+        // 讀取整數輸入，先讀取長度 n，之後讀入 n 個整數
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 若長度為非正，依規定輸出空行並結束
+        if (n <= 0) {
+            System.out.println();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 使用 Arrays.sort 進行升序排序，簡潔且效率較佳
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改內容說明：
+- 將自動選取排序改為使用 Arrays.sort：
+  理由：簡化實作、降低出錯機率，且對於任意長度的整數陣列具有更佳的效能（O(n log n) 近似），同時降低維護成本。
+- 增加程式標頭與適當註解：
+  理由：符合作業要求的檔案說明與內容說明，方便他人閱讀與維護。
+- 增加對 n <= 0 的處理與不足輸入容錯：
+  理由：避免極端輸入情況造成不預期的行為，符合健全程式設計的做法。
+- 使用 StringBuilder 進行輸出組裝：
+  理由：提高輸出效率，避免多次 I/O 操作，對於較長輸出也更穩定。
+
+改進建議或反饋（一句話）：
+建議繼續採用高階排序函式（如 Arrays.sort）以提升穩定性與效能，並保持清晰的程式註解與頭檔說明以利維護。

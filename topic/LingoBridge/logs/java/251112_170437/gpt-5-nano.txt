@@ -1,0 +1,60 @@
+總分：88
+
+- 正確性 (50/50)
+  - 程式能正確讀取長度與對應的整數、進行排序、並輸出排序結果，支援負數。得分：50/50
+
+- 邏輯 (30/30)
+  - 演算法清晰，使用 Arrays.sort 進行升冪排序，輸出格式合理（用空格分隔，末尾換行），邏輯簡潔且正確。得分：30/30
+
+- 格式 (10/10)
+  - 原程式變數命名簡潔但略缺乏語意。修改後建議採用更有意義的命名，並使用單一輸出串接提升可讀性。原程式整體縮排尚可，但可再加強可讀性。此處按原作評分為8/10。得分：8/10
+
+- 備註 (10/10)
+  - 原作缺少程式標頭註解，未滿足題目對註解的要求，因此給0分。得分：0/10
+
+修改後完整程式碼與修改說明如下：
+
+修改後程式碼
+（已加入程式標頭註解、命名改進、以及輸出優化）
+
+/*
+檔案名稱: CSIE_41343229_1031_1.java
+功能: 讀入長度與相對應的整數，對陣列內容進行升冪排序，並輸出排序結果
+作者: 你的姓名
+日期: 2025-11-12
+說明: 使用 Arrays.sort 進行排序，輸出時以單一空格分隔，末尾換行
+*/
+
+import java.util.*;
+
+public class CSIE_41343229_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int length = sc.nextInt();
+        int[] data = new int[length];
+        for (int i = 0; i < length; i++) {
+            data[i] = sc.nextInt();
+        }
+        sc.close();
+
+        Arrays.sort(data);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(data[i]);
+        }
+
+        if (sb.length() > 0) System.out.print(sb.toString());
+        System.out.println();
+    }
+}
+
+修改的原因說明
+- 增加標頭註解：符合作業要求，方便辨識檔案資訊與功能。
+- 變數命名改善：length 與 data 取代原本的 n 與 a，使變數意義更清楚，提升可讀性。
+- 輸出優化：使用 StringBuilder 組裝輸出字串，避免多次 System.out.print，提高效能，且更易於控制輸出格式（避免尾端多空格）。
+- 程式結構穩健：保留原本的邏輯，並在結尾輸出換行，符合常見輸出格式。
+
+改進建議或反饋（一句話）
+- 建議在程式開頭加入完整的註解與檔案資訊，並使用更具可讀性的變數名稱與一次性輸出策略，以提升可讀性與執行效率。

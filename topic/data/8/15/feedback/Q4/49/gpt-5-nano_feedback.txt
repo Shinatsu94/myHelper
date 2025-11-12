@@ -1,0 +1,55 @@
+4
+
+- 正確性：0
+- 邏輯：0
+- 格式：4
+- 備註：0
+
+修改後完整程式碼與說明：
+
+修改後完整程式碼
+/*
+ 檔案名稱: Main.java
+ 功能: 讀入整數個數 n，接著讀入 n 個整數，將它們由小到大排序後印出
+ 作者: 你
+ 日期: 2025-11-12
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0（實務可改為拋出例外）
+            }
+        }
+        sc.close();
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+修改原因說明：
+- 正確性與邏輯：以符合題意的做法，改為先讀入整數個數 n，再依序讀取 n 個整數，使用 Arrays.sort 對整數陣列進行升冪排序，最後輸出排序結果，確保與題目需求一致。
+- 格式與命名：使用更通用且符合 Java 規範的 class 名稱 Main，並在程式開頭加入標頭註解，方便維護與說明。
+- 註解與可讀性：在程式內加入必要註解，說明功能與輸入輸出流程，提升可維護性。
+
+改進建議或反饋（一句話）：
+建議以符合題意的輸入輸出流程為主，並在程式中加入完整的錯誤處理與註解，提升穩定性與可讀性。

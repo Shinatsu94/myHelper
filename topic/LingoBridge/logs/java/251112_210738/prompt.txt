@@ -1,0 +1,145 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 將程式碼進行優化，並展示修改後完整程式碼，以及說明修改該部分的原因
+3. 用一句話說明改進建議或反饋
+
+
+題目：
+【題目】
+建立一個任意長度的一維陣列，將陣列內容進行升幕排序 (由小至大)，
+讓使用者先輸入陣列的長度。
+接著，讓使用者依序輸入陣列中的每個整數。
+最後印出排序後的陣列內容。
+
+備註:
+- 請勿使用EOF，執行一次程式後結束程序，避免無法通過測資。
+- 輸入元素包含負數，請留意是否支援。
+
+【input】
+5
+8 3 12 5 1
+
+【output】
+1 3 5 8 12
+
+學生作答程式：
+import java.util.Scanner;
+
+public class CSIE_41343236_1031_4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double[][] matrix = new double[3][3];
+        
+        // 讀取 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                matrix[i][j] = scanner.nextDouble();
+            }
+        }
+        
+        // 計算反矩陣
+        double[][] inverse = getInverse(matrix);
+        
+        // 列印反矩陣
+        if (inverse != null) {
+            printMatrix(inverse);
+        } else {
+            System.out.println("矩陣不可逆");
+        }
+        
+        scanner.close();
+    }
+    
+    // 計算 3x3 矩陣的反矩陣
+    public static double[][] getInverse(double[][] matrix) {
+        // 計算行列式
+        double det = getDeterminant(matrix);
+        
+        // 如果行列式為 0，矩陣不可逆
+        if (Math.abs(det) < 1e-10) {
+            return null;
+        }
+        
+        // 計算伴隨矩陣
+        double[][] adjugate = getAdjugate(matrix);
+        
+        // 反矩陣 = 伴隨矩陣 / 行列式
+        double[][] inverse = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inverse[i][j] = adjugate[i][j] / det;
+            }
+        }
+        
+        return inverse;
+    }
+    
+    // 計算 3x3 矩陣的行列式
+    public static double getDeterminant(double[][] matrix) {
+        double det = matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
+                   - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
+                   + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+        return det;
+    }
+    
+    // 計算伴隨矩陣(餘因子矩陣的轉置)
+    public static double[][] getAdjugate(double[][] matrix) {
+        double[][] cofactor = new double[3][3];
+        
+        // 計算餘因子矩陣
+        cofactor[0][0] = matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1];
+        cofactor[0][1] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]);
+        cofactor[0][2] = matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0];
+        
+        cofactor[1][0] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]);
+        cofactor[1][1] = matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0];
+        cofactor[1][2] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]);
+        
+        cofactor[2][0] = matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1];
+        cofactor[2][1] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]);
+        cofactor[2][2] = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        
+        // 轉置餘因子矩陣得到伴隨矩陣
+        double[][] adjugate = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adjugate[i][j] = cofactor[j][i];
+            }
+        }
+        
+        return adjugate;
+    }
+    
+    // 列印矩陣
+    public static void printMatrix(double[][] matrix) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                // 如果元素接近 0，直接列印 "0"
+                if (Math.abs(matrix[i][j]) < 1e-10) {
+                    System.out.print("0");
+                } else {
+                    // 格式化到小數點後四位
+                    System.out.printf("%.4f", matrix[i][j]);
+                }
+                
+                // 最後一個元素後不加空白
+                if (j < 2) {
+                    System.out.print(" ");
+                }
+            }
+            // 換行
+            if (i < 2) {
+                System.out.println();
+            }
+        }
+    }
+}

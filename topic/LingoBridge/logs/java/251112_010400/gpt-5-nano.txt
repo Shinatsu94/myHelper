@@ -1,0 +1,44 @@
+15
+
+修改後完整程式碼：
+/*
+ * File: CSIE_41343220_1003_2.java
+ * 功能: 讀入兩個整數 A, B，先印出原值，接著在不使用其他變數的前提下交換兩數，然後印出交換後的值。
+ * 作者: 您的學生
+ * 日期: 2025-11-11
+ */
+import java.util.Scanner;
+
+public class CSIE_41343220_1003_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int A = scn.nextInt();
+        int B = scn.nextInt();
+
+        // 原值輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        // 在不使用其他變數的情況下交換 A 與 B
+        // 使用 A = A + B; B = A - B; A = A - B 的方法
+        A = A + B;
+        B = A - B;
+        A = A - B;
+
+        // 交換後輸出
+        System.out.println(A);
+        System.out.println(B);
+
+        scn.close();
+    }
+}
+
+修改說明：
+- 改正作業需求，改為只讀入兩個整數並先輸出原值，再進行交換並輸出交換後的值。
+- 移除原程式的多餘變數與三數處理邏輯，避免與題目需求混淆。
+- 採用不使用額外變數的交換方式（A = A + B; B = A - B; A = A - B）以符合題意限制，僅用 A、B 兩個變數完成交換；同時註解清楚說明原因與可行性。
+- 增加頭部註解，說明檔案名稱、功能、作者與日期，並保留適當的程式內註解以增進可讀性。
+- 建議加入關閉資源的 scn.close()，以釋放資源。
+
+改進建議或反饋（一句話）：
+在實務上若輸入數字可能很大時，需注意整數溢位風險，可考慮使用長整數 long 或其他不會溢位的交換方法（如位元異或法），並持續維護清晰的註解與穩健的輸入檢驗。

@@ -1,0 +1,63 @@
+5
+
+修改後完整程式碼（ optimized 版本）：
+public class PiLeibniz {
+    /*
+    File: PiLeibniz.java
+    功能: 使用莱布尼茲公式計算 pi，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，
+          並找出最小的 i 使 pi ≈ 3.14159。
+    作者: 教師
+    日期: 2025-11-12
+    說明: 使用累加法逐項計算，並以格式化輸出符合題目對齊與小數位數的要求。
+    */
+    public static void main(String[] args) {
+        final int MAX_I = 100000;
+        double sum = 0.0;
+
+        // 從 i = 1 累加到 i = 100000，並在每 10000 時輸出
+        for (int i = 1; i <= MAX_I; i++) {
+            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1);
+            sum += term;
+            if (i % 10000 == 0) {
+                double pi = 4.0 * sum;
+                System.out.println(String.format("i = %6d, pi = %.10f", i, pi));
+            }
+        }
+
+        // 找出最小的 i 使 pi ≈ 3.14159（誤差容忍 0.000005，以確保四捨五入到小數點第 5 位）
+        double target = 3.14159;
+        double sum2 = sum; // 繼續累加使用前一次的 sum 值
+        int iMin = MAX_I;
+        int i = MAX_I;
+        final int MAX_SEARCH = 2000000; // 安全上限，避免無窮迴圈
+        boolean found = false;
+        while (i < MAX_SEARCH) {
+            i++;
+            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1);
+            sum2 += term;
+            double pi = 4.0 * sum2;
+            if (Math.abs(pi - target) <= 0.000005) {
+                iMin = i;
+                found = true;
+                break;
+            }
+        }
+
+        // 輸出最小的 i
+        System.out.println("i = " + iMin);
+    }
+}
+
+修改說明與原因：
+- 正確性與邏輯轉換
+  - 原始學生作業與題目要求無關，僅單純處理數字位元與輸出格式，未實作 pi 計算邏輯。改用逐項累加的 Leibniz 公式計算 pi，並在 i 為 10000 的倍數時輸出、最後找出使 pi 約等於 3.14159 的最小 i。
+  - 以單一循環累加逐項，避免重新從頭計算，提高執行效率與可讀性，並以浮點數雙精度計算以符合題目精度需求。
+- 格式與可讀性
+  - 增加程式頭註解與檔案說明，包含檔案名稱、功能、作者、日期與實作要點，符合備註部分的要求。
+  - 使用變數命名與註解提升可讀性；採用格式化輸出（String.format）以滿足 i 的寬度對齊與 pi 的小數位數需求。
+  - 輸出格式：i 使用寬度6的對齊，pi 使用十位小數輸出，符合題目樣本格式。
+- 可靠性與穩定性
+  - 為避免單一迴圈造成過長計算時的效能問題，改用逐步累加的方式並在需要時再進行最小 i 的計算，並設置安全上限 MAX_SEARCH 以避免無窮迴圈。
+
+改進建議或反饋（一句話）：
+- 建議未來若有多階段輸出需求，考慮把核心演算法獨立成方法，並加入單元測試以驗證不同 i 對應的 pi 值與收斂速度，提升可維護性與可擴展性。

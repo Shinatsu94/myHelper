@@ -1,0 +1,56 @@
+4
+
+作業評分細項：
+- 正確性: 0
+- 邏輯: 0
+- 格式: 4
+- 備註: 0
+Total: 4/100
+
+修改後完整程式碼（已優化為符合題目需求的解法）：
+/*
+檔名: PiLeibniz.java
+功能: 使用勒貝格級數近似圓周率(pi)
+      - 輸出 i = 10000, 20000, ..., 100000 時的 pi 值，保留小數點後10位
+      - 找出使 pi 四捨五入至小數點前5位為 3.14159 的最小 i，並輸出該 i
+作者: 教師
+日期: 2025-11-11
+說明: 採用累加法逐項累計，避免重複計算，並使用格式化輸出確保位數與空格需求符合題意。
+*/
+
+public class PiLeibniz {
+    public static void main(String[] args) {
+        final int maxPrintTerms = 100000;  // 要輸出 pi 的最大項數
+        final int printStep = 10000;       // 輸出間隔：每 10000 項輸出一次
+        final int maxSearchTerms = 300000; // 搜尋使 pi 四捨五入到 3.14159 的上限
+        double sum = 0.0;
+        int iMinForRounded = -1;
+
+        // 累加勒貝格級數： pi = 4 * sum_{i=1..N} (-1)^{i-1} / (2i-1)
+        for (int i = 1; i <= maxSearchTerms; i++) {
+            sum += (i % 2 == 1 ? 1.0 : -1.0) / (2.0 * i - 1.0);
+
+            // 輸出部分結果，格式符合題目要求
+            if (i <= maxPrintTerms && i % printStep == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+
+            // 尋找最小的 i 使 pi 四捨五入到小數第五位為 3.14159
+            if (iMinForRounded == -1 && Math.round(4.0 * sum * 1e5) == 314159) {
+                iMinForRounded = i;
+            }
+        }
+
+        // 輸出最小 i（若找到）
+        System.out.printf("i = %6d%n", iMinForRounded);
+    }
+}
+
+說明修改原因：
+- 取代原始提交的與題目無關的輸入/輸出邏輯，改為直接計算勒貝格級數，避免任意輸入干擾。
+- 使用單次累加的方式逐步累積和，效率更高且可控，方便在需要時輸出部分結果。
+- 依題意使用格式化輸出，確保 i 的欄位寬度為6，pi 保留小數點後10位，且每行輸出彼此間以單一空白分隔。
+
+改進建議（一句話）：
+- 建議加入程式頭註解與單元測試，並把計算與輸出分離成方法，提升可讀性與可維護性。

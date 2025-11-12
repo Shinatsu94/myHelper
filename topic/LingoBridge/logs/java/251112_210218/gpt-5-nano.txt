@@ -1,0 +1,75 @@
+總分（第一行單独列出）：5
+
+評分細項
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：5/10
+- 備註：0/10
+總分：5/100
+
+評語與分析
+- 作業需求是「建立任意長度的一維陣列，將內容由小到大排序，輸入長度與元素，輸出排序結果」；學生提交的程式卻是 3x3 矩陣求逆，與題意完全不符，且缺少標準輸入輸出流程、錯誤處理與注釋。
+- 程式結構與命名雖然有一定可讀性，但與題意無關，並且缺乏註解與檔案頭註解。整體未滿足任務需求，故給予較低分。
+
+修改與優化說明
+- 問題對應解法與重寫策略
+  - 重新建立一維整數陣列，讀入長度 N，接著讀入 N 個整數，支援負數。
+  - 使用 Java 內建排序 Arrays.sort 進行由小到大排序，簡潔且高效。
+  - 使用 StringBuilder 組裝輸出，避免不必要的字串操作，並輸出成一行以符合題目範例。
+  - 加入適當的程式註解與檔案頭註解，並保留 scanner 的生命週期管理。
+- 修改重點
+  - 將矩陣相關的邏輯完全移除，改為處理一維整數陣列。
+  - 改用有意義的變數名稱（例如：n、arr），提升可讀性。
+  - 避免使用 EOF 驗證作為結束條件，改以固定數量閱讀資料，符合「程式執行一次就結束」的需求。
+
+修改後完整程式碼（符合題意的版本）
+// File: SortOneDimArray.java
+// 功能: 依題意讀入長度與對應的整數，將一維陣列由小到大排序後輸出
+// 作者: 你的姓名
+// 日期: 2025-11-12
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortOneDimArray {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 不足的輸入，提前結束
+                break;
+            }
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，空格分隔，單行輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改說明
+- 將程式改為解題需求的最小且清晰實作，利用 Java 內建的 Arrays.sort 進行排序，具有高效穩定性，且能正確處理含負數的情況。
+- 增加檔案頭註解與說明，以及適當的程式內註解，提高可讀性與可維護性。
+
+改進建議或反饋（一句話）
+建議在提交作業前，先確認題意與題目要求一致，並以簡潔的內建工具（如 Arrays.sort）實作核心功能，搭配清晰的註解與檔案標頭。

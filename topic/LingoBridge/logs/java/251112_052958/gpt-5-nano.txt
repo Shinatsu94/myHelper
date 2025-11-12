@@ -1,0 +1,73 @@
+9
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 4/10
+- 備註: 5/10
+
+評語與分析:
+- 這份作業的原始程式與題目要求毫無關聯，實作的是判斷「是否為 well-ordered number」，與題意的 π 近似運算毫不相干，因此在正確性與邏輯部分皆不得分。格式上程式有基本可讀性，但變數命名單一、不易理解，且程式頭註解不完全符合題目要求，故給予部分分數以肯定其註解存在的努力。整體仍需重寫以符合題目需求。
+
+修改說明與修改後內容要點:
+- 問題重點：需使用 Leibniz 圏和公式 pi = 4 sum_{k=0}^{i-1} (-1)^k /(2k+1)，輸出 i=10000,20000,...,100000 時的 pi 值，且 pi=3.14159 時最小 i 值，輸出格式需符合要求（i 以六位數對齊，pi 為小數點後十位；兩段輸出之間留一空行）。
+- 主要修改點：
+  1) 重新實作主功能：計算 Leibniz 公式的近似值，按照題目列印指定的 i 值與對應的 pi，並以指定格式輸出。
+  2) 增加找最小 i 使 pi 接近 3.14159 的邏輯，使用迴圈逐步累加直到差距小於閾值，輸出該 i 值。
+  3) 改善程式結構與命名：使用易懂的變數名稱，加入適當註解，讓程式更易讀。
+  4) 設計輸出格式以符合題目樣式：使用 System.out.printf，確保 i 以六位對齊，pi 小數位數為十位，並在兩段輸出之間留空行。
+
+修改後完整程式碼（可直接存成 LeinizPi.java）：
+/*
+姓名: 王世豪
+學號: 41343107
+檔案名稱: LeibnizPi.java
+功能: 計算 Leopold/Leibniz 公式近似的 pi 值，輸出特定 i 的 pi 值，並找出最小 i 使 pi 接近 3.14159
+作者: 王世豪
+日期: 2025/10/17
+*/
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // 1) 依題目輸出 i = 10000, 20000,..., 100000 對應的 pi 值
+        int[] steps = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
+        double sum = 0.0;        // 部分和，逐步累加
+        int termsComputed = 0;    // 已計算的項數 (k 的數量，對應 2k+1 的分母)
+        for (int target : steps) {
+            // 逐步累加直到達到當前的 target 項數
+            while (termsComputed < target) {
+                // 第 termsComputed 項的符號與分母
+                double term = (termsComputed % 2 == 0)
+                        ? 1.0 / (2 * termsComputed + 1)
+                        : -1.0 / (2 * termsComputed + 1);
+                sum += term;
+                termsComputed++;
+            }
+            double piEstimate = sum * 4.0;
+            System.out.printf("i = %6d, pi = %.10f%n", target, piEstimate);
+        }
+
+        // 2) 找出最小的 i，使 pi 接近 3.14159，到小數點後五位
+        final double TARGET_PI = 3.14159;
+        double acc = 0.0;
+        int iMin = -1;
+        // 以穩健上限避免無窮迴圈
+        for (int k = 0; k < 2000000; k++) {
+            double term = (k % 2 == 0) ? 1.0 / (2 * k + 1) : -1.0 / (2 * k + 1);
+            acc += term;
+            double piVal = acc * 4.0;
+            if (Math.abs(piVal - TARGET_PI) < 0.00001) {
+                iMin = k + 1; // k 從 0 開始，對應的 i 為 k+1
+                break;
+            }
+        }
+
+        System.out.println();
+        System.out.printf("i = %6d%n", iMin);
+    }
+}
+
+修改原因說明（摘要）:
+- 原程式與題目無關，必須重構為符合題意的 pi 近似與輸出格式。採用增量計算以避免重複計算，並以精確輸出格式滿足題目需求，同時附加找最小 i 的邏輯以產出最後一行結果。
+
+一句話改進建議:
+- 上傳作業前先逐條對照題目要求與輸出格式，並附上可自動化的測試案例以確保實作符合所有規範。
+
+如需我再提供其他版本（例如支援自訂輸入、或用 BigDecimal 提高精度等），告訴我即可。

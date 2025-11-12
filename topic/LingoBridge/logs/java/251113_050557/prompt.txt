@@ -1,0 +1,42 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 將程式碼進行優化，並展示修改後完整程式碼，以及說明修改該部分的原因
+3. 用一句話說明改進建議或反饋
+
+
+題目：
+印出「你的中文姓名」與「虎科大」，並將對應的內碼印出。一行印一個中文字與其對應的內碼，先印虎科大再印學生中文姓名，如以下所示，其中 xxx 代表對應的代碼數值
+
+【OUTPUT】
+虎 xxx
+科 xxx
+大 xxx
+林 xxx
+武 xxx
+杰 xxx
+
+學生作答程式：
+import java.util.Scanner;
+public class CSIE_41343222_0926_3{
+	public static void main(String[] args){
+		Scanner scanner=new Scanner(System.in);
+		System.out.print("請輸入你的成績:");
+		int score=scanner.nextInt();
+		if(score>=60){
+		System.out.println("及格");
+		}else if(score>=50&&score<60){
+		System.out.println("補考");}
+		else if(score<50){
+		System.out.println("不及格");}
+		scanner.close();
+	}
+}

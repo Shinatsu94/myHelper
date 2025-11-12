@@ -1,0 +1,82 @@
+總分：11
+
+評分明細：
+- 正確性（50%）：0/50
+  - 程式執行結果並非按升序排序，且最後輸出包含 -1 的錯誤值，且排序邏輯本身有嚴重錯誤。
+- 邏輯（30%）：5/30
+  - 具有嘗試實作選擇排序的結構，但比較方向錯誤且未正確交換元素，導致整體排序結果完全錯誤。
+- 格式（10%）：4/10
+  - 變數命名不具意義、縮排與排版不一致，缺乏可讀性與結構化註解。
+- 備註（10%）：2/10
+  - 程式標頭只有姓名與學號，缺少檔案名稱、功能說明、日期以及內容註解；未提供適當內文註解。
+
+修改後完整程式碼（已優化並正確排序）：
+
+```java
+/*
+File: CSIE_41343247_1031_2.java
+Description: 由使用者輸入長度與元素，輸出升冪排序結果
+Author: 盧冠宇
+Date: 2025-11-12
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+
+        // 讀取陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若不足元素，預設為0
+            }
+        }
+
+        // 選擇排序（正確實作：找最小值放在前面，並做交換）
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[minIdx]
+            int tmp = arr[i];
+            arr[i] = arr[minIdx];
+            arr[minIdx] = tmp;
+        }
+
+        // 輸出排序結果
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}
+```
+
+修改說明（關於修改部分與原因）：
+- 將排序邏輯改為正確的選擇排序，並修正比較條件與交換步驟，確保每輪都把最小值放到前方，避免覆蓋或遺失元素。
+- 改用有意義的變數命名（例如 n、arr、minIdx、tmp），提升可讀性與維護性。
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，實作過程內部適當註解，使程式更易於理解。
+- 將輸出改為單行空格分隔，避免額外符號，符合題目輸出格式。
+- 增加對輸入的健壯性檢查與資源釋放（scanner.close）。
+
+改進建議或反饋（一句話）：
+建議在提交前先用幾組簡單案例測試排序結果與邊界情況，確保輸出格式與預期一致再提交。

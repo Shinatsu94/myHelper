@@ -1,0 +1,59 @@
+5
+
+作業評分
+- 正確性：0/50
+- 邏輯：0/30
+- 格式：5/10
+  - 優點：能成功編譯執行並使用 Java 基本語法。
+  - 缺點：未遵循常見的程式命名慣例，程式風格與題目需求嚴重不符，輸出與任務不相關。
+- 備註：0/10
+
+修改後的完整程式碼（可直接執行，符合題目需求：讀入長度 n、n 個整數，升序排序，輸出排序結果，以空格分隔）：
+```java
+/*
+ * 檔案名稱: Main.java
+ * 功能說明: 讀入長度 n 與 n 個整數，將它們升序排序後輸出，用空格區隔。
+ * 作者: 教師
+ * 日期: 2025-11-12
+ * 備註: 不使用 EOF，符合題目要求。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+修改原因與說明：
+- 取代原程式的花樣寫法與非必要結構（用二維 char 陣列輸出星號）以符合題意與基本正確性要求。
+- 使用 Arrays.sort 來實作升序排序，簡潔且效率良好，便於負數與任意長度的輸入。
+- 使用 Scanner 直接讀取緊湊的輸入格式（第一行為長度 n，接著 n 個整數），輸出以單行空格分隔的排序結果，符合題目輸出規範。
+- 加入清晰註解與標頭，提升可讀性與維護性，並使用更具可讀性的變數與類別命名（Main）。
+
+改進建議（一句話）：
+- 從一開始就使用符合題意的資料結構與演算法，並加入基本的輸入檢查與清楚的註解，以避免與題目需求嚴重脫節的實作。

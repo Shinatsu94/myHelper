@@ -1,0 +1,64 @@
+7
+作業評分
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 7/10
+- 備註: 0/10
+
+修改後完整程式碼：
+/*
+ * File: ArrayProcessor.java
+ * 功能：讀取長度 n 的整數陣列，將其內容升序排序，並輸出。
+ * 作者：資訊工程系教授
+ * 日期：2025-11-12
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArrayProcessor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int length = scanner.nextInt();
+
+        int[] array = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 未提供足夠的數字，直接結束程式
+                scanner.close();
+                return;
+            }
+        }
+
+        // 將陣列內容升序排序
+        Arrays.sort(array);
+
+        // 輸出結果，元素以單個空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+
+修改說明：
+- 正確性與邏輯部分：原程式使用逆向追蹤與 max_right 的方法，無法正確排序，且對長度為1時輸出為 -1，與題意不符。新版本直接使用 Arrays.sort 進行升序排序，能正確處理包含負數的情況。
+- 輸入處理與穩健性：保留原先需要完整輸入長度數量的設計，若輸入不足即結束程式，避免產生錯誤輸出。
+- 輸出格式與可讀性：使用 StringBuilder 組裝輸出，元素之間以單一空格分隔，輸出結束後換行，與題目期望一致。
+- 程式標頭與註解：新增檔案說明與作者、日期註解，提升可維護性與可讀性。
+
+改進建議（一句話）：
+建議改用標準排序 Arrays.sort，並移除原先不正確的長度為1時輸出 -1 的特殊處理，以確保正確性與符合題意。

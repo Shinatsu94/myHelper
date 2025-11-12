@@ -1,0 +1,24 @@
+90
+
+修改後完整程式碼（優化後的版本，符合更常見的 Java 命名慣例與註解要求）：
+/**
+ * File: HelloWorld.java
+ * Description: Print "Hello World!" to standard output.
+ * Author: 學生
+ * Date: 2025-11-12
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        // 輸出指定字串，符合題目要求
+        System.out.println("Hello World!");
+    }
+}
+
+修改說明與原因：
+- 將類別名稱改為 HelloWorld，並建議對應檔名為 HelloWorld.java，這符合 Java 的一般命名慣例與檔案對應規則，能降低編譯時因檔名與公用類別名不符而產生的錯誤風險。
+- 加入檔案層級的註解區塊（檔名、描述、作者、日期），滿足作業要求中的程式標頭註解與備註，提升可讀性與維護性。
+- 保留原本的輸出邏輯，僅調整為更清晰易懂的註解與結構，未改變程式輸出結果，確保正確性與邏輯性不變。
+- 採用較普遍的縮排與註解風格（4-space 縮排與簡單說明），以增進格式美觀與可讀性。
+
+一句話改進建議或反饋：
+建議採用符合慣例的類別與檔名命名，以及完整的程式註解，提升可讀性與後續維護性。
