@@ -1,0 +1,31 @@
+使用java程式碼撰寫一功能，檢查兩個字串是否是字母異位詞。
+輸出結果為“Yes”或“No”。(字母重排不區分大小寫，空格將被忽略)
+以下為字母異位詞範例
+"earth" vs "heart"
+"eleven plus two" vs "twelve plus one"
+"schoolmaster" vs "the classroom"
+"The eyes" vs "They see"
+"The Morse Code" vs "Here comes dot"
+"A gentleman" vs "Elegant man"
+
+範例結果如下:
+【input】
+earth
+heart
+
+【output】
+Yes
+
+【input】
+eleven plus two
+twelve plus one
+
+【output】
+Yes
+
+【input】
+adce
+adcu
+
+【output】
+No
