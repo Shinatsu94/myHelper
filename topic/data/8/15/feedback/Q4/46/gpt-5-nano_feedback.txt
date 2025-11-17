@@ -1,78 +1,75 @@
-44
+93
+- 正確性: 50
+- 邏輯: 28
+- 格式: 8
+- 備註: 7
+改進建議: 建議改用實作完整的下三角形二維陣列並採用清晰的輸入檢核與註解，以符合題意並提升穩健性。
 
-改進建議（一句話）
-應建立真正的下三角陣列並以正確的前綴和/逐列定位法找出 num 的位置，避免以「起始數字是否大於等於 num」作為唯一條件而導致座標計算錯誤。
-
-作業評分與分析
-- 正確性 (15/50)
-  - 原程式未建立完整的下三角矩陣，且用錯誤的判斷邏輯找尋數字的位置，導致如 num=55 時輸出不正確的座標，與題目要求不符。
-- 邏輯 (12/30)
-  - 嘗試使用列起始值的判斷來定位，但邏輯易混淆且易產生錯位（超出最後列時也會誤判），缺乏健全的界限檢查與一致的行列推算。
-- 格式 (8/10)
-  - 程式碼可讀性尚可，變數命名一般，註解雖有但不夠完整，且標頭註解未完整符合「檔案名稱、功能、作者、日期、註解說明」之要求。
-- 備註 (9/10)
-  - 程式頭有基本資訊，但內容與專案慣例不夠嚴謹，且包含不專業語句，需改進註解與與外部說明。
-
-總分：44/100
-
-修改與優化說明（要點）
-- 建立真正的下三角矩陣：改用 jagged 陣列 (int[][]) 其中第 i 行有 i+1 個元素，並依序填入 1,2,...。
-- 檢查數字範圍：若 num 超出陣列範圍，直接輸出 not find。
-- 正確計算座標：以前綴和的方式判斷 num 所在的列，並計算該列中的欄位；或直接遍歷整個下三角陣列尋找 num。以下採用基於前綴和的定位，避免逐個元素比對的成本並保證正確性。
-- 程式風格與註解：加入完整的檔案開頭註解、清楚的變數命名與適當註解，提升可維護性。
+修改說明與重點
+- 重新實作成實際的下三角形二維陣列（jagged array），並逐一填入 1, 2, 3, ...，以確保與題意完全一致。
+- 先檢查輸入範圍（n > 0、num 在 1..n(n+1)/2 之間），未在範圍內時輸出 not find。
+- 將座標輸出改為 1-based 並保持輸出格式與題目一致。
+- 增加清晰註解與統一的檔案命名方式，以提升可讀性與可維護性。
 
 修改後完整程式碼
 /*
- * 程式名稱: LowerTriangularSearch.java
- * 功能說明: 依輸入的高度 n，建立一個下三角形二維陣列，並找出指定數字 num 在陣列中的位置（列、欄，皆從1開始）。
- * 使用方式: 先輸入 n，再輸入要查找的數字 num。
- * 輸出格式: 找到時輸出 num[row, col]，未找到輸出 not find num in array.
- * 日期: 2025-11-14
- * 作者: 你填寫
+ * 檔案名稱: TriangularArrayFind.java
+ * 功能: 建立一個下三角形的二維陣列，填入 1,2,...，找出指定數字的位置並輸出
+ * 作者: 輸入者
+ * 日期: 2025-11-17
  */
 import java.util.Scanner;
 
-public class LowerTriangularSearch {
+public class TriangularArrayFind {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
         if (!in.hasNextInt()) return;
-        int n = in.nextInt();
+        int n = in.nextInt(); // 三角形高度
 
         if (!in.hasNextInt()) return;
-        int num = in.nextInt();
+        int num = in.nextInt(); // 要尋找的數字
 
-        // 建立下三角形矩陣：第 i 行有 i+1 個元素
-        int[][] tri = new int[n][];
-        int value = 1;
-        for (int i = 0; i < n; i++) {
-            tri[i] = new int[i + 1];
-            for (int j = 0; j <= i; j++) {
-                tri[i][j] = value++;
-            }
+        // 基本輸入與範圍驗證
+        if (n <= 0) {
+            System.out.println("not find " + num + " in array.");
+            return;
         }
-
         int total = n * (n + 1) / 2;
-        if (num < 1 || num > total) {
+        if (num <= 0 || num > total) {
             System.out.println("not find " + num + " in array.");
             return;
         }
 
-        // 直接透過前綴和推算 num 所在的列與欄
-        int cumulative = 0;
-        int rowIndex = -1; // 0-based
-        for (int i = 0; i < n; i++) {
-            cumulative += (i + 1);
-            if (num <= cumulative) {
-                rowIndex = i;
-                int prevTotal = cumulative - (i + 1);
-                int colIndex = num - prevTotal - 1; // 0-based
-                System.out.println(num + "[" + (rowIndex + 1) + ", " + (colIndex + 1) + "]");
-                return;
+        // 建立並填入下三角形二維陣列
+        int[][] tri = new int[n][];
+        int value = 1;
+        for (int r = 0; r < n; r++) {
+            tri[r] = new int[r + 1];
+            for (int c = 0; c <= r; c++) {
+                tri[r][c] = value++;
             }
         }
 
-        // 安全兜底
-        System.out.println("not find " + num + " in array.");
+        // 查找 num 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c <= r; c++) {
+                if (tri[r][c] == num) {
+                    foundRow = r;
+                    foundCol = c;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            // 1-based 輸出
+            System.out.println(num + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
     }
 }
