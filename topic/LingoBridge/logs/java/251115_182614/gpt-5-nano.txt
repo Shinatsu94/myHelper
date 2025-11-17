@@ -1,0 +1,77 @@
+54
+
+建議改進的方向：目前作法僅適用於三位數，且缺乏程式標頭與說明註解；建議改用字串逐位比較以支援任意長度的數字，並補上程式標頭與有意義的變數命名與註解。
+
+改進說明與重點修改
+- 正確性與邏輯
+  - 改用字串逐位比較，能正確處理任意長度的數字，且對每一對相鄰位元進行嚴格遞增判斷，若僅有一位元或零位元，則視為符合條件（符合常見的「每兩個相鄰數字皆遞增」的解釋）。
+- 格式
+  - 使用有意義的變數名稱與適當的縮排；增加必要的註解與標頭，使程式易讀。
+- 備註
+  - 新增完整的檔案標頭註解，說明檔名、功能、作者、日期等。
+
+修改後的完整程式碼
+// File: WellOrderedNumber.java
+// 功能: 判斷輸入的數字各位數是否從左到右嚴格遞增。
+// 作者: 你的名字
+// 日期: 2025-11-15
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = "";
+        if (sc.hasNext()) {
+            input = sc.next();
+        }
+        sc.close();
+
+        boolean isWellOrdered = true;
+
+        // 檢查是否皆為數字
+        if (input.isEmpty()) {
+            isWellOrdered = false;
+        } else {
+            for (int i = 0; i < input.length(); i++) {
+                if (!Character.isDigit(input.charAt(i))) {
+                    isWellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        // 任意長度的數字：逐位比較相鄰數字是否嚴格遞增
+        if (isWellOrdered) {
+            if (input.length() >= 2) {
+                for (int i = 0; i < input.length() - 1; i++) {
+                    char current = input.charAt(i);
+                    char next = input.charAt(i + 1);
+                    if (current >= next) {
+                        isWellOrdered = false;
+                        break;
+                    }
+                }
+            } else {
+                // 一位數視為符合條件
+                isWellOrdered = true;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+    }
+}
+
+評分細項說明
+- 正確性(50%): 25/50
+  - 原作只適用於三位數，且在單位數情況下會錯誤；新版本回傳對任意長度數字皆正確的結果，且對非數字輸入會拒絕。
+- 邏輯(30%): 25/30
+  - 以字串逐位比較的邏輯簡潔且正確，符合「相鄰位數字嚴格遞增」的定義；但原作雖以三位數為假設，若題目僅測三位數則邏輯仍可通過。
+- 格式(10%): 4/10
+  - 新版本改用有意義的變數命名與適當縮排，並加入註解與標頭；原作缺乏註解與清晰命名。
+- 備註(10%): 0/10
+  - 原作未包含程式標頭註解；新版本已補上標頭註解。

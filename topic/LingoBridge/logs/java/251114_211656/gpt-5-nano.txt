@@ -1,0 +1,95 @@
+91
+
+改進建議：建議加入完整的檔案註解與更清晰的變數命名，並以更穩健的輸入輸出與簡單的交換方式取代位元運算的 XOR 交換，提升可讀性與維護性。
+
+程式優化說明與修改重點
+- 使用快速輸入（FastScanner）替代 Scanner，提升在較大資料量時的效能，避免因讀取速度影響通過測資。
+- 用更易懂的變數命名與清單式註解，提高可讀性與維護性。
+- 使用標準暫存變數 tmp 進行交換，避免 XOR 交換造成的潛在誤解與細微風險。
+- 新增完整的檔案註解與單行註解，符合「備註」需求，並於輸出結尾加上換行以符合常見測資格式。
+- 使用 StringBuilder 組裝輸出，提升效能，避免頻繁 I/O。
+
+修改後完整程式碼：
+/*
+Name: 盧冠宇
+Student_ID: 41343247
+File: CSIE_41343247_1031_1.java
+Description: 讀取長度 n 與 n 個整數，將陣列由小到大排序，並輸出排序結果。
+Author: 盧冠宇
+Date: 2025-11-14
+*/
+import java.io.InputStream;
+import java.io.IOException;
+
+public class CSIE_41343247_1031_1 {
+    public static void main(String[] args) throws IOException {
+        FastScanner fs = new FastScanner(System.in);
+        int n = fs.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = fs.nextInt();
+        }
+
+        // Selection sort: 由小到大排序
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIdx]) minIdx = j;
+            }
+            if (minIdx != i) {
+                int tmp = a[i];
+                a[i] = a[minIdx];
+                a[minIdx] = tmp;
+            }
+        }
+
+        // 輸出：以空白分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+
+    // 簡易快速輸入
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c;
+            // 跳過空白字元
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+
+            int sign = 1;
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+
+            int val = 0;
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}

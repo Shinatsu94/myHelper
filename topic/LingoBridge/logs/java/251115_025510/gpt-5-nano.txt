@@ -1,0 +1,41 @@
+86
+
+此作業的核心功能正確，建構與輸出下三角形的星號序列也符合題意；建議加上檔案標頭註解以滿足備註需求，並透過字串累積減少 I/O 次數以提升效能。
+
+改進建議與說明
+- 增加檔案標頭註解：說明檔案名稱、功能、作者、日期，符合備註評分標準，避免因缺註解而被扣分。
+- 輕微優化輸出方式：使用 StringBuilder 一次性組裝整個輸出字串再一次性輸出，可以降低多次 System.out.print 的開銷，特別在較大輸出時更為顯著。
+- 保留原有輸入驗證邏輯：目前使用 do-while 進行輸入驗證，符合題意與避免非法高度。
+
+修改後的完整程式碼
+/**
+ * File: LowerTriangle.java
+ * Description: 讀入高度 n (0 < n <= 20)，輸出下三角形星號矩陣，無空格分隔。
+ * Author: 未知
+ * Date: 2025-11-14
+ */
+import java.util.Scanner;
+
+public class LowerTriangle {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        // 讀取高度，限制在 1..20
+        do {
+            n = sc.nextInt();
+        } while (n <= 0 || n > 20);
+
+        // 使用 StringBuilder 一次性輸出，減少 I/O 次數
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                sb.append('*');
+            }
+            sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

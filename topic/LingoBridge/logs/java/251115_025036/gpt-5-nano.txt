@@ -1,0 +1,37 @@
+87
+
+建議改進點：建議加入程式標頭註解，並優化為直接輸出星號以簡化邏輯與提升效能。
+
+優化說明與修改原因
+- 移除不必要的二維陣列 arr，改用直接在輸出階段組裝字串，降低記憶體使用與程式複雜度。
+- 使用 StringBuilder 逐步拼接輸出內容，避免頻繁的輸出呼叫，提升效能，且仍符合「元素之間無空白符號」的要求。
+- 加入程式標頭註解，提升可讀性與評分標準的合規性。
+
+修改後完整程式碼
+/*
+ * 檔案名稱: CSIE_41343227_1031_3a.java
+ * 功能: 從使用者輸入的高度 n 輸出下三角形星號圖形（不使用空格）
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.util.*;
+
+public class CSIE_41343227_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // 輸入高度
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append('*');
+            }
+            sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

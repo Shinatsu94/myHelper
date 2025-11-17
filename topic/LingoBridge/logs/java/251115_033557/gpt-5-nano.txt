@@ -1,0 +1,56 @@
+85
+
+改進建議（一句話）：
+建議加入檔案標頭註解與適當註解，並改用數學推導直接計算 num 的位置以提升效率，同時保留建立完整下三角陣列的需求。
+
+修改說明與優化重點：
+- 新增檔案標頭註解，符合作業格式與說明需求。
+- 使用 try-with-resources 來自動關閉 Scanner，提高資源管理穩健性。
+- 優化尋找 num 的位置：改用三角數公式直接計算位置，避免遍歷整個陣列，效率提升且邏輯更清晰，同時仍建立完整的下三角陣列以符合題意。
+- 保留原本的下三角 raidg陣列建立，確保功能不變。
+- 變數命名與註解增加可讀性。
+
+完整修改後程式碼如下：
+/*
+ * 檔案名稱: LowerTriangle.java
+ * 功能: 建立下三角形二維陣列，並找出指定數字的位置
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 說明: 依題目建立高度為 n 的下三角形陣列，數字從1開始依序填入；輸入 num 從陣列找出其位置，若超出範圍則輸出提示。
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangle {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+
+            // 建立下三角形二維陣列 ( ragged array )
+            int[][] triangle = new int[n][];
+            int value = 1; // 從 1 開始填數字
+            for (int i = 0; i < n; i++) {
+                triangle[i] = new int[i + 1]; // 第 i 行有 i+1 個元素
+                for (int j = 0; j <= i; j++) {
+                    triangle[i][j] = value++;
+                }
+            }
+
+            int num = sc.nextInt();
+            int total = n * (n + 1) / 2;
+
+            // 直接利用數學推導計算 num 的位置，若超出範圍則輸出提示
+            if (num <= 0 || num > total) {
+                System.out.println("not find " + num + " in array.");
+            } else {
+                // 找到最小的 r 使得 r*(r+1)/2 >= num
+                int r = 1;
+                while (num > r * (r + 1) / 2) {
+                    r++;
+                }
+                int c = num - (r - 1) * r / 2;
+                System.out.println(num + "[" + r + ", " + c + "]");
+            }
+        }
+    }
+}

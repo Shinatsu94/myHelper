@@ -1,0 +1,37 @@
+88
+
+建議改進：建議在交換數字時改用更穩健的做法（如 XOR 交換）以避免整數溢位風險，並補上程式標頭註解與提升程式風格。
+
+改進說明與修改重點
+- 將交換演算法改成 XOR 交換，避免 A+B 可能造成的整數溢位問題，且仍符合不使用額外變數的限制。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 使用 try-with-resources 自動關閉 Scanner，改善資源管理。
+- 調整程式格式與註解，使可讀性更佳，變數命名保持 A、B 以符合題意。
+
+以下為修改後的完整程式碼：
+
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41245139_1003_1.java
+ * 功能: 讀入兩個整數，交換並印出（以換行印出兩個數字）
+ * 作者: [你的姓名]
+ * 日期: 2025-11-15
+ */
+public class CSIE_41245139_1003_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+
+            // 不使用額外變數，利用 XOR 交換 A 與 B
+            A = A ^ B;
+            B = A ^ B;
+            A = A ^ B;
+
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}

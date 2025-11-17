@@ -1,0 +1,38 @@
+93
+正確性與邏輯表現良好，建議加入內部註解並改用較穩定的交換法以提升可讀性與適用性。
+
+修改說明與修改後程式碼如下：
+- 修改說明
+  - 將檔案註解移到檔案開頭，加入檔案名稱、功能、作者、日期等資訊，提升可讀性與維護性。
+  - 交換數值改用位元運算的 XOR 交換法，避免 a+b 可能造成的整數溢位，且仍然只使用 a、b 兩個變數，滿足題目限制。
+  - 使用 try-with-resources 包圍 Scanner，確保使用完畢自動關閉，養成好習慣。
+  - 在程式內增加適當註解，說明交換流程與輸出結果的意義。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343119_1003_1.java
+作者: 金宗翰
+學號: 41343119
+日期: 2025/10/03
+功能: 讀入兩個整數，交換其值，並輸出交換後的結果（僅使用 a、b 兩個變數完成交換）
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343119_1003_1 {
+  public static void main(String[] args) {
+    try (Scanner scn = new Scanner(System.in)) {
+      int a, b;
+      a = scn.nextInt();
+      b = scn.nextInt();
+
+      // 使用 XOR 交換法，避免可能的整數溢位
+      a = a ^ b;
+      b = a ^ b;
+      a = a ^ b;
+
+      System.out.println(a);
+      System.out.println(b);
+    }
+  }
+}

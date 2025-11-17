@@ -1,0 +1,42 @@
+86
+
+改進建議：在保留使用三元運算子的同時，加入程式標頭註解與更整齊的排版，並讓輸出每行均以新行結束以符合輸出格式。
+
+修改與優化說明：
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，符合備註要求。
+- 調整縮排與換行，使程式碼閱讀性提升，變數命名維持 a、b、c（簡潔且符合題意）。
+- 將輸出最後一行改為使用 println，確保每個輸出都佔一行，符合題目輸出格式。
+- 使用 try-with-resources 管理 Scanner，確保資源在結束時釋放。
+- 仍保留使用三元運算子計算最大值與最小值，以及透過 a+b+c-max-min 計算中間值，保持原有解法的核心思想。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343112_1003_2.java
+ * 功能說明: 輸入三個整數，使用兩種方法（以三元運算子分別計算最大值與最小值，並以總和減去最大與最小得到中間值）輸出最小值、中間值、最大值。
+ * 作者: 你的名字
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343112_1003_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+
+            // 最大值與最小值使用三元運算子
+            int max = (a > b ? (a > c ? a : c) : (b > c ? b : c));
+            int min = (a < b ? (a < c ? a : c) : (b < c ? b : c));
+
+            // 中間值透過總和減去最大與最小得到
+            int mid = a + b + c - max - min;
+
+            // 輸出：先最小值、再中間值、最後最大值，每行一個
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
+    }
+}

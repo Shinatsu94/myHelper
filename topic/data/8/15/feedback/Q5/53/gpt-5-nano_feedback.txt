@@ -1,74 +1,104 @@
-6
+70
 
-評分與說明
-- 正確性 (50%): 0
-  - 學生的程式與題目需求不符，題目要求排序一維任意長度的整數陣列，學生實作的是 3x3 矩陣的行列式與反矩陣計算，與題目無關。
-- 邏輯 (30%): 0
-  - 程式邏輯針對不同的問題，雖然在其自我任務下是合理的，但與本題需求無關，因此不給予正向評分。
-- 格式 (10%): 6
-  - 程式結構與縮排尚可，變數命名基本具備意義，但與題目不符，且缺乏明確的檔案標頭註解與說明性註解。
-- 備註 (10%): 0
-  - 程式缺少檔案標頭註解（檔名、功能、作者、日期等），未符合題目要求的註解規範。
+建議：建議在輸出時依題目要求使用四位小數輸出，且遇到值為零時直接輸出 0，同時補充程式註解與統一的程式風格。
 
-修改內容與原因
-- 需求對應改寫：改寫成讀取整數長度 n，接著讀入 n 個整數，對其升序排序，輸出排序後陣列。
-- 使用 Arrays.sort 進行排序，確保穩定且正確地由小到大排列，並使用整數陣列避免浮點誤差。
-- 輸出設計為單行輸出，介面輸出整數陣列，避免尾端多餘空格，使用 StringBuilder 以提升輸出效率與整潔度。
-- 增加檔案標頭與內部註解，提升可維護性與清晰度。
+修改說明與修改重點
+- 輸出格式修正：改為四位小數輸出，且對於近似於零的值輸出 0，符合題目「若元素為零，直接列印 '0'」的需求。
+- 關於零值判定：加入容忍度判斷 Math.abs(val) < 5e-7 即視為零，避免負零或極小浮點數帶來的顯示問題。
+- 程式結構與註解：加入程式頭註解，並在程式內部加入必要的說明，提升可讀性與維護性。
+- 類別名稱與風格：改用通用的 Main 類別名稱，並整理變數命名與縮排，增進可讀性。
 
 修改後完整程式碼
-- 檔案名稱假設為 SortArray.java，內容如下：
-
+```java
 /*
- * 檔案名稱: SortArray.java
- * 功能說明: 讀取整數長度 n 與 n 個整數，將其升序排序後輸出
- * 作者: 你的姓名
- * 日期: 2025-11-12
+ * 文件名稱: Main.java
+ * 功能說明: 讀入 3x3 矩陣，輸出其反矩陣，元素以四位小數顯示；若元素為零，輸出 0
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 備註: 若矩陣不可逆，輸出提示訊息並結束
  */
 
 import java.util.*;
 
-public class SortArray {
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
 
-        // 取得長度 n
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-
-        // 讀取 n 個整數
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 依需求若輸入不足，預設為 0
-                arr[i] = 0;
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!sc.hasNextDouble()) {
+                    sc.close();
+                    return;
+                }
+                A[i][j] = sc.nextDouble();
             }
         }
         sc.close();
 
-        // 排序
-        Arrays.sort(arr);
+        // 計算行列式(det)
+        double det =
+                A[0][0]*(A[1][1]*A[2][2] - A[1][2]*A[2][1]) -
+                A[0][1]*(A[1][0]*A[2][2] - A[1][2]*A[2][0]) +
+                A[0][2]*(A[1][0]*A[2][1] - A[1][1]*A[2][0]);
 
-        // 輸出，避免尾端多空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("此矩陣沒有反矩陣。");
+            return;
         }
-        System.out.println(sb.toString());
+
+        // 計算伴隨矩陣 (Adjugate Matrix)
+        double[][] adj = new double[3][3];
+
+        adj[0][0] =  (A[1][1]*A[2][2] - A[1][2]*A[2][1]);
+        adj[0][1] = -(A[1][0]*A[2][2] - A[1][2]*A[2][0]);
+        adj[0][2] =  (A[1][0]*A[2][1] - A[1][1]*A[2][0]);
+
+        adj[1][0] = -(A[0][1]*A[2][2] - A[0][2]*A[2][1]);
+        adj[1][1] =  (A[0][0]*A[2][2] - A[0][2]*A[2][0]);
+        adj[1][2] = -(A[0][0]*A[2][1] - A[0][1]*A[2][0]);
+
+        adj[2][0] =  (A[0][1]*A[1][2] - A[0][2]*A[1][1]);
+        adj[2][1] = -(A[0][0]*A[1][2] - A[0][2]*A[1][0]);
+        adj[2][2] =  (A[0][0]*A[1][1] - A[0][1]*A[1][0]);
+
+        // 轉置（因為 adj = Cofactor^T）
+        double[][] adjT = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adjT[i][j] = adj[j][i];
+            }
+        }
+
+        // 反矩陣 = 1/det * adjT
+        double[][] inv = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inv[i][j] = adjT[i][j] / det;
+            }
+        }
+
+        // 印出反矩陣：四位小數，若值近似為零則輸出 0
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String toPrint;
+                double val = inv[i][j];
+                if (Math.abs(val) < 5e-7) {
+                    toPrint = "0";
+                } else {
+                    toPrint = String.format(java.util.Locale.US, "%.4f", val);
+                }
+                if (j > 0) System.out.print(" ");
+                System.out.print(toPrint);
+            }
+            System.out.println();
+        }
     }
 }
+```
 
-修改部分原因說明
-- 目的對應：符合題目「建立任意長度的一維陣列，將內容進行升幕排序」的需求。
-- 效能與穩定性：使用 Arrays.sort 提供高效的 O(n log n) 排序，且整數排序避免浮點誤差。
-- 輸入輸出穩定性：先讀長度再依序讀入元素，輸出以單行顯示，方便測資比對；使用 StringBuilder 改善輸出效率與格式。
-- 可維護性：加入檔案標頭註解與關鍵步驟註解，提升可閱讀性與維護性。
-
-改進建議/回饋（一句話）
-建議加入更強的輸入驗證與例外處理，並採用更高效的輸入方式（如 BufferedInputStream 與自定解析器）以提升對大型測資的穩定性。
+說明
+- 修改了輸出格式，符合題目要求的四位小數輸出與零值顯示規則。
+- 引入容忍度判斷以避免浮點數微小值造成的顯示問題。
+- 增加程式標頭註解與適當註解，提升可讀性與維護性。

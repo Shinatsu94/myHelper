@@ -1,0 +1,50 @@
+11
+
+改進建議: 建議直接使用內建的排序方法（如 Arrays.sort）或正統的排序演算法實作，確保正確性與效率，並修正輸出格式與支援負數的問題，避免不正確的排序邏輯及不當的特殊值設定。
+
+理由與修改要點：
+- 正確性：使用 Arrays.sort(arr) 直接得到升序，避免原本的錯誤排序邏輯。
+- 邏輯：移除原本將最後一個元素設為 -1 等奇怪作法，改用標準排序流程。
+- 格式：輸出時以單一空格分隔，避免尾端多空格或特殊字元。
+- 備註：加入程式標頭註解，提升可維護性與可讀性。
+
+修改說明與原因：
+- 使用 Arrays.sort(array) 來排序整數陣列，能確保正確性與穩定性，且時間複雜度為 O(n log n)。
+- 移除 arr[n-1] = -1 的設定，這樣可以避免污染輸出內容與破壞排序結果。
+- 使用 StringBuilder 來組合輸出字串，避免在迴圈中頻繁使用字串拼接，並確保輸出格式為「數字1 空格 數字2 ... 數字n」且末尾無空格。
+- 加入標頭註解與清晰的變數命名，提升程式可讀性與維護性。
+
+修改後完整程式碼（放置於 CSIE_51015120_1031_2.java）：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_51015120_1031_2.java
+ * 功能說明: 讀入一個整數 n，接著讀入 n 個整數，將它們升序排序並輸出排序後的結果（以空格分隔）。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+public class CSIE_51015120_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序，確保正確性與效率
+        Arrays.sort(arr);
+
+        // 輸出，使用單一空格分隔，末尾不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

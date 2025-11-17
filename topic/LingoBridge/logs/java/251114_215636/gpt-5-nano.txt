@@ -1,0 +1,62 @@
+2
+建議改為：改以讀入 n 與 n 個整數，使用 Arrays.sort 進行排序，並輸出為單行以空格分隔，並加入適當註解與命名。
+
+修改與評分說明
+- 正確性 (0/50)：原程式完全未解題，僅輸出一個星號陣列。新的程式會正確讀取長度與元素，排序後輸出，符合題意。
+- 邏輯 (0/30)：原程式邏輯與題意無關，且使用不必要的 2D 陣列與輸出。改用簡潔且合理的排序流程，邏輯清晰。
+- 格式 (2/10)：原程式命名與排版不整潔，缺乏可讀性與一致性。新程式採用有意義的變數名稱與等幅縮排，增進可讀性。
+- 備註 (0/10)：原程式缺少程式標頭註解與說明。新程式加入檔案說明註解與日期等資訊。
+
+修改內容要點
+- 使用清晰的檔案標頭註解與合理的類別/檔名命名。
+- 使用 Arrays.sort 直接對整數陣列排序，提升效率與可讀性。
+- 輸入輸出遵循題意，輸出以單行、以空格分隔，避免尾端多餘空格。
+- 加入基本的輸入容錯檢查，確保程式在接受到的資料範圍內穩定運作。
+- 變數命名改為有意義的名稱，提升可維護性。
+
+修改後完整程式碼
+/* 
+ * File: SortArrayAscending.java
+ * 功能: 讀取整數個數 n，接著讀入 n 個整數，將它們升序排序，並印出排序後的結果 (以單行、以空格分隔)
+ * 作者: 教學用範例
+ * 日期: 2025-11-14
+ */
+import java.util.*;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 若長度不正，直接結束
+            return;
+        }
+
+        // 讀入 n 個整數
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                numbers[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                numbers[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(numbers);
+
+        // 輸出成單行，元素之間以空格分隔，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(numbers[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

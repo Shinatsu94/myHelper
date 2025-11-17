@@ -1,0 +1,48 @@
+88
+
+改進建議（一句話）
+建議提升變數命名清晰度、嚴格依題意設定遍歷範圍，同時增加註解與可讀的結構分離，以便維護與測試。
+
+修改說明
+- 將遍歷範圍修正為 1 至 100000，避免把 0 也算入，符合題意。
+- 使用更具意義的變數名稱：target（目標位數和）、count（符合條件的數量）。
+- 把計算位數和的邏輯提取為靜態方法 digitSum(int) 提高可重用性與測試性。
+- 增加檔案頭註解，描述檔案名稱、功能、作者與日期，並在必要位置加入簡要註解。
+- 加入資源釋放（scn.close()），並保持輸入輸出簡潔。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343128_1003_3.java
+ * 功能: 輸入整數 A; 計算 1..100000 之間，數字各位數的和等於 A 的數字個數。
+ * 作者: 陳廷鑫
+ * 日期: 2025-10-03
+ */
+public class CSIE_41343128_1003_3 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int target = scn.nextInt();
+        int count = 0;
+
+        // 遍歷範圍改為 1..100000，嚴格符合題意
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        scn.close();
+    }
+
+    // 計算整數 x 的各位數字總和
+    private static int digitSum(int x) {
+        int sum = 0;
+        while (x > 0) {
+            sum += x % 10;
+            x /= 10;
+        }
+        return sum;
+    }
+}

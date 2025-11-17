@@ -1,0 +1,79 @@
+0
+
+改進反饋建議: 此作業未依題意實作，未完成將任意長度整數陣列由小到大排序並輸出結果的功能，需重新撰寫成符合題意的程式。
+
+程式評分與說明
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 0/10
+- 備註: 0/10
+總分: 0/100
+
+程式碼優化與修改原因
+- 改寫成符合題意的功能：讀取使用者輸入的長度 n，接著讀入 n 個整數，使用整數型陣列並排序，最後輸出排序結果，確保可處理負數。
+- 使用 Array.sort 進行排序，語意清晰且效率足夠。
+- 移除與本題無關的矩陣與反矩陣演算，避免偏離題目。
+- 改善變數命名與程式結構，加入簡潔註解與適當的程式標頭，提升可讀性與可維護性。
+- 輸出格式控制：避免尾端多餘空格，輸出為空格分隔的整數序列，符合範例輸出。
+
+修改後完整程式碼
+```java
+/*
+ * File: ArraySortAscending.java
+ * 功能: 讀取整數陣列長度與元素，將其由小到大排序，並輸出排序結果
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 處理無效長度
+        if (n <= 0) {
+            sc.close();
+            System.out.println();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免程式執行失敗
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+說明
+- 本版本以整數陣列與 Arrays.sort 作為核心，能正確處理包含負數的情況，並符合題目「任意長度的一維陣列從小到大排序」的要求。
+- 輸出格式與題目示例相符，且不輸出不必要的分隔符或額外換行。若實際測資需要換行，可以在 System.out.print(sb.toString()) 後加 System.out.println();。

@@ -1,0 +1,43 @@
+86
+
+改進建議（一句話）
+原程式在正確性與邏輯上表現不錯，但缺少註解與輸出格式的穩定性，建議加入標頭註解、使用較清晰的變數命名、並在輸出結尾加上換行與改用字串組裝提升可讀性與效率。
+
+修改說明與優化要點
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 將變數命名改為具意義的名稱，例如 in -> n，D -> arr，提高可讀性。
+- 輸出使用 StringBuilder 並在結尾印出換行，避免多次 I/O 並確保輸出格式穩定符合一般題目要求。
+- 對空長度的情況保持穩健處理，避免例外。
+
+修改後完整程式碼
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+ * 檔案名稱: CSIE_41343111_1031_1.java
+ * 功能: 讀入長度 n，接著讀取 n 個整數，將其由小到大排序後輸出
+ * 作者: 你可以填寫
+ * 日期: 2025-11-14
+ */
+
+public class CSIE_41343111_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[Math.max(0, n)];
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}

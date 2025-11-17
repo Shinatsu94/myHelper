@@ -1,0 +1,36 @@
+85
+建議補上檔案頭與程式註解，並在程式中加入可讀性說明，同時保留不使用額外變數的交換等效做法。
+
+修改說明與優化理由
+- 加入檔案頭註解與程式內註解：提升可讀性與可維護性，符合備註分數的要求。
+- 使用清晰的變數名稱 A、B（若題目需求或團隊慣例允許）並保留 XOR 交換法以滿足「不使用額外變數進行交換」的限制。
+- 加入 sc.close()：釋放資源、避免資源洩漏。
+- 保留原本的輸出順序（交換後的值）以符合提供的輸出範例。
+
+修改後完整程式碼
+/**
+ * File: CSIE_41343231_1003_1.java
+ * Description: 讀入兩個整數，輸出其交換後的值（不使用額外變數進行交換）。
+ * Author: Your Name
+ * Date: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class CSIE_41343231_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 使用不額外變數的 XOR 交換法
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}

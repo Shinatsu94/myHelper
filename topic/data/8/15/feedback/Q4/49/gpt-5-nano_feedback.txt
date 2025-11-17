@@ -1,55 +1,63 @@
-4
+90
+正確性：50
+邏輯：30
+格式：10
+備註：0
 
-- 正確性：0
-- 邏輯：0
-- 格式：4
-- 備註：0
+改進建議（單一句話）：
+建議補上程式標頭註解與內部註解，並維持建立下三角陣列的需求，同時清晰化變數名稱以提升可讀性與維護性。
 
-修改後完整程式碼與說明：
+修改說明與優化重點：
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註分數要求。
+- 使用更具可讀性的變數名稱，如 target、row、col，增強可維護性。
+- 保留建立下三角形二維陣列的需求，並以清楚的註解說明步驟。
+- 對找尋 num 的位置改用數學公式直接計算 row 與 col，避免不必要的遍歷，提高效率；並仍於必要時驗證 num 是否在陣列範圍之內。
+- 程式結構與縮排做適當調整，維持良好格式。
 
-修改後完整程式碼
+修改後完整程式碼如下：
+```java
 /*
- 檔案名稱: Main.java
- 功能: 讀入整數個數 n，接著讀入 n 個整數，將它們由小到大排序後印出
- 作者: 你
- 日期: 2025-11-12
+檔案名稱: CSIE_41343229_1031_4.java
+功能: 建立 n 高度的下三角形二維陣列，並找出指定數字的位置
+作者: 你的姓名
+日期: 2025-11-14
 */
-import java.util.Arrays;
+
 import java.util.Scanner;
 
-public class Main {
+public class CSIE_41343229_1031_4 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                a[i] = sc.nextInt();
-            } else {
-                a[i] = 0; // 若輸入不足，預設為 0（實務可改為拋出例外）
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            // 讀取高度 n 與要查找的數字
+            int n = sc.nextInt();
+            int target = sc.nextInt();
+
+            // 建立下三角形的 ragged 二維陣列，並填入 1, 2, 3, ...
+            int[][] tri = new int[n][];
+            int value = 1;
+            for (int r = 0; r < n; r++) {
+                tri[r] = new int[r + 1];
+                for (int c = 0; c <= r; c++) {
+                    tri[r][c] = value++;
+                }
             }
-        }
-        sc.close();
 
-        Arrays.sort(a);
+            // 總數量上限
+            long total = (long) n * (n + 1) / 2;
+            // 若 num 不在陣列範圍內，輸出找不到的訊息
+            if (target <= 0 || target > total) {
+                System.out.printf("not find %d in array.%n", target);
+                return;
+            }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+            // 計算 target 在哪一列與什麼位置（列、欄皆從 1 開始）
+            int row = (int) Math.ceil((Math.sqrt(1 + 8.0 * target) - 1) / 2.0);
+            int prevSum = row * (row - 1) / 2;
+            int col = target - prevSum;
+
+            System.out.printf("%d[%d, %d]%n", target, row, col);
         }
-        System.out.println(sb.toString());
     }
 }
-
-修改原因說明：
-- 正確性與邏輯：以符合題意的做法，改為先讀入整數個數 n，再依序讀取 n 個整數，使用 Arrays.sort 對整數陣列進行升冪排序，最後輸出排序結果，確保與題目需求一致。
-- 格式與命名：使用更通用且符合 Java 規範的 class 名稱 Main，並在程式開頭加入標頭註解，方便維護與說明。
-- 註解與可讀性：在程式內加入必要註解，說明功能與輸入輸出流程，提升可維護性。
-
-改進建議或反饋（一句話）：
-建議以符合題意的輸入輸出流程為主，並在程式中加入完整的錯誤處理與註解，提升穩定性與可讀性。
+```

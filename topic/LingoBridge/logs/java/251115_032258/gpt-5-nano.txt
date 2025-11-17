@@ -1,0 +1,78 @@
+89
+建議補上程式標頭註解與實作下三角形陣列的建立，同時增強輸入邊界檢查與註解以符合題意並提升可讀性。
+
+修改說明與改進方向
+- 加入完整的程式標頭註解，包含檔案名稱、功能、作者與日期，符合備註欄位的要求。
+- 實作實際建立下三角形二維陣列（tri），並依題意填入從 1 開始的序列，滿足「建立完整的下三角形二維陣列」的要求。
+- 強化輸入邊界檢查：n 若不在合理範圍（非正整數、超過 int 可表示範圍）時，給出相應的 not find 訊息，避免直接嘗試分配過大的陣列。
+- 保留並清晰化核心邏輯：利用公式找出 num 的行 r 與列 c，若 num 超出 n 行範圍，輸出 not find 訊息；否則輸出 num[ r, c ]。
+- 程式風格微調：變數命名更清晰、加入必要註解，提升可讀性與維護性。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343217_1031_3b.java
+功能: 建立下三角形二維陣列，填入 1..T(n)，並找出指定數字在陣列中的位置（row, col），
+      兩者皆以 1 為起始索引。超出範圍則輸出提示訊息。
+作者: 你的姓名
+日期: 2025-11-14
+說明: 程式會先建立下三角形陣列，然後利用數學公式推導 num 的行列位置，符合題意。
+*/
+public class CSIE_41343217_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取高度 n
+        long nLong = sc.nextLong();
+        // 讀取要尋找的數字 num
+        int num = sc.nextInt();
+
+        // 基本數值檢查
+        if (num <= 0 || num >= 100000) {
+            System.out.println("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+        // 檢查 n 的有效性，避免陣列過大或非正整數
+        if (nLong <= 0 || nLong > Integer.MAX_VALUE) {
+            System.out.println("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        int n = (int) nLong;
+        if (n <= 0) {
+            System.out.println("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列並填入 1..T(n)
+        int[][] tri = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 計算 num 的位置：找出 num 位於哪一行 (row)，再算列 (col)
+        int row = 1;
+        while ((long) row * (row + 1) / 2 < num) {
+            row++;
+        }
+
+        if (row > n) {
+            // num 超出 n 行的陣列範圍
+            System.out.println("not find " + num + " in array.");
+        } else {
+            int prevMax = (row - 1) * row / 2;
+            int col = num - prevMax;
+            System.out.println(num + "[" + row + ", " + col + "]");
+        }
+
+        sc.close();
+    }
+}

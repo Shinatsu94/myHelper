@@ -1,0 +1,41 @@
+4
+
+改進建議：建議改用正確且穩定的排序方式（如 Arrays.sort）來排序，並保持原始資料不被破壞，同時輸出格式要嚴格符合題目要求。
+
+修改說明與原因：
+- 原程式在排序過程中會改動原始陣列內容，且邏輯錯誤，導致輸出與範例不符。改用 Arrays.sort 直接對整個整數陣列排序，避免資料損失並正確實作升冪排序。
+- 輸出格式改為以空格分隔，且結尾換行，符合題目範例與一般輸出習慣。
+- 增加程式註解與 header，提升可讀性與可維護性。
+- 使用更具可讀性的變數命名與結構，保持縮排與程式風格一致。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_51015108_1031_2.java
+功能說明: 讀取使用者輸入的長度 n 與 n 個整數，將它們由小到大排序並輸出
+作者: 教師
+日期: 2025-11-14
+註解: 使用 Arrays.sort 進行排序，支援負數，並輸出符合題目格式
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_51015108_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = sc.nextInt();
+        }
+
+        Arrays.sort(array);
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(array[i]);
+        }
+        System.out.println();
+        sc.close();
+    }
+}

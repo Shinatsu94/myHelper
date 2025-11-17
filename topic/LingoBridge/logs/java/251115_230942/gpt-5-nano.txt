@@ -1,0 +1,38 @@
+90
+改進建議：將變數改為有意義的名稱並加強註解與日期標註，以提升可讀性與維護性。
+
+修改說明：
+- 將變數名稱由 a、b 改為 A、B，以符合題意與提高可讀性。
+- 在程式中加入適當註解，說明交換的邏輯與限制條件。
+- 在檔案標頭加入日期欄位，提升版本管理資訊。
+- 保留 XOR 交換法以符合「不使用額外變數」的限制，並在註解中說明其適用性與注意事項。
+- 程式結尾加入 input.close()，做資源釋放的好習慣。
+- 保持輸出順序：先印出交換後的 A，再印出交換後的 B。
+
+修改後完整程式碼：
+/* file name: CSIE_41343212_1003_1.java
+   author: 李品劭
+   ID: 41343212
+   date: 2025-11-15
+   function: 讀入兩個整數 A 與 B，先印出原值，再在不使用額外變數的情況下用 XOR 交換並印出交換後的值
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1003_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int A = input.nextInt();
+        int B = input.nextInt();
+
+        // 使用 XOR 交換 A 與 B，且不使用額外變數
+        A ^= B;
+        B ^= A;
+        A ^= B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        input.close();
+    }
+}

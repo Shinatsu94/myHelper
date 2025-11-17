@@ -1,0 +1,43 @@
+86
+改進建議：雖然正確且符合題意，但缺少程式標頭與可讀性較低，建議加入標頭註解、使用有意義的變數名稱、並加上適當註解以提升維護性。
+
+修改說明與原因：
+- 增加標頭註解與說明：符合作業要求的備註項，方便日後維護與閱讀。
+- 變數命名改用有意義名稱（a, b, c），取代 i, j, k，提高可讀性與可維護性。
+- 在計算中間值時，改成用 long 儲存三數之和以避免整數溢位的風險，再轉型為 int，保持與題意的整數輸出一致。
+- 仍保留兩種不同的做法：用三元運算子分別求最大值與最小值，利用 sum(max + min) 的方式推算中間值，符合「不可使用 if-else」的要求。
+
+修改後完整程式碼如下：
+/*
+檔案名稱: CSIE_41343226_1003_2.java
+功能: 從輸入的三個整數中找出最大值、最小值與中間值；
+      最大值與最小值使用三元運算子，中間值使用三數和減去最大與最小，避免使用 if-else。
+作者: 教師
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343226_1003_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        int a = scn.nextInt();
+        int b = scn.nextInt();
+        int c = scn.nextInt();
+
+        // 最大值：使用兩層三元運算子
+        int max = (a < b) ? ((b < c) ? c : b) : ((a < c) ? c : a);
+
+        // 最小值：使用兩層三元運算子
+        int min = (a > b) ? ((b < c) ? b : c) : ((a < c) ? a : c);
+
+        // 中間值：用三數之和減去最大與最小，避免直接比較
+        long sum = (long)a + b + c;
+        int mid = (int)(sum - max - min);
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+        scn.close();
+    }
+}

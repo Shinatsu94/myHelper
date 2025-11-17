@@ -1,43 +1,79 @@
-95
+89
+建議使用內建排序與加入程式標頭註解以提升可讀性與穩定性。
 
-修改後完整程式碼：
-/*
-檔案名稱: CSIE_41343227_1031_1.java
-功能: 建立任意長度的一維陣列，將內容升序排序，並輸出排序結果。
-作者: 研究生/教師
-日期: 2025-11-12
-*/
-import java.util.*;
+以下為優化後的完整程式碼與修改說明：
+- 變更要點：
+  - 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+  - 使用快速輸入方法（自訂 FastScanner）提升讀入效能與穩定性，避免掃描器的效能瓶頸。
+  - 改用內建排序 Arrays.sort，簡化邏輯並提升正確性與效能，特別是對於大數量資料與含負數情況。
+  - 輸出格式保持原有需求，數字以空白分隔，末尾換行。
+- 修改原因：
+  - 內建排序較自訂選擇排序更簡潔、可讀且通常更快，同時降低出錯機會；標頭註解提升維護性。
+
+完整程式碼如下：
+
+import java.io.InputStream;
+import java.io.IOException;
 
 public class CSIE_41343227_1031_1 {
-    public static void main(String[] args) {
-        // 讀取整數輸入，先讀取長度 n，之後讀入 n 個整數
-        Scanner sc = new Scanner(System.in);
+    /*
+     * 檔案名稱: CSIE_41343227_1031_1.java
+     * 功能: 讀取長度與整數陣列，升序排序，輸出結果（以空格分隔）
+     * 作者: 教授
+     * 日期: 2025-11-14
+     */
 
-        if (!sc.hasNextInt()) {
-            return;
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) { in = is; }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
         }
-        int n = sc.nextInt();
 
-        // 若長度為非正，依規定輸出空行並結束
-        if (n <= 0) {
-            System.out.println();
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
             return;
         }
 
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，預設為 0
-            }
+            arr[i] = fs.nextInt();
         }
 
-        // 使用 Arrays.sort 進行升序排序，簡潔且效率較佳
-        Arrays.sort(arr);
+        // 使用內建排序提升穩定性與效率
+        java.util.Arrays.sort(arr);
 
-        // 輸出排序結果，元素以單一空格分隔
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
@@ -46,16 +82,3 @@ public class CSIE_41343227_1031_1 {
         System.out.println(sb.toString());
     }
 }
-
-修改內容說明：
-- 將自動選取排序改為使用 Arrays.sort：
-  理由：簡化實作、降低出錯機率，且對於任意長度的整數陣列具有更佳的效能（O(n log n) 近似），同時降低維護成本。
-- 增加程式標頭與適當註解：
-  理由：符合作業要求的檔案說明與內容說明，方便他人閱讀與維護。
-- 增加對 n <= 0 的處理與不足輸入容錯：
-  理由：避免極端輸入情況造成不預期的行為，符合健全程式設計的做法。
-- 使用 StringBuilder 進行輸出組裝：
-  理由：提高輸出效率，避免多次 I/O 操作，對於較長輸出也更穩定。
-
-改進建議或反饋（一句話）：
-建議繼續採用高階排序函式（如 Arrays.sort）以提升穩定性與效能，並保持清晰的程式註解與頭檔說明以利維護。

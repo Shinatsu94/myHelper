@@ -1,0 +1,64 @@
+第一行分數：3
+
+改進建議（一句話）
+請改用符合題意的輸入與排序邏輯：先讀取長度再讀取該長度的整數，並排序後輸出，並加上清楚的程式標頭與註解以提升可讀性與可維護性。
+
+程式碼優化說明與修改原因
+- 需求對應：改用讀取整數長度 n 與接著的 n 個整數，使用 Arrays.sort 進行排序，最後以空格分隔輸出，符合題目要求。
+- 命名與可讀性：使用說明性的變數與加入程式標頭註解，提升維護性。
+- 設計穩健性：加入基本的輸入存在性檢查與空值處理；若輸入不足以滿足 n 個整數，會以 0 作為預設填充，避免輸入錯誤導致例外。
+- 簡化流程：移除與題意無關的內容（如三角形相關邏輯），專注於排序與輸出流程。
+- 效能：使用 Arrays.sort 進行就地排序，效率良好，適用於任意長度的陣列。
+
+修改後完整程式碼
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+ * 檔案：CSIE_51015130_1031_3b.java
+ * 功能：讀入一個整數 n，接著讀入 n 個整數，輸出排序後的內容（由小到大）
+ * 作者：改良版
+ * 日期：2025-11-14
+ */
+
+public class CSIE_51015130_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 若長度為0或負值，直接輸出空行並結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

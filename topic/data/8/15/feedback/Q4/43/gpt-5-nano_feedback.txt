@@ -1,89 +1,87 @@
-5
+76
 
-評分與回饋
-- 正確性 (50%): 0/50
-  該學生的程式與題目需求不符，未實作「建立任意長度的一維陣列、依序輸入N個整數、將內容由小到大排序並印出」。目前的程式與題意無關，僅做與題意不相干的數字與三角數運算。
+改進建議：依題意實作完整的下三角形二維陣列並加上程式標頭與註解，以提升可讀性與符合題目要求。
 
-- 邏輯 (30%): 0/30
-  程式邏輯完全走偏，缺乏清晰的輸入、排序與輸出流程，且對於負數的支援與輸入邊界未考慮。整體邏輯不符合任務需求。
+修改說明與原因：
+- 將原程式改為實作完整的下三角形二維陣列 tri，並逐格填入 1, 2, …，以符合「建立完整的下三角形二維陣列」的需求。
+- 由於題目要求找出 num 的位置，改以實際遍歷陣列的方式找尋，並回傳 1-based 的列與欄位。
+- 加入程式標頭註解（檔案名稱、功能、作者、日期）與適當的內嵌註解，提升可讀性。
+- 將變數命名與型別改為較直覺的 int，同時保持健全的輸入檢查。
+- 保留原有的 invalid input 處理（num 超出範圍則輸出 not find ... in array.），以符合題意。
 
-- 格式 (10%): 5/10
-  程式碼有基本的縮排與結構，但命名不夠具意義，類名與檔案結構不符合良好慣例，缺少可讀性較差的註解與 header。
-
-- 備註 (10%): 0/10
-  程式缺少程式標頭註解說明檔案名稱、功能、作者與日期。
-
-總分: 5/100
-
-修改與優化說明
-- 我提供一份符合題意的正確實作版本：讀取整數 N，接著讀入 N 個整數，將陣列內容做升序排序，最後以空格分隔印出排序結果。並且保留對負數的支援與穩健的輸入處理。
-- 主要修改點與原因：
-  - 使用一維整數陣列儲存輸入的 N 個整數，直接反映「任意長度的一維陣列」的需求。
-  - 使用 Arrays.sort 進行升序排序，簡潔且正確，避免自訂排序邏輯的可能錯誤。
-  - 輸出格式確保「以空格分隔，無多餘空格」，符合題目輸出格式。
-  - 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
-  - 適度的輸入檢查，對無效的長度或不足的數字提供穩健的結束方式，避免未定義行為。
-
-修改後完整程式碼
-// 檔案名稱: CSIE_41343221_1031_3b.java
-// 功能: 讀取整數 N，接著讀入 N 個整數，將內容升序排序，並印出排序結果
-// 作者: 教授
-// 日期: 2025-11-12
-
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343221_1031_3b.java
+功能: 建立下三角形的二維陣列，填入數字 1..n(n+1)/2，找出指定數字的位置
+作者: XXX
+日期: 2025-11-14
+*/
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class CSIE_41343221_1031_3b {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        // 讀取陣列長度 N
-        if (!scanner.hasNextInt()) {
-            scanner.close();
-            return;
-        }
-        int N;
-        try {
-            N = scanner.nextInt();
-        } catch (Exception e) {
-            scanner.close();
+        // 讀取高度 n
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
             return;
         }
 
-        if (N < 0) {
-            // 不允許負長度
-            scanner.close();
+        // 讀取要尋找的數字 num
+        int num;
+        if (sc.hasNextInt()) {
+            num = sc.nextInt();
+        } else {
+            sc.close();
             return;
         }
 
-        int[] arr = new int[N];
+        sc.close();
 
-        // 依序讀入 N 個整數
-        for (int i = 0; i < N; i++) {
-            if (!scanner.hasNextInt()) {
-                // 若輸入不足，直接結束
-                scanner.close();
-                return;
+        // 建立下三角形陣列，第 i 列長度為 i+1（1-based 說明對應 0-based 的 i+1）
+        int[][] tri = new int[n][];
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+        }
+
+        // 依序填入 1, 2, ..., total
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
             }
-            arr[i] = scanner.nextInt();
         }
 
-        // 排序
-        Arrays.sort(arr);
-
-        // 印出排序結果，元素以空格分隔，末尾不留多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        int total = n * (n + 1) / 2;
+        if (num <= 0 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            return;
         }
 
-        System.out.println(sb.toString());
+        // 找出 num 在陣列中的位置 (1-based)
+        int foundRow = -1;
+        int foundCol = -1;
 
-        scanner.close();
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == num) {
+                    foundRow = i + 1;
+                    foundCol = j + 1;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(num + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
     }
 }
-
-一句話改進建議或反饋
-- 建議在開始前就先確定需求與輸入輸出的格式，並以簡潔、安全的實作先行，例如使用陣列儲存輸入、直接排序並輸出，能大幅提升正確性與可讀性。

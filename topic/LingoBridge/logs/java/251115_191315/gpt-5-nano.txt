@@ -1,0 +1,47 @@
+84
+
+改進建議：加入程式標頭與註解、使用更具可讀性的變數命名，並改用整數反轉法以避免浮點運算與多餘的兩段式處理，提升穩定性與可維護性。
+
+優化說明與修改重點：
+- 取代原本先計數再以指數運算組合的做法，改為單一的整數反轉迴圈，直接把最後一位加入結果並向右移動原數字，可避免使用 Math.pow 的浮點運算與數字溢位風險。
+- 增加對負數的處理與輸入檢查，並在程式結尾關閉資源，提升健壯性。
+- 改進程式命名與註解，符合 Java 慣例，方便他人閱讀與維護。
+
+修改後完整程式碼：
+
+```java
+/*
+ * File: ReverseDigits.java
+ * Description: 讀入整數，輸出其數字反轉的結果，零及末尾零會自動去除；支援正負數的反轉。
+ * Author: 教師姓名
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        boolean negative = n < 0;
+        int x = Math.abs(n);
+
+        int rev = 0;
+        // 將數字逐位反轉
+        while (x > 0) {
+            rev = rev * 10 + (x % 10);
+            x /= 10;
+        }
+
+        if (negative) rev = -rev;
+
+        System.out.println(rev);
+        sc.close();
+    }
+}
+```

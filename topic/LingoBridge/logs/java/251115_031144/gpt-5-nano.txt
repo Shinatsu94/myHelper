@@ -1,0 +1,96 @@
+74
+
+改進建議：
+請實作完整的下三角形二維陣列並以該陣列來填值與搜尋，另外統一輸出格式、加入程式標頭與適當註解，提升可維護性與符合題意。
+
+評分與修改說明
+- 正確性 (50%)
+  - 優點：核心邏輯正確，能正確計算 num 的位置並輸出，例如 10 高度與 55、以及不在陣列內的情況皆能回應。
+  - 改善點：未實作實際的下三角形二維陣列（僅用數字位置公式計算），未符合「建立完整的下三角形二維陣列」的題意要求。改用實作完整陣列並透過陣列尋找來提高符合度與可讀性。
+- 邏輯 (30%)
+  - 優點：位置計算的邏輯簡單且正確，使用 1-based 索引，對應行列的計算公式正確。
+  - 改善點：若要更清楚地符合題意，建議改用實作陣列並以掃描方式尋找數字位置，避免對外部計算過度依賴。
+- 格式 (10%)
+  - 優點：輸出格式基本符合，包含括號與逗號間的空白，輸出內容也與範例相符。
+  - 改善點：原始程式的排版與縮排略顯凌亂，建議統一縮排與命名，增加可讀性。
+- 備註 (10%)
+  - 現況：缺少程式標頭註解（檔案名稱、功能、作者、日期等）。
+  - 改善點：加入標頭註解與適當的程式內註解。
+
+修改後的優化重點
+- 建立實際的下三角形二維陣列，並進行填值與尋找。
+- 使用清楚的註解與一致的程式風格。
+- 保留原本的輸出格式，若找不到則輸出「not find X in array.」。
+
+修改後完整程式碼
+/*
+ * 文件名稱: LowerTriangularArray.java
+ * 功能說明: 建立下三角形二維陣列，填入數字並找出指定數字的位置
+ * 作者: 參考教師
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取高度 n
+        int h;
+        if (!scanner.hasNextInt()) {
+            return;
+        }
+        h = scanner.nextInt();
+
+        // 讀取欲尋找的數字 num
+        int num;
+        if (!scanner.hasNextInt()) {
+            return;
+        }
+        num = scanner.nextInt();
+
+        // 計算整個下三角陣列的最大數字（1..max）
+        int max = 0;
+        for (int i = 1; i <= h; i++) {
+            max += i;
+        }
+
+        // 輸入有效性檢查：若高度或數字不符合規範，直接輸出找不到
+        if (h <= 0 || num <= 0 || num > max) {
+            System.out.printf("not find %d in array.", num);
+            return;
+        }
+
+        // 建立下三角形二維陣列，使用 1-based 索引，tri[i][j] 為第 i 列第 j 欄 (j<=i)
+        int[][] tri = new int[h + 1][];
+        int value = 1;
+        for (int i = 1; i <= h; i++) {
+            tri[i] = new int[i + 1]; // tri[i][0] 未使用，保留方便索引
+            for (int j = 1; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 在陣列中搜尋 num 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 1; i <= h; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (tri[i][j] == num) {
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.printf("%d[%d, %d]%n", num, foundRow, foundCol);
+        } else {
+            System.out.printf("not find %d in array.", num);
+        }
+    }
+}

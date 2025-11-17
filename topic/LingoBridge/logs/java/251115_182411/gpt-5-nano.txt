@@ -1,0 +1,67 @@
+74
+
+改進建議：把單一位數視為已排序，並移除不必要的整數轉換，讓程式對包含前導零或超大數字的輸入也穩定，並加上程式標頭與基本註解提升可維護性。
+
+修改說明與重點
+- 正確性與邏輯
+  - 修改 isWellOrdered 的基礎情況：n <= 1 時回傳 true，將單一位數視為已排序，符合「數位從左到右嚴格遞增」的自然解釋。
+  - 移除不必要的整數轉換，改以字串 inputStr 進行判斷與輸出，避免前導零與超大數字造成的問題。
+  - 仍保留逐位比較的邏輯，使用字元比較即可正確判斷數字大小。
+- 格式與可維護性
+  - 加入程式標頭註解，說明檔案名稱、功能、作者、日期。
+  - 增加內部註解，解釋邏輯與邊界情況。
+  - 變數與函式命名維持有意義的命名，整體排版與縮排較整齊。
+  - 增強輸入驗證，若輸入非數字則輸出「is not a valid number.」，符合更健全的輸入處理。
+
+修改後完整程式碼
+/* 
+Filename: WellOrderedChecker.java
+Description: Determine whether a given integer's digits are strictly increasing from left to right.
+Author: 教師
+Date: 2025-11-15
+*/
+
+public class WellOrderedChecker {
+
+    // Return true if digits are strictly increasing from left to right
+    public static boolean isWellOrdered(String numberStr) {
+        int n = numberStr.length();
+        if (n <= 1) {
+            // 單一位數或空字串視為已排序
+            return true;
+        }
+
+        for (int i = 1; i < n; i++) {
+            char prev = numberStr.charAt(i - 1);
+            char curr = numberStr.charAt(i);
+            if (prev >= curr) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        if (scanner.hasNext()) {
+            String inputStr = scanner.next().trim();
+
+            // 簡單驗證：確保全為數字
+            boolean allDigits = true;
+            for (int i = 0; i < inputStr.length(); i++) {
+                if (!Character.isDigit(inputStr.charAt(i))) { allDigits = false; break; }
+            }
+
+            if (!allDigits || inputStr.length() == 0) {
+                System.out.println(inputStr + " is not a valid number.");
+            } else {
+                if (isWellOrdered(inputStr)) {
+                    System.out.println(inputStr + " is well-ordered number.");
+                } else {
+                    System.out.println(inputStr + " is not well-ordered number.");
+                }
+            }
+        }
+        scanner.close();
+    }
+}

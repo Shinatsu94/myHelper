@@ -1,80 +1,47 @@
-4
+88
 
-- 正確性 (50%): 0/50
-  - 目前提交的程式與題目需求完全不符，未進行勒布尼茲級數計算、也未輸出題目要求的結果格式。
+建議改進重點：應補上程式標頭註解與適當的程式註解，並統一使用大括號與提升可讀性；此外可加入輸入前置處理（如去除前後空白）以提升魯棒性。
 
-- 邏輯 (30%): 0/30
-  - 程式邏輯與題意不符，執行的只是判斷數字是否連續遞增，與計算 pi 的任務無關。
+程式碼評語與修改說明
+- 正確性：原程式已正確判斷數字的數字是否嚴格遞增，修改後仍保持相同邏輯，並增添註解以提升可讀性。
+- 邏輯：使用逐位比較的方式，若發現前一位大於或等於後一位即回傳 false，符合題意。
+- 格式：將內部條件改成帶大括號的多行寫法，提升可讀性與維護性；輸入改為 trim 以避免前後空白影響判定。
+- 備註：新增完整的標頭註解與適當的註解說明程式內容。
 
-- 格式 (10%): 4/10
-  - 程式有適當縮排，命名尚可接受；但整體結構與輸出與題意不符，且未包含清楚的程式註解或說明。
-
-- 備註 (10%): 0/10
-  - 無檔案註解（檔案名稱、功能、作者、日期等說明）。
-
-修改後的完整程式碼與修改說明
-
-修改說明重點
-- 完整實作題目要求的勒布尼茲級數近似 pi 的計算，並輸出指定的 i 值與 pi 值，格式符合要求（i 以六位寬顯示，pi 小數點後十位）。
-- 將兩部分需求實作成單一主程式：第一部分輸出 i=10000, 20000, ..., 100000 對應的 pi；第二部分找出最小的 i 使 pi 四捨五入到五位小數為 3.14159，輸出該 i。
-- 增加檔案頭註解，並在程式中加入適當註解說明，提升可讀性與可維護性。
-- 使用逐項累加的方式計算 sum（避免重複計算），效率較原始實作好。
-
-修改後完整程式碼（Java）
-
+修改後的完整程式碼
+```java
 /*
-檔案名稱: LeibnizPi.java
-功能說明: 使用勒布尼茨級數近似圓周率，輸出 i=10000,20000,...,100000 對應的 pi 值（小數點後十位），
-以及找出最小的 i 使 pi 四捨五入到五位小數為 3.14159，輸出該 i（六位寬）。
-作者: 你或作者姓名
-日期: 2025-11-12
+File: CSIE_41343215_1017_2.java
+Description: 判斷輸入的數字各位是否嚴格遞增（從左至右）。
+Author: Student
+Date: 2025-11-15
 */
 
-public class LeibnizPi {
-    public static void main(String[] args) {
-        // Part (a): 輸出 i = 10000, 20000, ..., 100000 的 pi 值
-        int[] steps = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
-        for (int i : steps) {
-            double sum = 0.0;
-            int sign = 1;
-            // sum_{k=0}^{i-1} (-1)^k / (2k + 1)
-            for (int k = 0; k < i; k++) {
-                sum += sign * (1.0 / (2 * k + 1));
-                sign = -sign;
-            }
-            double pi = 4.0 * sum;
-            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-        }
+import java.util.Scanner;
 
-        // Part (b): 找出最小的 i 使 pi 四捨五入為 3.14159（五位小數）
-        int minIForFiveDecimals = findMinIForPiFiveDecimals();
-        System.out.printf("i = %6d%n", minIForFiveDecimals);
+public class CSIE_41343215_1017_2 {
+
+    // 檢查數字字串的每一位是否嚴格遞增
+    public static boolean isWellOrdered(String numberStr) {
+        for (int i = 0; i < numberStr.length() - 1; i++) {
+            if (numberStr.charAt(i) >= numberStr.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    // 找出最小的 i，使 pi 四捨五入到五位小數等於 3.14159
-    private static int findMinIForPiFiveDecimals() {
-        double targetRounded = 3.14159;
-        double sum = 0.0;
-        int sign = 1;
-        int i = 0; // k 的對應，實際會回傳 i+1 作為使用的 term 數
-        while (true) {
-            sum += sign * (1.0 / (2 * i + 1));
-            double pi = 4.0 * sum;
-            long rounded = Math.round(pi * 100000.0); // 四捨五入到五位小數
-            if (rounded == Math.round(targetRounded * 100000.0)) {
-                return i + 1; // 公式是以 i+1 項為單位
-            }
-            sign = -sign;
-            i++;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 讀取單行輸入並去除前後空白
+        String userInput = scanner.nextLine().trim();
+
+        if (isWellOrdered(userInput)) {
+            System.out.println(userInput + " is well-ordered number.");
+        } else {
+            System.out.println(userInput + " is not well-ordered number.");
         }
+        scanner.close();
     }
 }
-
-修改內容說明
-- 使用 System.out.printf 輸出，確保 i 以六位寬右對齊，pi 保留十位小數，符合題目格式要求。
-- Part (a) 直接列出固定的 i 值，逐個計算其前 i 項的和並乘以 4，得到 pi 的近似值。
-- Part (b) 以逐次累加的方式找到最小的項數，當 pi 四捨五入到五位小數等於 3.14159 時回傳該 i。這與 Lehmer/Lebniz 系列的收斂性與四捨五入規則相符，能得到題目中所需的最小 i（範例為 136121）。
-- 增加檔案頭註解，說明檔案名稱、功能、日期與作者，提升可維護性；程式中加入簡短註解，說明每段邏輯。
-
-一句話改進建議
-- 若要提升可測試性，建議將核心計算邏輯分離為獨立方法或類別，並為輸出格式與閾值建立可配置的參數，便於未來調整與單元測試。
+```

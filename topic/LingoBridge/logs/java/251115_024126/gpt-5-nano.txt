@@ -1,0 +1,67 @@
+82
+
+改進建議：將實作改為使用實際的二維陣列來填充與輸出下三角，並補充檔案標頭註解與基本輸入檢驗，以提升符合題意與可閱讀性。
+
+程式優化與修改說明
+- 需求符合度提升：改用 char[][] 二維陣列填充 '*'，僅輸出下三角部分，避免輸出上三角的空白符號。
+- 變數與結構：採用 0-based 索引，增加清楚的註解，撰寫可維護的輸出邏輯。
+- 輸入與輸出健壯性：加入簡單的輸入驗證（0 < n <= 20），若不符合則結束程式，以符合題意範圍。
+- 程式標頭與註解：新增檔案標頭註解，說明檔案用途、作者與日期，便於日後維護。
+- 輸出效能：使用 StringBuilder 組裝整個輸出內容再一次性輸出，提升效能。
+
+修改後完整程式碼
+```java
+/*
+File: CSIE_41343205_1031_3a.java
+Description: 下三角形二維陣列輸出，使用二維陣列填充 '*’，輸出僅顯示下三角部分，且不輸出多餘的空白。
+Author: 資訊工程系 教授
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343205_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取高度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 輸入範圍驗證，0 < n <= 20
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        // 建立 n x n 的二維陣列，填充下三角星號
+        char[][] arr = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 組合輸出內容，只輸出下三角部分，避免多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(arr[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```
+
+說明修改部分的原因
+- 為符合「建立並列印完整的下三角形二維陣列」的題意，改用真正的二維陣列來填充 '*'，並在輸出時僅列印下三角的部分，避免輸出不必要的空白。
+- 以 0-based 索引與清楚註解提升可讀性與維護性。
+- 使用 StringBuilder 減少逐字輸出帶來的效能開銷，尤其當 n 增大時較有優勢。
+- 加入基本的輸入檢驗與檔案標頭註解，提升程式的健壯性與可追溯性。

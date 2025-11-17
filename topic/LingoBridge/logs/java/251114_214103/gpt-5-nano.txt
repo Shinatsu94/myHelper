@@ -1,0 +1,50 @@
+12
+你的作業核心需要對輸入的整數做升序排序，但目前實作是將每個元素替換為其右側的最大值，結果與題意不符，建議改用排序演算法並確保輸出格式正確。
+
+改進建議與說明
+- 將核心邏輯改為升序排序，使用 Arrays.sort(arr) 提升正確性與簡潔性，避免錯誤的「右邊最大值替換」演算法。
+- 仍維持先輸入長度再輸入對應的整數，輸出以空白分隔，最後不多餘空格。
+- 增加程式標頭註解（檔名、用途、作者、日期），並適當進行內部註解，以提升可讀性。
+- 將類別名稱改為更貼近功能的命名，例如 AscendingSort，提升程式語意。
+
+修改後的完整程式碼
+/*
+ * File: AscendingSort.java
+ * 功能: 讀取一個整數 n，接著讀取 n 個整數，輸出升序排序的結果。
+ * 作者: 請填寫
+ * 日期: 2025-11-14
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class AscendingSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出結果，確保同一行並以空格分隔，最後不出現多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

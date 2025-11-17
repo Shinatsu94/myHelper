@@ -1,0 +1,74 @@
+61
+關於這份作業的評語與改進建議：目前的演算法在遇到負數情況時會出現錯誤，正確的做法是以最後一個元素的原值作為右側最大值的起始值，並把最後一個元素設為 -1，這樣不管輸入包含何種負數都能正確處理。
+
+改進建議要點（重點放在邏輯與魯棒性）：
+- 初始化最大值時，應以 arr[n-1] 作為初始右側最大值，並先把 arr[n-1] 設為 -1；再逐步向左更新。
+- 使用適當的迴圈界限：若 n > 1，從 i = n-2 開始向左；若 n <= 1，直接輸出結果即可。
+- 輸出格式改為避免尾端多餘空格，並補上換行。
+- 程式檔案加入適當的標頭註解，變數命名更具語意，並保持良好縮排。
+
+
+修改說明與修改的區段
+- 將初始化 max 的方式改為以 arr[n-1] 作為初始右側最大值，並把 arr[n-1] 設為 -1，以確保在包含負數的情況下仍能正確求右側最大值。
+- 改為從 n-2 開始向左走，並在每次迴圈保存原始值以決定是否更新 max。
+- 輸出改為避免尾端多餘空格，並在結尾加上換行。
+- 加入檔案標頭註解並使用更具語意的變數名稱。
+
+以下為修改後的完整程式碼：
+// 檔案名稱假設為 CSIE_41343205_1031_2.java
+/*
+File: CSIE_41343205_1031_2.java
+Purpose: 將任意長度的一維整數陣列中，每個元素替換為其右側出現的最大的元素
+         最後一個元素替換為 -1，最後輸出處理後的陣列內容。
+Author: 自訂
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343205_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+
+        int[] arr = new int[n];
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            }
+        }
+
+        // 若 n > 0，將最後一個元素設為 -1，並以最後一個原始值作為右側最大值初始值
+        if (n > 0) {
+            int maxRight = arr[n - 1];
+            arr[n - 1] = -1;
+
+            // 從倒數第二個開始，向左填充
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i];
+                arr[i] = maxRight;
+                if (current > maxRight) {
+                    maxRight = current;
+                }
+            }
+        }
+
+        // 輸出，避免尾端空格，並換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

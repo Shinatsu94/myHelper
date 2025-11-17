@@ -1,0 +1,53 @@
+96
+
+改進建議或反饋（一句話）
+已能正確排序並輸出，但建議補充程式標頭註解以符合規範，並提升輸出與輸入的健壮性與可讀性。
+
+修改說明
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 改用有條件檢查的輸入流程（hasNextInt），以及對 n 為非正整數時的容錯處理，以提升健壮性，避免意外輸入造成程式執行失敗。
+- 使用 StringBuilder 組裝輸出，避免多次 System.out.print，提高效率與可讀性。
+- 保留原本的排序功能（Arrays.sort），仍能處理包含負數的情況。
+- 程式排版與註解增加，提升格式與可維護性。
+
+修改後完整程式碼（可直接編譯執行）：
+/*
+File: CSIE_41343215_1031_1.java
+Description: 讀入一個整數長度 n，接著讀入 n 個整數，將其升冪排序並輸出。
+Author: 作者姓名待填
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343215_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = 0;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        }
+
+        int[] arr = new int[Math.max(n, 0)];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 不足的輸入以 0 代替，避免例外
+                arr[i] = 0;
+            }
+        }
+        scanner.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

@@ -1,0 +1,59 @@
+總分：90
+
+改進建議（一句話）：程式邏輯正確且易讀，但缺少檔案標頭註解、變數命名可再清晰，建議補上標頭並稍微提升命名與註解的清晰度。
+
+修改與評語要點：
+- 正確性：保持原有演算法，正確判斷各位數是否嚴格遞增。
+- 邏輯：採用從右到左逐位比較的直觀做法，邏輯清晰且有效。
+- 格式：變數命名可再清晰，例如使用 leftDigit/rightDigit 等名稱提升閱讀性。
+- 備註：原程式缺少程式檔案標頭註解，建議加入檔名、功能、作者、日期等說明，並保留適當的程式內註解。
+
+修改後的程式碼與修改原因：
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 重新命名部分變數以提升可讀性（如 rightDigit、leftDigit）。
+- 程式邏輯保持不變，仍然採用從右往左比較的方式驗證數字是否嚴格遞增。
+- 使用較為清晰的註解讓讀者易於理解每一步的意義。
+
+修改後完整程式碼：
+import java.util.*;
+
+public class WellOrderedNumber {
+    /**
+     * 檔案名稱: WellOrderedNumber.java
+     * 功能說明: 判斷輸入的整數各數字是否從左至右嚴格遞增。
+     * 作者: 學生
+     * 日期: 2025-11-15
+     */
+
+    public static boolean isWellOrdered(long value) {
+        long x = Math.abs(value);
+        if (x < 10) {
+            // 一位數字自然而然為 well-ordered
+            return true;
+        }
+
+        long rightDigit = x % 10; // 右邊的數字
+        x /= 10;
+        while (x > 0) {
+            long leftDigit = x % 10; // 左邊的數字
+            // 必須嚴格遞增：左 < 右
+            if (leftDigit >= rightDigit) {
+                return false;
+            }
+            rightDigit = leftDigit;
+            x /= 10;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+        if (isWellOrdered(n)) {
+            System.out.println(n + " is well-ordered number.");
+        } else {
+            System.out.println(n + " is not well-ordered number.");
+        }
+        sc.close();
+    }
+}

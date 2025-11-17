@@ -1,0 +1,69 @@
+7
+
+改進建議：此作業未符合題目需求，需改為讀入長度與元素，直接排序並輸出結果，避免使用不相關的二維陣列與搜尋邏輯。
+
+修改說明與評分細項
+- 正確性 (50%): 0/50
+  - 原作業未實作排序與輸出需求，僅進行自定義的查找與不相關的資料結構，未能產生題目指定的輸出。
+- 邏輯 (30%): 0/30
+  - 程式邏輯與題意嚴重不符，無法正確解題，只是搜尋元素在一個不相關的結構中的位置。
+- 格式 (10%): 7/10
+  - 程式可讀性尚可，變數命名基本清晰，縮排合理。但檔案缺乏清晰的標頭註解，命名與風格上可再加強一致性。
+- 備註 (10%): 0/10
+  - 程式缺乏檔案標題註解（檔案名稱、功能、作者、日期等），未符合備註要求。
+
+優化與修改重點
+- 將不相關的二維三角陣列與搜尋邏輯移除，改為符合題意的一維整數陣列。
+- 使用 Arrays.sort 直接對整數陣列排序，簡潔且穩定，能處理負數。
+- 依序讀入長度 n 與 n 個整數，並輸出排序後的結果，確保不使用 EOF、符合題目執行流程。
+- 增加程式檔案頭註解與適當的注解，提升可維護性與評分性。
+
+修改後完整程式碼
+以下為符合題意的修改版程式，使用一維陣列與 Arrays.sort 進行排序，並輸出排序後的整數序列。
+
+/*
+File: Main.java
+功能: 讀取整數 n 與 n 個整數，將它們從小到大排序後輸出，元素可為負數，且不使用 EOF。
+作者: 教師（評分用版本）
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免發生例外
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的數列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

@@ -1,0 +1,58 @@
+84
+此程式的計算邏輯能達成目標，但可讀性與可維護性不足，建議重構為通用的位數和函式並加上清晰的註解與命名。
+
+- 正確性(50/50)：50
+- 邏輯(30/30)：28
+  - 優點：能正確計算 1~100000 的數字位數和，並比對目標和。
+  - 改善點：原始作法的位數擷取有特殊分支，易造成維護難度與潛在邊界錯誤；建議使用通用的位數和函式以提升健壯性。
+-  格式(10/10)：6
+  - 優點：程式能執行，排版基本正確。
+  - 改善點：變數命名不具意義、缺少註解與標頭註解、排版風格不統一。
+- 備註(10/10)：0
+  - 原因：缺少檔案註解與內嵌註解說明。
+
+修改說明與改進方向
+- 使用通用的 digitSum 函式逐位相加，消除特定位數分支對於 100000 等極值的潛在 오류。
+- 使用具意義的變數名稱（targetSum、count、num）提升可讀性。
+- 增加程式頭註解與內嵌註解，提升維護與使用者理解。
+- 程式結尾加上 close，釋放資源。
+
+修改後完整程式碼
+- 理想的、可維護的版本如下：
+
+import java.util.Scanner;
+
+/**
+ * File: CSIE_51015108_1003_3.java
+ * Title: 數字位數總和等於指定值的計數
+ * Description: 統計 1~100000 之間，有多少數字的各位數字之和等於輸入值 A
+ * Author: 作者
+ * Date: 日期
+ */
+public class CSIE_51015108_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int targetSum = sc.nextInt(); // 輸入的位數總和要求
+        int count = 0;
+
+        // 遍歷 1 到 100000，統計位數總和等於 targetSum 的數字
+        for (int num = 1; num <= 100000; num++) {
+            if (digitSum(num) == targetSum) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        sc.close();
+    }
+
+    // 通用的位數總和函式，對任意正整數皆有效
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

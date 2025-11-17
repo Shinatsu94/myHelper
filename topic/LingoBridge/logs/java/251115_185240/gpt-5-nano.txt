@@ -1,0 +1,45 @@
+82
+
+改進建議：請改用單次遍歷且正負號處理，並加入檔案標頭與註解以提升魯棒性與可讀性。
+
+修改與優化說明：
+- 改用單次遍歷直接反轉數字，避免不必要的兩次迭代。
+- 加入正負號處理，若輸入為負數則輸出相對應的負數反轉，例如 -123 變成 -321。
+- 使用清晰命名與完整檔案標頭註解，提升可讀性與維護性。
+- 關閉 Scanner 以釋放資源，並保留對 0 的正確處理。
+- 潛在整數溢位風險說明：本實作使用 long 以容納較大的整數範圍，若輸入超過 long 的範圍仍需進一步處理。
+
+修改後完整程式碼（已優化並加入註解與標頭）：
+
+/*
+File: ReverseDigits.java
+Description: 讀取一個整數，反轉其數字順序；若原數為負，輸出相對應的負數反轉值。
+Author: 教師
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        // 建立輸入掃描器，僅讀取單一數字
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+        sc.close();
+
+        // 判斷正負號，並取絕對值做反轉
+        boolean isNegative = n < 0;
+        long absN = isNegative ? -n : n;
+
+        long rev = 0;
+        // 單次遍歷完成數字反轉
+        while (absN > 0) {
+            long digit = absN % 10;
+            rev = rev * 10 + digit;
+            absN /= 10;
+        }
+
+        long result = isNegative ? -rev : rev;
+        System.out.println(result);
+    }
+}

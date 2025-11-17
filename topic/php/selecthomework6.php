@@ -32,9 +32,9 @@ if ($classID == 0 || $homeworkID == 0) {
 // 2) 路徑設定
 $baseDir   = dirname(__DIR__) . "/data/{$classID}/{$homeworkID}"; // 作業根目錄
 $topicDir  = $baseDir . '/homework_texts'; // 題目資料夾
-$files     = glob($topicDir . '/Q*.txt') ?: []; // 找出所有題目文本
-natsort($files); // 讓 Q1, Q2, Q10 依自然順序
-$topicPath = $files ? array_values($files)[0] : null; // 取第一個題目檔
+//$files     = glob($topicDir . '/Q*.txt') ?: []; // 找出所有題目文本
+//natsort($files); // 讓 Q1, Q2, Q10 依自然順序
+//$topicPath = $files ? array_values($files)[0] : null; // 取第一個題目檔
 $scriptPath = dirname(__DIR__) . '/LingoBridge/WebtoLB.py'; // 呼叫 LB系統 的腳本
 
 // 3) 找出所有學生程式碼檔案
@@ -44,15 +44,27 @@ natsort($javaFiles);
 
 foreach ($javaFiles as $codePath) {
 
-    // --- 檢查基本條件 ---
+    // --- 檢查LB 系統腳本是否存在 ---
     if (!is_file($scriptPath) || !is_readable($scriptPath)) {
         http_response_code(500);
         exit('無法呼叫 LB 系統腳本，請聯繫管理員');
     }
+
+    // --- 根據 codePath 推導 Q題號 與 學生編號 ---
+    // 範例： /data/1/2/homework/Q1/11/main.java
+    $relative = str_replace($baseDir . '/homework/', '', $codePath); // 取得相對路徑 Q1/11/main.java
+    $parts = explode('/', $relative);
+    $questionID = $parts[0] ?? 'Qx'; // Q1
+    $studentID  = $parts[1] ?? 'unknown'; // 11
+
+    // --- 檢查對應題目 ---
+    $topicPath = "{$topicDir}/{$questionID}.txt";
     if (!is_file($topicPath) || !is_readable($topicPath)) {
         http_response_code(404);
         exit('題目檔不存在，請聯繫管理員');
     }
+
+    // --- 檢查對應作業 ---
     if (!is_file($codePath) || !is_readable($codePath)) {
         echo "⚠️ 找不到程式碼檔案：{$codePath}\n";
         continue;
@@ -91,13 +103,6 @@ foreach ($javaFiles as $codePath) {
     echo "</pre>";
     exit;
     */
-
-    // --- 根據 codePath 推導 Q題號 與 學生編號 ---
-    // 範例： /data/1/2/homework/Q1/11/main.java
-    $relative = str_replace($baseDir . '/homework/', '', $codePath); // 取得相對路徑 Q1/11/main.java
-    $parts = explode('/', $relative);
-    $questionID = $parts[0] ?? 'Qx'; // Q1
-    $studentID  = $parts[1] ?? 'unknown'; // 11
 
     // --- 組合最終輸出路徑 ---
     $feedbackDir  = "{$baseDir}/feedback/{$questionID}/{$studentID}";

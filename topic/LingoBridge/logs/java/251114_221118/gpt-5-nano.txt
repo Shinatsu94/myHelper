@@ -1,0 +1,49 @@
+輸入分數與改動建議
+總分: 6
+
+改進建議（一句話）
+請改成實作題目要求的排序功能，讀取長度與整數陣列後進行升序排序並以空格分隔輸出，同時補上程式檔案標頭與適當註解。
+
+修改說明與原因
+- 變更內容
+  - 取代原本的二維三角形輸出，改為一維整數陣列排序與輸出。
+  - 使用 Arrays.sort(arr) 進行升序排序，能正確處理負數。
+  - 輸出時以空格分隔，避免尾端多餘空格。
+  - 加入程式檔案標頭註解，並加上適當的內容註解，提升可讀性與維護性。
+  - 變數命名改為更具意義的名稱（arr、n），提升可讀性。
+- 修改原因
+  - 針對題目需求，必須實作「讀取長度與元素、排序、輸出」，原本提交的程式與題意脫節，需直接滿足功能與輸出格式。
+
+修改後完整程式碼
+/* 檔案名稱: Main.java
+ * 功能: 讀取整數長度 n 與 n 個整數，將其升序排序後輸出，元素以空格分隔。
+ * 作者: 學生
+ * 日期: 2025-11-14
+ * 註解: 使用 Arrays.sort 進行排序，支援負數，輸出格式為以單一空格分隔的行。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();       // 讀取陣列長度
+        int[] arr = new int[n];       // 建立整數陣列
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();    // 讀入每個整數，支援負數
+        }
+
+        Arrays.sort(arr);             // 升序排序
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString()); // 輸出排序後的陣列
+        sc.close();
+    }
+}

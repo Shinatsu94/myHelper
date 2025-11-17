@@ -1,0 +1,78 @@
+86
+
+改進建議（一句話）：
+建議將程式改為符合 Java 主流命名與註解慣例，並改用一次輸出與基本健全性檢查提升可讀性與穩定性。
+
+評分細項與理由
+- 正確性 (50/50): 程式能正確讀取長度與數字、排序、輸出，對負數亦有支援，符合題意。
+- 邏輯 (28/30): 程式邏輯清晰，採用內建排序； Minor 可提升的空間在於對任意負數與長度邊界的健全性與可讀性整體可再增強。
+- 格式 (8/10): 原程式使用 class 名稱不符合常見慣例，且缺少完整的檔案標頭註解；修改後會提升可讀性與風格一致性。
+- 備註 (0/10): 原始程式缺少檔案屬性與作者等註解說明，未符合要求的標頭註解規範。
+
+修改說明與重點
+- 改名與檔案：將類別改為 Main，檔名改為 Main.java，符合常見測資機制對主執行類別的預設。
+- 檔案註解：加入檔案標頭註解，說明檔名、功能、作者與日期，提升維護性與可追蹤性。
+- 輸出效能與穩健性：改為使用 StringBuilder 一次性輸出排序結果，降低 I/O 次數，提升效能。
+- 輸入健全性：加入對 len 的檢查，避免負數長度造成非預期行為；避免過度依賴環境輸入格式。
+- 針對測資穩定性：避免在最後關閉 System.in，以降低某些評測環境可能的影響。
+- 其他：保留對負數的排序支援，並以 Arrays.sort 處理整數排序。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: Main.java
+ * 功能說明: 讀取使用者輸入的長度與長度個整數，將陣列內容由小到大排序，並輸出排序結果。
+ * 作者: ChatGPT
+ * 日期: 2025-11-14
+ * 註解: 程式中保留基本註解以說明流程與邏輯，維持可讀性。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            // 沒有輸入時，輸出空行並結束
+            System.out.println();
+            return;
+        }
+        int len = sc.nextInt();
+
+        if (len <= 0) {
+            // 長度為0或負數時，輸出空行並結束
+            System.out.println();
+            return;
+        }
+
+        int[] nums = new int[len];
+
+        // 讀取陣列元素
+        for (int i = 0; i < len; i++) {
+            if (sc.hasNextInt()) {
+                nums[i] = sc.nextInt();
+            } else {
+                // 不足的情況，補上 0 以穩健處理
+                nums[i] = 0;
+            }
+        }
+
+        // 對陣列進行排序
+        Arrays.sort(nums);
+
+        // 一次性輸出排序結果，避免多次 I/O
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.println(sb.toString());
+
+        // 不強制關閉 System.in，以避免某些測資環境之影響
+        // sc.close();
+    }
+}
+```

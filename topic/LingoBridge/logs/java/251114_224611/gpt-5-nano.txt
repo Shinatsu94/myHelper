@@ -1,0 +1,61 @@
+2
+改進建議：你的程式與題目需求嚴重不符，需改寫為一維整數陣列的輸入與排序程式；目前內容是計算 3x3 矩陣的反矩陣，與題意無關。
+
+程式改進與優化說明：
+- 正確性：改寫成讀取長度 n、接著讀取 n 個整數，對陣列進行升冪排序，最後輸出排序結果，符合題目需求。
+- 邏輯：流程清晰：讀取輸入 → 排序 → 輸出，且能處理含負數的情況。
+- 格式：使用有意義的變數名稱、適當縮排，增加程式可讀性。
+- 備註：新增程式標頭註解，描述檔案名稱、功能、作者與日期，並在程式內容中加入說明註解。
+
+修改後完整程式碼：
+// 檔案名稱: Main.java
+// 功能: 讀取一個整數 n，接著讀取 n 個整數，將它們由小到大排序後輸出
+// 作者: 你的名字
+// 日期: 2025-11-14
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        }
+
+        // 處理長度為非正數的情形，避免不必要的錯誤
+        if (n <= 0) {
+            // 輸出空行以符合常見輸出需求
+            System.out.println();
+            scn.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 進行排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}

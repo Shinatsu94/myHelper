@@ -1,0 +1,64 @@
+88
+
+改進建議（一句話）：
+此作業雖正確實作排序，但缺少標頭註解與邊界處理，且輸出與閱讀更健全性可提升，建議補充註解、處理零長度與輸入不完整情況，並改用更穩健的輸出寫法。
+
+程式優化說明與修改原因
+- 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，提升維護性。
+- 增加對 n <= 0 的邊界處理，避免在零長度或不合理輸入下產生例外。
+- 使用 StringBuilder 組裝輸出，避免多次 System.out.print 呼叫，提升輸出效率與可讀性。
+- 使用 Java 內建排序 Arrays.sort，提高穩定性與效能（若課程規範允許自訂排序演算法，此部分也可保留原 Selection Sort。
+- 關閉 Scanner，與輸入存在檢查，避免資源洩漏與未讀取的情況。
+
+修改後完整程式碼
+/*
+File: CSIE_41343208_1031_1.java
+Description: 讀取長度 n，接著讀入 n 個整數，並以升序輸出排序結果。
+Author: ChatGPT
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343208_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        if (n <= 0) {
+            // 無元素時輸出空行以符合輸出格式
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 預設值，避免讀取中斷
+            }
+        }
+
+        // 排序，這裡採用 Java 內建排序以穩定且高效
+        Arrays.sort(arr);
+
+        // 輸出排序結果，避免末尾多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

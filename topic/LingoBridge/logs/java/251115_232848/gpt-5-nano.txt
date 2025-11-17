@@ -1,0 +1,50 @@
+總分：87
+
+改進建議（一句話）：此作業基本正確，建議補上程式標頭註解與適當註解，並提升變數命名以增進可讀性與穩健性，例如處理資源釋放與溢位風險。
+
+優化說明與修改要點：
+- 增加程式標頭註解，明確說明檔案名稱、功能、作者與日期，符合作業規範要求（備註得分）。
+- 將輸入變數改為更具描述性的命名（如 n1, n2, n3），提升可讀性。
+- 程式結構保持不使用 if-else 的要求，改以三元運算子計算最大值與最小值，並以 sum - max - min 求出中間值。
+- 為避免整數溢位風險，將三數相加改為使用 long 變數儲存總和，最後再轉型回 int 類型取得 mid。
+- 程式中加入適當註解，並在結束後關閉 Scanner 以釋放資源。
+
+修改後完整程式碼（已優化）：
+```java
+/**
+ * 檔案名稱: CSIE_41343111_1003_2.java
+ * 功能: 讀取三個整數，找出最大值、中間值、最小值，並輸出最小值、中間值、最大值（不使用 if-else，使用兩種方法）
+ * 作者: 作者姓名
+ * 日期: 2025-11-15
+ * 說明: 使用三元運算子計算最大值與最小值；中間值透過 sum - max - min 計算。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343111_1003_2 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+
+        // 讀入三個整數
+        int n1 = s.nextInt();
+        int n2 = s.nextInt();
+        int n3 = s.nextInt();
+
+        // 使用三元運算子找最大值與最小值
+        int max = n1 > n2 && n1 > n3 ? n1 : (n2 > n3 ? n2 : n3);
+        int min = n1 < n2 && n1 < n3 ? n1 : (n2 < n3 ? n2 : n3);
+
+        // 中間值透過總和減去最大值與最小值計算
+        long sum = (long) n1 + n2 + n3;
+        int mid = (int) (sum - max - min);
+
+        // 輸出順序與題目範例一致：最小值、中間值、最大值
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        // 關閉 Scanner，釋放資源
+        s.close();
+    }
+}
+```

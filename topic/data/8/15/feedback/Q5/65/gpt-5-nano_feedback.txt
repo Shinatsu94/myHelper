@@ -1,70 +1,94 @@
-- 總分（第一行單獨列出）：2
+97
+改進建議: 增加程式標頭註解、改用統一的輸出格式函式與容錯機制，提升可讀性與穩定性。
 
-- 評分與評語
-  - 正確性（50%）: 0/50
-    - 學生程式與題目需求嚴重偏離，未完成題目指定的排序一維陣列功能，且處理的是 3x3 矩陣與矩陣逆運算與輸出，與題目無關。
-  - 邏輯（30%）: 0/30
-    - 程式邏輯針對矩陣的行列式與逆矩陣計算，與排序問題無直接連結，且未考慮輸入長度與元素排序的流程。
-  - 格式（10%）: 2/10
-    - 程式整體排版尚可，但命名與結構與題意不符，缺乏清晰的程式設計結構與可讀性。未使用有意義的類別/變數名稱以符合一般 Java 設計慣例。
-  - 備註（10%）: 0/10
-    - 程式檔案缺乏標頭註解（檔案名稱、功能、作者、日期等說明），未符合註解與文件說明的要求。
+修改與說明
+- 加入完整的檔案標頭註解，符合備註要求，提升說明性。
+- 使用統一的輸出格式函式 formatValue，對於接近於零的數值輸出 0，其他則輸出四位小數，且使用 Locale.US 以避免地區設定影響。
+- 將零判定改為以 epsilon 進行浮點近似判斷，避免浮點計算造成的誤差影響判定。
+- 程式結構微調，變數命名更具描述性，保留原有的核心演算法（3x3 行列式與伴障矩陣計算）。
+- 維持原題目輸出格式（每列三個元素，元素間空格，末端無多餘空白；非零元素以四位小數輸出，為零的輸出 0）。
 
-- 修改後完整程式碼與說明
-  修改說明重點：完全改寫成符合題目需求的排序程式；採用標準輸入讀取長度與元素、使用 Arrays.sort 進行排序、並以空格分隔輸出。也加入標頭註解與較有意義的命名以提升可讀性與格式。
+修改後完整程式碼
+```java
+/*
+Filename: CSIE_51015108_1031_5.java
+Description: 讀取使用者輸入的 3x3 矩陣，計算其反矩陣，並以小數點後四位輸出；若元素為零則輸出 0。
+Author: 你的名字
+Date: 2025-11-14
+*/
 
-  修改後程式碼（ArraySortAscending.java）：
-  /*
-  檔案名稱: ArraySortAscending.java
-  功能: 讀取整數 n 與 n 個整數，將它們由小到大排序後輸出，元素以單一列輸出、以空格分隔
-  作者: 自動評分系統示例
-  日期: 2025-11-12
-  */
-  import java.util.Scanner;
-  import java.util.Arrays;
+import java.util.Locale;
+import java.util.Scanner;
 
-  public class ArraySortAscending {
-      public static void main(String[] args) {
-          Scanner sc = new Scanner(System.in);
+public class CSIE_51015108_1031_5 {
+    private static final double EPS = 1e-9; // 判定浮點數近似於零的容忍度
 
-          // 讀取陣列長度
-          if (!sc.hasNextInt()) {
-              sc.close();
-              return;
-          }
-          int n = sc.nextInt();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] mat = new double[3][3];
 
-          // 讀取 n 個整數
-          int[] arr = new int[n];
-          for (int i = 0; i < n; i++) {
-              if (sc.hasNextInt()) {
-                  arr[i] = sc.nextInt();
-              } else {
-                  // 若資料不足，預設為 0（或可選擇結束與錯誤處理）
-                  arr[i] = 0;
-              }
-          }
-          sc.close();
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (sc.hasNextDouble()) {
+                    mat[i][j] = sc.nextDouble();
+                } else {
+                    // 若輸入不足，預設為 0
+                    mat[i][j] = 0.0;
+                }
+            }
+        }
+        sc.close();
 
-          // 排序
-          Arrays.sort(arr);
+        double det = determinant(mat);
+        if (Math.abs(det) < EPS) {
+            // 非反矩陣的處理，依原本程式風格給出訊息
+            System.out.println("矩陣不可逆");
+            return;
+        }
 
-          // 輸出，元素以空格分隔，避免尾端多空格
-          StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < n; i++) {
-              if (i > 0) sb.append(' ');
-              sb.append(arr[i]);
-          }
-          System.out.println(sb.toString());
-      }
-  }
+        double[][] inv = inverse(mat, det);
 
-  說明修改部份的原因：
-  - 需求對應：改用一維整數陣列與排序，消除原本 3x3 矩陣與矩陣逆的錯誤方向，直接解決題目要求的排序問題。
-  - 可讀性與可維護性：使用有意義的類別與變數名稱（ArraySortAscending、arr、n），並加入適當的註解與標頭資訊。
-  - 錯誤與邊界處理：以逐步讀取 n 與 n 個整數並排序，確保在一般測資下穩健執行；若輸入不足可以在實際需求時加入更明確的錯誤處理。
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(formatValue(inv[i][j]));
+                if (j < 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
 
-- 改進建議（一句話）
-  建議在實務上加強輸入驗證與錯誤處理，遇到輸入不足或非整數輸入時給予清晰的錯誤訊息與適當的退出機制。
+    // 計算 3x3 矩陣的行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
 
-如需我以其他排序演算法（如選擇排序、快速排序）實作替換，或加上額外的輸入容錯機制與測資自動判斷，也可以再告訴我。
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
+    }
+
+    // 輸出格式化：近似於零的數輸出 0，其他輸出四位小數
+    private static String formatValue(double v) {
+        final double ZERO_EPS = 1e-8;
+        if (Math.abs(v) < ZERO_EPS) return "0";
+        return String.format(Locale.US, "%.4f", v);
+    }
+}
+```

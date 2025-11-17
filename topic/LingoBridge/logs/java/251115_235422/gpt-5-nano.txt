@@ -1,0 +1,40 @@
+90
+程式正確且邏輯清晰，但需補上程式標頭註解以符合規範，並可考慮處理整數溢位情況。
+
+改進與優化說明：
+- 使用 try-with-resources 自動關閉 Scanner，避免資源洩漏。
+- 透過 long 類型的 sum 變數避免 a+b+c 可能造成的整數溢位，並再轉型回 int 計算 mid。
+- 保留原有以三元運算子分別求最大值與最小值的作法，並以 sum - max - min 計算中間值，符合題目要求的兩種不同方法。
+- 加入檔案頭註解以滿足備註欄的要求。
+
+修改後完整程式碼：
+
+/**
+ * 檔案名稱: CSIE_51015120_1003_2.java
+ * 功能描述: 讀入三個整數，輸出最小值、中間值、最大值，並使用兩種不同方式找值。
+ * 作者: 資訊工程系教授
+ * 日期: 2025-11-15
+ * 備註: 使用三元運算子求最大、最小；中間值以 sum - max - min 計算；使用 try-with-resources 自動關閉 Scanner。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_51015120_1003_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+
+            int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+            int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+            long sum = (long) a + b + c; // 避免溢位
+            int mid = (int) (sum - max - min);
+
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
+    }
+}

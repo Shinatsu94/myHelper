@@ -1,0 +1,62 @@
+89
+
+改進建議：建議改用原始陣列的後綴最大值計算，並用更清晰的變數命名與更穩健的輸入輸出方式，以提升效能與可讀性，同時加入程式標頭註解。
+
+程式優化說明與修改重點
+- 使用原始值來源：先將輸入的原始陣列複製到 orig，避免在同一個陣列中前後混用造成混淆。
+- 後綴最大值法則：從右側向左計算，建立 res[i] 為 orig[i+1..n-1] 的最大值，整體時間複雜度降為 O(n)，並正確處理負數。
+- 風格與可讀性：引入更具語意的變數名 orig、res，使用 StringTokenizer 和 StringBuilder 提升效能與穩定性；新增標頭註解以符合評分標準。
+- 移除 Scanner：以 BufferedReader 與 StringTokenizer 提高效能，避免大量輸入造成的延遲。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_51015120_1031_2_OPT.java
+ * 功能說明: 將輸入陣列中每一個元素替換為其右側所有元素的最大值（最後一個為 -1）。
+ *        例如：{17, 18, 5, 4, 6, 1} -> {18, 6, 6, 6, 1, -1}
+ * 作者: 系統評分示例
+ * 日期: 2025-11-14
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class CSIE_51015120_1031_2_OPT {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String line = br.readLine();
+        while (line != null && line.trim().isEmpty()) line = br.readLine();
+        int n = Integer.parseInt(line.trim());
+
+        int[] orig = new int[n];
+        int count = 0;
+        while (count < n) {
+            line = br.readLine();
+            if (line == null) break;
+            StringTokenizer st = new StringTokenizer(line);
+            while (st.hasMoreTokens() && count < n) {
+                orig[count++] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        int[] res = new int[n];
+        if (n > 0) {
+            int max = orig[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                max = Math.max(max, orig[i + 1]);
+                res[i] = max;
+            }
+            res[n - 1] = -1;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(res[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

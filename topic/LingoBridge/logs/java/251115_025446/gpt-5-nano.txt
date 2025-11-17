@@ -1,0 +1,51 @@
+90
+
+改進建議（一句話）：
+功能正確且簡潔，但缺少程式標頭註解與輸入驗證，建議加入標頭與基本範圍檢查以提升可維護性與穩定性。
+
+程式碼優化與修改原因：
+- 加入檔案標頭註解，說明檔名、用途、作者與日期，符合備註要求，提升可讀性與維護性。
+- 加入對 n 的範圍驗證（0 < n <= 20），避免不合法輸入造成程式異常或錯誤輸出。
+- 在遇到非法輸入時，使用 System.err 印出錯誤訊息並結束程式，避免繼續執行造成資源浪費。
+- 程式其餘邏輯維持原有清晰且有效的做法：使用可變長度的二維陣列（陣列的每列長度為 i+1），逐列填充 '*'，再逐列輸出，符合「下三角形」與「無空格間隔」的需求。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: Main.java
+ * 功能說明: 建立高度為 n 的下三角形二維陣列並輸出，n 介於 1 到 20。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ * 備註: 依題意輸出僅包含星號，且每行輸出結束後換行。
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // 讀入高度 (0 < n <= 20)
+
+        // 輸入範圍驗證
+        if (n <= 0 || n > 20) {
+            System.err.println("Invalid input: n must be in range (0, 21].");
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列：第 i 列長度為 i+1
+        char[][] tri = new char[n][];
+        for (int i = 0; i < n; i++) {
+            tri[i] = new char[i + 1];
+            Arrays.fill(tri[i], '*'); // 由左到右填入 '*'
+        }
+
+        // 列印：元素間不加空白
+        for (int i = 0; i < n; i++) {
+            System.out.println(new String(tri[i]));
+        }
+
+        sc.close();
+    }
+}

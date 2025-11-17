@@ -1,0 +1,42 @@
+90
+
+建議改進的要點（概述一句話）：
+- 透過使用浮點數四捨五入判斷而非直接等於，提升穩定性與魯棒性，同時簡化與美化迴圈邏輯與輸出格式。
+
+程式改進說明與修改原因：
+- 改善浮點判斷的穩健性：改用 Math.round(sum * 4 * 100000) 與 314159 比較，這樣可以避免因浮點誤差造成的直接相等判斷失敗。
+- 簡化符號處理：使用一個 sign 變數，交替乘以正負，取代 if (i%2)==0 的分支，提高可讀性與效率。
+- 輸出格式保持原需求：輸出 i 與 pi 的格式仍使用 i = %6d, pi = %.10f，以符合題目對齊與精度的要求。
+- 程式結構與註解：提供清晰的註解與較一致的縮排風格，提升可讀性與可維護性。
+
+修改後的完整程式碼：
+public class LeibnizPI {
+    public static void main(String[] args) {
+        double sum = 0.0;
+        int limit = 150000;       // 為了安全，最多迭代到此
+        int printEvery = 10000;   // 每 10000 次輸出一次結果
+        int targetPiRounded = 314159; // π 約為 3.14159，對應 100000 的放大整數
+
+        int sign = 1; // 第1項為正
+        int i;
+        for (i = 1; i <= limit; i++) {
+            // 使用符號切換的方式加入當前項
+            double term = sign * (1.0 / (2 * i - 1));
+            sum += term;
+            sign = -sign; // 下一項符號反轉
+
+            // 輸出符合題目格式的中間結果
+            if ((i % printEvery) == 0) {
+                double partialPi = sum * 4.0;
+                System.out.printf("i = %6d, pi = %.10f\n", i, partialPi);
+            }
+
+            // 使用四捨五入取整後比較，避免浮點誤差造成的精度問題
+            long rounded = Math.round(sum * 4.0 * 100000.0);
+            if (rounded == targetPiRounded) {
+                System.out.printf("\ni = %6d", i);
+                break;
+            }
+        }
+    }
+}

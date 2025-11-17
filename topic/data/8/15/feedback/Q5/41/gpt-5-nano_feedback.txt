@@ -1,74 +1,91 @@
-6
+76
 
-評分細項（個別分數）
-- 正確性: 0/50
-  理由：學生的程式完全與題目需求不符，未實作任意長度一維陣列的升序排序，也未輸入長度與對應的數字進行排序與輸出。
-- 邏輯: 0/30
-  理由：程式邏輯與題意無關，採用三階矩陣求特徵等操作，與排序任務無關，缺乏合理的解題思路。
-- 格式: 6/10
-  理由：基本語法正確、結構清楚，但變數命名不符合題意、缺乏註解與程式標頭，且檔案用途與檔名不明確，風格上仍有改進空間。
-- 備註: 0/10
-  理由：缺少標頭註解（檔案名稱、功能、作者、日期）與內容註解，不符合作業要求中的註解規範。
+改進建議（簡述一句話）
+程式雖能計算並輸出 3x3 矩陣的反矩陣，但缺少標頭註解與完善的錯誤處理，且對近似於零的行列式與輸出值的處理可以更健壯。
 
-總分：6
+修改說明與原因
+- 增加標頭註解與使用更具描述性的類別名稱，提高可讀性與可維護性。
+- 引入對行列式近似為零的判斷（設定容忍閾值），避免在接近奇異矩陣時進行不穩定的除法運算。
+- 輸出時對極小的數值使用 0 顯示，以符合題目對於輸出格式的要求與樣例情況。
+- 以更清晰的巢狀迴圈建立輸入與輸出格式，並保持每列最後一項無尾端空白。
+- 保留原有正確的反矩陣計算公式（共因子矩陣的轉置除以行列式），確保正確性。
 
-修改與優化說明
-修改後的完整程式碼（符合題意：讀取長度、再讀入該長度的整數，升序排序並輸出，支援負數，避免使用 EOF 串流）：
-```java
-import java.util.Arrays;
+修改後完整程式碼
+// MatrixInverse3x3.java
+/**
+ * 3x3 矩陣反矩陣計算
+ * 功能：讀入使用者提供的 3x3 矩陣，輸出其反矩陣，元素小數點後四位，零值輸出為 0
+ * 錯誤處理：若行列式接近為 0，輸出提示並結束
+ * 作者：your-name
+ * 日期：YYYY-MM-DD
+ */
+
 import java.util.Scanner;
 
-/*
-檔案名稱: SortArray.java
-功能: 建立任意長度的一維陣列，讀取長度與數字，進行升序排序，輸出排序結果
-作者: 教師
-日期: 2025-11-12
-說明: 以單次執行完成輸入與輸出，符合題目需求。
-*/
-
-public class SortArray {
+public class MatrixInverse3x3 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] m = new double[3][3];
 
-        // 若無輸入直接結束
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 輸入不足時，避免例外，預設為 0
-                arr[i] = 0;
+        // 逐一讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!sc.hasNextDouble()) {
+                    sc.close();
+                    return;
+                }
+                m[i][j] = sc.nextDouble();
             }
         }
         sc.close();
 
-        // 進行升序排序
-        Arrays.sort(arr);
-
-        // 輸出，確保不留尾端空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        double det = determinant(m);
+        // 對於接近於 0 的行列式採用容忍閾值
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("Matrix is singular");
+            return;
         }
-        System.out.println(sb.toString());
+
+        double[][] inv = inverse(m, det);
+
+        // 輸出格式：每行間以空格分隔，行末無空格；值為 0 時輸出 0，其他輸出四位小數
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = inv[i][j];
+                if (Math.abs(v) < 1e-9) {
+                    System.out.print("0");
+                } else {
+                    System.out.printf("%.4f", v);
+                }
+                if (j < 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算行列式
+    public static double determinant(double[][] a) {
+        return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+             - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+             + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+    }
+
+    // 計算反矩陣（使用 adjugate / det 的方式）
+    public static double[][] inverse(double[][] a, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] = (a[1][1] * a[2][2] - a[1][2] * a[2][1]) / det;
+        inv[0][1] = (a[0][2] * a[2][1] - a[0][1] * a[2][2]) / det;
+        inv[0][2] = (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / det;
+
+        inv[1][0] = (a[1][2] * a[2][0] - a[1][0] * a[2][2]) / det;
+        inv[1][1] = (a[0][0] * a[2][2] - a[0][2] * a[2][0]) / det;
+        inv[1][2] = (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / det;
+
+        inv[2][0] = (a[1][0] * a[2][1] - a[1][1] * a[2][0]) / det;
+        inv[2][1] = (a[0][1] * a[2][0] - a[0][0] * a[2][1]) / det;
+        inv[2][2] = (a[0][0] * a[1][1] - a[0][1] * a[1][0]) / det;
+
+        return inv;
     }
 }
-```
-
-修改部分與原因說明
-- 將原程式的 3x3 double 矩陣與行列式、逆矩陣計算改為一維整數陣列的排序流程，直接對應題目需求，提升正確性與可讀性。
-- 使用 Arrays.sort 進行排序，保證排序效率與正確性，且對負數亦正確處理。
-- 輸入處理改為先讀長度 n，然後逐一讀取 n 個整數，若輸入不足以防止例外，給予預設值 0，提升穩定性。
-- 增加程式標頭註解與必要的註解，提升可維護性與可閱讀性。
-- 輸出格式調整為用空格分隔，且無尾端多餘空格，符合題目輸出格式。
-
-改進建議或反饋（一句話）
-建議在提交前加入完整的輸入/輸出測試案例與單元測試，涵蓋空輸入、負數、長度極端值等情況，以確保實作穩定性與健全性。

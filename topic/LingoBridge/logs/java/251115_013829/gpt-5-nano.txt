@@ -1,0 +1,87 @@
+86
+
+建議改進內容的要點：建議加上檔案標頭註解與程式說明註解、改用快速輸入/輸出並統一輸出格式，以提昇可讀性與效能。
+
+修改與優化說明
+- 使用快速輸入掃描器（FastScanner）取代原本的 Scanner，提升在大資料量下的效能，並避免 EOF 導致的問題。
+- 將輸出改為使用 StringBuilder，避免逐次 Printing 帶來的效能負擔，且輸出格式更易控制（以單一空格分隔，無尾端空格）。
+- 新增程式檔案標頭與註解，提升可維護性與閱讀性。
+- 保留原本的選擇性排序邏輯（Selection Sort），確保正確性與易於理解。
+
+修改後完整程式碼
+```java
+/*
+  File: SelectionSort.java
+  Description: 依照題目要求，建立任意長度的一維整數陣列，對其內容執行選擇排序，並輸出排序結果。
+  Author: 教師
+  Date: 2025-11-14
+*/
+
+public class SelectionSort {
+
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int capacity = fs.nextInt();
+        int[] arr = new int[capacity];
+        for (int i = 0; i < capacity; i++) arr[i] = fs.nextInt();
+
+        selectionSort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+
+    // 簡易的高速輸入工具
+    static class FastScanner {
+        private final java.io.InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(java.io.InputStream is) { in = is; }
+
+        private int read() throws java.io.IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws java.io.IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}
+```

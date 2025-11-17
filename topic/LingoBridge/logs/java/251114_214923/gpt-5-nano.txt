@@ -1,0 +1,57 @@
+6
+
+改進建議：
+此作業的核心錯誤在於排序邏輯不正確；建議改用標準排序或自訂簡潔排序，同時加入程式標頭註解與清楚的變數命名，並在輸出後加上換行。
+
+修改說明與改動內容
+- 正確性與邏輯：原程式採用計算每個元素右邊的最大值，最後再把最後一個元素設為 -1，結果並非升序排序。改用 Arrays.sort 直接對整數陣列排序，能正確得到升序結果，且時間複雜度為 O(n log n)。
+- 格式與命名：增加完整的檔案註解區塊，保持良好縮排與清楚的變數命名，將變數名改為有意義的名稱（arr、n）。
+- 備註：提供適當的檔案標頭註解，並在輸出時產生換行，符合一般輸出格式需求。
+
+修改後完整程式碼（可直接執行，檔名對應 public class 名稱）：
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+ * 檔案名稱: CSIE_51015114_1031_2.java
+ * 功能: 讀取一個整數 n，接著讀取 n 個整數，將其升序排序，並輸出排序後的陣列。
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ */
+
+public class CSIE_51015114_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

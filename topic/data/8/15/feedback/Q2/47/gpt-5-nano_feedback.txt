@@ -1,56 +1,69 @@
-11
+78
 
-作業評分
-- 正確性: 0 / 50
-- 邏輯: 5 / 30
-- 格式: 6 / 10
-- 備註: 0 / 10
-總分: 11 / 100
+建議改以更清晰的變數命名、增加註解與標頭，並以單獨的 max 變數來計算後繼最大值，以提升可讀性與維護性。
 
-改寫後程式碼（完整，請直接執行）
+修改後完整程式碼：
 /*
- * 檔案名稱: CSIE_41343226_1031_2.java
- * 功能說明: 讀入整數長度 n，接著讀入 n 個整數，排序後輸出升序結果
- * 作者: 教師
- * 日期: 2025-11-12
- * 備註: 使用 Arrays.sort 以確保正確性，支援負數
+ * 檔案名稱: Main.java
+ * 功能: 根據題意輸入任意長度整數陣列，將每個元素替換為其之後的元素中的最大值，最後一個元素設為 -1；最後輸出結果。
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 版本: 1.0
  */
-import java.util.Arrays;
+
 import java.util.Scanner;
 
-public class CSIE_41343226_1031_2 {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
         if (!scanner.hasNextInt()) {
             scanner.close();
             return;
         }
+        n = scanner.nextInt();
 
-        int n = scanner.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = scanner.nextInt();
+        // 針對無效長度做保護
+        if (n <= 0) {
+            // 輸出空行表示結束
+            System.out.println();
+            scanner.close();
+            return;
         }
 
-        Arrays.sort(arr); // 使用內建排序確保正確性與簡潔性
+        // 讀取陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，取預設值 0
+            }
+        }
 
+        // 對每個位置 i，將 arr[i] 替換為其後的最大值
+        for (int i = 0; i < n - 1; i++) {
+            int max = arr[i + 1];
+            for (int j = i + 2; j < n; j++) {
+                if (arr[j] > max) {
+                    max = arr[j];
+                }
+            }
+            arr[i] = max;
+        }
+        // 最後一個元素設為 -1
+        arr[n - 1] = -1;
+
+        // 輸出結果，以空格分隔，最後換行
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
             sb.append(arr[i]);
         }
+        System.out.println(sb.toString());
 
-        System.out.print(sb.toString());
         scanner.close();
     }
 }
-
-修改說明與原因
-- 將原本錯誤的排序邏輯替換為 Arrays.sort(arr)，避免自訂排序時的邏輯錯誤，確保正確性與可維護性。
-- 使用 Arrays.sort 可自動處理負數與各種整數範圍，提升穩定性。
-- 輸出改為僅輸出排序後的數字，項與項之間以空格分隔，避免多餘空格，並保持簡潔。
-- 加入檔案開頭註解與說明，符合備註要求，並使用有意義的變數名稱（n、arr）提升可讀性。
-- 使用 StringBuilder 組裝輸出，提升效率，並確保輸出格式符合期望。
-
-改進建議或反饋（一句話）
-建議未來直接使用內建排序與清晰的輸出處理，以提升正確性與可維護性，並在檔案頂部加入檔案註解以符合要求。

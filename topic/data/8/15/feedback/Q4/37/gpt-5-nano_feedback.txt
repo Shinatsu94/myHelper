@@ -1,65 +1,62 @@
-5
+90
 
-評分項目
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 5/10
-- 備註: 0/10
-總分: 5/100
+改進建議：建議在程式開頭加入檔案註解與說明，並使用 try-with-resources 管理 Scanner，提升可讀性與穩定性，同時調整變數命名以增進可讀性。
 
-修改後完成程式碼（完整版本）
-/**
- * 文件名稱: CSIE_1031_SortArray.java
- * 功能: 讀取長度 n，接著讀入 n 個整數，將其以升冪排序，並輸出排序結果（以空格分隔）
- * 作者: 教師
- * 日期: 2025-11-12
- */
+修改說明與原因：
+- 加入檔案標頭註解，符合備註項目需求，方便後續維護。
+- 使用 try-with-resources 包裝 Scanner，確保資源正確關閉，避免在某些環境中造成資源未釋放的問題。
+- 調整變數命名，例如 target 替代 num，提高語意清晰度。
+- 保留原有功能與邏輯：仍以逐行填充下三角矩陣，然後逐格尋找 num，找到後輸出 1-based 的座標；若不在矩陣內則輸出提示訊息。
+- 小幅整理格式與註解，提升可讀性。
 
-import java.util.Arrays;
+修改後完整程式碼：
 import java.util.Scanner;
 
-public class CSIE_1031_SortArray {
+/**
+ * File: LowerTriangularMatrix.java
+ * 功能: 依使用者輸入的高度 n，建立一個下三角形二維陣列，並找出指定數字的座標。
+ * 作者: 調整後的版本
+ * 日期: 2025-11-14
+ */
+public class LowerTriangularMatrix {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
 
-        // 讀入陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
+            // 建立下三角形二維陣列並填數字
+            int[][] arr = new int[n][];
+            int numCount = 1;
+            for (int i = 0; i < n; i++) {
+                arr[i] = new int[i + 1];
+                for (int j = 0; j <= i; j++) {
+                    arr[i][j] = numCount++;
+                }
+            }
 
-        // 讀入 n 個整數到一維陣列
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                a[i] = sc.nextInt();
+            // 取得要尋找的數字
+            int target = sc.nextInt();
+
+            boolean found = false;
+            int foundRow = -1;
+            int foundCol = -1;
+
+            outer:
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (arr[i][j] == target) {
+                        foundRow = i + 1; // 1-based
+                        foundCol = j + 1; // 1-based
+                        found = true;
+                        break outer;
+                    }
+                }
+            }
+
+            if (found) {
+                System.out.printf("%d[%d, %d]%n", target, foundRow, foundCol);
             } else {
-                // 若輸入不足，預設為 0
-                a[i] = 0;
+                System.out.printf("not find %d in array.%n", target);
             }
         }
-
-        // 升冪排序
-        Arrays.sort(a);
-
-        // 輸出：以空格分隔，末尾不多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
-        }
-        System.out.print(sb.toString());
-
-        sc.close();
     }
 }
-
-修改說明（原因與要點）
-- 將原本的 2D 陣列與不相關的尋找邏輯移除，改為使用一維整數陣列，符合題意且簡化實作。
-- 使用 Arrays.sort 進行升冪排序，邏輯更直接、穩定且效率良好，能覆蓋包含負數的情況。
-- 輸出格式改為單行、由小到大、數字間以空格分隔，符合題目輸出要求。
-- 加入程式檔案註解與標頭資訊，提升可讀性與維護性；並加強輸入容錯處理（若輸入不足數量，預設為 0），避免發生例外。
-
-一句話改進建議
-建議：繼續以最直接的資料結構與語言內建函式解題，避免不必要的資料結構與冗餘邏輯，並確實對輸入格式與輸出格式做嚴謹的對應。

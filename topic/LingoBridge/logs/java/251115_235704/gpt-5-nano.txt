@@ -1,0 +1,56 @@
+87
+
+改進建議：
+建議移除輸入提示與逐一列出符合條件的數字的輸出，改為僅輸出符合條件的數字個數，並補上程式標頭註解以符合作業規範，提升自動評分與可移植性。
+
+修改說明與改動重點：
+- 程式標頭註解：新增檔案名稱、功能描述、作者與日期等註解，符合備註項目要求。
+- 輸出內容調整：僅輸出符合條件的數字個數，移除「請輸入…」提示與符合條件數字清單，符合題目要求的輸出格式。
+- 命名與可讀性：將輸入變數 A 改為 targetSum 以提高語意清晰度；其餘程式邏輯與 helper function 保持不變，維持正確性。
+- 可維護性：保持數位和計算的邏輯分離，若後續要擴展可直接在主流程調整輸出格式或加入額外選項。
+
+修改後完整程式碼：
+```java
+/**
+ * File: CSIE_41243247_1003_3.java
+ * 功能: 計算在 1..100000 之間，數字各位數字總和等於輸入 A 的數字個數
+ * 作者: 李教授
+ * 日期: 2025-11-15
+ * 註解: 僅輸出符合條件的數字個數，未列出中間的符合數，符合題目輸出格式
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41243247_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取目標的位數總和
+        int targetSum = sc.nextInt();
+
+        int count = 0; // 符合條件的數字數量
+
+        // 條件：1 到 100000 之間，位數總和等於 targetSum
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == targetSum) {
+                count++;
+            }
+        }
+
+        // 只輸出符合條件的數字個數
+        System.out.println(count);
+
+        sc.close();
+    }
+
+    // 計算數字每一位的總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10; // 取出個位數
+            n /= 10;       // 去掉最後一位
+        }
+        return sum;
+    }
+}
+```

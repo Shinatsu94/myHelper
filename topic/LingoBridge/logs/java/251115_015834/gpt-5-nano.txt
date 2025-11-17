@@ -1,0 +1,59 @@
+84
+
+改進建議：改為從右向左的一次遍歷就地計算後綴最大值，避免不必要的二次迴圈，提升效率與可讀性。
+
+修改說明與改動重點：
+- 演算法優化：
+  - 將原本的雙層迴圈改成單次右到左遍歷，使用 maxFromRight 記錄右側的最大值，並以 orig 保存原本 arr[i]，先設定 arr[i] 為 maxFromRight，再根據 orig 更新 maxFromRight，最後最後一位設定為 -1。
+  - 這樣時間複雜度由 O(n^2) 降為 O(n)，且保持就地運算。
+- 程式可讀性與風格：
+  - 增加程式標頭註解，說明檔案名稱、功能、作者與日期。
+  - 變數命名更清晰，並在必要處理 n 為 0 的情況。
+  - 保留原輸出格式（數字以空格分隔，最後一個不跟空格）。
+- 邊界與穩定性：
+  - 以原值 orig 作為暫存，確保在更新 maxFromRight 時不會把尚未處理的原始值遺失。
+  - 仍然符合題目「最後一個元素為 -1」的要求。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343136_1031_2 {
+    public static void main(String[] args) {
+        // 檔案名稱: CSIE_41343136_1031_2.java
+        // 功能: 將輸入的陣列轉換為「每個元素等於其右邊元素中的最大值」，最後一個為 -1
+        // 作者: 依需求自行填寫
+        // 日期: 2025-11-14
+
+        Scanner s = new Scanner(System.in);
+        if (!s.hasNextInt()) {
+            s.close();
+            return;
+        }
+
+        int n = s.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = s.nextInt();
+        }
+
+        // 從右向左就地計算後綴最大值，最後一位設為 -1
+        if (n > 0) {
+            int maxFromRight = arr[n - 1];
+            arr[n - 1] = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                int orig = arr[i];
+                arr[i] = maxFromRight;
+                if (orig > maxFromRight) {
+                    maxFromRight = orig;
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+
+        s.close();
+    }
+}

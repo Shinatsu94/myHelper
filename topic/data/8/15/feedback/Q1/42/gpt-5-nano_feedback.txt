@@ -1,23 +1,22 @@
-84
+86
+改進建議：加入程式標頭註解、清理未使用變數與不必要的變數、統一命名與縮排，並考慮使用 Arrays.sort 簡化排序邏輯以提升可讀性與穩定性。
 
-以下是依照您的評分標準所給的總分與修改建議與優化後的完整程式碼。
+修改與說明：
+- 移除未使用的變數 big 與 kal，減少混淆。
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註部分。
+- 將排序改用 Arrays.sort，簡化實作並提升效率與穩定性，避免自寫排序邏輯可能導致疏漏。
+- 變數命名改為清晰有意義的名稱（如 data 為 arr、input 改為 n），提升可讀性。
+- 使用 StringBuilder 組裝輸出，避免多次 println 的開銷，並保持輸出格式與測資需求一致。
+- 程式結尾適當釋放資源（關閉 Scanner）。
 
-優化與改動說明
-- 移除未使用變數與多餘程式碼：去除 big、kal 等未使用的變數，提升程式整體清晰度與可維護性。
-- 增加程式標頭註解：加入檔案說明、作者、日期等註解以符合格式要求。
-- 使用 Arrays.sort 取代自寫排序：提高可讀性與穩定性，並且對負數和一般整數皆能正確排序。
-- 統一與改善命名與格式：使用明確的變數名稱（如 n、data、sb），統一縮排與空白，提升可讀性。
-- 輸出處理改為使用 StringBuilder：避免逐個 System.out.print 的效能問題，且維持輸出格式（不多餘的空格）。
-- 增加必要的結束資源處理：關閉 Scanner，避免資源洩漏。
-
-修改後完整程式碼
+修改後完整程式碼：
 ```java
 /*
- * File: CSIE_41343220_1031_1.java
- * Description: 讀取長度 N，接著讀入 N 個整數，將它們由小到大排序，並輸出排序後的內容。
- * Author: 教授
- * Date: 2025-11-12
- */
+檔案名稱: CSIE_41343220_1031_1.java
+功能: 建立任意長度的一維陣列，將內容由小到大排序，輸出排序結果
+作者: 計算機科學系 教師
+日期: 2025-11-14
+*/
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -26,38 +25,31 @@ public class CSIE_41343220_1031_1 {
         Scanner sc = new Scanner(System.in);
 
         // 讀取陣列長度
+        int n;
         if (!sc.hasNextInt()) {
             sc.close();
             return;
         }
-        int n = sc.nextInt();
-        int[] data = new int[n];
+        n = sc.nextInt();
 
-        // 讀取 n 個整數
+        // 讀取陣列元素
+        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            data[i] = sc.nextInt();
+            arr[i] = sc.nextInt();
         }
-        sc.close();
 
-        // 排序（若 n <= 1，Arrays.sort 仍然正確）
-        Arrays.sort(data);
+        // 排序（使用 Java 內建排序提高穩定性與效能）
+        Arrays.sort(arr);
 
-        // 輸出排序結果，元素間以單一空白分隔，無多餘空格
+        // 輸出排序結果
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(data[i]);
+            sb.append(arr[i]);
         }
         System.out.print(sb.toString());
+
+        sc.close();
     }
 }
 ```
-
-修改原因說明
-- 讓程式結構更清晰，變數命名更具語意，並移除未使用的變數避免混淆。
-- 使用標準函式庫的排序函式 Arrays.sort 提升可讀性與效率，同時正確處理負數與任意整數序列。
-- 加入標頭註解，符合作業要求的程式檔案說明與作者資訊。
-- 結果輸出使用 StringBuilder，避免逐次輸出時的效能問題，且維持與題目範例一致的輸出格式（無額外換行或空格）。
-
-改進建議或反饋（一句話）
-- 建議以內建排序 Arrays.sort 作為首選，並確保程式開頭有完整的註解與清晰命名，以增進可讀性與可維護性。

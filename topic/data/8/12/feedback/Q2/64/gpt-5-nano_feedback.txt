@@ -1,68 +1,49 @@
-總分（0-100）: 8
+90
 
-修改評分依據（對照你的標準）：
-- 正確性：0/50（程式與題目需求完全不符，未輸出題目要求的計算結果與格式）
-- 邏輯：0/30（原程式與題目無關，邏輯錯誤）
-- 格式：3/10（程式有基本語法與排版，但命名與風格不佳，且缺乏清晰的注解與結構）
-- 備註：0/10（缺乏檔案註解、 header 等）
+改進建議或反饋：建議改用字串判斷提升可讀性與穩定性，同時補上程式標頭註解與輸出格式統一，讓維護與評分更清晰。
 
-修改後完整程式碼與說明
+改進與修改說明（要點）
+- 類別與函式命名改為更明確的慣例名稱，改用 isWellOrdered，以提升可讀性。
+- 將數字判斷改為字串遍歷方式，直接比較相鄰兩位字元的大小，簡潔且不易出錯。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者、日期，並在程式內容加入適當註解。
+- 輸出加入換行，且輸出格式與題目範例完全一致。
+- 程式在 main 中加入基本輸入檢測，避免非整數輸入造成問題。
 
-修改後的程式碼（完整可編譯版本，符合題意輸出格式，包含適當的註解與檔案資訊）：
-/*
- * File: LeibnizPi.java
- * 功能: 使用勒布尼茲公式計算 pi 的近似值
- *       輸出：i 為 10000, 20000, ..., 100000 時的 pi 值，pi 輸出到小數點後10位
- *       另外找出最小的 i 使得 pi 四捨五入到小數點第5位為 3.14159，並輸出該 i
- * 作者: 你的名字
- * 日期: 2025-11-12
- * 說明: 使用增量累加以提升效率，並遵循題目指定的輸出格式
+修改後完整程式碼如下：
+
+```java
+/**
+ * File: WellOrderedNumber.java
+ * Description: Determine whether a given positive integer has strictly increasing digits from left to right.
+ * Author: [Your Name]
+ * Date: 2025-11-15
  */
 
-public class LeibnizPi {
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+
+    // 判斷整數的每一位是否嚴格遞增（從左到右）
+    public static boolean isWellOrdered(int n) {
+        String s = Integer.toString(n);
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) >= s.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        int maxI = 100000;
-
-        double sum = 0.0;
-        int sign = 1;
-        int foundI = -1;
-
-        // 逐步累加，使用增量更新以降低時間複雜度
-        for (int i = 1; i <= maxI; i++) {
-            sum += sign * (1.0 / (2 * i - 1));
-            sign = -sign;
-
-            // 輸出 i 為 10000, 20000, ..., 100000 時的 pi 值
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
-
-            // 找出最小的 i，使 pi 四捨五入到 5 位小數為 3.14159
-            double piTemp = 4.0 * sum;
-            long rounded = Math.round(piTemp * 100000.0);
-            if (rounded == 314159L && foundI == -1) {
-                foundI = i;
-                // 繼續執行直到結束以符合前面的輸出需求
-            }
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
         }
-
-        // 顯示符合條件的最小 i（題目 (b) 的答案）
-        if (foundI != -1) {
-            System.out.println("i = " + foundI);
-        }
+        int n = sc.nextInt();
+        boolean ok = isWellOrdered(n);
+        System.out.println(n + (ok ? " is well-ordered number." : " is not well-ordered number."));
+        sc.close();
     }
 }
-
-修改說明與改動重點：
-- 重新實作核心演算法：將原本與題目完全無關的「判斷數字是否嚴格遞減」改為實作勒布尼茲級數的 pi 近似，符合題意。
-- 使用增量累加：避免 O(n^2) 的重新計算，改用逐步累加的方式，將單次迭代的計算成本降至 O(1)，整體複雜度為 O(n)。
-- 輸出格式與要求對齊：
-  - i 使用寬度為 6 的整數格式，符合「i 顯示到6位數」的要求。
-  - pi 使用小數點後 10 位輸出，符合題意。
-  - 逐步輸出 i = 10000, 20000, ..., 100000 的 pi 值。
-- 程式風格與可維護性：
-  - 新增檔案頭註解，說明檔案名稱、功能、作者與日期，改善備註部分的需求。
-  - 變數命名清楚（sum、sign、foundI），並增添適當註解。
-
-改進建議（單句）：建議在提交時把核心計算邏輯封裝成方法（例如 computePi(int terms) 與 findMinIForTarget(double target)），並增加單元測試以驗證不同 i 對 pi 的近似與目標值的符合度，提升可維護性與可測性。
+```

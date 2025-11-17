@@ -1,0 +1,44 @@
+87
+建議加入對負數的處理與程式檔案頭註解，以提升穩健性與符合作業規範。
+
+修改說明與優化要點
+- 增加對負數的支援：若輸入為負數，先取絕對值反轉，再加上符號回復，符合一般“符號不變”的反轉意圖。
+- 使用 long 型別：提高能處理的整數範圍，避免溢位風險。
+- 加入程式檔案頭註解與適當註解：符合作業要求，便於閱讀與維護。
+- 保持單次執行、單一輸入的特性，且輸出結果與題意相符。
+
+修改後完整程式碼
+```java
+/**
+ * File: ReverseDigits.java
+ * Description: 將使用者輸入的整數之數字順序顛倒輸出。支援正負數，輸入為 0 時輸出 0。
+ * Author: 你的姓名
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n = scanner.nextLong();
+
+        boolean isNegative = n < 0;
+        long absN = Math.abs(n);
+        long reversed = 0;
+
+        while (absN != 0) {
+            long digit = absN % 10;
+            reversed = reversed * 10 + digit;
+            absN /= 10;
+        }
+
+        if (isNegative) {
+            reversed = -reversed;
+        }
+
+        System.out.println(reversed);
+        scanner.close();
+    }
+}
+```

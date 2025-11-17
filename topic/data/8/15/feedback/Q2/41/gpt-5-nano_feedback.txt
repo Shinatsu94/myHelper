@@ -1,58 +1,87 @@
-11
+總分：90
 
-修改後完整程式碼：
+改進建議（一句話）：建議加入程式標頭註解、使用原始陣列計算後方最大值以避免依賴先前修改的值、並採用更清晰的變數命名與快速輸入以提升可讀性與效能。
+
+修改說明與優化重點
+- 正確性與邏輯保留原始演算法核心，但避免在計算最大值時被前面已修改的尾部元素影響，改以原始陣列 orig 來找出每個位置 i 後方的最大值，確保符合題意「後方元素的最大值」的定義。
+- 引入快速輸入（FastScanner）以提升效能，適用於較大的測資。
+- 變數命名改為更具可讀性，如 orig、arr、maxIdx。
+- 增加完整輸入輸出的格式化輸出，避免尾端多餘空格。
+- 加入程式標頭註解與說明（此版本為示意，若正式提交請填寫作者、日期等資訊）。
+
+以下為修改後的完整程式碼：
+
 /*
-檔案名稱: CSIE_41343219_1031_2.java
-功能: 讀入陣列長度與元素，輸出內容的升序排列
-作者: 教授
-日期: 2025-11-12
-說明: 使用 Arrays.sort 進行整數陣列排序，輸出以空格分隔的單行結果。
+File: CSIE_41343219_1031_2_Optimized.java
+描述: 將陣列內容依規則置換為其在該位之後的元素的最大值，最後一個元素設為 -1。
+作者: 與日期: 請補充
 */
-import java.util.Scanner;
+
+import java.io.InputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
-public class CSIE_41343219_1031_2 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+public class CSIE_41343219_1031_2_Optimized {
+  public static void main(String[] args) throws Exception {
+    FastScanner fs = new FastScanner(System.in);
+    Integer nObj = fs.nextInt();
+    if (nObj == null) return;
+    int n = nObj;
+    int[] arr = new int[n];
+    for (int i = 0; i < n; i++) arr[i] = fs.nextInt();
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        int[] ary = new int[n];
+    // 使用原始陣列 orig 計算尾端的最大值，避免被前面的修改影響
+    int[] orig = Arrays.copyOf(arr, n);
 
-        // 逐一讀入陣列元素
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                ary[i] = sc.nextInt();
-            } else {
-                // 少於 n 個輸入時，結束並輸出目前已讀取的部分
-                // 若題目保證輸入完整，此分支不一定會被觸發
-                break;
-            }
-        }
-        sc.close();
-
-        // 排序（升序）
-        Arrays.sort(ary);
-
-        // 輸出，元素以單一空格區隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < ary.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(ary[i]);
-        }
-        System.out.println(sb.toString());
+    for (int i = 0; i < n - 1; i++) {
+      int maxIdx = i + 1;
+      for (int j = i + 2; j < n; j++) {
+        if (orig[j] > orig[maxIdx]) maxIdx = j;
+      }
+      arr[i] = orig[maxIdx];
     }
+
+    // 最後一個元素設為 -1
+    arr[n - 1] = -1;
+
+    // 輸出：以空格分隔，無尾端空格
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < n; i++) {
+      if (i > 0) sb.append(' ');
+      sb.append(arr[i]);
+    }
+    System.out.print(sb.toString());
+  }
+
+  // 簡易快速輸入
+  static class FastScanner {
+    private final InputStream in;
+    private final byte[] buffer = new byte[1 << 16];
+    private int ptr = 0, len = 0;
+
+    FastScanner(InputStream is) { this.in = is; }
+
+    private int read() throws IOException {
+      if (ptr >= len) {
+        len = in.read(buffer);
+        ptr = 0;
+        if (len <= 0) return -1;
+      }
+      return buffer[ptr++];
+    }
+
+    Integer nextInt() throws IOException {
+      int c, sign = 1, val = 0;
+      do {
+        c = read();
+        if (c == -1) return null;
+      } while (c <= ' ');
+      if (c == '-') { sign = -1; c = read(); }
+      while (c > ' ') {
+        val = val * 10 + (c - '0');
+        c = read();
+      }
+      return val * sign;
+    }
+  }
 }
-
-修改說明與原因：
-- 修正排序邏輯與結果：原先的選擇排序實作會覆蓋原有值、未正確交換，輸出不符合升序。改用 Arrays.sort 進行排序，確保正確性、穩定性與簡潔性。
-- 增加程式標頭與註解：加入檔案說明、功能描述、作者與日期，提升可讀性與維護性。
-- 改善輸出格式與變數命名：使用有意義的命名與 StringBuilder 組裝輸出，確保輸出格式正確且易於閱讀。
-- 安全性與魯棒性：在讀取過程中加入少量防禦性檢查，如遇到輸入不足時不會發生例外直接結束，雖然題目通常保證完整輸入，但此處的防護較為穩健。
-
-改進建議（一句話說明）：
-- 建議維持簡潔且正確的排序實作，若課程允許，採用標準函式庫排序（如 Arrays.sort）以降低程式錯誤風險並提升可讀性，同時在輸出端妥善處理格式。

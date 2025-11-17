@@ -1,0 +1,75 @@
+4
+
+改進建議：請依題意完成讀入整數陣列、對陣列排序並輸出結果，避免輸出與題意無關的星號等內容。
+
+評分與說明
+- 正確性（0/50）：現有作業未完成題目要求的排序與輸出，僅輸出星號圖案，與題意不符，因此給予 0 分。
+- 邏輯（0/30）：作法與題意嚴重不符，缺乏正確的輸入、排序與輸出邏輯，故給予 0 分。
+- 格式（4/10）：程式有基本縮排，但檔名不具描述性、命名與註解不足，且缺少標頭註解與清晰的變數命名，因此給與有限的格式分數。
+- 備註（0/10）：缺少檔案註解、作者、日期等說明，因此給 0 分。
+
+修改與原因
+- 以任意長度的一維整數陣列取代原本的星號輸出，符合題意。
+- 使用 arr[n] 動態陣列並用 Arrays.sort 直接排序，簡潔且正確，效率好。
+- 輸出改為一行、以空格分隔，符合題目輸出格式，且避免尾端多餘空格。
+- 增加程式標頭註解與合理的變數命名，提升可讀性與可維護性。
+- 加入基本的輸入檢查，若 n <= 0 直接結束，避免不合理輸入造成錯誤。
+
+修改後完整程式碼
+```java
+/*
+File: CSIE_41343203_1031_3a.java
+Description: 讀取使用者輸入的長度 n，接著讀入 n 個整數，將其由小到大排序，最後輸出排序結果（以空格分隔）。
+Author: 教師
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（可依需求改為丟出例外或終止）
+                arr[i] = 0;
+            }
+        }
+
+        // 將陣列從小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+說明修改部分的原因
+- 導入 Arrays.sort 以簡單且高效地完成排序，確保正確性與可讀性。
+- 以動態陣列存放輸入的整數，避免固定長度限制，符合「任意長度」的要求。
+- 輸出格式改為單行、以空格分隔，符合題目輸出需求。
+- 增加檔案標頭註解與清晰的變數命名，提升可維護性與可讀性。

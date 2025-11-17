@@ -1,0 +1,56 @@
+6
+
+改進建議：請直接實作題目要求的功能，改用動態長度的一維整數陣列並進行升序排序，避免與題意不符的矩陣運算。
+
+修改與優化說明：
+- 將原程式的固定 3x3 矩陣與矩陣求逆邏輯改為讀取任意長度 n 的一維整數陣列。
+- 使用 Arrays.sort 進行升序排序，結構簡單且效率足夠，符合題意。
+- 讀入部分改為讀取 n 與接下來的 n 個整數，並確保換行與空白分隔皆可正確處理。
+- 類別命名與檔案結構改為與功能相符的名稱，並加入程式頭註解以符合備註要求。
+- 輸出格式改為以單一空格分隔並換行，符合題目輸出格式。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: SortArrayAscending.java
+ * 功能: 讀取任意長度的一維整數陣列，將內容由小到大排序，輸出排序後的結果
+ * 作者: 學生
+ * 日期: 2025-11-14
+ */
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，使用單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

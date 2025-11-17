@@ -1,0 +1,47 @@
+87
+
+改進建議：提高可讀性與符合標準註解規範，並統一命名風格以利維護。
+
+修改與原因：
+- 將 sum0fDigits 換成更清晰的 sumOfDigits，避免 0 與 O 的混淆。
+- 將函式存取性設定為 private static，強化封裝與清晰的程式設計。
+- 加入更一致的縮排與排版，提升可讀性；並在最終版本中加入必要的註解與標頭區塊，以符合備註部分的要求。
+- 仍保留原有演算法的正確性與效率（逐一檢查 1-100000 的位數和）。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/**
+ * CSIE_41343202_1003_3
+ * 功能: 輸入整數 A，統計 1 到 100000 之間，位數總和等於 A 的數字個數。
+ * 作者: 請填寫作者姓名
+ * 日期: 請填寫日期
+ */
+public class CSIE_41343202_1003_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        int count = 0;
+
+        for (int i = 1; i <= 100000; i++) {
+            if (sumOfDigits(i) == A) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        scanner.close();
+    }
+
+    // 計算整數 number 的各位數字和
+    private static int sumOfDigits(int number) {
+        int sum = 0;
+        int n = number;
+
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

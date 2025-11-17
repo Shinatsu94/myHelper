@@ -1,0 +1,50 @@
+13
+改進建議：目前的排序邏輯錯誤，請改用正確的排序方法（例如 Arrays.sort），並避免對原陣列做不正當的覆寫，確保輸出為遞增順序且不輸出多餘的 -1。
+
+改進說明與修改原因
+- 正確性與邏輯：使用 Arrays.sort 直接對整個陣列排序，避免自己實作的邏輯錯誤，能保證負數與任意長度的正確排序。
+- 格式：輸出改用不含尾端多餘空格的輸出，提升輸出品質。
+- 程式內容與註解：加入適當的檔案註解，並維持清晰的變數命名。
+- 備註：避免修改末尾元素為 -1、也不需要特意处理 -1，直接排序輸出即可。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343203_1031_2.java
+功能: 讀入一個整數 n 與 n 個整數，將其升序排序，輸出排序結果
+作者: 教授
+日期: 2025-11-14
+版本: 1.0
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，給予預設值
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}

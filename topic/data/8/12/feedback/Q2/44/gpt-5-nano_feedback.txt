@@ -1,73 +1,57 @@
-2
+85
 
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 2/10
-- 備註: 0/10
+建議改進：改用字串逐位比對並加上完整的程式標頭註解，以提升可讀性與可維護性。
 
-說明與評語
-- 此學生提交的程式與題目要求無關，並未實作題目中的勒布尼茲級數計算、輸出格式以及尋找最小 i 的需求，屬於嚴重偏離題意。
-- 在邏輯與正確性方面均未符合作業要求，因此給分皆為0分，格式與備註也未包含完整的程式註解與適當註解，故格式得分僅給到基本的可讀性。
+修改說明與變更內容：
+- 將輸入改為字串處理，直接逐位比較字元，避免模數運算可能帶來的邊界問題，且與題意更貼近。
+- 使用更具語意的變數名稱，如 wellOrdered、input，提升可讀性。
+- 增加程式檔案標頭註解，描述檔案名稱、功能、日期等資訊，符合備註欄的要求。
+- 統一輸出格式，仍保持原題目所要求的輸出字串結構。
 
-優化後的完成版程式碼與說明
-以下提供一個可正確完成題目的版本，包含：逐項累加勒布尼茲級數以計算 pi，對 i = 10000, 20000, ..., 100000 輸出 pi，並找出使 pi 四捨五入到小數點後5位等於 3.14159 的最小 i；輸出格式符合題意，i 以六位寬度對齊，pi 以十位小數。
-
-程式碼（PiLeibniz.java）：
+修改後完整程式碼：
+```java
 /*
-檔案名稱: PiLeibniz.java
-功能說明: 使用勒布尼茲級數近似 pi，輸出 i=10000~100000（步長10000）對應的 pi 值，格式為
-        i =  10000, pi = 3.1414926536
-        i =  20000, pi = ...
-        且在輸出結尾再列出最小使 pi 四捨五入至小數點後5位等於 3.14159 的 i 值。
-作者: 教授
-日期: 2025-11-12
+ File: WellOrderedNumber.java
+ Description: Determine if a given number's digits are strictly increasing from left to right.
+ Author: (請填寫)
+ Date: 2025-11-15
 */
-public class PiLeibniz {
-    public static void main(String[] args) {
-        // 先輸出 i=10000, 20000, ..., 100000 對應的 pi 值
-        double sum = 0.0;
-        int maxI = 100000;
-        int step = 10000;
 
-        for (int i = 1; i <= maxI; i++) {
-            // 第 i 項： (-1)^(i-1) / (2*i - 1)
-            sum += ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            if (i % step == 0) {
-                double pi = 4.0 * sum;
-                // i 顯示到6位數，pi顯示到小數點後10位
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String input = line.trim();
+
+        boolean wellOrdered = true;
+
+        if (input.startsWith("-") || input.startsWith("+")) {
+            // 對於帶符號的數字，依題意通常視為非 well-ordered
+            wellOrdered = false;
+        } else {
+            for (int i = 1; i < input.length() && wellOrdered; i++) {
+                char prev = input.charAt(i - 1);
+                char curr = input.charAt(i);
+                if (!Character.isDigit(prev) || !Character.isDigit(curr)) {
+                    wellOrdered = false;
+                    break;
+                }
+                // 必須左邊的數字嚴格小於右邊的數字
+                if (prev >= curr) {
+                    wellOrdered = false;
+                    break;
+                }
             }
         }
 
-        // 輸出空行，與下一行結果分開
-        System.out.println();
-
-        // 找出使 pi 四捨五入至小數點後5位等於 3.14159 的最小 i
-        double sumForMinI = 0.0;
-        int minI = -1;
-        int limit = 2000000; // 足夠大以便找到第一個符合的 i
-        for (int i = 1; i <= limit; i++) {
-            sumForMinI += ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            double pi = 4.0 * sumForMinI;
-            long rounded5 = Math.round(pi * 100000.0); // 四捨五入到小數點後5位
-            if (rounded5 == 314159) {
-                minI = i;
-                break;
-            }
-        }
-
-        // 輸出最小 i（格式與前面一致，i 為六位寬度）
-        System.out.println("i = " + String.format("%6d", minI));
+        if (wellOrdered)
+            System.out.println(input + " is well-ordered number.");
+        else
+            System.out.println(input + " is not well-ordered number.");
     }
 }
-
-修改說明與原因
-- 修改內容要點：
-  - 以勒布尼茲級數逐項累加的方式計算 pi，避免重新計算整個序列，使效率提升且結果可控。
-  - 第一部分輸出使用逐步累加並在 i 為 10000 的倍數時輸出，符合題目要求的輸出格式與數值精度（十位小數）。
-  - 新增第二部分：逐次累加直到找到第一個使 pi 四捨五入到小數點後5位等於 3.14159 的 i，並輸出該 i，與前述輸出分隔以符合題目範例。
-  - 輸出格式使用 System.out.printf，搭配寬度輸出（i 使用 %6d，pi 使用 %.10f），可自動對齊並滿足題目對位數與精度的要求。
-  - 增加程式頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與維護性。
-
-改進建議或反饋（一句話）
-- 建議未來在解題時先釐清要求的輸出格式與收斂條件，並採用漸進累加的方法以提升計算效率與可讀性，同時確保輸出格式嚴格符合題目樣例。
+```

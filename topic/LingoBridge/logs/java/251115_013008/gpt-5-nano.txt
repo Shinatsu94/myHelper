@@ -1,0 +1,48 @@
+88
+
+改進建議：建議加入檔案標頭註解、改用內建排序與統一輸出方式以提升穩定性與可維護性。
+
+修改說明與原因：
+- 改用 Arrays.sort(arr) 取代自寫的選擇排序，原因：實作簡潔、穩定且在大多數情況下性能較佳，且避免自訂排序邏輯可能帶來的錯誤。
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可追蹤性。
+- 輸出使用 StringBuilder 組合整體輸出再一次性 println，避免逐個 System.out.print 的效能消耗與尾端空格處理問題。
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_41343209_1031_1.java
+ * Title: 任意長度的一維陣列升序排序
+ * Description: 讀取長度 n 與 n 個整數，將其升序排序，輸出排序結果（以空格分隔）。
+ * Author: 資訊工程學系教授
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343209_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升穩定性與效能
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 組字串輸出，避免尾端空格問題
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

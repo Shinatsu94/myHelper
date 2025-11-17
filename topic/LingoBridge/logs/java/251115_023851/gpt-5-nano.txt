@@ -1,0 +1,51 @@
+84
+
+建議：移除不必要的二維陣列，改用直接輸出星號的方式以降低記憶體使用並提升可讀性，同時補上程式標頭註解。
+
+修改說明與重點：
+- 移除 2D 陣列 t，改用直接輸出每行的星號，降低空間複雜度。
+- 使用字串建構（StringBuilder）逐行組成輸出內容，避免多次系統輸出呼叫。
+- 加入基本輸入檢查，若輸入非整數或超出範圍，給出清楚的錯誤訊息。
+- 加入程式標頭註解，並將類別名稱改為符合一般 Java 約定的命名（LowerTriangularStars），檔名建議為 LowerTriangularStars.java。
+
+完整修改後程式碼如下：
+
+/*
+ * file: LowerTriangularStars.java
+ * 功能: 輸入高度 n，輸出下三角形星號矩陣的列式表示（不使用額外的二維陣列，直接輸出）
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 說明: 僅輸出星號，無空格，滿足下三角需求；若輸入不在 1~20 之間，輸出錯誤訊息。
+ */
+import java.util.Scanner;
+
+public class LowerTriangularStars {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            System.out.println("error，要在1~20之間");
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        if (n <= 0 || n > 20) {
+            System.out.println("error，要在1~20之間");
+            sc.close();
+            return;
+        }
+
+        // 不使用二維陣列，直接輸出每行的星號
+        StringBuilder line;
+        for (int i = 1; i <= n; i++) {
+            line = new StringBuilder(i);
+            for (int j = 0; j < i; j++) {
+                line.append('*');
+            }
+            System.out.println(line.toString());
+        }
+
+        sc.close();
+    }
+}

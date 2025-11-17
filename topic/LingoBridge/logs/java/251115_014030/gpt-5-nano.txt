@@ -1,0 +1,62 @@
+85
+改進建議：必須在程式開頭加入標頭註解並使用更具描述性的變數命名與一致的縮排，另外加上輸出結尾的換行以提升可讀性與維護性。
+
+程式優化與修改說明：
+- 新增標頭註解，包含檔案名稱、功能、作者與日期，提升可維護性。
+- 變數命名改為更具描述性的名稱：n（長度）、arr（陣列）、minIndex、temp，提升可讀性。
+- 在內層迴圈加上花括號並使用清晰的命名，避免因縮排造成的誤解或錯誤。
+- 結果輸出改為以空格分隔，並在結尾加上換行，符合常見輸出格式。
+- 程式結尾關閉 Scanner 以釋放資源，並加入對 n <= 0 的保護。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+檔案名稱: csie_41343235_1031_1.java
+功能: 讀入一個整數長度 n、再讀入 n 個整數，輸出由小到大的排序結果（不使用 EOF，僅執行一次）。
+作者: 您的教授
+日期: 2025-11-14
+說明: 使用選取排序（Selection Sort）實作，並有必要的程式註解與較佳的命名。
+*/
+
+public class csie_41343235_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        if (n <= 0) {
+            sc.close();
+            System.out.println();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 選取排序 (升冪)
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[minIndex]
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+
+        // 輸出結果，以空格分隔，最後換行
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}

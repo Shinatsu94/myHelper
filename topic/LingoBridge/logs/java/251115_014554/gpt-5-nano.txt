@@ -1,0 +1,45 @@
+87
+
+改進建議：整體功能正確且能處理負數與任意長度的輸入，但缺少檔案標頭與內部註解，建議加入註解、提升命名與輸出格式的一致性。
+
+修改要點與原因：
+- 檔案標頭與註解：加入檔案名稱、功能說明、作者與日期等註解，提高可維護性與評分策略的符合度。
+- 演算法簡化與穩定性：改用 Arrays.sort 取代自訂的選擇排序，提升可讀性與效能，並避免潛在的實作錯誤。
+- 輸出格式與效能：使用 StringBuilder 組裝輸出字串，並在結尾輸出換行，提升性能與輸出穩定性。
+- 資源釋放與健全性：關閉 Scanner 以釋放資源。
+- 其他細節：保留原有的輸入邏輯與支援負數，對 n<=0 的情況保持穩定輸出。
+
+修改後的完整程式碼如下：
+```java
+/*
+檔案名稱: CSIE_51015108_1031_1.java
+功能: 讀取整數長度 n 與 n 個整數，對陣列內容由小到大排序，並輸出排序結果
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_51015108_1031_1 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = s.nextInt();
+        }
+        s.close();
+
+        if (n > 0) {
+            Arrays.sort(array);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

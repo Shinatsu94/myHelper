@@ -1,0 +1,87 @@
+76
+
+改進建議：依題意實作完整的下三角形二維陣列並加上程式標頭與註解，以提升可讀性與符合題目要求。
+
+修改說明與原因：
+- 將原程式改為實作完整的下三角形二維陣列 tri，並逐格填入 1, 2, …，以符合「建立完整的下三角形二維陣列」的需求。
+- 由於題目要求找出 num 的位置，改以實際遍歷陣列的方式找尋，並回傳 1-based 的列與欄位。
+- 加入程式標頭註解（檔案名稱、功能、作者、日期）與適當的內嵌註解，提升可讀性。
+- 將變數命名與型別改為較直覺的 int，同時保持健全的輸入檢查。
+- 保留原有的 invalid input 處理（num 超出範圍則輸出 not find ... in array.），以符合題意。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343221_1031_3b.java
+功能: 建立下三角形的二維陣列，填入數字 1..n(n+1)/2，找出指定數字的位置
+作者: XXX
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343221_1031_3b {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取高度 n
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        // 讀取要尋找的數字 num
+        int num;
+        if (sc.hasNextInt()) {
+            num = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        sc.close();
+
+        // 建立下三角形陣列，第 i 列長度為 i+1（1-based 說明對應 0-based 的 i+1） 
+        int[][] tri = new int[n][];
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+        }
+
+        // 依序填入 1, 2, ..., total
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
+            }
+        }
+
+        int total = n * (n + 1) / 2;
+        if (num <= 0 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 找出 num 在陣列中的位置 (1-based)
+        int foundRow = -1;
+        int foundCol = -1;
+
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == num) {
+                    foundRow = i + 1;
+                    foundCol = j + 1;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(num + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
+    }
+}

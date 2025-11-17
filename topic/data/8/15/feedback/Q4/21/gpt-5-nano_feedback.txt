@@ -1,76 +1,76 @@
-2
+67
 
-評分與評語
-- 正確性 (50%): 0/50
-  - 作業需求為建立一個任意長度的一維陣列，讀入長度與元素，並將內容由小到大排序後印出。學生的程式與此需求無關，僅嘗試尋找數字與輸出位置標註，且未讀入並排序一維陣列，故正確性為零。
-- 邏輯 (30%): 0/30
-  - 程式邏輯與題意嚴重不符，使用不相關的三角形陣列與查找邏輯，缺乏清晰且適切的演算法。
-- 格式 (10%): 2/10
-  - 程式有基本的結構（public class、main、Scanner），但命名不具意義且排版雜亂，縮排不穩定，缺乏一致性。
-- 備註 (10%): 0/10
-  - 標頭註解內容與實際程式功能不符，描述的是另一題目的內容，未提供與本程式相符的說明。
+建議改用實作完整的下三角形二維陣列並加入適當註解以提升可讀性與可維護性。
 
-總分: 2
+修改與改進說明（要點）：
+- 改用實際的二維陣列存放下三角形內容，而非僅以計數器模擬，符合題意「建立完整的下三角形二維陣列」。
+- 使用更具語意的變數名稱並整理縮排與註解，提升可讀性。
+- 於檔案頂部加入程式標頭註解，並在程式內部補充說明（註解有助於理解功能與使用方法）。
+- 使用單次搜尋完成後就結束，並確保在找不到時輸出符合格式的訊息。
 
-優化後完整程式碼
-下面提供符合題意的正確實作版本，含必要註解與適當的變數命名，能正確讀取長度與元素、排序並輸出排序結果。
+以下為修改後完整程式碼：
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- * 功能：讓使用者輸入一維陣列的長度與內容，並將內容由小到大排序輸出。
- * 作者：金宗翰（範例修正版本）
- * 日期：假設日期
- */
-public class CSIE_41343119_1031_4 {
-    public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
+/*
+  檔案名稱: LowerTriangularArraySearch.java
+  功能說明: 建立下三角形二維陣列並找出指定數字的位置
+  作者: 金宗翰
+  日期: 2025/10/31
+*/
 
-        // 讀取陣列長度
-        int n = 0;
-        if (scn.hasNextInt()) {
-            n = scn.nextInt();
+public class LowerTriangularArraySearch {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取下三角形的高度 n 與要尋找的數字 target
+        int height;
+        int target;
+        if (sc.hasNextInt()) {
+            height = sc.nextInt();
         } else {
-            // 輸入格式錯誤，直接結束
-            scn.close();
+            sc.close();
             return;
         }
 
-        // 讀取 n 個整數，放入陣列
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (scn.hasNextInt()) {
-                arr[i] = scn.nextInt();
-            } else {
-                // 若輸入不足，用 0 佔位以避免例外
-                arr[i] = 0;
+        if (sc.hasNextInt()) {
+            target = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列並填入 1..n(n+1)/2
+        int[][] tri = new int[height][height];
+        int value = 1;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
             }
         }
 
-        // 進行升冪排序
-        Arrays.sort(arr);
-
-        // 輸出排序後的陣列內容，元素之間以空白分隔，結尾換行
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 尋找 target 在陣列中的位置 (列為 row+1, 行為 col+1)
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    found = true;
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
         }
-        System.out.println(sb.toString());
 
-        scn.close();
+        if (found) {
+            System.out.print(target + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        } else {
+            System.out.print("not find " + target + " in array.");
+        }
+
+        sc.close();
     }
 }
-
-修改說明
-- 將原先不相關的嵌套查找與三角陣列邏輯改為符合題意的一維陣列處理流程：讀取長度、讀取對應數值、排序、輸出，確保功能正確且穩定。
-- 使用 Arrays.sort 進行升冪排序，支援負數與任意長度的輸入，簡潔且高效。
-- 改用具有意義的變數名稱（n、arr）並統一縮排，提升可讀性。
-- 增加程式開頭的註解與程式結構說明，並在輸出結尾加上換行，符合一般競賽與作業的輸出習慣。
-- 加入基本的輸入容錯與資源釋放（關閉 Scanner）。
-
-改進建議（一句話）
-- 建議在實作中加入完整的輸入驗證與邊界情況處理，並附上單元測試以確保在各種輸入下都能正確輸出排序結果。
-
-如果需要，我可以再附上多組測資與對應的輸出範例，或是加入自動化測試模組供日後使用。

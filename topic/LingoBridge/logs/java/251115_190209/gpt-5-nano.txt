@@ -1,0 +1,54 @@
+90
+
+這份作業正確反轉正整數的位元順序，但建議加入對負數、輸入驗證與程式註解以提升健壯性與可讀性。
+
+修改與原因（程式優化點）
+- 支援負數與避免溢位：改用 long 類型並保留符號，以正確處理負數輸入與大數情況，避免反轉後溢位。
+- 保留原有核心邏輯但加強健壯性：在反轉過程前先取得絕對值，反轉後再依原符號回復，確保輸出一致性。
+- 輸入驗證與標頭註解：提供基本的輸入檢查與完整的程式標頭註解，提升可讀性與可維護性。
+- 符號與變數命名：維持清晰的變數命名，方便閱讀。
+
+修改後完整程式碼
+以下為優化後的完整程式碼，含標頭註解與對負數的處理：
+
+/*
+  文件名稱: ReverseDigits.java
+  功能: 將輸入整數的位元反轉，例如 123 -> 321；支援正負號。
+  作者: 作業學生
+  日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+
+    // 反轉整數的位元，支援負數
+    public static long reverseNumber(long number) {
+        boolean negative = number < 0;
+        number = Math.abs(number);
+        long reversed = 0;
+
+        while (number != 0) {
+            long digit = number % 10;
+            reversed = reversed * 10 + digit;
+            number /= 10;
+        }
+
+        return negative ? -reversed : reversed;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 由於題目限定一次性輸入，這裡直接讀取長整數
+        if (!scanner.hasNextLong()) {
+            System.out.println(0);
+        } else {
+            long input = scanner.nextLong();
+            long reversed = reverseNumber(input);
+            System.out.println(reversed);
+        }
+
+        scanner.close();
+    }
+}

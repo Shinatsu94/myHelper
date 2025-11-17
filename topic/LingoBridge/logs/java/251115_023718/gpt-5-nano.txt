@@ -1,0 +1,47 @@
+84
+改進建議：直接逐行輸出星號而非先建立下三角陣列，以減少空間複雜度並簡化程式。
+
+修改說明：
+- 正確性與邏輯：保留題目需求的「下三角形」輸出，且增加輸入驗證，若 n 不在 (0,20] 內則不輸出，提升穩健性。
+- 格式：提升變數命名清晰度，並加入適當的註解與結構，使閱讀更易。
+- 備註：新增完整的標頭註解，說明檔案名稱、功能、作者與日期。
+- 效率與簡潔性：移除不必要的 2D 陣列存取，改以逐行建構字串並輸出，降低記憶體使用與執行步驟。
+
+修改後完整程式碼如下：
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343128_1031_3a_opt.java
+功能: 建立並列印下三角形的二維結構，但實際輸出直接逐行產生星號，避免額外陣列儲存。
+作者: 教師
+日期: 2025-11-14
+說明: 試題要求輸出由上到下、每行星號數量遞增的下三角形；此版本避免使用不必要的 2D 陣列，僅直接輸出每行字串。
+*/
+
+public class CSIE_41343128_1031_3a_opt {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        int n = 0;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        }
+
+        // 檢查輸入是否在允許範圍內
+        if (n <= 0 || n > 20) {
+            scn.close();
+            return; // 不輸出任何內容
+        }
+
+        // 逐行輸出下三角形星號，避免不必要的陣列儲存
+        for (int i = 1; i <= n; i++) {
+            StringBuilder line = new StringBuilder(i);
+            for (int j = 0; j < i; j++) {
+                line.append('*');
+            }
+            System.out.println(line.toString());
+        }
+
+        scn.close();
+    }
+}

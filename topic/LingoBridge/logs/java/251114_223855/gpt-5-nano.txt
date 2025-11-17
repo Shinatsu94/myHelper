@@ -1,0 +1,80 @@
+5
+
+建議重點：此作業需實作一維整數陣列的排序與正確輸出，請以讀入長度與元素，將元素從小到大排序後輸出，並加上適當的程式標頭註解與可讀性強的命名。
+
+修改與建議改進說明：
+- 將資料結構改為一維整數陣列 int[]，採用 Arrays.sort 做升序排序，符合題意與簡潔性原則。
+- 改用魯棒的輸入方法（FastScanner）以支援多行與空白分隔的輸入，並正確處理負數。
+- 增加適當的程式標頭註解，包含檔案名稱、功能、作者、日期等，提升可維護性。
+- 輸出格式改為單行輸出，元素以單一空白分隔，結尾不留多餘空白，符合題目輸出格式。
+- 移除原本不相關的三角形資料結構與不符合題意的邏輯，專注於本題需求。
+
+修改後完整程式碼：
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    /*
+     * 檔案名稱: Main.java
+     * 功能說明: 讀取整數 n 與 n 個整數，將陣列內容升序排序，並輸出排序後的結果（以空格分隔）。
+     * 著作人員: 你/教授
+     * 日期: 2025-11-14
+     */
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n = fs.nextInt();
+        if (n == Integer.MIN_VALUE) return; // 無輸入情況下結束
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = fs.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.print(sb.toString());
+    }
+
+    // 簡易快速輸入，支援整數與負數
+    private static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) { this.in = is; }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+                if (c == -1) return Integer.MIN_VALUE;
+            } while (c <= ' ');
+
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}

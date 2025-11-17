@@ -1,0 +1,77 @@
+85
+
+改進建議（一句話）：
+程式基本能正確排序與輸出，但建議加上完整註解與更易讀的變數命名，並改用一般的交換法避免使用 XOR swap 以提升穩定性與維護性。
+
+修改說明與分數依據：
+- 正確性 (50/50): 程式能正確讀入、排序並輸出整數陣列，對常見情況皆正確。評分：50
+- 邏輯 (28/30): 使用選擇排序的直覺邏輯正確；但原程式採用 XOR 交換法，雖然可行且無 bug，但不易閱讀與維護，若改用普通交換，邏輯更清晰。評分：28
+- 格式 (6/10): 變數命名較不直覺（nu、array），缺少完整註解與一致的程式風格與縮排。評分：6
+- 備註 (1/10): 程式標頭註解不足（缺檔案名稱、日期、功能說明、完整作者資訊與內容註解）。評分：1
+
+修改後的程式重點：
+- 使用更具可讀性的變數名稱（如 length、arr）。
+- 改用標準的雙暫存變數交換法，避免 XOR 交換帶來的閱讀與維護問題。
+- 增加清晰的程式標頭註解與內容註解，提升可維護性。
+- 輸出加入合適的格式（在多數情境下會希望輸出後換行，但也可依需求調整）。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343247_1031_1.java
+Name: 盧冠宇
+Student_ID: 41343247
+Description: 讀入整數長度 n，接著讀入 n 個整數，將其由小到大排序，最後輸出排序結果
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int length;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        length = scanner.nextInt();
+        if (length <= 0) {
+            scanner.close();
+            return;
+        }
+
+        // 讀入陣列元素
+        int[] arr = new int[length];
+        for (int i = 0; i < length; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 使用選擇排序 (由小到大)
+        for (int i = 0; i < length - 1; i++) {
+            int minIndex = i;
+            for (int j = i; j < length; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 普通交換，提升可讀性與穩定性
+            if (minIndex != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
+        }
+
+        // 輸出排序後的陣列，元素之間以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}

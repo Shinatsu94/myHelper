@@ -1,0 +1,91 @@
+76
+
+改進建議（簡述一句話）
+程式雖能計算並輸出 3x3 矩陣的反矩陣，但缺少標頭註解與完善的錯誤處理，且對近似於零的行列式與輸出值的處理可以更健壯。
+
+修改說明與原因
+- 增加標頭註解與使用更具描述性的類別名稱，提高可讀性與可維護性。
+- 引入對行列式近似為零的判斷（設定容忍閾值），避免在接近奇異矩陣時進行不穩定的除法運算。
+- 輸出時對極小的數值使用 0 顯示，以符合題目對於輸出格式的要求與樣例情況。
+- 以更清晰的巢狀迴圈建立輸入與輸出格式，並保持每列最後一項無尾端空白。
+- 保留原有正確的反矩陣計算公式（共因子矩陣的轉置除以行列式），確保正確性。
+
+修改後完整程式碼
+// MatrixInverse3x3.java
+/**
+ * 3x3 矩陣反矩陣計算
+ * 功能：讀入使用者提供的 3x3 矩陣，輸出其反矩陣，元素小數點後四位，零值輸出為 0
+ * 錯誤處理：若行列式接近為 0，輸出提示並結束
+ * 作者：your-name
+ * 日期：YYYY-MM-DD
+ */
+
+import java.util.Scanner;
+
+public class MatrixInverse3x3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] m = new double[3][3];
+
+        // 逐一讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!sc.hasNextDouble()) {
+                    sc.close();
+                    return;
+                }
+                m[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        double det = determinant(m);
+        // 對於接近於 0 的行列式採用容忍閾值
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("Matrix is singular");
+            return;
+        }
+
+        double[][] inv = inverse(m, det);
+
+        // 輸出格式：每行間以空格分隔，行末無空格；值為 0 時輸出 0，其他輸出四位小數
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = inv[i][j];
+                if (Math.abs(v) < 1e-9) {
+                    System.out.print("0");
+                } else {
+                    System.out.printf("%.4f", v);
+                }
+                if (j < 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算行列式
+    public static double determinant(double[][] a) {
+        return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+             - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+             + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+    }
+
+    // 計算反矩陣（使用 adjugate / det 的方式）
+    public static double[][] inverse(double[][] a, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] = (a[1][1] * a[2][2] - a[1][2] * a[2][1]) / det;
+        inv[0][1] = (a[0][2] * a[2][1] - a[0][1] * a[2][2]) / det;
+        inv[0][2] = (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / det;
+
+        inv[1][0] = (a[1][2] * a[2][0] - a[1][0] * a[2][2]) / det;
+        inv[1][1] = (a[0][0] * a[2][2] - a[0][2] * a[2][0]) / det;
+        inv[1][2] = (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / det;
+
+        inv[2][0] = (a[1][0] * a[2][1] - a[1][1] * a[2][0]) / det;
+        inv[2][1] = (a[0][1] * a[2][0] - a[0][0] * a[2][1]) / det;
+        inv[2][2] = (a[0][0] * a[1][1] - a[0][1] * a[1][0]) / det;
+
+        return inv;
+    }
+}

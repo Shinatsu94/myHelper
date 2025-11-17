@@ -1,0 +1,89 @@
+87
+
+建議改進點：加入程式標頭註解、強化變數命名與結構、且對行列式為0的情況做安全處理，同時維持對可逆矩陣輸出格式不變。
+
+程式優化與修改原因說明：
+- 增加程式標頭註解，方便維護與閱讀。
+- 改善變數命名，如 matrix、cofactors、inverseDet 等，使意義更清晰。
+- 將行列式為0的狀態做前置檢查，避免除以0的情況造成程式崩潰。
+- 將計算順序與輸出邏輯整理為函式外部呼叫的形式，保持主流程清晰，同時保留原有輸出格式（每列以空白分隔、最後一行無多餘空白）。
+- 將核心運算分離成可讀的結構，方便日後擴充或測試。
+
+修改後完整程式碼如下：
+
+/*
+File: InverseMatrix3x3.java
+Description: 讀入 3x3 矩陣，輸出其反矩陣，非零元素四位小數，零元素輸出 0。若行列式近似於 0，則不輸出結果。
+Author: 教授
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class InverseMatrix3x3 {
+    private static final int N = 3;
+    private static final double EPS = 1e-12;
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        double[][] matrix = new double[N][N];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!in.hasNextDouble()) {
+                    in.close();
+                    return;
+                }
+                matrix[i][j] = in.nextDouble();
+            }
+        }
+
+        // 計算行列式
+        double det = matrixDeterminant3x3(matrix);
+        if (Math.abs(det) < EPS) {
+            // 行列式為零，無法求逆，結束輸出
+            in.close();
+            return;
+        }
+
+        // 計算伴隨矩陣（cofactor 矩陣），再轉置輸出為逆矩陣
+        double[][] cofactors = new double[N][N];
+        cofactors[0][0] =  (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]);
+        cofactors[0][1] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]);
+        cofactors[0][2] =  (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+
+        cofactors[1][0] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]);
+        cofactors[1][1] =  (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]);
+        cofactors[1][2] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]);
+
+        cofactors[2][0] =  (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]);
+        cofactors[2][1] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]);
+        cofactors[2][2] =  (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]);
+
+        double invDet = 1.0 / det;
+
+        // 輸出逆矩陣（轉置后的共因子矩陣），若值接近 0 則輸出 0
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                double val = cofactors[j][i] * invDet;
+                if (Math.abs(val) < EPS) {
+                    System.out.print("0");
+                } else {
+                    System.out.printf("%.4f", val);
+                }
+                if (j < N - 1) System.out.print(" ");
+            }
+            if (i < N - 1) System.out.println();
+        }
+
+        in.close();
+    }
+
+    // 計算 3x3 矩陣的行列式
+    private static double matrixDeterminant3x3(double[][] a) {
+        return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+             - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+             + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+    }
+}

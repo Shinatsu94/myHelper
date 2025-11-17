@@ -1,37 +1,55 @@
-0
+97
 
-修改後完整程式碼：
+改進建議與回饋（一句話）：
+建議將數字位數和的計算封裝成方法、加入上限檢查與資源釋放，並以更具可讀性的變數命名，以提升可維護性與效率。
+
+修改說明與程式優化要點：
+- 將位數加總的邏輯抽成獨立方法 digitSum(int n)，提升可讀性與可測試性。
+- 加入上限檢查：1~100000 範圍內，最大位數和為 45，若輸入 A 超過 45 則直接輸出 0，避免不必要的迴圈。
+- 變數命名改為更具意義的名稱，例如 targetSum、count，提升可讀性。
+- 程式結構與註解更清晰，同時在結尾關閉 Scanner。
+
+修改後完整程式碼如下：
+//package h4w;
 import java.util.Scanner;
 
+/*
+    filename: CSIE_41143122_1003_3.java
+    function: 範圍內找出符合輸入的位數和的數量（範圍1~10W）
+      author: 林柏儒 資工四甲 41143122
+    datetime: 2025/10/3
+     version: 1.1
+*/
 public class CSIE_41143122_1003_3 {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
+        int targetSum = scanner.nextInt();
 
-        // 讀入兩個整數，分別存入 A, B
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        // 範圍 1 ~ 100000，最大位數和為 45，若超過則直接為0
+        if (targetSum < 0 || targetSum > 45) {
+            System.out.println(0);
+            scanner.close();
+            return;
+        }
 
-        // 先印出原始值
-        System.out.println(A);
-        System.out.println(B);
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == targetSum) {
+                count++;
+            }
+        }
 
-        // 不使用其他變數，使用位元運算交換 A, B
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
-
-        // 印出交換後的值
-        System.out.println(A);
-        System.out.println(B);
-
+        System.out.println(count);
         scanner.close();
     }
+
+    // 計算正整數 n 的十進位位數總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
 }
-
-修改說明：
-- 將原先與題目不相符的計數邏輯移除，改為符合題意的兩數字輸入與交換流程，並在交換前後分別印出結果。
-- 使用位元異或（XOR）交換法，僅用 A、B 兩個變數完成交換，符合「不可使用其他變數」的限制，避免可能的整數溢位情況（相較於加減法 swap）。
-- 增加清楚註解說明流程與交換方式，維持良好可讀性；並加入 scanner.close() 以釋放資源。
-
-改進建議或反饋（一句話）：
-建議在程式開頭或註解中清楚說明為何選用 XOR 交換，以及在真實應用中考量若需要處理非整數輸入時的魯棒性與例外處理。

@@ -1,0 +1,72 @@
+10
+
+改進建議（一句話）
+請重新提交符合題意的程式：讀取整數長度 n 與 n 個整數，將陣列升序排序並輸出，並補上清楚的程式標頭與註解。
+
+修改與優化說明
+- 目的與需求對齊：原程式與題目無關，改寫為讀取長度 n 與 n 個整數，完成排序與輸出。
+- 輸入處理：採用快速掃描器（FastScanner）與 StringTokenizer，以穩定處理空白與換行，且能正確讀取負數。
+- 演算法：使用 Arrays.sort 對整數陣列進行升序排序，簡單且正確。
+- 輸出格式：輸出單行整數，元素以單一空格分隔，末尾換行。避免多餘空格。
+- 變數與命名：使用有意義的名稱（n、arr、sb），提高可讀性。
+- 註解與檔案資訊：加入檔名、功能、作者、日期等標頭註解，程式內容也有清楚的註解。
+
+修改後完整程式碼
+// File: ArraySortAscending.java
+// 功能: 讀取長度 n 與 n 個整數，將陣列由小到大排序，輸出排序結果
+// 作者: 教師（資訊工程系系教授）
+// 日期: 2025-11-14
+
+import java.io.*;
+import java.util.*;
+
+public class ArraySortAscending {
+    // 內部快速掃描器，穩定處理空白與換行，支援整數輸入
+    private static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        FastScanner() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next() throws IOException {
+            while (st == null || !st.hasMoreElements()) {
+                String line = br.readLine();
+                if (line == null) return null;
+                st = new StringTokenizer(line);
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() throws IOException {
+            String s = next();
+            if (s == null) throw new IOException("No more input");
+            return Integer.parseInt(s);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            FastScanner fs = new FastScanner();
+            String token = fs.next();
+            if (token == null) return;
+            int n = Integer.parseInt(token);
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = fs.nextInt();
+            }
+            Arrays.sort(arr);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            // 避免執行時發生未預期的錯誤時整個程式崩潰
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+}

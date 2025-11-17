@@ -1,63 +1,60 @@
-86
+88
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 8/10
+- 備註: 0/10
 
-評分明細
-- 正確性：50/50
-  - 功能正確：能依序讀入長度與元素，對整數陣列進行升冪排序，並輸出排序結果。負數亦支援，且未使用 EOF 檔案結尾需求，符合題意。
-- 邏輯：28/30
-  - 演算法簡單且正確（使用 Arrays.sort 進行排序，輸出時以空格分隔）。
-  - 可再考慮增加容錯或輸入檢查，以及在不使用副作業的前提下的邏輯清晰度。
-- 格式：8/10
-  - 變數命名清楚，縮排普遍良好。
-  - 但原程式缺少程式標頭註解與必要的內部註解，且有些風格可再統一（如避免一行多句語句、使用更一致的大括號風格）。
-- 備註：0/10
-  - 未提供程式標頭註解（檔案名稱、功能、作者、日期等）及內容註解。
+改進建議（一句話）：建議加入程式標頭註解與基本輸入健全性檢查，並用單一輸出字串組裝提升可讀性與維護性。
 
-修改後完整程式碼與說明
-修改重點
-- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註部分。
-- 使用 StringBuilder 組裝輸出字串，避免多次輸出造成的效率問題，並確保輸出格式正確（中間以單一空格分隔，末尾不多餘空格）。
-- 取消不必要的 scanner.close() 設定，以避免在某些執行環境中關閉 System.in 導致的問題。
-- 保留對負數的支援，原有實作已可正確處理。
+程式優化說明與修改理由：
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註需求。
+- 使用 try-with-resources 管理 Scanner，避免直接關閉 System.in，提升資源管理穩健性。
+- 改用 StringBuilder 組裝輸出字串，避免在迴圈中逐次呼叫 System.out.print，提升效能與輸出一致性。
+- 增加基本輸入檢查與邊界處理（n <= 0 時輸出換行並結束），提高健壯性。
+- 其他命名與排版保持清晰可讀。
 
 修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343215_1031_1.java
+功能: 讀取整數 n，接著讀取 n 個整數，並升序排序輸出
+作者: （請填寫作者姓名）
+日期: 2025-11-14
+*/
+
 import java.util.Arrays;
 import java.util.Scanner;
 
-/*
-檔案名稱: CSIE_41343215_1031_1.java
-功能: 讀取整數陣列長度 n 與 n 個整數，升冪排序後輸出
-作者: 教授
-日期: 2025-11-12
-說明: 不使用 EOF，僅執行一次即可結束
-*/
 public class CSIE_41343215_1031_1 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = scanner.nextInt();
-        }
-        // 不顯式關閉 System.in，避免在某些執行環境造成影響
-        // scanner.close();
+        try (Scanner scanner = new Scanner(System.in)) {
+            if (!scanner.hasNextInt()) {
+                return;
+            }
+            int n = scanner.nextInt();
+            if (n <= 0) {
+                System.out.println();
+                return;
+            }
 
-        Arrays.sort(arr);
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (scanner.hasNextInt()) {
+                    arr[i] = scanner.nextInt();
+                } else {
+                    // 若輸入不足，預設為 0（依需求可調整為拋出例外或其他處理方式）
+                    arr[i] = 0;
+                }
+            }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            Arrays.sort(arr);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < arr.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+
+            System.out.println(sb.toString());
         }
-        System.out.println(sb.toString());
     }
 }
-
-修改說明
-- 增加標頭註解，讓檔案具備明確的檔案資訊與用途。
-- 改用 StringBuilder 組裝輸出，確保輸出格式穩定，且在大型輸出時效率較高。
-- 移除 scanner.close() 呼叫，避免在某些環境中影響 System.in 的後續使用。
-
-改進建議（一句話）
-建議在程式開頭與關鍵區段加入註解，並維持適當的輸出緩衝，提升可讀性與穩定性，尤其在競賽型測資環境中。
-
-如需，我可以提供另一種不使用內建排序的實作作為教學練習（如簡單的選擇排序），以比較不同排序法在理解與性能上的差異。

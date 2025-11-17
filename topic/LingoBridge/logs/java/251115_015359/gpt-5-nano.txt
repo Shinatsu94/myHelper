@@ -1,0 +1,52 @@
+91
+建議：把每個位置的最大取值改為以原始陣列為基礎的後綴最大值，避免在迴圈中互相覆蓋造成不必要的副作用，並加入更清晰的註解與標頭。
+
+修改重點與原因
+- 正確性與邏輯：改用先以原陣列 A 計算 A[i+1..n-1] 的最大值再寫回 A[i]，避免迴圈中 A[i] 的值被後續計算影響，確保每個位置的值等於其之後元素的最大值。
+- 格式與註解：新增完整的檔案標頭註解、增強程式內註解、並整理縮排與輸出格式，提升可讀性。
+- 資源管理：使用完成後關閉 Scanner。
+- 可維護性：保留原有輸出格式，但改用更清晰的輸出方式，避免尾端多餘空白。
+
+修改後完整程式碼
+/*
+檔案名稱：CSIE_41343119_1031_2.java
+功能：將陣列中每個元素替換為其之後元素中的最大值；最後一個元素置為 -1。
+作者：金宗翰
+日期：2025-10-31
+說明：輸入第一個整數為陣列長度 n，接著輸入 n 個整數。輸出長度為 n 的新陣列，對於 i < n-1 的位置，值為 A[i+1..n-1] 的最大值；最後一個為 -1。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343119_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int[] A = new int[n];
+
+        // 讀取陣列
+        for (int i = 0; i < n; i++) {
+            A[i] = scn.nextInt();
+        }
+
+        // 將每個位置 i (0 <= i < n-1) 替換為 A[i+1..n-1] 的最大值
+        for (int i = 0; i < n - 1; i++) {
+            int max = A[i + 1];
+            for (int j = i + 2; j < n; j++) {
+                if (A[j] > max) max = A[j];
+            }
+            A[i] = max;
+        }
+        // 最後一個元素設為 -1
+        A[n - 1] = -1;
+
+        // 輸出結果，空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(A[i]);
+        }
+        System.out.println();
+
+        scn.close();
+    }
+}

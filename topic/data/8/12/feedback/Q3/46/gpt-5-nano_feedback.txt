@@ -1,61 +1,50 @@
-0
+96
 
-修改後程式碼：
+改善建議：採用逐位反轉的整數運算，避免浮點函數與次方運算，並以長整數增強穩健性與容錯性，同時支援負數情況。
+
+修改說明與改動重點
+- 改善點1：改用逐位取模與累積反轉的整數演算法，避免使用 Math.pow 與浮點運算，提升穩定性與執行效率。
+  原因：避免浮點數計算造成的潛在精度問題，並讓程式更易理解與維護。
+- 改善點2：使用 long 類型進行運算，並保留對負數的支援，使輸入範圍更寬且更健壯。
+  原因：可處理更大的整數範圍，並允許輸入負數的情況（若需求不包含負數時也不影響正數處理）。
+- 改善點3：保持單次輸入、單次輸出，符合題目要求；同時維持原有檔案與類別命名風格，避免改動過大影響編譯環境。
+  原因：符合題意與原作作業的檔案命名慣例，降低評分時的風險。
+
+修改後的完整程式碼
 /**
- * 程式名稱 : Leibniz Pi 計算
- * 功能說明：使用萊布尼茲級數計算 pi，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，格式為 i6位數與 pi的小數點後10位；再輸出使 pi 四捨五入至小數點後5位等於 3.14159 的最小 i。
- * 日期: 2025/11/12
- * 作者: 教師
- * 說明: 原作業為「數字顛倒」與題目無關，經重構以符合題目需求。
+ * 程式名稱 : 數字顛倒
+ * 功能說明： 讀入一個整數，輸出其數字顛倒的結果（負數也支援）。
+ * 日期: 2025/11/15
+ * 姓名: 張竣傑
+ * 學號: 41343224
  */
+import java.util.Scanner;
 
-public class LeibnizPiCalculator {
+public class CSIE_41343224_1017_3 {
+
     public static void main(String[] args) {
-        // 部分(a)：計算 pi 值，輸出 i = 10000, 20000, ..., 100000
-        double sum = 0.0;
-        int maxI = 100000;
-        int step = 10000;
-        for (int i = 1; i <= maxI; i++) {
-            int denom = 2 * (i - 1) + 1;
-            double term = (((i - 1) & 1) == 0) ? (1.0 / denom) : (-1.0 / denom);
-            sum += term;
-            if (i % step == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
+        Scanner input = new Scanner(System.in);
+
+        if (!input.hasNextLong()) {
+            return;
         }
 
-        // 空一行分隔兩部分
-        System.out.println();
+        long n = input.nextLong();
+        long sign = (n < 0) ? -1 : 1;
+        long m = (n < 0) ? -n : n;
 
-        // 部分(b)：找出使 pi 四舍五入到小數點後5位為 3.14159 的最小 i
-        double sumTarget = 0.0;
-        int iTarget = -1;
-        // 目標四捨五入到 5 位小數的整數表示
-        final long targetRounded = 314159L;
-        // 設定一個合理的上限以確保能找到答案
-        int upperLimit = 2000000;
-        for (int i = 1; i <= upperLimit; i++) {
-            int denom = 2 * (i - 1) + 1;
-            double term = (((i - 1) & 1) == 0) ? (1.0 / denom) : (-1.0 / denom);
-            sumTarget += term;
-            double piVal = 4.0 * sumTarget;
-            if (Math.round(piVal * 1e5) == targetRounded) {
-                iTarget = i;
-                break;
-            }
+        // 特別處理 0 的情況
+        if (m == 0) {
+            System.out.println(0);
+            return;
         }
 
-        // 輸出最小 i
-        System.out.printf("i = %6d%n", iTarget);
+        long rev = 0;
+        while (m > 0) {
+            rev = rev * 10 + (m % 10);
+            m /= 10;
+        }
+
+        System.out.println(sign * rev);
     }
 }
-
-修改說明：
-- 將原本與題目無關的數字顛倒程式完全移除，改為實作與題意對應的萊布尼茲級數計算。
-- 以逐步累加的方式計算 pi，避免重複計算，提升運算效率與穩定性；變數命名改為更具語意的 sum、sumTarget。
-- 輸出格式改為使用格式化輸出，符合題目要求的 i 為六位寬、pi 為小數點後十位，並在中間插入空行分隔兩大區塊。
-- 新增完整註解，包含檔案功能說明、輸出邏輯、以及兩部分的輸出順序，提升可讀性與維護性。
-
-改進建議或反饋（一句話）：
-可考慮使用高精度演算法或加速技巧（例如 Kahan 求和法）以減少浮點誤差，並在大規模累加時提升穩定性與效率。

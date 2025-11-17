@@ -1,0 +1,42 @@
+4
+
+此作業未實作排序與輸出，需改為讀取 n 與 n 個整數，使用陣列排序並以空格輸出。
+
+改進建議與修改說明
+- 修改說明要點：改用陣列存放輸入的整數，使用 Arrays.sort 進行升序排序，最後以空格分隔輸出結果，並加入程式標頭註解與基本註解以提升可讀性與維護性。
+- 修改原因：原程式僅輸出一個星號階層並未讀取完整輸入與排序，與題目需求嚴重不符；使用陣列與排序函式能清楚且正確地完成題目要求，且輸出格式與負數支援皆已涵蓋。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: S2.java
+功能: 讀入長度 n 與 n 個整數，輸出升序排序結果
+作者: 教授
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class S2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```

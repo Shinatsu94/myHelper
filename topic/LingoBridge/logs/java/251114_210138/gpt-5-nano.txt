@@ -1,0 +1,66 @@
+85
+建議：整體功能正確，但缺少程式標頭註解與程式風格可再提升，建議加入註解並採用內建排序提升可讀性與穩定性。
+
+修改重點與原因
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將排序改用內建 Arrays.sort，簡化程式邏輯、提升可讀性與效能，對負數及任意長度的整數陣列都具備穩定表現。
+- 增加對輸入長度的檢查，避免 n 為非正數時產生例外或輸出不符合預期。
+- 輸出格式改為每個元素以單一空格分隔，避免尾端多餘空格，提升輸出一致性。
+- 程式命名與變數名調整為較具語意的命名，並保留簡潔結構，符合一般 Java 編碼風格。
+
+優化後完整程式碼
+```java
+/*
+File: Main.java
+功能: 讀入整數 n 及 n 個整數，對陣列進行升序排序，輸出排序結果。
+作者: 你的姓名
+日期: 2025-11-14
+說明: 使用 Arrays.sort 取代手動排序以提升可讀性與穩定性。
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 若 n <= 0，直接輸出換行並結束
+        if (n <= 0) {
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素間以單一空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
+```

@@ -1,82 +1,71 @@
-總分: 4
+76
+建議在程式中實作真正的下三角形二維陣列並提供清晰的檔案註解與命名，以符合題目要求與提升可讀性。
 
-以下是作業批改與修改內容：
+修改說明與原因：
+- 增加實作下三角形的 2D 陣列：建立 int[][] arr 並填入 1, 2, ...，僅在下三角區域填值，符合「建立完整的下三角形二維陣列」的需求。
+- 變數命名與結構提升可讀性：改用 n、target、arr、val 等較具語意的變數名稱。
+- 檔案註解與標頭：加入完整的檔案名稱、描述、作者、日期等註解，符合備註部分的要求。
+- 資源管理與健壯性：使用 scanner.close() 關閉資源，加入基本的輸入檢查與容錯。
+- 輸出格式保持一致：仍輸出與題目相同的格式，例如 "55[10, 10]" 或 "not find 99 in array."，以保持相容性。
 
-1) 評分細項（個別分數）
-- 正確性: 0/50
-  - 程式未完成題目需求：未進行陣列建立與排序，輸出也不符合要求，僅有自訂的查找邏輯且格式不對，未產生排序後的陣列。
-- 邏輯: 0/30
-  - 程式邏輯與流程與題目需求嚴重不符，缺乏將輸入放入陣列、排序、輸出整數列的合理流程。
-- 格式: 3/10
-  - 基本有縮排與分行，但命名不夠清晰，程式結構與可讀性較差，缺乏清楚的註解與說明。
-- 備註: 1/10
-  - 有標頭註解包含姓名與學號，但缺乏檔案名稱、功能簡述、完整日期與足夠說明，內容可再補充。
-
-總分 = 4/100
-
-2) 修改與優化後完整程式碼
-修改重點與原因：
-- 使用陣列存放使用者輸入的整數，並以 Arrays.sort 進行升冪排序，符合題目需求與常見實作。
-- 輸出改為空白分隔的排序後序列，符合題目預期輸出格式。
-- 加入完整的程式標頭、清楚變數命名、適當註解與資源釋放，提升可讀性與可維護性。
-- 處理負數與任意長度陣列，且避免使用 EOF。
-
-修改後程式碼（完整版本）：
-
+修改後完整程式碼：
 /*
 File: CSIE_41343247_1031_3b.java
-Name: 盧冠宇
-Student_ID: 41343247
-功能: 讀入一個整數 n，接著讀入 n 個整數，將它們升冪排序，最後輸出排序後的陣列內容（以空格分隔）。
-日期: 2025-11-12
+Description: 建立下三角形二維陣列，填入數字，找出指定數字的位置
+Author: 盧冠宇
+Date: 2023-10-31
 */
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class CSIE_41343247_1031_3b {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int n;
+        int target;
 
-        // 讀取陣列長度
+        // 基本輸入取得與檢查
         if (!scanner.hasNextInt()) {
             scanner.close();
             return;
         }
-        int n = scanner.nextInt();
+        n = scanner.nextInt();
 
-        // 讀取 n 個整數到陣列
-        int[] arr = new int[n];
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        target = scanner.nextInt();
+
+        // 建立下三角形二維陣列，並填入連續的數字
+        int[][] arr = new int[n][n];
+        int val = 1;
         for (int i = 0; i < n; i++) {
-            if (scanner.hasNextInt()) {
-                arr[i] = scanner.nextInt();
-            } else {
-                // 若輸入不足，以 0 佔位，避免例外
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = val++;
             }
         }
 
-        // 排序（升冪）
-        Arrays.sort(arr);
-
-        // 輸出排序後的陣列內容，空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 找出 target 在陣列中的位置（1-based）
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+        for (int i = 0; i < n && !found; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (arr[i][j] == target) {
+                    found = true;
+                    foundRow = i + 1; // 轉為 1-based
+                    foundCol = j + 1;
+                    break;
+                }
+            }
         }
-        System.out.println(sb.toString());
+
+        if (found) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
 
         scanner.close();
     }
 }
-
-修改說明與改動對應點：
-- 取代原本的複雜且不相關的邏輯（找尋元素在陣列中的位置），改為標準的排序流程，提升正確性與可讀性。
-- 使用 Arrays.sort 以確保排序正確且效率穩定，時間複雜度 O(n log n)。
-- 輸出格式改為符合題目要求的空格分隔輸出，避免額外文字干擾。
-- 加入完整的程式標頭註解，並針對變數命名進行說明，提升可維護性。
-
-3) 改進建議（一句話）
-- 建議在未來的作業中，先用「輸入→儲存→處理→輸出」的流程設計草圖，再實作排序與輸出，以避免邏輯混亂與輸出格式錯誤。
-
-如需，我可以再提供其他作法（例如使用自訂排序法、使用 Streams 進行排序）或加強對輸入格式的容錯處理。

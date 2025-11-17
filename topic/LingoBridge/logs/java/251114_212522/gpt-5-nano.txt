@@ -1,0 +1,63 @@
+13
+
+建議改進：目前排序邏輯嚴重錯誤且輸出格式不符合題意，建議改用正確的排序與輸出方式，並加入清楚的程式標頭註解。
+
+修改與優化說明
+- 問題核心：需要將輸入的一維整數陣列由小到大排序，輸出排序結果。原始作業使用的內部交換邏輯會造成錯誤的結果，且最後輸出多餘的 -1。
+- 改善要點：
+  - 使用標準排序（Arrays.sort）來保證正確且簡潔的實作。
+  - 正確讀入 n 與 n 個整數，並避免使用不當的修改陣列內容的操作。
+  - 輸出時避免尾端多餘空格，且輸出格式符合題目要求。
+  - 加入適當的檔案標頭註解與適當的變數命名，提升可讀性與維護性。
+- 結果：改用簡潔穩定的排序與輸出邏輯，且程式具備清楚註解與命名。
+
+優化後的完整程式碼
+（請以檔案名稱 CSIE_41343119_1031_2.java 保存，內容包含檔案頭註解）
+
+/*
+檔案名稱: CSIE_41343119_1031_2.java
+功能說明: 讀取一個整數 n，接著讀取 n 個整數，將陣列由小到大排序，最後輸出排序後的陣列。
+作者: 金宗翰
+學號: 41343119
+日期: 2025-10-31
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343119_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        int[] A = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                A[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（可依需求調整）
+                A[i] = 0;
+            }
+        }
+
+        // 由小到大排序
+        Arrays.sort(A);
+
+        // 輸出，數字之間以單一空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(A[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}

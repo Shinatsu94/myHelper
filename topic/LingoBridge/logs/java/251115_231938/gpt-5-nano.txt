@@ -1,0 +1,31 @@
+97
+
+建議：在變數命名與註解方面再加強可讀性，例如使用更具描述性的變數名稱，並修正註解以與實作保持一致。
+
+優化說明與修改要點：
+- 使用 try-with-resources 包裝 Scanner，以自動關閉資源，提升穩定性與慣例。
+- 將變數名稱從 A, B 改為 a, b（仍符合題意的兩個輸入變數），增強可讀性；交換邏輯保持使用不需額外臨時變數的 XOR 交換法。
+- 修正註解內容與語句，讓整份程式的說明更清晰一致。
+
+修改後完整程式碼如下（未使用額外變數進行交換，仍符合題意與要求）：
+// date :2025/10/03
+// username&number : 黃榮裕41343240
+// function : 讀入使用者輸入的二個數字存在變數 a, b 並印出其值，最後再做交換
+import java.util.Scanner;
+
+public class CSIE_41343240_1003_1 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+
+            // 使用 XOR 位元交換，無需額外變數
+            a = a ^ b;
+            b = a ^ b;
+            a = a ^ b;
+
+            System.out.println(a);
+            System.out.println(b);
+        }
+    }
+}

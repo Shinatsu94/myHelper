@@ -1,0 +1,84 @@
+86
+建議加入標頭註解與更清楚的變數命名，並加入浮點容忍度與 Locale 設定以穩定輸出格式，增加對特例（不可逆矩陣）的處理。
+
+以下為優化後的完整程式碼與修改說明：
+
+修改說明與原因：
+- 加入檔案標頭註解，便於識別檔案名稱、功能、作者與日期，符合備註要求。
+- 將程式命名與變數命名變得更具意義（例如使用 A 與 inv 作為矩陣、反矩陣變數）。
+- 增加容忍度檢查 EPS，避免浮點運算造成的極小數值被誤判為非零，且在輸出時避免出現 -0.0000 的情況。
+- 統一輸出格式，透過 Locale.US 以確保小數點分隔符號在不同區域皆為「.」。
+- 將輸出邏輯封裝在簡潔的迴圈中，維持原有「三格換行、每三個元素換行、末行末尾無多餘空白」的輸出格式。
+
+修改後完整程式碼：
+import java.util.Locale;
+import java.util.Scanner;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+ /*
+  * File: Inverse3x3.java
+  * Description: 讀入 3x3 矩陣，輸出其反矩陣，元素四位小數，若為零則輸出 0。
+  * Author: 你的姓名
+  * Date: 2025-11-14
+  */
+
+public class Inverse3x3 {
+    private static final double EPS = 1e-12;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (sc.hasNextDouble()) {
+                    A[i][j] = sc.nextDouble();
+                } else {
+                    sc.close();
+                    return;
+                }
+            }
+        }
+        sc.close();
+
+        double det = A[0][0]*(A[1][1]*A[2][2]-A[1][2]*A[2][1])
+                   - A[0][1]*(A[1][0]*A[2][2]-A[1][2]*A[2][0])
+                   + A[0][2]*(A[1][0]*A[2][1]-A[1][1]*A[2][0]);
+
+        if (Math.abs(det) < EPS) {
+            System.out.println("Matrix is singular, cannot find inverse.");
+            return;
+        }
+
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (A[1][1]*A[2][2] - A[1][2]*A[2][1])/det;
+        inv[0][1] = -(A[0][1]*A[2][2] - A[0][2]*A[2][1])/det;
+        inv[0][2] =  (A[0][1]*A[1][2] - A[0][2]*A[1][1])/det;
+
+        inv[1][0] = -(A[1][0]*A[2][2] - A[1][2]*A[2][0])/det;
+        inv[1][1] =  (A[0][0]*A[2][2] - A[0][2]*A[2][0])/det;
+        inv[1][2] = -(A[0][0]*A[1][2] - A[0][2]*A[1][0])/det;
+
+        inv[2][0] =  (A[1][0]*A[2][1] - A[1][1]*A[2][0])/det;
+        inv[2][1] = -(A[0][0]*A[2][1] - A[0][1]*A[2][0])/det;
+        inv[2][2] =  (A[0][0]*A[1][1] - A[0][1]*A[1][0])/det;
+
+        DecimalFormat df = new DecimalFormat("0.0000");
+        DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.US);
+        df.setDecimalFormatSymbols(dfs);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (Math.abs(inv[i][j]) < EPS) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(inv[i][j]));
+                }
+                if (j != 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+}

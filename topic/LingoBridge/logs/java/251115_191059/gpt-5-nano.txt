@@ -1,0 +1,44 @@
+90
+
+改進建議：改用將位數逐步組成的 rev 計算方式，提升穩定性與可讀性，並補上更完整的程式註解與較具意義的變數名稱。
+
+修改說明與內容要點:
+- 正確性與邏輯：改用 rev 變數累積逆序結果，遇到負數時先輸出負號再處理，遇到 0 直接輸出 0，避免原本依靠條件跳過前導 0 的寫法可能導致的錯誤或不易閱讀。
+- 格式與註解：增加更清楚的檔案註解，使用更具意義的變數名稱（isNeg、rev、m），提升可讀性。
+- 兼容性：使用 long 類型以提升對較大整數的支援，輸出結果與預期一致。
+
+修改後完整程式碼如下：
+/*
+Name:盧冠宇
+Student_ID:41343247
+Date:2025-11-15
+Description: Reverse digits of an integer input. Handles negative numbers and zero.
+*/
+import java.util.Scanner;
+
+public class CSIE_41343247_1017_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n = scanner.nextLong();
+
+        if (n == 0) {
+            System.out.print(0);
+            return;
+        }
+
+        boolean isNeg = n < 0;
+        if (isNeg) {
+            System.out.print("-");
+            n = -n;
+        }
+
+        long rev = 0;
+        long m = n;
+        while (m > 0) {
+            rev = rev * 10 + (m % 10);
+            m /= 10;
+        }
+
+        System.out.print(rev);
+    }
+}

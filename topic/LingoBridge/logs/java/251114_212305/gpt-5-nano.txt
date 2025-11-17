@@ -1,0 +1,55 @@
+15
+改進建議：目前程式未依題意進行升序排序，輸出結果與題目要求不符，建議改用內建排序並正確輸出。
+
+修改與說明：
+- 將排序邏輯改為使用 Arrays.sort 進行整數陣列的升序排序，簡潔且正確。
+- 改用 StringBuilder 組字串，避免輸出結尾多餘空格，符合題目輸出格式。
+- 增加程式標頭註解（檔案名稱、功能、作者、日期），並使用有意義的變數名稱，改善程式可讀性與維護性。
+- 程式結尾關閉 Scanner，釋放資源，符合良好習慣。
+- 確保程式能正確處理含負數的情況。
+
+修改後完整程式碼：
+/*
+檔案名稱: SortArrayAsc.java
+功能: 讀入長度 n 並接著 n 個整數，輸出升序排序結果
+作者: 王世豪
+日期: 2025-10-31
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若數量不足，預設為 0（依需求，此情況應避免）
+                a[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 升序排序
+        Arrays.sort(a);
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

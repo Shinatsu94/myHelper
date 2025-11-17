@@ -1,104 +1,54 @@
-6
+90
 
-以下是評分與原因，以及根據題目要求給出的修改方案與新程式碼。
+這份作業正確反轉正整數的位元順序，但建議加入對負數、輸入驗證與程式註解以提升健壯性與可讀性。
 
-一、作業評分（按照您的標準，各項分數如下）
-- 正確性 (50%)
-  - 原學生程式並未解題，僅做數字反轉，與題目需求毫無關聯，故評分為 0/50。
-- 邏輯 (30%)
-  - 原程式只做反轉，邏輯與本作業需求完全不符，故評分為 0/30。
-- 格式 (10%)
-  - 程式碼整體縮排與排版還可接受，但變數命名單純且未遵循專案風格，且缺乏可讀註解與標頭，因此評分為 6/10。
-- 備註 (10%)
-  - 無程式標頭註解與說明，未符合需求中的註解要求，評分為 0/10。
+修改與原因（程式優化點）
+- 支援負數與避免溢位：改用 long 類型並保留符號，以正確處理負數輸入與大數情況，避免反轉後溢位。
+- 保留原有核心邏輯但加強健壯性：在反轉過程前先取得絕對值，反轉後再依原符號回復，確保輸出一致性。
+- 輸入驗證與標頭註解：提供基本的輸入檢查與完整的程式標頭註解，提升可讀性與可維護性。
+- 符號與變數命名：維持清晰的變數命名，方便閱讀。
 
-總分：6/100
-
-二、對原程式的問題說明
-- 功能需求錯置：題目要求用 Leiniz 歷算法估計 pi，輸出特定格式的多個列印；學生程式僅做整數反轉，與題意完全不符。
-- 輸出與格式未符合題目規範：沒有輸出 i 與 pi 的多組結果，也未做到 pi 計算的浮點格式控制。
-- 程式結構與可讀性不足：缺少程式標頭註解、缺乏變數與方法命名的清晰性與可維護性。
-
-三、修改與優化說明
-- 變更重點
-  - 重新實作完整的 pi 的近似計算，使用 Leibniz 公式：
-    pi = 4 * sum_{n=0}^{i-1} (-1)^n / (2n+1)
-  - 輸出格式：
-    - i 以寬度 6 顯示，符合「i 顯示到6位數」的需求，並使用格式化輸出保留 pi 至小數點後 10 位。
-    - 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，與題目範例一致的格式。
-  - 循序漸進計算：以累計求和的方式逐步加總，避免每次都從頭計算，提高效率。
-  - part (b) 的最小 i：找出最小的 i 使 pi 的近似值四捨五入到小數點後五位等於 3.14159，並輸出該 i（格式為 i = 6位數的值）。
-  - 程式標頭與註解：加入檔案說明、功能描述、作者、日期等，並在關鍵區塊加入適當註解。
-- 為何修改
-  - 直接滿足題意的輸出格式與計算需求，確保正確性與可讀性，同時提高效能與易於維護。
-
-四、修改後完整程式碼
-以下程式會輸出：
-- i =  10000, pi = 3.1414926536
-- i =  20000, pi = 3.1415426536
-- …
-- i = 100000, pi = 3.1415826536
-接著找出最小 i 使 pi 四捨五入到小數點後五位等於 3.14159，並輸出該 i。例如：i = 136121
-
-程式碼（Java）：
+修改後完整程式碼
+以下為優化後的完整程式碼，含標頭註解與對負數的處理：
 
 /*
-File: LeibnizPiCalculator.java
-功能: 使用 Leibniz series 近似計算 pi；輸出 i = 10000, 20000, ..., 100000 對應的 pi，並找出使 pi 四捨五入至小數點後五位等於 3.14159 的最小 i。
-作者: 你的名字
-日期: 2025-11-12
-說明: 僅使用單一輸出格式，使用寬度格式化以符合題目要求。
+  文件名稱: ReverseDigits.java
+  功能: 將輸入整數的位元反轉，例如 123 -> 321；支援正負號。
+  作者: 作業學生
+  日期: 2025-11-15
 */
 
-import java.util.Locale;
+import java.util.Scanner;
 
-public class LeibnizPiCalculator {
+public class ReverseDigits {
+
+    // 反轉整數的位元，支援負數
+    public static long reverseNumber(long number) {
+        boolean negative = number < 0;
+        number = Math.abs(number);
+        long reversed = 0;
+
+        while (number != 0) {
+            long digit = number % 10;
+            reversed = reversed * 10 + digit;
+            number /= 10;
+        }
+
+        return negative ? -reversed : reversed;
+    }
 
     public static void main(String[] args) {
-        // 設定 locale 以確保小數點分隔符合預期
-        Locale.setDefault(Locale.US);
+        Scanner scanner = new Scanner(System.in);
 
-        double sum = 0.0;
-        boolean reachedTarget = false;
-
-        // Part (a): 依次計算 i = 1...100000，並在 i 為 10000 的倍數時輸出對應 pi
-        // 這裡的 i 代表項數，也就是 2n+1 的分母索引的項數
-        int maxForPrint = 100000;
-
-        for (int i = 1; i <= maxForPrint; i++) {
-            // 加入第 i 項 (-1)^(i-1) / (2i-1)
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
-
-            if (i % 10000 == 0) {
-                double piApprox = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, piApprox);
-            }
-        }
-
-        // Part (b): 找到最小的 i 使 pi 四捨五入到小數點後五位等於 3.14159
-        // 重新從頭模擬但此次不重複輸出，直到符合條件
-        sum = 0.0;
-        int iFound = -1;
-        for (int i = 1; i <= 2000000; i++) { // 設一個上限，實務上可根據需要調整
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
-            double piApprox = 4.0 * sum;
-
-            if (Math.abs(piApprox - 3.14159) < 0.000005) {
-                iFound = i;
-                break;
-            }
-        }
-
-        // 輸出最小 i（格式同題意，顯示到 6 位數）
-        if (iFound != -1) {
-            System.out.println("i = " + String.format("%6d", iFound));
+        // 由於題目限定一次性輸入，這裡直接讀取長整數
+        if (!scanner.hasNextLong()) {
+            System.out.println(0);
         } else {
-            System.out.println("i = " + String.format("%6d", 0)); // 未找到的保守輸出
+            long input = scanner.nextLong();
+            long reversed = reverseNumber(input);
+            System.out.println(reversed);
         }
+
+        scanner.close();
     }
 }
-
-五、一句話改進建議
-- 建議在實作中把輸出與核心演算法分離成方法，並加上單元測試與可重用的程式參數，提升可讀性與可維護性，同時可用測試確認輸出與題目範例的一致性。

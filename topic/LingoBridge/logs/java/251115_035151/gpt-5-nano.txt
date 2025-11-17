@@ -1,0 +1,127 @@
+52
+
+他給出的作業在邏輯與正確性方面存在明顯問題，雖然思路是利用行列式與伴隨矩陣求反矩陣，但 CA 函式回傳的是代數餘子矩陣(cofactor matrix)而未轉置，實際輸出與題目提供的範例不符；此外缺少程式標頭註解與適當注解，且檔名與命名風格可提升可讀性。以下提供改進版實作與說明。
+
+修改建議要點（一句話）
+- 以正確的步驟先計算伴隨矩陣的轉置（即 adjugate），再除以行列式得到反矩陣，並加入清晰程式註解與標頭，提升可讀性與穩定性。
+
+修改說明與原因
+- 正確性：改用 Cofactor(matrix) 產生的餘子矩陣，並對其轉置得到 adjugate，再除以 det 得到正確的反矩陣。原程式 CA 回傳的是 Cofactor 矩陣，若不轉置即會得到錯誤的結果。
+- 可閱讀性與維護性：重命名函式與加入清楚註解；統一輸出格式與輸入處理邏輯，易於測試與擴充。
+- 輸出格式：保持「非零元素顯示四位小數」且零值輸出為 0，且各元素間以空格分隔、每三個換行，最後一行無多餘空白。
+- 標頭註解：補上檔案名稱、功能、作者與日期等資訊，符合作業要求。
+
+修改後完整程式碼
+
+/*
+檔案名稱: Inverse3x3.java
+功能說明: 讀入任意 3x3 矩陣，輸出其反矩陣；非零元素顯示到小數點後四位，元素為零時輸出 0。
+作者: 教師/學生
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class Inverse3x3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 逐組讀取 3x3 矩陣，直到輸入結束
+        while (true) {
+            double[][] m = new double[3][3];
+            boolean hasInput = true;
+
+            for (int i = 0; i < 3 && hasInput; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (sc.hasNextDouble()) {
+                        m[i][j] = sc.nextDouble();
+                    } else {
+                        hasInput = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!hasInput) {
+                break;
+            }
+
+            double det = det3(m);
+            if (Math.abs(det) < 1e-12) {
+                System.out.println("矩陣不可逆");
+                System.out.println();
+                continue;
+            }
+
+            double[][] cof = cofactorMatrix(m);
+            double[][] adj = transpose(cof); // 轉置得到 adjugate
+            double[][] inv = new double[3][3];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    inv[i][j] = adj[i][j] / det;
+                }
+            }
+
+            printFormattedMatrix(inv);
+            System.out.println();
+        }
+
+        sc.close();
+    }
+
+    // 計算 3x3 矩陣的行列式
+    public static double det3(double[][] a) {
+        return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+             - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+             + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+    }
+
+    // 計算 3x3 矩陣的代數餘子矩陣 (cofactor matrix)
+    public static double[][] cofactorMatrix(double[][] a) {
+        double[][] c = new double[3][3];
+        c[0][0] =  a[1][1] * a[2][2] - a[1][2] * a[2][1];
+        c[0][1] = -(a[1][0] * a[2][2] - a[1][2] * a[2][0]);
+        c[0][2] =  a[1][0] * a[2][1] - a[1][1] * a[2][0];
+
+        c[1][0] = -(a[0][1] * a[2][2] - a[0][2] * a[2][1]);
+        c[1][1] =  a[0][0] * a[2][2] - a[0][2] * a[2][0];
+        c[1][2] = -(a[0][0] * a[2][1] - a[0][1] * a[2][0]);
+
+        c[2][0] =  a[0][1] * a[1][2] - a[0][2] * a[1][1];
+        c[2][1] = -(a[0][0] * a[1][2] - a[0][2] * a[1][0]);
+        c[2][2] =  a[0][0] * a[1][1] - a[0][1] * a[1][0];
+        return c;
+    }
+
+    // 矩陣轉置
+    public static double[][] transpose(double[][] a) {
+        double[][] t = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                t[i][j] = a[j][i];
+            }
+        }
+        return t;
+    }
+
+    // 以規範格式輸出矩陣：非零四位小數，零值輸出為 0
+    public static void printFormattedMatrix(double[][] m) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double val = m[i][j];
+                // 對接近於零的數值視為0，避免輸出 -0.0000
+                if (Math.abs(val) < 5e-5) {
+                    System.out.print("0");
+                } else {
+                    System.out.printf("%.4f", val);
+                }
+                if (j < 2) System.out.print(" ");
+            }
+            if (i < 2) System.out.println();
+        }
+    }
+}
+
+說明
+- 本版本修正了正確計算反矩陣的步驟：先計算代數餘子矩陣(cofactor)，再轉置得到 adjugate，最後以 det 做分母取得反矩陣。
+- 採用穩健的小於 1e-12 的判定判別奇異矩陣，並保留原輸出格式的約束。
+- 增加了程式標頭註解與內部註解，提升可讀性與維護性。若你需要移除「矩陣不可逆」的輸出，可以在相應分支改為直接結束或輸出其他訊息。

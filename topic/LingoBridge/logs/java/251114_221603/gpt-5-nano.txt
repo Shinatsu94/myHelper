@@ -1,0 +1,68 @@
+3
+建議改用一維陣列並直接對數值排序，避免無關的 2D 陣列與星號輸出，並以空格分隔輸出排序結果，符合題意且能處理負數。
+
+改進方向與理由
+- 使用一維整數陣列存放輸入值，避免不必要的二維矩陣與複雜圖形輸出，讓程式更符合題目要求。
+- 直接排序整數陣列（可使用 Arrays.sort），邏輯簡單且正確，且支援負數。
+- 輸出格式統一：元素以空格分隔，結尾換行，與題目輸出格式一致。
+- 程式開頭加入適當註解與檔案資訊，便於維護與交作業。
+
+修改內容與原因
+- 移除不必要的 2D char 陣列與星號圖形輸出，改用一維整數陣列儲存輸入。
+- 讀取長度 n 後，依序讀入 n 個整數，若輸入不足則補 0（實務可改為錯誤處理，但此處保持穩健性）。
+- 使用 Arrays.sort(arr) 進行升冪排序，確保正確與高效。
+- 結果以單行輸出，元素間以空格分隔，符合輸出規範。
+
+修改後完整程式碼
+```java
+/*
+ * File: SortArray.java
+ * Description: 讀取整數長度 n，接著讀入 n 個整數，對它們進行升冪排序，並輸出排序結果。
+ * Author: 情報工程系教授
+ * Date: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（可改成例外處理）
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：以空格分隔，尾端換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

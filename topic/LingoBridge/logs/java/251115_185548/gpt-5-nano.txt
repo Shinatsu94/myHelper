@@ -1,0 +1,43 @@
+80
+
+建議改進重點：改用單次輸入、避免整數溢位問題，並用更直覺的字串反轉與前導零處理，同時加上標頭註解與適當註解，讓程式更健壯且易於閱讀。
+
+修改說明與改動部分
+- 單次輸入：移除原程式的 while 迴圈，改以單次 hasNext 檢查後僅處理一次輸入。
+- 避免整數溢位：不要把反轉結果再轉成 int；改用字串操作反轉並處理前導零，避免超過整數範圍時的錯誤。
+- 反轉與前導零處理：先整字串反轉，再去除前導零，若全為零則輸出 0。
+- 程式風格與註解：加上標頭註解，並在關鍵步驟加上說明。
+
+修改後完整程式碼（檔名建議為 Main.java）
+
+/*
+ * File: Main.java
+ * 功能: 將使用者輸入的一整數字串反轉，並移除前導零，僅執行一次。
+ * 作者: 你的位置
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 只處理一次輸入，符合需求「程式僅執行一次就結束」
+        if (in.hasNext()) {
+            String s = in.next().trim();
+
+            // 反轉字串
+            String rev = new StringBuilder(s).reverse().toString();
+
+            // 移除前導零
+            int idx = 0;
+            while (idx < rev.length() && rev.charAt(idx) == '0') idx++;
+            String out = (idx == rev.length()) ? "0" : rev.substring(idx);
+
+            System.out.println(out);
+        }
+
+        in.close();
+    }
+}

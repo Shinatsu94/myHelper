@@ -1,0 +1,43 @@
+88
+
+建議改進為：加上程式檔案標頭註解並採用動態計算位數總和的做法以提升可讀性與效率。
+
+修改與改進說明：
+- 正確性與邏輯保持不變，但將位數總和的計算改為動態規劃方式，逐一計算並同時統計符合條件的數量，效率更高且少了重複的迴圈。
+- 增加程式檔案標頭註解，說明檔名、功能、作者與日期，符合備註要求。
+- 對程式名稱、變數命名做些微整理，使其更具語意，並保留原有的輸出行為與範圍。
+
+修改後的完整程式碼如下：
+
+/*
+File: DigitSumCounter.java
+功能: 計算 1..100000 之間，數字的各位數字總和等於輸入值的數字個數
+作者: 你的學生
+日期: 2025-11-15
+說明: 使用動態規劃方式先計算各數字的位數總和，再統計符合目標總和的數量。
+*/
+
+import java.util.Scanner;
+
+public class DigitSumCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int targetSum = scanner.nextInt();
+        int limit = 100000;
+
+        // digitSum[i] 表示數字 i 的各位數字總和
+        int[] digitSum = new int[limit + 1];
+        int count = 0;
+
+        // 從 1 開始計算到 limit，逐步建立 digitSum
+        for (int i = 1; i <= limit; i++) {
+            digitSum[i] = digitSum[i / 10] + (i % 10);
+            if (digitSum[i] == targetSum) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        scanner.close();
+    }
+}

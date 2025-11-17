@@ -1,0 +1,54 @@
+85
+建議改進：採用更慣用的 0-based 陣列編碼、加入輸入範圍檢查與註解，並用 StringBuilder 提升輸出效能與可讀性。
+
+修改內容說明：
+- 使用 0-based 陣列與清晰變數名稱，使程式更符合 Java 常用寫法。
+- 加入輸入範圍檢查，避免非預期情況。
+- 使用 StringBuilder 組裝輸出，避免多次頻繁輸出，提升效能。
+- 加上程式頭註解與必要註解，提升可維護性與可讀性。
+- 保留下三角形的輸出格式（每行 i 個 '*'，無多餘空格）。
+
+修改後完整程式碼如下：
+```java
+/*
+文件名稱: Main.java
+功能說明: 根據使用者輸入高度 n(0 < n <= 20)，建立並輸出下三角形的二維陣列，元素為 '*'
+作者: 導師
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+
+        // 根據題目約束檢查輸入範圍
+        if (n <= 0 || n > 20) {
+            scanner.close();
+            return;
+        }
+
+        // 使用 0-based 二維陣列表示下三角形
+        char[][] tri = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
+            }
+        }
+
+        // 使用 StringBuilder 組裝輸出，提升效能
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(tri[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        scanner.close();
+    }
+}
+```

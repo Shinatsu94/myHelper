@@ -1,0 +1,56 @@
+86
+改進建議：加強變數命名與註解，並考慮0與負數等邊界情況以提升健壯性。
+
+修改內容與原因：
+- 使用有意義的變數名稱與註解：將 a、b 改為 reversed、digit，提升可讀性與維護性。
+- 加入程式標頭註解（檔案名稱、功能、作者、日期）以符合題目對備註的要求。
+- 關閉 Scanner，避免資源洩漏。
+- 提升穩健性與可擴充性：改用 long 類型並支援負數輸入的反轉結果，若遇非數字輸入也有預設處理。
+- 將核心邏輯抽成方法 reverseDigits，提升可讀性與可重用性。
+
+修改後完整程式碼：
+/*
+  檔案名稱: CSIE_41343121_1017_3.java
+  功能: 將輸入整數的數字反轉後輸出
+  作者: 未知
+  日期: 2025-11-15
+  說明: 輸入一個整數，輸出其數字反轉的結果。支持 0、正整數、負整數。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343121_1017_3 {
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    long number = 0;
+
+    if (scn.hasNextLong()) {
+      number = scn.nextLong();
+    } else {
+      // 非數字輸入時輸出 0 並結束
+      System.out.println(0);
+      scn.close();
+      return;
+    }
+
+    long result = reverseDigits(number);
+    System.out.println(result);
+    scn.close();
+  }
+
+  // 將整數的數字反轉，保留正負號
+  private static long reverseDigits(long n) {
+    if (n == 0) return 0;
+
+    int sign = (n < 0) ? -1 : 1;
+    long m = Math.abs(n);
+    long rev = 0;
+
+    while (m > 0) {
+      long digit = m % 10;
+      rev = rev * 10 + digit;
+      m /= 10;
+    }
+    return rev * sign;
+  }
+}

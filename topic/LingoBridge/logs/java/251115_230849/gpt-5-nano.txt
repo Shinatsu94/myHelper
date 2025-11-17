@@ -1,0 +1,34 @@
+88
+
+建議改用 XOR 位元交換以避免整數溢位風險，並補上完整的程式標頭註解以符合格式規範。
+
+修改與優化說明
+- 將原本的 a = a + b; b = a - b; a = a - b 改為 XOR 位元交換 a = a ^ b; b = a ^ b; a = a ^ b，使交換過程不依賴於可能造成溢位的加減運算。
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與格式符合性。
+- 保持不使用額外變數的限制，僅用 a、b 兩個變數完成交換。
+- 保留輸出格式為輸出交換後的兩個數值，各換行。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343209_1003_1.java
+ * 功能說明: 讀入兩個整數 A、B，交換其值後列印結果；不使用其他變數進行交換。
+ * 作者: 你的名字
+ * 日期: 2025-11-15
+ */
+public class CSIE_41343209_1003_1 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int a = scanner.nextInt();
+		int b = scanner.nextInt();
+
+		// 使用位元異或交換法，避免可能的溢位風險
+		a = a ^ b;
+		b = a ^ b;
+		a = a ^ b;
+
+		System.out.println(a + "\n" + b);
+		scanner.close();
+	}
+}

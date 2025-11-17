@@ -1,69 +1,77 @@
-6
+88
 
-評分與分析
-- 正確性(50%): 0/50
-  - 原作不會輸出題目範例的排序結果，是錯誤的排序邏輯，靠尋找尾端最大值的做法無法產生升序排列。
-- 邏輯(30%): 0/30
-  - 原作的邏輯並非排序演算法，且最終輸出包含 -1 等不符要求的值，整體邏輯不成立。
-- 格式(10%): 6/10
-  - 原程式有適當的縮排與結構，但命名風格不符合常見慣例，且缺乏註解與檔案標頭說明。
-- 備註(10%): 0/10
-  - 程式缺乏 header 註解說明檔名、功能、作者、日期，未包含說明性註解。
+改進建議：將原本 O(n^2) 的兩層迴圈改為單次自右向左的後綴最大值計算（O(n)），並加上清晰的程式註解與標頭資訊以符合題目要求與維護性。
 
-修改與優化說明
-- 核心變動
-  - 改用內建排序 Arrays.sort 直接對整數陣列進行升冪排序，保證正確性與效率（時間複雜度 O(n log n)）。
-  - 加入清晰的程式頭註解，描述檔案名稱、功能、作者、日期等資訊。
-  - 簡化輸入與輸出流程：先讀長度，再依序讀取長度個整數，最後以空格分隔輸出排序結果。
-  - 移除原本的 MA、pA 等不必要的方法，讓程式結構更清晰。
-- 修改後程式碼
-  (請使用者將下列程式存成對應的檔名並編譯執行)
+修改說明與重點修改：
+- 將核心演算法由原本的兩層迴圈改成 O(n) 的單次循環：從右側往左計算，其後的最大值，並把最後一個元素設定為 -1。
+- 增加標頭註解，註明檔案名稱、功能、作者、日期等資訊，並在程式中加入必要註解說明。
+- 變數與方法命名改為較具描述性的名稱以提升可讀性。
+- 提供穩健的輸出函式，確保輸出格式符合題目要求。
 
-  import java.util.Scanner;
-  import java.util.Arrays;
+修改後完整程式碼：
+```java
+/*
+檔案名稱: Main.java
+功能: 讀入長度與整數陣列，輸出每個位置的「其後元素的最大值」(最後一個元素為 -1)
+作者: 學生
+日期: 2025-11-14
+說明: 使用 O(n) 的後綴最大值法，以符合題目需求並提升效能。
+*/
 
-  /*
-   * 檔案名稱: CSIE_41343202_1031_2.java
-   * 功能: 對輸入的一維整數陣列進行升冪排序並輸出
-   * 作者: 學生
-   * 日期: 2025-11-12
-   */
+import java.util.Scanner;
 
-  public class CSIE_41343202_1031_2 {
-      public static void main(String[] args) {
-          Scanner scanner = new Scanner(System.in);
+public class Main {
 
-          // 讀取陣列長度
-          int length;
-          if (!scanner.hasNextInt()) {
-              scanner.close();
-              return;
-          }
-          length = scanner.nextInt();
+    // 以 O(n) 計算每個位置的後綴最大值，最後一項為 -1
+    private static int[] computeSuffixMax(int[] arr) {
+        int n = arr.length;
+        int[] result = new int[n];
+        if (n == 0) return result;
 
-          // 讀取陣列元素
-          int[] array = new int[length];
-          for (int i = 0; i < length; i++) {
-              array[i] = scanner.nextInt();
-          }
+        int currentMax = arr[n - 1];
+        result[n - 1] = -1; // 最後一個元素替換為 -1
 
-          // 排序
-          Arrays.sort(array);
+        // 從右至左填入每個位置的其後最大值
+        for (int i = n - 2; i >= 0; i--) {
+            result[i] = currentMax;
+            if (arr[i] > currentMax) {
+                currentMax = arr[i];
+            }
+        }
 
-          // 輸出排序結果，元素之間以空格分隔
-          StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < length; i++) {
-              if (i > 0) sb.append(' ');
-              sb.append(array[i]);
-          }
-          System.out.println(sb.toString());
+        return result;
+    }
 
-          scanner.close();
-      }
-  }
+    // 輸出陣列，元素之間以空白分隔
+    private static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+    }
 
-- 修改原因說明
-  - 使用 Arrays.sort 能確保正確的升序排列，且程式結構簡潔，易於維護與理解；另外添加頭註解提升可讀性與可追溯性，符合一般作業檔案標準。
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-一句話改進建議
-- 盡量使用內建排序或標準排序演算法，避免自行設計不正確的排序邏輯，以確保正確性與效率。
+        int length = 0;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        }
+
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                array[i] = 0; // 缺少輸入時的安全預設
+            }
+        }
+
+        int[] result = computeSuffixMax(array);
+        printArray(result);
+
+        scanner.close();
+    }
+}
+```

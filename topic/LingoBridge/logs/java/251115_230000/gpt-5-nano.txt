@@ -1,0 +1,39 @@
+90
+
+改進建議（一句話）：
+此作業在不使用額外變數的前提下正確完成交換並輸出，但建議提升可讀性與風格，例如使用有意義的變數名稱、統一縮排與加入完整註解與資源釋放。
+
+修改與優化說明：
+- 變數命名：將 Scanner 變數改為 scanner，提升可讀性。
+- 程式註解與標頭：加入完整檔案說明的註解區塊（含檔案名稱、功能、作者、日期），讓檔案自說明性更高。
+- 程式風格：統一縮排與排版，提升可讀性。
+- 資源管理：關閉 Scanner 以釋放資源。
+- 保留原有交換邏輯：仍採用 XOR 交換法，符合題目「不使用額外變數」的要求。
+
+修改後完整程式碼如下：
+/*
+檔案: CSIE_41343107_1003_1.java
+功能: 讀入兩整數，輸出原值與交換後的新值（不使用額外變數）
+作者: 王世豪
+日期: 2025-09-26
+*/
+import java.util.Scanner;
+
+public class CSIE_41343107_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+        // 使用 XOR 交換兩個整數，避免使用額外變數
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        scanner.close();
+    }
+}

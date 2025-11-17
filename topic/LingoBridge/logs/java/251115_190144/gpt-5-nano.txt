@@ -1,0 +1,48 @@
+88
+
+原作的正確性與邏輯基本符合題意，但採用字串反轉與正則表達式，對穩定性與負數情況略嫌冗長，建議改用數值反轉以提升可讀性與效率，同時補上程式標頭註解以符合格式規範。
+
+優化說明與修改內容
+- 改用數值逐位反轉的演算法，避免字串反轉與正則表達式的開銷，提升效能與可讀性。
+- 支援負數輸入，保留符號；並正確處理輸入為 0 的情況。
+- 使用長整數型別 (long) 以增加數值範圍，減少溢位風險。
+- 加入完整的程式標頭註解及適當的行內註解，符合格式與備註要求。
+- 保留「程式僅執行一次」的需求，直接讀取單一整數並輸出結果。
+
+修改後完整程式碼
+/*
+File: ReverseDigits.java
+Description: 反轉整數的位數，去除反轉後開頭的多餘零；若原數為負數，保留符號。
+Author: 教師
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取單一整數
+        long n = scanner.nextLong();
+
+        // 記錄符號並取絕對值以利反轉
+        boolean negative = n < 0;
+        if (negative) n = -n;
+
+        // 數值反轉：逐位加到 rev，避免字串處理與前導 0 的問題
+        long rev = 0;
+        while (n > 0) {
+            rev = rev * 10 + (n % 10);
+            n /= 10;
+        }
+
+        // 若原數為負，恢復符號
+        if (negative) rev = -rev;
+
+        // 輸出結果
+        System.out.println(rev);
+
+        scanner.close();
+    }
+}

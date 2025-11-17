@@ -1,0 +1,47 @@
+100
+正確性: 50/50
+邏輯: 30/30
+格式: 10/10
+備註: 10/10
+改進建議: 此程式已正確且符合題意，但建議加入可讀性註解與處理溢位的考量，並以較嚴謹的資源管理方式編寫。
+
+修改說明與原因
+- 使用 try-with-resources 包裝 Scanner，讓資源自動關閉，提升穩定性與可維護性。
+- 改用 long 類型計算，以避免在極端數值下 mid 的計算可能發生整數溢位的風險；輸出仍為整數但計算更安全。
+- 保留兩次使用三元運算子分別取得最大值與最小值的作法，符合題目「不可使用 if-else」的限制，並清晰呈現邏輯。
+- 程式碼加入基本註解與更具語意的排版，使讀者容易理解變數的用途與流程。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * CSIE_41343203_1003_2
+ * 功能：讀入三個整數，使用兩種不同的方式找出最大值、最小值、以及中間值，且不使用 if-else。
+ * 作者：改進示例
+ * 日期：2025-11-15
+ */
+public class CSIE_41343203_1003_2 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            long c = sc.nextLong();
+
+            // 找最大值（使用兩次三元運算子）
+            long max = (a > b) ? a : b;
+            max = (c > max) ? c : max;
+
+            // 找最小值（使用兩次三元運算子）
+            long min = (a < b) ? a : b;
+            min = (c < min) ? c : min;
+
+            // 中間值等於 sum - max - min
+            long mid = a + b + c - max - min;
+
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
+    }
+}

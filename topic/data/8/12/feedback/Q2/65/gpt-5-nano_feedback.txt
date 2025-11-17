@@ -1,47 +1,53 @@
-2
-評分細項：
-- 正確性(50%): 0/50
-- 邏輯(30%): 0/30
-- 格式(10%): 2/10
-- 備註(10%): 0/10
-總分: 2/100
+83
 
-修改與評述：
-以下提供一份符合題意的改寫版本，直接輸出 i=10000,20000,...,100000，並將 pi 以 Leibniz 公式計算，格式符合題目要求：
+建議改進點：增加程式頭註解與變數命名的清晰度，同時考慮負數情況與輸入的穩定性。
 
-修改後完整程式碼（Leibniz Pi 計算與格式化輸出）：
-// File: LeibnizPiPrinter.java
+修改與優化說明：
+- 將判斷邏輯改為以字串方式檢查，從左到右逐一比較相鄰位數，避免從 LSD 往 MSD 的反向判斷可能的混淆與邏輯風險。
+- 加入清晰的程式頭註解與更具語意的變數命名，提升可讀性與維護性。
+- 處理負數情況：若輸入為負數，視為非「well-ordered number」。
+- 程式結構更為簡潔，且僅執行一次輸入後輸出結果即可結束。
+
+修改後完整程式碼：
+```java
 /**
- * 檔案名稱: LeibnizPiPrinter.java
- * 功能說明: 計算並輸出使用 Leibniz 公式近似的圓周率(pi)。
- *           當 i = 10000, 20000, ..., 100000 時輸出：
- *           i = <6位右對齊>, pi = <小數點後10位>
- * 作者: 你可自行填寫
- * 日期: 2025-11-12
+ * File: WellOrderedNumber.java
+ * 功能: 判斷輸入的整數是否為「左至右位數嚴格遞增」的數字
+ * 作者: 請填寫
+ * 日期: 2025-11-15
+ * 註解: 程式會檢查負數、單位數與多位數情況，並輸出標準格式結果。
  */
-public class LeibnizPiPrinter {
+import java.util.Scanner;
+
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        int maxI = 100000;          // 需要計算到的最大 i 值
-        double sum = 0.0;             // Leibniz 級數的部分和
-        for (int i = 1; i <= maxI; i++) {
-            double term = (i % 2 == 1 ? 1.0 : -1.0) / (2.0 * i - 1.0); // (+) 第1,3,5...項，(-) 第2,4,6...項
-            sum += term;
-            if (i % 10000 == 0) { // 每 10000 筆輸出一次
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        Scanner sc = new Scanner(System.in);
+        long n;
+        if (sc.hasNextLong()) {
+            n = sc.nextLong();
+        } else {
+            // 非數字輸入直接結束
+            return;
+        }
+
+        boolean isWellOrdered = true;
+        if (n < 0) {
+            isWellOrdered = false;
+        } else {
+            String s = Long.toString(n);
+            for (int i = 1; i < s.length(); i++) {
+                if (s.charAt(i) <= s.charAt(i - 1)) {
+                    isWellOrdered = false;
+                    break;
+                }
             }
+        }
+
+        if (isWellOrdered) {
+            System.out.printf("%d is well-ordered number.", n);
+        } else {
+            System.out.printf("%d is not well-ordered number.", n);
         }
     }
 }
-
-修改原因與說明：
-- 目的對應題目需求：原學生程式與題目無關，未實作 pi 的計算與指定輸出格式。新程式直接實作 Leibniz 公式並在指定的 i 值輸出結果。
-- 漸增式計算與效能：利用累加的方式逐步累計 sum，避免每次都重新計算前面的項目，提升效率。
-- 輸出格式化：採用 System.out.printf 配合格式字串，能同時滿足 i 顯示為6位寬度並在左對齊/右對齊，以及 pi 顯示至小數點後10位的需求。使用 "i = %6d, pi = %.10f" 能與題目樣例相符。
-- 程式可讀性與維護性：加上適當的檔案註解、清楚變數命名與結構，移除不必要的輸入讀取，符合一般良好程式風格。
-- 對於教學與測試的影響：可直接產出題目所需的輸出，便於自動化驗證與分組評分。
-
-改進建議（單句）：建議再加入誤差分析與單元測試，確保不同執行環境下的輸出格式與數值一致性，並把計算與輸出分離成獨立方法以提升可測試性。
-
-一句話回饋：
-建議將演算法與輸出邏輯分工，並加入註解與測試，提升正確性與可維護性。
+```

@@ -1,0 +1,62 @@
+90
+
+改進建議：建議在程式開頭加入檔案註解與說明，並使用 try-with-resources 管理 Scanner，提升可讀性與穩定性，同時調整變數命名以增進可讀性。
+
+修改說明與原因：
+- 加入檔案標頭註解，符合備註項目需求，方便後續維護。
+- 使用 try-with-resources 包裝 Scanner，確保資源正確關閉，避免在某些環境中造成資源未釋放的問題。
+- 調整變數命名，例如 target 替代 num，提高語意清晰度。
+- 保留原有功能與邏輯：仍以逐行填充下三角矩陣，然後逐格尋找 num，找到後輸出 1-based 的座標；若不在矩陣內則輸出提示訊息。
+- 小幅整理格式與註解，提升可讀性。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/**
+ * File: LowerTriangularMatrix.java
+ * 功能: 依使用者輸入的高度 n，建立一個下三角形二維陣列，並找出指定數字的座標。
+ * 作者: 調整後的版本
+ * 日期: 2025-11-14
+ */
+public class LowerTriangularMatrix {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+
+            // 建立下三角形二維陣列並填數字
+            int[][] arr = new int[n][];
+            int numCount = 1;
+            for (int i = 0; i < n; i++) {
+                arr[i] = new int[i + 1];
+                for (int j = 0; j <= i; j++) {
+                    arr[i][j] = numCount++;
+                }
+            }
+
+            // 取得要尋找的數字
+            int target = sc.nextInt();
+
+            boolean found = false;
+            int foundRow = -1;
+            int foundCol = -1;
+
+            outer:
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (arr[i][j] == target) {
+                        foundRow = i + 1; // 1-based
+                        foundCol = j + 1; // 1-based
+                        found = true;
+                        break outer;
+                    }
+                }
+            }
+
+            if (found) {
+                System.out.printf("%d[%d, %d]%n", target, foundRow, foundCol);
+            } else {
+                System.out.printf("not find %d in array.%n", target);
+            }
+        }
+    }
+}

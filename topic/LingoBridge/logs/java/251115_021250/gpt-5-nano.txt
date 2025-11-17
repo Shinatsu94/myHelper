@@ -1,0 +1,69 @@
+78
+
+建議改以更清晰的變數命名、增加註解與標頭，並以單獨的 max 變數來計算後繼最大值，以提升可讀性與維護性。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: Main.java
+ * 功能: 根據題意輸入任意長度整數陣列，將每個元素替換為其之後的元素中的最大值，最後一個元素設為 -1；最後輸出結果。
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+
+        // 針對無效長度做保護
+        if (n <= 0) {
+            // 輸出空行表示結束
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        // 讀取陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，取預設值 0
+            }
+        }
+
+        // 對每個位置 i，將 arr[i] 替換為其後的最大值
+        for (int i = 0; i < n - 1; i++) {
+            int max = arr[i + 1];
+            for (int j = i + 2; j < n; j++) {
+                if (arr[j] > max) {
+                    max = arr[j];
+                }
+            }
+            arr[i] = max;
+        }
+        // 最後一個元素設為 -1
+        arr[n - 1] = -1;
+
+        // 輸出結果，以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

@@ -1,66 +1,56 @@
-2
-正確性: 0
-邏輯: 0
-格式: 2
-備註: 0
+86
+改進建議：加強變數命名與註解，並考慮0與負數等邊界情況以提升健壯性。
 
-修改後完整程式碼（Java）：
+修改內容與原因：
+- 使用有意義的變數名稱與註解：將 a、b 改為 reversed、digit，提升可讀性與維護性。
+- 加入程式標頭註解（檔案名稱、功能、作者、日期）以符合題目對備註的要求。
+- 關閉 Scanner，避免資源洩漏。
+- 提升穩健性與可擴充性：改用 long 類型並支援負數輸入的反轉結果，若遇非數字輸入也有預設處理。
+- 將核心邏輯抽成方法 reverseDigits，提升可讀性與可重用性。
+
+修改後完整程式碼：
 /*
- * 檔案名稱: PiLeibniz.java
- * 功能說明: 使用 Leibniz 公式近似圓周率 pi，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值（小數點後10位）
- *          另外找出使 pi 逼近 3.14159 的最小 i，並輸出該值（格式同樣使用 i = 6位寬度 後跟逗號與 pi 的輸出）
- * 作者: 你的名字
- * 日期: 2025-11-12
- * 註解: 程式包含必要的註解以說明邏輯與輸出格式
- */
+  檔案名稱: CSIE_41343121_1017_3.java
+  功能: 將輸入整數的數字反轉後輸出
+  作者: 未知
+  日期: 2025-11-15
+  說明: 輸入一個整數，輸出其數字反轉的結果。支持 0、正整數、負整數。
+*/
 
-import java.util.Locale;
+import java.util.Scanner;
 
-public class PiLeibniz {
-    public static void main(String[] args) {
-        Locale.setDefault(Locale.US); // 確保小數點使用 '.'
+public class CSIE_41343121_1017_3 {
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    long number = 0;
 
-        int maxI = 100000;
-        double sum = 0.0;
-
-        // Part (a): 輸出 i = 10000 到 100000（步進 10000）對應的 pi 值
-        for (int i = 1; i <= maxI; i++) {
-            int k = i - 1;
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
-        }
-
-        // Part (b): 找到使 pi >= 3.14159 的最小 i
-        // 重新從頭計算，直到找到條件成立的最小 i
-        sum = 0.0;
-        int minI = -1;
-        for (int i = 1; i <= maxI; i++) {
-            int k = i - 1;
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-            if (4.0 * sum >= 3.14159) {
-                minI = i;
-                break;
-            }
-        }
-
-        // 輸出分隔線與最小 i
-        System.out.println();
-        System.out.printf("i = %6d%n", minI);
+    if (scn.hasNextLong()) {
+      number = scn.nextLong();
+    } else {
+      // 非數字輸入時輸出 0 並結束
+      System.out.println(0);
+      scn.close();
+      return;
     }
+
+    long result = reverseDigits(number);
+    System.out.println(result);
+    scn.close();
+  }
+
+  // 將整數的數字反轉，保留正負號
+  private static long reverseDigits(long n) {
+    if (n == 0) return 0;
+
+    int sign = (n < 0) ? -1 : 1;
+    long m = Math.abs(n);
+    long rev = 0;
+
+    while (m > 0) {
+      long digit = m % 10;
+      rev = rev * 10 + digit;
+      m /= 10;
+    }
+    return rev * sign;
+  }
 }
-
-修改說明與原因：
-- 原始作業程式與題目需求完全不符，僅完成數字反轉的功能，與計算 pi 的需求無關，因此在正確性與邏輯上都無分數。
-- 新版程式透過逐次累加 Leibniz 公式的項，並在每累加到第 10000、20000、…、100000 項時輸出對應的 pi 值，符合題意的輸出順序與格式。
-- 為符合題目輸出格式，使用了寬度控制與小數點位數格式化輸出：
-  - i 顯示為寬度 6 的整數（i = %6d），以符合樣本輸出中對齊要求
-  - pi 顯示為小數點後 10 位（%.10f）
-- 增加註解，並於檔案頭提供檔案說明、功能、日期等，以符合「程式標頭註解」的要求
-
-一句話改進建議：
-- 若要提升效能與可讀性，可改用單次迴圈同時計算與檢查兩部份的條件，避免兩次從頭計算，且在輸出格式部分可加入對本機環境的自動適配與錯誤處理。

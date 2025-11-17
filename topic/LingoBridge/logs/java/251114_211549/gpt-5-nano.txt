@@ -1,0 +1,41 @@
+83
+
+改進建議：建議改用內建的排序函式 Arrays.sort 以提升可讀性與效能，並修正式輸出格式避免尾端多餘空白，另外加入程式標頭註解與清楚的變數命名與關閉資源。
+
+優化說明與修改重點
+- 使用 Arrays.sort(arr) 取代自寫的排序演算法，簡化程式、降低錯誤風險，並提升排序速度，負責任地處理負數。
+- 調整輸出格式，使用 StringBuilder 拼接，避免最後出現多餘的空格，且在輸出結束後換行以符合常見測資要求。
+- 增加程式標頭註解，說明檔案名稱、功能、日期等，並使用清晰的變數名稱（如 n、arr）。
+- 加入資源釋放（關閉 Scanner），提升程式的良好習慣。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343241_1031_1.java
+功能: 讀入長度與 N 個整數，將數列由小到大排序，輸出排序結果
+作者: 學生
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343241_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}

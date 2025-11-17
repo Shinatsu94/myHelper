@@ -1,0 +1,70 @@
+總分：8
+
+改進建議：此作業應實作一個一維整數陣列的排序功能，請改寫成符合題目需求的程式，並補上完整的程式標頭註解與基本的輸入檢核與格式輸出。
+
+程式改動與原因說明
+- 將原本的 3x3 矩陣逆矩陣計算與輸出矩陣的程式，改為實作題目需求的單一功能：讀取長度 n、接著讀入 n 個整數，並輸出升序排序結果。
+- 使用 Arrays.sort 進行排序，簡潔且正確，符合「由小至大」的排序需求。
+- 改善輸入處理：先讀取長度 n，接著讀取 n 個整數，若輸入不足即提前結束，避免程式跳出未預期的錯誤。
+- 增加清晰的程式標頭註解與適當的內部註解，提升可讀性與維護性。
+- 輸出格式控制：避免多餘逗號或尾端空格，確保輸出只有數字與單一空格分隔。
+
+修改後完整程式碼
+```java
+/*
+ * 文件名稱: AscendingSorter.java
+ * 功能: 讀取使用者輸入的一維整數陣列長度與元素，輸出升序排序結果
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 說明: 本程式符合題目需求；單次執行，輸入不足或格式錯誤時會提前結束。
+ */
+
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Scanner;
+
+public class AscendingSorter {
+
+    public static void main(String[] args) {
+        // 建立輸入掃描器，使用 US locale 以確保小數點等格式一致性（雖本題為整數，但習慣保留）
+        Scanner scanner = new Scanner(System.in);
+        scanner.useLocale(Locale.US);
+
+        // 讀取長度 n
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 輸入不足，結束程式
+                scanner.close();
+                return;
+            }
+        }
+
+        scanner.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素之間以單一空格分隔，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+說明
+- 此版本符合題目「建立任意長度的一維陣列，將內容由小到大排序，輸入長度 + 各元素，最後印出排序結果」的需求。
+- 相較於原始矩陣逆矩陣程式，這份程式更符合任務目標，且具備較好的穩健性與可讀性。若需要，亦可再加入例外處理與自動換行輸出等細節。

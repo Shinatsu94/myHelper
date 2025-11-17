@@ -1,0 +1,51 @@
+6
+
+改進建議：原作排序邏輯錯誤且輸出處理不當，建議改以正確的升序排序演算法並正確輸出。
+
+修改說明：
+- 將原本的排序邏輯整體替換成正確的冒泡排序（升序），以確保能正確排序任意長度且含負數的整數陣列。
+- 移除原程式中將 arr[i] 在內層迴圈內不當賦值的作法，避免覆寫未排序的資料。
+- 輸出格式調整為不輸出尾端多餘空格，並以換行結尾，符合常見輸出格式。
+- 增加程式註解與標頭註解，並在結尾關閉 Scanner，提升可維護性。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343101_1031_2.java
+ * 功能: 讀入一維整數陣列，將陣列內容以升序排序，並輸出排序結果。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+import java.util.Scanner;
+
+public class CSIE_41343101_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] a = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 冒泡排序（升序）
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (a[j] > a[j + 1]) {
+                    int tmp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = tmp;
+                }
+            }
+        }
+
+        // 輸出排序結果，元素以單一空格分隔，並換行結尾
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(a[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}

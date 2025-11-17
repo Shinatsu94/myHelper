@@ -1,0 +1,58 @@
+0
+
+建議反饋：此作業未依題意實作「一維整數陣列的升序排序並輸出」，需改為讀入長度與對應的整數再排序並印出結果。
+
+程式修改與優化說明
+- 重新設計成一個一維整數陣列的排序作業：讀入 n，接著讀入 n 個整數，然後對陣列進行升序排序，最後輸出排序後的內容。
+- 使用 Arrays.sort 進行簡單且有效的排序，提升可讀性與穩定性。
+- 輸入讀取與輸出格式處理為單一輸出行，元素之間以空格分隔。
+- 增加基本輸入驗證，若 n <= 0 則結束程式，確保執行穩定。
+- 改善變數命名與添加適當的程式註解、以及符合題目需求的檔案與程式頭註解。
+
+修改後完整程式碼
+// Date: 2025/10/31
+// Creator: 41343240 黃榮裕
+// Function: 讀取一個整數 n，接著讀入 n 個整數，將它們升序排序，最後輸出排序後的內容
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortOneDimensionalArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（但一般測資應該提供足夠的數字）
+                a[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(a);
+
+        // 輸出結果，元素之間以空格分隔，結尾不留多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

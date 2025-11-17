@@ -1,0 +1,48 @@
+90
+
+建議把程式標頭放在檔案頂端、改用有意義的變數命名，並改以數學公式直接計算 num 的位置以避免遍歷整個下三角陣列，提升可讀性與效率。
+
+修改說明與優化重點
+- 將檔案標頭移至檔案頂端，包含檔案名稱、功能、作者與日期等資訊。
+- 修改變數命名為 height（高度）、target（欲尋找的數字）、tri（下三角矩陣）等，使語意更清楚。
+- 先用雙循環填寫完整的下三角陣列（上三角預設為 0），但後續位置查找改用數學公式直接計算，不再逐格搜尋，提升效率。
+- 使用簡潔的輸入結構與資源管理，結束前關閉 Scanner。
+
+完整修改後程式碼如下：
+/*
+檔案名稱: LowerTriangularSearch.java
+功能: 建立下三角形二維陣列，並找出指定數字的位置
+作者: 王世豪
+日期: 2025/10/31
+*/
+
+import java.util.Scanner;
+
+public class LowerTriangularSearch {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int height = in.nextInt();
+        int target = in.nextInt();
+
+        int[][] tri = new int[height][height];
+        int val = 1;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
+            }
+        }
+
+        int total = height * (height + 1) / 2;
+        if (target >= 1 && target <= total) {
+            // 找到目標值所在的列與欄（1-based）
+            int row = (int) Math.ceil((Math.sqrt(8.0 * target + 1) - 1) / 2.0);
+            int prev = row * (row - 1) / 2;
+            int col = target - prev;
+            System.out.println(target + "[" + row + ", " + col + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+
+        in.close();
+    }
+}

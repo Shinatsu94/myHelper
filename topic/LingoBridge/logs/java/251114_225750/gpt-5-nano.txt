@@ -1,0 +1,55 @@
+6
+
+這份作業的實作與題意嚴重不符，建議改為實作一維整數陣列的升序排序並遵守輸入輸出格式。
+
+改進建議/回饋：
+- 完全須改寫成一個讀取長度、讀入整數、排序再輸出的一維整數陣列的程序，並且支援負數與任意長度。
+- 移除與題目無關的矩陣運算、行列式、反矩陣等內容，專注於排序功能。
+- 使用清楚的變數命名與適當的註解，並避免不必要的額外函式。
+- 輸出需在同一行，數字以空格分隔，避免尾端多餘空格。
+
+修改說明與重作重點：
+- 重新設計整體流程：先讀取 n，再依序讀入 n 個整數到一維陣列中。
+- 使用 Arrays.sort 進行升序排序，簡潔且效率良好，且天然支援負數。
+- 輸出時將陣列元素用單一字串輸出，數字之間以空格分隔，避免尾端多餘空格。
+- 程式結構清晰，變數命名具意義，並加入基本的輸入檢查以避免例外。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortOneDArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 依長度建立一維陣列並讀入元素
+        int[] arr = new int[Math.max(0, n)];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：以空格分隔，於同一行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

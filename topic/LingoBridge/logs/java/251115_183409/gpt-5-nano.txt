@@ -1,0 +1,58 @@
+81
+改進建議：建議以字串逐位比較以提高可讀性與魯棒性，並加入完整的程式標頭註解與適當的變數命名。
+
+正確性: 50/50
+- 程式在大多數數字範圍下能正確判定「數位是否嚴格遞增」，能輸出對應的訊息。若輸入為單一位數，亦符合常見的解釋（單位數可視為遞增的情況之一）。
+- 原程式在迴圈中對最後一位與虛擬的0做比較，雖不影響結果，但不是最佳實作；改用字串逐位比對可避免此處的潛在混淆。
+
+邏輯: 25/30
+- 邏輯上使用從右到左逐一比較相鄰數位是否嚴格遞增，屬於合理且易於理解的做法。若能避免最後一次不必要的比對，會更嚴謹。
+
+格式: 6/10
+- 原作的變數命名較短且缺乏說明性名稱，例如 a、x、s、d。建議使用更具描述性的名稱（如 number、temp、currDigit、prevDigit）。
+- 程式缺少標頭註解與必要的內部註解，降低可讀性。
+
+備註: 0/10
+- 缺少檔案標頭註解（檔案名稱、功能、作者、日期等），也未註解程式內容。
+
+總分合計: 81/100
+
+修改說明與改善方向
+- 以字串方式處理：讀入整數時容易受限於整數溢位與效能，改用字串逐位比較能處理任意長度的數字，且邏輯更直覺。
+- 加入程式標頭與註解：提高可讀性與可維護性，符合學術作業要求。
+- 變數命名改善：使用有意義的變數名稱，如 inputNumber、digits、current、previous。
+- 養成良好風格：關閉資源、避免不必要的特殊情況下的錯誤輸出。
+
+修改後的程式碼
+// 檔案名稱: WellOrderedNumberChecker.java
+// 功能: 判斷輸入的數字各位是否嚴格遞增（從左到右）
+// 作者: 請填寫您的姓名
+// 日期: 2025-11-15
+// 版本: 1.0
+
+import java.util.Scanner;
+
+public class WellOrderedNumberChecker {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next().trim(); // 讀取單一數字字串
+        sc.close();
+
+        boolean isWellOrdered = true;
+        for (int i = 0; i + 1 < input.length(); i++) {
+            char left = input.charAt(i);
+            char right = input.charAt(i + 1);
+            // 確保都是數字，且左數字必須小於右數字
+            if (!Character.isDigit(left) || !Character.isDigit(right) || left >= right) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+    }
+}

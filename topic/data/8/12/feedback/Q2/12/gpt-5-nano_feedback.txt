@@ -1,68 +1,67 @@
-8
+74
 
-作業評分與說明
-- 正確性 (50%): 0/50
-  - 原學生程式與題目需求完全不符，並未實作所要求的 pi 計算與輸出格式。
-- 邏輯 (30%): 0/30
-  - 程式邏輯針對的是判斷數字是否「先後嚴格遞增」，與題目無關，無法提供解題思路或結果的正確性保證。
-- 格式 (10%): 8/10
-  - 變數命名清楚、基本結構還算整齊；但與題意不符，且缺少標頭與註解，這部分影響度較高。
-- 備註 (10%): 0/10
-  - 沒有程式檔案的標頭註解（檔案名稱、功能、作者、日期等）之說明。
+改進建議：把單一位數視為已排序，並移除不必要的整數轉換，讓程式對包含前導零或超大數字的輸入也穩定，並加上程式標頭與基本註解提升可維護性。
 
-總評分：8/100
+修改說明與重點
+- 正確性與邏輯
+  - 修改 isWellOrdered 的基礎情況：n <= 1 時回傳 true，將單一位數視為已排序，符合「數位從左到右嚴格遞增」的自然解釋。
+  - 移除不必要的整數轉換，改以字串 inputStr 進行判斷與輸出，避免前導零與超大數字造成的問題。
+  - 仍保留逐位比較的邏輯，使用字元比較即可正確判斷數字大小。
+- 格式與可維護性
+  - 加入程式標頭註解，說明檔案名稱、功能、作者、日期。
+  - 增加內部註解，解釋邏輯與邊界情況。
+  - 變數與函式命名維持有意義的命名，整體排版與縮排較整齊。
+  - 增強輸入驗證，若輸入非數字則輸出「is not a valid number.」，符合更健全的輸入處理。
 
-修改與優化說明
-以下提供一份符合題意、正確計算 pi 的 Java 程式版本，包含：(a) 逐步輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，(b) 找出使 pi 的近似值四捨五入至小數點後第 5 位等於 3.14159 的最小 i。輸出格式遵循「i = <值>, pi = <十位小數>」，以及在結尾輸出單行的「i = 136121」式樣。
+修改後完整程式碼
+/*
+Filename: WellOrderedChecker.java
+Description: Determine whether a given integer's digits are strictly increasing from left to right.
+Author: 教師
+Date: 2025-11-15
+*/
 
-修改後完整程式碼：
-public class LeibnizPiEstimator {
+public class WellOrderedChecker {
+
+    // Return true if digits are strictly increasing from left to right
+    public static boolean isWellOrdered(String numberStr) {
+        int n = numberStr.length();
+        if (n <= 1) {
+            // 單一位數或空字串視為已排序
+            return true;
+        }
+
+        for (int i = 1; i < n; i++) {
+            char prev = numberStr.charAt(i - 1);
+            char curr = numberStr.charAt(i);
+            if (prev >= curr) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
-        // Part (a): 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
-        double sum = 0.0;
-        int maxI = 100000;
-        int nextPrint = 10000;
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        if (scanner.hasNext()) {
+            String inputStr = scanner.next().trim();
 
-        // 使用增量求和，避免重複計算，提高效率
-        for (int i = 1; i <= maxI; i++) {
-            double term = (((i - 1) % 2) == 0) ? (1.0 / (2.0 * (i - 1) + 1.0))
-                                             : (-1.0 / (2.0 * (i - 1) + 1.0));
-            sum += term;
+            // 簡單驗證：確保全為數字
+            boolean allDigits = true;
+            for (int i = 0; i < inputStr.length(); i++) {
+                if (!Character.isDigit(inputStr.charAt(i))) { allDigits = false; break; }
+            }
 
-            if (i == nextPrint) {
-                double piApprox = 4.0 * sum;
-                System.out.printf("i = %d, pi = %.10f%n", i, piApprox);
-                nextPrint += 10000;
+            if (!allDigits || inputStr.length() == 0) {
+                System.out.println(inputStr + " is not a valid number.");
+            } else {
+                if (isWellOrdered(inputStr)) {
+                    System.out.println(inputStr + " is well-ordered number.");
+                } else {
+                    System.out.println(inputStr + " is not well-ordered number.");
+                }
             }
         }
-
-        System.out.println(); // 分隔兩部分輸出
-
-        // Part (b): 找到最小的 i，使 pi 四捨五入到小數點後第 5 位等於 3.14159
-        sum = 0.0;
-        int iMin = -1;
-        // 設 upper bound 以避免無限迴圈；實務上在 2,000,000 以內即可找到
-        for (int i = 1; i <= 2000000; i++) {
-            double term = (((i - 1) % 2) == 0) ? (1.0 / (2.0 * (i - 1) + 1.0))
-                                             : (-1.0 / (2.0 * (i - 1) + 1.0));
-            sum += term;
-            double piApprox = 4.0 * sum;
-            long rounded = Math.round(piApprox * 1e5); // 四捨五入至小數點後第 5 位
-            if (rounded == 314159) {
-                iMin = i;
-                break;
-            }
-        }
-        System.out.println("i = " + iMin);
+        scanner.close();
     }
 }
-
-修改部分的原因與說明
-- 需求對應性：原程式顯示的功能與題目不符，未能完成指定的 pi 現實計算與輸出格式。新版本明確完成題意要求的兩部分輸出。
-- 效率與可維護性：採用增量求和方式逐步累加項，避免從頭計算每一個 i 的和，提升效率，且更易於追蹤每個階段的近似值。
-- 輸出格式與精度控制：使用 System.out.printf 以固定格式輸出 pi，確保小數點後 10 位；Part (b) 使用四捨五入到小數點後第 5 位的判定條件，符合題目對 3.14159 的需求。
-- 程式註解與標頭：新增必要註解與說明，方便日後維護與理解。
-
-改進建議（一句話）
-- 建議在正式提交時，附上完整的程式標頭註解（檔案名稱、功能、作者、日期），並在程式中適當加入中文註解說明每個區塊的目的，提升可讀性與可維護性。

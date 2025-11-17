@@ -1,46 +1,54 @@
-100
+96
 
-修改後程式碼：
+程式改進建議：
+程式正確且邏輯清晰，但缺少結尾換行與資源釋放，建議以 StringBuilder 組裝輸出並在結尾加換行，並將程式命名與結構調整以提升可維護性。
+
+修改與優化說明：
+- 使用 try-with-resources 自動關閉 Scanner，避免資源洩漏。
+- 將輸出改為先用 StringBuilder 組裝再一次性輸出，提升效率並確保輸出結尾有換行。
+- 將類名改為 Main，以符合常見的測資環境要求，並保留原有的排序邏輯與註解。
+- 保留選擇排序的實作，確保題意要求的排序演算法仍然成立；並補充少量註解提升可讀性。
+
+修改後完整程式碼：
 /**
- * 程式名稱 : 陣列排序（使用 Arrays.sort）
- * 功能說明：從使用者讀入長度 n 與 n 個整數，將陣列由小到大排序，並以空格分隔輸出。
- * 日期 : 2025/11/12
- * 作者 : 張竣傑（改良版，依需求使用內建排序提高效率與穩定性）
+ * 程式名稱: Main
+ * 功能說明: 讀取使用者輸入的長度與整數陣列，對陣列內容使用選擇排序由小到大輸出
+ * 作者: 教師
+ * 日期: 2025-11-14
  */
-import java.util.Scanner;
-import java.util.Arrays;
-
-public class CSIE_41343224_1031_1 {
+public class Main {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+        try (java.util.Scanner input = new java.util.Scanner(System.in)) {
+            int n = input.nextInt();
+            int[] array = new int[n];
 
-        int n = in.nextInt();
-        int[] array = new int[n];
+            // 讀取使用者輸入的陣列元素
+            for (int i = 0; i < n; i++) {
+                array[i] = input.nextInt();
+            }
 
-        for (int i = 0; i < n; i++) {
-            array[i] = in.nextInt();
+            // 使用選擇排序法對陣列進行排序
+            for (int i = 0; i < n - 1; i++) {
+                int min = i; // 假設當前 i 位置是最小值
+
+                // 找出從 i+1 到最後的最小值索引
+                for (int j = i + 1; j < n; j++) {
+                    if (array[j] < array[min]) min = j;
+                }
+
+                // 交換當前 i 與找到的最小值位置
+                int temp = array[i];
+                array[i] = array[min];
+                array[min] = temp;
+            }
+
+            // 輸出排序後的陣列，使用 StringBuilder 一次性輸出，並於末尾加換行
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(array[i]);
+            }
+            System.out.println(sb.toString());
         }
-
-        // 使用內建排序，確保正確性與效能
-        Arrays.sort(array);
-
-        // 使用 StringBuilder 一次性輸出，避免多次 System.out.print 的成本
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(array[i]);
-        }
-        System.out.println(sb.toString());
-
-        in.close();
     }
 }
-
-修改說明：
-- 將原本的選擇排序改為使用 Arrays.sort，原因是內建排序通常具有更佳的時間複雜度與效能，且程式碼更簡潔，正確性更高。
-- 使用 StringBuilder 組裝輸出，取代在迴圈中逐個輸出的做法，降低 I/O 次數與提升效率。
-- 保留原先的輸入邏輯與輸出格式，仍依序從輸入中讀取長度與元素，輸出時以空白分隔，並在結尾輸出換行，符合一般測資與輸出習慣。
-- 程式標頭、註解與變數命名維持清晰，便於他人閱讀與維護。
-
-一句話改進建議或反饋：
-考慮以內建排序與一次性輸出提升效能與可讀性，未來可直接使用 Arrays.sort 並以 StringBuilder 輸出以避免多次 I/O 呼叫。

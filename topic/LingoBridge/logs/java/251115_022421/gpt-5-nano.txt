@@ -1,0 +1,48 @@
+94
+
+改進建議：改用 O(n) 的後綴最大值法以提升效率，並補上程式標頭與註解以提升可讀性與維護性，同時改善變數命名。
+
+程式優化說明與修改點
+- 將原本的 O(n^2) 雙重迴圈改為 O(n) 的後綴最大值計算法，先從右往左計算每個位置右側的最大值，並存入結果陣列，再一次輸出，確保最後一個元素為 -1。
+- 加入適當的檔案頭註解，使用更具意義的變數名稱（如 n、arr、res），並在程式內容增加必要註解說明。
+- 最後輸出使用單一格式，避免不必要的空格，並關閉 Scanner。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_20251031_41343252_1.java
+功能: 讀入整數陣列，將每個元素替換為其右側元素的最大值，最後一個為 -1，並輸出結果
+作者: 你 naming
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_20251031_41343252_1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+        }
+
+        // 使用後綴最大值法，時間複雜度 O(n)
+        int[] res = new int[n];
+        int maxRight = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            res[i] = maxRight;
+            if (arr[i] > maxRight) {
+                maxRight = arr[i];
+            }
+        }
+
+        // 輸出結果，確保格式為空格分隔且末尾不多餘空格
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(res[i]);
+        }
+
+        in.close();
+    }
+}

@@ -1,0 +1,49 @@
+84
+
+整體邏輯正確且可執行，但建議改用更具語意的變數名稱、加入註解與標頭註解，並在結束時關閉 Scanner 以提升可維護性。
+
+修改與優化說明（原因）
+- 加入標頭註解與檔案說明，便於他人閱讀與維護。
+- 將變數命名改為更具語意的名稱（number、rightDigit、leftDigit、leftPart），提升可讀性。
+- 將 for 迴圈改為 while 迴圈，語意更清楚地表達「自右到左逐位比對」的流程。
+- 程式結尾加入 scanner.close()，釋放資源。
+- 增加適當註解說明核心判斷邏輯。
+
+修改後完整程式碼（保留原檔案名稱與 public 類別名以確保相容性）
+/*
+ * File: CSIE_41343112_1017_2.java
+ * Description: Determine if a given positive integer's digits are strictly increasing from left to right.
+ * Author: CSIE_41343112_1017_2
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343112_1017_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int number = scanner.nextInt();
+        scanner.close();
+
+        boolean isWellOrdered = true;
+        int rightDigit = number % 10;   // 最右邊的位數
+        int leftPart = number / 10;      // 右邊位數以外的部分
+
+        // 從右往左檢查每一位，左位必須比右位小（才能是左到右嚴格遞增）
+        while (leftPart > 0) {
+            int leftDigit = leftPart % 10;
+            if (leftDigit >= rightDigit) {
+                isWellOrdered = false;
+                break;
+            }
+            rightDigit = leftDigit;
+            leftPart /= 10;
+        }
+
+        if (isWellOrdered) {
+            System.out.println(number + " is well-ordered number.");
+        } else {
+            System.out.println(number + " is not well-ordered number.");
+        }
+    }
+}

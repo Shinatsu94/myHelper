@@ -1,73 +1,58 @@
-總分：4
+87
 
-修改後完整程式碼（已符合題目要求與格式，並包含註解與適當的程式標頭）：
+回饋建議（一句話）：
+建議補充程式標頭註解與日期/作者資訊，並微幅優化驗證迴圈以提升可讀性與效能。
 
+修改重點與原因：
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將判斷邏輯改為使用 prev 變數的單循環，且先取得長度再迭代，避免在迴圈中重複呼叫 num.length()，提高效率與可讀性。
+- 保留原有輸出格式，確保測試案例輸出不變。
+- 保持變數命名清晰，提升可維護性。
+
+修改後完整程式碼（已優化）：
 /*
-檔案名稱: LeibnizPi.java
-功能說明: 使用勒布尼茲級數近似圓周率
-        (a) 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，格式為 i = %6d, pi = %.10f
-        (b) 找出最小的 i 使 pi 近似值接近 3.14159（誤差 <= 1e-5），輸出該 i
-作者: 教師
-日期: 2025-11-12
-說明: 依題意，先輸出 (a) 的結果，然後繼續累加直到找到滿足條件的 i（可能大於 100000）。
+File: CSIE_41343236_1017_2.java
+功能: 判斷輸入數字的各位數是否嚴格遞增（left-to-right）。
+作者: 學生
+日期: 2025-11-15
+說明: 程式僅執行一次，輸入為單一數字字串，輸出是否為 well-ordered number。
 */
 
-import java.util.Locale;
+import java.util.Scanner;
 
-public class LeibnizPi {
+public class CSIE_41343236_1017_2 {
+
+    // 判斷數字字串的各位是否嚴格遞增
+    public static boolean isWellOrdered(String num) {
+        if (num == null || num.length() <= 1) {
+            return true;
+        }
+
+        int n = num.length();
+        char prev = num.charAt(0);
+
+        for (int i = 1; i < n; i++) {
+            char cur = num.charAt(i);
+            // 若前一位數字不小於後一位，則不是嚴格遞增
+            if (prev >= cur) {
+                return false;
+            }
+            prev = cur;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        Locale.setDefault(Locale.US);
+        Scanner scanner = new Scanner(System.in);
 
-        double sum = 0.0;
-        int maxPrintI = 100000;
-        int step = 10000;
-        double target = 3.14159;
-        double tolerance = 1e-5;
+        String input = scanner.nextLine().trim();
 
-        // (a) 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
-        for (int i = 1; i <= maxPrintI; i++) {
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
-
-            if (i % step == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
-        }
-
-        // (b) 找最小的 i 使 pi 接近 3.14159，並輸出該 i
-        int minIForB = -1;
-        // 從 maxPrintI 之後繼續累加，直到找到符合條件的 i
-        int i = maxPrintI;
-        while (true) {
-            i++;
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
-            double pi = 4.0 * sum;
-            if (Math.abs(pi - target) <= tolerance) {
-                minIForB = i;
-                break;
-            }
-            // 避免無限迴圈，實務上應設上限；此題預期在約 1e5 以內可找到
-            if (i > 2000000) {
-                break;
-            }
-        }
-
-        if (minIForB != -1) {
-            System.out.printf("i = %6d%n", minIForB);
+        if (isWellOrdered(input)) {
+            System.out.println(input + " is well-ordered number.");
         } else {
-            // 找不到符合條件的情況（極少見），於此給予提醒
-            System.out.println("No suitable i found within safety limit.");
+            System.out.println(input + " is not well-ordered number.");
         }
+
+        scanner.close();
     }
 }
-
-修改說明與原因：
-- 正確性與邏輯：原始學生程式與題意完全不相干，僅判斷字串的“well-ordered”性質，與計算 pi 無關。改為實作勒布尼茲級數的計算，包含部分 (a) 的 10000 步階段輸出與 (b) 最小的 i 使 pi 與 3.14159 的誤差在指定容忍度內的需求。
-- 計算方式：採用逐項累加的方式累積 sum，使用 double 運算以達到足夠的十位小數精度；pi = 4.0 * sum。
-- 輸出格式：使用 System.out.printf 並設定 Locale.US，以確保小數點分隔符為小數點且以固定寬度輸出。i 使用 %6d 以符合題目「i 顯示到6位數」之格式；pi 使用 %.10f 輸出到小數點後十位，與題意一致。
-- 程式標頭與註解：新增檔案標頭註解，說明檔案名稱、功能、作者、日期，以及每個主要區塊的說明，符合備註要求。
-
-改進建議（一句話）：
-- 若要提升穩定性與可讀性，可把級數累加與輸出分成獨立的方法，同時選用 BigDecimal 控制精度並避免浮點誤差累積，但對本題的十位小數輸出，現行 double 已足夠。

@@ -1,35 +1,44 @@
-13
+92
 
-修改後程式碼（已符合題目要求：讀入兩數並以不使用額外變數的方式完成交換，輸出交換後的順序）：
+改進建議：此程式在正確性與邏輯上表現良好，但可增強可讀性與健全性，並補上較完整的程式標頭註解與資源釋放。
 
-/*
-  檔案名稱：CSIE_41343121_1003_2.java
-  功能說明：讀入兩個整數，輸出交換後的兩個數字；實作不使用額外變數直接交換（使用 XOR 交換法以避免整數溢位風險）。
-  作者：CSIE_41343121_1003_2
-  日期：改寫版本
-*/
+程式優化與修改說明
+- 加強標頭註解：以區塊註解清楚說明檔案名稱、功能、作者、日期，提升可維護性。
+- 變數命名與註解：將 max、min 改名為 maxVal、minVal，並加入單行註解，提升可讀性。
+- 避免整數溢位風險：將三數求和改為先轉為 long 再計算中間值，避免直接相加造成的溢位，最後再轉回 int。
+- 關閉資源：在使用完 Scanner 後加上 scn.close()，避免資源洩漏。
+- 維持題目要求的兩種不同方式：仍以三元運算子分別求得最大值與最小值，並以 sum - max - min 方式求中間值。
+
+修改後完整程式碼如下
 import java.util.Scanner;
 
+/*
+File: CSIE_41343121_1003_2.java
+功能: 找出三個整數的最大值、最小值與中間值。使用兩種不同的方式計算 max/min，並以 sum - max - min 計算 mid。
+作者: 徐唯祐
+日期: 2025-11-15
+*/
 public class CSIE_41343121_1003_2 {
   public static void main(String[] args) {
     Scanner scn = new Scanner(System.in);
+
     int a = scn.nextInt();
     int b = scn.nextInt();
+    int c = scn.nextInt();
 
-    // 不使用額外變數的交換方式：XOR 交換
-    a = a ^ b;
-    b = a ^ b;
-    a = a ^ b;
+    // 使用三元運算子計算最大值與最小值
+    int maxVal = (a > b ? (a > c ? a : c) : (b > c ? b : c));
+    int minVal = (a < b ? (a < c ? a : c) : (b < c ? b : c));
 
-    System.out.println(a);
-    System.out.println(b);
+    // 計算中間值，避免使用 if-else，並避免溢位風險
+    long sum = (long) a + b + c;
+    int midVal = (int) (sum - maxVal - minVal);
+
+    // 輸出順序為 min, mid, max
+    System.out.println(minVal);
+    System.out.println(midVal);
+    System.out.println(maxVal);
+
+    scn.close();
   }
 }
-
-修改說明：
-- 將原本的三個臨時變數和排序邏輯移除，改以符合題意：先輸入兩個數字，再交換並輸出。為避免加減法交換可能造成的整數溢位，改用位元異或（XOR）交換法，且不使用額外變數，符合題目要求的「不使用其他變數進行數字交換」。
-- 增加程式標頭註解，說明檔案名稱、功能、作者、日期，並保留適當的內部註解以提升可讀性。
-- 保留 Scanner 作為輸入來源，符合題目限制。
-
-改進建議（一句話）：
-- 若對可讀性有更高要求且輸入範圍已知，考慮使用更直覺的交換方式並加上輸入範圍檢查，或在極端情況下採用可靠的交換實作以避免誤解。

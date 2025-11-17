@@ -1,0 +1,41 @@
+88
+
+改進建議：建議加入程式標頭註解、使用更清晰的變數名稱（如 A、B）以提升可讀性，並在程式中適度加入註解說明交換的思路與步驟。
+
+程式碼優化與修改說明：
+- 將變數名稱改為 A、B，使與題目描述一致，增進可讀性。
+- 保留原有的 XOR 交換法以滿足「不可使用其他變數進行數字交換」的要求，同時新增必要註解說明交換方式。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升維護性與自我檢視性。
+- 維持原有的格式與縮排，並保持 Scanner 的正確使用與釋放資源。
+
+修改後完整程式碼：
+/*
+  檔案名稱: CSIE_41343217_1003_1.java
+  功能: 讀入兩個整數，先印出兩數值，接著交換兩者的值並再次印出
+  作者: 皆可
+  日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343217_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A, B;
+
+        // 讀入兩個整數
+        A = scanner.nextInt();
+        B = scanner.nextInt();
+
+        // 使用位元異或運算在不使用第三變數的情況下交換 A 與 B
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 先印出交換前的值（現在 A、B 已交換）
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}

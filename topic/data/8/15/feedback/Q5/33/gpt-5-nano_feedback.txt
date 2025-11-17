@@ -1,56 +1,63 @@
-0
+總分（第一行）：5
 
-評分明細：
-- 正確性: 0 / 50
-- 邏輯: 0 / 30
-- 格式: 0 / 10
-- 備註: 0 / 10
-- 總分: 0 / 100
+改進建議（一句話）：此作業原程式與題目需求嚴重不符，需改用動態長度陣列讀取與排序邏輯，並加入必要註解與清晰輸出。
 
-修改後的完整程式碼與說明如下：
+修改與評語
+- 為符合題意，改用動態長度整數陣列讀取長度與對應元素，並以 Arrays.sort 由小到大排序，輸出以空格分隔且無多餘空格。
+- 將資料型別改為整數 int，避免浮點運算與格式化問題。
+- 加入標頭註解與必要程式註解，提升可讀性與維護性。
+- 程式結構更清晰，變數命名具說明性，且輸出格式符合題目要求。
 
-修改後程式碼（已優化並符合題意）：
-/**
- * File: SortIntArray.java
- * 功能: 讀入長度 n，接著讀入 n 個整數，將它們由小到大排序並輸出。
- * 作者: 教師
- * 日期: 2025-11-12
- */
+修改內容與原因說明
+- 原程式與題目不符，處理的是 3x3 矩陣的行列式與反矩陣計算，與排序需求無關。改寫後的程式專注於題目核心：讀取任意長度整數陣列並排序。
+- 使用自帶排序方法 Arrays.sort 以確保穩定且正確的排序，且對負數與任意長度都適用。
+- 輸出格式控制為單行空格分隔，符合題目範例。
+- 增加程式頭註解與適當註解，提高可維護性。
+
+完整修改後程式碼
+// 檔案名稱: SortArrayAscending.java
+// 功能: 讀入陣列長度與對應整數，將陣列由小到大排序，輸出排序後內容
+// 作者: 教師
+// 日期: 2025-11-14
 
 import java.util.Scanner;
 import java.util.Arrays;
 
-public class SortIntArray {
+public class SortArrayAscending {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
+
+        // 讀取陣列長度
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
             return;
         }
-        int n = sc.nextInt();
-        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
+                a[i] = sc.nextInt();
             } else {
-                arr[i] = 0; // 若輸入不足，以 0 代替
+                // 若輸入不足，預設為 0（保守處理，實務可改為拋出異常或終止輸出）
+                a[i] = 0;
             }
         }
-        Arrays.sort(arr);
+
+        // 由小到大排序
+        Arrays.sort(a);
+
+        // 輸出排序後結果，使用空格分隔，末尾不留多餘空格
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            sb.append(a[i]);
         }
-        System.out.println(sb.toString());
+        System.out.print(sb.toString());
+
+        sc.close();
     }
 }
-
-修改說明（主要變更與原因）：
-- 針對題目需求，改用一維整數陣列與排序，移除原作業中與題意無關的矩陣與行列式計算，避免混淆與錯誤。
-- 使用 Arrays.sort 進行整數排序，簡潔且效率高，能正確處理正負數並保證穩定性（對基本型別排序而言是非穩定/穩定皆可，此處以效率為主）。
-- 逐個讀取 n 個整數，確保輸入長度與內容符合需求；若輸入不足，提供預設值以避免例外。
-- 輸出控制為以空格分隔，且避免尾端多餘空格，符合常見輸出格式。
-- 程式檔案-header 註解完善，包含檔案名稱、功能、作者、日期，提升可讀性與維護性。
-
-改進建議（一句話）：
-建議再加入完整的輸入錯誤處理與例外狀況處理，例如非整數輸入的情況，並提供使用者友善的錯誤提示與重新輸入機制。

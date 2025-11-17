@@ -1,64 +1,54 @@
-4
+9
+改進建議：請改用正確的排序邏輯與輸出格式，避免覆蓋原值，並移除輸出提示以符合測資格式。
 
-- 正確性(50%): 0/50
-- 邏輯(30%): 0/30
-- 格式(10%): 4/10
-- 備註(10%): 0/10
-- 總分: 4/100
+正確性: 0
+邏輯: 5
+格式: 4
+備註: 0
 
-評語與建議
-- 原作在排序與輸出方面都有嚴重問題：誤把選擇排序寫成改寫比較的錯誤賦值，且輸出格式包含了多餘的文字與括號，與題目預期不符，且能處理負數但邏輯未正確實現。
-- 建議在提交作業前先用範例輸入驗證輸出是否符合題目要求，並避免在輸出中混入提示文字，保持純粹的數字輸出以利自動測資比對。
-- 若要快速修正，建議採用基本的選擇排序或直接使用 Arrays.sort，並確保輸出格式為以空格分隔的一行數字，結尾換行。
+以下是修改與優化的說明與修改後完整程式碼
 
-修改後完整程式碼
+改動與原因：
+- 移除所有不必要的輸入提示與複雜輸出，直接讀取數值並輸出排序結果，符合一般測資格式。
+- 使用穩定且正確的排序方法 Arrays.sort，能正確處理負數與任意長度的一維整數陣列。
+- 輸出格式改為僅輸出排序後的數字，以空格分隔，並換行結束，符合題目輸出需求。
+- 優化變數命名與程式結構，加入檔案說明註解，並於結束時關閉 Scanner 物件。
+- 以單一入口的 Main 類別，適合自動評分環境使用。
+
+修改後完整程式碼：
 /*
- * 檔案名稱: SelectionSortExample.java
- * 功能說明: 從輸入讀取陣列長度與元素，對陣列做升冪排序，並輸出排序結果。
- * 作者: 你的名字
- * 日期: 2025-11-12
+ * File: Main.java
+ * 功能：讀取一維整數陣列長度與內容，將陣列內容由小到大排序，並輸出排序結果。
+ * 作者：
+ * 日期：
  */
-
 import java.util.Scanner;
+import java.util.Arrays;
 
-public class SelectionSortExample {
+public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         // 讀取陣列長度
-        int n = input.nextInt();
-
+        int n = scanner.nextInt();
         int[] arr = new int[n];
 
-        // 逐一輸入陣列內容
+        // 逐一讀取陣列內容
         for (int i = 0; i < n; i++) {
-            arr[i] = input.nextInt();
+            arr[i] = scanner.nextInt();
         }
 
-        // 排序（選擇排序，升冪）
-        for (int i = 0; i < n - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[minIndex]) {
-                    minIndex = j;
-                }
-            }
-            // 交換
-            int tmp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = tmp;
-        }
+        // 進行排序（由小到大）
+        Arrays.sort(arr);
 
-        // 輸出排序後的陣列，元素以空格分隔
+        // 輸出排序後的陣列，數字以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) System.out.print(" ");
-            System.out.print(arr[i]);
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
         }
-        System.out.println();
+        System.out.println(sb.toString());
 
-        input.close();
+        scanner.close();
     }
 }
-
-一句話改進建議
-- 使用純輸入輸出格式並採用正確的排序演算法，可確保在各種輸入情況下都會輸出符合預期的結果。

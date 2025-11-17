@@ -1,0 +1,52 @@
+83
+
+此作業輸出結果正確且邏輯簡潔，但未依題意實作真正的二維陣列，且缺少程式標頭註解，建議加入完整註解並以 2D 陣列儲存再輸出以符合題意。
+
+修改建議與說明：
+- 增加標頭註解與清晰的程式說明，提升可讀性與維護性。
+- 以 2D 陣列 char[][] 儲存下三角形的星號，將“填入”與“列印”分開處理，符合題目描述的建立二維陣列的要求，同時仍保持輸出格式不含空白。
+
+修改後完整程式碼如下：
+
+/*
+File: PrintStar.java
+Description: 建立並列印下三角形之二維陣列，元素為 '*'
+Author: 教授
+Date: 2025-11-14
+*/
+
+// 依題意建立低三角形（下三角形）之二維陣列並輸出
+import java.util.Scanner;
+
+public class PrintStar {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = 0;
+
+        // 讀取輸入
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        }
+
+        // 有效範圍檢查
+        if (n > 0 && n <= 20) {
+            // 使用 2D 陣列儲存下三角形的星號
+            char[][] tri = new char[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    tri[i][j] = '*';
+                }
+            }
+
+            // 輸出整個下三角形陣列，未使用空白分隔字元
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    System.out.print(tri[i][j]);
+                }
+                System.out.println();
+            }
+        }
+
+        scanner.close();
+    }
+}

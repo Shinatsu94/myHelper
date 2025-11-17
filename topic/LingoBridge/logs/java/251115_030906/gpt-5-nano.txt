@@ -1,0 +1,46 @@
+79
+
+改進建議：程式雖能正確輸出位置，但未實作建立題意中的完整下三角形二維陣列；建議同時建立陣列以符合題意，並用更清晰的命名與適當註解提升維護性，另外可以用常數時間直接計算位置以提高效率。
+
+程式改進說明與修改重點
+- 新增建立下三角形二維陣列的步驟，符合題目「建立完整的下三角形二維陣列」的要求。
+- 使用直接計算的位置公式，避免不必要的迴圈搜尋，提升效率，同時仍提供陣列內容以便核對。
+- 提升變數命名與加入註解，讓程式更易讀且便於後續維護。
+- 提供輸入範例的輸出格式一致性，並支援超出範圍的情況給出明確訊息。
+
+優化後完整程式碼
+import java.util.Scanner;
+
+public class CSIE_41343124_1031_3b {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int tar = scn.nextInt();
+
+        // 建立下三角形二維陣列，順序填入數字
+        int[][] tri = new int[n + 1][];
+        int val = 0;
+        for (int i = 1; i <= n; i++) {
+            tri[i] = new int[i + 1]; // 使用 1-based 索引，tri[i][j] 只有當 j<=i
+            for (int j = 1; j <= i; j++) {
+                val++;
+                tri[i][j] = val;
+            }
+        }
+
+        int maxVal = val;
+        if (tar < 1 || tar > maxVal) {
+            System.out.printf("not find %d in array.", tar);
+        } else {
+            // 使用公式直接計算該數字在下三角陣列中的位置
+            // row r 為 ceil((sqrt(1+8*tar) - 1)/2)
+            int r = (int) Math.ceil((Math.sqrt(1 + 8.0 * tar) - 1) / 2.0);
+            // column c 為 tar 在第一行到第 r 行之和的差值
+            int c = tar - r * (r - 1) / 2;
+            System.out.printf("%d[%d, %d]", tar, r, c);
+            // 這裡也可用 tri[r][c] 檢查 tar 是否正確
+        }
+
+        scn.close();
+    }
+}

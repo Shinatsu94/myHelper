@@ -1,0 +1,40 @@
+87
+
+改進建議：建議補上程式標頭註解、統一縮排與命名、並確保輸出每行皆換行以符合輸出格式。
+
+修改說明與原因
+- 類別與檔案命名：將類別名稱改為 ThreeNumbers，以符合一般專案慣例，並方便對應檔名。
+- 程式標頭註解：新增檔案名稱、功能、作者、日期等註解，提升可維護性與評分透明度。
+- 輸出格式：將最後的最大值改為 println，確保每行輸出皆佔用新行，符合題目輸出格式。
+- 變數命名與排版：使用較清晰的變數命名與統一縮排，提升可讀性。
+- 計算邏輯：保留兩種不同的方法的組合：使用三元運算子求最大與最小值、再用 mid = a + b + c - max - min 計算中位數，符合題目要求。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * File: ThreeNumbers.java
+ * 功能: 從使用者輸入三個整數，輸出最小值、 中位值、 最大值。
+ *       最大值與最小值使用三元運算子；中位值透過 sum - max - min 計算。
+ * 作者: 您的姓名
+ * 日期: 2025-11-15
+ */
+
+public class ThreeNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        int max = (a > b && a > c) ? a : ((b > c) ? b : c);
+        int min = (a < b && a < c) ? a : ((b < c) ? b : c);
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

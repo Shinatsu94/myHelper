@@ -1,0 +1,61 @@
+100
+改進建議：加入完整的程式標頭註解、使用更清晰的變數命名並採用標準的冒泡排序實作，同時輸出加入換行以提升可讀性。
+
+程式修改說明與原因
+- 移除未使用的變數與陣列（原本的 question 陣列），避免佔用記憶體與混淆。
+- 將變數命名改為更具語意的 arr 與 n，提升可讀性與維護性。
+- 改用標準的冒泡排序實作方式（內層循環與外層循環順序清晰），相較原本的變形寫法，讀者更容易理解排序過程。
+- 加入完整的檔案標頭註解，說明檔案名稱、功能、作者與日期，符合題目要求。
+- 輸出部分改為使用 StringBuilder 並於結尾輸出換行，提升輸出效率與可讀性。
+- 程式結構與縮排調整，整體格式更整齊。
+
+完整修改後程式碼：
+/*
+檔案名稱: CSIE_51015114_1031_1.java
+功能: 讀取整數 n 與 n 個整數，將它們升序排序後輸出，元素以空格分隔。
+作者: 教授
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_51015114_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 冒泡排序：升序
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                }
+            }
+        }
+
+        // 輸出結果，元素以單一空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

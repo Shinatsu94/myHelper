@@ -1,0 +1,67 @@
+74
+
+建議在未找到時使用動態訊息、加入標頭與內部註解，並於找到時立即跳出雙重迴圈以提升效率與可讀性。
+
+修改說明與重點
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期。
+- 變數命名改為更具語意的名稱（target、list、found、foundRow、foundCol、val）。
+- 找到目標值時使用外層標籤的 break，提前結束雙層迴圈以提升效率。
+- 未找到時輸出的訊息改為動態輸入值的格式，避免硬編碼 99。
+- 加入系統換行，並在結束時關閉 Scanner，提升資源管理與輸出一致性。
+
+修改後完整程式碼
+```java
+/**
+ * File: LowerTriangularMatrixSearch.java
+ * 功能: 建立下三角形二維陣列，輸入高度 n，從 1 開始填入數值，尋找使用者指定的數字與其位置，未在陣列中時輸出提示。
+ * 作者: 學生
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularMatrixSearch {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int target = scn.nextInt();
+
+        int[][] list = new int[n][];
+        for (int i = 0; i < n; i++) {
+            list[i] = new int[i + 1];
+        }
+
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                list[i][j] = val++;
+            }
+        }
+
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (list[i][j] == target) {
+                    found = true;
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
+        }
+
+        if (found) {
+            System.out.print(target + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        } else {
+            System.out.print("not find " + target + " in array.");
+        }
+
+        System.out.println();
+        scn.close();
+    }
+}
+```

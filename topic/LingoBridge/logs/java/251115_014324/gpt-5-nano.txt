@@ -1,0 +1,42 @@
+86
+
+建議：建議加入標頭註解與清晰的變數命名，同時避免不必要的變數與輸出尾端空格，以提升可讀性與穩定性。
+
+程式碼優化與修改說明：
+- 將自訂的排序演算法改為使用 Arrays.sort，提升效率與穩定性，原本的雙迴圈排序雖能工作但時間複雜度為 O(n^2)，在大數量輸入時表現較差。
+- 移除未使用的變數 sum、max、min，減少誤用與混淆。
+- 加入適當的程式檔案標頭註解，說明檔案名稱、功能、日期等，提升可維護性。
+- 輸出改為避免最後出現多餘的空格，符合常見輸出格式預期。
+- 關閉 Scanner 以釋放資源。
+
+完整修改後程式碼如下：
+檔案名稱: CSIE_41343241_1031_1.java
+功能: 讀入長度與整數陣列，將其升序排序並輸出
+作者: 
+日期: 2025-11-14
+說明: 使用 Arrays.sort 取代自行實作排序，並避免輸出尾端空格。
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343241_1031_1 {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        // 輸出，避免尾端多餘的空格
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < arr.length; i++){
+            if(i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

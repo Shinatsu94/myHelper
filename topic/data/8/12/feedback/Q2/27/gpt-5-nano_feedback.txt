@@ -1,60 +1,54 @@
-3
+84
 
-修改後完整程式碼：
-public class LeibnizPiCalculator {
-    /*
-     * 檔案名稱: LeibnizPiCalculator.java
-     * 功能說明: 計算並輸出 pi 的近似值（Leibniz 公式）：
-     *         a) 對 i = 10000, 20000, ..., 100000，輸出 pi 的近似值，格式符合題目要求
-     *         b) 找到最小的 i，使 pi 四捨五入到小數點後五位等於 3.14159，並輸出該 i
-     * 作者: 風格化示例
-     * 日期: 2025-11-11
-     *
-     * 注意: 本程式不讀取外部輸入，直接輸出結果以符合題目需求。
-     */
+建議：程式基本正確，但缺少程式標頭註解與清晰的命名與排版，建議改用更清楚的變數名稱與適當的註解，並移除不必要的輸出。
+
+修改說明與修改後程式碼
+- 目的與輸入輸出保持不變，核心邏輯保持直接的相鄰位元比較，但做了以下優化：
+  - 移除無用的 System.out.print("")，避免額外輸出與混淆。
+  - 變數命名更明確：用 isWellOrdered 作為布林旗標，input 字串改為 s，但為提高可讀性可改成 input。
+  - 加入中括號與縮排，使結構更加清晰，並在迴圈中遇到第一個不符合條件即中斷，提升執行效率。
+  - 增加標頭註解，說明檔案名稱、功能、作者、日期及程式內容註解。
+
+修改後完整程式碼如下（說明在程式頭部的註解中）：
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: WellOrderedNumber.java
+ * 功能: 判斷輸入的十進位數字字串是否為嚴格遞增的數字（左到右的每位數字皆遞增）
+ * 作者: YourName
+ * 日期: 2025-11-15
+ * 備註: 程式讀取一個字串，若其中每對相鄰字元都滿足前者 < 後者，輸出 "<input> is well-ordered number."
+ *       否則輸出 "<input> is not well-ordered number."
+ */
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        // 部分 (a): 逐步累加，輸出 i 為 10000 的倍數時的 pi 值
-        double sum = 0.0;
-        int sign = 1; // 第 i 項符號，當 i 從 1 開始時，符號為 +1, -1, +1, ...
-        final int MAX_I = 100000;
+        Scanner sc = new Scanner(System.in);
 
-        for (int i = 1; i <= MAX_I; i++) {
-            sum += 4.0 * sign / (2 * i - 1);
-            if (i % 10000 == 0) {
-                // i 顯示到六位數，pi 顯示到小數點後 10 位
-                System.out.printf("i = %6d, pi = %.10f%n", i, sum);
+        // 讀取單一輸入，程式執行一次即可結束
+        String input = sc.next();
+
+        boolean isWellOrdered = true;
+
+        // 檢查每一對相鄰位元是否嚴格遞增
+        for (int i = 0; i < input.length() - 1; i++) {
+            char current = input.charAt(i);
+            char next = input.charAt(i + 1);
+            if (current >= next) {
+                isWellOrdered = false;
+                break; // 遇到第一個不符合就結束
             }
-            sign = -sign;
         }
 
-        // 空一行作為區隔，符合題目輸出格式
-        System.out.println();
+        System.out.println(input + " " + (isWellOrdered
+                ? "is well-ordered number."
+                : "is not well-ordered number."));
 
-        // 部分 (b): 找到最小的 i，使 pi 四捨五入到五位小數為 3.14159
-        double sumForB = 0.0;
-        int signB = 1;
-        int iFound = -1;
-
-        for (int i = 1; ; i++) {
-            sumForB += 4.0 * signB / (2 * i - 1);
-            double rounded5 = Math.round(sumForB * 100000.0) / 100000.0;
-            if (rounded5 == 3.14159) {
-                iFound = i;
-                break;
-            }
-            signB = -signB;
-        }
-
-        System.out.println("i = " + iFound);
+        sc.close();
     }
 }
 
-修改說明與原因：
-- 將原本的需求改成逐步累加的方式，避免每次都重新計算整個前面的項目，提高效率與可控性。
-- 新增清楚的標頭註解與檔案說明，提升可維護性與可讀性，並使用有意義的變數名稱（例如 sum、sign、sumForB）。
-- 輸出格式調整為固定欄位寬度，使用 System.out.printf 並設定 i 為六位寬、pi 為小數點後十位，以符合題目要求的輸出格式。
-- 部分 (b) 使用相同的累加機制，直接遍歷直到滿足條件，確保正確找到最小 i，並輸出。
-- 移除不必要的輸入輸出邏輯，專注於題目給定的輸出需求，避免外部輸入干擾結果。
-
-一句話改進建議或反饋：
-- 使用單一漸進式累加結構與固定格式輸出，不僅能保證結果一致性，還能提升執行效率與可讀性，建議在實作中再加入浮點誤差管理與可配置輸出格式的選項。
+說明：
+- 正確性: 仍然以相鄰位元比較的方式判斷，對於單一位數或多位數皆正確，輸出格式與題目要求吻合。
+- 邏輯: 直接且清晰的邏輯，遇到第一個不符合條件時立即結束迴圈，提升效率且易於閱讀。
+- 格式: 程式碼有清楚的縮排與結構，使用較具描述性的變數名稱，且移除了不必要的輸出。
+- 備註: 已加入標頭註解，描述檔案名稱、功能、作者與日期，以及輸出格式說明。

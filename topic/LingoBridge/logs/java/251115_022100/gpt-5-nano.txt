@@ -1,0 +1,61 @@
+84
+
+此作業輸出符合示例，但若題目需先升序排序再替換，需先加入排序步驟，此外建議採用 O(n) 的後綴最大值法、加強註解與程式標頭。
+
+修改與理由：
+- 演算法優化：改用從右至左的單次掃描，在原地改寫為右側最大值，時間複雜度降低至 O(n)，同時避免多次重複比對。
+- 保留原陣列順序的同時輸出：採用就地更新，確保最後輸出與題意（每個位置改為其右側最大值，最後一個為 -1）一致，且不額外佔用記憶體。
+- 程式標頭與註解：新增檔案頭註解，並於關鍵區塊加入註解，提升可讀性與維護性。
+- 邊界條件與命名：加入長度檢查與清晰註解，變數命名保持良好語意。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: csie_41343239_1031_2.java
+ * 功能說明: 讀取任意長度的整數陣列，將每個元素改為其右側元素的最大值，最後一個元素為 -1，並輸出結果。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 備註: 本實作不排序，直接以原陣列執行右側最大值替換，時間複雜度 O(n)，空間複誤 O(1)。
+ */
+
+import java.util.Scanner;
+
+public class csie_41343239_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int length = sc.nextInt();
+
+        int[] a = new int[length];
+
+        // 讀入陣列值
+        for (int i = 0; i < length; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 輸出前的計算：將每個元素改為其右側的最大值，最後一個為 -1
+        if (length > 0) {
+            int max = a[length - 1];
+            a[length - 1] = -1; // 最後一個元素固定為 -1
+            for (int i = length - 2; i >= 0; i--) {
+                int current = a[i]; // 保留原本的值以用於更新 max
+                a[i] = max;
+                if (current > max) {
+                    max = current;
+                }
+            }
+        }
+
+        // 輸出結果，空格分隔，避免尾端多餘空白
+        for (int i = 0; i < length; i++) {
+            System.out.print(a[i]);
+            if (i < length - 1) System.out.print(" ");
+        }
+
+        sc.close();
+    }
+}

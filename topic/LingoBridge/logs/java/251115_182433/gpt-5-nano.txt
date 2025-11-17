@@ -1,0 +1,59 @@
+88
+
+建議改進點：加上程式標頭註解與基本輸入驗證，並使用更清晰的變數命名以提升可讀性與健壯性。
+
+修改與理由：
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將輸入讀取改為使用 next()，並去除前後空白，同時加上對每個字元是不是數字的驗證，避免非數字字元的情況造成不預期結果。
+- 變數命名改為 input、isWellOrdered 等更有意義的名稱，提升可讀性。
+- 保留原本的核心判斷邏輯，但在非數字輸入時直接判定為非全序數，避免誤判。
+
+以下為修改後的完整程式碼：
+
+```java
+/*
+ * File: WellOrderedNumber.java
+ * Description: Determine whether a given number's digits are strictly increasing
+ * Author: YourName
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 讀取單一數字，移除前後空白
+        String input = scanner.next().trim();
+
+        // 基本驗證：確保所有字元皆為數字
+        boolean allDigits = true;
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                allDigits = false;
+                break;
+            }
+        }
+
+        boolean isWellOrdered = true;
+        if (!allDigits) {
+            isWellOrdered = false;
+        } else {
+            for (int i = 0; i < input.length() - 1; i++) {
+                if (input.charAt(i) >= input.charAt(i + 1)) {
+                    isWellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+
+        scanner.close();
+    }
+}
+```

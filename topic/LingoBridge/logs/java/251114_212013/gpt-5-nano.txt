@@ -1,0 +1,71 @@
+總分：89
+
+改進建議（一句話）：
+加入程式標頭註解與結尾換行、並避免輸出尾端空格，同時對輸入長度做邊界檢查以提升穩定性。
+
+評分細項與說明：
+- 正確性 (50/50)
+  - 程式能依序讀入長度與元素，使用 Arrays.sort 進行升序排序，輸出結果符合題意，且負數亦可正確處理。
+- 邏輯 (30/30)
+  - 採用簡單直接的排序方法，輸入後即排序再輸出，邏輯清晰且符合「由小到大」的要求。
+- 格式 (9/10)
+  - 原始版本有適當縮排與變數命名，但輸出尾端有多餘的空格，且未強制換行，略有瑕疵。其他命名與結構基本合理。
+- 備註 (0/10)
+  - 缺少程式標頭註解（檔案名稱、功能、作者、日期）及內容註解。
+
+修改重點說明與程式優化建議：
+- 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與他人閱讀性。
+- 避免輸出尾端多餘的空格，使用 StringBuilder 串接輸出，並在最後加換行。
+- 對 n <= 0 進行邊界處理，避免非預期的情況。
+- 使用 sc.close() 關閉資源，較符合良好資源管理習慣。
+- 變數命名使用更具意義的名稱（例如 numbers 代表數字陣列、n 代表長度等）。
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_51015130_1031_1.java
+ * Title: 一維陣列排序（從小到大）
+ * Description: 讀取整數長度 n，接著讀入 n 個整數，將它們排序為升序，輸出以空格分隔的序列，最後換行。
+ * Author: 學生
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_51015130_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 邊界處理：若長度為 0 或負數，直接輸出空行並結束
+        if (n <= 0) {
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = sc.nextInt();
+        }
+
+        Arrays.sort(numbers); // 進行升序排序
+
+        // 使用 StringBuilder 避免尾端有空格，並加上結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(numbers[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+說明：
+- 主要改動在輸出部分改用 StringBuilder，避免在輸出最後出現尾端空格，且最後以 println 輸出換行，符合常見測資的比對方式。
+- 增加了對 n <= 0 的邊界處理，避免不合法輸入造成的異常行為。
+- 加入檔案標頭註解，符合題目對程式標頭註解的要求。

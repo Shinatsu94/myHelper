@@ -1,0 +1,47 @@
+90
+
+改進建議（一句話）
+你的作法正確且高效，但缺少註解與命名清晰度，建議加入標頭註解、使用更具描述性的變數名並改用直覺的檢查方式提升可讀性。
+
+修改與說明
+- 可讀性與維護性：改用直覺的變數名稱（number, absNumber, isWellOrdered）取代 in、F 等不易閱讀的命名，並在程式開頭加入檔案說明與作者資訊的註解。
+- 設計簡化：改用字串遍歷的方式逐步檢查相鄰兩位數字是否嚴格遞增，比較直覺且易於理解，避免在數字位元移動時的邏輯小錯誤風險。
+- 邊界情況與健壯性：對輸入取絕對值，避免負數造成的輸出混亂；建議在正式環境加入輸入檢查與資源釋放（scanner.close）。
+- 格式與註解：增加程式標頭註解，同時在程式內容適度加入說明性註解。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    /*
+     * File: WellOrderedNumber.java
+     * Description: Determine whether an input number's digits are strictly increasing from left to right.
+     * Author: Your Name
+     * Date: 2025-11-15
+     */
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int number = scanner.nextInt();
+        scanner.close();
+
+        int absNumber = Math.abs(number);
+        String digits = Integer.toString(absNumber);
+
+        boolean isWellOrdered = true;
+        for (int i = 0; i < digits.length() - 1; i++) {
+            char c1 = digits.charAt(i);
+            char c2 = digits.charAt(i + 1);
+            if (c1 >= c2) { // 不是嚴格遞增
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        System.out.print(number + " is ");
+        if (!isWellOrdered) {
+            System.out.print("not ");
+        }
+        System.out.println("well-ordered number.");
+    }
+}

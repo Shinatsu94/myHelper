@@ -1,0 +1,69 @@
+87
+
+改進建議：加入檔案標頭註解、統一縮排風格，並改用動態規劃計算以提升可讀性與效率（避免逐一枚舉所有數字）。
+
+修改說明與理由：
+- 以 DP（動態規劃）方式計算五位數字的總和分佈，將時間複雜度從 O(100000) 降低至近似 O(5 × A × 10)，對於一般 A 值也更具擴充性。
+- 針對 1..100000 的範圍，額外處理 100000 的特殊情況：當 A=1 時，需要額外加上 100000。
+- 新增程式頭部註解，並統一縮排與命名，提升可讀性與可維護性。
+- 針對極端情況（A 小於 0 或 A 超過 45）提前輸出結果，避免不必要計算。
+- 關閉 Scanner 以釋放資源。
+
+修改後的完整程式碼（Java）：
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_DP_Optimized.java
+ * 功能描述: 計算在 1 到 100000 之間，數字各位數字的總和等於 A 的數字個數。
+ * 作者: 請自行填寫
+ * 日期: 請自行填寫
+ * 備註: 使用動態規劃計算 5 位數字(00000-99999) 的總和分佈，並將 100000 的特殊情況額外處理。
+ */
+public class CSIE_DP_Optimized {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        sc.close();
+
+        int total;
+        // 1..99999 的五位數字(包含前導的零)總和分佈
+        // 最大可能的總和為 9*5 = 45
+        if (A < 0 || A > 45) {
+            // 超出可能的總和範圍，結果為 0
+            total = 0;
+        } else {
+            int[][] dp = new int[6][A + 1];
+            dp[0][0] = 1;
+
+            // 五位數字(共5位)的動態規劃
+            for (int pos = 0; pos < 5; pos++) {
+                for (int sum = 0; sum <= A; sum++) {
+                    int cur = dp[pos][sum];
+                    if (cur == 0) continue;
+                    for (int d = 0; d <= 9; d++) {
+                        int ns = sum + d;
+                        if (ns <= A) {
+                            dp[pos + 1][ns] += cur;
+                        }
+                    }
+                }
+            }
+
+            int countFiveDigits = dp[5][A]; // 00000 - 99999 之間，總和為 A 的數字數
+
+            if (A == 0) {
+                // 排除 00000 因為 1..99999 的範圍不包含 0
+                total = countFiveDigits - 1;
+            } else {
+                total = countFiveDigits;
+            }
+
+            // 特殊處理 100000 的情況：若 A == 1，需再加上一個數字 100000
+            if (A == 1) {
+                total += 1;
+            }
+        }
+
+        System.out.print(total);
+    }
+}

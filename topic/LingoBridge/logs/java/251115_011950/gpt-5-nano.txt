@@ -1,0 +1,61 @@
+85
+正確性: 50/50
+邏輯: 28/30
+格式: 7/10
+備註: 0/10
+
+改進建議：建議改用內建排序提升效能，並加上標頭註解與適當註解以提升可讀性與維護性。
+
+修改原因與說明：
+- 使用內建排序 Arrays.sort(arr) 可以將時間複雜度從 O(n^2) 提升至 O(n log n)，且實作更穩定、正確。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 加入基本輸入與輸出健壯性檢查，確保在極端輸入情況下不會造成例外。
+- 統一、清楚的格式與註解，提升可讀性。
+
+修改後完整程式碼：
+```java
+/**
+ * File: CSIE_41343101_1031_1.java
+ * 功能: 輸入任意長度整數陣列，並由小到大排序，輸出排序後的內容
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343101_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若不足輸入，填補為 0，避免程式異常
+            }
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        // System.out.println(); // 如需換行，可取消註解
+    }
+}
+```

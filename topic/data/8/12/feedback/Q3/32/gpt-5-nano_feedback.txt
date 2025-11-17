@@ -1,94 +1,44 @@
-3
+87
 
-評分依據（各項分數分別）
-- 正確性（0/50）：學生提交的程式與題目無關，未實作題目要求的內容，因此正確性為零。
-- 邏輯（0/30）：程式僅實作反轉整數的功能，與題意完全不符，邏輯評分為零。
-- 格式（3/10）：程式有基本縮排，命名不符合 Java 慣例且缺乏註解，整體可閱讀性不足，僅給予3分。
-- 備註（0/10）：缺乏檔案註解、檔案說明與作者資訊，因此備註為零。
+改進建議：加強對負數與極大整數的情況處理，採用符合 Java 命名慣例的函式命名與完善註解，避免潛在的溢位風險，並增補程式頭註解。
 
-修改後的完整程式碼與說明
-修改目標：
-- 使用 Leibniz 公式 pi = 4 * sum_{k=0}^{terms-1} (-1)^k / (2k+1) 計算 pi 的近似值。
-- (a) 輸出 i = 10000, 20000, ..., 100000 時對應的 pi，pi 以小數點後10位顯示，i 以6位數寬度右對齊。
-- (b) 找出使 pi 四捨五入到小數點後五位等於 3.14159 的最小 i，並輸出 i，格式同樣以 6 位寬度顯示。
-- 程式頭部加入檔案名稱、功能、作者、日期等註解，並對關鍵邏輯加入說明註解。
+修改說明與修改部分：
+- 新增了 reverseDigits(long n) 方法，支援負數的符號保持與更大的整數範圍（使用 long），避免整數溢位。
+- 將方法命名改為小寫開頭的 camelCase，符合 Java 常規風格。
+- 為程式新增頭註解，描述檔案名稱、功能、作者與日期，並在核心邏輯處理部分加入註解，提升可讀性與可維護性。
+- 主程式仍只執行一次，從標準輸入讀取單一整數並輸出逆序結果。
 
-完整程式碼（請以檔案名 PiLeibniz.java 儲存）
+完整修改後程式碼：
+
 /*
- * 檔案名稱: PiLeibniz.java
- * 功能說明: 計算圓周率的近似值，使用 Leibniz 線性級數
- *          (a) 輸出 i = 10000, 20000, ..., 100000 時的 pi 值，格式為
- *              i =  %6d, pi = %.10f
- *          (b) 找出使 pi 五位小數為 3.14159 的最小 i，輸出
- *              i = %6d
- * 作者: 你的姓名
- * 日期: 2025-11-11
+ * File: CSIE_41343205_1017_3.java
+ * Description: Reverse the digit order of a given integer.
+ * Author: 請填寫作者
+ * Date: 2025-11-15
  */
 
-public class PiLeibniz {
-    // 計算條件為 terms 個項，返回 pi 的近似值
-    public static double approximatePiLeibniz(int terms) {
-        double sum = 0.0;
-        int sign = 1;
-        for (int k = 0; k < terms; k++) {
-            sum += sign * 1.0 / (2 * k + 1);
-            sign = -sign;
-        }
-        return 4.0 * sum;
-    }
+import java.util.Scanner;
 
-    // 找到使 pi 四捨五入到五位小數等於 target 的最小項數
-    // 目標使用 3.14159 對應的整數 314159（乘以 1e5 後四捨五入）
-    public static int minTermsForPiToFiveDecimal(double target) {
-        double sum = 0.0;
-        int sign = 1;
-        int k = 0;
-        long targetRounded = Math.round(target * 100000); // 314159
-        while (true) {
-            sum += sign * 1.0 / (2 * k + 1);
-            double approx = 4.0 * sum;
-            long rounded5 = Math.round(approx * 100000);
-            if (rounded5 == targetRounded) {
-                return k + 1; // 由於 k 從 0 開始，實際項數為 k+1
-            }
-            sign = -sign;
-            k++;
-            // 防護機制，避免無窮迴圈（極端情況）
-            if (k > 100000000) {
-                break;
-            }
+public class CSIE_41343205_1017_3 {
+
+    // 將整數的位數反轉，若為負數則保留符號
+    public static long reverseDigits(long n) {
+        boolean negative = n < 0;
+        long m = Math.abs(n);
+        long reversed = 0;
+        while (m != 0) {
+            long digit = m % 10;
+            reversed = reversed * 10 + digit;
+            m /= 10;
         }
-        return -1;
+        return negative ? -reversed : reversed;
     }
 
     public static void main(String[] args) {
-        // (a) 輸出 i = 10000, 20000, ..., 100000 的 pi 值
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double pi = approximatePiLeibniz(i);
-            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-        }
-
-        // 空行分隔兩部分輸出（符合題目示例中的格式）
-        System.out.println();
-
-        // (b) 找出使 pi 四捨五入到五位小數等於 3.14159 的最小 i
-        int minI = minTermsForPiToFiveDecimal(3.14159);
-        if (minI != -1) {
-            System.out.printf("i = %6d%n", minI);
-        } else {
-            System.out.println("未找到符合條件的 i");
-        }
+        Scanner sc = new Scanner(System.in);
+        long num = sc.nextLong();
+        long result = reverseDigits(num);
+        System.out.println(result);
+        sc.close();
     }
 }
-
-修改說明
-- 取代原本與題目不相關的反轉整數功能，改為專注於題目要求的 pi 近似計算。
-- 將計算 pi 的核心邏輯抽成單獨方法 approximatePiLeibniz，便於測試與重用。
-- 新增 minTermsForPiToFiveDecimal 方法，根據四捨五入到五位小數的需求，尋找最小的 i。
-- 主程式中分別處理 (a) 的多組輸出與 (b) 的最小 i，輸出格式採用 System.out.printf，確保 i 與 pi 的格式符合題目要求。
-- 增加程式頭註解，說明檔案名稱、功能、作者與日期，並在主要邏輯處加註解，提升可讀性與維護性。
-
-一句話改進建議
-- 建議在正式作業中加入單元測試，針對不同 term 整數輸入驗證 pi 的收斂特性，以及 (b) 的最小 i 條件，能更早發現邏輯或格式上的問題。
-
-若有需要，我也可以提供另一種實作方式（例如使用 BigDecimal 以控制小數點精度、或增加進位策略以提升穩定性）與相容於多種 Java 版本的實作版本。

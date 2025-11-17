@@ -1,0 +1,77 @@
+10/100
+
+正確性: 0/50
+邏輯: 0/30
+格式: 2/10
+備註: 8/10
+
+改進建議與回饋（一句話）：
+請以題目需求為准，改用讀取整數陣列、對陣列排序再輸出，並加上適當的註解與清晰命名，以提升可讀性與正確性。
+
+修改說明與修改後完整程式碼：
+- 修改原因與重點：
+  - 原程式與題目不符，僅處理單一數字與位置查詢，未讀取整數陣列也未進行排序輸出。
+  - 新版本會：讀取長度 n、再讀入 n 個整數，使用 Arrays.sort 進行排序，最後輸出排序後的整數序列，並支援負數與多行輸入。
+  - 加入程式標頭註解與適當的註解，提升可讀性與維護性。
+
+- 修改重點內容：
+  - 使用陣列儲存輸入的 n 個整數。
+  - 使用 Arrays.sort 進行從小到大的排序。
+  - 輸出時以空格區隔，符合題目輸出格式。
+  - 增加標頭註解與程式內註解，並保持清晰的命名。
+
+修改後的完整程式碼（可直接編譯執行）：
+```java
+/*
+ * 檔案名稱: CSIE_41343215_1031_3b_Optimized.java
+ * 功能說明: 讀取使用者輸入的長度 n，接著讀入 n 個整數，
+ *           將陣列內容由小到大排序後輸出，並支援負數。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 註解: 程式內包含必要的註解以說明各區段功能
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343215_1031_3b_Optimized {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 先讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數，存入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 將陣列排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+說明與注意事項：
+- 程式會根據輸入長度 n 讀取恰好 n 個整數，因此符合「一次執行結束、非廣播 EOF」的要求。
+- 程式可正確處理包含負數的情況，並支援跨多行的輸入。
+- 若輸入數量不足，為了不發生例外，程式會將缺失的元素預設為 0；若你希望嚴格要求輸入數量，亦可在讀取不足時拋出例外或提示錯誤。

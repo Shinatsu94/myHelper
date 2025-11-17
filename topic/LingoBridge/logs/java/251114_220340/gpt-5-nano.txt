@@ -1,0 +1,62 @@
+4
+
+改進建議（一句話）
+請依題意實作完整的輸入、排序與輸出流程，避免僅輸出星號三角形的輸出結果。
+
+修改說明與修改後完整程式碼
+說明與修改原因：
+- 原程式僅讀取長度後輸出星號三角矩陣，未讀取或排序實際的整數陣列，與題意嚴重不符，因此正確性與邏輯評分皆為最低。
+- 新程式重新實作流程：讀取長度 n、讀取 n 個整數、對整數陣列進行由小到大排序、再輸出排序結果。使用 Arrays.sort 以簡潔且穩定的排序實作。
+- 程式碼加入清楚的變數命名、適當縮排，以及程式標頭註解說明檔案名稱、功能、作者與日期，符合格式與備註要求。
+- 為提高執行效率與穩定性，輸出採用 StringBuilder，避免逐次 System.out.print 的效能問題；同時在讀取結束後再關閉 Scanner。
+
+完整修改後的程式碼（檔名與類別名稱均為 CSIE_41343219_1031_3.java，功能同說明）：
+文件開頭註解說明：
+/*
+ * File: CSIE_41343219_1031_3.java
+ * 功能: 讀入長度 n，接著讀入 n 個整數，將陣列由小到大排序，最後輸出排序結果。
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 備註: 不使用 EOF，確保一次執行結束。
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343219_1031_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1) 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 2) 讀取 n 個整數，存入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 關閉輸入，避免資源洩漏
+        sc.close();
+
+        // 3) 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 4) 輸出排序結果，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

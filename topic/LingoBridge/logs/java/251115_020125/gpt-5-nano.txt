@@ -1,0 +1,60 @@
+分數總表
+89
+
+改進建議（單句）
+建議加入標頭註解並改用單次從右至左的線性掃描來實作以提升效能，同時避免輸出末尾多餘的空白。
+
+程式優化說明與修改重點
+- 標頭註解與命名：加入檔案相關註解，符合備註要求，並保留檔案與類別名稱的一致性。
+- 演算法優化：原作為 O(n^2) 的巢狀迴圈，改成 O(n) 的單趟右至左掃描，透過記錄右邊原始值的最大值來逐步填入 arr，且不需要額外的陣列。
+- 輸出格式：改用 StringBuilder 將輸出組合成單行，避免尾端出現多餘的空白。
+- 變數命名與可讀性：將 max 改名為 maxRight，避免與 Math.max 的混淆，增強可讀性。
+- 容錯與穩定性：保留基本的輸入流程，確保在常見測資下仍穩定輸出。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343203_1031_2.java
+功能: 依題意將輸入的一維陣列轉換為每個元素為其右側子陣列的最大值，最後一個元素為 -1，並輸出結果。
+作者: 教師
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 從右至左的一次性線性掃描，讓每個 arr[i] 變為右側的最大值，最後一個變為 -1
+        int maxRight = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            int orig = arr[i];
+            if (i == n - 1) {
+                arr[i] = -1;
+            } else {
+                arr[i] = maxRight;
+            }
+            if (orig > maxRight) {
+                maxRight = orig;
+            }
+        }
+
+        // 輸出，避免尾端多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

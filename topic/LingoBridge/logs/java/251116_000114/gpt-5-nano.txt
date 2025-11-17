@@ -1,0 +1,45 @@
+84
+
+這份作業的核心演算法正確且可行，但在命名與可維護性上還有改進空間，建議加入註解與更清晰的變數名稱，並用更清晰的方式計算位數和。
+
+修改重點與原因:
+- 使用動態規劃式的位數和計算（sumDigits[i] = sumDigits[i/10] + i%10）來取代原本硬編碼六位的逐位相加，提升可讀性與可維護性，並略微提高效率。
+- 重新命名變數以反映其意義，例如 a 變為 targetSum、n 變為 count、m 變為暫存的逐數位和等。
+- 增加程式標頭註解與適當的內部註解，符合備註欄位的要求。
+- 使用較為整潔的程式格式與關閉資源（Scanner）。
+
+修改後完整程式碼:
+```java
+/**
+ * File: DigitSumCounter.java
+ * 功能: 讀取整數 A，計算 1 到 100000 之間，位數之和等於 A 的數字個數，並輸出結果。
+ * 作者: 你的名字
+ * 日期: 2025-11-15
+ * 備註: 使用動態規劃計算每個數字的位數和，以提升可讀性與效率。
+ */
+import java.util.Scanner;
+
+public class DigitSumCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int targetSum = scanner.nextInt();
+        scanner.close();
+
+        final int LIMIT = 100000;
+        // sumDigits[i] 儲存數字 i 的位數之和
+        int[] sumDigits = new int[LIMIT + 1];
+        for (int i = 1; i <= LIMIT; i++) {
+            sumDigits[i] = sumDigits[i / 10] + (i % 10);
+        }
+
+        int count = 0;
+        for (int i = 1; i <= LIMIT; i++) {
+            if (sumDigits[i] == targetSum) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+}
+```

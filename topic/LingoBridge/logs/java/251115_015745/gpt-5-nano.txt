@@ -1,0 +1,61 @@
+83
+改進建議：採用後綴最大值法將時間複雜度 from O(n^2) 降為 O(n)，同時補上程式標頭與適當註解，並加強對邊界情況的處理以增強穩健性。
+
+以下為優化後的完整程式碼與修改說明。
+
+修改說明與優化重點
+- 使用單次反向遍歷計算後綴最大值，將每個元素替換為其右側子陣列的最大值，最後一個變成 -1，時間複雜度降為 O(n)。
+- 增加程式檔案標頭註解，描述檔案名稱、功能、作者與日期，並在關鍵區塊加入註解以提升可讀性與維護性。
+- 加入基本的輸入邊界檢查，處理 n <= 0 的情況，不會發生例外。
+- 程式命名與格式做適度整理，主程式改以常見的 Main 類名稱，增進可一致性。
+
+修改後完整程式碼
+```java
+/*
+ * File: Main.java
+ * Description: 將一維陣列中每個元素替換為其右側子陣列中的最大值（最後一個元素為 -1），
+ *              之後輸出結果。支援負數，且不使用 EOF 輸入。時間複雜度 O(n)。
+ * Author: 你的名字
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n && sc.hasNextInt(); i++) {
+            a[i] = sc.nextInt();
+        }
+
+        int[] out = new int[n];
+        if (n > 0) {
+            // 後綴最大值法：從右向左計算，out[i] = max(a[i+1..n-1])
+            int maxRight = a[n - 1];
+            out[n - 1] = -1; // 最後一個元素固定為 -1
+            for (int i = n - 2; i >= 0; --i) {
+                out[i] = maxRight;
+                if (a[i] > maxRight) {
+                    maxRight = a[i];
+                }
+            }
+        }
+
+        // 輸出結果，元素之間以單一空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(out[i]);
+        }
+        if (n > 0) System.out.println();
+
+        sc.close();
+    }
+}
+```

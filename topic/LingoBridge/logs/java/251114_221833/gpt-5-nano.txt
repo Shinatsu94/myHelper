@@ -1,0 +1,58 @@
+7
+建議重新撰寫成單一維度的排序程式，依需求讀入長度與該長度的整數，然後輸出升序排序結果。
+
+修改說明與改進重點：
+- 正確性與邏輯：改用一維陣列接收長度為 n 的整數，使用 Arrays.sort 進行升序排序，符合題目要求的「由小至大排序」與「輸出排序後陣列內容」。
+- 輸入與輸出：一次性讀入 n 與 n 個整數，輸出以單行空格分隔的排序結果，末尾加換行。支援負數，且不依賴 EOF。
+- 程式格式與註解：加入檔案標頭註解，並在程式中加入清楚註解，改善可讀性；使用較具體的變數名稱，刪除不必要的 2D 陣列與多餘的變數。
+- 資源管理：適時關閉 Scanner，避免資源洩漏。
+
+修改後完整程式碼：
+
+/*
+ 檔案名稱: CSIE_41343107_1031_3_b.java
+ 功能: 讀入長度 n 與 n 個整數，輸出升序排序的結果
+ 作者: 王世豪
+ 日期: 2025/10/31
+ 說明: 使用一維陣列與 Arrays.sort 進行排序，避免使用 EOF，支援負數。
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343107_1031_3_b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的內容，單行以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

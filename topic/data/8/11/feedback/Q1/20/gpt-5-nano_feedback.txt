@@ -1,37 +1,36 @@
-86
+85
 
-修改後完整程式碼如下：
-/**
- * File: CSIE_41343112_1003_1.java
- * 功能: 讀入兩個整數，印出其交換後的值（不使用額外變數）。
- * 作者: 教師
- * 日期: 2025-11-11
- */
+建議在程式開頭加入註解與使用有意義的變數名稱，並統一輸出換行格式以提升可讀性與可維護性。
+
+修改後的程式碼及修改原因：
+- 為了提升可讀性與符合常見命名慣例，將變數名改為 first 與 second，仍於不新增額外變數的前提下使用 XOR 交換法完成交換。
+- 統一使用 println 輸出，確保輸出每個值各佔一行，符合題目輸出格式。
+- 加入適當的程式標頭註解與幫助性註解，提升可維護性，並在結尾關閉 Scanner。
+
+修改後完整程式碼：
+
+/*
+檔案名稱: CSIE_41343112_1003_1.java
+功能: 讀入兩個整數，交換其值，印出交換後的結果
+作者: 教師
+日期: 2025-11-15
+*/
 import java.util.Scanner;
 
 public class CSIE_41343112_1003_1 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
+        int first = sc.nextInt();
+        int second = sc.nextInt();
 
-        // 不使用額外變數，透過位元異或進行交換
-        a = a ^ b;
-        b = a ^ b;
-        a = a ^ b;
+        // 使用不新增額外變數的 XOR 交換法
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
 
-        System.out.println(a);
-        System.out.println(b);
+        System.out.println(first);
+        System.out.println(second);
 
         sc.close();
     }
 }
-
-修改說明：
-- 新增檔案標頭註解，包含檔名、功能、作者與日期，符合備註要求。
-- 統一程式排版與縮排，提升可讀性。
-- 將兩個輸出改為兩次 println，確保每個數字各自佔一行，並符合常見輸出格式。
-- 保留原先的 XOR 交換方式以滿足「不可使用其他變數進行交換」的限制，且適用於整數型態。
-
-改進建議或反饋：
-建議在符合題意的前提下，加入檔案標頭與適當註解，並統一使用 println 以穩定輸出格式。

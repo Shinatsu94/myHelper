@@ -1,0 +1,57 @@
+91
+
+改進建議（一句話）：
+增加程式對極端情況的穩健性與可讀性，例如處理 n=0、使用清晰變數名稱、統一輸出格式，並加入標頭註解與適當註解。
+
+修改說明與原因：
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的註解慣例。
+- 將陣列變數命名改為 arr，將最小值索引變數命名為 minIndex，以增加可讀性與維護性。
+- 使用 try-with-resources 來自動關閉 Scanner，避免資源洩漏。
+- 使用 StringBuilder 組裝輸出並改為單次輸出，提升效能並避免尾端多餘空格。
+- 保留選擇排序（selection sort）的核心演算法，並讓程式在 n=0 的情況下也能穩健執行，輸出為空行。
+- 程式邏輯保持與原作一致，但增強穩健性與可讀性。
+
+修改後完整程式碼：
+
+/*
+檔案名稱: CSIE_41343107_1031_1.java
+功能: 讀取長度 n，輸入 n 個整數，將陣列由小到大排序並輸出。
+作者: 王世豪
+日期: 2025/10/31
+*/
+import java.util.Scanner;
+
+public class CSIE_41343107_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            // 針對任意長度，若 n <= 1，直接不動作，直接輸出已有內容
+            for (int i = 0; i < n - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[minIndex]) {
+                        minIndex = j;
+                    }
+                }
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
+
+            // 使用 StringBuilder 組裝輸出，避免多次 I/O
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}

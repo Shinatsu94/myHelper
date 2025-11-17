@@ -1,0 +1,46 @@
+88
+
+改進建議：建議改用真正的二維陣列來符合題意，同時加上適當的程式註解與統一縮排，以提升可讀性與可維護性。
+
+修改說明與原因
+- 使用二維陣列 char[][] arr 來建立並填入下三角的 '*'，符合「建立二維陣列」的要求。
+- 使用兩層迴圈填入 arr[i][j] = '*'，確保資料結構正確表示下三角形。
+- 使用 StringBuilder 收集輸出，避免多次 I/O 操作，並維持每行精確輸出且不在元素間加入空白。
+- 加上完整的程式標頭註解與適當註解，提升可讀性與可維護性。
+
+完整修改後的程式碼如下：
+
+/*
+ * File: CSIE_41343215_1031_3.java
+ * 功能: 建立並列印下三角形的二維陣列，僅輸出下三角部分的 '*'
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 說明: 取得 n 且 0 < n <= 20，建立 n x n 的二維陣列，填入 '*’，並列印下三角形部分。
+ */
+import java.util.Scanner;
+
+public class CSIE_41343215_1031_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+
+        // 建立 n x n 的二維陣列，並填入 '*'
+        char[][] arr = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 輸出下三角形，避免輸出多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(arr[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
+        }
+        System.out.print(sb.toString());
+    }
+}

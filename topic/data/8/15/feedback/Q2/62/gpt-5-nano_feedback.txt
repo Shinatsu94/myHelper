@@ -1,70 +1,48 @@
-11
-評分與分析：
-- 正確性 (50%): 0/50
-  - 原程式並未正確完成由小到大排序，輸出結果錯誤且含有 -1 的特殊值與不合理的輸出邏輯。
-- 邏輯 (30%): 5/30
-  - 程式有嘗試透過逐步比較取得排序結果的想法，但演算法不正確，且沒考慮輸出格式與邊界情況。
-- 格式 (10%): 6/10
-  - 程式整體縮排尚可，但命名與排版不夠清楚，缺乏有意義的變數命名與一致風格。
-- 備註 (10%): 0/10
-  - 未提供程式檔頭註解，缺乏檔案名稱、功能、作者與日期等說明。
+94
 
-總分（0-100）：11
+改進建議：改用 O(n) 的後綴最大值法以提升效率，並補上程式標頭與註解以提升可讀性與維護性，同時改善變數命名。
 
-修改說明與修改後程式碼
-原因與重點：
-- 原程式使用的邏輯是計算尾端子陣列中的最大值並依序輸出，與題意「由小到大排序」完全不符。
-- 正確做法應使用適當的排序演算法或內建排序函式，直接對整個整數陣列排序，然後一次性輸出結果。
-- 新版程式提供以下特點：
-  - 具備標頭註解，包含檔案名稱、功能說明、作者與日期。
-  - 使用 Java 的 Arrays.sort 進行升序排序，正確且高效。
-  - 支援任意長度的輸入陣列，含負數，輸出格式符合示例（以單一空格分隔，結尾換行）。
-  - 適當處理輸入並在結束時關閉資源。
+程式優化說明與修改點
+- 將原本的 O(n^2) 雙重迴圈改為 O(n) 的後綴最大值計算法，先從右往左計算每個位置右側的最大值，並存入結果陣列，再一次輸出，確保最後一個元素為 -1。
+- 加入適當的檔案頭註解，使用更具意義的變數名稱（如 n、arr、res），並在程式內容增加必要註解說明。
+- 最後輸出使用單一格式，避免不必要的空格，並關閉 Scanner。
 
-修改後完整程式碼（SortArrayAsc.java）：
+修改後完整程式碼
 /*
- * File: SortArrayAsc.java
- * Description: 讀取使用者輸入的一維整數陣列，並以升序排序後輸出。
- * Author: CSIE 教授
- * Date: 2025-11-12
- */
-import java.util.Scanner;
-import java.util.Arrays;
+檔案名稱: CSIE_20251031_41343252_1.java
+功能: 讀入整數陣列，將每個元素替換為其右側元素的最大值，最後一個為 -1，並輸出結果
+作者: 你 naming
+日期: 2025-11-14
+*/
 
-public class SortArrayAsc {
+import java.util.Scanner;
+
+public class CSIE_20251031_41343252_1 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        if (!in.hasNextInt()) {
-            in.close();
-            return;
+
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
         }
-        int l = in.nextInt();
-        int[] a = new int[l];
-        for (int i = 0; i < l; i++) {
-            if (in.hasNextInt()) {
-                a[i] = in.nextInt();
-            } else {
-                a[i] = 0;
+
+        // 使用後綴最大值法，時間複雜度 O(n)
+        int[] res = new int[n];
+        int maxRight = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            res[i] = maxRight;
+            if (arr[i] > maxRight) {
+                maxRight = arr[i];
             }
         }
 
-        Arrays.sort(a);
-
-        for (int i = 0; i < l; i++) {
-            if (i > 0) System.out.print(" ");
-            System.out.print(a[i]);
+        // 輸出結果，確保格式為空格分隔且末尾不多餘空格
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(res[i]);
         }
-        System.out.println();
+
         in.close();
     }
 }
-
-修改部分說明與原因：
-- 取代原本錯誤的尾端最大值策略，改用 Arrays.sort 對整個陣列做升序排序，確保正確性與效率。
-- 改善輸入處理與輸出格式：讀取長度後依序讀入整數，輸出時以空格分隔且最後換行，符合一般輸出約定與題目示例。
-- 增加檔案頭註解，清楚描述檔案名稱、功能、日期與作者，符合作業要求的格式規範。
-
-改進建議（一句話）：
-- 建議採用內建排序與嚴謹的輸入輸出格式，並在程式開頭加入完善的註解與說明，提升可讀性與可維護性。
-
-如果需要，我可以提供另一版不依賴 Arrays.sort 的自訂排序實作（如快速排序或荷蘭國旗問題的簡單實作），以滿足不使用標準庫的情境。

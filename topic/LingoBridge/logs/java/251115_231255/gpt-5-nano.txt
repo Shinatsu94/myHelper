@@ -1,0 +1,41 @@
+90
+
+反馈：整體正確且符合需求，但缺少程式檔案註解，建議加入註解與提高可讀性。
+
+修改建議與說明：
+- 增加檔案頭註解，描述檔案名稱、功能、作者、日期，符合備註評分標準。
+- 移除不必要的加號與多餘空格，改為 System.out.println(A); System.out.println(B); 提升可讀性。
+- 保留 XOR 交換法以符合「無額外變數進行交換」的要求，並維持程式原有邏輯。
+- 若未來不使用 System.in 的其它輸入，建議保留 scanner.close() 以釋放資源；若考量系統輸入持續使用，可以省略關閉。
+
+修改後的完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343221_1003_1.java
+ * 功能說明: 讀入兩個整數，將它們交換後印出交換後的值。
+ * 作者: 請填寫
+ * 日期: 2025-11-15
+ * 備註: 本程式遵循「不得使用額外變數完成交換」的要求，採用位元異或交換法。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343221_1003_1 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用位元異或交換法，無需額外變數，以滿足作業規範
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 輸出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}

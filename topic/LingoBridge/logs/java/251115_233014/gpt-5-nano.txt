@@ -1,0 +1,44 @@
+92
+
+改進建議：此程式在正確性與邏輯上表現良好，但可增強可讀性與健全性，並補上較完整的程式標頭註解與資源釋放。
+
+程式優化與修改說明
+- 加強標頭註解：以區塊註解清楚說明檔案名稱、功能、作者、日期，提升可維護性。
+- 變數命名與註解：將 max、min 改名為 maxVal、minVal，並加入單行註解，提升可讀性。
+- 避免整數溢位風險：將三數求和改為先轉為 long 再計算中間值，避免直接相加造成的溢位，最後再轉回 int。
+- 關閉資源：在使用完 Scanner 後加上 scn.close()，避免資源洩漏。
+- 維持題目要求的兩種不同方式：仍以三元運算子分別求得最大值與最小值，並以 sum - max - min 方式求中間值。
+
+修改後完整程式碼如下
+import java.util.Scanner;
+
+/*
+File: CSIE_41343121_1003_2.java
+功能: 找出三個整數的最大值、最小值與中間值。使用兩種不同的方式計算 max/min，並以 sum - max - min 計算 mid。
+作者: 徐唯祐
+日期: 2025-11-15
+*/
+public class CSIE_41343121_1003_2 {
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+
+    int a = scn.nextInt();
+    int b = scn.nextInt();
+    int c = scn.nextInt();
+
+    // 使用三元運算子計算最大值與最小值
+    int maxVal = (a > b ? (a > c ? a : c) : (b > c ? b : c));
+    int minVal = (a < b ? (a < c ? a : c) : (b < c ? b : c));
+
+    // 計算中間值，避免使用 if-else，並避免溢位風險
+    long sum = (long) a + b + c;
+    int midVal = (int) (sum - maxVal - minVal);
+
+    // 輸出順序為 min, mid, max
+    System.out.println(minVal);
+    System.out.println(midVal);
+    System.out.println(maxVal);
+
+    scn.close();
+  }
+}

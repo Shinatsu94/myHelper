@@ -1,43 +1,46 @@
-2
+90
 
-評分細項
-- 正確性（50%）：0
-- 邏輯（30%）：0
-- 格式（10%）：2
-- 備註（10%）：0
-總分：2
+改進建議：應加入完整的程式標頭註解與輸入錯誤處理，同時為避免整數溢位可把中間值計算改用長整數運算再轉回整數，並提升變數命名與可讀性。
 
-修改後完整程式碼：
+優化與修改說明：
+- 加入完整的檔案標頭註解，說明檔名、功能、作者與日期，提升可維護性與自我註解性。
+- 為避免 a+b+c 可能的整數溢位，將計算過程改用長整數 (long) 進行中間值的計算，最後再轉型輸出，讓程式更健壯。
+- 仍以兩種不同的方式找出最大值與最小值（透過三元運算子），中間值則採用 sum - max - min 的方式，符合題目「使用兩種不同的方式」的精神。
+- 程式格式與註解補充，並在結尾關閉 Scanner 以釋放資源。
+
+修改後完整程式碼如下：
+```java
 /*
-檔案名稱: CSIE_41343222_1003_2.java
-功能: 讀入兩個整數，交換兩個變數的值（不使用額外變數），並輸出交換後的結果
-作者:  (請填入姓名)
-日期: 2025-11-11
+Filename: CSIE_41343222_1003_2.java
+功能: 讓使用者輸入三個整數，使用兩種不同方式找出最大、中間、最小值，並輸出最小、中間、最大值。
+作者: 教授姓名
+日期: 2025-11-15
 */
+
+import java.util.Scanner;
+
 public class CSIE_41343222_1003_2 {
     public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
 
-        // 不使用臨時變數，透過異或交換法進行 A 與 B 的交換
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+        // 讀取三個整數
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
 
-        // 依題意輸出交換後的結果
-        System.out.println(A);
-        System.out.println(B);
+        // 使用三元運算子找最大值與最小值（兩個分別的處理）
+        long la = a, lb = b, lc = c;
+        long max = (la > lb) ? ((la > lc) ? la : lc) : ((lb > lc) ? lb : lc);
+        long min = (la < lb) ? ((la < lc) ? la : lc) : ((lb < lc) ? lb : lc);
+
+        // 中間值使用 sum - max - min 的方式，為避免整數溢位，先轉為 long 計算再轉回 int
+        int mid = (int)(la + lb + lc - max - min);
+
+        System.out.println((int)min);
+        System.out.println(mid);
+        System.out.println((int)max);
 
         scanner.close();
     }
 }
-
-修改說明：
-- 移除了原程序中的多餘變數（僅保留兩個輸入變數 A、B），符合題目不允許使用其他變數進行交換的限制。
-- 改為在交換後輸出結果，符合題目示例輸出（交換後的兩個值）。
-- 使用位元異或交換法（XOR swap）在不使用額外變數的情況下完成兩數交換，避免可能的整數溢出問題與增加臨時變數的風險。
-- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與維護性。
-
-改進建議或反饋（一句話）：
-- 建議在提交時使用穩定且具可讀性的交換方式（若允許使用臨時變數，簡潔易懂的 A = A + B; B = A - B; A = A - B; 或傳統 temp 變數法），並附上完整註解以符合作業規範。
+```

@@ -1,0 +1,52 @@
+90
+
+這份作業評分建議：程式功能正確且邏輯清晰，但缺乏程式頭註解與對負數的穩健處理，建議補上註解並考慮用整數運算取代字串處理以提升效率與穩定性。
+
+修改說明與修改後完整程式碼
+
+- 主要改動點與原因
+  - 使用整數運算判斷數字的位元順序，避免字串轉換帶來的開銷與潛在錯誤，提升效率與耐用性。
+  - 加上對負數情況的處理，使用 Math.abs 處理整數的位數判斷，使輸入範圍更穩健。
+  - 補充程式頭註解，包含檔案名稱、功能、作者、日期等資訊，符合題目對於備註的要求。
+  - 將類別命名改為符合 Java 規範的容易閱讀的名稱，提升可維護性。
+- 修改後的完整程式碼
+
+/*
+檔案名稱: WellOrderedNumber.java
+功能: 判斷輸入整數的數字是否左至右嚴格遞增，並輸出對應訊息
+作者: 教師姓名
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int number = scanner.nextInt();
+        scanner.close();
+
+        int n = Math.abs(number);
+        boolean isWellOrdered = true;
+
+        int prev = n % 10;
+        n /= 10;
+
+        while (n > 0) {
+            int curr = n % 10;
+            // 左至右為嚴格遞增，現在的位數(curr)必須小於先前的位數(prev)
+            if (!(curr < prev)) {
+                isWellOrdered = false;
+                break;
+            }
+            prev = curr;
+            n /= 10;
+        }
+
+        if (isWellOrdered) {
+            System.out.println(number + " is well-ordered number.");
+        } else {
+            System.out.println(number + " is not well-ordered number.");
+        }
+    }
+}

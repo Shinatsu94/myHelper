@@ -1,0 +1,37 @@
+86
+
+改進建議：建議加入標頭註解與清楚的變數命名，並在交換數字時使用能避免整數溢位的做法，以提升可讀性與穩健性。
+
+修改與說明：
+- 新增標頭註解，說明檔案名稱、功能、作者、日期等資訊，符合格式要求。
+- 將變數改為 A、B 並使用位元 XOR 交換法，避免整數加法出現溢位的風險，同時不使用額外變數，符合題目限制。
+- 程式結尾加入 s.close()，確保資源釋放。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343111_1003_1.java
+功能: 從標準輸入讀取兩個整數 A, B，交換其值後印出
+作者: 教授
+日期: 2025-11-15
+說明: 只使用兩個變數完成交換，避免額外變數，採用 XOR 交換法以避免整數溢位風險。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343111_1003_1 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int A = s.nextInt();
+        int B = s.nextInt();
+
+        // 使用位元異或交換，避免使用第三變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        s.close();
+    }
+}

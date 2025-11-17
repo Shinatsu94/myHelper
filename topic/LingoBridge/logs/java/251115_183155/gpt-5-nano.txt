@@ -1,0 +1,58 @@
+85
+建議加強程式標頭與命名慣例，並移除未使用的輔助函式，改為以字串方式處理輸入以保留前導零與提升健壮性。
+
+修改說明：
+- 移除未使用的 FOD 方法，避免混淆與增加維護成本。
+- 改用處理輸入字串的方式，以保持原始數字輸入（含前導零），並便於處理正負號與非數字情況的容錯。
+- 改善變數與函式命名，使程式可讀性提升，例如 isWellOrdered。
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期。
+- 僅輸出單一結果，符合題目需求。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: WellOrderedNumber.java
+ * 功能說明: 判斷輸入的整數各位數字是否嚴格遞增
+ * 作者: 教師
+ * 日期: 2025-11-15
+ */
+public class WellOrderedNumber {
+    // 將輸入字串轉為數字位元的嚴格遞增判斷；允許前導零與可選的負號
+    private static boolean isWellOrdered(String s) {
+        if (s == null) return false;
+
+        // 移除前導負號，若是負數視為非遞增的數字
+        if (s.startsWith("-")) return false;
+        // 去除可能的前後空白
+        s = s.trim();
+        if (s.isEmpty()) return false;
+
+        // 檢查是否全為數字
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) return false;
+        }
+
+        // 空字串或只有一位數，視為遞增
+        if (s.length() <= 1) return true;
+
+        // 檢查相鄰兩位是否嚴格遞增
+        for (int i = 0; i < s.length() - 1; i++) {
+            char a = s.charAt(i);
+            char b = s.charAt(i + 1);
+            if (a >= b) return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        String input = scanner.next();
+        scanner.close();
+
+        boolean ok = isWellOrdered(input);
+        if (ok) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+    }
+}

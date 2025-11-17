@@ -1,0 +1,55 @@
+13
+
+改進建議：目前程式與題目需求嚴重不符，應改以讀入長度與對應數值、再進行排序輸出為主，且增強程式可讀性與註解。
+
+修改與原因說明：
+- 正確性與邏輯：改用「讀入長度 n，讀入 n 個整數，對陣列排序，然後輸出」符合題意，使用 Arrays.sort 保障排序正確性與效率。
+- 輸入處理：採用簡單的 Scanner 輸入流程，避免使用不相干的變數及多餘的邏輯。
+- 格式與可讀性：加入清楚的程式頭註解與有意義的變數命名，修改成符合一般 Java 編寫風格的結構；檔名與類別名改為 Main，以利於大多數 judge 的執行環境。
+- 註解：在程式內加入必要的註解，說明流程與重點。
+- 效能：排序使用內建的 Arrays.sort，時間複雜度 O(n log n)，空間 O(1)（除了輸入陣列）。
+
+修改後的完整程式碼：
+/*
+  程式名稱: Main
+  功能: 讀取長度 n 與 n 個整數，將內容由小到大排序，輸出排序後的陣列。
+  作者: 輸入者
+  日期: 2025/11/14
+  備註: 不使用 EOF，程式執行一次即結束
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!in.hasNextInt()) {
+            return;
+        }
+        int n = in.nextInt();
+
+        // 讀取 n 個整數到陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素間以單一空白分隔，末尾不留空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

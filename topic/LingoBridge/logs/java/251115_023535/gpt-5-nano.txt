@@ -1,0 +1,52 @@
+92
+
+改進建議（一句話）：
+建議加入輸入範圍檢查、使用實際的二維陣列填充與輸出、並補齊程式標頭註解，以符合題意與程式設計的基本風格。
+
+程式優化與修改說明：
+- 移除未使用的變數 t、sum，避免編譯警告與混淆。
+- 使用二維陣列 char[][] 來實作下三角形的填充，符合「建立下三角形二維陣列」的需求。
+- 加入輸入範圍檢查，僅在 0 < n <= 20 時輸出；不在不符合條件的情況下輸出內容。
+- 使用 StringBuilder 來組合輸出，並在每一行結尾追加換行，確保輸出格式與範例一致，且效能較佳。
+- 增加正式的程式標頭註解，說明檔案名稱、功能、作者、日期，並保留適當的程式內註解。
+
+以下為修改後的完整程式碼：
+
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343119_1031_3.java
+ * 功能說明: 建立並列印下三角形的二維陣列（每行有 1..n 顆 '*'，不在元素間加入空白）
+ * 作者: 金宗翰
+ * 日期: 2025-10-31
+ */
+public class CSIE_41343119_1031_3 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        // 輸入範圍檢查，符合題意 0 < n <= 20
+        if (n <= 0 || n > 20) {
+            scn.close();
+            return;
+        }
+
+        // 建立並填入下三角形的二維陣列
+        char[][] triangle = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                triangle[i][j] = '*';
+            }
+        }
+
+        // 輸出：逐行列出 triangle[i][0..i]，每行後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(triangle[i][j]);
+            }
+            sb.append('\n');
+        }
+        System.out.print(sb.toString());
+        scn.close();
+    }
+}

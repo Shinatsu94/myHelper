@@ -1,0 +1,53 @@
+86
+
+改進建議：增加程式標頭註解與說明、變數命名更具描述性，並採用 try-with-resources 提高資源管理與穩定性，同時保持使用兩種不同方法找出最大、最小與中位數的設計。
+
+評分明細
+- 正確性：50/50
+- 邏輯：28/30
+- 格式：6/10
+- 備註：2/10
+總分：86/100
+
+修改說明與重點
+- 新增程式標頭註解，說明檔案名稱、功能、作者、日期等，符合備註要求。
+- 變數命名改為 a, b, c，提升可讀性與描述性。
+- 使用 try-with-resources 來自動關閉 Scanner，提升資源管理穩定性。
+- 保留原有的兩種不同方式：
+  - 使用三元運算子分別求最大值與最小值。
+  - 以三數之和減去最大值與最小值，取得中位數（在整數範圍內通常有效，如避免溢位可再改為不依賴和的寫法，若需要可再討論）。
+- 程式格式與敘述性註解增強，但仍符合「不可使用 if-else」的要求。
+
+修改後完整程式碼
+
+/*
+File: CSIE_41343241_1003_2.java
+Description: 讀入三個整數，輸出最小、中位數、最大值；使用兩種不同的方式找出最大、最小及中位數，且不得使用 if-else。
+Author: 自動批改系統
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343241_1003_2 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+
+            // 找最大值與最小值：使用三元運算子
+            int largest = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+            int smallest = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+            // 中位數：用三數和減去最大與最小得到中間值
+            int middle = a + b + c - largest - smallest;
+
+            // 輸出順序：最小值、中間值、最大值
+            System.out.println(smallest);
+            System.out.println(middle);
+            System.out.println(largest);
+        }
+    }
+}

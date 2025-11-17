@@ -1,0 +1,55 @@
+總分：90
+
+改進建議（一句話）
+程式正確且效率良好，但缺少檔案標頭註解與清晰的變數命名，建議補上註解與使用更具意義的變數名稱以提升可讀性。
+
+修改與優化說明
+- 新增程式檔案標頭註解，說明檔案名稱、功能、作者與日期，以符合作業規範備註要求。
+- 將不具名的變數改為更具意義的名稱，如 arr（陣列）與 n（長度），提升可讀性。
+- 統一縮排與大括號風格，增強程式碼可讀性與維護性。
+- 程式結尾加入 sc.close()，以完整關閉資源。
+- 保留原有邏輯的正確性與效率（從右側向左計算每個位置右側的最大值，最後一個元素設為 -1）。
+
+修改後的完整程式碼
+/*
+檔案名稱: Main.java
+功能描述: 讀入一個整數陣列長度與內容，將每個元素替換為其右側所有元素中的最大值，最後一個元素設為 -1，並列印結果。
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        if (n > 0) {
+            int rightMax = arr[n - 1]; // 先記住最後一個原始值
+            arr[n - 1] = -1;            // 最後一格為 -1
+            for (int i = n - 2; i >= 0; i--) {
+                int curr = arr[i];
+                arr[i] = rightMax;              // 右側最大值
+                if (curr > rightMax) {
+                    rightMax = curr;            // 更新右側最大值
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}

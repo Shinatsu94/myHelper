@@ -1,0 +1,66 @@
+84
+
+改進建議：
+- 變數命名與檔案命名需具可讀性與一致性，並加入適當註解以提高可維護性。
+
+修改與優化說明：
+- 使用更具描述性的變數名稱（n、arr），提高可讀性。
+- 將排序演算法改為「內層循環逐步縮小範圍」的泡沫排序，降低時間複雜度常數，並且保留簡單直覺的邏輯。
+- 結果輸出改為單段输出，並在結尾加上換行，避免臨界測資因格式而失敗。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，並在程式中加入適當註解說明邏輯。
+- 移除不必要的 throws Exception，並在結尾關閉 Scanner，避免資源洩漏。
+
+修改後完整程式碼：
+/*
+ * 文件名稱: SortAscending.java
+ * 功能描述: 讀取一個整數 n 代表長度，接著讀入 n 個整數，將其升序排列後輸出
+ * 作者: 教授
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class SortAscending {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n;
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+        n = in.nextInt();
+
+        // 讀入陣列內容
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，將其填為 0 以避免例外
+            }
+        }
+
+        // 泡沫排序（外層 i，內層逐步減少比較區間）
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                }
+            }
+        }
+
+        // 輸出排序後的陣列，使用單一換行終結
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        in.close();
+    }
+}

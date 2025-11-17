@@ -1,0 +1,68 @@
+11
+
+改進建議（一句話）：
+使用內建排序與清晰輸出格式，修正邏輯錯誤與程式命名，並加入適當註解與程式標頭，以提高可讀性與通過測資的穩定性。
+
+修改說明與評分（依據您的標準逐項評分，並說明原因）：
+- 正確性（0/50）：
+  該學生程式未正確完成題目要求的排序與輸出，實際輸出與預期不符（僅輸出 D2 前四個元素且為非遞增排序結果，且最後輸出 "-1"），因此本次給予0分。
+- 邏輯（5/30）：
+  程式的核心邏輯嘗試以在其子陣列中取最大值來構造排序結果，但實作邏輯錯誤，且未考慮完整排序與輸出格式，故給予較低分，但對於理解他有嘗試使用巢狀迴圈的想法，給5分作為基本的思考面向。
+- 格式（4/10）：
+  程式結構基本可編譯，但命名不具意義、缺乏註解、缺少標頭與說明，排版不一致，雖可運作但閱讀性差，給4分。
+- 備註（2/10）：
+  缺少程式標頭註解（檔案名稱、功能、作者、日期等，及內容註解），也缺乏說明性註解，給2分。
+
+總分：11/100
+
+修改與優化方向（為何修改）：
+- 正確性優先：改用標準排序方法（Arrays.sort）來確保正確且穩定地把整數由小到大排序，且支援負數。
+- 輸入輸出穩定性：讀取長度後再讀入整數，輸出時避免尾端多餘的空白，結尾換行以符合常見題意與測資。
+- 程式可讀性：重新命名變數、加入標頭與註解、統一縮排風格，提升維護性與可讀性。
+- 容錯性：處理輸入不足的情況，關閉資源。
+
+修改後完整程式碼（已優化）：
+/*
+檔案名稱: SortArrayAsc.java
+功能: 建立任意長度的一維陣列，將內容由小到大排序，並輸出排序結果。
+作者: 課堂作業示例
+日期: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                numbers[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為0以避免例外
+                numbers[i] = 0;
+            }
+        }
+        scanner.close();
+
+        // 使用內建排序，支援負數且穩定正確
+        Arrays.sort(numbers);
+
+        // 輸出，避免尾端多餘空白
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) output.append(' ');
+            output.append(numbers[i]);
+        }
+        System.out.print(output.toString());
+    }
+}

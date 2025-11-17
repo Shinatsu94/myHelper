@@ -1,59 +1,56 @@
-86
+92
+改進建議：可改用內建排序與完善程式標頭與輸出格式，以提升穩定性與可讀性，同時避免自訂排序邏輯可能的誤解。
 
-- 正確性: 50/50
-- 邏輯: 28/30
-- 格式: 6/10
-- 備註: 2/10
+修改與原因說明
+- 將自寫的氣泡排序改為使用 Arrays.sort，提升效率與可靠性，且對負數與各種整數值皆正確。
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合程式設計習慣。
+- 改用清晰的變數命名與簡潔的輸出，輸出結束後加換行，結果更穩定且符合一般輸出慣例。
+- 加入對輸入的基本健壯性檢查，並在結束時關閉 Scanner。
 
-修改後完整程式碼與說明如下：
-
-完整程式碼（優化後）
-/*
-File: CSIE_41343112_1031_1.java
-功能: 將輸入的一維整數陣列升序排序並輸出
-作者: 學生
-日期: 1031
-*/
-import java.util.Scanner;
+修改後完整程式碼
+```java
 import java.util.Arrays;
+import java.util.Scanner;
 
+/**
+ * 檔案名稱: CSIE_41343112_1031_1.java
+ * 功能: 讀入任意長度的整數陣列，升序排序，並輸出結果
+ * 作者: 李宗懌
+ * 日期: 103/10/31
+ */
 public class CSIE_41343112_1031_1 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int n;
-        if (sc.hasNextInt()) {
-            n = sc.nextInt();
-        } else {
+        if (!sc.hasNextInt()) {
             sc.close();
             return;
         }
+        n = sc.nextInt();
 
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，提前結束
+                break;
+            }
         }
 
-        // 使用內建排序，保證正確性且效率較高
-        Arrays.sort(arr);
+        // 使用內建排序以提升穩定性與效率
+        Arrays.sort(arr, 0, n);
 
-        // 以單一空格分隔輸出，末尾不多餘空格
+        // 輸出排序結果，空格分隔，結尾換行
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
             sb.append(arr[i]);
         }
+        System.out.println(sb.toString());
 
-        System.out.print(sb.toString());
         sc.close();
     }
 }
-
-修改說明
-- 將排序演算法改為使用 Arrays.sort，提升正確性與效率（時間複雜度由 O(n^2) 降至 O(n log n)），同時天然支援負數。
-- 加入檔案頭部註解，清楚描述檔案功能、作者、日期等，符合題目對程式標頭的要求。
-- 保留原本的輸出格式，仍以單行、空格分隔，確保與題目輸出格式一致；同時在程式中使用 StringBuilder 進行輸出組裝，提升效能。
-- 加入基本輸入健全性檢查（先檢查是否有整數輸入），並在結尾關閉 Scanner，避免資源洩漏。
-
-改進建議（一句話）
-建議長期使用內建排序工具（如 Arrays.sort）並加上輸入檢查與輸出格式統一，能提升穩定性與可讀性，同時維持良好執行效率。
+```

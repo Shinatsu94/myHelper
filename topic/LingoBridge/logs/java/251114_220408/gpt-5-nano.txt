@@ -1,0 +1,54 @@
+2
+
+改進建議（一句話）：
+需要完整實作題意的功能：讀取長度與元素、做升序排序並輸出結果，同時加上適當註解與標頭以符合評分標準。
+
+改動原因與要點：
+- 針對題意改為讀取整數陣列並排序：使用陣列儲存輸入，並用 Arrays.sort 進行升序排序，確保穩定且正確的排序結果。
+- 輸出格式調整為單行、元素之間以空格分隔，符合範例輸出。
+- 加入標頭註解與適當變數命名：提高可讀性與維護性，符合格式與備註項目。
+- 增加容錯與穩健性：在輸入不足時給預設值，避免例外。
+
+修改後完整程式碼如下：
+/*
+ * 檔名/識別：CSIE_41343220_1031_3a.java
+ * 功能說明：讀取整數長度 n，接著讀取 n 個整數，將其升序排序並輸出結果。
+ * 作者：匿名
+ * 日期：2025-11-14
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343220_1031_3a {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        } else {
+            return;
+        }
+
+        // 讀取 n 個整數，存入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 不足輸入時的預設值，避免例外
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，元素以空格分隔，最後換行
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+    }
+}

@@ -1,0 +1,63 @@
+總分：2
+
+改進建議（一句話）
+請務必依照題意實作：先讀入長度 n，接著讀入 n 個整數，將它們以升冪排序後輸出，並加入適當的程式標頭與註解，使用一維整數陣列與 Arrays.sort 的簡潔實作比現有的三乘九矩陣處理更符合題意。
+
+修改與優化說明
+- 明確符合題意的實作：改用一維整數陣列儲存輸入資料，並使用 Arrays.sort 進行排序，輸出排序結果。
+- 時間與空間效能：Arrays.sort 的時間複雜度為 O(n log n)，空間為 O(n)，對任意長度的陣列皆適用。
+- 程式撰寫風格：加入適當的程式頭註解（檔案名稱、功能、作者、日期）與必要的註解，使用有意義的變數名稱，維持良好的縮排與可讀性。
+- 輸入與輸出穩定性：遵守「一次執行結束、不要使用 EOF」的要求，輸出格式為以空格分隔的排序結果，沒有多餘尾端空格。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: SortArray.java
+功能說明: 讀入整數長度 n，接著讀入 n 個整數，將它們升冪排序後輸出
+作者: 你的名字
+日期: 2025-11-14
+說明: 不使用 EOF，程式一次執行後結束。支援負數，使用一維整數陣列與 Arrays.sort。
+*/
+
+import java.util.*;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Locale.setDefault(Locale.US); // 確保小數點格式為 '.'
+        Scanner sc = new Scanner(System.in);
+
+        // 1) 讀取長度 n
+        if (!sc.hasNextInt()) {
+            System.err.println("輸入格式錯誤：未提供長度 n。");
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 2) 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 3) 降序排序改為升冪排序
+        Arrays.sort(arr);
+
+        // 4) 輸出排序結果，元素之間以單個空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```
+
+說明
+- 此版本直接滿足題目需求：讀入長度、讀入對應數量的整數、升冪排序、輸出格式正確，且支援負數。
+- 以簡潔且可維護的方式實作，避免原先程式中的無關矩陣運算與複雜邏輯。若日後要處理更大的資料量，也可考慮改用更高效的 I/O 方式（如 BufferedInputStream + 手寫解析器）與 StringBuilder 輸出方式等。

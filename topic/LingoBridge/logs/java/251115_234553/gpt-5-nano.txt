@@ -1,0 +1,45 @@
+87
+
+建議：程式正確性不錯，但需加入程式標頭註解、統一命名與排版，並確保輸出每行結尾有換行以符合輸出格式。
+
+改進與修改說明：
+- 增加標頭註解區塊，說明檔案名稱、功能、作者、日期等，提升維護性。
+- 將類別名稱改為通用的 Main，與檔名對齊，便於編譯與執行。
+- 使用更清晰的排版與縮排，增進可讀性。
+- 對 max/min 的三元運算式加入括號以提高可讀性與穩定性。
+- 保留透過三元運算子找最大與最小值的方法，並以 mid = a + b + c - max - min 計算中間值，符合題目「兩種不同的方式」的要求。
+- 新增資源釋放（關閉 Scanner）與最後三個輸出皆使用 println，確保每行皆以換行結束，符合輸出格式。
+
+修改後完整程式碼：
+/*
+File: MaxMidMin.java
+Description: 讀入三個整數，使用兩種不同的方式找出最大值、最小值與中間值，並輸出順序為 min, mid, max。
+Author: Your Name
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 使用三元運算子求最大值與最小值
+        int max = (a > b && a > c) ? a : ((b > c) ? b : c);
+        int min = (a < b && a < c) ? a : ((b < c) ? b : c);
+
+        // 中間值透過總和減去最大值與最小值得到
+        int mid = a + b + c - max - min;
+
+        // 輸出：最小值、中間值、最大值，各自換行
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

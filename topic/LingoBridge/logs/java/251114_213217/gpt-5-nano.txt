@@ -1,0 +1,55 @@
+11
+- 正確性: 0
+- 邏輯: 5
+- 格式: 4
+- 備註: 2
+改進建議：此作業需要正確實作排序，請改用標準排序演算法取代「把每個元素改為之後的最大值」的作法，並改善程式標頭與命名以符合題意與風格規範。
+
+修改說明與理由：
+- 正確性方面：原程式的核心邏輯並非排序，因此產出與題目需求不符，需改用正確的排序方法。
+- 邏輯方面：使用標準排序可以簡化邏輯並保證正確性，同時降低時間複雜度與出錯機會。
+- 格式方面：缺少檔案標頭註解，變數命名可增加可讀性；輸出使用整潔的格式，並避免不必要的特例處理。
+- 備註方面：增加檔案標頭註解與適度的內部註解，清楚說明檔案名稱、功能、作者、日期等資訊。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343209_1031_2.java
+功能: 讀取整數 n 與 n 個整數，將其從小到大排序並輸出，支援負數，避免使用 EOF。
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343209_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序：從小到大
+        Arrays.sort(arr);
+
+        // 輸出排序結果
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

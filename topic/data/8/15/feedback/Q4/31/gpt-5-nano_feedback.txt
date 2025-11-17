@@ -1,41 +1,30 @@
-3
+總分：82
 
-以下為依您的標準評分與修正內容：
+改進建議（一句話）
+建議移除不必要的多測試迴圈與超過需求的輸入檢查，並加入清晰的程式標頭與註解，以及使用更具可讀性的變數命名與單一執行流程。
 
-學生作業評分
-- 正確性 (50%): 0 / 50
-  - 程式並未實作題目要求的「將任意長度的一維陣列內容由小到大排序並輸出」的功能，反而建立與題意無關的三角不等陣列，且輸出與題目需求不符，故判定為不正確。
-- 邏輯 (30%): 0 / 30
-  - 程式邏輯與題意嚴重偏離，雖有形成迴圈與搜尋，但與排序與輸出需求無關，整體邏輯不符合題意。
-- 格式 (10%): 3 / 10
-  - 程式有基本縮排與可讀性，但命名不具語意且結構混雜（使用不必要的三角陣列、輸出方式不一致），尚有相當空間改善。
-- 備註 (10%): 0 / 10
-  - 程式檔案標頭註解缺失，未說明檔案名稱、功能、作者、日期等。
+程式碼優化與說明
+- 移除不必要的 while (sc.hasNext()) 迴圈，改為單次執行的單測試流程，符合題目輸入格式。
+- 去除對 n 的額外上限限制與過度繫結條件，讓程式在合理範圍內更具普遍性。
+- 使用更具意義的變數名稱，例如 tri 取代 tran，num、target、found、foundRow/foundCol 以增進可讀性。
+- 加入標頭註解說明檔案名稱、功能、作者、日期，並在程式中加入必要的註解。
+- 保留原本的輸出格式與字串，以符合題目給定的輸出樣例。
 
-總分: 3/100
+修改後的完整程式碼如下：
+- 程式碼說明：建立一個下三角形的二維陣列，依序填入 1, 2, 3, …，輸入 n 與欲尋找的數字 target，若找到則輸出 target[row, col]，否則輸出 not find target in array.，並遵循 1-based 的索引。
 
-修改後完整程式碼與說明
-- 修改重點：
-  - 直接使用一維整數陣列讀取輸入，符合題意的核心需求。
-  - 使用內建排序 Arrays.sort 以簡單、正確且高效的方式完成升序排序。
-  - 使用單一輸入流程（僅讀取一次長度與對應數值）避免 EOF 檢測造成複雜迴圈。
-  - 加入清晰的程式標頭註解與有意義的變數命名，並以 StringBuilder 組裝輸出提升效能。
-- 修改後完整程式碼如下：
 
-/*
-File: CSIE_41343203_1031_3b.java
-描述: 讀入整數 n，接著讀入 n 個整數，輸出升序排序後的結果，以空格分隔。
-作者: 您的教學助理
-日期: 2025-11-12
-*/
+// LowerTriangularMatrix.java
+// 功能: 建立下三角形二維陣列，輸入高度 n 與尋找的數字 target，輸出該數字的位置，若未找到則給出提示。
+// 作者: 以教學用為主
+// 日期: 2025-11-14
+
 import java.util.Scanner;
-import java.util.Arrays;
 
-public class CSIE_41343203_1031_3b {
+public class LowerTriangularMatrix {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 讀取長度 n
         if (!sc.hasNextInt()) {
             sc.close();
             return;
@@ -46,37 +35,43 @@ public class CSIE_41343203_1031_3b {
             return;
         }
 
-        // 讀取 n 個整數到一維陣列
-        int[] arr = new int[n];
+        // 建立下三角形二維陣列
+        int[][] tri = new int[n][];
+        int num = 1;
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0
-                arr[i] = 0;
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = num++;
             }
         }
 
-        // 排序：由小到大
-        Arrays.sort(arr);
-
-        // 輸出排序結果，元素以空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
         }
-        System.out.println(sb.toString());
+        int target = sc.nextInt();
+
+        // 搜尋 target 的位置
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+        for (int i = 0; i < n && !found; i++) {
+            for (int j = 0; j < tri[i].length; j++) {
+                if (tri[i][j] == target) {
+                    found = true;
+                    foundRow = i + 1; // 1-based
+                    foundCol = j + 1; // 1-based
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
 
         sc.close();
     }
 }
-
-修改說明要點
-- 將原本的三角陣列結構移除，改用一維陣列以直接對輸入資料進行排序，符合題意且更簡潔。
-- 透過 Arrays.sort 提升排序可靠性與效能，避免自行實作排序演算法的潛在錯誤。
-- 使用 StringBuilder 組裝輸出，減少多次 I/O 呼叫提升效能。
-- 加入完整檔案註解與清晰變數命名，提升可維護性。
-
-改進建議或反饋（一句話）
-建議未來務必嚴格依題意實作核心需求，並在輸入輸出與邊界情況上加強驗證與容錯，以利通過各種測資與測資邊界。

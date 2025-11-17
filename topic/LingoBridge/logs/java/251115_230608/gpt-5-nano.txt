@@ -1,0 +1,45 @@
+33
+
+改進意見：為符合題目輸出格式，應先印出原始輸入值再完成交換，且避免額外文字輸出，輸出僅呈現數字。
+
+程式優化說明與修改部分原因
+- 移除不必要的提示文字，改為直接輸出數字，符合題目要求的輸出格式。
+- 先輸出輸入的兩個值（A、B），再用不使用額外變數的 XOR 交換法交換兩者，最後輸出交換後的結果，保留題目給定的交換限制。
+- 增加檔案標頭與適度的內部註解，提升可讀性與維護性。
+- 變數命名維持 A、B，符合題目中變數名稱的慣例。
+
+修改後完整程式碼如下：
+
+/*
+ * File: CSIE_41343150_1003_1.java
+ * Description: 讀入兩個整數 A, B，先印出輸入值，接著使用不使用額外變數的 XOR 交換法交換兩者，最後印出交換後的值。
+ * Author: 教授
+ * Date: 2025-11-15
+ * Note: 輸出格式需符合題目要求，取消多餘的文字輸出。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343150_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 印出原始值
+        System.out.println(A);
+        System.out.println(B);
+
+        // 使用 XOR 交換，不使用額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 印出交換後的值
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}

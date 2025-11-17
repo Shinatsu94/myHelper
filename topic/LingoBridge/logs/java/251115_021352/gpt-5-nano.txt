@@ -1,0 +1,48 @@
+84
+
+建議改進：建議加入程式標頭註解、容錯處理，並將演算法改寫為就地 O(n) 方式以提升效能，同時維持相同輸出。
+
+修改說明與理由：
+- 使用就地從右到左的演算法，將時間複雜度由原本的 O(n^2) 降為 O(n)，且不需要額外的陣列空間（僅使用少量變數），維持原本輸出不變。
+- 增加對長度為 0 的輸入的容錯處理，避免在極端輸入下發生索引錯誤。
+- 重新加入程式標頭註解與更清晰的變數命名，以符合評分標準中的格式要求。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+ * File: CSIE_41343242_1031_2.java
+ * Description: 將輸入的一維陣列中，每個元素替換為其右側元素的最大值，最後一個元素設為 -1。
+ * Author: 教授
+ * Date: 2025-11-14
+ */
+
+public class CSIE_41343242_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] ary = new int[n];
+        for (int i = 0; i < n; i++) ary[i] = sc.nextInt();
+        sc.close();
+
+        if (n == 0) {
+            // 無輸入時不輸出內容
+            return;
+        }
+
+        // 就地計算右側最大值，最後一個設為 -1
+        int suffixMax = ary[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            int cur = ary[i];
+            ary[i] = suffixMax;
+            if (cur > suffixMax) suffixMax = cur;
+        }
+        ary[n - 1] = -1;
+
+        // 輸出結果
+        for (int i = 0; i < n; i++) {
+            System.out.print(ary[i] + (i == n - 1 ? "" : " "));
+        }
+    }
+}

@@ -1,0 +1,62 @@
+86
+
+改進建議：此作業雖已正確完成「右側最大值替換」的邏輯，但缺少程式標頭註解與命名說明，且可將時間複雜度由 O(n^2) 優化為 O(n) 的就地更新，同時輸出與變數命名可再提升清晰度。
+
+程式優化說明與修改內容：
+- 將原本的雙重迴圈改為單次自右向左的就地更新，時間複雜度從 O(n^2) 降至 O(n)，並保持輸出內容與題意一致。
+- 加入清晰的程式標頭註解（檔案名稱、功能、作者、日期等）與適當內部註解，提高可讀性與維護性。
+- 改善變數命名與輸出格式，使用 StringBuilder 產出以避免多次 I/O，並於結尾加上換行。
+- 增加對 n 的非正情況處理，避免例外情況。
+
+修改後完整程式碼如下：
+
+/*
+ * 檔案名稱: CSIE_41343150_1031_2.java
+ * 功能說明: 對輸入的一維整數陣列，將每個元素替換為其右側元素中的最大值（最後一個為 -1），輸出結果。
+ * 作者: 程式設計教學範例
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343150_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+
+        int n = scn.nextInt();
+        if (n <= 0) {
+            // 無資料可處理，輸出空行並結束
+            System.out.println();
+            scn.close();
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scn.nextInt();
+        }
+
+        // 從右側開始就地更新，先保存最右側的值作為最大值參考
+        int maxRight = a[n - 1];
+        a[n - 1] = -1; // 最後一個元素替換為 -1
+        for (int i = n - 2; i >= 0; i--) {
+            int orig = a[i];  // 保存原值，以便更新 maxRight
+            a[i] = maxRight;
+            maxRight = Math.max(maxRight, orig);
+        }
+
+        // 輸出結果，欄位以空格分隔，無多餘尾碼空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}

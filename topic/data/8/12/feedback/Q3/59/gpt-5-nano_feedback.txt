@@ -1,48 +1,47 @@
-7
+82
 
-- 作業評分（依據你給的標準）
-  - 正確性: 0/50
-  - 邏輯: 0/30
-  - 格式: 7/10
-  - 備註: 0/10
+建議：這份作業邏輯正確，但需考慮整數溢位風險、命名與可讀性，建議改用長整數型別並加入清晰註解與變數命名。
 
-修改後完整程式碼（已改成符合題目要求的正確解法，並加上適當註解與統一輸出格式）：
+修改內容與原因：
+- 將變數型別由 int 改為 long，並以 long 變數處理輸入與反轉，避免大數字導致溢位的問題。
+- 新增對負數的處理，保留符號並對絕對值進行反轉，符合「整數」的通用情況。
+- 使用更具描述性的變數名稱，如 inputValue、reversedValue、sign，以提升可讀性與維護性。
+- 程式結尾加入 sc.close()，針對資源釋放。
+- 增加檔案標頭註解，說明檔案名稱、功能、作者、日期，提升程式文件化程度。
+- 保留原本一次性執行的需求，輸入僅一次即可結束。
 
+修改後完整程式碼：
+```java
 /*
-檔案名稱: LeibnizPi.java
-功能: 計算 pi 值，當 i 為 10000, 20000, ..., 100000 時，輸出
-      i 與 pi 的值，i 以6位寬對齊，pi 小數點後顯示 10 位。
-作者: 使用者
-日期: 2025-11-12
-說明: 使用 Leibniz 無窮級數 pi = 4 * sum_{t=0}^{i-1} (-1)^t / (2t+1)
-      其中 i 為項數，對應於題目中的 2i-1 分母項。
+File: CSIE_41343241_1017_3.java
+Description: Reverse digit order of an input integer
+Author: Teacher
+Date: 2025-11-15
 */
-public class LeibnizPi {
+
+import java.util.Scanner;
+
+public class CSIE_41343241_1017_3 {
     public static void main(String[] args) {
-        // 依題目要求，i 為 10000, 20000, ..., 100000
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double sum = 0.0;
-            // 李普尼茲公式的前 i 項
-            for (int t = 0; t < i; t++) {
-                double term = 1.0 / (2 * t + 1);
-                if ((t & 1) == 0) { // 偶數項為正
-                    sum += term;
-                } else {            // 奇數項為負
-                    sum -= term;
-                }
-            }
-            double pi = 4.0 * sum;
-            // 輸出格式：i 6 位寬對齊，pi 保留小數點後 10 位
-            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長整數，避免溢位
+        long inputValue = sc.nextLong();
+        sc.close();
+
+        long sign = inputValue < 0 ? -1 : 1;
+        long n = Math.abs(inputValue);
+
+        long reversedValue = 0;
+        // 反轉位數
+        while (n > 0) {
+            reversedValue = reversedValue * 10 + (n % 10);
+            n /= 10;
         }
+
+        reversedValue *= sign;
+
+        System.out.println(reversedValue);
     }
 }
-
-修改說明（為何做這些修改）：
-- 先前提供的程式與題目需求毫無關聯，僅進行整數反轉的輸入輸出，未解決實際的 pi 計算問題，因此需用正確的演算法與輸出格式替換。
-- 以雙層迴圈實作 Lehniz/Leibniz 公式，將 i 視為項數，最後的分母為 2i-1，對每個 i 值輸出 pi。
-- 輸出使用 System.out.printf，採用 i = %6d 與 pi = %.10f，使輸出符合「i 顯示到6位數、pi 顯示到小數點後10位」的格式要求，並保持與題目樣例相符的對齊方式（在等號後加入空格以產生對齊效果）。
-- 程式內加入註解與標頭說明，提高可讀性與維護性。
-
-改進建議（一句話）：
-- 建議在實作前先閱讀題意，並以專題需求設計資料輸入與輸出格式，避免與題意無關的程式邏輯或 I/O 行為，並在提交前附上完整的程式註解與檔案標頭。
+```

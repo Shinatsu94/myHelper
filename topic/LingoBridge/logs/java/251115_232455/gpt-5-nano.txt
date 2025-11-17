@@ -1,0 +1,38 @@
+74
+建議：將中位數的計算改用另一種穩健方法（如 a+b+c - max - min），以處理可能出現的重複數情況，同時保留兩種不同的計算方式分別求得最大/最小與中位數。
+
+修改說明與原因
+- 問題要求使用兩種不同的方法求最大、最小與中位數。原程式以兩段三元運算子處理最大與最小，中位數使用條件式，雖可運作但在有重複數時容易出錯。改用 mid = a + b + c - max - min，藉由總和減去極值，穩健地取得中位數。
+- 對最大值與最小值，保留原有的三元運算子寫法，保持符合「使用三元運算子」的要求。
+- 程式結構與命名進行小幅整理，增添註解與標頭，提升可讀性與可維護性。
+- 將輸出順序改為 min, mid, max 以符合題目輸出樣式。
+
+修改後完整程式碼
+// 文件名稱: CSIE_41143122_1003_2.java
+// 功能說明: 讀入三個整數，輸出最小值、中間值、最大值；使用兩種不同的方法求值，且不使用 if-else。
+// 作者: 教授
+// 日期: 2025-11-15
+
+import java.util.Scanner;
+
+public class CSIE_41143122_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 讀入三個整數
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
+
+        // 方法1：使用三元運算子分別求最大值與最小值
+        int max = a > b ? (a > c ? a : c) : (b > c ? b : c);
+        int min = a < b ? (a < c ? a : c) : (b < c ? b : c);
+
+        // 方法2：中位數改以 total - max - min 的方式求出，避免重複值時的錯誤
+        int mid = a + b + c - max - min;
+
+        // 輸出順序：最小值、中間值、最大值
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+    }
+}

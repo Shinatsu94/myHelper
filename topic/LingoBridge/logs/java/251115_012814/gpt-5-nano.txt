@@ -1,0 +1,63 @@
+86
+
+您可以透過以下建議提升程式品質與維護性：建議補上檔案頭註解、移除未使用的變數，並使用更具描述性的函式與變數名稱以提升可讀性。
+
+改進建議與優化說明
+- 移除未使用的 originalArray 變數，避免不必要的記憶體與混淆。
+- 將排序函式命名為 selectionSort，取代不具描述性的 SS，加強可讀性。
+- 新增檔案頭註解，說明檔案名稱、用途、作者與日期等，符合作業備註要求。
+- 變數命名與註解更具描述性，例如 minIndex、tmp，提升維護性。
+- 輸出時避免尾端多餘空格，改用先判斷再輸出的方法。
+
+修改後的完整程式碼如下：
+// File: CSIE_41343202_1031_1.java
+// Description: 依題目要求，讀取長度與整數陣列，將其升序排序後輸出。
+// Author: 你的名字或學號
+// Date: 2025-11-14
+// Version: 1.0
+// Notes: 使用選擇排序實作，輸入僅允許一輪測資輸入，符合題目要求。
+
+import java.util.Scanner;
+
+public class CSIE_41343202_1031_1 {
+
+    // 選擇排序：將 arr 內的元素由小到大排列
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[minIndex]
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int length = scanner.nextInt();
+        int[] array = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // 排序
+        selectionSort(array);
+
+        // 輸出，避免尾端空格
+        for (int i = 0; i < length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}

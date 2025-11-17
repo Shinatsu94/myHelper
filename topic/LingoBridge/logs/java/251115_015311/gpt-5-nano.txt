@@ -1,0 +1,60 @@
+89
+建議改動：透過從右至左的單次遍歷即可同時生成每個位置右側的最大值，降低時間複雜度並保持正確性，並在程式開頭加入標頭註解與統一的排版。
+
+改進說明與修改內容
+- 主要改動點：將原本的雙層迴圈改為單次逆向遍歷，使用 currentMax 保存右側已知的最大值，逐步填入 arr[i]，再更新 currentMax。最後把最後一個元素設為 -1。此法時間複雜度由 O(n^2) 降為 O(n)，並避免不必要的比較。
+- 優化原因：符合題意需要取得「右側最大值」，且對任意長度陣列皆適用，且負數亦支援。
+- 其他改善：增加程式標頭註解與更清楚的輸出格式，保留原有功能與輸出格式。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/*
+ * File: CSIE_41343112_1031_2.java
+ * 功能: 依序輸入整數，建立任意長度的一維陣列，將陣列內容替換為其右側的最大值，最後將最後一個元素設為 -1，並輸出結果。
+ * 作者: 李宗懌
+ * 日期: 2025-11-14
+ */
+
+public class CSIE_41343112_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 不足的輸入補0，避免例外
+            }
+        }
+
+        if (n > 0) {
+            int currentMax = arr[n - 1];
+            // 從右到左填入右側最大值
+            for (int i = n - 2; i >= 0; i--) {
+                int temp = arr[i];   // 保留原值，方便更新目前的右側最大值
+                arr[i] = currentMax;
+                if (temp > currentMax) {
+                    currentMax = temp;
+                }
+            }
+            arr[n - 1] = -1;
+        }
+
+        // 印出結果，元素之間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

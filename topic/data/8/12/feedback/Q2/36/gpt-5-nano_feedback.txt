@@ -1,49 +1,57 @@
-3
+90
 
-評分明細
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：3/10
-- 備註：0/10
-總分：3/100
+建議改進：加入標頭註解與嚴謹的輸入檢核（確保只含數字）並使用符合 Java 命名慣例的函式組織與變數命名，以提升可讀性與可維護性。
 
-修改後的程式碼與說明
+修改說明與原因：
+- 加入檔案標頭註解，符合題目對備註的要求，方便後續維護。
+- 將核心判斷抽成單獨方法 isWellOrdered，提升可讀性與可重用性。
+- 先對輸入進行 trimmed 字串處理，並驗證是否全為數字，避免非數字字符導致的錯誤判斷。
+- 將變數命名改為符合 Java 慣例的使用小駝峰命名，例如 isWellOrdered，提升閱讀性。
+- 仍維持單次執行的行為，但提高穩健性與可維護性。
 
-修改後完整程式碼
-```java
-/**
- * 檔案名稱: LeibnizPi.java
- * 功能: 根據萊布尼茨級數計算 π 的逐步近似，輸出 i 為 10000, 20000, ..., 100000 的 pi 值，並格式化輸出
- * 作者: 請填寫
- * 日期: 2025-11-11
- * 版本: 1.0
- * 說明: 程式內含註解以解釋關鍵步驟
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+ * File: CSIE_41343212_1017_2.java
+ * Description: 判斷使用者輸入的數字各位數字是否嚴格遞增（從左到右）。
+ * Author: 教師
+ * Date: 2025-11-15
  */
 
-public class LeibnizPi {
+public class CSIE_41343212_1017_2 {
     public static void main(String[] args) {
-        // 依題意，輸出 i 為 10000 到 100000，間隔為 10000
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double sum = 0.0;
-            for (int k = 0; k < i; k++) {
-                // 第 k 項的符號依次為 +, -, +, -, ...
-                double term = (k % 2 == 0) ? (1.0 / (2 * k + 1)) : (-1.0 / (2 * k + 1));
-                sum += term;
-            }
-            double pi = 4.0 * sum;
-            // i 顯示為六位寬度，pi 保留小數點後 10 位
-            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        Scanner input = new Scanner(System.in);
+        String num = "";
+        if (input.hasNextLine()) {
+            num = input.nextLine().trim();
         }
+
+        boolean isWellOrdered = isWellOrdered(num);
+        System.out.println(num + " is " + (isWellOrdered ? "well-ordered" : "not well-ordered") + " number.");
+        input.close();
+    }
+
+    private static boolean isWellOrdered(String s) {
+        if (s == null || s.length() == 0) {
+            return false;
+        }
+
+        // 檢查是否全為數字
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
+                return false;
+            }
+        }
+
+        // 比較相鄰位數是否嚴格遞增
+        for (int i = 0; i < s.length() - 1; i++) {
+            int a = s.charAt(i) - '0';
+            int b = s.charAt(i + 1) - '0';
+            if (a >= b) {
+                return false;
+            }
+        }
+        return true;
     }
 }
-```
-
-修改原因說明
-- 需求對於 pi 的計算與輸出格式（逐步輸出、i 為 10000、20000、…、100000；i 顯示六位寬度；pi 小數點後10位）需要一個完整的解題實作，而原始提交的程式與題意完全無關，故改為符合題意的實作。
-- 加入標頭註解，符合作業的備註要求，並提供檔案名稱、功能、日期等資訊。
-- 使用 System.out.printf 並設定寬度與小數位，確保輸出格式符合「單個空白分隔、i 顯示六位數、pi 顯示10位小數」的要求。
-- 移除不必要的輸入邏輯（Scanner），因題目不需要外部輸入。
-- 變數命名與結構採用更清楚的敘述，提升可讀性。
-
-改進建議
-- 如需提升效能，可改用逐步累計的技巧，避免每次在內層循環中重新從頭計算所有項目以提高效率；目前的做法在這個輸出量級下已可接受。

@@ -1,0 +1,54 @@
+總分：100
+
+分項評分
+- 正確性：50
+- 邏輯：30
+- 格式：10
+- 備註：10
+
+改進建議
+這份作業的核心邏輯正確且直觀，但在可讀性與維護性方面仍有提升空間，建議加入程式標頭註解、使用有意義的變數名稱，並將取位數的邏輯抽成方法以提升可重用性與可測試性。
+
+修改與優化說明
+- 將類名改為 Main 並加入檔案頭註解，符合 Java 命名與註解慣例，便於讀者快速理解與維護。
+- 將取位數的邏輯封裝成輔助方法 digitSum，提升可讀性與可重用性，方便未來如果需要在其他地方使用同樣的邏輯。
+- 使用有意義的變數名稱，例如 A 代表輸入的目標和、n 代表待計算的數字等，提升程式可讀性。
+- 保留原本的核心演算法（穩定且直接的暴力枚舉與位數相加），只是改寫為更整潔的結構，確保正確性不變。
+
+修改後的完整程式碼如下：
+
+/**
+ * File: Main.java
+ * 功能: 讀入整數 A，統計 1 至 100000 之間數字的各位數字和等於 A 的數量
+ * 作者: 你的名字
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    // 計算整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n != 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int A = scanner.nextInt();
+        scanner.close();
+
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == A) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+}

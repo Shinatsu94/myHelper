@@ -1,0 +1,65 @@
+84
+改進建議：此作業雖然能正確判斷，但可提升可讀性與穩健性，建議改用逐位字元比較的方式，並避免使用浮點數模除的技巧，同時加入基本輸入驗證與更清楚的程式註解。
+
+此作業的改進重點與說明：
+- 將輸入視為字串並逐字元比對，直接判斷相鄰位數是否嚴格遞增，提升可讀性與穩定性，避免浮點運算與模數的潛在風險。
+- 提升變數命名與程式結構，增加程式註解與檔案標頭，符合題目要求的格式與可維護性。
+- 對於非數字輸入進行基本驗證，避免非預期行為。
+- 保留單一輸入與單一輸出，符合題目「程式執行一次就結束」的規範。
+
+修改說明與原因（重點摘要）：
+- 用字串輸入取代原有的數字模除與浮點運算，避免浮點誤差與不必要的計算，讓判斷邏輯更直覺。
+- 逐位比較相鄰位數是否嚴格遞增（左到右），若任一時位不符合條件即判定為非「well-ordered number」。
+- 增加基本的輸入驗證，確保每個字元為數字，提升健壮性。
+- 整體命名、排版與註解更加清晰，便於閱讀與維護。
+
+修改後完整程式碼：
+/*
+Name: 盧冠宇
+Student_ID: 41343247
+File: WellOrderedNumber.java
+Description: Determine whether input number's digits are strictly increasing from left to right.
+Author: 盧冠宇
+Date: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.next();
+        scanner.close();
+
+        boolean wellOrdered = true;
+
+        // 允許單一位數，視為符合條件
+        if (s.length() > 1) {
+            // 基本輸入驗證：確保全部為數字
+            for (int i = 0; i < s.length(); i++) {
+                if (!Character.isDigit(s.charAt(i))) {
+                    wellOrdered = false;
+                    break;
+                }
+            }
+
+            // 若已通過數字驗證，逐位比較相鄰位數
+            if (wellOrdered) {
+                for (int i = 0; i < s.length() - 1; i++) {
+                    char current = s.charAt(i);
+                    char next = s.charAt(i + 1);
+                    // 左側位必須小於右側位，否則不是嚴格遞增
+                    if (current >= next) {
+                        wellOrdered = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (wellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
+    }
+}

@@ -1,0 +1,55 @@
+57
+
+建議：為了在含負數的情況下仍能正確計算，應將 max 的初始值改為整數最小值並特別處理最後一個元素，並改用更清楚的輸出與程式註解。
+
+優化說明與修改原因：
+- 正確性與穩健性：將 max 初始值設為 Integer.MIN_VALUE，並在處理最後一個元素時強制設為 -1，確保即便最後一個元素以及右邊元素都為負數時也能正確取得右側的最大值。
+- 風格與可讀性：使用更普遍的類名 Main，增加程式 header 註解與行內註解，避免長 classname；使用 StringBuilder 輸出，避免尾端多余空格並提升效率。
+- 兼容性：保持原有輸入輸出格式與行為，確保與測資相容。
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能說明: 讀入一個整數 n 及 n 個整數，將陣列由右至左替換為右側元素的最大值（最後一位為 -1），
+          最後輸出結果。此轉換不等同於排序，而是依序用右側最大值替換。
+作者: 你
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 最大值初始化為整數的最小值，確保負數情況也正確
+        int max = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            int c = arr[i];
+            arr[i] = (i == n - 1) ? -1 : max;
+            if (c > max) {
+                max = c;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

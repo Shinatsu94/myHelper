@@ -1,0 +1,36 @@
+85
+
+建議在程式開頭加入註解與使用有意義的變數名稱，並統一輸出換行格式以提升可讀性與可維護性。
+
+修改後的程式碼及修改原因：
+- 為了提升可讀性與符合常見命名慣例，將變數名改為 first 與 second，仍於不新增額外變數的前提下使用 XOR 交換法完成交換。
+- 統一使用 println 輸出，確保輸出每個值各佔一行，符合題目輸出格式。
+- 加入適當的程式標頭註解與幫助性註解，提升可維護性，並在結尾關閉 Scanner。
+
+修改後完整程式碼：
+
+/*
+檔案名稱: CSIE_41343112_1003_1.java
+功能: 讀入兩個整數，交換其值，印出交換後的結果
+作者: 教師
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343112_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+
+        // 使用不新增額外變數的 XOR 交換法
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+
+        sc.close();
+    }
+}

@@ -1,0 +1,47 @@
+92
+
+建議改進為一句話: 此作業在正確性與邏輯上表現良好，但缺少妥善的檔案標頭與可讀性較低的命名，且未處理負數與極端情況，提升穩健性與可讀性後更符合實務需求。
+
+修改說明與理由
+- 將類別名稱改為 ReverseDigits，並建議與檔案名稱一致，以符合 Java 的命名慣例與編譯要求。
+- 改用 long 類型與符號處理，支援負數與零的情況，避免僅針對正整數反轉時的限制，並避免整數溢出。
+- 增加符號處理：先取得符號，對絕對值進行反轉再補回符號，確保負數也能正確反轉。
+- 使用更具意義的變數名稱：n、m、rev、sign，提升可讀性。
+- 加入檔案頭註解，清楚說明檔案名稱、功能、作者與日期，且適當註解程式內容的關鍵步驟。
+- 程式結尾適當關閉 Scanner，釋放資源。
+
+修改後完整程式碼
+/*
+檔案名稱: ReverseDigits.java
+功能: 將使用者輸入的整數的位數反轉，負數保留符號，零回傳 0。
+作者: 王世豪
+學號: 41343107
+日期: 2025/11/15
+*/
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n;
+        if (scanner.hasNextLong()) {
+            n = scanner.nextLong();
+        } else {
+            scanner.close();
+            return;
+        }
+
+        long sign = n < 0 ? -1 : 1;
+        long m = Math.abs(n);
+        long rev = 0;
+
+        while (m > 0) {
+            rev = rev * 10 + (m % 10);
+            m /= 10;
+        }
+
+        rev *= sign;
+        System.out.println(rev);
+        scanner.close();
+    }
+}

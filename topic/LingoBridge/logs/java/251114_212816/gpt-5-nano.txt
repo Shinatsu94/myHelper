@@ -1,0 +1,47 @@
+5
+
+建議：目前排序後的處理步驟是錯誤的，應直接使用 Arrays.sort 進行升序排序並正確輸出，同時補上程式頭註解與適當縮排。
+
+修改與原因說明：
+- 正確性與邏輯
+  - 移除不必要且錯誤的倒序處理區段（Rmax 迴圈），直接使用 Arrays.sort(arr) 即可完成升序排序，避免產生錯誤輸出。
+- 格式
+  - 統一縮排與變數命名，讓程式更易讀。
+- 備註
+  - 增加標頭註解，說明檔案名稱、功能、作者、日期，提升可維護性。
+- 其他建議
+  - 輸出時避免尾端多餘空格，並可選擇在結尾加上換行以符合常見輸出格式。
+
+修改後的完整程式碼：
+/*
+檔案名稱: csie_41343137_1031_2.java
+功能: 讀入長度與整數陣列，輸出升序排序結果
+作者: 教授
+日期: 2025-11-14
+*/
+import java.util.*;
+
+public class csie_41343137_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以單一空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        // System.out.println(); // 如需換行，可取消註解
+    }
+}

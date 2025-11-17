@@ -1,0 +1,52 @@
+81
+
+改進建議：此作業的核心邏輯正確，但在可讀性、可維護性與執行效率上仍有提升空間，建議統一命名、加入註解、改用更穩定的 I/O 與把數位和等功能拆成獨立方法，以提高可讀性與可維護性。
+
+修改原因與說明：
+- 將輸入與數字和計算分離成獨立方法 digitSum，提升可讀性與可重用性。
+- 將循環範圍限定為 1 到 100000（符合題意，0 排除，避免不必要的計數）。
+- 改用 BufferedReader 取代 Scanner，提升輸入效率，適用於大數量運算。
+- 增加清晰的程式標頭註解與內聯註解，提升可維護性與可讀性。
+- 使用更具可讀性的變數命名：sumDigits、count、A 等。
+
+修改後完整程式碼：
+
+/*
+ * File: CSIE_41343112_1003_3.java
+ * 功能: 統計 1 至 100000 中，數字各位數字加總等於輸入 A 的數字個數
+ * 作者: 教授
+ * 日期: 2025-11-15
+ * 版本: 1.0
+ * 說明: 使用獨立的 digitSum 函式與效率較高的 I/O 設計，並加入程式標頭註解與內部註解
+ */
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class CSIE_41343112_1003_3 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        int A = Integer.parseInt(line != null ? line.trim() : "0");
+
+        int count = 0;
+        // 依題意範圍計數，排除 0
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == A) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+
+    // 計算整數 x 的數字之和
+    private static int digitSum(int x) {
+        int sum = 0;
+        while (x > 0) {
+            sum += x % 10;
+            x /= 10;
+        }
+        return sum;
+    }
+}

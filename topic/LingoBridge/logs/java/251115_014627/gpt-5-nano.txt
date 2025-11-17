@@ -1,0 +1,52 @@
+90
+
+建議以內建排序取代自訂排序、移除未使用的變數、並補上標頭註解，以提升可讀性與維護性。
+
+修改說明：
+- 移除未使用的 question 陣列，避免不必要的記憶體浪費。
+- 使用 Arrays.sort 進行排序，簡化邏輯且提升效能與穩定性。
+- 加入清晰的程式標頭註解，並使用較具可讀性的變數名稱與格式。
+- 適當關閉 Scanner，並在輸入不足時提供預設值，提升魯棒性。
+
+修改後完整程式碼：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+ * File: ArraySort.java
+ * Description: 將任意長度的一維整數陣列由小到大排序並輸出
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+
+public class ArraySort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 輸入不足時預設為 0，避免例外
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

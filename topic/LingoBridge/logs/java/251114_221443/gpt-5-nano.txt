@@ -1,0 +1,51 @@
+4
+
+建議改用一維整數陣列存放輸入數值並使用 Arrays.sort 進行升序排序，最後以空格分隔輸出，且加入程式註解以利維護。
+
+修改說明與修改重點
+- 正確性與邏輯：完全改為符合題目要求的實作，使用一維整數陣列讀取長度與元素，進行升序排序，輸出排序結果。
+- 格式與可讀性：加入適當的程式註解與檔案頭註解，變數命名改為具意義的名稱，保持良好縮排。
+- 兼容性：負數支援由 Arrays.sort 處理，輸出格式為空格分隔，符合題目要求。
+
+修改後完整程式碼
+import java.util.*;
+
+public class CSIE_51015105_1031_3
+{
+    /*
+     * 檔案名稱: CSIE_51015105_1031_3.java
+     * 功能: 讀入長度 n，接著 n 個整數；將它們升序排序並輸出。
+     * 作者: 自訂
+     * 日期: 2025-11-14
+     */
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

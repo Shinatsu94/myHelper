@@ -1,0 +1,51 @@
+88
+
+改進建議：建議以直接公式計算所在列，並補上檔案標頭註解以提升可維護性與可讀性。
+
+打分細項：
+- 正確性：50/50
+- 邏輯：30/30
+- 格式：8/10
+- 備註：0/10
+總分：88/100
+
+修改與理由概要：
+- 程式此題核心在於找出數字在下三角形陣列中的位置，原程式雖正確但使用迴圈逐步累加，時間複雜度較高，且缺少程式標頭註解。建議改用數學公式直接計算所在行(row)，並以清楚命名提高可讀性，同時避免整數溢位風險。
+- 另外，加入適當的註解與檔案註解有助於後續維護與他人閱讀。
+
+修改內容與原因：
+- 使用公式直接計算所在列：row = ceil((sqrt(8*num + 1) - 1) / 2)，使時間複雜度降到 O(1)，並減少不必要的迴圈。
+- 使用 long 進行數字運算以避免溢位風險：totala 的計算改為 long 版本，增加魯棒性。
+- 程式檔案標頭與清晰註解：在正式修改版本中加入檔案功能說明、作者與日期等註解（下方程式碼中以簡要註解表示，實務上請補上完整標頭）。
+- 變數命名與註解清晰化：把中間變數命名為 prevTotal 傳達意義，提升可讀性。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343205_1031_3b_updated {
+    public static void main(String[] args) {
+        // 檔案說明與功能：建立下三角形二維陣列（不實際建立），找出 num 在陣列中的位置
+        // 使用者輸入：n（高度）與 num（欲尋找的數字）
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int num = sc.nextInt();
+
+        // 計算下三角形元素總數，避免"num" 超出範圍
+        long nLL = n;
+        long totalAll = nLL * (nLL + 1) / 2;
+        if (num > totalAll || num <= 0) {
+            System.out.print("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 計算 num 所在的列（row），使用公式：row 與前面的總數 prevTotal 的關係
+        // row 為最小的 r，使 r(r+1)/2 >= num
+        int row = (int) Math.ceil((Math.sqrt(8.0 * num + 1) - 1) / 2.0);
+        long prevTotal = (long) row * (row - 1) / 2;
+        int col = (int) (num - prevTotal);
+
+        System.out.println(num + "[" + row + ", " + col + "]");
+        sc.close();
+    }
+}

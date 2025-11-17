@@ -1,0 +1,50 @@
+93
+
+建議重點：整體正確性高，但可提高變數命名與可讀性，並加入適當註解與穩健性檢查。
+
+改進與評語（單句）：
+此作業正確性高且輸出格式符合題意，建議提升可讀性與健壯性（例如改進變數命名與增加註解）。
+
+修改與原因說明：
+- 使用更具描述性的變數名稱（如 row、endOfRow、prevEnd）取代 a、old，以提升程式可讀性與維護性。
+- 直接在循環中根據行號計算該行結束值 endOfRow，以及前一行結束值 prevEnd，並以 tar 在 [startOfRow, endOfRow] 的位置確定列與欄，避免不必要的累加變數。
+- 加入初始檢查：若 tar <= 0 或 tar > 總元素數 total，直接印出 not find，避免不必要的循環。
+- 加入程式標頭註解，提供檔案名稱、功能與日期，符合作業規範要求。
+- 之後的輸出格式保持與題目範例一致，避免多餘換行。
+
+修改後完整程式碼（完整、可直接編譯執行）：
+/*
+檔案名稱: LowerTriangularSearch.java
+功能: 建立下三角形二維陣列，找出指定數字在陣列中的位置
+作者: 徐唯祐
+日期: 2025-11-14
+描述: 根據輸入的高度 n 與要尋找的數字 tar，若 tar 在下三角形中，輸出 tar [row, col]，否則輸出 not find tar in array.
+*/
+import java.util.Scanner;
+
+public class LowerTriangularSearch {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int tar = scn.nextInt();
+
+        long total = (long) n * (n + 1) / 2; // 下三角形總元素數
+        if (tar <= 0 || tar > total) {
+            System.out.printf("not find %d in array.", tar);
+            return;
+        }
+
+        for (int row = 1; row <= n; row++) {
+            long endOfRow = (long) row * (row + 1) / 2;       // 第 row 行的最後一個數字
+            long prevEnd = (long) (row - 1) * row / 2;        // 第 row-1 行的最後一個數字
+            if (tar <= endOfRow) {
+                int col = (int) (tar - prevEnd); // 第 row 行中的列號 (從 1 開始)
+                System.out.printf("%d[%d, %d]", tar, row, col);
+                return;
+            }
+        }
+
+        // 理論上不會到這裡，但作為保險
+        System.out.printf("not find %d in array.", tar);
+    }
+}

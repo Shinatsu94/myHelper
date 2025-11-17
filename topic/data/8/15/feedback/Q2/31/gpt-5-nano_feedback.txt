@@ -1,69 +1,60 @@
-11
+分數總表
+89
 
-評分明細
-- 正確性（50%）：0/50
-  理由：原程式的排序邏輯錯誤，實作為「把每個位置取該子串中的最大值放前面」，且最後將 arr[n-1] 設為 -1，無法正確得到升序結果；輸出亦會包含不該出現的值。
-- 邏輯（30%）：5/30
-  理由：雖有嘗試排序的思路，但演算法僅以非原地的最大值替換並未完整排序，且在原陣列被改動後的後續步驟易造成錯誤，未採用穩健且清晰的排序流程。
-- 格式（10%）：6/10
-  理由：整體縮排與結構尚可，但缺乏有意義的變數命名與可讀註解，且輸出未考慮不需要的尾隨空格與換行。
-- 備註（10%）：0/10
-  理由：程式缺少檔案標頭註解（檔案名稱、功能、作者、日期等說明），未提供充分的說明與註解。
+改進建議（單句）
+建議加入標頭註解並改用單次從右至左的線性掃描來實作以提升效能，同時避免輸出末尾多餘的空白。
 
-總分：11/100
+程式優化說明與修改重點
+- 標頭註解與命名：加入檔案相關註解，符合備註要求，並保留檔案與類別名稱的一致性。
+- 演算法優化：原作為 O(n^2) 的巢狀迴圈，改成 O(n) 的單趟右至左掃描，透過記錄右邊原始值的最大值來逐步填入 arr，且不需要額外的陣列。
+- 輸出格式：改用 StringBuilder 將輸出組合成單行，避免尾端出現多餘的空白。
+- 變數命名與可讀性：將 max 改名為 maxRight，避免與 Math.max 的混淆，增強可讀性。
+- 容錯與穩定性：保留基本的輸入流程，確保在常見測資下仍穩定輸出。
 
-修改與優化說明
-- 變更重點
-  - 將自訂的排序邏輯完全取代，改用內建的 Arrays.sort 進行整數陣列升序排序，以確保正確性與穩定性。
-  - 改善輸出格式：避免尾端多餘空白，使用 StringBuilder 組合輸出字串再印出。
-  - 增加程式標頭註解與適當註解，提升可讀性與可維護性。
-  - 加入必要的容錯與保護性（例如先檢查輸入、處理讀取不到的情況），並保持變數命名具意義。
-- 修改後完整程式碼
-  /*
-   檔案名稱: CSIE_41343203_1031_2.java
-   功能: 讀入長度 n，接著讀入 n 個整數，輸出遞增排序的結果
-   作者: 教授姓名
-   日期: 2025-11-12
-  */
-  import java.util.Scanner;
-  import java.util.Arrays;
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343203_1031_2.java
+功能: 依題意將輸入的一維陣列轉換為每個元素為其右側子陣列的最大值，最後一個元素為 -1，並輸出結果。
+作者: 教師
+日期: 2025-11-14
+*/
 
-  public class CSIE_41343203_1031_2 {
-      public static void main(String[] args) {
-          Scanner sc = new Scanner(System.in);
-          if (!sc.hasNextInt()) {
-              sc.close();
-              return;
-          }
-          int n = sc.nextInt();
-          int[] arr = new int[n];
-          for (int i = 0; i < n; i++) {
-              if (sc.hasNextInt()) {
-                  arr[i] = sc.nextInt();
-              } else {
-                  arr[i] = 0;
-              }
-          }
+import java.util.Scanner;
 
-          // 進行升序排序
-          Arrays.sort(arr);
+public class CSIE_41343203_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-          // 輸出，避免尾端空格
-          StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < n; i++) {
-              if (i > 0) sb.append(' ');
-              sb.append(arr[i]);
-          }
-          System.out.print(sb.toString());
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
 
-          sc.close();
-      }
-  }
+        // 從右至左的一次性線性掃描，讓每個 arr[i] 變為右側的最大值，最後一個變為 -1
+        int maxRight = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            int orig = arr[i];
+            if (i == n - 1) {
+                arr[i] = -1;
+            } else {
+                arr[i] = maxRight;
+            }
+            if (orig > maxRight) {
+                maxRight = orig;
+            }
+        }
 
-- 修改原因
-  - 以 Arrays.sort 規範化排序動作，保證正確性且語意清楚，避免自行實作排序時因邏輯錯誤而產生不正確結果。
-  - 提升輸出品質，避免尾端空格對比賽測資造成差異。
-  - 增加標頭註解與說明，符合題目要求的文件註解規範，便於他人閱讀與維護。
+        // 輸出，避免尾端多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
+        }
+        System.out.println(sb.toString());
 
-改進建議/反饋（一句話）
-建議使用內建排序（如 Arrays.sort）並加強輸出格式與註解，以確保正確性與可讀性。
+        sc.close();
+    }
+}
+```

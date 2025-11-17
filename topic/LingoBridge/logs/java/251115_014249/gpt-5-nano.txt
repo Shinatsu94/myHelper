@@ -1,0 +1,53 @@
+97
+
+改進建議：作業已正確排序並輸出，但可以改用 Arrays.sort 提升效率與可讀性，並加入基本輸入驗證與更清晰的註解；另外避免過度依賴自訂排序函式以提升穩定性。
+
+程式碼優化與修改說明
+- 使用 Arrays.sort 取代自訂的 selectionSort，提升排序效能與簡化程式。
+- 加入對 n <= 0 的基本檢查，避免非預期情況。
+- 保留直覺的輸入輸出流程，輸出格式維持「用空格分隔、結尾換行」。
+- 程式標頭與註解更完整，便於維護與評分。
+
+修改後完整程式碼如下（已以較清晰的命名與註解呈現）：
+
+//Date:2025/10/31
+//File: CSIE_41343240_1031_1.java
+//Author: 黃榮裕 (41343240)
+//Description: 讀入使用者輸入的任意長度整數陣列，先輸入長度，然後依序輸入元素，輸出升序排序結果。
+//此版本使用 Arrays.sort 以提升排序效率，並包含基本輸入檢查與清晰註解。
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343240_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        // 基本輸入檢查，若長度為非正，輸出空行後結束
+        if (n <= 0) {
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升效能
+        Arrays.sort(arr);
+
+        // 輸出排序後的內容，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

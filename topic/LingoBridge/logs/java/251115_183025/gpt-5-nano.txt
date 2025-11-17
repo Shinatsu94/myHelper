@@ -1,0 +1,66 @@
+總分數：56
+
+改進建議一句話：
+將程式改成只讀取單一輸入並輸出嚴格正確的字串格式，並加上完整的程式檔案註解與可讀性更高的命名。
+
+評分明細與說明：
+- 正確性：25/50
+  - 優點：核心演算法能正確判斷數字的數位是否嚴格遞增（若以字串比較方式實作，邏輯依然正確）。
+  - 缺點：輸出字串寫成 "swell-ordered" 而非題目要求的 "well-ordered"，並且程式在輸入上使用 while(hasNext()) 會多次讀取，未符合「僅執行一次就結束」的要求。
+- 邏輯：25/30
+  - 優點：原始邏輯能以逐位檢查或轉字串檢查，確定數字的左至右數位嚴格遞增。
+  - 缺點：為降低閱讀性與出現額外的輸入循環，需重構為單一次輸入。
+- 格式：6/10
+  - 優點：基本結構可運作。
+  - 缺點：變數命名混雜中英與中文，程式風格不統一，且 未提供標頭註解與說明。
+- 備註：0/10
+  - 缺點：缺少檔案頭註解、功能說明、作者與日期等必要註解。
+
+修改與優化說明（要點與原因）：
+- 改為單次輸入：將多輸入的 while(hasNext()) 改為僅讀取一行並處理，符合題目「程式僅執行一次就結束」的要求。
+- 修正輸出字串：將輸出字串改為 EXACT MATCH 的 "well-ordered" 以符合題目範例，避免因微小字串差異而造成評分失敗。
+- 提升可讀性與一致性：改用較清晰的英文命名與清楚的程式註解與檔案標頭，讓程式易於閱讀與維護。
+- 使用穩健的輸入處理：使用 BufferedReader 與單行解析，避免在競賽或自動評分環境中遇到 EOF 相關問題。
+- 註解與檔案標頭：加入檔案名稱、功能、作者、日期等註解，符合備註部分的評分標準。
+
+修改後的完整程式碼（已符合單次輸入、正確輸出字串、並含完整註解與標頭）：
+檔案名稱: WellOrderedNumber.java
+內容說明: 判斷給定整數的數位是否嚴格遞增（左至右）之程式。
+
+/*
+檔案名稱: WellOrderedNumber.java
+功能Description: 判斷一個整數的數位是否嚴格遞增（從左到右的數位需逐位遞增），
+            輸入為單一整數，輸出 "<n> is well-ordered number." 或
+            "<n> is not well-ordered number."。
+作者: 你的名字
+日期: 2025-11-15
+*/
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = br.readLine();
+            if (line == null) return;
+            line = line.trim();
+            if (line.isEmpty()) return;
+
+            int n = Integer.parseInt(line);
+            boolean ok = isWellNumber(n);
+            System.out.println(n + " is " + (ok ? "" : "not ") + "well-ordered number.");
+        } catch (Exception e) {
+            // 若輸入格式不正確，避免程式崩潰；此案例僅回傳空輸出以符合單次輸入的情境
+        }
+    }
+
+    // 使用字串方法檢查數字的數位是否嚴格遞增
+    private static boolean isWellNumber(int n) {
+        if (n < 0) n = -n;
+        String s = Integer.toString(n);
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) <= s.charAt(i - 1)) return false;
+        }
+        return true;
+    }
+}

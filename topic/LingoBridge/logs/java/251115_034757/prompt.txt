@@ -1,0 +1,110 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 用一句話說明改進建議或反饋
+3. 將程式碼進行優化，以及說明修改該部分的原因，最後展示修改後完整程式碼
+
+
+題目：
+【題目】
+請撰寫一個 Java 程式，可以讀入使用者輸入的任意 3x3 矩陣，
+並且列印出它的反矩陣，顯示到小數點後四位。
+如果元素為零，請直接列印 '0'，無需顯示到小數點後四位
+
+說明:
+- 各元素使用空白符號(' ')進行換行，每三個進行換行('\n')
+- 最後一行不得有空白符號
+
+
+【input】
+1 2 3
+4 5 6
+7 8 19
+
+【output】
+-1.5667 0.4667 0.1000
+1.1333 0.0667 -0.2000
+0.1000 -0.2000 0.1000
+
+【input】
+5 2 7
+10 4 6
+9 1 3
+
+【output】
+-0.0577 -0.0096 0.1538
+-0.2308 0.4615 -0.3846
+0.2500 -0.1250 0
+
+
+學生作答程式：
+import java.util.Scanner;
+public class CSIE_41343128_1031_4{
+	public static void main (String[] args){
+		Scanner scn=new Scanner(System.in);	
+		int list[][];
+		list=new int[3][3];
+		for(int a=0;a<3;a++){
+		   for (int b = 0; b <3; b++) {
+      	              list[a][b] = scn.nextInt();
+    		   }			
+		}
+		int total = 
+   		 list[0][0] * list[1][1] * list[2][2] +
+    		 list[0][1] * list[1][2] * list[2][0] +
+   		 list[0][2] * list[1][0] * list[2][1] -
+   		 list[0][2] * list[1][1] * list[2][0] -
+   		 list[0][1] * list[1][0] * list[2][2] -
+   		 list[0][0] * list[1][2] * list[2][1];
+
+	 if (total == 0) {
+            System.out.println("此矩陣無反矩陣（行列式為 0）");
+            return;
+        }
+
+        double[][] adj = new double[3][3];
+
+        adj[0][0] =  list[1][1] * list[2][2] - list[1][2] * list[2][1];
+        adj[0][1] = -(list[1][0] * list[2][2] - list[1][2] * list[2][0]);
+        adj[0][2] =  list[1][0] * list[2][1] - list[1][1] * list[2][0];
+
+        adj[1][0] = -(list[0][1] * list[2][2] - list[0][2] * list[2][1]);
+        adj[1][1] =  list[0][0] * list[2][2] - list[0][2] * list[2][0];
+        adj[1][2] = -(list[0][0] * list[2][1] - list[0][1] * list[2][0]);
+
+        adj[2][0] =  list[0][1] * list[1][2] - list[0][2] * list[1][1];
+        adj[2][1] = -(list[0][0] * list[1][2] - list[0][2] * list[1][0]);
+        adj[2][2] =  list[0][0] * list[1][1] - list[0][1] * list[1][0];
+
+        double[][] inverse = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inverse[i][j] = adj[j][i] / total;
+            }
+        }
+
+       for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        System.out.printf("%.4f", inverse[i][j]);
+        if (j < 2) System.out.print(" ");
+    }
+    if (i < 2) {
+        System.out.println();
+    }
+}
+
+
+
+
+
+	}
+
+}

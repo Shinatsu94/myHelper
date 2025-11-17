@@ -1,0 +1,41 @@
+92
+
+建議改進方向：建議改進變數命名與註解的清晰度，同時考慮避免整數溢位風險並加上必要的輸入驗證，以提升可讀性與健壯性。
+
+修改與優化說明與原因（要點）
+- 變數命名：將 A,B,C 改為 a,b,c 等有意義的名稱，提升程式可讀性。
+- 程式標頭註解：補充檔案名稱、功能說明、作者、日期等資訊，符合題目需求的註解規範。
+- 註解與結構：在程式中加入適當註解，說明 max、min、mid 的計算思路。
+- 輸入驗證與健壯性：原題目未要求，但建議在實際專案中加入簡單的輸入驗證與註解，避免極端輸入造成不預期結果。
+- 溢位風險說明：若輸入數值可能接近 int 最大/最小值，sum 計算可能發生溢位，可以改以 long 做中間計算或採取不會產生整數溢位的計算方式（此版本保持簡潔，保留原有思路，未改動邏輯以符合題意）。
+
+修改後完整程式碼：
+// date :2025/10/03
+// author: 黃榮裕 41343240
+// filename: CSIE_41343240_1003_2.java
+// function : 讀入三個整數 a, b, c，使用三元運算子找出最大值 max、最小值 min；以 sum - max - min 方式計算中間值 mid，輸出 min, mid, max，不使用 if-else
+
+import java.util.Scanner;
+
+public class CSIE_41343240_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 最大值
+        int max = (a > b ? (a > c ? a : c) : (b > c ? b : c));
+        // 最小值
+        int min = (a < b ? (a < c ? a : c) : (b < c ? b : c));
+        // 中間值
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

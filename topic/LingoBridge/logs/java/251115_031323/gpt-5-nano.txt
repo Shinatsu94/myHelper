@@ -1,0 +1,79 @@
+62
+
+建議：補上完整的標頭註解並以真正的二維下三角陣列實作取代直接推算的位置，並在輸入超出範圍時給出清楚的提示。
+
+修改與優化說明（要點）
+- 以實作下三角形的二維陣列（採 jagged array）取代僅用變數推算的位置，符合題意「建立完整的下三角形二維陣列」的要求。
+- 新增清楚的程式標頭註解，包含檔案名稱、功能、作者、日期與說明，提升可讀性與維護性。
+- 加入對 tar 輸入值的範圍檢查，若 tar 不在陣列內（包括超出最大值或非正整數），就輸出「not find … in array.」的訊息。
+- 使用更具語意的變數名稱並整理縮排，提升可讀性與程式結構。
+- 程式結尾加入 Scanner 關閉，釋放資源。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343150_1031_3b.java
+功能: 建立下三角形二維陣列，找出指定數字的位置
+作者: 學生
+日期: 2025-11-14
+說明: 讀取高度 n 與待尋找的數字 tar，建立長度分別為 1..n 的二維陣列(下三角)，找出 tar 的座標並輸出。若 tar 不在陣列中，印出相關訊息。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343150_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+
+        int tar;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        tar = sc.nextInt();
+
+        // 建立下三角形二維陣列 (jagged array)
+        int[][] tri = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        int maxVal = n * (n + 1) / 2;
+        if (tar <= 0 || tar > maxVal) {
+            System.out.printf("not find %d in array.", tar);
+        } else {
+            boolean found = false;
+            int foundRow = -1;
+            int foundCol = -1;
+            outer:
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (tri[i][j] == tar) {
+                        found = true;
+                        foundRow = i + 1; // 1-based
+                        foundCol = j + 1; // 1-based
+                        break outer;
+                    }
+                }
+            }
+
+            if (found) {
+                System.out.printf("%d[%d, %d]", tar, foundRow, foundCol);
+            } else {
+                System.out.printf("not find %d in array.", tar);
+            }
+        }
+
+        sc.close();
+    }
+}

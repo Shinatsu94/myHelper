@@ -1,0 +1,71 @@
+92
+
+建議改進是：補齊程式標頭註解、使用更具描述性的變數命名，並將 I/O 改為 BufferedReader 以提升效能與穩定性。
+
+改動說明與原因
+- 為何改動
+  - 加入標頭註解：符合作業備註中的要求，提升程式可讀性與可維護性。
+  - 改用 BufferedReader 取代 Scanner：在大量迴圈或多次輸入時效能較好，穩定性較高。
+  - 變數命名更具語意（如 target）：提升可讀性，方便他人理解程式意圖。
+- 變更重點
+  - 1) 使用 BufferedReader 讀取單一整數輸入，避免 Scanner 的開銷。
+  - 2) 增加標頭註解，說明檔案名稱、功能、作者、日期與修改原因。
+  - 3) 將變數名稱 A 改為 target，提高可讀性；其他邏輯保持不變。
+  - 4) 保留原有的正確性與簡單邏輯，同時保持適當註解以提升可讀性。
+
+修改後完整程式碼
+```java
+/*
+ * File: CSIE_41343229_1003_3.java
+ * 功能: 計算 1 到 100000 之間，數字各位數字總和等於輸入 A 的個數
+ * 作者: 資訊工程系教授
+ * 日期: 2025-11-15
+ * 修改說明: 使用 BufferedReader 提升 I/O 效率，加入程式標頭註解，並改進變數命名以提升可讀性。
+ */
+
+// 計算正整數 n 的各位數字總和
+static int digitSum(int n) {
+    int s = 0;
+    while (n > 0) {
+        s += n % 10;
+        n /= 10;
+    }
+    return s;
+}
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class CSIE_41343229_1003_3 {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        br.close();
+
+        int target = Integer.parseInt(line.trim());
+
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) count++;
+        }
+        System.out.println(count);
+    }
+
+    // 計算正整數 n 的各位數字總和
+    static int digitSum(int n) {
+        int s = 0;
+        while (n > 0) {
+            s += n % 10;
+            n /= 10;
+        }
+        return s;
+    }
+}
+```
+
+說明
+- 修改後的程式在功能上與原題需求完全相同，仍然計算 1 至 100000 內，數字各位數字總和等於輸入 A 的數字個數。
+- 引入標頭註解提升可維護性與專案統一性，並用更具語義的變數 target 提升可讀性。
+- 使用 BufferedReader 提高輸入效率，特別是在教育用題目或大量輸入時的穩定性更好。若未來需要處理更大範圍或多次輸入，亦可考慮進一步優化 I/O。

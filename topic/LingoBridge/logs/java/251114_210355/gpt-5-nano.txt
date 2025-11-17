@@ -1,0 +1,60 @@
+88
+- 正確性: 50/50
+- 邏輯: 30/30
+- 格式: 8/10
+- 備註: 0/10
+
+改進建議（一句話）：建議加入程式標頭註解與基本輸入健全性檢查，並用單一輸出字串組裝提升可讀性與維護性。
+
+程式優化說明與修改理由：
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註需求。
+- 使用 try-with-resources 管理 Scanner，避免直接關閉 System.in，提升資源管理穩健性。
+- 改用 StringBuilder 組裝輸出字串，避免在迴圈中逐次呼叫 System.out.print，提升效能與輸出一致性。
+- 增加基本輸入檢查與邊界處理（n <= 0 時輸出換行並結束），提高健壯性。
+- 其他命名與排版保持清晰可讀。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343215_1031_1.java
+功能: 讀取整數 n，接著讀取 n 個整數，並升序排序輸出
+作者: （請填寫作者姓名）
+日期: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343215_1031_1 {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            if (!scanner.hasNextInt()) {
+                return;
+            }
+            int n = scanner.nextInt();
+            if (n <= 0) {
+                System.out.println();
+                return;
+            }
+
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (scanner.hasNextInt()) {
+                    arr[i] = scanner.nextInt();
+                } else {
+                    // 若輸入不足，預設為 0（依需求可調整為拋出例外或其他處理方式）
+                    arr[i] = 0;
+                }
+            }
+
+            Arrays.sort(arr);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < arr.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+
+            System.out.println(sb.toString());
+        }
+    }
+}

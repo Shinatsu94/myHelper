@@ -1,0 +1,51 @@
+總分：5
+
+改進建議：此程式未實作題目要求的排序與輸出功能，僅繪製星號三角形，請改寫以讀取長度與數字、進行排序並輸出排序結果，同時補上程式標頭註解與適當的變數命名與縮排。
+
+修改後的完整程式碼與說明
+
+- 修改原因與重點
+  - 讀取整數長度 n，建立整數陣列，依序讀入 n 個整數。
+  - 使用 Arrays.sort 對整數陣列進行升序排序，支援正負數。
+  - 輸出排序後的陣列，元素以單一空格分隔，結尾換行。
+  - 加入檔案標頭註解，提升可讀性與後續維護性；變數名稱改為更具意義的名稱；統一縮排風格。
+
+修改後完整程式碼如下（無需使用 EOF，程式執行一次即可結束）：
+
+/*
+檔案名稱: CSIE_41343150_1031_3a.java
+功能: 讀入長度 n 的整數陣列，排序後以空格分隔輸出
+作者: 教授
+日期: 2025-11-14
+說明: 讀取 n 與 n 個整數，排序並印出結果，支援負數。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343150_1031_3a {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = scn.nextInt();
+        }
+
+        // 排序（升冪）
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}

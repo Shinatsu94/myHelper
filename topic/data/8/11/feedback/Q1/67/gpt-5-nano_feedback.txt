@@ -1,37 +1,40 @@
-90
+85
 
-修改後完整程式碼：
-```java
+建議加入程式標頭註解與更清晰的變數命名，同時保留不使用臨時變數的交換方式以提升可讀性與維護性。
+
+修改說明與優化點
+- 為提升可讀性，將變數命名改為更具語意的 A、B，並加入標頭註解說明檔案資訊與功能。
+- 保持題目要求的交換方式（不使用額外變數進行交換），仍以 XOR 交換法實作。
+- 增加註解說明交換的操作，讓後續維護更容易理解。
+
+修改後完整程式碼
 /*
- * File: CSIE_51015120_1003_1.java
- * Description: 讀入兩個整數 A, B，印出交換後的結果。交換使用位元異或運算，且不使用額外變數。
- * Author: 差異化作者
- * Date: 2025-11-11
- */
+File: CSIE_51015120_1003_1.java
+功能: 讀取兩個整數，交換並印出交換後的結果
+作者: 教師
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
 
 public class CSIE_51015120_1003_1 {
     public static void main(String[] args) {
-        try (java.util.Scanner sc = new java.util.Scanner(System.in)) {
-            int A = sc.nextInt();
-            int B = sc.nextInt();
+        Scanner sc = new Scanner(System.in);
 
-            // XOR 交換，且不使用其他變數
-            A = A ^ B;
-            B = A ^ B;
-            A = A ^ B;
+        // 讀取使用者輸入的兩個整數
+        int A = sc.nextInt();
+        int B = sc.nextInt();
 
-            System.out.println(A);
-            System.out.println(B);
-        }
+        // 不使用其他變數，透過 XOR 交換法互換 A 與 B 的值
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        // 印出交換後的結果
+        System.out.println(A);
+        System.out.println(B);
+
+        // 關閉 Scanner（可選，避免資源未釋放的情況）
+        sc.close();
     }
 }
-```
-
-修改原因說明：
-- 增加檔案標頭註解，符合備註欄位的需求（檔案名稱、功能、作者、日期），提升可閱讀性與維護性。
-- 採用 try-with-resources 於 Scanner，以自動關閉資源，降低資源洩漏風險。
-- 變數名稱改為 A、B，與題意對應，提升變數意義的清楚度。
-- 保留原本使用 XOR 的交換邏輯，仍符合“不使用額外變數進行數字交換”的要求，並確保在一般情境下的正確性與穩定性。
-
-改進建議或反饋（一句話）：
-- 建議在正式環境中加入輸入異常處理與範圍檢查，並考慮在必要時提供更易於閱讀的交換方法或註解以增強可維護性。

@@ -1,0 +1,62 @@
+53
+
+這份作業的改進建議：這個版本雖能正確判斷單一數字的遞增性，但未符合「僅執行一次就結束」的要求，且缺少程式標頭註解與清晰的命名與註解，建議改用單次輸入、加入註解與清晰變數命名。
+
+修改重點與原因：
+- 改為單次輸入、程式執行一次即結束，符合題目要求。
+- 加入標頭註解，包含檔案名稱、功能、作者、日期，提升可維護性。
+- 使用有意義的變數命名與清晰結構，提升可讀性。
+- 模式改為從字串層級檢查，簡單且穩定，且可處理負數與單位數情況。
+- 統一輸出格式，確保與題目範例一致。
+
+修改後完整程式碼：
+```java
+/*
+  檔案名稱: CSIE_51015130_1017_2.java
+  功能說明: 判斷輸入的整數各位數是否以左到右嚴格遞增
+  作者: 你的名字
+  日期: 2025-11-15
+  版本: 1.0
+*/
+
+import java.util.Scanner;
+
+public class CSIE_51015130_1017_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入單一整數，符合題目「僅執行一次」的要求
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        boolean isWellOrdered = true;
+        int m = Math.abs(n); // 允許負數的情況
+
+        if (m >= 10) {
+            String s = Integer.toString(m);
+            for (int i = 0; i < s.length() - 1; i++) {
+                char c1 = s.charAt(i);
+                char c2 = s.charAt(i + 1);
+                if (c1 >= c2) { // 任何相鄰位非遞增，判定為非嚴格遞增
+                    isWellOrdered = false;
+                    break;
+                }
+            }
+        } else {
+            // 單位數視為「遞增」的情況
+            isWellOrdered = true;
+        }
+
+        if (isWellOrdered) {
+            System.out.println(n + " is well-ordered number.");
+        } else {
+            System.out.println(n + " is not well-ordered number.");
+        }
+
+        sc.close();
+    }
+}
+```

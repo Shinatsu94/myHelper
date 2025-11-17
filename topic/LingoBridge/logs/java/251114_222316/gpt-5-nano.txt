@@ -1,0 +1,58 @@
+0
+
+改進建議：請從「讀取長度、依序讀取元素、排序、輸出」四個步驟著手，使用陣列與內建排序完成作業，並加上清楚的註解與符合命名規範的程式結構，避免使用與題意不符的邏輯。
+
+修改說明與原因：
+- 問題核心是讀取長度 n、讀取 n 個整數，將陣列內容由小到大排序，輸出排序結果。因此需用一維整數陣列存放全部元素，然後使用排序演算法（此處採用 Arrays.sort）完成排序，最後輸出以空格分隔的一列。
+- 重新設計流程：讀取長度 n → 讀取 n 個整數到 arr → Arrays.sort(arr) → 輸出 arr 的內容。這樣能正確滿足題意並支援負數。
+- 增加程式標頭與註解：提供檔名、功能、作者、日期等資訊，提升可讀性與評分的備註部分。
+- 變數命名與格式：使用有意義的命名（如 n、arr），統一縮排與風格，提升可維護性。
+
+修改後的完整程式碼如下：
+/*
+ * 檔案名稱: SortArrayAscending.java
+ * 功能說明: 建立任意長度的一維整數陣列，將內容由小到大排序，輸出排序結果
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!input.hasNextInt()) {
+            return;
+        }
+        int n = input.nextInt();
+        if (n <= 0) {
+            // 對於無效長度，直接結束輸出
+            System.out.println();
+            return;
+        }
+
+        // 讀取 n 個整數並存入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免發生例外
+                arr[i] = 0;
+            }
+        }
+
+        // 對陣列排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

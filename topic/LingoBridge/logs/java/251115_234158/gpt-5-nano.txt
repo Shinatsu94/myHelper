@@ -1,0 +1,46 @@
+90
+
+改進建議：應加入完整的程式標頭註解與輸入錯誤處理，同時為避免整數溢位可把中間值計算改用長整數運算再轉回整數，並提升變數命名與可讀性。
+
+優化與修改說明：
+- 加入完整的檔案標頭註解，說明檔名、功能、作者與日期，提升可維護性與自我註解性。
+- 為避免 a+b+c 可能的整數溢位，將計算過程改用長整數 (long) 進行中間值的計算，最後再轉型輸出，讓程式更健壯。
+- 仍以兩種不同的方式找出最大值與最小值（透過三元運算子），中間值則採用 sum - max - min 的方式，符合題目「使用兩種不同的方式」的精神。
+- 程式格式與註解補充，並在結尾關閉 Scanner 以釋放資源。
+
+修改後完整程式碼如下：
+```java
+/*
+Filename: CSIE_41343222_1003_2.java
+功能: 讓使用者輸入三個整數，使用兩種不同方式找出最大、中間、最小值，並輸出最小、中間、最大值。
+作者: 教授姓名
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343222_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取三個整數
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
+
+        // 使用三元運算子找最大值與最小值（兩個分別的處理）
+        long la = a, lb = b, lc = c;
+        long max = (la > lb) ? ((la > lc) ? la : lc) : ((lb > lc) ? lb : lc);
+        long min = (la < lb) ? ((la < lc) ? la : lc) : ((lb < lc) ? lb : lc);
+
+        // 中間值使用 sum - max - min 的方式，為避免整數溢位，先轉為 long 計算再轉回 int
+        int mid = (int)(la + lb + lc - max - min);
+
+        System.out.println((int)min);
+        System.out.println(mid);
+        System.out.println((int)max);
+
+        scanner.close();
+    }
+}
+```

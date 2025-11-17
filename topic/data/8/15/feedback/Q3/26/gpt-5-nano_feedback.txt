@@ -1,73 +1,58 @@
-3
+87
 
-評分細項
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：3/10
-- 備註：0/10
-總分：3/100
+建議：在保持功能正確的前提下，加入輸入驗證與程式註解，並簡化輸出以提升可讀性與穩定性。
 
 修改說明與原因
-- 原程式完全未實作題目需求，僅產生一個星號三角圖形，且忽略輸入的整數陣列與排序需求，因此正確性與邏輯分數皆為0。
-- 僅有少量格式與結構上的基本可讀性，因此在格式部分給予極低的分數。
+- 加入程式標頭註解：說明檔案名稱、功能、作者、日期，方便維護與評分。
+- 輸入驗證加強：限定 n 必須為 0 < n <= 20，若不符合輸出對應訊息，符合題目約束與測資需求。
+- 保留使用下三角形的 ragged 二維陣列結構，但改用直接輸出每列字串的方式，提升可讀性與效能（避免不必要的內部迴圈）。
+- 使用更清楚的變數與註解，並在結束前關閉 Scanner，提升資源管理。
 
 修改後完整程式碼
-// 檔案名稱示意：CSIE_41343136_1031_3a.java
-// 功能：讀取一個整數 n，接著讀入 n 個整數，將其升序排序並輸出，元素以空格分隔
-// 作者：任意
-// 日期：YYYY-MM-DD（請自行補充）
-import java.util.Arrays;
+```java
+/**
+ * 檔案名稱: CSIE_41343136_1031_3a.java
+ * 功能說明: 建立並列印下三角形的二維陣列，大小由使用者輸入 n (0 < n <= 20)
+ * 作者: 您的名字
+ * 日期: 2025-11-14
+ * 備註: 使用 ragged array 儲存 '*'，每列長度為 i+1；輸出不含空白符號
+ */
+
 import java.util.Scanner;
 
 public class CSIE_41343136_1031_3a {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        // 讀取長度
+        // 讀取輸入並基本驗證
+        int n;
         if (!in.hasNextInt()) {
+            System.out.println("輸入格式錯誤");
             in.close();
             return;
         }
-        int n = in.nextInt();
-
-        // 針對非正數長度情況，直接輸出空行並結束
-        if (n <= 0) {
-            System.out.println();
+        n = in.nextInt();
+        if (n <= 0 || n > 20) {
+            System.out.println(n > 20 ? "超過20" : "輸入錯誤");
             in.close();
             return;
         }
 
-        // 讀取 n 個整數
-        int[] a = new int[n];
+        // 建立下三角形的 ragged array，並填入 '*'
+        char[][] a = new char[n][];
         for (int i = 0; i < n; i++) {
-            if (in.hasNextInt()) {
-                a[i] = in.nextInt();
-            } else {
-                // 若輸入不足，預設為 0（可視需求調整；此處避免異常）
-                a[i] = 0;
+            a[i] = new char[i + 1];
+            for (int j = 0; j < a[i].length; j++) {
+                a[i][j] = '*';
             }
         }
 
-        // 升序排序
-        Arrays.sort(a);
-
-        // 輸出，元素以單一空格分隔
-        StringBuilder sb = new StringBuilder();
+        // 輸出每列字串，避免逐字迴圈的輸出開銷
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+            System.out.println(new String(a[i]));
         }
-        System.out.print(sb.toString());
 
         in.close();
     }
 }
-
-修改部分的原因
-- 將原先的二維字元陣列與不相關的輸入輸出邏輯移除，改為一維整數陣列以存放題目所需的數字資料。
-- 直接依題意讀取 n 與 n 個整數，確保不需要使用 EOF，並能處理負數。
-- 使用 Arrays.sort 進行實作簡潔且穩定的升序排序。
-- 輸出格式改為僅輸出排序後的數字，元素間以空格分隔，符合題目輸出示例。
-
-改進建議或反饋（一句話）
-建議加強輸入與輸出格式的嚴謹性與註解，並使用具意義的變數命名與完整的檔頭註解，以提升可維護性與評分友好度。
+```

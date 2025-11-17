@@ -1,0 +1,67 @@
+90
+- 正確性：50
+- 邏輯：30
+- 格式：10
+- 備註：0
+
+改進建議與回饋：改用動態規劃統計五位數（含前導零）各位數和的分佈，避免逐一枚舉 1..100000，能大幅提升效能，且更易於維護。
+
+修改說明與修改部分：
+- 原程序逐一遍歷 1..100000，對每個數字計算位數和，時間複雜度較高。新的做法使用動態規劃計算 5 位數（00000~99999）各位數和為 s 的組合數，時間複雜度大幅降低，且易於擴展。
+- 由於區間包含 100000，且 100000 的位數和為 1，因此若 A=1，需在結果中額外加上 100000 的情況；其他 A 則不需要額外處理。
+- 增加程式標頭註解，提供檔案名稱、功能描述、作者與日期等資訊，提升格式與可維護性。
+- 程式改用 BufferedReader 進行輸入，確保效率及穩定性。
+
+修改後完整程式碼：
+/**
+ * File: CSIE_51015105_1003_3.java
+ * Description: 根據輸入的 A，計算在 1..100000 中，數字各位數字和等於 A 的數字個數。
+ * Author: [作者]
+ * Date: 2025-11-15
+ */
+
+import java.io.*;
+
+public class CSIE_51015105_1003_3 {
+    // 計算 5 位數（包含前導零，即 00000 ~ 99999）各位數和為 s 的組合數
+    private static int[] precomputeCounts() {
+        final int MAX_SUM = 45;
+        final int DIGITS = 5;
+        int[] dp = new int[MAX_SUM + 1];
+        dp[0] = 1;
+        for (int i = 0; i < DIGITS; i++) {
+            int[] next = new int[MAX_SUM + 1];
+            for (int s = 0; s <= MAX_SUM; s++) {
+                if (dp[s] == 0) continue;
+                for (int d = 0; d <= 9; d++) {
+                    if (s + d <= MAX_SUM) next[s + d] += dp[s];
+                }
+            }
+            dp = next;
+        }
+        return dp;
+    }
+
+    public static void main(String[] args) {
+        int A;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = br.readLine();
+            A = Integer.parseInt(line.trim());
+        } catch (Exception e) {
+            System.out.println(0);
+            return;
+        }
+
+        int[] counts = precomputeCounts();
+        int ans;
+        if (A < 0 || A > 45) {
+            ans = 0;
+        } else {
+            ans = counts[A];
+            // 100000 的數字和為 1，若 A==1，需額外加上 100000
+            if (A == 1) ans += 1;
+        }
+
+        System.out.println(ans);
+    }
+}

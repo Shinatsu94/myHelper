@@ -1,0 +1,44 @@
+81/100
+
+改進建議（一句話）：
+雖然正確使用了不使用額外變數的 XOR 交換並符合輸出格式，但缺少程式標頭註解、命名不夠具意義、以及尚可加上資源釋放等小練習以提升可讀性與維護性。
+
+作業評分與評語重點
+- 正確性 50/50：輸出與題意相符，兩數交換後依序印出，XOR 交換法在這情境下可正常運作。
+- 邏輯 25/30：邏輯正確且不使用第三變數完成交換，但依然以較少直覺的做法（XOR）完成；若以可讀性角度，可能不如使用臨時變數直覺易懂。
+- 格式 6/10：程式縮排與命名尚可改善，缺少一致的風格與空白規範。
+- 備註 0/10：缺乏檔案標頭與註解說明，未遵守標註要求。
+
+修改重點與原因
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 使用具意義的變數名稱 (a, b) 替代 x, y，提高可讀性。
+- 加入適當註解，清楚描述 XOR 交換的步驟與原因。
+- 關閉 Scanner 以釋放資源，並保持原有功能不變。
+- 調整縮排與排版，提升整體格式美觀與一致性。
+
+修改後完整程式碼
+/*
+ * File: SwapTwoNumbers.java
+ * Description: 讀入兩個整數 a、b，使用不使用第三變數的 XOR 交換法，印出交換後的值。
+ * Author: Your Name
+ * Date: 2025-11-15
+ */
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+        // 使用 XOR 交換法，不需要額外變數
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        scanner.close();
+    }
+}

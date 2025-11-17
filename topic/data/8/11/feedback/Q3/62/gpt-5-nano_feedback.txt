@@ -1,62 +1,62 @@
-0
-評分細項：
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 0/10
-- 備註: 0/10
-總分: 0/100
+88
 
-修改與優化說明
-- 問題理解與需求對齊
-  - 原學生成果僅做數字處理與輸出統計，完全未解題，未符合「讀入兩個整數、印出其值、交換再印出」的要求。
-- 修改重點
-  - 移除原程式中無關的變數與邏輯（sum、count 等），避免干擾。
-  - 使用兩個整數變數 a、b 直接輸入並輸出其值，符合題意的輸入與輸出順序。
-  - 交換兩數值時，使用不需要額外變數的方法（XOR 交換法），以滿足「不可使用其他變數」的限制。
-  - 增加程式頭註解與適當註解，提升可讀性與可維護性。
-  - 加入 in.close()，養成良好資源釋放習慣。
+改進建議：建議把計算數字位數總和的邏輯抽成函式、增加輸入範圍檢查並用較清晰的變數命名與註解，以提升可讀性與可維護性。
 
-修改後完整程式碼
+修改說明與原因：
+- 重新整理成模組化設計：將位數總和邏輯抽成獨立函式 digitSum，提升可讀性與重用性。
+- 使用較穩健的輸入處理與範圍檢查：若 A 不在 [0, 45]，直接輸出 0，避免不必要的運算。
+- 使用較清晰的命名與註解：變數命名更具描述性，程式增加說明性註解。
+- 加入程式標頭註解並保持良好縮排：符合作業要求的格式與風格。
+
+優化後的完整程式碼如下：
+
 /*
- * File: CSIE_41343252_1003_3.java
- * 功能: 讀入兩個整數 A, B，先印出 A, B 的值，接著交換兩數值，再印出交換後的值。
- *       交換過程不使用額外變數。
- * 作者: 教授
- * 日期: 2025-11-11
+ * Filename: DigitSumCounter.java
+ * Description: 計算 1 到 100000 之間，有多少個數字的各位數字總和等於輸入的 A。
+ * Author: 你的教師
+ * Date: 2025-11-15
+ * Notes: 以模組化方式實作，提供更清晰的邏輯與註解。
  */
-import java.util.Scanner;
 
-public class CSIE_41343252_1003_3 {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-        // 讀取兩個整數
-        int a = in.nextInt();
-        int b = in.nextInt();
+public class DigitSumCounter {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        int target;
+        try {
+            target = Integer.parseInt(line.trim());
+        } catch (Exception e) {
+            // 非法輸入視為無解
+            System.out.println(0);
+            return;
+        }
 
-        // 先印出尚未交換前的值
-        System.out.println(a);
-        System.out.println(b);
+        int count = 0;
+        // 5位數字（最大 99999）之位數總和最大為 45；100000 的位數之和為 1，因此範圍仍在 [0,45]
+        if (target < 0 || target > 45) {
+            System.out.println(0);
+            return;
+        }
 
-        // 不使用額外變數，使用 XOR 交換
-        a = a ^ b;
-        b = a ^ b;
-        a = a ^ b;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
 
-        // 印出交換後的值
-        System.out.println(a);
-        System.out.println(b);
+        System.out.println(count);
+    }
 
-        in.close();
+    // 計算整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
     }
 }
-
-修改原因說明
-- 以符合題目要求的輸入與輸出順序：先印出兩數的原始值，之後再印出交換後的值。
-- 為避免使用額外變數，採用位元運算的 XOR 交換法，確保不新增變數，符合「不可使用其他變數進行數字交換」的限制。
-- 透過適當的程式頭與註解提升可讀性與維護性，並在程式結尾釋放資源。
-
-改進建議或反饋（一句話）
-- 建議在實作時，確定輸入與輸出順序與題目樣例一致，如有歧義可先在註解中明確說明預期的輸出流程，以避免測資判定差異。
-
-若需改用更安全的交換方式（避免位元運算對某些極端情況的疑慮），也可改用加法與減法的兩數交換法，但仍須遵守「不使用額外變數」的限制；但若輸入範圍允許溢位風險，建議採穩定且易讀的寫法。

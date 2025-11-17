@@ -1,12 +1,21 @@
-8
+92
+
+改進建議：程式已正確計數，但可改用通用的位數和函式來提升可讀性與維護性，同時補上完整的檔案註解與說明。
+
+修改重點與原因：
+- 使用通用的 digitSum(n) 函式來計算數字和，避免硬編碼「六位數位」的寫法，讓程式可以更容易維護與擴充。
+- 增加清晰的檔案註解與函式註解，提升可讀性與可維護性。
+- 變數命名改為更具描述性的名稱，如 count、digitSum，提升邏輯易懂度。
+- 保留原本的計數邏輯與範圍（1~100000），確保結果與題意一致。
 
 修改後完整程式碼：
+```java
 /*
-Name:盧冠宇
-Student_ID:41343247
 File: CSIE_41343247_1003_3.java
-Function: 讀入兩個整數 A、B，先印出 A、B，再以不使用額外變數的方式達成交換並印出 B、A。
-Date: 2025-11-11
+Name: 盧冠宇
+Student_ID: 41343247
+Date: 2025-11-15
+Description: 讀入整數 A，計算 1~100000 中，所有數字的各位數字和等於 A 的數字個數。
 */
 
 import java.util.Scanner;
@@ -14,24 +23,26 @@ import java.util.Scanner;
 public class CSIE_41343247_1003_3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        int a = scanner.nextInt();
+        int count = 0;
 
-        // 直接輸出 A 與 B，表示未交換前的值
-        System.out.println(A);
-        System.out.println(B);
+        for (int n = 1; n <= 100000; n++) {
+            if (digitSum(n) == a) {
+                count++;
+            }
+        }
 
-        // 透過改變輸出序列的順序，實現“交換”的效果，而不使用額外變數
-        System.out.println(B);
-        System.out.println(A);
+        System.out.println(count);
+    }
+
+    // 計算整數 n 的十進位各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
     }
 }
-
-說明修改部分原因：
-- 正確性/需求符合性：以輸出順序達成兩次印出，第一次印出未交換前的值 A、B，第二次以 B、A 的順序印出，達成交換效果且不使用額外變數進行數字交換，符合題目限制。
-- 變數命名與可讀性：將 a、sum 等不具語意的變數改為 A、B，變數名稱具辨識度，提升可讀性。
-- 程式結構與註解：補充了檔案註解，說明檔案用途、內容與日期，並在程式中加入必要註解，提升維護性。
-- 格式與風格：適當縮排與換行使程式結構清晰，符合基本 Java 編碼風格。
-
-改進建議（一句話）：
-在未來題目中，若明確限制不能使用額外變數進行「交換」，可以透過輸出順序實現交換，並同時補充完整的檔案註解與使用範例，提升可讀性與可維護性。
+```

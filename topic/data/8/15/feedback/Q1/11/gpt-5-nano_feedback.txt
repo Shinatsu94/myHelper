@@ -1,15 +1,38 @@
 95
 
-修改後完整程式碼（已優化為分離排序與輸出、改善命名與可讀性）：
+改進建議（一句話）：
+改進排序與輸出的職責分離，採用更清晰的選擇排序實作與變數命名，並加上獨立的輸出函式以提升可讀性與可維護性。
+
+修改說明與重點改動：
+- 將排序與輸出分離：原程式在 selectionSort() 裡直接輸出，現在改為僅執行排序，輸出改在獨立的 printArray() 內完成。
+  - 理由：符合單一職責原則，方便未來擴充（例如改成輸出到檔案、字串等）。
+- 改善選擇排序實作：使用更直覺的寫法，內層迴圈從 j+1 開始，使用 minIndex 追蹤目前最小值的位置，並在外層完成交換。
+  - 理由：代碼更易讀、穩定且易於維護。
+- 增加可讀性與可維護性：
+  - 使用 printArray() 統一輸出格式，輸出時在元素間加空格，最後換行。
+  - 變數命名清晰（minIndex、array 等）。
+  - 改善檔案註解與版本資訊，方便日後維護。
+- 保留負數支援與使用者輸入流程：不影響題目需求，原有讀取邏輯保持不變。
+
+修改後完整程式碼（已優化與整理）：
+// package h4w; 已移除，以避免編譯時干擾
+import java.util.Scanner;
+
+/*
+ filename: CSIE_41143122_1031_1.java
+ function: 讀入使用者輸入的任意長度一維陣列，先輸入長度再依序輸入內容，輸出升序排序結果
+ author: 林柏儒 資工四甲 41143122
+ datetime: 2025/10/31
+ version: 1.1
+*/
 public class CSIE_41143122_1031_1 {
-    // 將陣列做 selection sort，直接在原地排序，不輸出
+    // 使用選擇排序 (Selection Sort)
     public static void selectionSort(int[] array) {
-        for (int j = 0; j < array.length - 1; j++) {
+        int n = array.length;
+        for (int j = 0; j < n - 1; j++) {
             int minIndex = j;
-            int minVal = array[j];
-            for (int i = j + 1; i < array.length; i++) {
-                if (array[i] < minVal) {
-                    minVal = array[i];
+            for (int i = j + 1; i < n; i++) {
+                if (array[i] < array[minIndex]) {
                     minIndex = i;
                 }
             }
@@ -20,48 +43,24 @@ public class CSIE_41143122_1031_1 {
         }
     }
 
-    // 僅負責輸出陣列內容，中間不做其他處理
+    // 單一方法進行輸出，元素以空白分隔，結尾換行
     public static void printArray(int[] array) {
         for (int i = 0; i < array.length; i++) {
             if (i > 0) System.out.print(" ");
             System.out.print(array[i]);
         }
+        System.out.println();
     }
 
     public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
-
-        // 讀取陣列長度
-        int n = 0;
-        if (scanner.hasNextInt()) {
-            n = scanner.nextInt();
-        }
-
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
         int[] array = new int[n];
-        // 依序讀入陣列元素
         for (int i = 0; i < n; i++) {
-            if (scanner.hasNextInt()) {
-                array[i] = scanner.nextInt();
-            } else {
-                array[i] = 0;
-            }
+            array[i] = scanner.nextInt();
         }
-
-        // 進行排序
         selectionSort(array);
-        // 印出排序後的結果
         printArray(array);
-
         scanner.close();
     }
 }
-
-修改說明與原因：
-- 功能分離：把排序與輸出分成兩個方法（selectionSort、printArray），提高程式的可維護性與可重用性，符合單一職責原則。
-- 改善命名與可讀性：將變數命名改為 minIndex、minVal，清楚說明其意義，讓邏輯更易懂。
-- 邏輯修正與穩定性：優化內層迴圈的起始與條件（從 j+1 開始尋找最小值），避免不必要的比較，確保正確的最小值與索引被選取，並用清晰的交換步驟完成選擇排序。
-- 輸出與輸入分離：主程式僅負責輸入與呼叫流程，輸出集中在 printArray，符合題目需求且降低副作用。
-- 程式風格與可讀性提升：移除多餘註解與不必要的苗條輸出，整體縮排與排版更整潔，方便他人閱讀與維護。
-
-改進建議（一句話）：
-建議在輸入階段加入基本的健全性檢查與例外處理，並可在需求改變時快速切換輸出格式（如新增換行、檔案輸出等），以提升可擴充性。

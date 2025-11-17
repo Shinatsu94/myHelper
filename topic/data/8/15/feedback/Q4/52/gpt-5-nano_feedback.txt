@@ -1,61 +1,89 @@
-9
-- 正確性（0/50）：程式未實作題目要求的「任意長度的一維陣列升序排序並輸出」的功能，直接用於尋找數值位置的邏輯與輸出結果與題目不符，因此得分為 0。
-- 邏輯（0/30）：與需求無關的邏輯（在三角形結構中尋找位置），非必要且錯誤對題意，因此得分為 0。
-- 格式（3/10）：程式結構基本正確，含標頭與縮排；變數命名較為簡短且缺乏說明性，且原程式中有多餘的註解與未使用的變數，整體可再清晰化。因此給 3/10。
-- 備註（6/10）：有標頭註解與說明，日期也列出，內容與題目不一致但具備基本註解；仍可改善註解內容與變數說明以符合需求。給 6/10。
+82
 
-總分：9/100
+建議改進：使用實作完整的下三角形二維陣列並加上清楚的註解與可讀性更高的變數命名，並在邊界條件處理更嚴謹。
 
-修改與優化說明
+改進說明與評分要點
+- 正確性（50%）
+  - 原作雖能在給定樣本輸出正確結果，但未真正建立並使用完整的下三角形二維陣列，對題目「建立完整的下三角形二維陣列」的要求較薄。改用完整的二維陣列填值後，能更符合題意並讓日後維護更容易。評分：40/50
+- 邏輯（30%）
+  - 原作邏輯直觀且穩定，但效率較低且未明確中斷外層迴圈；改用完整陣列配合雙迴圈搜尋，並使用標籤中斷可提升魯棒性與可閱讀性。評分：28/30
+- 格式（10%）
+  - 原作註解較少，命名與格式略顯雜亂，且檔案與類別名稱未明確對齊。改用較清晰的命名與完整註解，提升可讀性。評分：7/10
+- 備註（10%）
+  - 原作有程式頭註解，但與檔名/類別名尚未一致，且未標註日期等。改進後補充清晰註解並確保檔案結構一致。評分：7/10
 
-修改後完整程式碼（可直接編譯執行）：
+修改後的程式說明
+- 使用 2D 陣列 tri[n][n]，只在下三角區塊填入遞增的數字，其他位置保留默認值。
+- 於找到目標值時，使用雙迴圈掃描並在找到時立即輸出位置，未找到則輸出相應訊息。
+- 將類別名稱改為與檔案名相符（LowerTriangularSearch），並加入完整的檔案註解與清晰的變數命名，增加可讀性與維護性。
+- 使用 Scanner 進行輸入並在結束時關閉資源。
+
+修改後的完整程式碼
 ```java
 /*
-   程式名稱: 一維陣列升序排序
-   作者: 改寫者
-   日期: 2025-11-12
-   程式說明: 讀入長度 n 與 n 個整數，將它們升序排序後輸出成一行，用空格分隔。
-*/
-import java.util.Scanner;
-import java.util.Arrays;
+ * 檔案名稱: LowerTriangularSearch.java
+ * 功能: 建立下三角形二維陣列，尋找特定數字的位置
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 說明: 讀入高度 n，建立下三角形矩陣 tri[n][n]，其下三角元素按順序填入 1..n(n+1)/2，
+ *       找出使用者指定的數字 target 的位置，輸出格式為 target[row, col]（row與col皆為 1-based）。
+ */
 
-public class SortOneDimArray {
+import java.util.Scanner;
+
+public class LowerTriangularSearch {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        // 讀取陣列長度
-        if (!in.hasNextInt()) {
+        int n;
+        int target;
+
+        // 讀取高度與要尋找的數字
+        if (in.hasNextInt()) {
+            n = in.nextInt();
+        } else {
             in.close();
             return;
         }
-        int n = in.nextInt();
-        int[] arr = new int[n];
 
-        // 讀取 n 個整數
-        for (int i = 0; i < n; i++) {
-            if (in.hasNextInt()) arr[i] = in.nextInt();
-            else arr[i] = 0; // 若輸入不足，預設為 0，避免例外
+        if (in.hasNextInt()) {
+            target = in.nextInt();
+        } else {
+            in.close();
+            return;
         }
 
-        // 排序並輸出
-        Arrays.sort(arr);
-        StringBuilder sb = new StringBuilder();
+        // 建立下三角形矩陣並填入數字
+        int[][] tri = new int[n][n];
+        int value = 1;
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
         }
-        System.out.println(sb.toString());
+
+        // 搜尋 target 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow == -1) {
+            System.out.printf("not find %d in array.", target);
+        } else {
+            // 輸出為 1-based 的行列
+            System.out.printf("%d[%d, %d]", target, foundRow + 1, foundCol + 1);
+        }
 
         in.close();
     }
 }
 ```
-
-修改部分與原因說明：
-- 將原本與題意無關的邏輯（尋找三角形中某個數的位置）替換為符合需求的輸入、排序與輸出流程，確保功能正確性。
-- 使用 Arrays.sort 進行升序排序，簡潔且效率合理，適用任意長度與包含負數的整數。
-- 強化輸入處理與容錯：若輸入不足 n 個整數，預設為 0 以避免例外，並在輸入結束後仍能輸出可預期結果。
-- 設計清晰的程式名稱與註解：檔案名稱與類別名稱相互對應，加入標頭註解說明程式功能、作者與日期，提升可讀性與維護性。
-
-一句話改進建議
-建議在實作前先完整理解題意，並以需求為核心設計程式架構，使用有意義的變數命名與充分註解，確保輸入輸出符合題目要求。

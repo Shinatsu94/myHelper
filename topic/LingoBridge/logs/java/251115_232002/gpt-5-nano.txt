@@ -1,0 +1,39 @@
+94
+
+改進建議：請加上程式標頭註解、使用有意義的變數名稱，並在程式中適當註解交換邏輯，以提升可讀性與維護性。
+
+修改原因與內容：
+- 使用有意義的變數名稱（A、B）替代 dataa、datab，提升可讀性。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，符合程式開發的慣例。
+- 保留不使用額外變數的交換法（XOR 交換法），並在程式中加入註解解釋交換過程。
+- 程式的輸出對應題目規定與樣例輸出格式，保持一致。
+- 程式結尾適當關閉 Scanner，避免資源洩漏。
+
+修改後的完整程式碼如下：
+import java.util.Scanner;
+
+/*
+ * File: CSIE_41343241_1003_1.java
+ * Description: 讀入兩個整數並存入 A、B，輸出交換前的數值(Target輸出僅展示交換後的結果以符合題樣)，
+ *              使用不使用暫存變數的 XOR 交換法，並輸出交換後的結果。
+ * Author: YourName
+ * Date: 2025-11-15
+ */
+
+public class CSIE_41343241_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt(); // 讀入第一個整數，存入 A
+        int B = sc.nextInt(); // 讀入第二個整數，存入 B
+
+        // 以不使用暫存變數的方式交換 A 與 B（XOR 交換法）
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}

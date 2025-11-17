@@ -1,0 +1,59 @@
+56
+
+建議改進：改用字串逐位檢查以支援任意長度的數字，並加上完整的程式標頭與註解以提升可讀性與可維護性。
+
+修改說明與評語要點
+- 正確性：目前程式僅適用於三位數的情況，對任意長度的數字無法正確判定。新的實作改以字串方式逐位比較，適用任意長度的正整數。
+- 邏輯：採用簡單的逐位比較邏輯，若任意相鄰兩位不遞增即視為非「well-ordered」；邏輯清晰且可擴充。
+- 格式：改用具描述性的變數和標頭註解，並維持統一的縮排與輸出格式。
+- 備註：加入程式標頭註解，說明檔案名稱、功能、日期與作者，方便日後維護。
+
+修改後的完整程式碼
+```java
+/*
+檔案名稱: WellOrderedNumber.java
+功能說明: 判斷一個整數的每一位數字是否由左至右遞增（strictly increasing）。
+作者: 你的名字
+日期: 2025-11-15
+*/
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        String input;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            input = br.readLine();
+        } catch (Exception e) {
+            // 若讀取失敗，直接結束
+            return;
+        }
+
+        if (input == null) return;
+        input = input.trim();
+        if (input.length() == 0) return;
+
+        boolean isWellOrdered = true;
+        for (int i = 0; i < input.length() - 1; i++) {
+            char c1 = input.charAt(i);
+            char c2 = input.charAt(i + 1);
+            // 確保都是位數字
+            if (!Character.isDigit(c1) || !Character.isDigit(c2)) {
+                isWellOrdered = false;
+                break;
+            }
+            // 相鄰兩位需嚴格遞增
+            if (c1 >= c2) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+    }
+}
+```

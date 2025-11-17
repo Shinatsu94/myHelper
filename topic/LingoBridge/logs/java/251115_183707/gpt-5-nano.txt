@@ -1,0 +1,50 @@
+87
+改進建議：增加程式標頭註解並改用字串逐位檢查以避免整數溢位與提升對非整數輸入的魯棒性。
+
+以下為修改後完整程式碼：
+
+/*
+ * File: CSIE_41343220_1017_2.java
+ * Title: Well-ordered number checker
+ * Description: Determine if a given number's digits are strictly increasing from left to right.
+ * Author: Instructor
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343220_1017_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().trim();
+        String original = s;
+
+        boolean wellOrdered = true;
+
+        // If input has a sign, treat as not well-ordered
+        if (s.startsWith("-") || s.startsWith("+")) {
+            wellOrdered = false;
+        }
+
+        // Check adjacent digits from left to right
+        for (int i = 0; wellOrdered && i < s.length() - 1; i++) {
+            char a = s.charAt(i);
+            char b = s.charAt(i + 1);
+
+            // Non-digit characters invalidate the input
+            if (!Character.isDigit(a) || !Character.isDigit(b)) {
+                wellOrdered = false;
+                break;
+            }
+
+            // Digits must be strictly increasing left-to-right
+            if (a >= b) {
+                wellOrdered = false;
+                break;
+            }
+        }
+
+        System.out.println(original + (wellOrdered ? " is well-ordered number." : " is not well-ordered number."));
+        sc.close();
+    }
+}

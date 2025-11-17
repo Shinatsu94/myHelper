@@ -1,66 +1,96 @@
-6
-正確性: 0/50
-邏輯: 0/30
-格式: 6/10
-備註: 0/10
+80
 
-修改說明：
-- 本次作業需實作「讀取長度、依序輸入整數、升序排序並輸出」，學生提交的程式與題意毫無相關，故正確性與邏輯分數為零。格式方面，原程式的排版尚可，但未附程式說明與註解，且未符合題目要求，因此僅給予有限的格式分數。
-- 下方提供符合題意的改寫版本，使用 1 維整數陣列與 Arrays.sort 進行排序，輸出格式符合「以空格分隔，末尾無多餘空格」的要求；並新增適當的程式檔案註解與清晰的命名。
+建議回饋：請確保輸出嚴格符合題目規範，並在缺貨矩陣情況下定義輸出格式，同時補上程式標頭註解以提升可讀性與維護性。
 
-修改後完整程式碼：
+程式修改與優化說明（要點）
+- 加入程式標頭註解，說明檔案名稱、功能、作者、日期，並在內容中加入適當註解。
+- 使用常數 SIZE 提高可維護性，便於未來若要改為 n×n 矩陣時的修改。
+- 將單一奇異矩陣的情況改為輸出全零矩陣（保持輸出格式一致），避免輸出與題意不符的文字訊息。
+- 保留原有的四捨五入到小數點後四位的輸出邏輯，但若為 0 則輸出單一字元 0，符合題意「若元素為零，請直接列印 '0'」。
+- 加強程式結構與縮排，增加條件分支的可讀性。
+
+修改後的完整程式碼如下：
+
 ```java
-/*
- * File: Main.java
- * 功能: 讀取第一個整數作為長度 n，接著讀入 n 個整數，將其升序排序後輸出，元素以空格分隔。
- * 作者: 你的名字
- * 日期: 2025-11-12
+/**
+ * 檔案名稱: Main.java
+ * 功能簡述: 讀入一個 3x3 矩陣，輸出其反矩陣，非零元素輸出至小數點後四位；若元素為零則輸出 '0'。
+ *          若矩陣為奇異，輸出全 0 的矩陣以符合輸出格式。
+ * 作者: 研究生
+ * 日期: 2025-11-14
  */
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+    private static final int SIZE = 3;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] m = new double[SIZE][SIZE];
 
-        // 讀取長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        if (n <= 0) {
-            // 無元素時不輸出內容
-            sc.close();
-            return;
-        }
-
-        // 讀取 n 個整數
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.hasNextInt() ? sc.nextInt() : 0;
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (sc.hasNextDouble()) {
+                    m[i][j] = sc.nextDouble();
+                }
+            }
         }
         sc.close();
 
-        // 排序
-        Arrays.sort(arr);
+        double det = determinant(m);
+        double[][] inv = new double[SIZE][SIZE];
 
-        // 輸出，元素以空格分隔，尾端不留空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 確認是否為奇異矩陣；若非奇異則計算反矩陣，否則保持 inv 為全 0
+        if (Math.abs(det) >= 1e-9) {
+            inv = inverse(m, det);
         }
-        System.out.println(sb.toString());
+
+        // 輸出反矩陣，四捨五入至小數點後四位，若為 0 則輸出 0
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                double val = inv[i][j];
+                // 四捨五入到小數點後四位
+                val = Math.round(val * 10000.0) / 10000.0;
+                if (Math.abs(val) < 1e-9) {
+                    sb.append("0");
+                } else {
+                    sb.append(String.format("%.4f", val));
+                }
+                if (j < SIZE - 1) sb.append(' ');
+            }
+            if (i < SIZE - 1) sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+    }
+
+    // 計算 3x3 行列式
+    private static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算 3x3 矩陣的反矩陣
+    private static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[SIZE][SIZE];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
     }
 }
 ```
-
-修改部分的原因：
-- 使用一維整數陣列與 Arrays.sort，直接且有效地完成題目需求，且支援負數輸入。
-- 加入程式頭註解，明確說明檔案名稱、功能、日期等，符合備註分數的要求。
-- 透過 StringBuilder 組裝輸出字串，避免不必要的字串拼接與空格問題。
-
-一句話改進建議或反饋：
-- 建議在未來提交時，先對題意進行快速閱讀與測資模擬，避免提交跑題的內容，並在檔案註解中清楚標註輸入與輸出格式以利評分。

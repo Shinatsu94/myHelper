@@ -1,71 +1,88 @@
-88
+86
 
-評分細項
-- 正確性: 50/50
-- 邏輯: 30/30
-- 格式: 8/10
-- 備註: 0/10
-- 總分: 88/100
+原程式的改進建議：
+原程式結果正確且邏輯合理，但可透過使用內建排序、加強輸入輸出效率與補上標頭註解提升可讀性與執行效能，且符合作業規範的註解要求。
 
-修改後完整程式碼（已加入註解與改進）
-```java
-import java.util.Scanner;
+程式優化與修改原因：
+- 使用 Arrays.sort 取代手寫選擇排序：內建排序在穩定性與時間複雜度上通常更可靠且效率更高，能簡化程式並降低出錯機會。
+- 使用快速輸入與 StringBuilder 輸出：原本的 Scanner 會較慢，若題目輸入量大可能影響執行時間；快速輸入與累積輸出能提升效能並避免尾端空格問題。
+- 加入程式標頭註解與註解說明：提升可讀性與符合題目規範。
 
-/*
- * 檔名: CSIE_41343219_1031_1.java
- * 功能: 讀取長度 n，接著讀取 n 個整數，對陣列內容由小到大排序，最後輸出排序結果。
- * 作者: 作業改寫範例
- * 日期: 2025-11-12
- * 說明: 加入檔案頭說明、變數命名更具可讀性、輸出一次性建構字串、加入基本輸入長度檢查。
+修改後完整程式碼：（未使用 EOF、可處理含負數的整數、輸出為降序/升序皆可依需求，此版保持升序輸出）
+
+import java.io.*;
+import java.util.Arrays;
+
+/**
+ * File: CSIE_41343219_1031_1.java
+ * 功能: 建立任意長度的一維陣列，對內容做升序排序，並輸出排序結果。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 版本: 1.0
  */
-
 public class CSIE_41343219_1031_1 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    // 快速輸入內建類別
+    private static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
 
-        int n = sc.nextInt();
-        if (n <= 0) {
-            // 無內容時直接結束
-            sc.close();
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+            boolean neg = false;
+            if (c == '-') {
+                neg = true;
+                c = read();
+            }
+            int val = 0;
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return neg ? -val : val;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
             return;
         }
 
         int[] ary = new int[n];
         for (int i = 0; i < n; i++) {
-            ary[i] = sc.nextInt();
-        }
-        sc.close();
-
-        // 選擇排序：前 i 個已排序，從 i 及以後選取最小值交換至 i
-        for (int i = 0; i < ary.length - 1; i++) {
-            int min = i;
-            for (int j = i + 1; j < ary.length; j++) {
-                if (ary[j] < ary[min]) min = j;
-            }
-            if (min != i) {
-                int tmp = ary[i];
-                ary[i] = ary[min];
-                ary[min] = tmp;
-            }
+            ary[i] = fs.nextInt();
         }
 
-        // 使用 StringBuilder 一次性輸出，避免多次 I/O
+        // 使用內建排序提升穩定性與效能
+        Arrays.sort(ary);
+
+        // 輸出，避免尾端多餘空格
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < ary.length; i++) {
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
             sb.append(ary[i]);
-            if (i < ary.length - 1) sb.append(' ');
         }
-        System.out.print(sb.toString());
+        if (sb.length() > 0) System.out.print(sb.toString());
+        // 根據題目若需要換行可在此加入 System.out.println();
     }
 }
-```
-
-修改說明
-- 增加程式檔案頭注解，提升可維護性與可閱讀性，符合備註欄的要求。
-- 變數命名更具意義（n、ary、i、min、j、tmp），提升可讀性。
-- 輸出採用一次性字串拼接（StringBuilder），避免逐步輸出時的 I/O 開銷，提升效能。
-- 加入對 n <= 0 的基本檢查，以避免不合理的輸入造成例外。
-- 保留原有的排序邏輯（選擇排序），符合題目要求的從小到大排序。
-
-改進建議（一句話）
-若考量大數據量與性能，建議在適當情況下採用內建排序（Arrays.sort）或改用更高效的排序演算法，同時保留程式結構的可讀性與註解完整性。

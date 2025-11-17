@@ -1,0 +1,44 @@
+總分：85
+
+改進建議（一句話）
+為提升可讀性與可維護性，建議使用更具意義的變數名稱、加入程式開頭註解與註解說明交換邏輯，並在適當時機關閉 Scanner 以釋放資源。
+
+修改理由與說明
+- 變數命名與可讀性：將變數命名改為 A、B，明確表示要交換的兩個數字。
+- 程式註解與標頭：新增檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 程式邏輯：保留原本使用 XOR 交換的做法，符合題目「不使用第三個變數進行交換」的限制，同時加入註解以提高可讀性。
+- 資源管理：在結尾處關閉 Scanner，避免資源無意義地佔用。
+
+修改後的完整程式碼（優化版本）
+/*
+檔案名稱: CSIE_41143122_1003_1.java
+功能說明: 讀入兩個整數，存在變數 A、B，印出其值，然後以不使用額外變數的方式交換兩數並再印出。
+作者: 你的名字
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41143122_1003_1 {
+    public static void main(String[] args) {
+        // 建立 Scanner 以讀取使用者輸入
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入兩個整數，存在變數 A、B
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用 XOR 交換兩個整數的值，避免使用第三個變數
+        // 交換前：A 與 B 為待交換的兩個值
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+        // 交換後：A 與 B 的值已對調
+
+        // 印出交換後的結果，每個值換行
+        System.out.println(A);
+        System.out.println(B);
+
+        // 關閉 Scanner，釋放資源
+        scanner.close();
+    }
+}

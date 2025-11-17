@@ -1,0 +1,42 @@
+0
+改進建議：請務必依題意實作一維整數陣列並排序，並輸出排序後的陣列元素，以符合題目需求。
+
+修改說明與重點：
+- 以一維整數陣列儲存使用者輸入的數值，避免不必要的二維回合與複雜的尋找邏輯。
+- 使用 Arrays.sort 進行從小到大排序，天然支援負數。
+- 結果以空格分隔、一行輸出，符合題目輸出格式。
+- 增加清晰的變數命名與適當註解，提升可讀性與維護性。
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = in.nextInt();
+        int[] arr = new int[n];
+
+        // 依序讀入陣列元素
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            }
+        }
+
+        // 進行排序（由小到大，支援負數）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

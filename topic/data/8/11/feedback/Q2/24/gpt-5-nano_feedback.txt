@@ -1,40 +1,44 @@
-12
+94
+
+改進建議：使用兩種不同的方法分別求最大值與最小值（例如利用 Math.max / Math.min），再以總和法計算中間值，並將程式標頭註解放到檔案頂部以符合題意與文字規範。
+
+修改說明與原因：
+- 正確性：改用兩種不同方法求最大值與最小值，避免全部使用同一種寫法，並保持中間值的計算方法不變（mid = a + b + c - max - min），在有重複數字或負數情況下也能正確計算。
+- 邏輯：採用穩健的最大最小值計算方式，避免過度依賴巢狀三元運算，提升可讀性與可維護性。
+- 格式：新增檔案頂端的標頭註解，統一縮排與命名，並在程式結尾加上關閉 Scanner 的動作以釋放資源。
+- 備註：新版本在檔案頂端提供清晰的檔案名稱、功能與作者資訊註解，內容有適當說明。
 
 修改後完整程式碼：
 /*
-檔案名稱: SwapTwoNumbers.java
-功能: 讀入兩個整數，於交換後輸出結果 (符合題意：輸出交換後的兩個值，各佔一行)
-作者: 教師姓名
-日期: 2025-11-11
+檔案名稱: CSIE_41343128_1003_2.java
+功能: 找出三個整數的最大值、最小值與中間值。使用兩種不同的方法計算最大值與最小值，且不使用 if-else。
+作者: 陳氏學生
+日期: 2025-11-15
+說明: 輸入三個整數，輸出最小值、中間值、最大值，各占一行。
 */
-
 import java.util.Scanner;
 
-public class SwapTwoNumbers {
+public class CSIE_41343128_1003_2 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
+        int a, b, c;
+        int max, min, mid;
 
-        // 使用不另行宣告新變數的交換方式：a = a + b; b = a - b; a = a - b
-        // 注意：此方法可能在非常大的整數下發生溢位，若有溢位風險可改用暫存同步的方法，但題目要求不得使用額外變數。
-        a = a + b;
-        b = a - b;
-        a = a - b;
+        Scanner scn = new Scanner(System.in);
+        a = scn.nextInt();
+        b = scn.nextInt();
+        c = scn.nextInt();
 
-        System.out.println(a);
-        System.out.println(b);
+        // 使用兩種不同的方法求最大與最小值，避免使用 if-else
+        max = Math.max(a, Math.max(b, c)); // 方法1：Math.max
+        min = Math.min(a, Math.min(b, c)); // 方法2：Math.min
 
-        sc.close();
+        // 中間值 = a + b + c - max - min
+        mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scn.close();
     }
 }
-
-說明修改原因：
-- 將原程式中的多餘變數 c、max/min 等邏輯移除，改以簡潔的交換方法直接滿足「兩數交換並輸出」的需求，符合正確性與邏輯評分重點。
-- 使用只有兩個變數 a、b 進行交換，符合題目「不可使用其他變數進行數字交換」的限制。
-- 加入符合題意的輸出（交換後的兩個值各佔一行），並以容易閱讀的變數名稱命名，提升程式可讀性。
-- 增加標頭註解，放在檔案頂端，描述檔案名稱、功能、作者、日期等資訊；程式內容含有適當註解說明。
-- 程式格式方面，調整縮排、與保留原本簡潔的結構，並在結尾適當關閉資源。
-
-改進建議（一句話）：
-確保輸出與題目樣例一致，如樣例需要同時顯示原值與交換後的值，請在輸出階段依序輸出原值與交換後的結果，並在註解中說明不同情境的輸出格式。

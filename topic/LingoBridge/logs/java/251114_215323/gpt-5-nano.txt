@@ -1,0 +1,57 @@
+總分：3
+
+改進意見（一句話）
+此程式未依題意完成排序功能，需改用讀入長度為 n 的整數陣列、排序並輸出排序結果，並加入清晰的程式註解與標頭。
+
+修改與原因
+- 正確性與邏輯：改用陣列收集使用者輸入的整數，呼叫 Arrays.sort 進行由小到大排序，最後輸出排序結果，符合題意。
+- 格式與命名：加入程式標頭註解，使用有意義的變數名稱，並使用整潔的縮排與輸出格式（用空格分隔、無多餘空格）。
+- 備註：新增充分的註解與說明，方便他人閱讀與維護。
+- 效能：使用 StringBuilder 組裝輸出，避免多次字串拼接，提升效能。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343112_1031_3a.java
+ * 功能說明: 讀取長度 n，接著讀入 n 個整數，對陣列由小到大排序，最後印出排序後的結果，元素以空格分隔。
+ * 作者: 李宗懌
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343112_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1) 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 2) 讀取 n 個整數，存入陣列
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        sc.close();
+
+        // 3) 排序（由小到大）
+        java.util.Arrays.sort(a);
+
+        // 4) 輸出排序結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

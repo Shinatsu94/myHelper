@@ -1,0 +1,65 @@
+3
+
+改進建議：原程式嚴重偏離題意，未正確讀入陣列與實作排序，建議改用固定長度的整數陣列讀入 n 個元素再進行升序排序，並以空白分隔輸出結果，亦須支援負數與完整註解。
+
+改動與修改原因說明
+- 正確性與邏輯：
+  - 重新讀入長度 n，接著讀入 n 個整數到陣列中，避免僅讀一個 tar 或使用不當的累加邏輯。
+  - 使用 Arrays.sort(arr) 進行升序排序，符合題目要求。
+  - 以空格將排序後的數字連接輸出，避免多餘的前後印出與格式問題，並確保負數也能正確處理。
+- 格式與註解：
+  - 新增適當的檔案標頭註解，含檔名、功能、作者、日期等資訊，並在程式內容加入適當註解說明流程。
+- 效能與穩定性：
+  - 只佔用 O(n) 的記憶體空間，排序使用 Arrays.sort，具備穩定且高效的時間複雜度。
+
+以下為修改後的完整程式碼：
+
+```java
+/*
+檔案名稱: ArraySortAscending.java
+功能: 讀入整數 n 與 n 個整數，將它們升序排序並輸出，元素以空格分隔
+作者: 你的名字
+日期: 2025-11-14
+說明: 直接使用固定長度的整數陣列讀入，使用 Arrays.sort 進行排序，輸出格式為以空格分隔的一行數字。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數並存入陣列
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，數字之間以單一空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

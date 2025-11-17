@@ -1,0 +1,67 @@
+總分：88
+
+改進建議：建議加入完整程式標頭註解、統一變數命名與風格，並以數學方法計算位置以提升可讀性與穩健性，同時實作建立下三角矩陣以符合題意。
+
+修改說明與改動部分
+- 增加標頭註解與重新整理成符合 Java 標準的程式結構，提升可維護性與可讀性。
+- 將程式改寫成 Main 類別，並統一使用更具可讀性的變數名稱 height 與 target。
+- 實作建立完整的下三角形二維陣列（tri），並依題意填入從 1 開始的序列值。
+- 改用數學方式找出 target 在下三角矩陣中的位置：若 target 不在矩陣元素範圍內，回傳找不到；否則利用 row 的增加與累減法計算出行與列（均為 1-based）。
+- 修正輸出格式，維持原題目給的輸出樣式，例如 "55[10, 10]" 或 "not find 99 in array."。
+
+修改後完整程式碼
+/*
+File: Main.java
+功能: 建立下三角形二維陣列，輸入高度 height 與尋找的數字 target，輸出 target 在表中的位置
+作者: 請自行填寫
+日期: 及時提交時日期
+*/
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int height = 0;
+        int target = 0;
+
+        if (in.hasNextInt()) height = in.nextInt();
+        if (in.hasNextInt()) target = in.nextInt();
+
+        // 建立下三角形陣列並填值
+        int[][] tri = new int[height][];
+        int val = 1;
+        for (int i = 0; i < height; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
+            }
+        }
+
+        int[] pos = findIndex(height, target);
+        if (pos[0] > 0) {
+            System.out.printf("%d[%d, %d]", target, pos[0], pos[1]);
+        } else {
+            System.out.printf("not find %d in array.", target);
+        }
+
+        in.close();
+    }
+
+    // 回傳 {row(1-based), col(1-based)}，若找不到則回傳 {-1, -1}
+    private static int[] findIndex(int height, int target) {
+        int[] res = { -1, -1 };
+        int total = height * (height + 1) / 2;
+        if (target <= 0 || target > total) return res;
+
+        int row = 1;
+        int value = target;
+        // 使用數學方法：找到最小的 row 使得 value <= row，row 為所在行，value 為所在列
+        while (value > row) {
+            value -= row;
+            row++;
+        }
+        res[0] = row;
+        res[1] = value;
+        return res;
+    }
+}

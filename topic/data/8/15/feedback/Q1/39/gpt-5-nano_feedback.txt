@@ -1,28 +1,26 @@
 90
 
-評分依據與分數說明
-- 正確性 (50/50): 50
-  - 能正確讀取長度與元素、對整數陣列進行升序排序、以空白分隔輸出，並支援負數。未使用 EOF 的要求也符合。
-- 邏輯 (30/30): 30
-  - 直接使用 Arrays.sort 進行排序，邏輯清楚、簡單且正確；輸出格式也正確處理空格。
-- 格式 (10/10): 6
-  - 程式碼縮排良好、變數命名普遍具備意義。但缺少完整的標頭註解（檔案用途、作者、日期等），未完全符合題目對標頭註解的要求，略有不足。
-- 備註 (10/10): 4
-  - 內聯註解適當，說明了主要步驟；但缺少檔案標頭註解與註解內容的完整性，未完全符合要求。
+改進建議（一句話）
+請加入完整的程式標頭註解以符合作業規範，同時在輸出結尾加上換行並提升變數命名與輸出處理的穩定性。
 
-修改與優化說明
-- 加入完整的檔案標頭註解，說明檔案名稱、功能、作者與日期，符合題目對註解的要求，方便後續維護與閱讀。
-- 優化輸出機制：採用 StringBuilder 拼接輸出字串，並在結尾使用 System.out.println(...)，以確保輸出結尾含換行且避免末尾多餘空格，提升可讀性與效率。
-- 原本逐元素輸出空格的寫法雖可行，但改用 StringBuilder 後更清晰且在大資料量時效能更穩定。
-- 保留負數處理與使用內建排序（Arrays.sort），維持正確性與簡潔性。
+修改與評語
+- 正確性：保留原有的邏輯與使用 Arrays.sort，負數情況亦會正確排序；輸出格式改為在結尾自動換行，與一般測資需求更吻合。
+- 邏輯：使用內建排序方法，邏輯清晰且符合題意；改用字串組裝一次輸出，避免多次輸出造成的效能問題，且便於後續擴充。
+- 格式：採用更具描述性的變數名稱，並統一縮排；輸出改為一次性組裝並輸出。
+- 備註：新增完整的程式標頭註解，說明檔案名稱、功能、作者與日期。
+
+優化重點與原因
+- 加入程式標頭註解，符合作業規範，方便維護與評分。
+- 使用 try-with-resources 管理 Scanner，確保在結束時自動關閉，避免資源未釋放的問題。
+- 將輸出改為使用 StringBuilder 一次性輸出，提升效能整體表現，並確保輸出格式一致（包含換行）。
+- 使用更具語意的變數名稱（length、numbers），提升可讀性與維護性。
 
 修改後完整程式碼
-```java
 /*
- * File: CSIE_41343216_1031_1.java
- * Description: 讀取一個整數 n，接著 n 個整數，將陣列內容升序排序後輸出，元素以空白分隔。
- * Author: 你的名字
- * Date: 2025-11-12
+ * 檔案名稱: CSIE_41343216_1031_1.java
+ * 功能: 讀取長度與整數陣列，將其升序排序後輸出
+ * 作者: 學生
+ * 日期: 2025-11-14
  */
 
 import java.util.Scanner;
@@ -30,29 +28,25 @@ import java.util.Arrays;
 
 public class CSIE_41343216_1031_1 {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        // 使用 try-with-resources 以確保 Scanner 會自動關閉
+        try (Scanner input = new Scanner(System.in)) {
+            int length = input.nextInt();      // 讀取陣列長度
+            int[] numbers = new int[length];   // 建立陣列
 
-        int n = input.nextInt();
-        int[] arr = new int[n];
+            for (int i = 0; i < length; i++) {
+                numbers[i] = input.nextInt();  // 逐一讀入整數
+            }
 
-        for (int i = 0; i < n; i++) {
-            arr[i] = input.nextInt();
+            Arrays.sort(numbers);              // 由小到大排序
+
+            // 一次性組裝輸出，避免多次輸出造成的效能問題
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(numbers[i]);
+            }
+
+            System.out.println(sb.toString()); // 輸出排序結果，並換行
         }
-
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
-
-        System.out.println(sb.toString());
-
-        input.close();
     }
 }
-```
-
-改進建議（一句話）
-- 建議再加入更多邊界測資的測試，如 n = 0、全為負數、元素量很大等，以確保程式在各種情況下穩健輸出。

@@ -1,59 +1,64 @@
-3
+44
+
+建議改進方向：建議改用算術方式直接定位列與欄位，並加強輸入驗證與輸出格式修正，避免無窮迴圈與輸出不符。
+
+改進與修改說明：
+- 正確性與穩定性：
+  - 加入對高度與數字的完整驗證，避免 n <= 0 等情況造成無窮迴圈。
+  - 改用數學公式定位位置：找到滿足 t_{r-1} < num <= t_r 的行 r，欄位 c = num - t_{r-1}，若 num > h(h+1)/2 則輸出找不到，符合題意。
+- 邏輯性：
+  - 以穩定且直覺的算術方法取代原始的兩段迴圈，讓程式更易理解與維護。
+- 格式與可讀性：
+  - 修正輸出格式為 num[r, c]，符合題目給的格式要求（如 55[10, 10]）。
+  - 移除不必要的引入與潤飾縮排，並加入清楚的程式標頭註解。
+- 備註：
+  - 加入檔案頭註解，包含檔案名稱、功能、作者與日期等資訊。
 
 修改後完整程式碼：
-/*
-檔案名稱: CSIE_51015130_1031_3b.java
-功能說明: 建立任意長度的一維整數陣列，讀取長度與元素，對內容做升冪排序，輸出排序後的陣列
-作者: [姓名]
-日期: 2025-11-12
-*/
+```java
 import java.util.Scanner;
-import java.util.Arrays;
 
-public class CSIE_51015130_1031_3b {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+/**
+ * LowerTriangularLocator.java
+ * 功能：尋找下三角形二維陣列中某數字的位置（行、列，皆從 1 開始）。
+ *       若數字不在三角形範圍內，輸出找不到的訊息。
+ * 作者：你可以填寫
+ * 日期：2025-11-14
+ */
+public class LowerTriangularLocator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-		// 讀取陣列長度
-		int n = 0;
-		if (sc.hasNextInt()) {
-			n = sc.nextInt();
-		}
+        int height = sc.nextInt();
+        int target = sc.nextInt();
 
-		// 對於非正長度直接結束或輸出空行
-		if (n <= 0) {
-			System.out.println();
-			return;
-		}
+        // 輸入驗證
+        while (height < 1 || height > 20) {
+            System.out.println("請重新輸入三角形高度(介於1∼20之間):");
+            height = sc.nextInt();
+        }
+        while (target < 1 || target >= 100000) {
+            System.out.println("請重新輸入(數值必須小於100000且大於0):");
+            target = sc.nextInt();
+        }
 
-		// 讀取 n 個整數
-		int[] arr = new int[n];
-		for (int i = 0; i < n; i++) {
-			if (sc.hasNextInt()) {
-				arr[i] = sc.nextInt();
-			} else {
-				arr[i] = 0; // 若輸入不足，預設為 0
-			}
-		}
+        int total = height * (height + 1) / 2;
+        if (target > total) {
+            System.out.println("not find " + target + " in array.");
+        } else {
+            // 找出 target 所在的行 r，與前一行的結尾值
+            int r = 1;
+            int t = 1; // t 為 t_r = r*(r+1)/2
+            while (target > t) {
+                r++;
+                t = r * (r + 1) / 2;
+            }
+            int tPrev = r * (r - 1) / 2; // t_{r-1}
+            int c = target - tPrev;      // 欄位為 target 減去前面所有元素的數量
+            System.out.println(target + "[" + r + ", " + c + "]");
+        }
 
-		// 升冪排序
-		Arrays.sort(arr);
-
-		// 輸出排序後的陣列，元素以空白分隔，末尾不多餘空格
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < n; i++) {
-			if (i > 0) sb.append(' ');
-			sb.append(arr[i]);
-		}
-		System.out.println(sb.toString());
-	}
+        sc.close();
+    }
 }
-
-修改說明（重點部分與原因）：
-- 針對題目需求改為直接讀取一個整數長度 n，接著讀取 n 個整數，對整數陣列做升冪排序，最後輸出排序結果，移除原本與題意無關的三角形/位址邏輯。
-- 使用直覺且符合需求的變數命名：n 表示長度，arr 為整數陣列，以增進可讀性。
-- 使用 Arrays.sort(arr) 進行排序，確保正確性與效率，並能處理負數與任意整數。
-- 新增檔案頭注解（檔案名稱、功能、日期等）與適當註解，提升可讀性與維護性。
-- 輸入控制與輸出格式：若長度為非正整數，直接輸出空行並結束；讀取不足時預設為 0，並以空格分隔輸出，符合一般競賽/作業輸出格式。
-
-改進建議（一句話）：請在提交前先確保題意理解正確，避免混入與題目無關的邏輯，並慣用內建排序與基本輸入驗證，以提升正確性與可維護性。
+```

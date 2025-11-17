@@ -1,0 +1,51 @@
+89
+
+建議回饋：缺少程式標頭註解與檔案命名慣例的說明，建議補上檔案名稱、功能、作者與日期等註解，並以符合慣例的類別名稱命名，提升可維護性。
+
+程式改進與修改說明
+- 增加標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註規範。
+- 將類別名稱改為 Main，並建議檔名對應 Main.java，以符合 Java 公開類別命名規範。
+- 使用 StringBuilder 產生輸出字串，避免逐次 print 的成本，並確保輸出格式與題目要求一致（以空格分隔、末尾換行）。
+- 不在程式結束前關閉 System.in 的 Scanner，以避免對測資環境造成影響。
+- 程式內部加入適當註解，提升可讀性。
+
+修改後完整程式碼
+/*
+ * 檔案名稱: Main.java
+ * 功能說明: 讀取一個整數 n，接著讀入 n 個整數，將其升序排序後輸出，輸出以空格分隔。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 步驟 1: 讀取陣列長度
+        int len = sc.nextInt();
+
+        int[] nums = new int[len];
+
+        // 步驟 2: 讀取陣列元素
+        for (int i = 0; i < len; i++) {
+            nums[i] = sc.nextInt();
+        }
+
+        // 步驟 4: 對陣列進行排序
+        Arrays.sort(nums);
+
+        // 步驟 5: 印出排序後的陣列，使用 StringBuilder 優化輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.println(sb.toString());
+
+        // 不要關閉 System.in，以避免對測資環境造成影響
+        // sc.close();
+    }
+}

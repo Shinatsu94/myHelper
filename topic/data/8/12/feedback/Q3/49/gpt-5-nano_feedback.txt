@@ -1,71 +1,52 @@
-6
-以下是依照題意給分與改寫的結果。
+88
 
-評分（依據你的標準逐項給分）
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：6/10
-- 備註：0/10
-總分：6/100
+改進建議（簡要一句話）
+建議改用字串處理以避免整數長度上限造成的溢位，同時提升命名可讀性與加入完整的程式標頭註解。
 
-評語摘要
-- 原始程式與題目要求毫無關聯，未計算 pi，也未輸出指定格式，僅執行數字反轉等與題意無關的操作，因此正確性與邏輯皆為零，格式部分若以良好可讀性評分，給出少許分數。
-- 下面提供改良後的完整程式碼，實作題目中的勒貝塞次級數 pi 近似計算、符合輸出格式與要求的最小 i 的計算，以及清晰的註解與標頭。
-
-修改內容說明與原因
-- 移除不相關的輸入讀取與反轉數字邏輯，改為直接依題意計算 pi 的近似值。
-- 使用累積求和法逐步計算 pi 值，避免每次都從頭計算，提高效率。
-- 輸出格式符合要求：
-  - i 使用寬度為 6 的欄位，確保 i 值前方留空格，與樣本對齊
-  - pi 輸出至小數點以下 10 位
-- 第一部分輸出 i = 10000, 20000, ..., 100000 的 pi 值；中間留空行；第二部分輸出使 pi >= 3.14159 的最小 i 值
-- 新增程式標頭註解，包含檔案名稱、功能、作者與日期等資訊，提升可維護性與可讀性
+修改與優化說明
+- 為避免長整數反轉時可能的溢位風險，改用字串方式處理輸入與反轉。
+- 將變數命名改為更具意義的名稱，如 isNegative、input、reversed、trimmed，提升可讀性與維護性。
+- 加入完整的程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註標準。
+- 仍維持單次執行與單輸入、單輸出特性，確保符合題目要求。
+- 保留負號處理，正確輸出如 -120 => -21、2500 => 52、0 => 0。
 
 修改後完整程式碼
-public class PiLeibniz {
-    /*
-     檔案名稱: PiLeibniz.java
-     功能    : 使用勒貝塞次級數近似計算圓周率 pi。
-               輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，
-               並找出使 pi >= 3.14159 的最小 i。
-     作者    : 你加入的作者姓名
-     日期    : 2025-11-12
-     */
+/*
+檔案名稱: CSIE_41343229_1017_3.java
+功能: 將使用者輸入的整數之位數反轉，負數保留符號，零與前導零自動移除
+作者: 教授
+日期: 2025-11-15
+*/
+import java.util.Scanner;
 
+public class CSIE_41343229_1017_3 {
     public static void main(String[] args) {
-        // 第1部分：輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
-        double sum = 0.0;
-        for (int k = 0; k < 100000; k++) {
-            // 加入第 k 項：(-1)^k / (2k+1)
-            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            int i = k + 1;
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                System.out.println(String.format("i = %6d, pi = %.10f", i, pi));
+        try (Scanner sc = new Scanner(System.in)) {
+            String input = sc.next(); // 以字串方式讀取，避免整數溢位
+            boolean isNegative = false;
+
+            if (input.startsWith("-")) {
+                isNegative = true;
+                input = input.substring(1);
+            } else if (input.startsWith("+")) {
+                input = input.substring(1);
+            }
+
+            // 反轉字元
+            String reversed = new StringBuilder(input).reverse().toString();
+
+            // 移除前導零
+            int idx = 0;
+            while (idx < reversed.length() && reversed.charAt(idx) == '0') idx++;
+            String trimmed = (idx == reversed.length()) ? "0" : reversed.substring(idx);
+
+            if ("0".equals(trimmed)) {
+                System.out.println("0");
+            } else if (isNegative) {
+                System.out.println("-" + trimmed);
+            } else {
+                System.out.println(trimmed);
             }
         }
-
-        // 空一行作為區段分隔
-        System.out.println();
-
-        // 第2部分：找出使 pi >= 3.14159 的最小 i
-        sum = 0.0;
-        int iMin = 0;
-        for (int k = 0; ; k++) {
-            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            double pi = 4.0 * sum;
-            if (pi >= 3.14159) {
-                iMin = k + 1;
-                break;
-            }
-        }
-        System.out.println(String.format("i = %6d", iMin));
     }
 }
-
-說明改進之處
-- 重新實作成符合題意的計算與輸出邏輯，使用累積和避免重複計算，並符合輸出格式（i 的寬度為 6、pi 的小數點後 10 位）。
-- 加入適當的程式標頭註解，提升可讀性與維護性。
-
-一句話改進建議
-- 建議未來可以改用逐步累加並提供雙精度穩定性測試，並考慮將參數化（如任意上限與步長）以提高可重用性與測試性。

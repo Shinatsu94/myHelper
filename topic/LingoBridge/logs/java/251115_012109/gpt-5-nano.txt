@@ -1,0 +1,56 @@
+77
+
+改進建議：輸出格式需固定為單一空格分隔，且增加標頭註解與清晰的變數命名，以提升可讀性與維護性。
+
+修改說明與重點
+- 正確性與可讀性：
+  - 將自訂的排序改為使用 Arrays.sort，簡化實作並確保穩定且正確的排序。
+- 輸出格式：
+  - 以單一空格分隔輸出，避免前後多餘空格，且結尾不留多餘空格。
+- 程式結構與註解：
+  - 加上標頭註解，包含檔案名稱、功能、作者、日期等資訊。
+  - 使用有意義的變數名稱，並在需要處理資源時適當關閉輸入（scn.close）。
+- 相容性與負數支援：
+  - 仍以 int 儲存與排序，負數亦可正確處理。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343109_1031_01.java
+ * 功能描述: 讀入任意長度整數陣列，先輸入長度 n，接著輸入 n 個整數，輸出升冪排序後的陣列。
+ * 作者: 吳育丞
+ * 日期: 1031
+ * 註解:
+ * - 透過 Arrays.sort 進行排序，提升可讀性與穩定性。
+ * - 輸出以單一空格分隔，結尾不多餘空格，並在需要時關閉 Scanner。
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343109_1031_01 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        try {
+            int n = scn.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = scn.nextInt();
+            }
+
+            // 使用內建排序提升可靠性與效能
+            Arrays.sort(a);
+
+            // 輸出：單一空格分隔，結尾不留空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < a.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.print(sb.toString());
+        } finally {
+            scn.close();
+        }
+    }
+}
+```

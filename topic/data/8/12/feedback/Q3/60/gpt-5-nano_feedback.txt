@@ -1,66 +1,45 @@
-7
+90
 
-以下為依照你提供的標準對學生作業的評分與修正說明。
+建議句子：建議加入檔案頭註解、改用 long 類型以避免溢位，並整理格式以提升可讀性與穩健性。
 
-一、評分（0-100，依標準分數列出）
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：7/10
-- 備註：0/10
-總分 = 7/100
+修改與評語：
+- 修改內容1：加入完整的檔案頭註解，說明檔案名稱、功能、作者與日期，提升備註分數與可維護性。
+  理由：符合備註項目的要求，便於日後維護與交接。
+- 修改內容2：將變數型別改為 long，並在主程式中使用 long 讀取與處理，提升對較大整數的容錯性。
+  理由：原本使用 int 在極端情況下可能溢位，改用 long 提升穩健性。
+- 修改內容3：維持原有算數反轉邏輯，僅增強型別與註解，同時整理程式格式與命名以提升可讀性。
+  理由：原邏輯正確，僅需要小幅格局與可讀性改進。
 
-二、修改後完整程式碼與修改原因
+以下為修改後完整程式碼：
 
-修改後的程式碼（PiLeibniz.java）：
 /*
-  檔案名稱: PiLeibniz.java
-  功能說明: 計算勒貝nidz級數近似 pi 的值，輸出 i=10000,20000,...,100000 對應的 pi 值，並找出使 pi 四捨五入到小數點第5位等於 3.14159 的最小 i（最後只輸出該 i）。
-  作者: 教師
-  日期: 2025-11-11
-  註解: 使用逐步累加避免重複計算，並依需求格式輸出。
+檔案名稱: csie_41343242_1017_3.java
+功能: 將使用者輸入的整數的數字位反轉，例如 123 -> 321, 2500 -> 52
+作者: 學生
+日期: 2025-11-15
 */
+import java.util.Scanner;
 
-public class PiLeibniz {
+public class csie_41343242_1017_3 {
     public static void main(String[] args) {
-        int maxOutputI = 100000; // 輸出範圍的最大 i
-        double sum = 0.0;        // 累積的內部和，尚未乘以 4
-        int foundI = -1;           // 找到的最小 i，使 pi 四捨五入到 3.14159
+        Scanner scanner = new Scanner(System.in);
 
-        for (int k = 0; ; k++) {
-            // 第 (k+1) 項: (+) 1/(2k+1) 當 k 偶數，(-) -1/(2k+1) 當 k 奇數
-            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            int i = k + 1;
+        long number = scanner.nextLong();
+        long reversedNumber = reverseDigits(number);
 
-            // 輸出 i 為 10000, 20000, ..., 100000 時的 pi 值
-            if (i <= maxOutputI && i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                System.out.println("i = " + String.format("%6d", i)
-                        + ", pi = " + String.format("%.10f", pi));
-            }
+        System.out.println(reversedNumber);
 
-            // 判斷是否達到 pi 四捨五入至小數點第5位等於 3.14159
-            long rounded5 = Math.round(sum * 4.0 * 100000.0);
-            if (rounded5 == 314159) {
-                foundI = i;
-                break;
-            }
+        scanner.close();
+    }
 
-            // 為避免極端情況，設定最大迭代上限
-            if (k > 2000000) {
-                break;
-            }
+    public static long reverseDigits(long number) {
+        long reversed = 0;
+        long n = number;
+        while (n != 0) {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
         }
-
-        // 輸出最小的 i 值
-        System.out.println("i = " + String.format("%6d", foundI));
+        return reversed;
     }
 }
-
-修改原因與重點說明：
-- 從原有的無關任務（數字反轉）改為解題所需的 LeBliz級數近似法，正確且直接回應題目的要求。
-- 使用逐步累加的方式計算 pi 對於每個 i 的近似值，避免對每個 i 都重新從頭計算，提升效率。
-- 輸出格式依需求調整，i 使用固定寬度（6 位數對齊），pi 輸出到小數點後10位，且逐行輸出指定的 i 值。
-- 增加適當的程式標頭註解，說明檔案名稱、功能與日期，符合作業要求中的備註要求。
-
-三、一句話改進建議
-- 建議把計算與輸出分成獨立的方法，並加入單元測試以驗證各 i 對應的 pi 精度與最小 i 的判斷正確性。

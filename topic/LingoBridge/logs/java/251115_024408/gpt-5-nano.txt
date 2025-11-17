@@ -1,0 +1,49 @@
+90
+
+改進建議：程式缺少標頭註解與較清晰的欄位命名，建議加入檔案資訊與註解，並簡化輸出與變數命名以提升可讀性；同時可用更一致的輸出方式處理有效與無效輸入。
+
+修改說明與原因：
+- 新增程式標頭註解，包含檔案名稱、功能、作者與日期，以符合備註項的要求，便於維護與閱讀。
+- 將高度變數改為 height，旗標變數名更具語意，提升可讀性。
+- 使用更清晰的變數 triMatrix，並於每行使用 Arrays.fill 來填滿星號，減少內層迴圈的寫法，提升可讀性與效率。
+- 保留對於不符合條件輸入的處理，輸出「invalid input.」，以保持與原作一致的錯誤訊息行為。
+- 以 StringBuilder 組裝輸出，避免多次 I/O 呼叫，提升效能；同時避免在不需要的情況下逐行輸出。
+
+修改後的完整程式碼如下：
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: CSIE_41343212_1031_3a.java
+ * 功能說明: 建立並列印高度為 n 的下三角形二維陣列，n 需滿足 0 < n <= 20
+ * 作者: 重新命名於此
+ * 日期: 2025-11-14
+ */
+public class CSIE_41343212_1031_3a {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int height = input.nextInt();
+
+        if (height > 0 && height <= 20) {
+            char[][] triMatrix = new char[height][];
+            for (int i = 0; i < height; i++) {
+                triMatrix[i] = new char[i + 1];
+                Arrays.fill(triMatrix[i], '*');
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j <= i; j++) {
+                    sb.append(triMatrix[i][j]);
+                }
+                sb.append('\n');
+            }
+            System.out.print(sb.toString());
+        } else {
+            System.out.println("invalid input.");
+        }
+
+        input.close();
+    }
+}

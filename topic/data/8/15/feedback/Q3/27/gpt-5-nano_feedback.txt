@@ -1,95 +1,51 @@
-3
+84
 
-評分與修改說明
-- 正確性(50%): 0
-  - 作業要求為讀入 n 與 n 個整數，將其排序後輸出。學生程式未讀取整數陣列也未執行排序，改為輸出星號的 2D 陣列，與題意不符。
-- 邏輯(30%): 0
-  - 程式邏輯與題意完全不符，未呈現排序或正確的輸出格式。
-- 格式(10%): 3
-  - 程式縮排與命名有一定問題，且缺少一致的風格與說明註解，若以可讀性角度評分大致介於中低水平。
-- 備註(10%): 0
-  - 缺少檔案標頭註解（檔案名稱、功能、作者、日期等）。
+建議：移除不必要的二維陣列，改用直接輸出星號的方式以降低記憶體使用並提升可讀性，同時補上程式標頭註解。
 
-總分: 3
+修改說明與重點：
+- 移除 2D 陣列 t，改用直接輸出每行的星號，降低空間複雜度。
+- 使用字串建構（StringBuilder）逐行組成輸出內容，避免多次系統輸出呼叫。
+- 加入基本輸入檢查，若輸入非整數或超出範圍，給出清楚的錯誤訊息。
+- 加入程式標頭註解，並將類別名稱改為符合一般 Java 約定的命名（LowerTriangularStars），檔名建議為 LowerTriangularStars.java。
 
-修改後程式碼（已優化為符合題意的實作）
-使用簡潔有效的輸入處理，讀取 n 與 n 個整數，進行升序排序，並以單行空格分隔輸出結果；同時加入檔案頭註解以符合備註要求，並使用 Main 類別名稱以符合大多數評測環境。
+完整修改後程式碼如下：
 
 /*
-檔案名稱: Main.java
-功能: 讀取一個整數 n，接著讀取 n 個整數，輸出升序排序的結果（由小到大）。
-作者: 資訊工程系教授
-日期: 2025-11-12
-說明: 使用快讀法與 Arrays.sort 提升效能與穩定性，輸出格式符合題意。
-*/
-import java.io.*;
-import java.util.*;
+ * file: LowerTriangularStars.java
+ * 功能: 輸入高度 n，輸出下三角形星號矩陣的列式表示（不使用額外的二維陣列，直接輸出）
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 說明: 僅輸出星號，無空格，滿足下三角需求；若輸入不在 1~20 之間，輸出錯誤訊息。
+ */
+import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FastScanner fs = new FastScanner(System.in);
+public class LowerTriangularStars {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        if (!fs.hasNext()) return; // 無輸入
-        int n = fs.nextInt();
-        if (n <= 0) return;
-
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = fs.nextInt();
+        if (!sc.hasNextInt()) {
+            System.out.println("error，要在1~20之間");
+            sc.close();
+            return;
         }
 
-        Arrays.sort(a);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+        int n = sc.nextInt();
+        if (n <= 0 || n > 20) {
+            System.out.println("error，要在1~20之間");
+            sc.close();
+            return;
         }
-        System.out.print(sb.toString());
-    }
 
-    // 簡易高效輸入工具
-    static class FastScanner {
-        private final InputStream in;
-        private final byte[] buffer = new byte[1 << 16];
-        private int ptr = 0, len = 0;
-
-        FastScanner(InputStream is) { in = is; }
-
-        private int read() throws IOException {
-            if (ptr >= len) {
-                len = in.read(buffer);
-                ptr = 0;
-                if (len <= 0) return -1;
+        // 不使用二維陣列，直接輸出每行的星號
+        StringBuilder line;
+        for (int i = 1; i <= n; i++) {
+            line = new StringBuilder(i);
+            for (int j = 0; j < i; j++) {
+                line.append('*');
             }
-            return buffer[ptr++];
+            System.out.println(line.toString());
         }
 
-        boolean hasNext() throws IOException {
-            int c;
-            while ((c = read()) != -1) {
-                if (!Character.isWhitespace(c)) {
-                    ptr--;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        int nextInt() throws IOException {
-            int c;
-            do { c = read(); } while (c <= ' '); // skip whitespace
-            int sign = 1;
-            if (c == '-') { sign = -1; c = read(); }
-            int val = 0;
-            while (c > ' ') {
-                val = val * 10 + (c - '0');
-                c = read();
-            }
-            return val * sign;
-        }
+        sc.close();
     }
 }
-
-一句話改進建議
-從一開始就以實作排序與標準輸入輸出為核心，避免加入與題意無關的複雜資料結構或輸出格式，以確保通過各項測資。

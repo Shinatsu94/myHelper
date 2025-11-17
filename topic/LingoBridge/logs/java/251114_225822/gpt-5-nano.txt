@@ -1,0 +1,61 @@
+0
+
+建議與反饋摘要
+- 目前提交的程式與題目需求嚴重不符，未使用一維陣列排序，且與輸入輸出格式完全不同。建議改用一維整數陣列並実作從小到大的排序，且補上程式標頭註解與清楚的變數命名。
+
+修改與原因
+- 將原本的 3x3 矩陣與矩陣運算改成處理一維整數陣列，符合題意的一維排序需求。
+- 使用 Arrays.sort 進行升序排序，邏輯簡潔且正確，降低錯誤率。
+- 輸出格式改為空格分隔、無多餘空格，符合題目輸出範例。
+- 加入清晰的程式標頭註解，包含檔案名稱、功能、作者與日期，並補充程式內容中的說明性註解，提升可讀性與維護性。
+- 使用可讀性較高的變數命名（如 n、arr、Main），避免不具意義的 A、det 等命名。
+
+優化後完整程式碼
+注：以下程式符合題目要求：讀取長度 n，接著讀入 n 個整數，排序並以空格分隔輸出排序結果。不使用 EOF，執行一次程式即可結束。
+
+/*
+ * File: Main.java
+ * 功能: 將任意長度的一維整數陣列排序，從小到大輸出結果
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 依長度建立一維陣列，並讀入元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（實務環境應該避免此情形，這裡提供穩健處理）
+                arr[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        // 依大小排序（升序）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素間以單一空格分隔，結尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

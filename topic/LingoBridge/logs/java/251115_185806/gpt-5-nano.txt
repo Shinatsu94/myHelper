@@ -1,0 +1,47 @@
+89
+
+建議加入程式檔頭註解與負數處理、變數命名與輸出格式的統一，並加上資源釋放以提升程式健壯性。
+
+優化說明與修改原因：
+- 增加檔案頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註部份。
+- 將整數型別改為 long，增加處理數值範圍，避免溢位。
+- 增加對負數的處理：先取得符號，再對絕對值進行反轉，最後再回補符號，讓輸入為負數時也能正確輸出。
+- 移除多餘的正號運算符，輸出更直接清晰。
+- 關閉 Scanner，釋放資源。
+- 保持變數命名有意義，並適度加入註解增進可讀性。
+
+修改後完整程式碼：
+
+```java
+/*
+File: ReverseDigits.java
+Description: Read an integer from user and print its digits reversed.
+Author: YourName
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        long num = sc.nextLong();
+        int sign = (num < 0) ? -1 : 1;
+        long n = Math.abs(num);
+        long reversed = 0;
+
+        while (n != 0) {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        }
+
+        reversed *= sign;
+
+        System.out.println(reversed);
+
+        sc.close();
+    }
+}
+```

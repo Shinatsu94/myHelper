@@ -1,0 +1,42 @@
+17
+改進建議：此程式邏輯無法正確排序，建議改用穩健的排序方法（如 Arrays.sort），並正確輸出排序結果且避免插入不相關的變數或值。
+
+- 修改重點與原因：
+  - 正確性與邏輯：使用 Arrays.sort 直接對整數陣列排序，能正確處理任意長度與負數，並避免原有程式中不正確的排序邏輯與最後設成 -1 的錯誤輸出。
+  - 格式與命名：改用有意義的變數命名與標準縮排，提升閱讀性。
+  - 程式註解與標頭：加入檔案頭註解，說明檔案名稱、功能、作者與日期，符合作業要求。
+  - 資源管理：在結束時關閉 Scanner，釋放資源。
+  - 輸出格式：使用單一輸出字串，避免尾端多餘空格，符合輸出範例。
+
+修改後完整程式碼：
+/*
+檔案名稱: s1.java
+功能: 讀入長度與整數序列，排序後輸出升序序列
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class s1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

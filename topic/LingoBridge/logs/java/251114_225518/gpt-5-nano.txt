@@ -1,0 +1,65 @@
+第一行總分：2
+
+改進建議（一句話）
+此作業未符合題目需求，建議改用一維整數陣列讀取、排序並輸出，避免與題意無關的矩陣運算。
+
+評分與意見
+- 正確性 (0/50)：程式與題目需求嚴重不符，未實作「任意長度的一維陣列排序」的功能。
+- 邏輯 (0/30)：原程式邏輯處理的是矩陣的行列式與反矩陣計算，與題目無關，邏輯判斷與問題需求脫節。
+- 格式 (2/10)：程式具有基本縮排與命名，但未包含有意義的變數命名與說明註解，與題意需求不符，整體可讀性不足。
+- 備註 (0/10)：未提供程式標頭註解（檔案名稱、功能、作者、日期等）。
+
+修改與優化原因
+- 重新實作為一維整數排序，符合題意與輸入輸出格式。
+- 使用 Arrays.sort 進行升冪排序，穩定且易於閱讀。
+- 輸出改為單行並以空格分隔，符合範例輸出。
+- 增加程式標頭註解與改良變數命名，提升可維護性與可讀性。
+- 使用 StringBuilder 拼接輸出，提升執行效率與穩定性。
+
+修改後完整程式碼
+
+/*
+ File: Main.java
+ 功能: 讀取使用者輸入的整數長度與元素，排序後輸出升冪序列
+ 作者: 你的姓名
+ 日期: 2025-11-14
+ 說明: 不使用 EOF，僅處理一次輸入，負數亦支援。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取陣列內容
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

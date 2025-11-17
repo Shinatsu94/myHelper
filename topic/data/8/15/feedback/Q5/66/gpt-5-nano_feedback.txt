@@ -1,44 +1,49 @@
-2
+5
+正確性：0
+邏輯：0
+格式：5
+備註：0
+改進建議：此程式與題目需求嚴重不符，需改為讀取長度與整數，排序並輸出結果；目前的功能是計算 3x3 矩陣的反矩陣，與題意無關。
 
-修改後完整程式碼：
+說明與修改
+- 核心改動：將原始程式改為解題所需的一維整數排序程式，使用動態長度的一維整數陣列。
+- 技術重點：
+  - 讀取第一個整數作為長度 n，接著讀入 n 個整數，組成一維整數陣列。
+  - 使用 Arrays.sort 進行升冪排序，支援負數。
+  - 輸出以單一行、數字之間以空格分隔，避免尾端空格。
+  - 加入適當的程式標頭註解，提升可讀性與可維護性。
 
-/*
- * File: SortArrayAsc.java
- * Description: 讀入任意長度的整數陣列，將內容由小到大排序後輸出
- * Author: 你的姓名
- * Date: 2025-11-12
- * Note: 不使用 EOF，讀取一次後結束。
- */
-import java.util.Scanner;
+修改後完整程式碼
+```java
+// File: SortOneDArray.java
+// 功能: 讀取一維整數陣列，升序排序並輸出
+// 作者: 教師
+// 日期: 2025-11-14
+// 說明: 本程式只執行一次，讀入長度與對應的整數，支援負數。
+
 import java.util.Arrays;
+import java.util.Scanner;
 
-public class SortArrayAsc {
+public class SortOneDArray {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // 讀取陣列長度
         if (!sc.hasNextInt()) {
             sc.close();
             return;
         }
         int n = sc.nextInt();
         int[] arr = new int[n];
-
-        // 依序讀入陣列元素
         for (int i = 0; i < n; i++) {
             if (sc.hasNextInt()) {
                 arr[i] = sc.nextInt();
             } else {
-                arr[i] = 0; // 若輸入不足，補回 0，避免例外
+                arr[i] = 0; // 若輸入不足，補 0
             }
         }
-
         sc.close();
 
-        // 由小到大排序
         Arrays.sort(arr);
 
-        // 輸出結果，避免末尾多餘空格
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
@@ -47,12 +52,4 @@ public class SortArrayAsc {
         System.out.println(sb.toString());
     }
 }
-
-修改說明與原因：
-- 將原程序的 3x3 矩陣與矩陣求逆的內容替換為「讀取長度、讀入整數、排序、輸出」的流程，符合題目要求與輸入輸出示例。
-- 使用 Arrays.sort 進行整數陣列排序，簡潔且效率良好，支援負數與任意長度。
-- 設計輸出格式，避免最後多餘空格，符合常見輸出格式約定。
-- 加入程式檔案開頭註解，包含檔名、功能描述、作者與日期，提升可維護性。
-
-改進建議（一句話）
-建議加入基本的輸入錯誤處理與範例測資檢查，提升魯棒性與使用者友善性。
+```

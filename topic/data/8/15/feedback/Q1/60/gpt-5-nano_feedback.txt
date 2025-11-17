@@ -1,81 +1,50 @@
-89
+90
 
-評分與分析
-- 正確性 (50/50)：程式能正確讀入長度 n 與 n 個整數，使用選擇排序自小到大排序，並輸出排序後的陣列，對負數亦適用。滿分。
-- 邏輯 (30/30)：採用簡單且正確的選排序法，邏輯清晰，輸出格式也符合題意（最後換行，元素之間以空格分隔）。
-- 格式 (9/10)：變數命名清晰、縮排一致。原始程式整潔度良好。小地方可再加上更多註解以提升可讀性。
-- 備註 (0/10)：缺少程式標頭註解（檔案名稱、功能、作者、日期等說明），未滿足此項要求。
+改進建議（一句話）
+建議改用 Java 內建的排序 Arrays.sort 以提升效率與可讀性，同時加入程式檔案標頭註解與適當的註解。
 
-總分：89
+程式改動與原因
+- 使用 Arrays.sort(arr) 取代自訂的選擇排序，降低程式複雜度並提升排程效率（O(n log n) 而非 O(n^2)）。
+- 新增檔案標頭註解，清楚描述檔案名稱、功能、作者與日期，符合作業要求的備註部分。
+- 程式中加入適當註解，提升可讀性。
+- 使用 StringBuilder 組合輸出字串，避免在迴圈中頻繁字串拼接，提升效能並保持原輸出格式。
 
-修改與優化說明
-修改後的程式碼與原因要點如下：
-- 增加標頭註解：加入檔案說明（檔名、功能、作者、日期）以符合作業要求的備註規範，提升可維護性與自我檢視性。
-- 使用 StringBuilder 統整輸出：將輸出逐一 print 的方式改為先累積再一次輸出，降低 I/O 次數，提高效能，尤其在元素數量較大時更顯著。
-- 加入基本輸入健全性檢查：若 n <= 0，及時結束程式，避免不必要的運算或例外情況，提升健壯性。
-- 保留原有排序邏輯：仍使用選擇排序（O(n^2)），符合題意要求的基本排序演算法，便於理解與教學用途。
-- 內部註解補充：在關鍵區塊加入少量註解，提升閱讀性與維護性。
+修改後完整程式碼
+```java
+/*
+ * File: CSIE_41343242_1031_1.java
+ * 功能: 讀取整數陣列長度 n，讀入 n 個整數，並輸出升序排序後的結果
+ * 作者: (請自行填寫)
+ * 日期: 2025-11-14
+ * 備註: 使用內建排序提升效能，包含必要的程式註解
+ */
+import java.util.Arrays;
+import java.util.Scanner;
 
-修改後完整程式碼如下（已符合檔名與類別名）：
 public class CSIE_41343242_1031_1 {
-    /*
-     * 檔案名稱: CSIE_41343242_1031_1.java
-     * 功能: 讀取整數長度 n 與 n 個整數，對陣列進行由小到大的排序，並輸出排序結果。
-     * 作者: 教師
-     * 日期: 2025-11-12
-     * 備註: 不使用 EOF，執行一次程式後結束。
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int n;
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        n = sc.nextInt();
-
-        if (n <= 0) {
-            // 無元素需排序，直接結束
-            sc.close();
-            return;
-        }
-
+        int n = sc.nextInt();
         int[] arr = new int[n];
+
+        // 讀取 n 個整數
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0
-                arr[i] = 0;
-            }
+            arr[i] = sc.nextInt();
         }
 
-        // 選擇排序：由小到大
-        for (int i = 0; i < n - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[minIndex]) {
-                    minIndex = j;
-                }
-            }
-            int tmp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = tmp;
-        }
+        // 升序排序（使用內建排序提高效率與可讀性）
+        Arrays.sort(arr);
 
-        // 使用 StringBuilder 產出一次性輸出
+        // 輸出排序結果，元素間以空白分隔，最後換行
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
             sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
         }
-        sb.append('\n');
-        System.out.print(sb.toString());
+        System.out.println(sb.toString());
 
         sc.close();
     }
 }
-
-改進建議（一句話）
-若採用內建排序如 Arrays.sort，並在輸出前使用串接字串的方式，或保留自定義排序但加上更完善的輸入驗證與例外處理，能讓程式在多種輸入情境下更穩健且更具可維護性。
+```

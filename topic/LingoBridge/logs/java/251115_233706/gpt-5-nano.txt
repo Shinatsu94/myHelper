@@ -1,0 +1,47 @@
+94
+
+建議：在程式頭註解補充日期資訊，並為關鍵邏輯加入更多註解，以提升可讀性與維護性，同時考慮極端情況如整數溢位的風險。
+
+修改說明與修改後程式碼
+- 修改重點與原因
+  - 補充完整的標頭註解，包含日期，提升備註完整性與追蹤性。
+  - 程式結尾加入 input.close()，釋放資源。
+  - 加入適度註解，說明使用三元運算子分別求 min、max，以及 mid 的計算方式，提升可讀性。
+  - 保留原有使用三元運算子的作法，確保符合題目要求，並用清晰的變數命名 (min、mid、max)。
+
+修改後完整程式碼：
+/*
+ * File name: CSIE_41343212_1003_2.java
+ * Description: 讀入三個整數，使用兩種不同的方法求出最小值、中間值、最大值（不使用 if-else）
+ * Author: 李品劭
+ * ID: 41343212
+ * Date: 2025-11-15
+ * Notes: 使用兩個三元運算子分別求 min 和 max，mid 使用總和減去 max 與 min
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1003_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int a = input.nextInt();
+        int b = input.nextInt();
+        int c = input.nextInt();
+
+        // 使用條件運算子（ternary operator）求最小值
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+        // 使用條件運算子（ternary operator）求最大值
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+
+        // 中位數（Mid）為總和減去最大與最小
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        input.close();
+    }
+}

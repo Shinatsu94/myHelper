@@ -1,0 +1,69 @@
+88
+
+改進建議（一句話）：
+建議在程式開頭加入標頭註解並改用具可讀性的變數命名，同時依題意建立實際的下三角形二維陣列再尋找，讓結構更完整且易於維護。
+
+修改說明與原因：
+- 增加標頭註解與良好註解：符合作業要求的檔案說明與作者資訊，提升可維護性。
+- 使用可讀性更高的變數命名與適當的縮排：height -> n、target -> target、tri -> tri，讓邏輯更清晰。
+- 實作完整的下三角形二維陣列：依題意建立實際的 jagged 二維陣列 tri[n][i+1]，並用逐格填入數字，之後再尋找目標值的位置，確保符合「建立完整的下三角形二維陣列」的要求。
+- 輸出與例子相符：若找到，輸出格式與題目相符；若找不到，輸出「not find X in array.」。
+
+修改後的完整程式碼：
+/*
+檔案名稱: CSIE_41343112_1031_3b.java
+功能: 建立下三角形二維陣列，尋找指定數字的位置，輸出座標；若不在陣列中，輸出提示
+作者: 李宗懌
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343112_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int target = sc.nextInt();
+
+        if (n <= 0) {
+            System.out.printf("not find %d in array.", target);
+            sc.close();
+            return;
+        }
+
+        // 建立實際的下三角形二維陣列，並填入 1, 2, 3, ...
+        int[][] tri = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 尋找 target 的位置（行、列皆以 1 為起點）
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+
+        outer:
+        for (int i = 0; i < tri.length; i++) {
+            for (int j = 0; j < tri[i].length; j++) {
+                if (tri[i][j] == target) {
+                    found = true;
+                    foundRow = i + 1;
+                    foundCol = j + 1;
+                    break outer;
+                }
+            }
+        }
+
+        if (found) {
+            System.out.printf("%d[%d, %d]", target, foundRow, foundCol);
+        } else {
+            System.out.printf("not find %d in array.", target);
+        }
+
+        sc.close();
+    }
+}

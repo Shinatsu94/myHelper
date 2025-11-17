@@ -1,0 +1,68 @@
+51
+
+改進建議：修正右側最大值的計算邏輯，使其在全为負數時也能正確計算（使用原始陣列尾值作為初始右側最大值，並在輸出前將最後一個元素設為 -1），並加上標頭註解與清楚的變數命名。
+
+程式碼優化與修改說明：
+- 問題點1：原程式以 -1 作為初始的右側最大值，當原始陣列中存在所有元素皆小於 -1 的情況時，前面的元素會錯誤地被替換為 -1。
+  修改：使用原始陣列最後一個元素作為初始右側最大值，最後一個元素先設為 -1，讓前面的元素能以原始右邊序列的最大值正確替換。
+- 問題點2：增加標頭註解，讓程式清楚描述檔案名稱、功能、作者與日期，以符合作業要求的註解規範。
+- 額外：對輸出格式做微調，保持輸出單行且元素間以空格分隔。
+
+完整修改後程式碼如下：
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: ReplaceWithRightMax.java
+ * 功能: 對任意長度整數陣列，將每個元素替換為其右方元素的最大值，最後一個元素改為 -1，並輸出結果。
+ * 作者: 你自行填寫
+ * 日期: 2025-11-14
+ */
+
+
+public class ReplaceWithRightMax {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!s.hasNextInt()) {
+            s.close();
+            return;
+        }
+        int n = s.nextInt();
+        if (n <= 0) {
+            s.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 讀入陣列
+        for (int i = 0; i < n; i++) {
+            arr[i] = s.nextInt();
+        }
+
+        // 依題意：最後一個設定為 -1，其右側最大值需以原始陣列的尾值為基準
+        int lastOriginal = arr[n - 1];
+        arr[n - 1] = -1;
+
+        int maxFromRight = lastOriginal; // 右方原始值的最大值，用於替換前面的元素
+
+        // 從倒數第二位開始，將每一位替換為右方的最大值
+        for (int i = n - 2; i >= 0; i--) {
+            int current = arr[i];
+            arr[i] = maxFromRight;
+            if (current > maxFromRight) {
+                maxFromRight = current;
+            }
+        }
+
+        // 輸出結果，確保單行輸出，元素間以空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+
+        // System.out.println(); // 如需換行，可取消註解
+        s.close();
+    }
+}

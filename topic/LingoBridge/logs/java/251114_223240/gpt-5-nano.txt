@@ -1,0 +1,58 @@
+10
+
+改進建議
+此作業未滿足題目需求，請重寫為排序功能，並加入適當的檔案註解與清晰的變數命名。
+
+修改說明與原因
+- 將程式內容改為符合題目：讀取長度、再依序讀入 n 個整數，將陣列由小到大排序，最後輸出結果。
+- 使用適當的檔案標頭註解，說明檔案名稱、功能、作者與日期。
+- 變數命名與結構更清晰，避免與題目無關的 TriIndexFinder 邏輯。
+- 輸出格式保持與題目相符：數字以空白分隔，最後換行。
+
+修改後完整程式碼
+```java
+/**
+ * File: ArraySortAscending.java
+ * 功能: 讀入長度 n，接著讀入 n 個整數，將陣列內容由小到大排序，輸出排序結果。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 備註: 使用 Arrays.sort 進行排序，支援負數與任意長度的陣列；避免使用 EOF。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 陣列排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

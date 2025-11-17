@@ -1,0 +1,64 @@
+84
+
+改進建議：改用字串直接檢查位數是否嚴格遞增，並加入輸入前後空白處理與基本驗證，以提升穩定性與可維護性。
+
+修改說明與原因：
+- 正確性與邏輯：改用字串處理，直接逐位比較，避免不必要的整數轉換，並強化對非數字/符號的處理，避免，例如負號情況造成誤判。
+- 格式：新增程式檔頭註解，並整理註解，提升可讀性與維護性。
+- 備註：完整程式標頭註解，說明檔案名稱、功能、作者與日期。
+- 其他：對輸入做 trim，保證前後空白不影響判斷；保留單位數時的正確判斷邏輯。
+
+修改後完整程式碼如下：
+/*
+ * File: CSIE_41343221_1017_2.java
+ * 功能: 判斷輸入的整數各位數是否嚴格遞增
+ * 作者: 教師
+ * 日期: 2025-11-15
+ * 備註: 程式以字串方式處理，避免整數轉換造成的問題，並對輸入做前後空白修剪與基本驗證。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343221_1017_2 {
+
+    // 判斷字串表示的非負整數各位數是否嚴格遞增
+    public static boolean isWellOrdered(String s) {
+        if (s == null || s.length() == 0) return false;
+
+        int idx = 0;
+        if (s.charAt(0) == '-') return false;
+        if (s.charAt(0) == '+') idx = 1;
+
+        if (s.length() - idx <= 1) {
+            // 一位或零位數，同樣需要驗證其餘字符皆為數字
+            for (int j = idx; j < s.length(); j++) {
+                if (!Character.isDigit(s.charAt(j))) return false;
+            }
+            return true;
+        }
+
+        // 檢查後續是否為數字並比較相鄰位數
+        for (int i = idx; i < s.length() - 1; i++) {
+            char a = s.charAt(i);
+            char b = s.charAt(i + 1);
+            if (!Character.isDigit(a) || !Character.isDigit(b)) return false;
+            if (a >= b) return false;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine().trim();
+        boolean ok = isWellOrdered(input);
+
+        if (ok) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+
+        scanner.close();
+    }
+}

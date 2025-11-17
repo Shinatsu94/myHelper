@@ -1,0 +1,79 @@
+6/100
+改進建議：須改為使用一維陣列讀入 n 個整數、進行升序排序並輸出結果，移除不相關的三角形計算。
+
+修改說明與原因：
+- 問題需求與學生程式不符，未實作排序與輸出整數陣列，因此正確性與邏輯分數皆為0；改用一維整數陣列直接讀入 n 個整數，並利用 Arrays.sort 進行升序排序，符合題意且效率高。
+- 使用快速掃描器與字串建構輸出，提升對大量輸入的效能，避免不必要的 I/O 開銷。
+- 程式加入必要的標頭註解，並改用符合常見競賽規範的類名與註解，提升可讀性與可維護性。
+
+修改後完整程式碼：
+// 檔案名稱：Main.java
+// 功能：讀入整數長度 n，接著讀入 n 個整數，將其升序排序後輸出，元素以空格分隔。
+// 作者：你可以填寫
+// 日期：2025-11-14
+
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = fs.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+
+    // 簡易的快速掃描器，處理整數輸入，適合無需大量格式處理的情境
+    static class FastScanner {
+        private final java.io.InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(java.io.InputStream is) {
+            in = is;
+        }
+
+        private int read() throws java.io.IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws java.io.IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}

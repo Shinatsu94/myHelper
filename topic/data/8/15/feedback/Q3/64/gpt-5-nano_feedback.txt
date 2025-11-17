@@ -1,0 +1,59 @@
+總分：87/100
+
+改進建議（一句話）
+建議加入程式標頭註解與輸入驗證，並改用 0-based 陣列以提升可讀性與符合一般慣例。
+
+修改說明與原因
+- 0-based 陣列與慣例：改用 char[n][n]，索引從 0 開始，語法與常見 Java 編寫習慣一致，提升可讀性與維護性。
+- 輸入驗證：加入對 n 的範圍檢查 (0 < n <= 20)，避免非法輸入造成的非預期行為。
+- 程式標頭與註解：新增檔案標頭註解與適當註解，符合作業要求的備註規範。
+- 變數與命名：使用符合 Java 慣例的類別名稱與檔案名稱建議，以便編譯與執行。
+- 資源管理：使用完 Scanner 後關閉，以避免資源洩漏。
+- 輸出格式穩定性：直接逐行輸出，確保每行都沒有多餘空白符號，符合題目「元素之間無需任何空白符號」的要求。
+
+修改後完整程式碼
+檔案名稱建議: LowerTrianglePrinter.java
+
+/*
+檔案名稱: LowerTrianglePrinter.java
+功能: 建立並印出高度為 n 的下三角星號矩陣
+作者: 教師
+日期: 2025-11-14
+說明: 以 0-based 索引建立下三角陣列，並逐行輸出 '*'，符合題目需求。
+*/
+import java.util.Scanner;
+
+public class LowerTrianglePrinter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取高度 n，並進行基本驗證
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        if (n <= 0 || n > 20) {
+            scanner.close();
+            return;
+        }
+
+        // 建立並填入下三角陣列（0-based）
+        char[][] lowertri = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                lowertri[i][j] = '*';
+            }
+        }
+
+        // 輸出下三角矩陣，無多餘空白符號
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(lowertri[i][j]);
+            }
+            System.out.print('\n');
+        }
+
+        scanner.close();
+    }
+}

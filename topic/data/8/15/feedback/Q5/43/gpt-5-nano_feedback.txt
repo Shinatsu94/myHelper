@@ -1,0 +1,101 @@
+37
+
+建議改進一句話：請正確實作 3x3 矩陣的伴隨矩陣與共因子計算，以產生正確的反矩陣輸出，並維持輸出格式與註解要求。
+
+改進與修改說明（重點與原因）：
+- 問題核心在於 3x3 逆矩陣的伴隨矩陣計算。原程式中的 adjugate 計算有錯，會直接導致輸出結果錯誤，因此需要改為正確的 3x3 伴隨矩陣公式。
+- 引入正確的 adjugate 計算後，逆矩陣 invA = adj / det 才會正確。
+- 保留原有的輸出格式需求：元素四位小數，接近零輸出為 0，且每行元素以空格分隔、最後一行無額外空白。
+- 增強程式可讀性與可維護性：適當的變數命名、加入必要的註解與標頭信息。
+
+以下為修改後的完整程式碼，已修正 3x3 逆矩陣的計算部分，並補上檔案標頭註解與必要匯入以確保穩定輸出：
+
+/*
+檔案名稱: InverseMatrix3x3.java
+功能: 讀入使用者輸入的 3x3 矩陣，輸出其反矩陣，元素格式化到小數點後四位，零值顯示為 0。
+作者: 教師
+日期: 2025-11-14
+*/
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class InverseMatrix3x3 {
+
+    // 略過近似於 0 的值，直接輸出 "0"；其他則四位小數
+    private static String formatOutput(double value) {
+        if (Math.abs(value) < 1e-7) {
+            return "0";
+        }
+        return String.format(Locale.US, "%.4f", value);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        final int N = 3;
+        double[][] A = new double[N][N];
+
+        // 讀取 3x3 矩陣
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (scanner.hasNextDouble()) {
+                    A[i][j] = scanner.nextDouble();
+                } else {
+                    scanner.close();
+                    return;
+                }
+            }
+        }
+
+        // 計算行列式 det
+        double det = A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1])
+                   - A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0])
+                   + A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]);
+
+        // 非可逆矩陣
+        if (Math.abs(det) < 1e-9) {
+            System.out.println("Determinant is zero, the matrix is not invertible.");
+            scanner.close();
+            return;
+        }
+
+        // 計算 adjugate 矩陣（為伴隨矩陣的轉置）
+        double[][] adj = new double[N][N];
+        adj[0][0] =  A[1][1] * A[2][2] - A[1][2] * A[2][1];
+        adj[0][1] = -(A[0][1] * A[2][2] - A[0][2] * A[2][1]);
+        adj[0][2] =  A[0][1] * A[1][2] - A[0][2] * A[1][1];
+
+        adj[1][0] = -(A[1][0] * A[2][2] - A[1][2] * A[2][0]);
+        adj[1][1] =  A[0][0] * A[2][2] - A[0][2] * A[2][0];
+        adj[1][2] = -(A[0][0] * A[2][1] - A[0][1] * A[2][0]);
+
+        adj[2][0] =  A[1][0] * A[2][1] - A[1][1] * A[2][0];
+        adj[2][1] = -(A[0][0] * A[2][1] - A[0][1] * A[2][0]);
+        adj[2][2] =  A[0][0] * A[1][1] - A[0][1] * A[1][0];
+
+        // 逆矩陣 invA = adj / det
+        double[][] invA = new double[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                invA[i][j] = adj[i][j] / det;
+            }
+        }
+
+        // 輸出格式化的逆矩陣
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                sb.append(formatOutput(invA[i][j]));
+                if (j < N - 1) {
+                    sb.append(" ");
+                }
+            }
+            if (i < N - 1) {
+                sb.append("\n");
+            }
+        }
+
+        System.out.print(sb.toString());
+        scanner.close();
+    }
+}

@@ -1,32 +1,36 @@
-87
+88
 
-修改後的完整程式碼（已優化，並附上說明）：
+改進建議: 這份作業基本正確，但缺少程式標頭註解、未處理極端情況（如 n <= 0）的穩健性，且可利用內建排序提升效率與可讀性，同時輸出可更統一地透過字串建構器完成。
+
+修改說明與原因
+- 增加完整的程式標頭註解，符合作業要求的檔案名稱、功能、作者與日期，提升可維護性與可讀性。
+- 加入對 n <= 0 的邊界處理，避免在極端情況下發生索引錯誤或非預期輸出。
+- 改用 Java 內建的 Arrays.sort 進行排序，取代手動選擇排序，提升效率與穩定性，且程式碼更簡潔。
+- 使用 StringBuilder 組裝輸出內容，避免多次 I/O 呼叫，提升輸出效率與整體表現。
+
+修改後完整程式碼
 /*
- * 檔案名稱：CSIE_41343208_1031_1.java
- * 功能：建立任意長度的一維整數陣列，讀入長度與元素，輸出升序排序結果
- * 作者：學生（修改版本）
- * 日期：YYYY-MM-DD
- * 說明：改用內建排序 Arrays.sort，避免自寫排序可能的錯誤與效率問題；加入對 n <= 0 的情況處理與完整註解。
- */
-
-import java.util.Arrays;
+檔案名稱：CSIE_41343208_1031_1.java
+功能：讀取整數 n 與 n 個整數，將陣列內容由小到大排序，並輸出排序結果
+作者：資訊工程系教授
+日期：2025-11-14
+*/
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class CSIE_41343208_1031_1 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int n;
         if (!sc.hasNextInt()) {
-            sc.close();
+            // 無有效輸入，僅輸出換行
+            System.out.println();
             return;
         }
-        n = sc.nextInt();
 
+        int n = sc.nextInt();
         if (n <= 0) {
-            // 輸出一個空行，符合若無元素的情境
             System.out.println();
-            sc.close();
             return;
         }
 
@@ -35,14 +39,13 @@ public class CSIE_41343208_1031_1 {
             if (sc.hasNextInt()) {
                 arr[i] = sc.nextInt();
             } else {
-                arr[i] = 0; // 預設值，遇到缺失輸入時不致於崩潰
+                arr[i] = 0; // 輸入不足時以 0 作為預設
             }
         }
 
-        // 使用內建排序提高效率與穩定性
+        // 使用內建排序提升效率與穩定性
         Arrays.sort(arr);
 
-        // 使用 StringBuilder 建立輸出字串，避免尾端多餘空白
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
@@ -50,16 +53,5 @@ public class CSIE_41343208_1031_1 {
         }
 
         System.out.println(sb.toString());
-
-        sc.close();
     }
 }
-
-修改說明與原因：
-- 將原本的選擇排序改為 Arrays.sort(…)：時間複雜度由 O(n^2) 降低到 O(n log n)，且實作更簡潔，降低出錯機率，能穩妥處理任意長度的輸入。
-- 新增 n <= 0 的健全性處理：避免在 n 為 0 或負數時輸出未定義行為，改為輸出空行以符合題意。
-- 輸出格式改進：改用 StringBuilder 組裝輸出，避免在最後輸出時出現多餘空白，且清晰可讀。
-- 程式標頭與內部註解：新增檔案說明註解，提升可維護性與符合課程規範。
-
-改進建議（單句）：
-- 建議始用內建排序與穩健的輸入處理，以提升效率與穩定性，並在開頭加入完整的檔案註解以符合作業規範。

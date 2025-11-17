@@ -1,34 +1,59 @@
-4
+6
+
+改進建議：原作並未實作題目要求的「將陣列每一位元替換為其右側元素的最大值，最後一個為 -1，並輸出結果」的功能，需改用右向掃描並正確處理輸入輸出。
+
+修改內容與原因：
+- 正確功能實作：改用從右向左的單次掃描，維護右側的最大值，最後一個元素設為 -1，符合題意且時間複雜度為 O(n)。
+- 程式結構與可讀性：重新命名成 RightMaxReplacement，加入合理的標頭註解，提升可維護性。
+- 輸入輸出穩健性：使用 Scanner 讀取 n 與 n 個整數，並以空格分隔輸出結果，處理負數輸入。
+- 格式與註解：保持適當縮排與清楚的註解說明每段邏輯，提升未來閱讀性。
 
 修改後完整程式碼：
-/**
- * File: SortArrayAsc.java
- * 功能: 讀取使用者輸入的長度 n，接著讀取 n 個整數，將它們升序排序，並輸出排序結果（以空白分隔）。
- * 作者: 教師
- * 日期: 2025-11-12
+/*
+ * File: RightMaxReplacement.java
+ * 功能: 對任意長度整數陣列，將每個元素替換為其右側元素的最大值；最後一個元素設為 -1，輸出結果
+ * 作者: 你可以填放自己的名字
+ * 日期: 2025-11-14
+ * 版本: 1.0
  */
 
 import java.util.Scanner;
-import java.util.Arrays;
 
-public class SortArrayAsc {
+public class RightMaxReplacement {
     public static void main(String[] args) {
-        // 讀取使用者輸入
         Scanner sc = new Scanner(System.in);
 
         // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
         int n = sc.nextInt();
 
-        // 讀取 n 個整數放入陣列
         int[] arr = new int[n];
+        // 讀取陣列元素
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
         }
 
-        // 將陣列排序（升序）
-        Arrays.sort(arr);
+        // 從右向左處理：最後一個設為 -1，其餘皆為右側的最大值
+        if (n > 0) {
+            int rightMax = arr[n - 1];
+            arr[n - 1] = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i]; // 保存原值，避免被覆寫
+                arr[i] = rightMax;
+                if (current > rightMax) {
+                    rightMax = current;
+                }
+            }
+        }
 
-        // 輸出排序後的內容，以空白分隔
+        // 輸出結果，元素以空格分隔
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
@@ -36,17 +61,6 @@ public class SortArrayAsc {
         }
         System.out.println(sb.toString());
 
-        // 關閉資源
         sc.close();
     }
 }
-
-修改說明：
-- 將原本與題目無關的圖形輸出邏輯移除，改以符合題目需求進行排序。
-- 使用 Arrays.sort 進行升序排序，簡潔且效率良好，能正確處理含負數的整數。
-- 改用清晰的變數命名與結構：讀取長度 n、讀取 n 個整數到陣列、排序、再輸出，提升可讀性與可維護性。
-- 增加檔案頭註解，說明檔案名稱、目的與基本資訊；並在適當位置加入註解，便於他人閱讀。
-- 強化輸出格式：用空白分隔、且避免尾端多餘空格，符合常見輸出規範；並在結尾加上換行。
-
-改進建議 / 反饋（一句話）：
-請務必以題目需求為核心重新實作，並在程式開頭加入檔案與功能說明的註解，以利評分與維護。

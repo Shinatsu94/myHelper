@@ -1,0 +1,64 @@
+總分: 19
+
+改進建議（一句話）：
+建議改用正確的排序方法（如 Arrays.sort）並移除原先的-1尾端設定，同時補上標頭註解與適當命名以提升可讀性與正確性。
+
+評分與分析：
+- 正確性（50%）：0
+  - 原程式在排序邏輯上是錯誤的，經過多次賦值後最終輸出並非由小到大排列，且出現不應出現的 -1 尾端值。
+- 邏輯（30%）：0
+  - 使用錯誤的排序邏輯（取最大值放前面，且對後續元素造成覆寫），未遵循題意的升序排序。
+- 格式（10%）：8
+  - 程式有基本縮排與命名，但缺少清楚的註解與具體的標頭說明，且整體風格可再清晰。
+- 備註（10%）：0
+  - 缺少程式檔案標頭註解（檔案名稱、功能、作者、日期等）。
+
+修改與優化說明：
+- 使用 Arrays.sort(a) 直接對整數陣列進行升序排序，避免原本不正確的選取與覆寫邏輯，且對負數有正確支援。
+- 移除不必要且會輸出錯誤值的 a[n-1] = -1 設定，以及任何未達成需求的特殊處理。
+- 增加程式標頭註解與適當註解，提升可讀性與維護性。
+- 使用 StringBuilder 組裝輸出，避免尾端多餘空格，輸出格式符合題意。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343232_1031_2.java
+功能: 讀入整數個數 n 與 n 個整數，將它們由小到大排序，並輸出排序結果。
+作者: 教師
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行升序排序，並輸出結果，避免使用 EOF。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343232_1031_2 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+
+        int n = in.nextInt();
+        int[] a = new int[Math.max(0, n)];
+
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                a[i] = in.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，補 0 以避免例外
+            }
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.println(sb.toString());
+        in.close();
+    }
+}

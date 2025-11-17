@@ -1,0 +1,77 @@
+88
+
+改進建議：將原本 O(n^2) 的兩層迴圈改為單次自右向左的後綴最大值計算（O(n)），並加上清晰的程式註解與標頭資訊以符合題目要求與維護性。
+
+修改說明與重點修改：
+- 將核心演算法由原本的兩層迴圈改成 O(n) 的單次循環：從右側往左計算，其後的最大值，並把最後一個元素設定為 -1。
+- 增加標頭註解，註明檔案名稱、功能、作者、日期等資訊，並在程式中加入必要註解說明。
+- 變數與方法命名改為較具描述性的名稱以提升可讀性。
+- 提供穩健的輸出函式，確保輸出格式符合題目要求。
+
+修改後完整程式碼：
+```java
+/*
+檔案名稱: Main.java
+功能: 讀入長度與整數陣列，輸出每個位置的「其後元素的最大值」(最後一個元素為 -1)
+作者: 學生
+日期: 2025-11-14
+說明: 使用 O(n) 的後綴最大值法，以符合題目需求並提升效能。
+*/
+
+import java.util.Scanner;
+
+public class Main {
+
+    // 以 O(n) 計算每個位置的後綴最大值，最後一項為 -1
+    private static int[] computeSuffixMax(int[] arr) {
+        int n = arr.length;
+        int[] result = new int[n];
+        if (n == 0) return result;
+
+        int currentMax = arr[n - 1];
+        result[n - 1] = -1; // 最後一個元素替換為 -1
+
+        // 從右至左填入每個位置的其後最大值
+        for (int i = n - 2; i >= 0; i--) {
+            result[i] = currentMax;
+            if (arr[i] > currentMax) {
+                currentMax = arr[i];
+            }
+        }
+
+        return result;
+    }
+
+    // 輸出陣列，元素之間以空白分隔
+    private static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int length = 0;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        }
+
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                array[i] = 0; // 缺少輸入時的安全預設
+            }
+        }
+
+        int[] result = computeSuffixMax(array);
+        printArray(result);
+
+        scanner.close();
+    }
+}
+```

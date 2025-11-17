@@ -1,0 +1,68 @@
+5
+
+改進建議：
+本作業未實作題目要求的排序與輸出功能，與題意嚴重不符，需重寫為讀取長度與數值陣列並排序輸出，並加強程式風格與註解。
+
+修改說明與原因：
+- 目的改正：將原程式改為讀取 n 與 n 個整數，對陣列進行由小到大排序，輸出單行以空格分隔的結果，符合題目要求與輸入輸出格式。
+- 輸入處理：使用 Scanner 逐個讀取整數，支援負數與任意長度的陣列，並對 n <= 0 做保護性處理。
+- 排序邏輯：採用 Arrays.sort 進行排序，簡潔且穩定，易於維護。
+- 輸出格式：單行輸出排序後的整數，元素間以空格分隔，結尾換行，符合題目輸出規範。
+- 程式格式與註解：加入適當的程式標頭註解與清楚的變數命名，增強可讀性與維護性。
+
+修改後完整程式碼：
+```java
+/**
+ * File: PrintSortedArray.java
+ * 功能: 讀取整數長度與整數陣列，輸出排序後的一維整數陣列（由小到大）。
+ * 作者: your_name
+ * 日期: 2025-11-14
+ * 註解: 使用 Arrays.sort 進行排序，支援負數，避免使用 EOF。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class PrintSortedArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        if (n <= 0) {
+            // 無效長度，輸出空行並結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

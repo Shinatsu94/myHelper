@@ -1,0 +1,47 @@
+90
+
+建議改進一句話：請將區間限定調整為 1 至 100000，補上程式標頭與清晰註解、將核心演算法獨立成函式、並清理多餘程式碼以提升可讀性與符合題意。
+
+修改說明與原因：
+- 將迴圈範圍改為 1 到 100000，符合題意說明的區間，避免計算到 0 的情況。
+- 將逐位數總和的邏輯獨立成 digitSum 函式，提升可讀性與可重用性，也使主流程更清晰。
+- 加上完整的檔案標頭註解，符合作業要求的檔案名稱、功能、作者、日期等資訊。
+- 移除冗餘的 total += temp 與多餘註解區塊，並使用有意義的變數命名，提升格式與可讀性。
+- 使用 sc.close() 關閉 Scaner，養成良好資源管理習慣。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+檔案名稱：CSIE_41343241_1003_3.java
+功能：統計在 1 至 100000 之間，所有數字的各位數字之和等於輸入值 A 的個數
+作者：???
+日期：???
+*/
+
+public class CSIE_41343241_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int count = 0;
+
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == a) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        sc.close();
+    }
+
+    // 計算整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

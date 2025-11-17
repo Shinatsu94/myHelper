@@ -1,0 +1,50 @@
+92
+
+改進建議（一句話）
+建議在避免整數溢位方面再加強，並補足程式標頭註解以符合作業規範。
+
+程式改進說明與修改原因
+- 為避免中位數計算時因三個整數相加可能造成整數溢位，改用 long 來計算總和再轉回 int，確保在極端輸入下不會溢位。
+- 保留原有的兩次三元運算子用法來求最大值與最小值，維持「不可使用 if-else」的要求。
+- 增加明確的註解與程式標頭，提升可讀性與維護性。
+- 程式結構與變數命名維持清晰易懂，輸出順序仍為最小值、中位數、最大值，符合題意輸出格式。
+
+修改後完整程式碼
+```java
+/**
+ * 檔案名稱: CSIE_51015105_1003_2.java
+ * 功能: 讀入三個整數，輸出最小值、中位數、最大值，使用三元運算子計算最大值與最小值，
+ *       並以中位數 = a + b + c - max - min 計算，避免使用 if-else。
+ * 作者: 自動評分系統
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_51015105_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 找出最大值
+        int max = (a > b ? a : b);
+        max = (max > c ? max : c);
+
+        // 找出最小值
+        int min = (a < b ? a : b);
+        min = (min < c ? min : c);
+
+        // 中位數，使用 long 避免整數溢位
+        long sum = (long) a + b + c;
+        int mid = (int) (sum - max - min);
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}
+```

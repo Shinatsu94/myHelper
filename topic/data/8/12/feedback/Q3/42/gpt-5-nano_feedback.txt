@@ -1,63 +1,48 @@
-6
+88
 
-- 正確性：0
-- 邏輯：0
-- 格式：6
-- 備註：0
+原作的正確性與邏輯基本符合題意，但採用字串反轉與正則表達式，對穩定性與負數情況略嫌冗長，建議改用數值反轉以提升可讀性與效率，同時補上程式標頭註解以符合格式規範。
 
-修改與改進說明
-- 原作業的程式與題目需求毫無關聯，僅做字串反轉與清理，未計算 pi，也未輸出題目要求的格式，因此正確性與邏輯皆為0分。
-- 優化與重寫後的程式改為使用勒布尼茲級數進行 pi 的近似計算，並依題意輸出 i 從 10000 到 100000 的結果，i 以六位寬度對齊，pi 以小數點後十位輸出，且用增量計算以提升效率。
-- 新程式新增了檔案頭註解，並使用 Locale.US 以確保小數點格式在不同區域設定下一致。
-- 增加找出 pi = 3.14159 最小 i 的邏輯，並在結尾輸出「i = …」的結果，符合題目第二部分需求。
+優化說明與修改內容
+- 改用數值逐位反轉的演算法，避免字串反轉與正則表達式的開銷，提升效能與可讀性。
+- 支援負數輸入，保留符號；並正確處理輸入為 0 的情況。
+- 使用長整數型別 (long) 以增加數值範圍，減少溢位風險。
+- 加入完整的程式標頭註解及適當的行內註解，符合格式與備註要求。
+- 保留「程式僅執行一次」的需求，直接讀取單一整數並輸出結果。
 
 修改後完整程式碼
-```java
 /*
- * 檔案名稱: LeibnizPi.java
- * 功能說明: 以勒布尼茲級數近似圓周率，輸出 i = 10000, 20000, ..., 100000 時的 pi 值（小數點後十位）。
- *          並找出使 pi 至少為 3.14159 的最小 i。
- * 作者: 教師
- * 日期: 2025-11-12
- */
+File: ReverseDigits.java
+Description: 反轉整數的位數，去除反轉後開頭的多餘零；若原數為負數，保留符號。
+Author: 教師
+Date: 2025-11-15
+*/
 
-import java.util.Locale;
+import java.util.Scanner;
 
-public class LeibnizPi {
+public class ReverseDigits {
     public static void main(String[] args) {
-        final int MAX_I = 100000; // 最大採樣次數（項數）
-        double sum = 0.0;
-        int minimalI = -1;
+        Scanner scanner = new Scanner(System.in);
 
-        for (int k = 0; k < MAX_I; k++) {
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-            int i = k + 1;
+        // 讀取單一整數
+        long n = scanner.nextLong();
 
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                System.out.println(String.format(Locale.US, "i = %6d, pi = %.10f", i, pi));
+        // 記錄符號並取絕對值以利反轉
+        boolean negative = n < 0;
+        if (negative) n = -n;
 
-                if (minimalI == -1) {
-                    long scaled = (long) Math.floor(pi * 1e5);
-                    if (scaled == 314159) {
-                        minimalI = i;
-                    }
-                }
-            }
+        // 數值反轉：逐位加到 rev，避免字串處理與前導 0 的問題
+        long rev = 0;
+        while (n > 0) {
+            rev = rev * 10 + (n % 10);
+            n /= 10;
         }
 
-        System.out.println();
-        System.out.println("i = " + minimalI);
+        // 若原數為負，恢復符號
+        if (negative) rev = -rev;
+
+        // 輸出結果
+        System.out.println(rev);
+
+        scanner.close();
     }
 }
-```
-
-修改原因說明
-- 用勒布尼茲級數直接實作題目所需的 pi 近似，取代原程式的字串處理與不相關的輸入輸出，讓程式具備正確性與可讀性。
-- 使用增量累加避免重複計算，提升效率，特別是在計算到上萬級別的項數時。
-- 使用格式化輸出（i 以六位寬度、pi 以十位小數）嚴格符合題目指定的輸出格式。
-- 加入程式檔頭註解，提供檔案名稱、功能、作者與日期，符合作業的註解要求。
-
-一句話建議或反饋
-- 建議在初期就先用範例輸出作為單元測試，逐步驗證格式與精度，並可考慮使用高精度數值類型或分段收斂策略以提升收斂速度與穩定性。

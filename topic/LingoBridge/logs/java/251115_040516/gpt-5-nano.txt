@@ -1,0 +1,98 @@
+總分: 83
+
+改進建議（一句話）: 請補上程式標頭註解、改用更健全的近似判定並統一輸出格式，讓程式在極小數值情況與格式一致性上更穩定。
+
+修改說明與重點
+- 新增程式標頭註解，註明檔案名稱、功能、作者與日期，符合作業要求的備註條件。
+- 對行列式判定加入容許誤差判斷（Math.abs(det) < 1e-12），避免浮點數近似為非正確的零而導致誤判。
+- 將輸出格式統一移入格式化函式 format(double)，若絕對值接近於零則輸出 "0"，否則輸出四位小數，確保與題目樣式一致。
+- 移除對 System.in 的提前關閉（不再呼叫 Scanner 的 close），避免潛在的系統輸入流關閉問題。
+- 輸出時每行結尾皆換行，確保最後一行也有換行，且每行元素之間以空格分隔，且最後一行後不多餘空白。
+- 保留核心演算法：直接使用伴隨行列式與伴隨矩陣的方法計算反矩陣，並以四位小數輸出。
+
+以下為修改后的完整程式碼：
+
+```java
+/**
+ * File: MatrixInverse.java
+ * 功能: 讀入使用者輸入的 3x3 矩陣，輸出其反矩陣，元素若為零則輸出 0；非零數值輸出至小數點後四位。
+ * 作者: 教師批改系統
+ * 日期: 2025-11-14
+ *
+ * 注意: 若矩陣不可逆，顯示相應訊息。
+ * 輸出規格: 各元素以空格分隔，每行 3 個元素，最後一行結束換行，零值輸出 0。
+ */
+
+import java.util.Scanner;
+
+public class MatrixInverse {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        double[][] a = new double[3][3];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (in.hasNextDouble()) {
+                    a[i][j] = in.nextDouble();
+                } else {
+                    // 不足數值時直接結束
+                    return;
+                }
+            }
+        }
+
+        double det = determinant(a);
+        // 容忍性判定近似零
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("Matrix is singular and cannot be inverted.");
+            return;
+        }
+
+        double[][] inv = inverse(a, det);
+
+        // 輸出結果，格式化處理
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(format(inv[i][j]));
+                if (j < 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
+    }
+
+    // 統一輸出格式：若絕對值近似於零則輸出 "0"，否則輸出四位小數
+    private static String format(double v) {
+        if (Math.abs(v) < 1e-10) return "0";
+        return String.format(java.util.Locale.US, "%.4f", v);
+    }
+}
+```
+
+若需要改成不輸出錯誤訊息而直接結束，也可以把不可逆情況的輸出改為返回或結束，視題目要求而定。若之後要支持判定更寬鬆的不可逆情況，只需要調整 det 的容忍閾值即可。

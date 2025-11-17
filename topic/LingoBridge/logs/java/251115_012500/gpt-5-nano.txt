@@ -1,0 +1,66 @@
+84
+
+改進建議（一句話）：
+建議在程式開頭加入標頭註解並加強空陣列與輸入邊界的健壯性，同時改用內建排序提升可讀性與穩定性。
+
+程式優化重點與修改說明：
+- 加入標頭註解與使用較穩健的檔名與類別名稱 Main，提升可理解性與相容性。
+- 使用 Arrays.sort 取代自訂的選擇排序，簡化邏輯、提升穩定性與執行效率（O(n log n)）。
+- 增加對輸入的邊界處理：若陣列長度為 0，輸出為空行；並在讀取過程中避免因缺少後續輸入而發生例外。
+- 輸出改為使用 StringBuilder 組裝，並在結尾輸出換行，提升輸出穩定性與可讀性。
+
+修改後完整程式碼（Java）：
+```java
+/*
+檔案名稱: Main.java
+功能: 讀取一維整數陣列的長度與內容，將陣列內容升序排序，輸出排序後的陣列內容
+作者: 適用者
+日期: 2025-11-14
+說明: 使用內建 Arrays.sort 提升可讀性與效率，並加入基本輸入邊界檢查與適當註解。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取長度
+        int n;
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        n = scn.nextInt();
+
+        // 依長度宣告陣列，處理 n <= 0 的情況
+        int[] list = new int[Math.max(0, n)];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                list[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                list[i] = 0;
+            }
+        }
+
+        // 排序（若陣列長度>0，避免空陣列情況的問題）
+        if (list.length > 0) {
+            Arrays.sort(list);
+        }
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(list[i]);
+        }
+
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}
+```

@@ -1,0 +1,45 @@
+95
+建議：建議改用直接計算行號的公式以簡化迴圈並提升可讀性，同時補上程式標頭註解以符合規範。
+
+修改內容與理由：
+- 使用直接計算行號的公式來取代迴圈尋找，提升效率與清晰度（row = ceil((sqrt(1+8*num) - 1)/2)），同時避免不必要的迴圈。
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，符合題目對註解的要求。
+- 變數命名與註解做了適度的說明，提升可讀性。
+
+修改後完整程式碼：
+```java
+/**
+ * File: Main.java
+ * Title: Lower triangular array - find position of a number
+ * Description: 根據輸入的高度 n，建立下三角形的陣列結構（不實際印出內容），找出數字 num 的位置(row, col)，從 1 開始計數。
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();    // 陣列高度
+        int num = sc.nextInt();  // 要尋找的數字
+        sc.close();
+
+        int total = n * (n + 1) / 2; // 下三角形的總元素數
+
+        if (num > total || num <= 0) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 直接計算所在的列（row）
+        int row = (int) Math.ceil((Math.sqrt(1 + 8.0 * num) - 1) / 2.0);
+        if (row > n) row = n;
+
+        int start = (row - 1) * row / 2 + 1; // 該列起始數字
+        int col = num - start + 1;           // 該列中的位置（欄）
+
+        System.out.println(num + "[" + row + ", " + col + "]");
+    }
+}
+```

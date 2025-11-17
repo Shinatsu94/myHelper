@@ -1,0 +1,44 @@
+84
+
+此程式已正確完成升序排序並輸出，但缺少程式標頭註解與變數命名意義較不清晰，建議加入註解與使用內建排序以提升可讀性與效能。
+
+修改說明與優化重點
+- 加入清晰的程式標頭註解，包含檔案名稱、功能、作者與日期。
+- 改用有意義的變數名稱（如 n、arr），提升可讀性。
+- 使用 Java 的內建排序 Arrays.sort，簡化實作並提升效能與穩定性（時間複雜度降至 O(n log n)）。
+- 於輸出結尾加上換行，並使用 StringBuilder 組裝輸出字串以提升效能。
+- 程式內容增添必要註解，並保留原本輸入方式與輸出格式。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343226_1031_1.java
+功能: 讀取一維整數陣列長度與內容，將陣列內容升序排序，並輸出排序後結果
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343226_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 使用內建排序提升可讀性與效能
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        // scanner.close(); // 這裡可選擇關閉輸入資源
+    }
+}

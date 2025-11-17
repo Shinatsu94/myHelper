@@ -1,0 +1,48 @@
+94
+
+建議：加強輸出格式的一致性、提升變數命名與註解清晰度，並以更簡潔的邏輯重寫以提升可讀性與穩定性。
+
+修改與優化說明：
+- 將判定邏輯改為以字串逐位比對，直接判定相鄰位的左字元是否小於右字元，避免數字位移與模除的細節錯誤風險。
+- 使用布林變數 isWellOrdered，語意更清晰。
+- 輸出加入空格與標準格式，符合題目範例輸出。
+- 將程式標頭註解放在最上方，並保持內容清晰的說明。
+- 使用較清晰的變數命名與適度的註解，提升可讀性。
+- 關閉 Scanner，避免資源洩漏。
+
+以下為修改後的完整程式碼：
+
+/*
+ 檔案名稱: CSIE_41343107_1017_2.java
+ 功能: 判定給定整數的數字是否為 well-ordered number（數字自左至右嚴格遞增）
+ 作者: 王世豪
+ 學號: 41343107
+ 日期: 2025/10/17
+*/
+public class CSIE_41343107_1017_2 {
+    public static void main(String[] args) {
+        // 讀取單一整數並判定
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+
+        // 將數字轉為字串，逐位比較相鄰的兩位
+        String s = Integer.toString(n);
+        boolean isWellOrdered = true;
+        for (int i = 0; i < s.length() - 1; i++) {
+            char left = s.charAt(i);
+            char right = s.charAt(i + 1);
+            // 若左字元 >= 右字元，則不符合嚴格遞增的條件
+            if (left >= right) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(n + " is well-ordered number.");
+        } else {
+            System.out.println(n + " is not well-ordered number.");
+        }
+    }
+}

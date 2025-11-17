@@ -1,0 +1,55 @@
+7
+
+改進建議：建議改用內建排序並統一輸出格式，提升正確性與可讀性，並移除原始輸出與自訂排序邏輯中的錯誤。
+
+程式碼優化與修改說明：
+- 正確性與穩定性：改用 Arrays.sort 直接對整數陣列排序，正確處理負數與任意長度，避免原本自訂排序邏輯的錯誤。
+- 輸出格式：只輸出排序後的結果，避免多餘的原始陣列輸出與尾端多餘的空格。
+- 程式結構與可讀性：統一變數命名、加入檔案標頭註解、適當縮排，使用 Main 類別結構以符合一般測資環境。
+- 註解與可維護性：新增必要註解說明程式功能與執行流程。
+
+修改後完整程式碼：
+
+```java
+/*
+檔案名稱: Main.java
+功能: 讀取長度 n 與 n 個整數，將它們由小到大排序，輸出排序結果。
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

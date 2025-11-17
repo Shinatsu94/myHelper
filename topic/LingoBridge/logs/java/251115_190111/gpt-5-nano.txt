@@ -1,0 +1,46 @@
+35
+
+改進建議：目前的作法會把數字中的所有 0 都移除，容易造成像 101 這類情況輸出錯誤，應改為先反轉字串再移除反轉結果前導的 0，並加入適當註解與標頭以提升可讀性與可維護性。
+
+程式碼優化說明與修改要點
+- 正確性：改用先反轉字串，再移除反轉結果的前導 0，若結果全為 0 則輸出 0，並保留負號處理以增加彈性。
+- 邏輯：簡潔且明確的步驟：處理符號、反轉、去前導零、輸出結果。
+- 格式：改善變數命名與增加必要註解，提升可讀性。
+- 備註：加入完整標頭註解，說明檔案名稱、功能、作者與日期。
+
+修改後完整程式碼
+/*
+ * File: ReverseDigits.java
+ * Description: 讀取正整數（可包含前後空白），輸出其位元反轉後的整數表示，會移除前導零；若全為零則輸出 0。
+ * Author: 你的名字
+ * Date: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine().trim();
+        sc.close();
+
+        boolean negative = false;
+        String digits = input;
+
+        // 處理負號（若題目未要求可忽略此部份）
+        if (!digits.isEmpty() && digits.charAt(0) == '-') {
+            negative = true;
+            digits = digits.substring(1);
+        }
+
+        // 反轉字串表示的數字
+        StringBuilder reversed = new StringBuilder(digits).reverse();
+
+        // 移除反轉後字串的前導零
+        int idx = 0;
+        while (idx < reversed.length() && reversed.charAt(idx) == '0') idx++;
+        String result = (idx == reversed.length()) ? "0" : reversed.substring(idx);
+
+        // 輸出結果
+        System.out.print(negative ? "-" + result : result);
+    }
+}

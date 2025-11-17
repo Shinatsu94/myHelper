@@ -1,0 +1,41 @@
+6
+改進建議：請改以滿足題意的排序需求作為核心功能，並補上適當的程式註解與檔案標頭，以提升可讀性與可維護性。
+
+修改內容與原因：
+- 將與題目不相干的 3x3 矩陣與行列式求逆的邏輯移除，改用排序一維整數陣列的實作以符合題目要求。
+- 使用 Arrays.sort 進行排序，簡潔且穩定，便於維護與理解。
+- 使用有意義的變數命名（n、arr），並保留輸入與輸出格式，避免尾端多餘空格。
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與專案管理。
+- 使用 StringBuilder 組裝輸出，避免每次迭代直接輸出造成性能影響。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: SortArray.java
+ * 功能說明: 讀取使用者輸入的長度 n，接著讀入 n 個整數，輸出由小到大排序後的內容。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

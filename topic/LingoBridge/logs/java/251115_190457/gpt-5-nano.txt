@@ -1,0 +1,38 @@
+88
+
+改進意見：程式功能正確，但缺少檔案標頭與內部註解，且未考慮較廣的輸入情境（例如負數）與可攜性，建議加上標頭註解、適當註解，並讓程式具健壯性與可讀性。
+
+程式優化與修改原因
+- 支援負數輸入：新增符號判定，負數時保持結果的相反數，符合常見需求。
+- 使用較具可讀性的命名與註解：加入說明性註解，提高維護性。
+- 檔案標頭註解與符合通用執行環境的主類別：加入檔案說明與標頭註解，主類別改為 Main 以提高相容性。
+- 保留單次執行、簡單邏輯：核心轉置演算法維持原本思路，僅增添健壯性與可讀性。
+
+修改後完整程式碼
+/*
+ * 檔案名稱: ReverseDigits.java
+ * 功能: 將輸入整數的各位數字反轉並輸出，僅執行一次（單次輸入）
+ * 作者: 教師
+ * 日期: 2025-11-15
+ * 說明: 支援正負數輸入，若輸入為 0 會輸出 0。
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n = scanner.nextLong();
+        boolean negative = n < 0;
+        long num = Math.abs(n);
+
+        long rev = 0;
+        while (num != 0) {
+            rev = rev * 10 + (num % 10);
+            num /= 10;
+        }
+
+        if (negative) rev = -rev;
+        System.out.println(rev);
+    }
+}

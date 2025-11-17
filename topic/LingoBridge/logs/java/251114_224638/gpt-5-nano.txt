@@ -1,0 +1,61 @@
+5
+
+建議改進點：本作業題意為排序任意長度整數陣列，原程式未符合題意，且是處理 3x3 矩陣的矩陣逆運算，需改寫成排序實作，並支援負數與動態長度的輸入輸出。
+
+修改與原因說明：
+- 將輸入改為讀取長度 n 後，讀入 n 個整數，改用 Arrays.sort 進行升冪排序，符合題意。
+- 移除與排序無關的矩陣運算與固定尺寸 3x3 陣列，提升可讀性與可擴充性。
+- 增加對負數的原生支援，因為整數排序天然支援正負數。
+- 加入適當的註解與良好的命名習慣，便於維護與閱讀。
+- 程式頭註解與作者、日期等資訊，符合題目對備註的要求。
+
+修改後完整程式碼如下：
+
+/**
+ * File: SortArray.java
+ * 功能: 讀取整數陣列長度 n，接著讀入 n 個整數，將陣列排序並輸出排序結果（由小到大）。
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 備註: 避免使用 EOF，程式執行一次後結束。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!input.hasNextInt()) {
+            return;
+        }
+        int n = input.nextInt();
+        if (n <= 0) {
+            // 無效長度直接結束
+            return;
+        }
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                // 不足的輸入以 0 代替，避免程式崩動
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：同一行，數字以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

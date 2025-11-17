@@ -1,0 +1,71 @@
+6
+
+這份作業未實作排序功能，直接輸出與題目要求不同的內容，建議改為讀入 n 個整數後做排序再輸出。
+
+修改與改進說明
+- 正確性：改以陣列讀入 n 個整數，使用 Arrays.sort 進行由小到大排序，最後輸出排序結果。
+- 邏輯：採用直覺且正確的排序流程，避免與題意無關的坐標計算。
+- 格式：改以有意義的變數名稱與適當註解，並確保輸出格式為空格分隔的單行排序結果。
+- 備註：加入程式標頭註解，說明檔案名稱、功能、作者與日期；內容內加上必要註解。
+
+修改重點與原因
+- 使用陣列與 Arrays.sort 全面替代原本的座標計算邏輯，能直接完成題目需求且效能良好。
+- 加上標頭註解與內部註解，提升可讀性與維護性。
+- 設定輸出格式為單行、以空格分隔的排序結果，符合題目輸出格式。
+
+以下為修改後的完整程式碼：
+
+```java
+/*
+ * File: Main.java
+ * 功能: 從標準輸入讀取一個整數 n，接著讀入 n 個整數，將它們升序排序並輸出。
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 說明: 使用 Arrays.sort 進行排序，輸出為以空格分隔的一行數字。
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        if (n <= 0) {
+            // 無效長度時，結束程式
+            sc.close();
+            return;
+        }
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

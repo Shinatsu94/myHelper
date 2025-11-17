@@ -1,0 +1,55 @@
+97
+
+改進建議與回饋（一句話）：
+建議將數字位數和的計算封裝成方法、加入上限檢查與資源釋放，並以更具可讀性的變數命名，以提升可維護性與效率。
+
+修改說明與程式優化要點：
+- 將位數加總的邏輯抽成獨立方法 digitSum(int n)，提升可讀性與可測試性。
+- 加入上限檢查：1~100000 範圍內，最大位數和為 45，若輸入 A 超過 45 則直接輸出 0，避免不必要的迴圈。
+- 變數命名改為更具意義的名稱，例如 targetSum、count，提升可讀性。
+- 程式結構與註解更清晰，同時在結尾關閉 Scanner。
+
+修改後完整程式碼如下：
+//package h4w;
+import java.util.Scanner;
+
+/*
+    filename: CSIE_41143122_1003_3.java
+    function: 範圍內找出符合輸入的位數和的數量（範圍1~10W）
+      author: 林柏儒 資工四甲 41143122
+    datetime: 2025/10/3
+     version: 1.1
+*/
+public class CSIE_41143122_1003_3 {
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int targetSum = scanner.nextInt();
+
+        // 範圍 1 ~ 100000，最大位數和為 45，若超過則直接為0
+        if (targetSum < 0 || targetSum > 45) {
+            System.out.println(0);
+            scanner.close();
+            return;
+        }
+
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == targetSum) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        scanner.close();
+    }
+
+    // 計算正整數 n 的十進位位數總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

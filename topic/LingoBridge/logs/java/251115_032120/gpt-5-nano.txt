@@ -1,0 +1,64 @@
+88
+
+建議：為符合題目需求，應實作實際的下三角形二維陣列並加入程式檔案頭註解與適當註解，同時維持輸出格式不變。
+
+修改與優化說明：
+- 移植成實作完整的下三角形二維陣列：改用 int[][] tri 逐行填入，並在填入過程中就找出 num 的座標，確保符合「建立完整的下三角形二維陣列」的要求。
+- 增加程式檔案頭註解與適當註解：提供檔案名稱、功能、作者與日期等，提升可讀性與維護性。
+- 保留原有的輸出格式與範例行為：若 num 不在陣列範圍，輸出 not find X in array.，與題目輸出一致。
+- 變數命名與縮排維持清晰，並適度加上註解以提高可讀性。
+
+修改後的完整程式碼：
+/*
+ 檔案名稱: CSIE_41343215_1031_3b.java
+ 功能: 建立下三角形二維陣列，填入連續數字，並找出指定數字的位置
+ 作者: 教師
+ 日期: 2025-11-14
+ 說明: 讀入高度 n 及欲尋找的數字 num，若 num 在陣列範圍內，輸出其位置 [row, col]，否則輸出 not find ...
+*/
+import java.util.Scanner;
+
+public class CSIE_41343215_1031_3b {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取高度 n 與欲尋找的數字 num
+        int n = scanner.nextInt();
+        int num = scanner.nextInt();
+        scanner.close();
+
+        int maxNumInArray = (n * (n + 1)) / 2;
+
+        // 若 num 超出下三角陣列的範圍，直接輸出找不到的訊息
+        if (num < 1 || num > maxNumInArray) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 建立真正的下三角形二維陣列，並同時尋找 num 的位置
+        int[][] tri = new int[n][];
+        int counter = 1;
+        int foundRow = -1;
+        int foundCol = -1;
+
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = counter;
+                if (counter == num) {
+                    // 位置以 1-based 為輸出
+                    foundRow = i + 1;
+                    foundCol = j + 1;
+                }
+                counter++;
+            }
+        }
+
+        // 輸出結果，符合題目格式
+        if (foundRow != -1) {
+            System.out.println(num + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
+    }
+}

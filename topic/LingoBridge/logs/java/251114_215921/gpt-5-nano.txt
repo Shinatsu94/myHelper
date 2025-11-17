@@ -1,0 +1,53 @@
+5
+
+此作業的實作未符合題意，未實作排序與輸出功能，改進建議：請依題意重新實作，讀取長度與對應的整數，將它們升序排序後以空格分隔輸出，並補上程式標頭註解與適當變數命名。
+
+修改與優化說明
+- 需求對應：改用陣列收集 n 個整數，使用 Arrays.sort 降冪排序（由小到大），再以空格分隔輸出，結尾換行。
+- 設計與結構：增加適當的程式標頭註解，變數命名更具語意，並處理負數與任意長度的輸入。
+- 效能與穩定性：Arrays.sort 提供穩定且高效的排序，簡化原本的排序邏輯，降低程式錯誤風險。
+- 彈性與健壯性：讀取失敗時的容錯處理與避免尾端多餘空白的輸出。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343208_1031_3a.java
+功能說明: 讀取整數長度 n，接著讀取 n 個整數，將它們升序排序後以空格分隔輸出
+作者: 教授
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343208_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免 ArrayIndexOutOfBounds
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}

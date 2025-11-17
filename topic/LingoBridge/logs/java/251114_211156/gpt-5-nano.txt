@@ -1,0 +1,87 @@
+88
+
+建議加強註解與 IO 效能，並補上程式標頭註解以提升可讀性與穩健性。
+
+改進與修改說明：
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將輸入輸出由 Scanner 替換為自訂快速輸入 FastScanner，提升在大量資料時的效能與穩定性。
+- 使用 StringBuilder 組裝輸出，避免多次 IO 操作。
+- 增加對 n <= 0 的情況處理，避免異常輸出。
+- 對 if 的單行寫法加入大括號，提升程式可讀性與維護性。
+
+修改後的完整程式碼如下：
+
+/*
+檔案名稱: Main.java
+功能: 讀入任意長度的一維整數陣列，並以升冪排序輸出結果
+作者: 教師姓名
+日期: 2025-11-14
+*/
+
+import java.io.*;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+
+        int n = fs.nextInt(); // 讀取陣列長度
+        if (n <= 0) {
+            // 若長度為0或負數，直接輸出換行並結束
+            System.out.println();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt(); // 讀取陣列內容
+        }
+
+        Arrays.sort(arr); // 進行升冪排序
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString()); // 輸出結果
+    }
+
+    // 簡易快速輸入工具，避免使用 Scanner 的低效
+    static class FastScanner {
+        private final BufferedInputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = new BufferedInputStream(is);
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+                if (c == -1) return Integer.MIN_VALUE;
+            } while (c <= ' ');
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}

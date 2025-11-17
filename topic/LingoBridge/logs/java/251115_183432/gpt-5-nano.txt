@@ -1,0 +1,59 @@
+90
+
+改善建議（一句話）：
+建議在程式開頭加入註解與對輸入的驗證，以提升可讀性與對非預期輸入的穩健性。
+
+修改與原因：
+- 加入檔案開頭的註解塊，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 使用 scanner.next() 取代 nextLine，避免可能的行尾空白影響，同時保證只讀取一個連續的數字字串。
+- 新增對輸入是否全為數字的檢查，避免非數字輸入錯誤判斷造成不正確輸出。
+- 程式末尾加入 scanner.close()，針對資源進行適當關閉。
+- 保留原有判斷邏輯，並在可讀性上加入適當註解。
+
+以下為修改後的完整程式碼：
+
+/*
+檔案名稱: csie_41343211_1017_2.java
+功能說明: 判斷使用者輸入的數字是否為 well-ordered number（從左到右數位嚴格遞增）。
+作者: 資訊工程系教授
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class csie_41343211_1017_2 {
+
+    public static void main(String[] args) {
+        // 建立輸入串流
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取一個連續的字串，避免受行尾空白影響
+        String s = scanner.next().trim();
+
+        // 檢查是否全為數字
+        boolean isAllDigits = s.chars().allMatch(Character::isDigit);
+
+        boolean isWellOrdered = true;
+
+        if (!isAllDigits) {
+            isWellOrdered = false;
+        } else {
+            // 檢查相鄰兩位是否嚴格遞增
+            for (int i = 0; i < s.length() - 1; i++) {
+                if (s.charAt(i) >= s.charAt(i + 1)) {
+                    isWellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
+
+        // 關閉 scanner
+        scanner.close();
+    }
+}

@@ -1,0 +1,60 @@
+總分：86
+
+改進建議（一句話）：建議加入程式標頭註解、改用更具描述性的類別名稱與一致的編碼風格，同時將輸入與邏輯分離以提升可讀性。
+
+優化說明與修改內容：
+- 加入標頭註解與使用較具描述性的類別名稱 LowerTriangularArraySearch，提升可讀性與可維護性。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源遺漏。
+- 保留原本的核心邏輯：在填入下三角陣列的同時追蹤 num 的位置，確保一次性完成建立與尋找。
+- 簡化輸出邏輯，若 num 不在有效範圍內或未找到，統一輸出 "not find X in array."；若在陣列內找到，輸出格式符合題目要求，如 55[10, 10]。
+- 程式碼風格與命名做 minor 調整，提升可讀性，但未改變原有功能與行為。
+
+修改後的完整程式碼如下：
+
+/*
+檔案名稱: LowerTriangularArraySearch.java
+功能說明: 建立一個下三角形的二維陣列，填入自 1 起的序列，找出指定數字的位置（列、行，皆從 1 起）。
+作者: (你的名字)
+日期: 2025-11-14
+描述: 輸入高度 n 與要尋找的數字 num，若 num 在陣列範圍內則回傳其位置，否則輸出找不到的訊息。
+*/
+
+public class LowerTriangularArraySearch {
+    public static void main(String[] args) {
+        try (java.util.Scanner sc = new java.util.Scanner(System.in)) {
+            int n = sc.nextInt();
+            int num = sc.nextInt();
+
+            int[][] triangle = new int[n][];
+            int currentNumber = 1;
+            int targetRow = -1, targetCol = -1;
+            boolean found = false;
+
+            // 建立並填入下三角形陣列，同時尋找目標數字
+            for (int i = 0; i < n; i++) {
+                triangle[i] = new int[i + 1];
+                for (int j = 0; j <= i; j++) {
+                    triangle[i][j] = currentNumber;
+
+                    if (currentNumber == num) {
+                        targetRow = i + 1;
+                        targetCol = j + 1;
+                        found = true;
+                    }
+
+                    currentNumber++;
+                }
+            }
+
+            int maxNumber = n * (n + 1) / 2;
+            if (num < 1 || num > maxNumber) {
+                System.out.println("not find " + num + " in array.");
+            } else if (found) {
+                System.out.printf("%d[%d, %d]%n", num, targetRow, targetCol);
+            } else {
+                // 理論上不會執行到此分支，但為穩健性仍輸出一致的訊息
+                System.out.println("not find " + num + " in array.");
+            }
+        }
+    }
+}

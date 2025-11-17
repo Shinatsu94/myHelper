@@ -1,0 +1,71 @@
+76
+建議在程式中實作真正的下三角形二維陣列並提供清晰的檔案註解與命名，以符合題目要求與提升可讀性。
+
+修改說明與原因：
+- 增加實作下三角形的 2D 陣列：建立 int[][] arr 並填入 1, 2, ...，僅在下三角區域填值，符合「建立完整的下三角形二維陣列」的需求。
+- 變數命名與結構提升可讀性：改用 n、target、arr、val 等較具語意的變數名稱。
+- 檔案註解與標頭：加入完整的檔案名稱、描述、作者、日期等註解，符合備註部分的要求。
+- 資源管理與健壯性：使用 scanner.close() 關閉資源，加入基本的輸入檢查與容錯。
+- 輸出格式保持一致：仍輸出與題目相同的格式，例如 "55[10, 10]" 或 "not find 99 in array."，以保持相容性。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343247_1031_3b.java
+Description: 建立下三角形二維陣列，填入數字，找出指定數字的位置
+Author: 盧冠宇
+Date: 2023-10-31
+*/
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_3b {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        int target;
+
+        // 基本輸入取得與檢查
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        target = scanner.nextInt();
+
+        // 建立下三角形二維陣列，並填入連續的數字
+        int[][] arr = new int[n][n];
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = val++;
+            }
+        }
+
+        // 找出 target 在陣列中的位置（1-based）
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+        for (int i = 0; i < n && !found; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (arr[i][j] == target) {
+                    found = true;
+                    foundRow = i + 1; // 轉為 1-based
+                    foundCol = j + 1;
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+
+        scanner.close();
+    }
+}

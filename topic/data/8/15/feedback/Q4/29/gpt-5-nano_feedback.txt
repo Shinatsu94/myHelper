@@ -1,66 +1,79 @@
-總分（先行顯示於第一行）：
-2
+62
 
-評分細項：
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：2/10
-- 備註：0/10
-總分：2/100
+建議：補上完整的標頭註解並以真正的二維下三角陣列實作取代直接推算的位置，並在輸入超出範圍時給出清楚的提示。
 
-修改與說明：
-- 這份作業的實作與題意嚴重不符，未完成「讀取長度 n 與 n 個整數、將其升冪排序再輸出」的功能，且輸出格式與負數支援均未正確處理，因此正確性與邏輯得分為零，備註部分未提供適當的程式註解。
-- 已提供一份符合題意的改良版本，使用 Array.sort 進行排序，能正確處理包含負數的情況，並以空格分隔輸出排序結果，同時改善程式結構與可讀性。
+修改與優化說明（要點）
+- 以實作下三角形的二維陣列（採 jagged array）取代僅用變數推算的位置，符合題意「建立完整的下三角形二維陣列」的要求。
+- 新增清楚的程式標頭註解，包含檔案名稱、功能、作者、日期與說明，提升可讀性與維護性。
+- 加入對 tar 輸入值的範圍檢查，若 tar 不在陣列內（包括超出最大值或非正整數），就輸出「not find … in array.」的訊息。
+- 使用更具語意的變數名稱並整理縮排，提升可讀性與程式結構。
+- 程式結尾加入 Scanner 關閉，釋放資源。
 
-修改後完整程式碼（可直接執行）：
-// 檔案名稱：SortArrayAscending.java
-// 功能：讀取長度 n 與 n 個整數，將它們由小到大排序，輸出排序結果（以空格分隔）。
-// 作者：請填寫
-// 日期：請填寫
-import java.util.Arrays;
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343150_1031_3b.java
+功能: 建立下三角形二維陣列，找出指定數字的位置
+作者: 學生
+日期: 2025-11-14
+說明: 讀取高度 n 與待尋找的數字 tar，建立長度分別為 1..n 的二維陣列(下三角)，找出 tar 的座標並輸出。若 tar 不在陣列中，印出相關訊息。
+*/
+
 import java.util.Scanner;
 
-public class SortArrayAscending {
+public class CSIE_41343150_1031_3b {
     public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        // 讀取長度 n
-        if (!scn.hasNextInt()) {
-            scn.close();
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
             return;
         }
-        int n = scn.nextInt();
-        int[] arr = new int[n > 0 ? n : 0];
+        n = sc.nextInt();
 
-        // 讀取 n 個整數
+        int tar;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        tar = sc.nextInt();
+
+        // 建立下三角形二維陣列 (jagged array)
+        int[][] tri = new int[n][];
+        int value = 1;
         for (int i = 0; i < n; i++) {
-            if (scn.hasNextInt()) {
-                arr[i] = scn.nextInt();
-            } else {
-                // 若輸入不足，預設為 0，避免例外
-                arr[i] = 0;
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
             }
         }
-        scn.close();
 
-        // 排序
-        Arrays.sort(arr);
+        int maxVal = n * (n + 1) / 2;
+        if (tar <= 0 || tar > maxVal) {
+            System.out.printf("not find %d in array.", tar);
+        } else {
+            boolean found = false;
+            int foundRow = -1;
+            int foundCol = -1;
+            outer:
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (tri[i][j] == tar) {
+                        found = true;
+                        foundRow = i + 1; // 1-based
+                        foundCol = j + 1; // 1-based
+                        break outer;
+                    }
+                }
+            }
 
-        // 輸出，避免尾端多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            if (found) {
+                System.out.printf("%d[%d, %d]", tar, foundRow, foundCol);
+            } else {
+                System.out.printf("not find %d in array.", tar);
+            }
         }
-        System.out.println(sb.toString());
+
+        sc.close();
     }
 }
-
-修改部分的原因與重點：
-- 用 Arrays.sort 取代原始的錯誤邏輯（原程式僅處理三角形數列，與題意不符）。
-- 正確讀取 n 與 n 個整數，並處理包含負數的情況，Arrays.sort 會正確處理負數。
-- 輸出格式改為單行、以空格分隔，符合題目範例。
-- 新增程式頭部註解，並使用有意義的變數名稱與清晰的縮排，提升可閱讀性與維護性。
-
-改進建議（一句話）：
-建議在輸入資料不完整時加入明確的錯誤處理與提示，並考慮多測資情況的穩健性，例如直接在輸入不足時結束或報錯，以提高程式的魯棒性。

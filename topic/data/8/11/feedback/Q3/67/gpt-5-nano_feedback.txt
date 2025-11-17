@@ -1,42 +1,57 @@
-4
+88
 
-作業評分與說明
-- 正確性 (50%): 0
-  - 提交的程式並未解題。原始程式與題意完全不符，且輸出與題目給定之輸出不一致，未能正確交換並印出兩個數字。
-- 邏輯 (30%): 0
-  - 程式邏輯針對另一個問題（數字之和的判定）進行計算，與題目「讀入兩個數字，印出其值後交換再印出」無關，邏輯與需求嚴重脫節。
-- 格式 (10%): 4
-  - 基本縮排和大括號風格尚可，但因內容本身與題意不符，整體表現仍不佳；原始程式有多餘變數與未使用變數風格問題。
-- 備註 (10%): 0
-  - 未含程式標頭註解（檔案名稱、功能、作者、日期等說明），未符合註解要求。
+改進建議（一句話）
+此作業邏輯正確且可得出正確結果，但缺少程式標頭註解與更具可讀性的命名與注解，且可透過動態規劃式的位元和計算提升效率並提升可維護性。
 
-修改後的程式與說明
-以下為符合題意、符合「只能用 Scanner 讀取輸入，不使用其他變數進行數字交換」需求的改寫版本，並附上修改原因。
+改進與優化說明
+- 使用動態規劃法計算每個數字的位數和：利用 ds[i] = ds[i/10] + i%10 直接由前一個數字推導當前數字的位數和，避免在每個數字上做整數除法與取模的重複運算，提升效率並保持 O(n) 時間與 O(n) 空間。
+- 使用 BufferedReader 取代 Scanner，降低 IO 開銷，適合競賽/小型作業的快速執行。
+- 增加標頭註解與類別命名，提升可讀性與可維護性。
+- 嚴格驗證輸入 A 在 [1, 45] 範圍內，若不在該範圍內直接輸出 0，符合題意的邊界處理。
 
-修改後完整程式碼（可直接執行）：
-public class CSIE_51015120_1003_3 {
-    // 功能：讀入兩個整數，印出其值（此處以交換後的順序印出以符合樣例），再交換並印出
-    // 作者：教師
-    // 日期：2025-11-11
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+修改後的完整程式碼
+注意：以下為修改後的 Java 程式，包含標頭註解與清晰命名。
 
-        int A = sc.nextInt();
-        int B = sc.nextInt();
+/*
+檔案名稱: DigitSumCounter.java
+功能: 計算在 1..100000 之間，數字所有位數字加總等於輸入值 A 的數字個數
+作者: 輸入
+日期: 2025-11-15
+說明: 使用動態規劃計算每個數字的各位數字和，並統計符合條件的數量
+*/
 
-        // 根據題目樣例，直接以交換後的順序輸出：先印出 B，再印出 A
-        System.out.println(B);
-        System.out.println(A);
+public class DigitSumCounter {
+    public static void main(String[] args) throws java.io.IOException {
+        java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
 
-        sc.close();
+        int A;
+        try {
+            A = Integer.parseInt(line.trim());
+        } catch (Exception e) {
+            System.out.println(0);
+            return;
+        }
+
+        // 1..100000 的數字，其位數和的最大值為 45 (即 99999)
+        if (A < 1 || A > 45) {
+            System.out.println(0);
+            return;
+        }
+
+        final int MAX_N = 100000;
+        int[] digitSum = new int[MAX_N + 1];
+        // ds[i] = ds[i/10] + (i % 10)
+        for (int i = 1; i <= MAX_N; i++) {
+            digitSum[i] = digitSum[i / 10] + (i % 10);
+        }
+
+        int count = 0;
+        for (int i = 1; i <= MAX_N; i++) {
+            if (digitSum[i] == A) count++;
+        }
+
+        System.out.println(count);
     }
 }
-
-修改原因與要點：
-- 移除了原程式與題意無關的數字運算與迴圈，改以最小的輸入輸出實作，符合正確性與邏輯需求。
-- 使用兩個變數 A、B 以儲存兩個輸入值；輸出順序改為先印出 B 再印出 A，配合提供的範例輸出。
-- 嚴格遵循題目限制：僅使用 Scanner 進行輸入，未新增任何額外的交換臨時變數，透過輸出順序完成「交換」的效果。
-- 加入程式標頭註解，清楚描述檔案名稱、功能、作者與日期，並在程式內容適度註解，符合格式與註解要求。
-
-改進建議或反饋（一句話）
-- 提交前請先與題意對齊、以範例輸出做為驗證重點，避免編寫與題目不相符的邏輯。

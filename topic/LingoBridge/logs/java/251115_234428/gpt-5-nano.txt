@@ -1,0 +1,55 @@
+87
+
+改進建議：在保持不使用 if-else 的前提下，建議加入程式標頭註解並提升變數命名與排版，以增進可讀性與可維護性，同時避免整數相加時的溢位風險。
+
+修改說明與優化重點
+- 增加標頭註解，說明檔案名稱、功能、作者、日期，符合備註要求。
+- 將變數命名改為更具描述性的 num1、num2、num3，提升可讀性。
+- 為中間值 mid 使用 long 進行求和運算以降低整數相加溢位的風險，並輸出時保持數值型別的一致性。
+- 保留兩個三元運算式分別計算最小值與最大值的方式，符合「不可使用 if-else」的限制以及題意「兩種不同的方式」的實作方向之一（分別使用兩個三元運算式).
+- 適當整理縮排與註解，提升格式整體的可讀性。
+- 在結尾加上 sc.close() 以釋放資源。
+
+修改後完整程式碼
+```java
+/**
+ * CSIE_41343231_1003_2.java
+ * 功能: 從輸入的三個整數中找出最小值、中位數、最大值，且不使用 if-else，使用兩種不同方式之一的三元運算子實作。
+ * 作者: 教授
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343231_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
+
+        // 計算最小值 using兩次三元運算式
+        int min = (num1 < num2) ? num1 : num2;
+        min = (min < num3) ? min : num3;
+
+        // 計算最大值 using兩次三元運算式
+        int max = (num1 > num2) ? num1 : num2;
+        max = (max > num3) ? max : num3;
+
+        // 計算中位數，為避免溢位，使用 long 進行加總再扣除最大與最小
+        long sum = (long) num1 + num2 + num3;
+        long mid = sum - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}
+```
+
+說明總分與註記
+- 總分：87/100
+- 評語摘錄：正確性與邏輯部分表現良，格式與備註部分有改進空間，建議在提交時補上完整的程式標頭註解並提高變數命名的描述性，以提升可維護性與可讀性。若未來需要避免整數溢位，建議以 long 作為中間計算的資料型別或轉型處理。

@@ -1,0 +1,43 @@
+88
+
+建議加強註解與輸入檢證，同時改善可讀性與效率，並確保程式標頭清楚說明用途。
+
+修改說明與理由：
+- 加入檔案頭註解，說明檔名、功能、作者與日期，符合需求的備註規範。
+- 將變數名稱改為 height，提升語意清楚度。
+- 使用 try-with-resources 以自動關閉 Scanner，避免資源未關閉的風險。
+- 使用 StringBuilder 結合多行輸出，降低 I/O 次數，提升效率。
+- 保留原邏輯：逐行產生長度為行號的星號，輸出成下三角形。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41343202_1031_3A.java
+ * 功能: 建立並印出下三角形的星號圖形，輸入高度 n（0 < n <= 20）
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+public class CSIE_41343202_1031_3A {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int height = scanner.nextInt();
+
+            // 輸入驗證：高度必須在 1 到 20 之間
+            if (height <= 0 || height > 20) {
+                System.out.println("錯誤");
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= height; i++) {
+                for (int j = 0; j < i; j++) {
+                    sb.append('*');
+                }
+                sb.append('\n');
+            }
+
+            System.out.print(sb.toString());
+        }
+    }
+}

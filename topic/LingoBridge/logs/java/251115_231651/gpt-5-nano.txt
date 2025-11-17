@@ -1,0 +1,34 @@
+96
+
+建議：將變數命名改成更有意義的名稱，並在程式中加入適度註解以提升可讀性，同時保留 XOR 交換法以符合題目對無額外變數的限制。
+
+修改說明與修改內容
+- 將變數 a, b 改名為 firstValue、secondValue，以符合「有意義命名」的要求，提升可讀性。
+- 保留兩數互換的 XOR 交換法，因題目限制不得使用其他變數進行交換；並加入註解說明交換思路及變數用途。
+- 程式結尾加上 scn.close()，以釋放 Scanner 資源。
+- 更新了程式註解與檔案 Header，使其更清楚地描述檔案名稱、功能與作者。
+
+修改後完整程式碼：
+/* 檔案名稱: csie_41343233_1003_1
+   日期: 2025/10/03
+   作者: 陳韋廷
+   程式介紹: 讀入兩個整數，印出原值，交換後再印出新值
+*/
+import java.util.Scanner;
+public class csie_41343233_1003_1{
+    public static void main(String[] args){
+        Scanner scn = new Scanner(System.in);
+        int firstValue = scn.nextInt();
+        int secondValue = scn.nextInt();
+
+        // 使用位元異或運算交換兩個變數的值，僅使用原本的兩個變數
+        firstValue = firstValue ^ secondValue;
+        secondValue = firstValue ^ secondValue;
+        firstValue = firstValue ^ secondValue;
+
+        System.out.println(firstValue);
+        System.out.println(secondValue);
+
+        scn.close();
+    }
+}

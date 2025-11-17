@@ -1,0 +1,40 @@
+88
+
+建議改進方向：建議加上程式標頭註解、改用更具可讀性的變數命名，並考慮處理負數與輸入範圍的極限以提升穩健性。
+
+程式優化與修改說明
+- 新增完整的程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的格式要求。
+- 使用更具可讀性的變數名稱（num、abs、reversed 等），並保持縮排與排版的一致性。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源未關閉的問題。
+- 改為長整數型別 long，並處理負數情況：先取得絕對值再翻轉，最後再加回符號，提升穩健性與靈活性。
+- 保留單次執行、符合題目需求的特性，輸出仍為反轉後的位數序列，且能正確處理像 2500 這類尾端零在反轉後被去除的情形。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41343226_1017_3.java
+ * Description: 將使用者輸入的整數其位數倒序輸出。
+ * Author: 評分範例
+ * Date: 2025-11-15
+ */
+public class CSIE_41343226_1017_3 {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            long num = scanner.nextLong();
+            boolean negative = num < 0;
+            long abs = Math.abs(num);
+            long reversed = 0;
+
+            while (abs > 0) {
+                long digit = abs % 10;
+                abs /= 10;
+                reversed = reversed * 10 + digit;
+            }
+
+            if (negative) reversed = -reversed;
+
+            System.out.println(reversed);
+        }
+    }
+}

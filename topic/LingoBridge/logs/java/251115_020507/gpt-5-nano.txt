@@ -1,0 +1,71 @@
+80
+
+改進建議（一句話）：
+此程式在一般情況下可正確產生結果，但缺少程式檔頭註解與對長度為0的邊界處理，建議增加註解與健全性檢查。
+
+修改與原因：
+- 增加程式檔頭註解，說明檔案名稱、功能、作者、日期，符合作業需求中的註解規範。
+- 增加對長度為 0 或無法有效輸入時的魯棒性處理，避免極端情境造成例外。
+- 使用更穩健的輸入讀取，對缺少元素的情況給定預設值，避免程式在輸入不完整時失敗。
+- 使用 StringBuilder 產生輸出字串，提升輸出效率與可讀性。
+- 程式內部排版與區塊加上大括號與換行，提升可讀性與維護性。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343212_1031_2.java
+Description: 建立任意長度的一維陣列，將每個元素以其右側元素中的最大值取代，最後輸出結果；最後一個元素為-1。
+Author: 使用者
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1031_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        if (!input.hasNextInt()) {
+            // 未輸入長度，直接結束
+            System.out.println();
+            input.close();
+            return;
+        }
+
+        int length = input.nextInt();
+        if (length <= 0) {
+            // 長度為0或負數，輸出空行並結束
+            System.out.println();
+            input.close();
+            return;
+        }
+
+        int[] arr = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                // 若輸入不足，以預設值 0 代替
+                arr[i] = 0;
+            }
+        }
+
+        int max = arr[length - 1];
+        arr[length - 1] = -1;
+        for (int i = length - 2; i >= 0; i--) {
+            int tmp = arr[i];
+            arr[i] = max;
+            if (tmp > max) {
+                max = tmp;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}

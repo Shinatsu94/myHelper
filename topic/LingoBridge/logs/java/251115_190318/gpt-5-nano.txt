@@ -1,0 +1,43 @@
+85
+
+改進建議：將反轉邏輯改為直接對 x 做逐位處理的寫法，去除不必要的絕對值與符號處理，提升可讀性與穩健性，同時補上程式標頭註解以符合規範。
+
+修改說明與修改後程式碼
+
+修改內容與原因：
+- 設計變更：將 reverse 函式改為不用 Math.abs 與負號標記的直接逐位反轉寫法，直接對 x 為整數進行取模與除法運算，簡化邏輯並降低出錯點。
+- 程式標頭註解：加入檔案名稱、功能、作者、日期等註解，符合備註欄位要求。
+- 其他小幅優化：保留單次執行的輸入輸出格式，沒有改變使用者介面需求。
+
+修改後完整程式碼：
+
+/*
+ 檔案名稱: ReverseInteger.java
+ 功能: 將輸入的整數的位元順序翻轉後輸出
+ 作者: 教師
+ 日期: 2025-11-15
+ 說明: 直接對 x 進行逐位反轉，支援正整數與負整數，輸出不保留前導零。
+*/
+
+import java.util.*;
+
+public class ReverseInteger {
+    // 直接對數字逐位反轉，保留符號（負數會自動對應負號輸出）
+    public static long reverse(long x) {
+        long rev = 0;
+        while (x != 0) {
+            long d = x % 10;     // 取得最低位數字
+            rev = rev * 10 + d;  // 將數字追加到結果尾端
+            x /= 10;              // 去除最低位
+        }
+        return rev;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+        long r = reverse(n);
+        System.out.println(r);
+        sc.close();
+    }
+}

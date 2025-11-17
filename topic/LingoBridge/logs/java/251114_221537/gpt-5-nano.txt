@@ -1,0 +1,61 @@
+2
+
+此作業未依題意實作排序與輸入輸出，需改寫成讀取長度與整數、排序後輸出單行結果。
+
+修改與優化說明
+- 改善原因：原程式僅輸出星號圖樣，未完成排序與數字輸入輸出需求，需改為正確處理整數陣列並輸出排序結果。
+- 主要變更點：
+  - 使用 1 維整數陣列替換原先的 2D char 陣列，避免不必要的資料結構。
+  - 使用 Arrays.sort 進行排序，時間複雜度 O(n log n)。
+  - 清晰的輸入流程：先讀取長度 n，再依序讀取 n 個整數。
+  - 輸出改為在同一行，以空格分隔，結尾換行，符合題意。
+  - 加入程式頭註解與適當註解，並使用有意義的變數名稱，提升可讀性。
+  - 關閉 Scanner，養成良好資源管理習慣。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_51015114_1031_3.java
+功能: 讀取長度與整數序列，升序排序並輸出
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_51015114_1031_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：單行、數字之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

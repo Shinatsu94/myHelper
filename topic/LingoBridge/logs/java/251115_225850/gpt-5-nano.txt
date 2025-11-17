@@ -1,0 +1,35 @@
+59
+
+建議改進：移除額外的輸出提示與描述，只輸出必要的結果，並改用不會產生溢位的交換方法，同時補上程式標頭註解。
+
+修改與優化說明：
+- 移除輸出提示與「交換前/交換後」等多餘輸出，讓輸出符合測資預期的格式。
+- 改用位元異或交換法（XOR swap），僅使用 A、B 兩個變數完成交換，避免整數溢位風險，且不使用額外變數。
+- 將資料型別改為 long，以擴大輸入範圍，仍然符合「不使用額外變數進行交換」的限制。
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，並在程式內容加入必要註解。
+
+修改後完整程式碼：
+/**
+ * File: CSIE_41243247_1003_1.java
+ * Description: 讀入兩個整數，交換值並輸出；僅使用 A、B 變數完成交換，且輸出交換後的結果。
+ * Author: ChatGPT
+ * Date: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class CSIE_41243247_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long A = sc.nextLong();
+        long B = sc.nextLong();
+
+        // 使用 XOR 交換法，僅使用 A、B 兩個變數，避免溢位
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+        sc.close();
+    }
+}

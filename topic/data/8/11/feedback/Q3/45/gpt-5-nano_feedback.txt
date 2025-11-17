@@ -1,44 +1,70 @@
-11
+88
 
-修改後完整程式碼：
+改進建議（一句話）
+改進檔案標頭註解與變數命名，修正位數和的實際上限說明，並使用穩健的 I/O 與分層邏輯以提升可讀性與維護性。
+
+程式改寫與修改原因摘要
+- 將最大位數和的說明修正為 MAX_DIGIT_SUM = 45（因 1..99999 的最大位數和為 45，100000 的和為 1），並在 A 不在允許範圍時直接輸出 0，避免不必要計算。
+- 新增程式檔案標頭註解，包含檔案名稱、功能、作者與日期，符合作業要求中的註解規範。
+- 重構程式結構，將核心邏輯分成更清晰的方法（digitSum 與 countNumbersWithDigitSum），提高可讀性與重用性。
+- 使用 BufferedReader 取代 Scanner，提升 I/O 效率，尤其在學習範例中較常見。
+- 移除多餘的註解與不一致的排版，統一命名與縮排。
+
+修改後的完整程式碼
+```java
 /*
- * CSIE_41343223_1003_3.java
- * 功能: 讀取兩個整數 A, B，先印出 A、B，然後在不使用額外變數的情況下交換兩值，最後再各自印出交換後的結果。
- * 作者: 你的名字
- * 日期: 2025-11-11
- */
-import java.util.Scanner;
+File: DigitSumCounter.java
+Description: 對於輸入的整數 A，計算 1..100000 的數字各位數字和等於 A 的數字個數
+Author: YourName
+Date: 2025-11-15
+*/
 
-public class CSIE_41343223_1003_3 {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+import java.io.*;
 
-        // 讀入兩個整數 A 與 B
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+public class DigitSumCounter {
+    private static final int LIMIT = 100000;
+    private static final int MAX_DIGIT_SUM = 45; // 9 * 5 ︱ 1..99999 的最大位數和
 
-        // 先輸出原始的 A 與 B
-        System.out.println(A);
-        System.out.println(B);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
 
-        // 不使用額外變數進行交換（A = A + B; B = A - B; A = A - B）
-        A = A + B;
-        B = A - B;
-        A = A - B;
+        line = line.trim();
+        if (line.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
 
-        // 再輸出交換後的結果
-        System.out.println(A);
-        System.out.println(B);
+        int A = Integer.parseInt(line);
 
-        scanner.close();
+        // 若超出實際可能的位數和，直接輸出 0
+        if (A < 0 || A > MAX_DIGIT_SUM) {
+            System.out.println(0);
+            return;
+        }
+
+        int count = countNumbersWithDigitSum(A, LIMIT);
+        System.out.println(count);
+    }
+
+    // 回傳一個數字的各位數字加總
+    private static int digitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    // 計算 1..limit 中，其各位數字和等於 target 的數量
+    private static int countNumbersWithDigitSum(int target, int limit) {
+        int cnt = 0;
+        for (int i = 1; i <= limit; i++) {
+            if (digitSum(i) == target) cnt++;
+        }
+        return cnt;
     }
 }
-
-修改說明：
-- 依需求改為正確解題：先讀入兩個數字並分別印出，再在不使用額外變數的前提下進行兩數交換，最後再印出交換後的結果。
-- 使用不使用臨時變數的交換方法 A = A + B; B = A - B; A = A - B，符合題目限制。
-- 加上完整的程式文件頭註解，提升可讀性與維護性，並保持適當縮排與清楚的變數命名。
-- 程式結尾加上 scanner.close() 的資源釋放。
-
-改進建議（一句話）：
-若擔心整數溢位風險，可改用位元異或交換法（A ^= B; B ^= A; A ^= B）以避免溢位，但需確保輸入型別與語言行為符合預期。
+```

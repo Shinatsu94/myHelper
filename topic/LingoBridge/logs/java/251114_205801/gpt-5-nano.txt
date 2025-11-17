@@ -1,0 +1,60 @@
+79
+
+建議重點改進：改用逐一讀取整數的方式（避免對整行解析可能造成的空格/格式問題），並以不帶尾端空格的方式輸出排序結果，以提升健壯性與輸出一致性。
+
+修改與優化說明
+- 輸入部分改為逐個使用 nextInt 讀取元素，避免依賴整行字串分割，這樣能正確處理任意空白與負數，並且在多行輸入情況下亦能穩定工作。
+- 輸出改為使用 StringBuilder 組裝後再輸出，避免尾端有多餘空白，符合一般的輸出格式要求。
+- 新增程式標頭註解，說明檔案名稱、功能與基本資訊，提升可維護性。
+- 程式結構微調，加入 input.close() 以釋放資源。
+
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_41343143_1031_1.java
+ * Description: 將輸入的一維整數陣列進行升序排序，輸出排序後結果。
+ * Author: 教師
+ * Date: 2025-11-14
+ * Notes: 使用簡單的 bubble sort；輸入格式為先輸入長度，再輸入該長度的整數，支援負數。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343143_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n;
+        if (input.hasNextInt()) {
+            n = input.nextInt();
+        } else {
+            input.close();
+            return;
+        }
+
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = input.nextInt();
+        }
+
+        // Bubble sort (升序)
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tmp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = tmp;
+                }
+            }
+        }
+
+        // 輸出，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+        input.close();
+    }
+}
+```

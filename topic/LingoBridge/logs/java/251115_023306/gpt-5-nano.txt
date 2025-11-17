@@ -1,0 +1,51 @@
+85
+
+改進建議（一句話）：此作業正確輸出下三角星號陣列，但缺少程式標頭註解與輸入範圍檢查，且可藉由使用字串拼接提升輸出效率與可讀性。
+
+修改與優化說明：
+- 增加程式標頭註解，說明檔案名稱、功能、作者、日期，提升可維護性。
+- 變數命名與結構微調，使用較具語意的命名與一致的縮排，提升可讀性。
+- 新增輸入範圍檢查，確保 0 < n <= 20 之限制被滿足，避免極端情況造成錯誤或異常行為。
+- 改用 StringBuilder 組裝每一列再輸出，減少多次 System.out.print 呼叫，提升執行效率（尤其在較大 n 時）。
+- 移除與題目無關的註解，避免混淆。
+
+修改後完整程式碼（保留原始檔案名稱與公開類別名以便編譯執行）：
+/*
+File: CSIE_41343109_1031_03.java
+Description: 建立並列印下三角形的二維陣列，高度由使用者輸入，範圍 0<n<=20
+Author: 學號 41343109
+Date: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343109_1031_03 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 輸入範圍檢查，符合題意 0 < n <= 20
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        char[][] a = new char[n][n];
+        // 填入下三角形 '*' 符號
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                a[i][j] = '*';
+            }
+        }
+
+        // 逐列輸出，使用 StringBuilder 提升輸出效率
+        for (int i = 0; i < n; i++) {
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j <= i; j++) {
+                sb.append(a[i][j]);
+            }
+            System.out.println(sb.toString());
+        }
+
+        sc.close();
+    }
+}

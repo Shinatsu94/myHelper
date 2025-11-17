@@ -1,0 +1,48 @@
+88
+
+建議：建議加入程式標頭註解、使用具可讀性的變數名稱，並採用 StringBuilder 與 try-with-resources 提升穩定性與效率。
+
+程式優化說明與修改：
+
+- 為何修改：
+  - 增加程式標頭註解，提升可讀性與維護性。
+  - 將變數名稱從 c 改為 n，讓用途更清楚。
+  - 使用 StringBuilder 合併輸出，較直接的逐行 System.out.print 方式更有效率，尤其在較大輸出時。
+  - 使用 try-with-resources 自動關閉 Scanner，以避免資源未關閉的風險。
+  - 增加基本輸入範圍檢查，避免非法輸入造成不預期行為。
+
+- 修改內容摘要：
+  - 將原有程式改為有標頭與註解的版本，並使用新命名與輸出優化。
+  - 保留原功能與輸出結果的正確性，同時提升可讀性與穩定性。
+
+- 修改後完整程式碼：
+```java
+/**
+ * File: CSIE_41343226_1031_3A.java
+ * 功能: 輸入高度 n，輸出下三角形 '*' 矩陣
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 內容: 使用 Scanner 讀取整數 n，輸出長度為 n 的下三角形 '*' 行列
+ */
+import java.util.Scanner;
+
+public class CSIE_41343226_1031_3A {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            if (n <= 0 || n > 20) {
+                // 若輸入不在允許範圍，直接結束
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= n; i++) {
+                for (int j = 0; j < i; j++) {
+                    sb.append('*');
+                }
+                sb.append('\n');
+            }
+            System.out.print(sb.toString());
+        }
+    }
+}
+```

@@ -1,38 +1,71 @@
-7
+92
 
-修改後完整程式碼（符合題意，並於程式開頭加入註解、使用就地交換且只用 Scanner 輸入）：
-// File: SwapTwoNumbers.java
-// 功能: 讀入兩個整數 A 和 B，印出原始值，然後在不使用額外變數的情況下交換兩數並印出新值
-// 作者: 教師姓名
-// 日期: 2025-11-11
-import java.util.Scanner;
+建議改進是：補齊程式標頭註解、使用更具描述性的變數命名，並將 I/O 改為 BufferedReader 以提升效能與穩定性。
 
-public class SwapTwoNumbers {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int A = sc.nextInt();
-        int B = sc.nextInt();
-        sc.close();
+改動說明與原因
+- 為何改動
+  - 加入標頭註解：符合作業備註中的要求，提升程式可讀性與可維護性。
+  - 改用 BufferedReader 取代 Scanner：在大量迴圈或多次輸入時效能較好，穩定性較高。
+  - 變數命名更具語意（如 target）：提升可讀性，方便他人理解程式意圖。
+- 變更重點
+  - 1) 使用 BufferedReader 讀取單一整數輸入，避免 Scanner 的開銷。
+  - 2) 增加標頭註解，說明檔案名稱、功能、作者、日期與修改原因。
+  - 3) 將變數名稱 A 改為 target，提高可讀性；其他邏輯保持不變。
+  - 4) 保留原有的正確性與簡單邏輯，同時保持適當註解以提升可讀性。
 
-        // 印出原始值
-        System.out.println(A);
-        System.out.println(B);
+修改後完整程式碼
+```java
+/*
+ * File: CSIE_41343229_1003_3.java
+ * 功能: 計算 1 到 100000 之間，數字各位數字總和等於輸入 A 的個數
+ * 作者: 資訊工程系教授
+ * 日期: 2025-11-15
+ * 修改說明: 使用 BufferedReader 提升 I/O 效率，加入程式標頭註解，並改進變數命名以提升可讀性。
+ */
 
-        // 在不新增其他變數的情況下完成交換（使用加法與減法，避免 temp 變數）
-        A = A + B;
-        B = A - B;
-        A = A - B;
-
-        // 印出交換後的值
-        System.out.println(A);
-        System.out.println(B);
+// 計算正整數 n 的各位數字總和
+static int digitSum(int n) {
+    int s = 0;
+    while (n > 0) {
+        s += n % 10;
+        n /= 10;
     }
+    return s;
 }
 
-修改說明：
-- 針對題目需求，改用兩個變數 A 與 B 直接輸入，並先印出原始值，之後以就地交換的方式交換兩數，最後再印出交換後的值，符合「不使用額外變數進行交換」的限制。
-- 移除了原作中未使用的 digitSum 函式與相關邏輯，避免與本題需求混淆。
-- 在檔案開頭加入程式標頭註解，描述檔案名稱、功能、作者與日期，提升可維護性。
-- 程式變數命名保持清晰（A、B 為輸入變數），並維持適當的縮排與註解。
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-改進建議或反饋（一句話）：請確保題意與輸出樣本一致，若樣本僅顯示交換後的兩個值，建議在實作與輸出說明中同步說明輸出順序，以免混淆。
+public class CSIE_41343229_1003_3 {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        br.close();
+
+        int target = Integer.parseInt(line.trim());
+
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) count++;
+        }
+        System.out.println(count);
+    }
+
+    // 計算正整數 n 的各位數字總和
+    static int digitSum(int n) {
+        int s = 0;
+        while (n > 0) {
+            s += n % 10;
+            n /= 10;
+        }
+        return s;
+    }
+}
+```
+
+說明
+- 修改後的程式在功能上與原題需求完全相同，仍然計算 1 至 100000 內，數字各位數字總和等於輸入 A 的數字個數。
+- 引入標頭註解提升可維護性與專案統一性，並用更具語義的變數 target 提升可讀性。
+- 使用 BufferedReader 提高輸入效率，特別是在教育用題目或大量輸入時的穩定性更好。若未來需要處理更大範圍或多次輸入，亦可考慮進一步優化 I/O。

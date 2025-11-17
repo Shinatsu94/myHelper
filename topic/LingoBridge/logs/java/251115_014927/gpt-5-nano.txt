@@ -1,0 +1,90 @@
+60
+
+建議回饋：
+此作業在處理包含負數的情況時，最後一個元素變為 -1 的規則雖正確，但若前面元素全為負數且皆不大於 -1，右側最大值的初始值設定為 -1 將導致結果錯誤。建議以原陣列的右側元素值來決定各位置的最大值，並在最後一位強制為 -1。
+
+改進說明與修改原因：
+- 正確性與邏輯部分：將右側最大值的初始值改為與原始陣列相容的策略，並在遍歷時第一個步驟即將最後一個元素設為 -1，之後再以先前遍歷過的原始值來更新右側最大值，避免負數情況下因初始值 -1 而產生錯誤結果。
+- 程式格式與可讀性：改用更清晰的變數命名與內部註解，並在必要處添加檔案標頭註解與說明，以符合作業最小註解需求。
+- 備註：提供完整註解與標頭，方便檔案管理與日後維護。
+
+優化後修改要點：
+- 在 reversed 循環中，最後一個元素設為 -1，並將 maxRight 初始化為該最後元素；往前逐步將陣列元素替換為當前的 maxRight，遇到比 maxRight 還大的原始值時更新 maxRight。
+- 使用更一致的變數命名（例如 n、maxRight、current），並加入必要註解與程式標頭。
+
+修改後完整程式碼：
+/*
+ * File: ArrayProcessor.java
+ * Description: 讀取正整數 n 及 n 個整數，將陣列中每個元素替換為其右側元素的最大值；最後一個元素替換為 -1。
+ *              輸出排序後的內容。支援包含負數的輸入。
+ * Author: 教授
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class ArrayProcessor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 先讀入陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        if (n < 0) {
+            // 非法長度
+            scanner.close();
+            return;
+        }
+
+        int[] array = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 讀取不足時結束
+                scanner.close();
+                return;
+            }
+        }
+
+        // 若長度為 0，直接結束
+        if (n == 0) {
+            scanner.close();
+            return;
+        }
+
+        // 從右向左處理：最後一個元素設為 -1，其右側最大值為原本最後一個元素
+        int maxRight = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            int current = array[i];
+            if (i == n - 1) {
+                // 最後一個元素替換為 -1
+                array[i] = -1;
+                maxRight = current;
+            } else {
+                // 其他位置替換為目前的右側最大值
+                array[i] = maxRight;
+                if (current > maxRight) {
+                    maxRight = current;
+                }
+            }
+        }
+
+        // 印出結果
+        for (int i = 0; i < n; i++) {
+            System.out.print(array[i]);
+            if (i < n - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}

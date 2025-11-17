@@ -1,0 +1,54 @@
+9
+改進建議：請改用正確的排序邏輯與輸出格式，避免覆蓋原值，並移除輸出提示以符合測資格式。
+
+正確性: 0
+邏輯: 5
+格式: 4
+備註: 0
+
+以下是修改與優化的說明與修改後完整程式碼
+
+改動與原因：
+- 移除所有不必要的輸入提示與複雜輸出，直接讀取數值並輸出排序結果，符合一般測資格式。
+- 使用穩定且正確的排序方法 Arrays.sort，能正確處理負數與任意長度的一維整數陣列。
+- 輸出格式改為僅輸出排序後的數字，以空格分隔，並換行結束，符合題目輸出需求。
+- 優化變數命名與程式結構，加入檔案說明註解，並於結束時關閉 Scanner 物件。
+- 以單一入口的 Main 類別，適合自動評分環境使用。
+
+修改後完整程式碼：
+/*
+ * File: Main.java
+ * 功能：讀取一維整數陣列長度與內容，將陣列內容由小到大排序，並輸出排序結果。
+ * 作者：
+ * 日期：
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一讀取陣列內容
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 進行排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，數字以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

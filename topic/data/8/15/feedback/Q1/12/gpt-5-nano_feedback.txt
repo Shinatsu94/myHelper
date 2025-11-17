@@ -1,68 +1,63 @@
-6
+總分：16
 
-程式評分與原因整理：
-- 正確性 (0/50)：程式並未完成題目要求的「升序排序」，反而執行了一個與題意不符的右側最大值替換邏輯，且對長度為1的輸出不符合預期，整體結果錯誤。
-- 邏輯 (0/30)：採用的邏輯與題意不符，且排序過程沒有正確實作，邏輯不具可讀性與可維護性。
-- 格式 (6/10)：程式有較不錯的縮排與命名，整體可讀但缺少清晰的註解與與題意不符的結構。
-- 備註 (0/10)：缺少標頭註解（檔案名稱、功能、作者、日期等說明），未符合題目對註解的要求。
+改進意見（單一句話）：建議直接使用正確的升序排序方法（如 Arrays.sort），移除原本的右向最大值替換邏輯，並加上標頭註解與健全的輸入處理以符合題意與可讀性。
 
-修改與優化說明：
-- 需求改為對輸入的一個整數陣列進行升序排序並輸出，因此改用 Java 標準庫的排序方法 Arrays.sort，確保正確性與效率。
-- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
-- 處理長度為 0 的情況，仍保持輸出一致性（若長度為 0，輸出空行）。
-- 使用簡潔的輸出格式，避免尾端多餘空格。
+作業評分與評論
+- 正确性 (0/50): 程式並未完成正確的升序排序，輸出與題意不符。
+- 邏輯 (10/30): 原程式使用「由右到左的最大值替換」的邏輯，這不是排序且在多數情況下會得到錯誤結果，邏輯錯誤且不符合需求。
+- 格式 (6/10): 程式碼可讀性尚可，變數命名清晰；但缺少程式標頭註解與說明，且對某些邊界情況處理不符合需求。
+- 備註 (0/10): 缺少檔案標頭註解（檔名、功能、作者、日期等）。
 
-修改後完整程式碼（保持檔案名稱為 ArrayReplacement.java，與 class 名稱一致，方便原有環境編譯）：
+修改與重點
+- 直接採用正確的排序方法，避免自訂的錯誤演算法。
+- 保留輸入長度並讀取固定數量的元素，避免超出或不足輸入造成問題。
+- 增加檔案標頭註解，明確說明檔案名稱、功能、作者與日期。
+- 使用有意義的變數命名，並保持一致的程式格式與註解。
+
+修改後的完整程式碼
 /*
-檔案名稱: ArrayReplacement.java
-功能: 讀取長度 n，接著讀入 n 個整數，將它們排序為從小到大並輸出
-作者: 你
-日期: 2025-11-12
-描述: 使用 Arrays.sort 進行排序，處理負數與長度為 0 的情況
+File: ArraySorting.java
+用途: 讀取整數長度 n，接著讀入 n 個整數，輸出其升序排序結果。
+作者: 您的教授
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，避免先前的錯誤邏輯，並處理可能的輸入不足情況。
 */
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class ArrayReplacement {
-
+public class ArraySorting {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        int length = 0;
-        if (scanner.hasNextInt()) {
-            length = scanner.nextInt();
-        } else {
-            scanner.close();
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            sc.close();
             return;
         }
+        int length = sc.nextInt();
 
-        int[] array = new int[length];
+        // 建立陣列並讀入元素，若輸入不足以填滿，預設為 0；若長度為負，視為 0
+        int[] arr = new int[Math.max(0, length)];
         for (int i = 0; i < length; i++) {
-            if (scanner.hasNextInt()) {
-                array[i] = scanner.nextInt();
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
             } else {
-                array[i] = 0; // 若輸入不足，預設為 0
+                // 不足輸入時，預設為 0
+                arr[i] = 0;
             }
         }
-        scanner.close();
 
-        // 以升序排序
-        Arrays.sort(array);
+        // 進行排序
+        Arrays.sort(arr);
 
-        // 輸出，元素間以單一空格分隔，結尾換行
+        // 輸出，元素以單一空格分隔
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(array[i]);
+            sb.append(arr[i]);
         }
         System.out.println(sb.toString());
+
+        sc.close();
     }
 }
-
-修改部分說明與原因：
-- 將原本不正確的「右邊最大值替換」邏輯改為直接排序，確保符合題意且正確性達成。
-- 新增與保留必要的註解與標頭資訊，提升可讀性與維護性，符合評分對備註的要求。
-- 使用 Arrays.sort 直接排序，簡潔且對負數與任意長度的輸入皆正確。
-
-一句話改進建議：
-- 建議在輸入不足時給予明確的錯誤提示或處理，並確保輸出格式在各種輸入情況下的一致性。

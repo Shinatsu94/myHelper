@@ -1,0 +1,77 @@
+92
+
+正確性：50
+邏輯：28
+格式：8
+備註：6
+
+改進建議或回饋（一句話）：
+將 (a) 部分改用單一累加過程逐步印出結果以避免反覆從頭計算，並以更穩健的條件判斷完成 (b) 部分（改以四捨五入到第5位的方式判斷是否等於 3.14159），同時在檔案開頭加入標頭註解以符合題目要求。
+
+程式優化說明與修改部分：
+- 將 (a) 改為單一從 1 到 100000 的累加過程，並在每到達 10000 時輸出當前 i 與 pi，避免多次從頭計算，提升執行效率與可讀性。
+- 對於 (b) 改以四捨五入到小數點第 5 位的結果是否等於 3.14159 來判斷最小的 i，確保邊界條件的一致性，並以從 i=100001 繼續累加的方式找到第一個符合條件的 i。
+- 增加程式標頭註解，提供檔案名稱、功能、作者與日期，並在程式中加入適當註解說明關鍵變數與流程。
+
+修改後完整程式碼（已加入開頭註解、改寫為單一累加與穩健判斷）：
+
+/*
+檔案名稱: CSIE_41343128_1017_1.java
+功能: 
+  - (a) 計算 pi = 4 sum_{k=1..i} (-1)^{k+1} 1/(2k-1) 的前 i 項，依序輸出 i=10000,20000,...,100000 的 pi 值，格式符合題目要求。
+  - (b) 找出最小的 i，使 pi 四捨五入到小數點第5位等於 3.14159，輸出該 i。
+作者: 陳廷鑫
+日期: 2025-10-17
+*/
+
+public class CSIE_41343128_1017_1 {
+    public static void main(String[] args) {
+        // 參數設定
+        int maxI = 100000;   // (a)的終點
+        int step  = 10000;    // (a)每次輸出的步長
+
+        // (a) 逐項累加並在每到達 step 時輸出結果
+        double sum = 0.0;      // 目前的交錯和，尚未乘以 4
+        int sign = 1;            // 第1項為 +，之後交替正負
+        for (int t = 1; t <= maxI; t++) {
+            double term = 1.0 / (2.0 * t - 1.0);
+            sum += sign * term;
+            sign = -sign;
+
+            if (t % step == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", t, pi);
+            }
+        }
+
+        System.out.println();
+
+        // (b) 找出最小的 i，使 pi 四捨五入到小數點第5位等於 3.14159
+        // 以前面 sum 與 sign 的狀態為起點，繼續累加直到條件滿足
+        double sumB = sum;       // 以 (a) 的最終值為起點
+        int signB = sign;          // 下一項應用的符號
+        int foundI = -1;
+
+        // 設定四捨五入到第5位的目標值
+        long target5 = 314159L;
+        // 從 maxI+1 開始尋找，預期在 1e5 以內可找到
+        for (int t = maxI + 1; t <= 1000000; t++) {
+            double term = 1.0 / (2.0 * t - 1.0);
+            sumB += signB * term;
+            signB = -signB;
+            double piVal = 4.0 * sumB;
+
+            long rounded5 = Math.round(piVal * 100000L);
+            if (rounded5 == target5) {
+                foundI = t;
+                break;
+            }
+        }
+
+        if (foundI != -1) {
+            System.out.println("i = " + foundI);
+        } else {
+            System.out.println("i not found within limit");
+        }
+    }
+}

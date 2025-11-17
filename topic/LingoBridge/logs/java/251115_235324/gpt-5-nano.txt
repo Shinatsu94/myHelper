@@ -1,0 +1,46 @@
+88
+
+改進建議：原作雖能正確計算並輸出結果，但缺乏註解與可讀性不高，建議增加程式檔案頭註解、改用具描述性的變數名稱、並以方法封裝計算邏輯，同時在結尾適當關閉資源以提升穩健性。
+
+修改說明與原因
+- 增加檔案頭註解，包含檔名、功能、作者與日期，符合備註要求，提升可維護性。
+- 將三個輸入改為具描述性的變數名稱（first、second、third），提升變數語意清晰度。
+- 將最大值與最小值的計算封裝成兩個私有輔助方法 maxOfThree 與 minOfThree，使用三元運算子實作，符合題目「使用三元運算子」的要求，並提升可讀性與維護性。
+- 中位數(mid)改用 sum - max - min 的公式計算，與題目要求的第二種方法搭配，確保不使用 if-else。
+- 程式結尾補上 sc.close()，釋放資源，穩健性提升。
+- 排版與縮排做微調，讓整體結構更清晰。
+
+修改後的完整程式碼
+文件名稱: CSIE_51015108_1003_2.java
+功能: 輸入三個整數，輸出最小值、中間值與最大值；使用兩種不同的方法計算最大、最小值，並以中位數公式計算中間值；要求不得使用 if-else。
+
+import java.util.Scanner;
+
+public class CSIE_51015108_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+        int third = sc.nextInt();
+
+        int max = maxOfThree(first, second, third);
+        int min = minOfThree(first, second, third);
+        int mid = first + second + third - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+
+    // 使用三元運算子計算三個數的最大值
+    private static int maxOfThree(int a, int b, int c) {
+        return (a > b ? (a > c ? a : c) : (b > c ? b : c));
+    }
+
+    // 使用三元運算子計算三個數的最小值
+    private static int minOfThree(int a, int b, int c) {
+        return (a < b ? (a < c ? a : c) : (b < c ? b : c));
+    }
+}

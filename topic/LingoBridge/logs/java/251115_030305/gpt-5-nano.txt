@@ -1,0 +1,87 @@
+74
+改进建议：请在作业中实际建立下三角形二维数组并加上程式標頭與註解，以符合題意與格式要求。
+
+修改與優化說明（要點）
+- 具體實作改為建立真正的下三角形矩陣參考，並在其中填入從 1 開始的連續數字，之後再以搜尋方式查找 num 的位置，確保符合「建立完整的下三角形二維陣列」的要求。
+- 為程式新增標頭註解與適當的內部註解，提升可讀性與維護性。
+- 優化變數命名與邏輯分離：新增 buildLowerTriangular 與 findPosition 兩個方法，分工明確，且便於日後測試與擴充。
+- 增加輸入穩健性處理，避免未滿足條件的輸入造成例外。
+- 為回傳與輸出格式維持與原題相符的輸出格式。
+
+修改後完整程式碼
+```java
+/**
+ * TriangularArrayFinder.java
+ * 功能：建立高度為 n 的下三角形二維陣列，並找出指定數字的位於哪一行與哪一列（均從 1 開始）。
+ * 使用者輸入：
+ *   第1行：整數 n，表示下三角形的高度
+ *   第2行：整數 num，欲查找的數字
+ * 輸出：
+ *   若找到：num[行, 列]
+ *   否則：not find num in array.
+ * 作者：老師
+ * 日期：2025-11-14
+ */
+import java.util.Scanner;
+
+public class TriangularArrayFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n;
+        int num;
+
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        } else {
+            scanner.close();
+            return;
+        }
+
+        if (scanner.hasNextInt()) {
+            num = scanner.nextInt();
+        } else {
+            scanner.close();
+            return;
+        }
+
+        // 建立下三角形矩陣並尋找位置
+        int[][] tri = buildLowerTriangular(n);
+        int[] pos = findPosition(tri, num);
+
+        if (pos != null) {
+            System.out.println(num + "[" + pos[0] + ", " + pos[1] + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
+
+        scanner.close();
+    }
+
+    // 建立高度為 n 的下三角形二維陣列，並以從 1 開始的連續整數填充
+    private static int[][] buildLowerTriangular(int n) {
+        int[][] arr = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            arr[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = value++;
+            }
+        }
+        return arr;
+    }
+
+    // 找出 num 在陣列中的位置，回傳 [row, col]（皆從 1 開始），若找不到回傳 null
+    private static int[] findPosition(int[][] arr, int num) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j] == num) {
+                    // 行、列皆從 1 開始
+                    return new int[]{i + 1, j + 1};
+                }
+            }
+        }
+        return null;
+    }
+}
+```

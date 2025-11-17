@@ -1,0 +1,54 @@
+總分：56
+
+改進建議摘要：原程式只分兩兩取餘數比較，會漏判中間位數的違反，例如 1324 會被判定為正確，需改用逐位比較以涵蓋所有相鄰位數。
+
+評分明細與說明：
+- 正確性 (20/50)：原程式在某些數字（如 1324）會漏判，未能逐一檢查相鄰位數的遞增性。改用逐位比較能確保正確性。
+- 邏輯 (22/30)：原思路意圖從右至左逐對位數比較，但實作只印證了部分位數對，邏輯不完整。改用簡潔且覆蓋全部相鄰位數的邏輯即可。
+- 格式 (8/10)：原程式有基本可閱讀性，但排版及註解不夠整齊，且使用非標準的程式結構。新版本採用清晰的縮排與命名。
+- 備註 (6/10)：原始標頭包含少量註解與作者資訊，但缺少完整的程式說明與一致的註解風格。新版本補充標頭註解與必要說明，提升可維護性。
+
+以下為修改說明與修改後的完整程式碼：
+
+修改重點與原因：
+- 將輸 入與判定改為使用字串逐位比對相鄰的兩位數字，避免原本的分段除法造成漏判，且能正確處理任意位數的輸入。
+- 判定邏輯改為：若任意相鄰兩位數字 a[i] >= a[i+1]，則不是「well-ordered number」。
+- 程式輸出依舊保留原輸入的格式（輸入字串原樣輸出），符合題目要求。
+- 加入適當的程式標頭與註解，提升可讀性與維護性。
+
+修改後完整程式碼（可直接執行）：
+/**
+ * 程式名稱 : Well-Ordered Number 判定
+ * 功能說明：讀入整數字串，判斷其各位數是否從左到右嚴格遞增
+ * 日期: 2025-11-15
+ * 作者: 教師批改
+ * 備註: 如輸入為單一位數或只有一位，視為 well-ordered
+ */
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 以字串方式讀入，保留原始輸入格式
+        String input = scanner.next();
+        boolean isWellOrdered = true;
+
+        // 檢查相鄰位數是否嚴格遞增
+        for (int i = 0; i < input.length() - 1; i++) {
+            char current = input.charAt(i);
+            char next = input.charAt(i + 1);
+            if (current >= next) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+
+        scanner.close();
+    }
+}

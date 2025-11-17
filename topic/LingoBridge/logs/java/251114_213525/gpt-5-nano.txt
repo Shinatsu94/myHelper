@@ -1,0 +1,60 @@
+總分: 8
+
+改進建議或反饋（一句話）
+請改為依題意實作排序功能，並補足程式標頭註解與有意義的變數命名，同時避免與題目無關的輸出（如畫三角形）。
+
+程式碼優化與修改說明
+- 將功能從繪製下三角星號圖改為讀取長度與整數陣列、進行升序排序，符合題目需求。
+- 使用 Arrays.sort 進行排序，簡潔且正確，能處理負數與任意整數。
+- 以空格分隔輸出排序結果，避免後置多餘空格，結尾換行符合常見輸出格式。
+- 增加程式標頭註解（檔案名稱、功能、作者、日期等）與較清楚的變數命名，提升可讀性與可維護性。
+- 保留現有類名結構，以便與學校環境的檔案命名慣例相符。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343217_1031_3a.java
+ * 功能說明: 讀取一個整數 n，接著讀入 n 個整數，將它們升序排序後輸出，輸出以空格分隔，不留多餘空格。
+ * 作者: 教師姓名（可自行修改）
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_3a {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        // 讀入 n 個整數，並存到陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，用 0 佔位
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

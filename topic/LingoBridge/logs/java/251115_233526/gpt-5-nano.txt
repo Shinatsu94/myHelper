@@ -1,0 +1,45 @@
+86
+
+改進建議：加入完整的程式標頭註解、使用更具描述性的變數名稱、整理縮排與註解以提升可讀性與可維護性。
+
+修改說明與修改後程式碼要點
+- 新增標頭註解：說明檔案名稱、功能、作者與日期，符合作業要求的註解規範。
+- 變數命名：將 a,b,c 改為較具描述性的變數名稱，提升可讀性。
+- 程式格式與註解：整理縮排與添加必要註解，讓邏輯更清晰。
+- 計算方式：仍使用三元運算子分別求最大值與最小值，並以 sum - max - min 計算中位數，符合「兩種不同的方式」的要求；輸出順序保持 min, mid, max。
+
+完整修改後的程式碼如下：
+
+/*
+文件名稱: CSIE_41343205_1003_2.java
+功能說明: 讀入三個整數，輸出其最小值、中位數與最大值；使用三元運算子分別求最大與最小值，中位數以 sum - max - min 計算。
+作者: 教授姓名
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343205_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入三個整數
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
+
+        // 使用兩個三元運算子分別計算最大值與最小值
+        int max = (num1 > num2 ? (num1 > num3 ? num1 : num3) : (num2 > num3 ? num2 : num3));
+        int min = (num1 < num2 ? (num1 < num3 ? num1 : num3) : (num2 < num3 ? num2 : num3));
+
+        // 中間值為總和減去最大值與最小值
+        int mid = num1 + num2 + num3 - max - min;
+
+        // 輸出順序為 min, mid, max
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

@@ -1,0 +1,47 @@
+84
+
+改進建議：補上程式標頭註解並增加對極端情況（負數與溢位）的處理，使用較安全的 long 類型進行反轉以提升健壯性。
+
+修改說明與原因：
+- 使用 long 變數處理輸入與反轉，並支援負數，避免在某些情況下因 int 溢位而發生錯誤。
+- 加入負數處理：先取絕對值進行反轉，最後再加上符號，以回傳與輸入相同的符號。
+- 使用 while 迴圈取代 for 迴圈，讓程式對 0 及任意位數的整數都正確工作。
+- 增加程式標頭與註解，讓程式用途、作者與日期更清楚，便於維護。
+- 關閉 Scanner 以釋放資源。
+
+完整修改後程式碼（Java）：
+```java
+/*
+File: CSIE_41343101_1017_3.java
+Description: Reverse digits of an integer input by user.
+Author: Your Name
+Date: YYYY-MM-DD
+*/
+
+import java.util.Scanner;
+
+/*
+This program reads a single integer from standard input and prints
+the integer with its digits reversed. It handles positive and
+negative numbers and avoids overflow by using long for the
+reversed value.
+*/
+public class CSIE_41343101_1017_3 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        long n = scan.nextLong();
+        boolean negative = n < 0;
+        long m = negative ? -n : n;
+
+        long rev = 0;
+        while (m > 0) {
+            rev = rev * 10 + (m % 10);
+            m /= 10;
+        }
+        if (negative) rev = -rev;
+
+        System.out.println(rev);
+        scan.close();
+    }
+}
+```

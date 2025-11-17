@@ -1,46 +1,64 @@
-5
+83
 
-- 評分細項與說明
-  - 正確性 (50%): 0/50
-  - 邏輯 (30%): 0/30
-  - 格式 (10%): 5/10
-  - 備註 (10%): 0/10
+改進建議：應改用實際的二維陣列來填充並輸出下三角形，同時補上程式標頭註解與基本輸入驗證。
 
-修改後完整程式碼與說明如下：
+分數明細：
+- 正確性: 50/50
+- 邏輯: 25/30
+- 格式: 8/10
+- 備註: 0/10
+- 總分: 83/100
 
-改進後的完整程式碼
+修改說明與原因：
+- 需求說明中要求使用二維陣列來建立下三角形，因此改為使用二維陣列並填充星號，輸出時僅輸出有效的部分以避免多餘符號。
+- 為符合基本規範，加入程式標頭註解，說明檔案名稱、功能、作者與日期。
+- 增加對輸入的驗證，若 n 不在有效範圍內（1-20），程式不輸出內容，以避免不符合測資的情況。
+- 強化變數命名與布局，以提升可讀性（例如使用清楚的陣列名稱、註解說明）。
+
+修改後完整程式碼：
 /*
-檔案名稱: ArraySort.java
-功能: 讀取長度與元素，升冪排序後輸出
-作者: 教師批改
-日期: 2025-11-12
-*/
-import java.util.Scanner;
-import java.util.Arrays;
+ * 檔案名稱: CSIE_41343209_1031_3a.java
+ * 功能: 建立並輸出下三角形的二維陣列，元素為 '*'
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 備註: 測資格式僅含 '*' 組成的下三角形，不輸出多餘空白
+ */
 
-public class ArraySort {
+import java.util.Scanner;
+
+public class CSIE_41343209_1031_3a {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
         }
-        Arrays.sort(a);
-        for (int i = 0; i < n; i++) {
-            if (i > 0) System.out.print(' ');
-            System.out.print(a[i]);
+
+        // 驗證高度範圍，符合題意 (0 < n <= 20)
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
         }
-        System.out.println();
+
+        // 使用二維陣列填充下三角形的 '*'
+        char[][] tri = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
+            }
+        }
+
+        // 輸出時僅輸出有效的部分，避免多餘的空白字元
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(tri[i][j]);
+            }
+            System.out.println();
+        }
+
         sc.close();
     }
 }
-
-修改原因與說明
-- 使用一維陣列存放輸入的資料，符合題目「建立一個任意長度的一維陣列」的要求，且能後續進行排序與輸出。
-- 使用 Arrays.sort(a) 直接實作升冪排序（由小到大），保證正確性與效能，並避免手寫排序的邏輯錯誤。
-- 增加程式頭部註解（檔案名稱、功能、日期等），提升可讀性與維護性，同時改善格式規範。
-- 輸出改為單行數字，使用空格分隔，符合題目輸出格式。
-
-一句話改進建議
-建議在大資料量情況下改用 BufferedReader 與 StringTokenizer 進行輸入，以提升效能，避免 Scanner 的 I/O 效能瓶頸。

@@ -1,0 +1,72 @@
+87
+正確性：50
+邏輯：28
+格式：9
+備註：0
+
+改進建議：建議改用單次往回的後綴最大值法，將時間複雜度降至 O(n)，並補上必要的程式標頭註解以符合作業規範。
+
+以下為修改後的完整程式碼與修改說明。
+
+修改說明與重點
+- 優化內容：改用單次往回的後綴最大值計算法，避免原本的 O(n^2) findMax 重複遍歷，將時間複雜度降為 O(n)。
+- 變數與結構：移除不必要的 findMax 函式，直接在 main 內以從右往左遍歷的方式計算 result。
+- 程式註解與標頭：新增程式檔案標頭註解，說明檔案名稱、功能、日期等；加入適當註解說明演算法邏輯與邊界情況。
+- 邊界處理：n == 1 時輸出 -1; n <= 0 時結束並輸出換行符以符合輸出格式。
+
+修改後完整程式碼
+```java
+/*
+ * File: CSIE_41343221_1031_2.java
+ * 功能: 讀取指定長度的整數陣列，輸出每個元素之右側最大值，最後一個元素為 -1。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 說明: 以單次往回的後綴最大值法實作，時間複雜度為 O(n)。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343221_1031_2 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            // 無效長度，直接結束
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] x = new int[n];
+        for (int i = 0; i < n; i++) {
+            x[i] = scanner.nextInt();
+        }
+
+        int[] result = new int[n];
+        if (n == 1) {
+            result[0] = -1;
+        } else {
+            int maxRight = x[n - 1];
+            result[n - 1] = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                result[i] = maxRight;
+                if (x[i] > maxRight) {
+                    maxRight = x[i];
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(result[i]);
+            if (i < n - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
+```

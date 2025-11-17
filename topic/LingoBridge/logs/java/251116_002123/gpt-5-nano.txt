@@ -1,0 +1,54 @@
+85
+
+這份作業的評語重點：正確性及邏輯都正確，格式與註解方面略顯不足，建議加入程式頭註解與更具可讀性的命名。
+
+改進建議與反饋（簡要一句話）
+程式結果正確但可提升可讀性與可維護性，建議加入程式頭註解、使用具意義的變數與方法命名，並把數位加總分離為函式以利維護。
+
+修改與優化說明
+- 將數位加總抽成單獨的函式 digitSum，提升可讀性與重用性。
+- 使用更具描述性的變數名稱：target（要找的位數和）、count（符合條件的數量）。
+- 加入程式頭註解與簡單註解，提升可讀性與維護性。
+- 程式結尾關閉 Scanner，避免資源泄漏。
+- 保留原本的遍歷範圍 1..100000，且對於任何輸入的 A，若超過實際最大位數和（0~5位數的和最大為45，100000的和為1），也能正確輸出 0。
+
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_51015130_1003_3.java
+ * 功能: 計算 1..100000 之間，數字各位數字加總等於輸入值 A 的數字個數
+ * 作者: [學生姓名]
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_51015130_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int target = sc.nextInt();
+        int count = 0;
+
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        sc.close();
+    }
+
+    // 計算整數 n 的各位數字加總
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}
+```
+
+如需進一步的改動，我也可以提供更多的性能優化方案（例如預計算與查表法等），或改用廣義的輸入範圍自動推導最大可能的數位和。

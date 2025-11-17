@@ -1,0 +1,73 @@
+總分：81
+
+改進建議（一句話）：
+建議把找右側最大值的邏輯改為分離出單獨的迴圈計算再寫回陣列，並補上程式標頭註解與更穩健的輸出與資源管理。
+
+評語與逐項打分：
+- 正確性（50/50）：程式能正確將每一位元替換為其右側的最大值，最後一個元素改為 -1，輸出符合題意。若陣列長度為1也能正常處理。滿分。
+- 邏輯（25/30）：核心邏輯正確，但原始版本在內層迴圈中直接把結果寫回 arr[i]，語意不那麼直覺且不易閱讀。若以清晰度與可維護性考慮，應把計算與寫回分離。扣分部分在于可讀性與程式風格。
+- 格式（6/10）：變數命名尚可，但程式缺少標頭註解與適當的排版風格，且輸出部分較不一致（使用 System.out.printf 與字串拼接混合），需統一風格並加入註解。扣分原因主要在於缺少條件與格式一致性。
+- 備註（0/10）：缺少程式標頭註解（檔案名稱、功能、作者、日期）與內文註解。扣滿分。
+
+改進與修改說明（重點與原因）：
+- 加入程式標頭註解，說明檔案名稱、功能、作者、日期，提升可閱讀性與維護性。
+- 將核心演算法改為更清晰的兩層迴圈：先找出右側的最大值再寫回 arr[i]，避免在內層迴圈中反覆寫入，提升可讀性與穩定性。
+- 使用 StringBuilder 組裝輸出，避免多次 System.out.print 所帶來的效能與可讀性問題，且最後再輸出換行。
+- 加入 arrSize > 0 的檢查，避免 arrSize 為 0 時的例外狀況。
+- 關閉 Scanner，釋放資源。
+
+修改後完整程式碼（優化後）：
+```java
+/*
+File: CSIE_41343101_1031_2.java
+Description: 將一維陣列中每個元素替換為該元素右側的最大值，最後一個元素設為 -1，並輸出結果。
+Author: ChatGPT
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343101_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int arrSize = sc.nextInt();
+        int[] arr = new int[Math.max(arrSize, 0)];
+
+        for (int i = 0; i < arrSize; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 將每個元素替換為其右側的最大值，最後一個為 -1
+        for (int i = 0; i < arrSize - 1; i++) {
+            int max = arr[i + 1];
+            for (int j = i + 2; j < arrSize; j++) {
+                if (arr[j] > max) {
+                    max = arr[j];
+                }
+            }
+            arr[i] = max;
+        }
+
+        if (arrSize > 0) {
+            arr[arrSize - 1] = -1;
+        }
+
+        // 輸出結果，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arrSize; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+說明修改部分與原因摘要：
+- 註解與檔案資訊：加入標頭註解，符合備註要求，便於他人瞭解程式用途及來源。
+- 邏輯清晰化：將右側最大值的計算與寫回分離，增強可讀性與維護性。
+- 輸出與資源管理：改用 StringBuilder 組裝輸出，並在結束時關閉 Scanner，提升效能與穩定性。
+- 邊界處理：對 arrSize 為 0 的情況進行保護，避免越界與例外。

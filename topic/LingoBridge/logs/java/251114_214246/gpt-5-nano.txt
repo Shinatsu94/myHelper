@@ -1,0 +1,50 @@
+6
+此作業的排序邏輯不正確且輸出也不符合題意，建議改用正確的排序演算法並正確輸出整個陣列。
+
+改進建議與修改說明
+- 問題核心在於排序邏輯錯誤，且最後輸出包含 -1 的不必要元素，需改成正統的排序並直接輸出整個陣列。
+- 建議採用 Java 內建的排序（Arrays.sort）或自行實作簡單的排序演算法，確保能正確處理負數與任意長度。
+- 提升可讀性：使用有意義的變數命名、加入程式標頭註解、統一縮排。
+- 確保程式能在單次執行結束，不需要等待 EOF。
+
+修改重點:
+- 移除原本的尋找最大值並覆蓋的錯誤邏輯，改以 Arrays.sort 直接排序。
+- 移除不必要的 sentinel 值 (-1)。
+- 加入適當的註解與標頭註解，優化變數命名與輸出格式。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343242_1031_2.java
+ * 功能說明: 讀取整數個數 n，接著讀入 n 個整數，輸出由小到大排序的結果。
+ * 作者: 請填寫作者
+ * 日期: 請填寫日期
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343242_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        sc.close();
+
+        // 使用內建排序，正確處理負數與任意長度
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
+        }
+        System.out.print(sb.toString());
+    }
+}
+```

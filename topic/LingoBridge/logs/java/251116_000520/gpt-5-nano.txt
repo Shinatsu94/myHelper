@@ -1,0 +1,60 @@
+89
+
+改進建議：加入註解與輸入驗證、並使用較穩健的輸入讀取方式與清晰的程式結構，以提升可讀性與魯棒性。
+
+修改與原因：
+- 新增檔案頭註解，說明檔名、功能、作者與日期，符合備註欄位要求。
+- 使用 BufferedReader 取代 Scanner，提升 I/O 效率與穩定性。
+- 新增對輸入 A 的範圍驗證，若超出數字位數和最大位數和的範圍，直接輸出 0，提升魯棒性。
+- 程式中加入適當註解，讓邏輯更清晰。
+- 移除不必要的字面量符號（System.out.println(count) 中的多餘 +）。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343208_1003_3.java
+功能: 計算在 1..100000 中，數字各位數字和等於輸入 A 的數字個數
+作者: 教授
+日期: 2025-11-15
+*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class CSIE_41343208_1003_3 {
+    public static void main(String[] args) {
+        int A = 0;
+        // 讀取輸入並處理異常
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = br.readLine();
+            if (line != null) {
+                A = Integer.parseInt(line.trim());
+            }
+        } catch (IOException | NumberFormatException e) {
+            // 若輸入非數字，預設為 0
+            A = 0;
+        }
+
+        // 最大可能的位數和為 9*5 = 45，因為範圍為 1..100000
+        if (A < 0 || A > 45) {
+            System.out.println(0);
+            return;
+        }
+
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            int sum = 0;
+            int n = i;
+            // 計算數字 i 的各位數字和
+            while (n > 0) {
+                sum += n % 10;
+                n /= 10;
+            }
+            if (sum == A) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+}

@@ -1,59 +1,51 @@
-4
-正確性: 0/50
-邏輯: 0/30
-格式: 4/10
-備註: 0/10
+88
 
-修改與評語說明：
-- 重新實作為正確解法：原學生程式與題目不符，題目要求將輸入的整數排序後輸出；新版本直接讀取長度 n 與 n 個整數，並對它們做升序排序再輸出。
-- 輸入與輸出處理：採用 Array.sort 以確保正確性與穩定性，輸出以空格分隔且不留尾隙，符合題目輸出格式。
-- 增加程式註解與文件頭：加入檔案說明與作者/日期等說明，符合備註要求。
+改進建議（一句話）：
+建議在程式開頭加入標頭註解並改用數學公式直接計算座標，避免迴圈，提升可讀性與效率。
 
-修改後完整程式碼（已優化並註解）：
+評分與理由：
+- 正確性 (50/50)：程式能在合法輸入下正確計算 num 的位置，或正確輸出 not find；符合題目要求的輸出格式。得分：50
+- 邏輯 (30/30)：原本以迴圈推算行列的做法是可行且直覺，但用數學公式可更簡潔與高效；修改後仍保持邏輯正確性與可讀性。得分：30
+- 格式 (10/10)：原程式在縮排與命名上整體尚可，輸出格式符合題目樣例。不過可再加上清晰註解以提升可讀性。得分：8
+- 備註 (10/10)：原作業缺少標頭註解與內文註解，未符合備註要求。得分：0
+
+修改說明與修改重點：
+- 使用數學公式直接計算 num 所在的列(row)，避免使用 O(n) 的迴圈，將時間複雜度降為 O(1)（在輸入範圍內）。
+- 增加完整的程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註需求。
+- 結構與變數命名更具語意，例如 endOfRow、startOfRow 等，提升可讀性。
+- 保留原輸出格式，確保與題目樣例的輸出一致。
+
+修改後完整程式碼：
 ```java
-import java.util.*;
+/*
+ * File: LowerTriangularSearch.java
+ * Description: 計算下三角形陣列中 num 的位置，若超出範圍則輸出 not find。
+ * Author: 系統自動評分
+ * Date: 2025-11-14
+ */
 
-public class CSIE_41343227_1031_3b {
-    /*
-     * File: CSIE_41343227_1031_3b.java
-     * Description: 讀取長度 n 與 n 個整數，排序並輸出升序
-     * Author: 修改後提交
-     * Date: 2025-11-12
-     */
+import java.util.Scanner;
+
+public class LowerTriangularSearch {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // 讀取長度 n
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
         int n = sc.nextInt();
-        int[] arr = new int[n];
-
-        // 讀取 n 個整數
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，補 0，避免例外
-            }
-        }
+        int num = sc.nextInt();
         sc.close();
 
-        // 排序
-        Arrays.sort(arr);
-
-        // 輸出，空格分隔，結尾換行
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        int total = n * (n + 1) / 2;
+        if (num <= 0 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            return;
         }
-        System.out.println(sb.toString());
+
+        // 計算 num 所在的列(row) using triangular numbers: find smallest row such that row*(row+1)/2 >= num
+        int row = (int) Math.ceil((Math.sqrt(8.0 * num + 1) - 1) / 2.0);
+        int endOfRow = row * (row + 1) / 2;
+        int startOfRow = endOfRow - row + 1;
+        int col = num - startOfRow + 1;
+
+        System.out.println(num + "[" + row + ", " + col + "]");
     }
 }
 ```
-
-一句話改進建議或反饋：
-- 作業應先確定需求，先實作基本功能（排序與輸出）再考慮延伸或變化，避免出現與題意不符的實作分支。

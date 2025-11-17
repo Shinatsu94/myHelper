@@ -1,0 +1,67 @@
+14
+
+改進建議：請改用正確的排序演算法來實作升序排序，正確讀入長度與元素並輸出排序結果，同時補上標頭與註解以提高可讀性與可維護性。
+
+修改說明與原因：
+- 問題核心是排序，原程式使用的找最大值並生成 -1 的做法與需求不符，無法得到升序輸出，因此邏輯需重新設計。
+- 移除不需要的函式 findMax 及相關邏輯，改以直接對整數陣列做排序。
+- 使用簡單且可理解的插入排序法實作升序排序，適合任意長度的陣列且容易追蹤。
+- 加入完整的程式標頭註解與適當的程式註解，並維持合適的縮排與命名，符合格式評分標準。
+- 確保輸入處理穩健：先讀取長度 n，若 n <= 0 則輸出換行並結束；若輸入元素不足，預設為 0 以避免例外。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343221_1031_2.java
+Description: 讀入長度 n 與 n 個整數，將陣列內容升序排序，並輸出結果。
+Author: 你的名字
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343221_1031_2 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+        if (n <= 0) {
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0，避免例外
+            }
+        }
+
+        // 使用簡單的插入排序，將陣列由小到大排序
+        for (int i = 1; i < n; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+
+        // 輸出排序結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}

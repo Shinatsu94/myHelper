@@ -1,0 +1,55 @@
+總分：90
+
+建議回饋（一句話）：整體正確且邏輯清晰，但缺少檔案標頭註解與較佳的變數命名與註解，建議加入檔案標頭並將邏輯整理為單一方法以提升可維護性。
+
+修改與優化說明（重點逐條說明）：
+- 新增檔案標頭註解，符合備註欄位的要求，讓程式檔案資訊更清晰。
+- 將核心判定抽成單一方法 isWellOrdered，使主流程簡潔，符合單一職責原則，並提升可維護性與測試性。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源洩漏的風險。
+- 變數命名改為 input 與 isWellOrdered，提升可讀性。
+- 將原本多層的 ok 標誌邏輯改為直接回傳布林值，簡化邏輯與降低錯誤概率。
+
+以下為修改後的完整程式碼：
+
+```java
+/**
+ * File: CSIE_41343238_1017_2.java
+ * Description: Determine whether a given number's digits are strictly increasing from left to right.
+ * Author: 教師
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343238_1017_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            String input = sc.nextLine().trim();
+            boolean isWellOrdered = isWellOrdered(input);
+
+            if (isWellOrdered) {
+                System.out.println(input + " is well-ordered number.");
+            } else {
+                System.out.println(input + " is not well-ordered number.");
+            }
+        }
+    }
+
+    // 判斷字串是否為「數字且其數字從左至右嚴格遞增」
+    private static boolean isWellOrdered(String s) {
+        if (s == null || s.length() == 0) return false;
+
+        // 檢查是否全為數字
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) return false;
+        }
+
+        // 檢查嚴格遞增
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i - 1) >= s.charAt(i)) return false;
+        }
+
+        return true;
+    }
+}
+```

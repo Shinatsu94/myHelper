@@ -1,0 +1,73 @@
+86
+
+改進建議/反饋（一句話）
+建議加入程式標頭與註解，並改用數學公式計算 num 的位置信息以提升效率，同時維持建立完整下三角陣列的需求。
+
+修改說明與原因
+- 引入程式標頭與註解：提升可讀性與可維護性，符合備註要求。
+- 使用數學方法計算位置，而非逐一比對陣列內容：減少不必要的迴圈，提高效率，特別在大 n 情況下更明顯。
+- 將功能拆分為獨立方法 buildTriangle 與 findPosition：提高程式結構的清晰度與可重用性。
+- 保留原本的輸出格式與錯誤訊息：與題目輸出保持一致，避免修改使用者介面。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * TriangleArray
+ * 功能: 建立下三角形二維陣列，並找出指定數字的位置
+ * 檔案名稱: TriangleArray.java
+ * 作者: 教師姓名
+ * 日期: 2025-11-14
+ * 備註: 增加程式標頭、註解，並函數化實作。
+ */
+public class TriangleArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int num = sc.nextInt();
+
+        int total = n * (n + 1) / 2;
+
+        if (num <= 0 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列
+        int[][] arr = buildTriangle(n);
+
+        // 計算 num 的位置（列、欄皆從 1 開始）
+        int[] pos = findPosition(num, n);
+
+        System.out.println(num + "[" + pos[0] + ", " + pos[1] + "]");
+
+        sc.close();
+    }
+
+    // 建立下三角形二維陣列，內容從 1 開始順序填入
+    private static int[][] buildTriangle(int n) {
+        int[][] a = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            a[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                a[i][j] = value++;
+            }
+        }
+        return a;
+    }
+
+    // 使用數學方法計算 num 在下三角形中的位置
+    private static int[] findPosition(int num, int n) {
+        // 找到所在的行 i，使得 1+2+...+i >= num
+        int i = 1;
+        while (i <= n && num > i * (i + 1) / 2) {
+            i++;
+        }
+        int prev = i * (i - 1) / 2;
+        int j = num - prev;
+        return new int[]{i, j};
+    }
+}

@@ -1,50 +1,49 @@
-6
+總分：86
 
-- 正確性: 0
-- 邏輯: 0
-- 格式: 6
-- 備註: 0
+改進建議（一句話）：
+程式正確且邏輯清晰，但缺少程式標頭與註解，建議補充檔案資訊、作者與日期等註解，並加強對負數與溢位的處理以提升魯棒性。
 
-以下為修改後的完整程式碼與修改說明：
+修改與原因說明：
+- 將類別名稱改為 ReverseDigits，並建議檔案命名為 ReverseDigits.java，符合 Java 的檔案與類別命名規範。
+- 使用 long 類型取代 int，以降低整數反轉時的溢位風險，並提高對較大輸入的容錯性。
+- 加入對負數的處理，若輸入為負數，輸出為對應的負數符號逆序，提升穩健性。
+- 使用 do-while 迴圈處理 0 的情形，確保 0 也能正確輸出 0。
+- 加入程式標頭註解與必要的行內註解，便於維護與閱讀。
+- 程式結尾關閉 Scanner，釋放資源。
 
-修改後完整程式碼（符合題目要求的輸出格式，使用 Leibniz 公式計算 pi，輸出 i 為 6 位寬、pi 為小數點後 10 位）：
-/*
-文件名稱: PiLeibniz.java
-功能: 計算 pi 的近似值，對應 i = 10000, 20000, ..., 100000；輸出格式符合題目需求
-作者: 以實作範例改寫
-日期: 2025-11-11
-說明: 使用 Leibniz 公式 pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)，逐步輸出不同 i 的 pi 值
-*/
-public class PiLeibniz {
+修改後的完整程式碼：
+```java
+/**
+ * File: ReverseDigits.java
+ * Description: 讀入一個整數，輸出其數位逆序；支援非正整數，若為負數，輸出亦為負數的逆序
+ * Author: 你的名字
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
     public static void main(String[] args) {
-        // 對每一個 i 從 10000 到 100000，每次增量 10000
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double piEstimate = 0.0;
-            // 以內層迴圈累加前 i 項
-            for (int k = 0; k < i; k++) {
-                double term = 1.0 / (2.0 * k + 1.0);
-                if ((k & 1) == 0) { // k 偶數時為 +，奇數時為 -
-                    piEstimate += term;
-                } else {
-                    piEstimate -= term;
-                }
-            }
-            piEstimate *= 4.0; // Leibniz 對 pi 的近似
-            // 輸出格式：i 為六位寬，pi 為小數點後 10 位
-            System.out.printf("i = %6d, pi = %.10f%n", i, piEstimate);
-        }
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入長整數，適度提升容錯性
+        long num = sc.nextLong();
+
+        boolean negative = num < 0;
+        long n = Math.abs(num);
+        long reversed = 0;
+
+        //do-while 確保即使 n 為 0 也能輸出 0
+        do {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        } while (n != 0);
+
+        if (negative) reversed = -reversed;
+
+        System.out.println(reversed);
+        sc.close();
     }
 }
-
-修改原因與說明：
-- 將原始作業的錯誤實作（讀取整數並反轉數字再輸出）改為正確的數值計算邏輯。原作業與題目要求毫無關聯，因此需要重新實作。
-- 使用 Leibniz 公式逐步累加前 i 項，並以 4 倍得到 pi 的近似，符合題目要點與數學模型。
-- 輸出格式調整為符合題目要求：
-  - i 顯示為六位寬，確保對齊並滿足「i 顯示到6位數」的需求。
-  - pi 顯示為小數點後十位，符合「pi 顯示到小數點後10位」。
-  - 逐行輸出且每行以換行結束，符合「輸出文字，請使用單個空白\" \"進行換行」的要求（此處透過 System.out.printf 的格式控制達成一致的空白與對齊）。
-- 移除了不需要的輸入處理（Scanner），因題目不需要外部輸入，避免混淆。
-- 增加程式頭註解，描述檔案名稱、功能、作者、日期等，提升可維護性與可讀性。
-
-改進建議或反饋（一句話）：
-- 建議在正式提交前加入單元測試或手動驗證小範例的輸出，以確保在不同編譯環境下輸出格式與數值精度的一致性。
+```

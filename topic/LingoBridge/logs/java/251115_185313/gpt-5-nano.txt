@@ -1,0 +1,41 @@
+98
+
+建議改進點：建議改用純算術的位元反轉並加上完整的程式標頭與註解，同時支持處理負數與資源釋放，使結構更清晰且更健壯。
+
+修改與原因說明：
+- 使用長整數長整型 (long) 以防止遇到較大輸入造成溢位問題。
+- 改用純算術位元反轉法，直接輸出反轉結果，天然忽略前導零，與題意相符，且更簡潔易懂。
+- 支援負數輸入，若輸入為負數，輸出也會相對應地為負數反轉結果。
+- 加上完整的標頭註解與適當註解，並在結束時關閉資源。
+- 輸出結果後附換行，符合大多數測試用例的輸出習慣。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343111_1017_3.java
+功能: 將使用者輸入的整數的數字位元反轉；若尾數有零，反轉後的前導零不顯示；支援正負數，輸出相對應的反轉結果。
+作者: 你的姓名
+日期: 2025-11-15
+*/
+public class CSIE_41343111_1017_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+        boolean negative = n < 0;
+        long val = Math.abs(n);
+
+        long rev = 0;
+        if (val != 0) {
+            while (val > 0) {
+                rev = rev * 10 + (val % 10);
+                val /= 10;
+            }
+        }
+
+        if (negative) rev = -rev;
+
+        System.out.println(rev);
+        sc.close();
+    }
+}

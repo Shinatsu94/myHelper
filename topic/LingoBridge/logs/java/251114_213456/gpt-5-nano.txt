@@ -1,0 +1,40 @@
+13
+
+改進建議：使用內建排序（Arrays.sort）以確保正確性與效率，並在程式檔案中加入適當的註解與標頭。
+
+修改說明：
+- 原作的排序邏輯錯誤，輸出並非遞增排序，需重新實作排序。
+- 使用 Arrays.sort 簡化實作並保證正確性與穩定性，時間複雜度 O(n log n)。
+- 增加程式檔案標頭註解與清晰的變數命名，提升可讀性與可維護性。
+- 輸出改為使用 StringBuilder 組裝結果，避免多次寫入輸出造成效能下降。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343229_1031_2.java
+Description: 讀入長度與元素，對陣列進行升冪排序，輸出排序結果
+Author: 資訊工程系教授
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343229_1031_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextInt();
+            }
+            Arrays.sort(a);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}

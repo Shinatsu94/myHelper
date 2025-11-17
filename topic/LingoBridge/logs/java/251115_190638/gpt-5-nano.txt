@@ -1,0 +1,42 @@
+90
+此作業基本正確，但缺少程式標頭註解與註解，且未處理負數情況，建議加入標頭註解、註解以及負數支援，以提升可讀性與健壯性。
+
+改進建議與說明（要點）
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 處理負數輸入，保持輸出與輸入符號一致。
+- 使用 long 型別以降低溢位風險，並加上適當註解提升可讀性。
+- 維持單次執行、單一輸入的行為符合題意。
+
+修改說明與修改後程式碼
+- 為了增強健壯性與可讀性，將原本的 int 改為 long，並加入負數處理與完整註解。加入標頭註解，並改用較具描述性的類別名稱 ReverseDigits。
+
+完整修改後的程式碼：
+/*
+ File: ReverseDigits.java
+ 功能: 將整數的位數字反轉輸出，並支援負數
+ 作者: 你的姓名
+ 日期: 2025-11-15
+ 說明: 讀入一個整數，輸出其位數字反轉結果；若原數為負，結果也為負。
+*/
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long number = scanner.nextLong();
+        boolean negative = number < 0;
+        long abs = Math.abs(number);
+
+        long reversed = 0;
+        while (abs > 0) {
+            long digit = abs % 10;
+            reversed = reversed * 10 + digit;
+            abs /= 10;
+        }
+        if (negative) {
+            reversed = -reversed;
+        }
+
+        System.out.println(reversed);
+    }
+}

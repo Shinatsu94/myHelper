@@ -1,0 +1,67 @@
+12
+
+建議改進重點：此作業未符合題目要求，未實作排序功能，需改寫為能讀取長度與數值、排序並輸出結果的程式。
+
+修改與優化說明
+- 問題對應性：將原始程式從輸出星號三角形改為實作一維整數陣列的讀取、升序排序與輸出，滿足題目需求。
+- 正確性：採用 Arrays.sort() 進行升序排序，負數亦可正確處理，輸出格式以空格分隔且不出現多餘符號。
+- 邏輯與穩健性：以 Scanner 逐步讀取長度與元素，避免使用 EOF；若輸入不足情況，透過預設或結束處理避免例外。
+- 格式與可讀性：變數命名清晰，程式包含檔案註解與適當註解；縮排統一，方便維護。
+- 備註：加入清楚的檔案頭註解，說明檔名、功能、作者等資訊。
+
+修改後完整程式碼
+```java
+/*
+ filename: CSIE_XXXX_4a.java
+ function: 讀取任意長度的一維整數陣列，將元素升序排序後輸出
+ author: 教師/學生名稱
+ datetime: 2025/11/14
+ version: 1.0
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_XXXX_4a {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為0以避免異常，可依需求改成中止或更嚴謹的處理
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}
+```
+
+說明修改部分的原因
+- 轉換成排序功能的核心原因：必須達成題目「升序排序，一維陣列」的需求，原程式與題意不符。
+- 使用 Arrays.sort 的選擇：簡潔、穩定且能處理負數，符合「由小至大」的排序需求，降低自行實作排序邏輯的錯誤風險。
+- 輸出格式控制：以空格分隔輸出，避免尾端多餘空白或換行，符合常見的輸出格式要求。
+- 程式結構與可維護性：清晰的輸入/輸出流程與註解，方便日後維護與閱讀。
+
+如果你願意，我也可以提供另一個版本，使用自訂快速排序演算法（不依賴 Arrays.sort）供教學對照，並比較兩者的執行時間與可讀性。

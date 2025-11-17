@@ -1,0 +1,52 @@
+86
+
+建議：可使用 Java 標準排序（Arrays.sort）取代自訂排序演算法，並補上程式標頭註解以提升可讀性與維護性。
+
+修改與改進說明：
+- 將自訂的選取排序改為使用 Arrays.sort(arr)，簡化實作並降低錯誤風險，同時維持正確性與效率。
+- 增加程式標頭註解，包含檔案名稱、功能、作者、日期，方便日後維護。
+- 增加基本註解，說明主要流程與輸出格式。
+- 使用 StringBuilder 組裝輸出，提升輸出效能，並在 n <= 0 時維持穩定輸出（輸出空行）。
+
+修改後完整程式碼如下：
+
+// 檔案名稱: CSIE_41343227_1031_1.java
+// 功能: 讀取使用者輸入的長度與該長度的整數，將陣列內容升序排序，最後輸出排序結果
+// 作者: 教師（批改時提供）
+// 日期: 2025-11-14
+// 說明: 使用 Arrays.sort 以簡化排序邏輯；輸出以空格分隔，末尾換行。
+
+import java.util.*;
+
+public class CSIE_41343227_1031_1 {
+    public static void main(String[] args) {
+        // 讀取輸入
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        if (n <= 0) {
+            // 對於長度為 0 的情況，輸出空行並結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用 Java 標準排序提升穩定性與可讀性
+        Arrays.sort(arr);
+
+        // 輸出：元素以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

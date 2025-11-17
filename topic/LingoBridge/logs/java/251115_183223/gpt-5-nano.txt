@@ -1,0 +1,53 @@
+86
+
+建議改進：建議改用字串輸入以避免整數範圍與前導零問題，同時加入檔案頭註解與適當註解以提升可讀性與維護性。
+
+改進要點與修改原因
+- 使用字串輸入而非整數輸入：避免整數溢位、保留輸入字元的原始形態，並更貼近題意的數字字串處理。
+- 加入檔案頭註解與更具可讀性的類別命名：提升程式的可維護性與可理解性。
+- 增加輸入驗證與資源釋放：確保輸入為數字且在結束時關閉 Scanner。
+- 保留原有邏輯的同時約略強化穩定性：先驗證字元為數字，再檢查相鄰數字是否嚴格遞增。
+
+修改後的完整程式碼
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: WellOrderedNumber.java
+ * 功能說明: 判斷輸入數字的各位數字是否嚴格由左至右遞增。
+ * 作者: your_name
+ * 日期: 2025-11-15
+ */
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 以字串方式讀入，避免整數範圍與前導零問題
+        String s = sc.hasNext() ? sc.next() : "";
+        sc.close();
+
+        boolean ok = true;
+
+        // 檢查輸入是否全為數字
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
+                ok = false;
+                break;
+            }
+        }
+
+        // 只有在至少有兩位數時才需要比較相鄰位元
+        for (int i = 0; ok && i < s.length() - 1; i++) {
+            char a = s.charAt(i);
+            char b = s.charAt(i + 1);
+            if (a >= b) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (ok && s.length() > 0) {
+            System.out.print(s + " is well-ordered number.");
+        } else {
+            System.out.print(s + " is not well-ordered number.");
+        }
+    }
+}

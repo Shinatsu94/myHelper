@@ -1,0 +1,67 @@
+95
+
+正確性(50)：50
+邏輯(30)：28
+格式(10)：8
+備註(10)：9
+
+建議與回饋（1句話）
+整體正確，建議改進命名慣例與邊界處理，並採用線性法以提升效率。
+
+程式碼優化與原因
+- 將原本的雙層迴圈 O(n^2) 轉為 O(n) 的單次右到左遍歷，使用 maxRight 來記錄右側的最大值，提升效率。
+- 增加對 n=0 的邊界處理，避免陣列下標越界。
+- 依 Java 慣例改用小寫駝峰命名 replaceElements。
+- 保留原有輸入與輸出行為，確保與測資相容。
+
+修改後完整程式碼
+```java
+/*
+    filename: CSIE_41143122_1031_2.java
+    function: 讀入使用者輸入的任意長度一維陣列(, 使用者先輸入陣列長度，然後逐一輸入陣列內容)，
+                程式將陣列每一元素置換為出現在它之後的最大值(, 陣列最後一個元素直接替換為-1), 並將此陣列印出
+      author: 林柏儒 資工四甲 41143122
+    datetime: 2025/10/31
+     version: 1.1
+*/
+import java.util.Scanner;
+
+public class CSIE_41143122_1031_2 {
+    public static void replaceElements(int[] array){
+        int n = array.length;
+        if (n == 0) return;
+
+        int maxRight = array[n - 1];
+        array[n - 1] = -1;
+
+        for (int i = n - 2; i >= 0; i--) {
+            int current = array[i];
+            array[i] = maxRight;
+            if (current > maxRight) {
+                maxRight = current;
+            }
+        }
+
+        // 輸出結果
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+    }
+
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = scanner.nextInt();
+        }
+        replaceElements(array);
+        scanner.close();
+    }
+}
+```

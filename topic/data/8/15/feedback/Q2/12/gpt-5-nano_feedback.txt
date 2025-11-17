@@ -1,13 +1,24 @@
-4
+60
+
+建議回饋：
+此作業在處理包含負數的情況時，最後一個元素變為 -1 的規則雖正確，但若前面元素全為負數且皆不大於 -1，右側最大值的初始值設定為 -1 將導致結果錯誤。建議以原陣列的右側元素值來決定各位置的最大值，並在最後一位強制為 -1。
+
+改進說明與修改原因：
+- 正確性與邏輯部分：將右側最大值的初始值改為與原始陣列相容的策略，並在遍歷時第一個步驟即將最後一個元素設為 -1，之後再以先前遍歷過的原始值來更新右側最大值，避免負數情況下因初始值 -1 而產生錯誤結果。
+- 程式格式與可讀性：改用更清晰的變數命名與內部註解，並在必要處添加檔案標頭註解與說明，以符合作業最小註解需求。
+- 備註：提供完整註解與標頭，方便檔案管理與日後維護。
+
+優化後修改要點：
+- 在 reversed 循環中，最後一個元素設為 -1，並將 maxRight 初始化為該最後元素；往前逐步將陣列元素替換為當前的 maxRight，遇到比 maxRight 還大的原始值時更新 maxRight。
+- 使用更一致的變數命名（例如 n、maxRight、current），並加入必要註解與程式標頭。
 
 修改後完整程式碼：
-/**
- * ArrayProcessor.java
- * 功能: 讀取長度與元素，將陣列內容由小到大排序後輸出
- * 檔案名稱: ArrayProcessor.java
- * 作者: [你的名字]
- * 日期: 2025-11-12
- * 說明: 使用內建排序 Arrays.sort，處理可能的負數與長度為 1 的情形，並在輸出時避免多餘空格。
+/*
+ * File: ArrayProcessor.java
+ * Description: 讀取正整數 n 及 n 個整數，將陣列中每個元素替換為其右側元素的最大值；最後一個元素替換為 -1。
+ *              輸出排序後的內容。支援包含負數的輸入。
+ * Author: 教授
+ * Date: 2025-11-14
  */
 
 import java.util.Scanner;
@@ -17,54 +28,63 @@ public class ArrayProcessor {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 取得陣列長度
+        // 先讀入陣列長度
         if (!scanner.hasNextInt()) {
             scanner.close();
             return;
         }
         int n = scanner.nextInt();
-
-        // 處理非正長度情況
-        if (n <= 0) {
-            System.out.println();
+        if (n < 0) {
+            // 非法長度
             scanner.close();
             return;
         }
 
-        int[] arr = new int[n];
+        int[] array = new int[n];
 
-        // 依序讀入 n 個整數
+        // 讀取 n 個整數
         for (int i = 0; i < n; i++) {
             if (scanner.hasNextInt()) {
-                arr[i] = scanner.nextInt();
+                array[i] = scanner.nextInt();
             } else {
-                // 輸入不足，結束
+                // 讀取不足時結束
                 scanner.close();
                 return;
             }
         }
 
-        // 排序（由小到大）
-        java.util.Arrays.sort(arr);
-
-        // 輸出，元素以單一空格分隔，末尾不多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 若長度為 0，直接結束
+        if (n == 0) {
+            scanner.close();
+            return;
         }
-        System.out.println(sb.toString());
+
+        // 從右向左處理：最後一個元素設為 -1，其右側最大值為原本最後一個元素
+        int maxRight = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            int current = array[i];
+            if (i == n - 1) {
+                // 最後一個元素替換為 -1
+                array[i] = -1;
+                maxRight = current;
+            } else {
+                // 其他位置替換為目前的右側最大值
+                array[i] = maxRight;
+                if (current > maxRight) {
+                    maxRight = current;
+                }
+            }
+        }
+
+        // 印出結果
+        for (int i = 0; i < n; i++) {
+            System.out.print(array[i]);
+            if (i < n - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
 
         scanner.close();
     }
 }
-
-修改說明：
-- 將原本用於「取得右側最大值」的逆向賦值邏輯改為直接使用 Arrays.sort(arr) 進行排序，符合題目要求的升序排序（由小到大）。
-- 移除不正確的 length == 1 特例與 -1 的特殊輸出，改為若長度為 1 則輸出該元素本身。
-- 加入適當的輸入驗證與註解，保留原有的輸入格式檢查但不影響排序結果。
-- 增加程式標頭註解，說明檔案名稱、功能、日期、作者，並在程式內容加入適當註解以提升可讀性。
-- 程式碼格式與命名保持清晰一致，使用清楚的變數名與適當註解。
-
-改進建議或反饋（一句話）：
-建議未來直接使用內建排序且加入基本輸入檢查與註解，以提升正確性、可讀性與穩定性，同時避免不必要的特殊情況處理。

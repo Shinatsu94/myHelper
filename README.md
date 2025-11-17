@@ -63,3 +63,8 @@
   - 修改題目顯示格式 (由置中改為置左)
 - homeworkfeedback.php
   - 追加Markdown文法功能
+
+## v2.2.3
+- 上傳修正後 gpt-5-nano 回饋
+- 11/14 上課練習未匯入學生作業
+- 工程認證demo版本

@@ -1,47 +1,69 @@
-11
+95
 
-評分細項
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：6/10
-- 備註：5/10
-總分：11/100
+建議改進重點：加入對 A 超過 45 的特例處理、改用更快的 I/O 與完善的程式標頭註解，並以更清楚的變數命名提升可讀性與效能。
 
-修改後完整程式碼（符合題意：讀入兩個數字並印出其值，交換後再印出，且不使用額外變數進行交換）
-// date :2025/10/03
-// username&number :黃榮裕41343240
-// function :讀入使用者輸入的二個數字存在變數 A, B 並印出其值，將兩個變數的值交換並印出；不可使用其他變數進行交換
-import java.util.Scanner;
+改進說明與修改要點
+- 將 I/O 換成 BufferedReader，提升效率，因為只有單行輸入，效益有限但仍有助於在大量測試下穩定表現。
+- 增加 A 的前置檢查：若 A <= 0 或 A > 45，直接輸出 0，因 1..100000 的數字位數和最大為 45，且 100000 的位數和為 1。
+- 變數命名改為 targetSum 與 count，以提升語意清晰度。
+- 程式標頭改為標準的區塊註解，並保留原有功能性註解，增加可讀性與維護性。
+
+修改後的完整程式碼如下：
+
+/*
+ * 文件名稱: CSIE_41343240_1003_3.java
+ * 功能: 輸入整數 A，統計在 1..100000 之間，數字各位數字總和等於 A 的數字個數
+ * 作者: 黃榮裕 (41343240)
+ * 日期: 2025-10-03
+ * 備註: 包含對輸入的基本檢查與效能優化
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class CSIE_41343240_1003_3 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int A = sc.nextInt();
-        int B = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) {
+            System.out.println(0);
+            return;
+        }
+        line = line.trim();
+        if (line.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
+        int targetSum;
+        try {
+            targetSum = Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            System.out.println(0);
+            return;
+        }
 
-        // 印出初始值
-        System.out.println(A);
-        System.out.println(B);
+        // 若 targetSum 超過 45，因 1..99999 最大位數之和為 45；100000 的位數和為 1
+        if (targetSum <= 0 || targetSum > 45) {
+            System.out.println(0);
+            return;
+        }
 
-        // 不使用額外變數，使用 XOR 交換法
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == targetSum) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
 
-        // 印出交換後的值
-        System.out.println(A);
-        System.out.println(B);
-
-        sc.close();
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
     }
 }
-
-修改說明與原因
-- 與原題意不符的作業內容完全相符：原始程式僅讀取單個整數並計算符合條件的數量，與題意「讀入兩個數字並印出其值、交換後再印出」嚴重不符，因此必須全面重寫。
-- 引入兩個變數 A 與 B 以接收使用者輸入，符合題目要求的兩個數字存取與處理。
-- 在不使用其他變數的前提下實作交換：採用 XOR 交換法，使得 Swap 只依賴 A、B 兩個變數，避免額外的臨時變數，並避免整數溢出（相較於三段式加減法）。
-- 程式結構與可讀性：加入清楚的註解，說明交換方法與輸出順序，改善變數命名與程式排版，符合格式分數的預期。
-- 標頭註解與題意對應：更新函式說明以反映實際題目需求，保留日期與作者欄位以維持原有風格，但將功能描述對齊實作內容。
-
-一句話改進建議
-建議在提交前先逐字比對題目敘述與輸出格式，確保程式實作與題意完全一致，並在註解中清楚註明題目需求與交換方法。

@@ -1,0 +1,61 @@
+10
+
+改進建議與回饋（一句話）：
+請直接實作升序排序的核心功能，並以清晰的輸入輸出與有意義的命名呈現，以符合題意與輸入規範。
+
+修改與原因說明：
+- 需求對應：原程式是「找出三角形座標」，與本題要求的排序功能毫無關聯。需改成對一個任意長度的一維整數陣列於升序排序並輸出。
+- 輸入處理：改用讀取長度 n，接著讀取 n 個整數，符合題意的輸入格式與限制（避免使用 EOF）。
+- 排序邏輯：直接使用 Arrays.sort 進行就地排序，簡單且正確，適用負數情況。
+- 輸出格式：輸出排序後的整數，以空格分隔，末尾不留多餘空格，符合題目輸出範例。
+- 程式可讀性：增加清晰的檔案與變數命名，並提供適當註解以利維護。
+
+以下為修改後完整程式碼：
+
+```java
+/**
+ * 程式名稱: ArraySortAsc
+ * 功能說明：建立任意長度的一維整數陣列，將內容以升序排序後輸出（由小到大）
+ * 日期：2025/11/14
+ * 作者：教授
+ * 備註：符合題意的輸入格式，支援負數，使用者輸入結束以程式結束，不使用 EOF。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數到陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 以避免例外；實務上可改為例外處理
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 對陣列排序（升序）
+        Arrays.sort(arr);
+
+        // 輸出排序後的內容，元素用空格分隔，末尾不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

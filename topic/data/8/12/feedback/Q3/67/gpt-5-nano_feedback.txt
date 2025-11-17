@@ -1,52 +1,31 @@
-4
+97
+改進建議：整體正確且直覺，但建議加強變數命名與註解，並考慮使用更穩健的型別以避免溢位。
+
+優化內容與原因：
+- 使用 long 類型並保留負號逆序的邏輯，提升數值範圍與對負數的魯棒性。
+- 重新命名變數為更具語意的名稱（num、rev、digit 等），提升可讀性。
+- 加入適當的註解與在程式結尾關閉資源，增強可維護性。
+- 保留原本「一次讀入、一個輸出」的要求，確保行為與題意一致。
 
 修改後完整程式碼：
-/*
- 文件名稱: LeibnizPi.java
- 功能說明: 使用 Leibniz 公式近似圓周率 pi，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，並找出使 pi 接近 3.14159 的最小 i。
- 作者: 你的姓名
- 日期: 2025-11-11
- 版本: 1.0
- 說明: 采用逐項累加的方式計算，避免每次從頭計算，並符合輸出格式需求。
-*/
-public class LeibnizPi {
+import java.util.Scanner;
+
+public class CSIE_51015120_1017_3 {
     public static void main(String[] args) {
-        double sum = 0.0;
-        int maxI = 100000;
-        int outputStep = 10000;
-        int minIForGoal = -1;
+        Scanner sc = new Scanner(System.in);
 
-        // 累加計算 π/4 的級數：sum_{k=0}^{i-1} (-1)^k / (2k+1)
-        for (int i = 0; i < maxI; i++) {
-            double term = ((i % 2 == 0) ? 1.0 : -1.0) / (2.0 * i + 1.0);
-            sum += term;
+        // 讀取一個整數，保留其正負號，進行位數反轉
+        long num = sc.nextLong();
+        long rev = 0;
 
-            // 每到 10000 的倍數輸出一次
-            if ((i + 1) % outputStep == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i + 1, pi);
-            }
-
-            // 找出使 pi 接近 3.14159 的最小 i
-            if (minIForGoal == -1) {
-                double piCurrent = 4.0 * sum;
-                if (Math.abs(piCurrent - 3.14159) <= 0.00001) {
-                    minIForGoal = i + 1;
-                }
-            }
+        // 只要 num 不為 0，就把最低位取出並拼接到 rev 的末尾
+        while (num != 0) {
+            long digit = num % 10;
+            rev = rev * 10 + digit;
+            num /= 10;
         }
 
-        // 將最小符合條件的 i 輸出
-        System.out.println();
-        System.out.println("i = " + minIForGoal);
+        System.out.println(rev);
+        sc.close();
     }
 }
-
-修改原因與說明：
-- 正確性與邏輯：改用累加式計算 Leibniz 公式的 pi/4，避免每次都從頭計算，符合題目要求的逐步輸出與尋找最小 i 的邏輯，並能清楚控制輸出格式與閾值比較。
-- 格式與命名：使用清晰的變數名稱(sum、maxI、outputStep、minIForGoal)，並以 System.out.printf 統一輸出格式，符合題目對輸出格式（i 6 位、pi 10 位小數）的要求。
-- 程式註解與可讀性：新增檔案開頭的註解，說明檔案名稱、功能、作者、日期、版本，以及在關鍵區塊添加了註解，提升可維護性。
-- 輸出風格符合要求：固定輸出格式，最後額外輸出找到的最小 i，與題目樣例對應。
-
-改進建議或反饋（一句話）：
-這份作業已正確採用累加法和符合輸出格式的輸出，但需加上完善的程式註解與更清晰的變數命名以提升可讀性與可維護性。

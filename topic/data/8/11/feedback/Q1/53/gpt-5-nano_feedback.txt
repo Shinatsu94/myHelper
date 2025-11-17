@@ -1,37 +1,38 @@
 88
 
+改進建議：程式已正確完成兩數交換並輸出結果，但缺少檔案標頭註解與變數命名不夠具描述性，建議加入註解與使用更具意義的變數名以提升可讀性。
+
+修改與優化說明：
+- 將變數名稱改為 A、B，使含義更清楚，符合題意的兩個數字變數命名。
+- 加入程式檔案標頭註解，描述檔案名稱、功能、作者與日期，提升可維護性與自我檢閱。
+- 保留不使用額外變數進行數字交換的要求，採用位元異或交換法。
+- 程式格式與註解略作整理，提升可讀性。
+
 修改後完整程式碼：
-/*
- 文件名稱: SwapTwoNumbers.java
- 功能: 讀入兩個整數，交換後輸出結果
- 作者: 教授
- 日期: 2025-11-11
-*/
 import java.util.Scanner;
 
-public class SwapTwoNumbers {
+/*
+ * 檔案名稱: csie_41343234_1003_1.java
+ * 功能說明: 讀入兩個整數，將其交換後輸出。遵循題目限制，不使用額外變數進行交換。
+ * 作者: 你的姓名
+ * 日期: 2025-11-15
+ */
+
+public class csie_41343234_1003_1 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int first = sc.nextInt();
-        int second = sc.nextInt();
 
-        // 使用不需要額外變數的 XOR 交換法
-        first = first ^ second;
-        second = first ^ second;
-        first = first ^ second;
+        int A = sc.nextInt();
+        int B = sc.nextInt();
 
-        System.out.println(first);
-        System.out.println(second);
+        // 使用位元異或交換法，避免使用額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
 
         sc.close();
     }
 }
-
-修改說明與原因：
-- 新增程式標頭與註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
-- 將變數名稱由 a/b 改為 first/second，使意義更明確，符合「有意義名稱」的格式要求。
-- 新增簡單註解說明交換方法為不使用額外變數的 XOR 交換法，與題意相符，並保持原有邏輯後不影響結果。
-- 加上 sc.close()，更完整的資源管理。
-
-一句話改進建議或反饋：
-加入程式頭註解與更具語意的變數名稱可提升可讀性與維護性，並在題意允許時維持不使用額外變數的交換法。

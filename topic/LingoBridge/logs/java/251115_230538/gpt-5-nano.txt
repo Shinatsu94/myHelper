@@ -1,0 +1,38 @@
+86
+建議增加程式標頭註解與變數命名的可讀性，並以更清晰的方式呈現交換邏輯以提升可維護性。
+
+修改與優化說明
+- 將變數命名改為 A、B，以提升意義與可讀性。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 使用 try-with-resources 來自動關閉 Scanner，提升資源管理安全性。
+- 保留不使用額外變數的交換方式（XOR 交換），符合題目限制，同時在註解中說明交換邏輯。
+- 程式內容新增內部註解，方便他人理解流程。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343143_1003_1.java
+功能: 讀入兩個整數，交換並輸出交換後的結果（題目要求不使用額外變數進行交換）
+作者: 教師
+日期: 2025-11-15
+*/
+
+public class CSIE_41343143_1003_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以確保 Scanner 會被自動關閉
+        try (Scanner sc = new Scanner(System.in)) {
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+
+            // XOR 交換法，在不使用第三個變數的情況下交換 A 與 B
+            A ^= B;
+            B ^= A;
+            A ^= B;
+
+            // 輸出為交換後的結果
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}

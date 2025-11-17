@@ -1,81 +1,74 @@
-2
+49
 
-- 正確性(50%): 0/50
-- 邏輯(30%): 0/30
-- 格式(10%): 2/10
-- 備註(10%): 0/10
-總分: 2
+改進建議：重構成清晰的數字位數檢查邏輯，避免因中間出現 0 而提前終止，並提升可讀性與可維護性。
 
-以下為優化後的完整作業範例程式碼與說明
+評分說明與修改要點：
+- 正確性（50%）：
+  - 原程式在某些數字（特別是中間含有 0 的情況，如 101、202 等）會錯誤判定，因為在遇到右側位數為 0 時會提前中斷檢查。這會導致非嚴格遞增的數字被錯判為恆等或遞增。
+  - 修改後使用從右到左逐位比較的穩健方法，若左位數不小於右位數即判為非「well-ordered」。
+- 邏輯（30%）：
+  - 原始邏輯雖然直覺，但含有不必要的中斷條件，且變數命名不清楚。新版本以清晰的變數與順序檢查，避免特殊情況導致錯誤。
+- 格式（10%）：
+  - 原程式變數命名單純，沒有註解，程式風格不統一。
+- 備註（10%）：
+  - 原始程式缺少檔案註解與頭部描述。
 
-優化後的完整程式碼
---------------------------------
+修改內容與原因：
+- 使用清晰的數字位檢查邏輯，從右側起逐位比較左側與右側數字的大小，若左側 >= 右側就不是嚴格遞增的數字。
+- 移除原程式中不必要的中斷條件，改成直到結束條件才結束循環，避免遇到中間為 0 之位時過早終止。
+- 提升可讀性：改成更具語意的變數名稱，並加入程式註解與頭部說明，並在結尾關閉 Scanner。
+- 使用符合 Java 命名慣例的類別名稱，並提供完整、可可編譯的版本。
+
+修改後完整程式碼：
+```java
 /*
-檔案名稱: LeibnizPi.java
-功能: 使用 Leibniz 公式 (pi = 4 * sum_{k=0}^{n-1} (-1)^k / (2k+1)) 計算
-      a) 當 n 為 10000, 20000, ..., 100000 時分別輸出 pi 的近似值，格式符合題意。
-      b) 計算最小的 n，使 pi 的近似值在五位小數四捨五入後等於 3.14159，並輸出該 n。
-作者: 教師/作者姓名
-日期: 2025-11-11
+File: WellOrderedNumber.java
+Description: Determine whether a user-input integer has strictly increasing digits from left to right.
+Author: (自行填寫)
+Date: 2025-11-15
 */
 
-public class LeibnizPi {
+import java.util.Scanner;
+
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        // Part (a): 逐步輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
-        int[] steps = {10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000};
-        for (int i = 0; i < steps.length; i++) {
-            int terms = steps[i];
-            double pi = computePi(terms);
-            System.out.printf("i = %6d, pi = %.10f%n", terms, pi);
+        Scanner s = new Scanner(System.in);
+
+        if (!s.hasNextInt()) {
+            s.close();
+            return;
         }
 
-        // 額外空一行，符合題目輸出示例的區隔
-        System.out.println();
+        int input = s.nextInt();
+        int original = input;
 
-        // Part (b): 找到最小的 n 使 pi 的近似值在五位小數四捨五入後等於 3.14159
-        int minimalN = findMinimalNForTarget(3.14159, 0.000005);
-        System.out.printf("i = %6d%n", minimalN);
-    }
+        // 從右到左檢查相鄰位數是否嚴格遞增（左位數需小於右位數）
+        boolean isWellOrdered = true;
+        int right = input % 10;
+        input /= 10;
 
-    // 使用 Leibniz 公式計算 pi 的前 terms 項近似值
-    private static double computePi(int terms) {
-        double sum = 0.0;
-        for (int k = 0; k < terms; k++) {
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-        }
-        return 4.0 * sum;
-    }
-
-    // 找到最小的 n，使 4 * sum_{k=0}^{n-1} (-1)^k/(2k+1) 的結果在
-    // 四捨五入到小數點後五位後等於 3.14159
-    private static int findMinimalNForTarget(double target, double tolerance) {
-        double sum = 0.0;
-        int n = 0;
-        while (true) {
-            double term = ((n % 2 == 0) ? 1.0 : -1.0) / (2.0 * n + 1.0);
-            sum += term;
-            double pi = 4.0 * sum;
-            if (Math.abs(pi - target) < tolerance) {
-                // n 為0-based次數，題意的 i 為項數，因此回傳 n+1
-                return n + 1;
+        while (input > 0) {
+            int left = input % 10;
+            if (left >= right) {
+                isWellOrdered = false;
+                break;
             }
-            n++;
-            // 為了避免極端情況的無窮迴圈，理論上不會到這裡，但可加上保護性條件
-            if (n > Integer.MAX_VALUE / 2) {
-                throw new RuntimeException("無法在合理範圍內找到符合條件的 n");
-            }
+            right = left;
+            input /= 10;
         }
+
+        if (isWellOrdered) {
+            System.out.println(original + " is well-ordered number.");
+        } else {
+            System.out.println(original + " is not well-ordered number.");
+        }
+
+        s.close();
     }
 }
---------------------------------
+```
 
-修改原因與說明
-- 需求偏離：原學生程式與題意無關，僅判斷「位數有序性」的問題，且缺乏任何 pi 相關計算。
-- 正確性改進：改用Leibniz級數逐項計算 pi 的近似值，並依題意輸出指定格式，包含 i 的欄位寬度與小數點位數。
-- 邏輯清晰度與可讀性：將功能分成兩個方法 computePi(terms) 與 findMinimalNForTarget(target, tolerance)，分工明確，易於後續維護與測試。
-- 格式與命名：新增標頭註解，使用具有意義的類別名稱與方法名稱；輸出格式使用 System.out.printf 以保證 i 的欄位寬度為6且 pi 顯示到小數點後十位，符合題目要求。
-- 設計評考點對應：在正確性與邏輯兩大面向提供可驗證的輸出結果，同時提升可讀性與可維護性，並符合輸出格式要求。
-
-一點建議（改進意見，單句）
-- 建議增加可配置的輸出參數與單元測試，例如把要輸出的 i 值集合與目標 pi、容忍度放在可設定的常數或參數中，方便未來重用與自動化測試。
+說明修改部分的原因：
+- 重新採用穩健的尾部檢查機制，避免中間出現 0 的情況影響判定。
+- 改善變數命名與結構，提升可讀性與維護性。
+- 加入程式頭註解與結尾的資源釋放，符合基本程式碼品質要求。

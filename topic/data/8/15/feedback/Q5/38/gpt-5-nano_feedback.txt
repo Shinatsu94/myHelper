@@ -1,80 +1,112 @@
-3
+總分：18/100
 
-修改後完整程式碼（正確解題，支援任意長度與負數）：
+改進建議（一句話）：此作業的正確性未能正確計算逆矩陣，核心在於餘子式應轉置後再除以行列式，且需對不可逆矩陣做處理與加入清晰註解與命名。
 
+評分與原因分解
+- 正確性 (0/50)
+  - 較大問題：原程式使用餘子式矩陣 (cofactor) 未經轉置即當作逆矩陣的分子，且行列式 det 的計算也以非轉置的餘子式組合，通常會產生錯誤的逆矩陣。
+  - 結果在大多數測試案例會不正確。
+- 邏輯 (12/30)
+  - 嘗試使用餘子式與行列式求逆的基本思路是正確的方向，但未正確實作轉置與 det 的正確計算，邏輯結構尚可，但需要修正細節。
+- 格式 (6/10)
+  - 變數命名簡潔但不夠具描述性；程式縮排與單行 for 迴圈可提升可讀性；缺少程式標頭註解與適度說明。
+- 備註 (0/10)
+  - 缺少檔案頭註解（檔名、功能、作者、日期、說明等）。
+
+修改與優化重點
+- 正確性修正
+  - 重新計算行列式 det：使用正確公式 det = a00*(a11*a22 - a12*a21) - a01*(a10*a22 - a12*a20) + a02*(a10*a21 - a11*a20)。
+  - 計算餘子式 Cofactor，並把 Cofactor 矩陣轉置得到 adjugate，再除以 det 以得到逆矩陣。
+  - 加入 det 為 0 的情況處理，避免除以 zero 的情形。若不可逆，暫以輸出全 0 的矩陣表示。
+- 可讀性與可維護性
+  - 使用更清楚的變數命名，加入適當註解與程式標頭。
+  - 保留輸出規格：若值近似為 0，輸出 0；其他值顯示到小數點後四位。
+- 設計上的穩健性
+  - 輸入讀取與輸出格式穩定，確保最後一行不尾隨空白。
+  - 針對可能的不可逆矩陣給出合理的輸出處理。
+
+修改後完整程式碼
 /*
- * 檔案名稱: ArraySortAsc.java
- * 功能說明: 讀取整數個數 n 與 n 個整數，將它們由小到大排序後輸出，以空格分隔成一行。
- * 作者: 教授
- * 日期: 2025-11-12
- * 備註: 範例輸入可包含換行與空白；不使用 EOF，程式執行結束後即結束。
+ * File: CSIE_41343215_1031_4.java
+ * 功能: 讀入 3x3 矩陣，輸出其反矩陣，元素顯示到小數點後四位；若為零，直接輸出 0
+ * 作者: 論述說明使用者
+ * 日期: 2024-06-01（示例）
+ * 說明: 規範輸入為 3x3 矩陣，輸出格式須符合要求；若不可逆，輸出全 0 的矩陣作為簡單處理。
  */
-import java.io.*;
-import java.util.*;
 
-public class ArraySortAsc {
-    // 簡易快速掃描器，跨行讀取 token
-    static class FastScanner {
-        BufferedReader br;
-        StringTokenizer st;
+import java.util.Scanner;
+import java.text.DecimalFormat;
+import java.util.Locale;
 
-        FastScanner() {
-            br = new BufferedReader(new InputStreamReader(System.in));
-        }
-
-        String next() throws IOException {
-            while (st == null || !st.hasMoreElements()) {
-                String line = br.readLine();
-                if (line == null) return null;
-                st = new StringTokenizer(line);
-            }
-            return st.nextToken();
-        }
-
-        int nextInt() throws IOException {
-            String s = next();
-            if (s == null) throw new EOFException();
-            return Integer.parseInt(s);
-        }
-    }
-
+public class CSIE_41343215_1031_4 {
     public static void main(String[] args) {
-        try {
-            FastScanner fs = new FastScanner();
-
-            String sN = fs.next();
-            if (sN == null) return;
-            int n = Integer.parseInt(sN);
-            if (n <= 0) {
-                // 若長度為0，直接不輸出任何內容
-                return;
+        Locale.setDefault(Locale.US); // 以確保小數點使用 '.'
+        Scanner scanner = new Scanner(System.in);
+        double[][] a = new double[3][3];
+        // 讀取 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (scanner.hasNextDouble()) {
+                    a[i][j] = scanner.nextDouble();
+                } else {
+                    a[i][j] = 0.0;
+                }
             }
+        }
+        scanner.close();
 
-            int[] arr = new int[n];
-            for (int i = 0; i < n; i++) {
-                arr[i] = fs.nextInt();
+        // 計算行列式 det
+        double det = a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+                   - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+                   + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+
+        // 計算 cofactors 矩陣
+        double[][] cof = new double[3][3];
+        cof[0][0] =  (a[1][1] * a[2][2] - a[1][2] * a[2][1]);
+        cof[0][1] = -(a[1][0] * a[2][2] - a[1][2] * a[2][0]);
+        cof[0][2] =  (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+
+        cof[1][0] = -(a[0][1] * a[2][2] - a[0][2] * a[2][1]);
+        cof[1][1] =  (a[0][0] * a[2][2] - a[0][2] * a[2][0]);
+        cof[1][2] = -(a[0][0] * a[2][1] - a[0][1] * a[2][0]);
+
+        cof[2][0] =  (a[0][1] * a[1][2] - a[0][2] * a[1][1]);
+        cof[2][1] = -(a[0][0] * a[1][2] - a[0][2] * a[1][0]);
+        cof[2][2] =  (a[0][0] * a[1][1] - a[0][1] * a[1][0]);
+
+        // 反矩陣為 adjugate = cofactors 的轉置，且除以 det
+        double[][] inv = new double[3][3];
+        boolean singular = Math.abs(det) < 1e-12;
+        if (!singular) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    inv[i][j] = cof[j][i] / det; // 轉置後再除以 det
+                }
             }
+        }
 
-            Arrays.sort(arr);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < n; i++) {
-                if (i > 0) sb.append(' ');
-                sb.append(arr[i]);
+        DecimalFormat df = new DecimalFormat("0.0000");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double val = singular ? 0.0 : inv[i][j];
+                // 若為零，直接輸出 0；否則輸出四位小數
+                if (Math.abs(val) < 1e-12) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(val));
+                }
+                if (j < 2) System.out.print(" ");
             }
-
-            System.out.print(sb.toString());
-        } catch (Exception e) {
-            // 為避免測資因非預期輸入而中斷，簡單輸出空輸出，或可換成更完善的錯誤處理
+            System.out.println();
         }
     }
 }
 
-說明修改部分的原因：
-- 將原先 3x3 矩陣與特徵矩陣運算的內容完全移除，改為動態長度的一維整數陣列，符合題意「任意長度的一維陣列」。
-- 使用快速掃描器（FastScanner）跨行與多個空白字元的輸入，能穩定解析任意格式的整數序列，且避免依賴 EOF。
-- 直接使用 Arrays.sort 進行排序，簡潔且正確，符合「由小到大」的需求，且能正確處理負數。
-- 輸出格式改為單行輸出、元素之間以空格分隔，符合題目給定的輸出格式。
+修改說明
+- 將原本的 adj 矩陣改成 Cofactor 矩陣，並以 Cofactor 矩陣轉置得到正確的 adjugate，再除以 det，才能得到正確的逆矩陣。
+- 使用正確的行列式公式 det，避免錯誤拼接造成的錯誤結果。
+- 新增對 det 為 0 的情況處理，避免除以零的情況，並以全 0 的輸出表示不可逆。
+- 強化輸出格式控制，對於值為零的情況輸出“0”，其他值輸出四位小數，符合題目要求。
+- 增加清晰註解與保留原有格式要求，讓程式更易於維護與閱讀。
 
-一語改進建議：
-- 建議再加入輸入驗證與例外處理，例如處理非整數輸入或超出記憶體的極端情況，並在輸出結尾補上換行符以提升輸出穩定性。
+如需，我可以再提供一版不輸出全 0 的不可逆矩陣版本，或是在輸入不完整時給出友善的錯誤訊息。

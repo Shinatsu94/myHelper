@@ -1,0 +1,51 @@
+88
+
+改進建議（一句話）：
+建議在程式開頭加入標頭註解並改用數學公式直接計算座標，避免迴圈，提升可讀性與效率。
+
+評分與理由：
+- 正確性 (50/50)：程式能在合法輸入下正確計算 num 的位置，或正確輸出 not find；符合題目要求的輸出格式。得分：50
+- 邏輯 (30/30)：原本以迴圈推算行列的做法是可行且直覺，但用數學公式可更簡潔與高效；修改後仍保持邏輯正確性與可讀性。得分：30
+- 格式 (10/10)：原程式在縮排與命名上整體尚可，輸出格式符合題目樣例。不過可再加上清晰註解以提升可讀性。得分：8
+- 備註 (10/10)：原作業缺少標頭註解與內文註解，未符合備註要求。得分：0
+
+修改說明與修改重點：
+- 使用數學公式直接計算 num 所在的列(row)，避免使用 O(n) 的迴圈，將時間複雜度降為 O(1)（在輸入範圍內）。
+- 增加完整的程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註需求。
+- 結構與變數命名更具語意，例如 endOfRow、startOfRow 等，提升可讀性。
+- 保留原輸出格式，確保與題目樣例的輸出一致。
+
+修改後完整程式碼：
+```java
+/*
+ * File: LowerTriangularSearch.java
+ * Description: 計算下三角形陣列中 num 的位置，若超出範圍則輸出 not find。
+ * Author: 系統自動評分
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularSearch {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int num = sc.nextInt();
+        sc.close();
+
+        int total = n * (n + 1) / 2;
+        if (num <= 0 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 計算 num 所在的列(row) using triangular numbers: find smallest row such that row*(row+1)/2 >= num
+        int row = (int) Math.ceil((Math.sqrt(8.0 * num + 1) - 1) / 2.0);
+        int endOfRow = row * (row + 1) / 2;
+        int startOfRow = endOfRow - row + 1;
+        int col = num - startOfRow + 1;
+
+        System.out.println(num + "[" + row + ", " + col + "]");
+    }
+}
+```

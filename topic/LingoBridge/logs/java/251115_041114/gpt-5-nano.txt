@@ -1,0 +1,132 @@
+80
+
+建議在程式開頭加入完整的標頭註解，並在矩陣不可逆時提供清楚的例外處理與說明。
+
+改進重點與理由（簡要說明）
+- 加入標頭註解，符合備註要求，提升可維護性與可讀性。
+- 統一輸出格式：將「0 的輸出」與非零輸出分離為格式函式 formatElement，提高可讀性與一致性。
+- 將常數與閾值獨立為 EPS，利於未來調整與穩定性控制。
+- 保留原有演算法的同時，增加可讀性與模組化，便於單元測試與維護。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343236_1031_4.java
+功能: 讀入 3x3 矩陣，輸出其反矩陣，非零元素顯示小數點後四位，零值輸出 '0'
+作者: [作者]
+日期: [日期]
+*/
+public class CSIE_41343236_1031_4 {
+    private static final double EPS = 1e-10;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double[][] matrix = new double[3][3];
+
+        // 讀取 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                matrix[i][j] = scanner.nextDouble();
+            }
+        }
+
+        // 計算反矩陣
+        double[][] inverse = getInverse(matrix);
+
+        // 列印反矩陣（若不可逆則輸出提示訊息）
+        if (inverse != null) {
+            printMatrix(inverse);
+        } else {
+            System.out.println("矩陣不可逆");
+        }
+
+        scanner.close();
+    }
+
+    // 計算 3x3 矩陣的反矩陣
+    public static double[][] getInverse(double[][] matrix) {
+        // 計算行列式
+        double det = getDeterminant(matrix);
+
+        // 如果行列式為 0，矩陣不可逆
+        if (Math.abs(det) < EPS) {
+            return null;
+        }
+
+        // 計算伴隨矩陣
+        double[][] adjugate = getAdjugate(matrix);
+
+        // 反矩陣 = 伴隨矩陣 / 行列式
+        double[][] inverse = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inverse[i][j] = adjugate[i][j] / det;
+            }
+        }
+
+        return inverse;
+    }
+
+    // 計算 3x3 矩陣的行列式
+    public static double getDeterminant(double[][] matrix) {
+        double det = matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
+                   - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
+                   + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+        return det;
+    }
+
+    // 計算伴隨矩陣(餘因子矩陣的轉置)
+    public static double[][] getAdjugate(double[][] matrix) {
+        double[][] cofactor = new double[3][3];
+
+        // 計算餘因子矩陣
+        cofactor[0][0] = matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1];
+        cofactor[0][1] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]);
+        cofactor[0][2] = matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0];
+
+        cofactor[1][0] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]);
+        cofactor[1][1] = matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0];
+        cofactor[1][2] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]);
+
+        cofactor[2][0] = matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1];
+        cofactor[2][1] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]);
+        cofactor[2][2] = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+
+        // 轉置餘因子矩陣得到伴隨矩陣
+        double[][] adjugate = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adjugate[i][j] = cofactor[j][i];
+            }
+        }
+
+        return adjugate;
+    }
+
+    // 列印矩陣
+    private static void printMatrix(double[][] matrix) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(formatElement(matrix[i][j]));
+                // 最後一個元素後不加空白
+                if (j < 2) {
+                    System.out.print(" ");
+                }
+            }
+            // 換行
+            if (i < 2) {
+                System.out.println();
+            }
+        }
+    }
+
+    // 將單一元素格式化為輸出字串
+    private static String formatElement(double val) {
+        if (Math.abs(val) < EPS) {
+            return "0";
+        } else {
+            return String.format("%.4f", val);
+        }
+    }
+}

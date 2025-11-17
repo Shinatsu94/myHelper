@@ -1,0 +1,43 @@
+90
+
+改進建議與回饋（一句話）
+建議加入完整的標頭註解與更具可讀性的變數命名，同時將中間值的計算改用長整數避免可能的溢位風險，但仍維持以三元運算子找最大與最小值的要求。
+
+修改說明與修改要點
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，提升文件說明性。
+- 變數命名改為 num1、num2、num3，提升可讀性與維護性。
+- 為避免整數溢位風險，將三數總和改為 long sum，再以 sum - max - min 計算中間值 mid。
+- 保持使用三元運算子來計算最大值與最小值，符合題目要求且不使用 if-else。
+- 輸出順序仍為最小值、中間值、最大值（min, mid, max），符合題目輸出格式。
+
+修改後完整程式碼
+/*
+File: CSIE_41343216_1003_2.java
+Description: 找出三個整數的最大值、中間值與最小值，使用兩種非 if-else 方式（僅使用三元運算子）。
+Author: 教師
+Date: 2025-11-15
+*/
+public class CSIE_41343216_1003_2 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
+
+        // 找最大值
+        int max = (num1 > num2 ? (num1 > num3 ? num1 : num3) : (num2 > num3 ? num2 : num3));
+        // 找最小值
+        int min = (num1 < num2 ? (num1 < num3 ? num1 : num3) : (num2 < num3 ? num2 : num3));
+        // 中間值 = 總和 - 最大值 - 最小值
+        long sum = (long)num1 + num2 + num3;
+        int mid = (int)(sum - max - min);
+
+        // 從小到大印出
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

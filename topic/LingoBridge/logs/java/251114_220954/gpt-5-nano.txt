@@ -1,0 +1,45 @@
+2
+改進建議：需要實作真正的排序與正確輸出，並改善變數命名與註解以符合題目需求。
+
+修改說明（重點）：
+- 取代無用的 2D char 陣列與 '*' 輸出，改為整數陣列 arr，符合題目要求。
+- 使用 Arrays.sort 進行升序排序，並輸出用空格分隔的單行結果。
+- 增加程式標頭註解與適當的行內註解，提升可讀性與維護性。
+
+修改後完整程式碼：
+/**
+ * 檔案名稱: Main.java
+ * 功能: 讀取長度 n 與 n 個整數，輸出升序排列的結果，元素以空格分隔。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+
+        // 儲存 n 個整數
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 將陣列排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

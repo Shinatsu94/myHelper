@@ -1,0 +1,46 @@
+89
+這份作業基本正確，但建議加上標頭註解與統一程式風格，並考慮使用內建排序提高可讀性與穩定性。
+
+修改內容與原因：
+- 移除未使用的 import
+  - 對應原始程式多了一個未使用的 import java.sql.Array;，會造成不必要的混淆與警告，移除可提升清晰度。
+- 增加程式標頭註解
+  - 依照評分標準，於檔案開頭增加檔案名稱、功能、作者與日期等說明，提升可維護性與評分透明度。
+- 改用內建排序（Arrays.sort）
+  - 使用 Arrays.sort(arr) 取代自訂的 selection sort，簡化程式、提升穩定性與效率，同時能正確處理包含負數的情況，且便於閱讀與維護。
+- 程式風格與可讀性
+  - 提升縮排與加入必要區塊，大幅改善閱讀性，便於後續維護。
+  - 使用適當的輸出格式，避免多餘空格，輸出符合題目格式。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343212_1031_1 {
+    /*
+     檔案名稱: CSIE_41343212_1031_1.java
+     功能: 建立任意長度的一維陣列，將內容由小到大排序並輸出
+     作者: 您的姓名
+     日期: 2025-11-14
+    */
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int length = input.nextInt();
+        int[] arr = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        input.close();
+    }
+}

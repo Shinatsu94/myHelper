@@ -1,0 +1,56 @@
+86
+
+建議改進方向：建議加入實作的二維（jagged）陣列並以陣列內容填入 '*' 後再列印，以符合「建立二維陣列」的題意，同時補上程式頭註解與適當命名。
+
+修改說明與評分要點
+- 正確性 (40/50)：輸出仍與題目樣本相符，但未實作實際的二維陣列，僅直接輸出星號，未滿足「建立二維陣列」的要求。若改用實作陣列，能完整符合題意。
+- 邏輯 (28/30)：邏輯清晰，使用 jagged array 代表下三角結構，填入星號再逐行列印，邏輯正確且易於閱讀。
+- 格式 (9/10)：變數命名清晰，排版整潔，但缺少程式頭註解與檔案屬性說明。
+- 備註 (9/10)：需要加入檔案名稱、功能說明、作者、日期等註解；現有版本缺乏清晰的註解。可再補充。
+
+修改後完整程式碼與修改原因
+修改原因
+- 為符合題意「建立一個下三角形的二維陣列」，改用 jagged 2D 陣列 arr，其每一列長度為 i+1，逐格填入 '*'，再輸出。這樣就真正建立了二維結構，而非僅直接輸出。
+- 引入更清楚的命名與註解，並使用 StringBuilder 減少 I/O 次數，提升效能與可讀性。
+- 增加程式頭註解，提供檔案名稱、功能、作者、日期等資訊。
+
+修改後完整程式碼
+```java
+/*
+ * File: LowerTriangularStars.java
+ * Description: 建立並列印下三角形的二維不等長陣列（jagged array），
+ *              每行包含自下而上的星號數量：第 i 行有 i+1 個 '*'
+ * Author: 教師資訊
+ * Date: 2025-11-14
+ * Notes: 0 < n <= 20
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularStars {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // 讀入高度
+        sc.close();
+
+        // 建立 jagged array：第 i 行有 i+1 個元素
+        char[][] arr = new char[n][];
+        for (int i = 0; i < n; i++) {
+            arr[i] = new char[i + 1];
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 輸出下三角形陣列
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(arr[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
+        }
+        System.out.print(sb.toString());
+    }
+}
+```

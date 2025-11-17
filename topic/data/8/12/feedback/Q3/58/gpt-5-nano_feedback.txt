@@ -1,0 +1,43 @@
+92
+
+建議：改用 long 類型並改寫反轉演算法，使負數也能正確反轉，並避免使用 Math.abs 造成的極端值溢位風險。
+
+修改說明：
+- 轉換為 long 類型，提升處理範圍並降低溢位風險。
+- 移除對 Math.abs 的依賴，直接利用 n % 10 與 n /= 10 的特性即可正确處理正負數，保持符號一致的反轉結果。
+- 仍維持單次執行、單一輸入的需求；保持原有類別名稱以確保編譯環境兼容。
+- 內部註解與變數命名改善，增進可讀性。
+
+修改後完整程式碼：
+```java
+//date:2025/10/17
+//function:反轉輸入的數字
+//name&number:黃榮裕41343240
+import java.util.Scanner;
+
+public class CSIE_41343240_1017_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取單一整數並反轉其數字
+        long n = sc.nextLong();
+
+        long reversed = reverseNumber(n);
+
+        System.out.println(reversed);
+
+        sc.close();
+    }
+
+    // 直接對帶符號的整數進行反轉，無需額外處理符號
+    public static long reverseNumber(long n) {
+        long reversed = 0;
+        while (n != 0) {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        }
+        return reversed;
+    }
+}
+```

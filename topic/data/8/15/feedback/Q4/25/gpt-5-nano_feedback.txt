@@ -1,68 +1,67 @@
-0
+總分：88
 
-以下為修改後的正確實作與說明。
+改進建議：建議加入完整程式標頭註解、統一變數命名與風格，並以數學方法計算位置以提升可讀性與穩健性，同時實作建立下三角矩陣以符合題意。
 
-修改後完整程式碼（可直接執行）：
-```java
+修改說明與改動部分
+- 增加標頭註解與重新整理成符合 Java 標準的程式結構，提升可維護性與可讀性。
+- 將程式改寫成 Main 類別，並統一使用更具可讀性的變數名稱 height 與 target。
+- 實作建立完整的下三角形二維陣列（tri），並依題意填入從 1 開始的序列值。
+- 改用數學方式找出 target 在下三角矩陣中的位置：若 target 不在矩陣元素範圍內，回傳找不到；否則利用 row 的增加與累減法計算出行與列（均為 1-based）。
+- 修正輸出格式，維持原題目給的輸出樣式，例如 "55[10, 10]" 或 "not find 99 in array."。
+
+修改後完整程式碼
 /*
-檔案名稱: SortArrayAscending.java
-功能說明: 讀取整數 n 代表陣列長度，接著讀入 n 個整數，將陣列內容由小到大排序，最後輸出排序後的陣列（以空格分隔）。
-作者: 你的名字
-日期: 2025-11-12
+File: Main.java
+功能: 建立下三角形二維陣列，輸入高度 height 與尋找的數字 target，輸出 target 在表中的位置
+作者: 請自行填寫
+日期: 及時提交時日期
 */
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class SortArrayAscending {
+public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        int height = 0;
+        int target = 0;
 
-        // 讀取陣列長度
-        if (!in.hasNextInt()) {
-            in.close();
-            return;
-        }
-        int n = in.nextInt();
-        int[] arr = new int[n];
+        if (in.hasNextInt()) height = in.nextInt();
+        if (in.hasNextInt()) target = in.nextInt();
 
-        // 讀取 n 個整數，若不足以讀入 n 個，依需求可改成拋出例外或補 0；此處以 0 作為預設
-        for (int i = 0; i < n; i++) {
-            if (in.hasNextInt()) {
-                arr[i] = in.nextInt();
-            } else {
-                arr[i] = 0;
+        // 建立下三角形陣列並填值
+        int[][] tri = new int[height][];
+        int val = 1;
+        for (int i = 0; i < height; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
             }
         }
 
-        in.close();
-
-        // 排序
-        Arrays.sort(arr);
-
-        // 輸出，元素之間以單一空格分隔，末端不留多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        int[] pos = findIndex(height, target);
+        if (pos[0] > 0) {
+            System.out.printf("%d[%d, %d]", target, pos[0], pos[1]);
+        } else {
+            System.out.printf("not find %d in array.", target);
         }
-        System.out.println(sb.toString());
+
+        in.close();
+    }
+
+    // 回傳 {row(1-based), col(1-based)}，若找不到則回傳 {-1, -1}
+    private static int[] findIndex(int height, int target) {
+        int[] res = { -1, -1 };
+        int total = height * (height + 1) / 2;
+        if (target <= 0 || target > total) return res;
+
+        int row = 1;
+        int value = target;
+        // 使用數學方法：找到最小的 row 使得 value <= row，row 為所在行，value 為所在列
+        while (value > row) {
+            value -= row;
+            row++;
+        }
+        res[0] = row;
+        res[1] = value;
+        return res;
     }
 }
-```
-
-修改說明與原因：
-- 正確性與功能實作
-  - 原始程式未實作排序與多筆輸入的處理，且輸出與題意不符。本版本遵循題目需求：先讀入長度 n，接著讀入 n 個整數，對整個陣列排序，最後輸出排序後的內容。
-- 邏輯與設計
-  - 使用簡單直接的排序方法 Arrays.sort，時間複雜度 O(n log n)，適用於任意長度的整數陣列，且支援負數。
-  - 輸出格式避免尾端多餘空格，與樣例輸出一致。
-- 格式與命名
-  - 采用清晰的類別名稱 SortArrayAscending，符合一般 Java 命名規範；檔案名稱與 public 類別一致。
-  - 加上檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
-- 註解與可讀性
-  - 在程式中加入必要的註解，說明每個步驟的目的，方便其他人閱讀與維護。
-- 輸入魯棒性
-  - 程式在未完整輸入時會自動回傳，若輸入數不足以填滿陣列，預設補 0，實務上可依需求改成拋出例外或提示錯誤。
-
-改進建議或反饋（一句話）：
-- 建議使用標準輸入/輸出與現成的排序工具（如 Arrays.sort）以確保正確性與效率，同時加強輸入驗證與註解，讓程式更健壯、可維護。

@@ -1,0 +1,74 @@
+49
+
+改進建議：重構成清晰的數字位數檢查邏輯，避免因中間出現 0 而提前終止，並提升可讀性與可維護性。
+
+評分說明與修改要點：
+- 正確性（50%）：
+  - 原程式在某些數字（特別是中間含有 0 的情況，如 101、202 等）會錯誤判定，因為在遇到右側位數為 0 時會提前中斷檢查。這會導致非嚴格遞增的數字被錯判為恆等或遞增。
+  - 修改後使用從右到左逐位比較的穩健方法，若左位數不小於右位數即判為非「well-ordered」。
+- 邏輯（30%）：
+  - 原始邏輯雖然直覺，但含有不必要的中斷條件，且變數命名不清楚。新版本以清晰的變數與順序檢查，避免特殊情況導致錯誤。
+- 格式（10%）：
+  - 原程式變數命名單純，沒有註解，程式風格不統一。
+- 備註（10%）：
+  - 原始程式缺少檔案註解與頭部描述。
+
+修改內容與原因：
+- 使用清晰的數字位檢查邏輯，從右側起逐位比較左側與右側數字的大小，若左側 >= 右側就不是嚴格遞增的數字。
+- 移除原程式中不必要的中斷條件，改成直到結束條件才結束循環，避免遇到中間為 0 之位時過早終止。
+- 提升可讀性：改成更具語意的變數名稱，並加入程式註解與頭部說明，並在結尾關閉 Scanner。
+- 使用符合 Java 命名慣例的類別名稱，並提供完整、可可編譯的版本。
+
+修改後完整程式碼：
+```java
+/*
+File: WellOrderedNumber.java
+Description: Determine whether a user-input integer has strictly increasing digits from left to right.
+Author: (自行填寫)
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+
+        if (!s.hasNextInt()) {
+            s.close();
+            return;
+        }
+
+        int input = s.nextInt();
+        int original = input;
+
+        // 從右到左檢查相鄰位數是否嚴格遞增（左位數需小於右位數）
+        boolean isWellOrdered = true;
+        int right = input % 10;
+        input /= 10;
+
+        while (input > 0) {
+            int left = input % 10;
+            if (left >= right) {
+                isWellOrdered = false;
+                break;
+            }
+            right = left;
+            input /= 10;
+        }
+
+        if (isWellOrdered) {
+            System.out.println(original + " is well-ordered number.");
+        } else {
+            System.out.println(original + " is not well-ordered number.");
+        }
+
+        s.close();
+    }
+}
+```
+
+說明修改部分的原因：
+- 重新採用穩健的尾部檢查機制，避免中間出現 0 的情況影響判定。
+- 改善變數命名與結構，提升可讀性與維護性。
+- 加入程式頭註解與結尾的資源釋放，符合基本程式碼品質要求。

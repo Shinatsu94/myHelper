@@ -1,0 +1,60 @@
+86
+
+建議改用單一穩健的迴圈與清楚的註解，移除未使用的輸入並以穩定的條件判斷完成第二部分。 
+
+修改後的程式說明與原因
+- 移除未使用的 Scanner，避免編譯時警告與混淆。
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，符合備註要求。
+- 使用單一累加過程計算前 100000 項的 pi，並在每 10000 項輸出，符合題目輸出格式。
+- 改為連續累加直到 pi >= 3.14159 的最小 i，並輸出該 i，提升穩定性與可讀性。
+- 變數與格式命名採用更具可讀性的慣例，並調整輸出格式以符合題目要求（i 為六位寬、pi 為小數點後十位）。
+
+完整修改後程式碼
+/*
+File: LeibnizPi.java
+功能: 使用勒布尼茨級數計算圓周率近似值，並找出使 pi ≥ 3.14159 的最小項數
+作者: 教師姓名
+日期: 2025-11-15
+*/
+import java.io.PrintWriter;
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        final int maxI = 100000;
+        double sum = 0.0;
+
+        PrintWriter out = new PrintWriter(System.out);
+
+        // Part (a): 輸出 i = 10000, 20000, ..., 100000 的 pi 值
+        for (int i = 1; i <= maxI; i++) {
+            // 公式: sum += (-1)^(i-1) * 1/(2*i-1)
+            double term = 1.0 / (2 * i - 1);
+            if ((i & 1) == 1) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+
+            if (i % 10000 == 0) {
+                out.printf("i = %6d, pi = %.10f%n", i, sum * 4.0);
+            }
+        }
+
+        // Part (b): 找到最小的 i 使 pi >= 3.14159
+        int i = maxI + 1;
+        while (true) {
+            double term = 1.0 / (2 * i - 1);
+            if ((i & 1) == 1) sum += term;
+            else sum -= term;
+
+            double piEst = sum * 4.0;
+            if (piEst >= 3.14159) {
+                out.printf("\ni = %6d%n", i);
+                break;
+            }
+            i++;
+        }
+
+        out.flush();
+    }
+}

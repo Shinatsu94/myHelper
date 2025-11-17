@@ -1,0 +1,69 @@
+總分: 88
+
+建議與回饋 (一句話)
+建議補上程式標頭註解、統一排版與輸出結尾換行，以提升可讀性與符合程式設計標準。
+
+修改說明與重點改動
+- 備註與標頭註解：原程式缺乏檔案說明與註解，改為在新版本中加入頭部註解，符合作業要求的「程式標頭註解」。
+- 排版與命名：調整縮排與空格，使可讀性提高；部分變數命名改為更具描述性的名稱（如 n/arr），便於理解。
+- 輸出格式：最後增加換行，避免輸出結束後黏在同一行，與常見輸出格式一致。
+- 保留演算法：保持原有選擇排序法，負數與任意長度陣列皆能正常處理，符合題意。
+- 關閉資源：在結尾加上 s.close() 以釋放資源（雖非必須，但為良好習慣）。
+
+修改後完整程式碼
+注：以下為優化後的完整程式碼，包含註解與更整齊的排版。
+
+/*
+ * 檔案名稱: SelectionSort.java
+ * 功能說明: 讀取使用者輸入的長度與對應的整數，將陣列內容由小到大排序（選擇排序），
+ *         最後輸出排序結果，元素之間以單一空格分隔，並於末尾換行。
+ * 作者: 資訊工程系教授
+ * 日期: 2025-11-14
+ * 備註: 具備負數支援，程式執行一次即結束，未使用 EOF。
+ */
+
+import java.util.Scanner;
+
+public class SelectionSort {
+    // 使用選擇排序將整數陣列由小到大排序
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            // 若找到的最小值不是目前的 i，才進行交換
+            if (minIndex != i) {
+                int temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = s.nextInt();
+        }
+
+        selectionSort(arr);
+
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println(); // 輸出結尾換行
+
+        s.close();
+    }
+}

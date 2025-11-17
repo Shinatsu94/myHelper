@@ -1,41 +1,46 @@
-2
-- 正確性: 0
-- 邏輯: 0
-- 格式: 2
-- 備註: 0
+82
+建議改進：提高可讀性與可維護性，將數字和運算邏輯拆成獨立函式並加入註解與標頭。
 
-修改與評語
-以下為修正版程式碼與修改說明：
+修改說明與評語
+- 正確性：保留原有邏輯，透過單獨的 digitSum 函式進行位數加總計算，結果與範例應一致。
+- 邏輯性：將位數和計算拆成獨立函式，提升可讀性與可測試性。
+- 格式：變數命名改為更具描述性，統一縮排與風格，提升閱讀性。
+- 備註：新增檔案標頭註解，說明檔案名稱、功能、作者與日期，並在程式中加入適當註解。
 
-修改後完整程式碼（保留原檔案名稱與類別名，同時符合題意與限制）
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_41343143_1003_3.java
+ * 功能: 計數 1~100000 之間，數字各位數字和等於輸入 A 的數字總數
+ * 作者: <請填入作者名稱>
+ * 日期: <請填入日期>
+ */
 import java.util.Scanner;
+
 public class CSIE_41343143_1003_3 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int A = sc.nextInt();
-        int B = sc.nextInt();
+        int target = sc.nextInt();
+        int count = 0;
 
-        // 先印出原值
-        System.out.println(A);
-        System.out.println(B);
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
 
-        // 使用僅 A, B 兩個變數做交換（不宣告其他變數）
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
-
-        // 印出交換後的值
-        System.out.println(A);
-        System.out.println(B);
-
+        System.out.print(count);
         sc.close();
     }
+
+    // 計算整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n != 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
 }
-
-修改原因說明
-- 將原本與題意不符的複雜邏輯替換為直接讀取兩個整數並依題意輸出原值與交換後的值。
-- 為符合「不可使用其他變數進行數字交換」的限制，採用兩個變數 A、B 的三次 XOR 交換法，避免宣告額外變數。
-- 增加清楚的註解與可讀性，確保輸出格式符合題目要求（每個值分行輸出）。
-
-改進建議
-若允許使用暫存變數，建議直接用暫存變數交換，會更直觀且降低溢位與位元運算風險；若必須不使用額外變數，則現行的 XOR 交換法在大多數情況下可行，但需留意資料型態與極端輸入情況。
+```

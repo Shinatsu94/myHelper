@@ -1,38 +1,51 @@
-3
+85
+建議將數字分解的邏輯獨立成方法、改用更有意義的變數命名，並加入檔頭與內部註解，以提升可讀性與維護性。
 
-修改後完整程式碼：
-/*
- * 檔案名稱: SwapTwoIntegers.java
- * 功能說明: 讀入兩個整數，將其值在不使用額外變數的情況下互換，並輸出交換後的結果。
- * 作者: 你(教授)
- * 日期: 2025-11-11
- */
-import java.util.Scanner;
+改進與修改說明：
+- 將求數字位數和的邏輯抽成獨立的方法 digitSum(int n)，提升重用性與測試性。
+- 將類別名稱改為 DigitSumCounter，並提供檔案頭註解，符合 Java 的命名慣例與可維護性需求。
+- 使用有意義的變數名稱，例如 target、num、count，提升可讀性。
+- 加入早期判斷：若 target > 45，直接輸出 0，避免不必要的迴圈計算。
+- 使用完畢後關閉 Scanner，避免資源洩漏。
+- 保留原本正確的邏輯與範圍（1 到 100000），確保邏輯正確性的同時提升結構。
 
-public class SwapTwoIntegers {
+修改後完整程式碼如下：
+
+public class DigitSumCounter {
+    /**
+     * File: DigitSumCounter.java
+     * 功能: 計算區間 [1, 100000] 中，數位總和等於 target 的數字個數
+     * 作者: 你的名字
+     * 日期: 2025-11-15
+     */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        int target = scanner.nextInt();
+        int count = 0;
 
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        // 最大可能的數位和為 9 * 5 = 45 (因為最大數在此區間為 99999)
+        if (target < 0 || target > 45) {
+            System.out.println(0);
+            scanner.close();
+            return;
+        }
 
-        // 使用 XOR 交換法，僅使用 A、B 兩個變數，不使用其他變數
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+        for (int num = 1; num <= 100000; num++) {
+            if (digitSum(num) == target) {
+                count++;
+            }
+        }
 
-        System.out.println(A);
-        System.out.println(B);
-
+        System.out.println(count);
         scanner.close();
     }
+
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
 }
-
-修改說明：
-- 將程式改為符合題意：讀入兩個整數並在交換後輸出，原程式只讀取 A、且與題意無關的邏輯，導致錯誤結果。
-- 僅使用 A、B 兩個變數完成交換：採用 XOR 交換法，符合「不可使用其他變數進行數字交換」的要求，避免額外變數造成違規。
-- 增加程式標頭註解與明確的變數命名，提升可讀性；改用 SwapTwoIntegers 類別與清楚的輸出順序（先輸出交換後的 A 再輸出 B）。
-- 加上 scanner 關閉，資源釋放較完整。
-
-改進建議（一句話）：
-建議在程式中加入輸入有效性檢查與更完整的錯誤處理，同時保持註解清楚以提升可讀性與維護性。

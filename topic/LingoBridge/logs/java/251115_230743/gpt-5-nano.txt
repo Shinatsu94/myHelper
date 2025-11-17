@@ -1,0 +1,39 @@
+總分：88
+
+改進建議：程式缺少標頭註解與統一格式，建議加入檔案說明與註解，並適當關閉 Scanner 以釋放資源，提升可讀性與維護性。
+
+程式碼優化說明與修改原因
+- 新增程式檔案標頭註解，說明檔名、功能、作者與日期，符合備註項目的要求，提升可維護性與可追溯性。
+- 統一縮排與移除多餘空行，讓程式碼更整潔易讀。
+- 加上註解解釋 XOR 交換的步驟，讓讀者理解不使用額外變數就完成交換的原理。
+- 加入 Scanner 關閉操作，釋放資源，符合一般良好實作習慣。
+- 僅使用 a 與 b 兩個變數完成交換，符合題目限制。
+
+修改後的完整程式碼
+/*
+ * 檔案名稱: CSIE_41343205_1003_1.java
+ * 功能: 讀入兩個整數，印出其交換後的值（交換後的 a 與 b）
+ * 作者: 教授
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343205_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 使用位元異或運算進行原地交換，且不使用額外變數
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}

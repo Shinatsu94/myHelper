@@ -1,0 +1,64 @@
+88
+
+改進建議：建議加入程式標頭註解、將排序邏輯獨立成方法，並改為不產生尾端多餘空格的輸出，以提升可讀性與可重用性。
+
+程式優化重點與原因
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將排序邏輯抽成私有方法 selectionSort，提高可重用性與可測試性。
+- 使用 StringBuilder 產出輸出，避免尾端多餘的空格，輸出格式更符合題目期望。
+- 增加基本的輸入健壯性檢查，確保在極端情況下不會發生例外（例如少於預期的輸入）。
+- 保留負數支援，與原作一致。
+
+修改後完整程式碼
+/*
+檔案名稱: csie_1031_41343214.java
+功能: 建立任意長度的一維陣列，將內容進行升序排序 (由小到大)，輸入長度與元素，輸出排序結果
+作者: 教授
+日期: 2025-11-14
+說明: 使用選擇排序，輸出使用空格分隔且不留 trailing space
+*/
+public class csie_1031_41343214 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        int[] arr = new int[Math.max(0, n)];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        selectionSort(arr);
+
+        // 輸出：避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+
+    // 需要的排序演算法：選擇排序
+    private static void selectionSort(int[] a) {
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIndex]) minIndex = j;
+            }
+            int t = a[i];
+            a[i] = a[minIndex];
+            a[minIndex] = t;
+        }
+    }
+}

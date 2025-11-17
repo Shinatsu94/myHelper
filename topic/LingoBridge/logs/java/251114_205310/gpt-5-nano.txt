@@ -1,0 +1,75 @@
+89
+
+建議改進重點：加入標頭註解、統一縮排與命名、採用清晰的排序寫法並改進輸出格式與邊界輸入處理。
+
+修改與原因（逐點說明）
+- 加入標頭註解：在檔案開頭加入檔案名稱、功能、作者與日期等註解，提升可維護性與辨識度。
+- 改用標準的選擇排序寫法：改寫為更直覺的選擇排序（用 minIdx 找到最小值再交換），提升可讀性與邏輯清晰度。
+- 統一輸出格式：改用 StringBuilder 產生輸出字串，避免在迴圈中頻繁直寫與確保最後輸出僅有一個換行且無尾部多餘空格。
+- 增加基本輸入檢驗與資源管理：對 n <= 0 做處理，避免非預期情況；使用 sc.close() 釋放資源。
+- 變數命名與縮排調整：使用更一致的命名與縮排風格，提升可讀性。
+
+修改後完整程式碼（請以檔名對應的 class 名稱保存，如 CSIE_41343119_1031_1.java）
+注意：以下程式不使用 EOF，只依照輸入的長度與元素個數讀取，符合題目要求。
+
+/*
+檔案名稱: CSIE_41343119_1031_1.java
+功能: 讀取整數陣列長度與內容，輸出經升冪排序後的陣列內容
+作者: 金宗翰
+日期: 2025/10/31
+*/
+
+public class CSIE_41343119_1031_1 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int n;
+
+        // 讀取陣列長度，並處理非正整數的情況
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+        if (n <= 0) {
+            // 無元素或負長度，直接輸出空行並結束
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] A = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                A[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                A[i] = 0;
+            }
+        }
+
+        // 標準選擇排序：找出未排序部分中的最小值，放到前端
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (A[j] < A[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            if (minIdx != i) {
+                int tmp = A[i];
+                A[i] = A[minIdx];
+                A[minIdx] = tmp;
+            }
+        }
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(A[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

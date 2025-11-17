@@ -1,0 +1,49 @@
+80
+
+改進建議（一句話）：
+建議將迴圈改為從 1 到 100000，並加入註解與資源管理，使程式更健壯且易於閱讀。
+
+評語與修改要點：
+- 正確性：原程式遍歷 0..100000，雖然對 A=6 等情況不影響，但若 A=0，會把 0 計入結果，造成錯誤。改為從 1 開始遍歷可避免這種情況。
+- 邏輯：採用直覺且正確的位數加總邏輯；修改後保持相同邏輯但更嚴謹地限定範圍。
+- 格式：補充註解並整理縮排與命名，提升可讀性。
+- 備註：加入程式標頭註解，說明檔案名稱、功能、作者與日期，內容內部也補充註解。
+
+修改後程式碼（完整，已優化）：
+import java.util.Scanner;
+
+/*
+ * 檔案名稱: CSIE_41245139_1003_3.java
+ * 功能說明: 計算範圍 1..100000 之間，數字各位數字的加總等於輸入 A 的數字個數
+ * 作者: [學生姓名]
+ * 日期: 2025-11-15
+ */
+
+public class CSIE_41245139_1003_3 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int A = sc.nextInt();
+            int count = 0;
+
+            // 範圍限定在 1..100000，避免將 0 包含進去
+            for (int i = 1; i <= 100000; i++) {
+                if (digitSum(i) == A) {
+                    count++;
+                }
+            }
+
+            System.out.println(count);
+        }
+    }
+
+    // 計算數字 number 的各位數字總和
+    private static int digitSum(int number) {
+        int sum = 0;
+        while (number > 0) {
+            sum += number % 10;
+            number /= 10;
+        }
+        return sum;
+    }
+}

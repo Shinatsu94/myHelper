@@ -1,57 +1,63 @@
-11
+92
 
-評分明細：
-- 正確性：0/50
-- 邏輯：5/30
-- 格式：4/10
-- 備註：2/10
-總分：11/100
+改進建議（一句話）：
+請將程式改成符合 Main 類別與 Main.java 檔名，並補充完整的檔案註解，以確保編譯通過並提升可讀性與維護性。
 
-修改與改進說明：
-- 將排序演算法改為使用 Java 內建的 Arrays.sort，確保對負數與任意長度的正確性與穩定性，避免自寫複雜邏輯導致排序錯誤。
-- 將類別名稱改為 Main，並提供符合檔案 Main.java 的標頭註解，以符合題目規範與編譯要求。
-- 使用簡潔的輸出方式，避免不必要的副作用，確保輸出格式符合題目需求（數字之間用空白分隔，結尾換行）。
-- 程式內部增加清晰註解，並保持合理縮排與命名。
+修改與評語說明：
+- 將類別名稱改為 Main，檔案名稱改為 Main.java，符合 Java 公開類的命名規範，避免編譯錯誤。
+- 增加完整的檔案標頭註解（檔案名、功能、作者、日期等），提升可維護性與可追溯性。
+- 輸出部分改用 StringBuilder 累積結果再輸出，提升性能，尤其在處理較大陣列時更有效率。
+- 變數命名做小幅調整，例如 maxRight，讓意圖更清楚；並使用簡潔的更新邏輯（使用最大值更新）。
+- 保留原邏輯的正確性與邏輯性，同時確保 n=0 的極端情況輸出一個空行，與原需求一致。
 
-修改後完整程式碼（Main.java）：
+修改後完整程式碼：
+
+```java
+import java.util.Scanner;
+
 /*
  * 檔案名稱: Main.java
- * 功能: 讀取整數 n 與 n 個整數，輸出從小到大排序的結果
- * 作者: 教師
- * 日期: 2025-11-12
+ * 功能: 依題意對輸入陣列做右側最大值置換，最後一個元素設為 -1，並輸出結果
+ * 作者: 請補充
+ * 日期: 請補充
  */
-import java.util.Scanner;
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // 1. 讀取陣列的長度
         int n = scanner.nextInt();
-        int[] arr = new int[n];
 
+        // 2. 建立陣列並讀取使用者依序輸入的 n 個整數
+        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
             arr[i] = scanner.nextInt();
         }
 
-        // 使用內建排序，確保正確且簡潔
-        Arrays.sort(arr);
+        // 3. 核心邏輯：從右往左遍歷，將每個位置設為右側的最大值
+        if (n > 0) {
+            int maxRight = arr[n - 1]; // 右側最大值起始於最後一個元素
+            arr[n - 1] = -1;           // 最後一個元素替換為 -1
 
-        // 輸出，數字之間以單一空格分隔
-        for (int i = 0; i < n; i++) {
-            if (i > 0) System.out.print(' ');
-            System.out.print(arr[i]);
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i]; // 暫存目前元素的值
+                arr[i] = maxRight;    // 置換為目前的右側最大值
+                if (current > maxRight) {
+                    maxRight = current; // 更新右側最大值
+                }
+                // 可簡寫為: maxRight = Math.max(maxRight, current);
+            }
         }
-        System.out.println();
+
+        // 4. 印出置換後的陣列內容，使用 StringBuilder 提升輸出效能
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
 
         scanner.close();
     }
 }
-
-修改原因說明：
-- 內建 Arrays.sort 能穩定且快速地對整數陣列做排序，能正確處理包含負數的情況，並避免自行撰寫錯誤的排序邏輯。
-- 將公有類別改為 Main，符合題目要求的檔案命名與類別名稱對應，避免編譯錯誤。
-- 輸出格式統一、可讀性提升，避免多餘的字元與空白。
-
-改進建議（一句話）：
-以簡單可靠的內建排序取代自訂排序邏輯，並嚴格遵守檔案與類別命名規範，能快速正確地通過測資。
+```

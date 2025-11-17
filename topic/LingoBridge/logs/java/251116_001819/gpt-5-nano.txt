@@ -1,0 +1,62 @@
+88
+
+改進建議：建議把計算數字位數總和的邏輯抽成函式、增加輸入範圍檢查並用較清晰的變數命名與註解，以提升可讀性與可維護性。
+
+修改說明與原因：
+- 重新整理成模組化設計：將位數總和邏輯抽成獨立函式 digitSum，提升可讀性與重用性。
+- 使用較穩健的輸入處理與範圍檢查：若 A 不在 [0, 45]，直接輸出 0，避免不必要的運算。
+- 使用較清晰的命名與註解：變數命名更具描述性，程式增加說明性註解。
+- 加入程式標頭註解並保持良好縮排：符合作業要求的格式與風格。
+
+優化後的完整程式碼如下：
+
+/*
+ * Filename: DigitSumCounter.java
+ * Description: 計算 1 到 100000 之間，有多少個數字的各位數字總和等於輸入的 A。
+ * Author: 你的教師
+ * Date: 2025-11-15
+ * Notes: 以模組化方式實作，提供更清晰的邏輯與註解。
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class DigitSumCounter {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        int target;
+        try {
+            target = Integer.parseInt(line.trim());
+        } catch (Exception e) {
+            // 非法輸入視為無解
+            System.out.println(0);
+            return;
+        }
+
+        int count = 0;
+        // 5位數字（最大 99999）之位數總和最大為 45；100000 的位數之和為 1，因此範圍仍在 [0,45]
+        if (target < 0 || target > 45) {
+            System.out.println(0);
+            return;
+        }
+
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+
+    // 計算整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

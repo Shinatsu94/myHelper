@@ -1,0 +1,49 @@
+87
+
+這份作業在正確性與邏輯上符合題意，但在程式風格與註解方面尚有改進空間，建議加強標頭註解與命名規範以提升可讀性與維護性。
+
+優化與修改說明
+- 增加標頭註解與檔案資訊：包含檔案名稱、用途、作者、日期，符合作業要求的備註標準。
+- 將類別名稱改為符合 Java 慣例的 CamelCase，並與檔案名稱一致，以提升可讀性與可維護性。
+- 使用更有意義的變數命名，並保留原有的兩種不同方式來求最大值、最小值與中間值的結合：
+  - 方式1：使用三元運算子直接求最大值與最小值。
+  - 方式2：利用中間值公式 mid = a + b + c - max - min，與第一種方法形成兩種不同的思路。
+- 程式格式與縮排統一，方便閱讀與維護。
+- 從輸出角度，採用 println 逐行輸出，保證每個值各自佔一行，與題目輸出格式一致。
+- 提醒潛在風險：若數值範圍可能造成整數加總溢位，mid 的計算可改用 long，或改以其他不會導致溢位的演算法；此版本先保持簡單實作，但可按需要再做強化。
+
+修改後完整程式碼
+/*
+ * File: MaxMidMinThreeNumbers.java
+ * Description: 讀取三個整數，使用兩種不同的方式求出最大值、最小值與中間值(mid)。
+ *              方式1：使用三元運算子直接求最大值與最小值。
+ *              方式2：中間值用 mid = a + b + c - max - min 的公式求出。
+ * Author: 你的名字
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class MaxMidMinThreeNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 方式1：使用三元運算子直接求最大值與最小值
+        int max = (a > b && a > c) ? a : ((b > c) ? b : c);
+        int min = (a < b && a < c) ? a : ((b < c) ? b : c);
+
+        // 方式2：用中間值公式 mid = a + b + c - max - min
+        int mid = a + b + c - max - min;
+
+        // 輸出：最小值、中間值、最大值，各自換行
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

@@ -1,0 +1,49 @@
+86
+
+建議改用 Arrays.sort 等內建排序、補上程式標頭註解與統一命名，以及在輸出結尾加上換行，以提升可讀性與通過性。
+
+修改說明與重點改進
+- 將類別名稱改成 Main，符合大多數線上評測的要求。
+- 使用 Arrays.sort(array) 直接排序，簡化邏輯、提高可讀性與效能，避免自訂排序可能帶來的錯誤。
+- 增加標頭註解，清楚描述檔案名稱、功能、作者與日期。
+- 變數命名改為 n、arr，提升可讀性；輸出採用 StringBuilder，並於結尾輸出換行，符合常見輸出格式。
+- 保留對負數的支援，並在輸入不足時能穩健運作。
+
+修改後完整程式碼
+```java
+/**
+ * File: Main.java
+ * 功能: 讀取長度 n 與 n 個整數，排序後輸出空格分隔的結果
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = 0;
+        if (in.hasNextInt()) {
+            n = in.nextInt();
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n && in.hasNextInt(); i++) {
+            arr[i] = in.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        in.close();
+    }
+}
+```

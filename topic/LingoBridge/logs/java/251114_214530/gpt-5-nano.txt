@@ -1,0 +1,53 @@
+12
+
+此作業未正確實作排序，且缺乏程式註解與標頭，建議以穩定的排序演算法實作並加上清楚註解與檔案標頭。
+
+修改與優化說明：
+- 正確性與邏輯：改用插入排序（Insertion Sort）完整實作排序流程，能正確處理任意長度與包含負數的整數陣列，並輸出升冪排序結果。
+- 格式：改善變數命名與註解，輸出格式確保元素以單一空格分隔且行尾換行。
+- 備註：加入檔案標頭註解，說明檔案名稱、功能、作者與日期。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343240_1031_2.java
+Description: 將輸入的一維整數陣列依序排序(由小到大)，並輸出結果。
+Author: (您的名字)
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343240_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用插入排序進行升序排序（適用於任意長度陣列，且可處理負數）
+        for (int i = 1; i < n; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            // 將比 key 大的元素向右移動
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+
+        // 輸出排序結果，元素之間以單一空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}

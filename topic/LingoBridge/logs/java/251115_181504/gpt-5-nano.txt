@@ -1,0 +1,62 @@
+81
+
+- 正確性: 50/50
+- 邏輯: 25/30
+- 格式: 6/10
+- 備註: 0/10
+
+改進建議（概括一句話）
+- 建議改用逐步累加的方式計算勒貝支斯級數，避免每次重新從頭計算，並補上完整的程式標頭註解與更清晰的命名。
+
+修改說明與修改重點
+- 使用單一 sum 與 sign 變數，將勒貝支斯公式逐項累加，避免 O(n^2) 的重新計算，提升效能。
+- 第一部分沿用逐步累加，在 i 為 10000, 20000, ..., 100000 時輸出 Pi，符合題目要求的輸出格式。
+- 第二部分在同一個累加過程後繼續增加 i，直到 pi*1e5 的整數部分等於 314159，找到最小 i，並輸出 i。
+- 取代 Math.pow(-1, k-1) 的做法，改以 sign 交替，提升效率且避免浮點計算帶來的額外成本。
+- 加入適當的程式標頭註解與清晰的變數命名，提升可讀性與可維護性。
+
+修改後完整程式碼（請直接放入 Java 檔案執行）：
+public class LeibnizPi {
+
+    /*
+     * File: LeibnizPi.java
+     * 功能: 計算與輸出 pi 的近似值，符合題目要求
+     * 作者: 教授
+     * 日期: 2025-11-15
+     * 說明:
+     *   使用 Leibniz 公式逐步累加，輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，
+     *   以及找出最小使 pi*1e5 的整數部分等於 314159 的 i。
+     */
+
+    public static void main(String[] args) {
+        final int MAX_I = 100000;   // 第一部分的最大 i
+        final int STEP = 10000;      // 輸出間隔
+        final int TARGET = 314159;   // 使 pi*1e5 的整數部分等於此值
+        double sum = 0.0;
+        double sign = 1.0;
+
+        // 第一部分：輸出 i = 10000, 20000, ..., 100000 的 pi 值
+        for (int i = 1; i <= MAX_I; i++) {
+            sum += sign / (2.0 * i - 1.0);
+            sign = -sign;
+            if (i % STEP == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // 第二部分：找出最小的 i 使 floor(pi*1e5) == 314159
+        int i = MAX_I;
+        while (true) {
+            i++;
+            sum += sign / (2.0 * i - 1.0);
+            sign = -sign;
+            double pi = 4.0 * sum;
+            int a = (int)(pi * 100000);
+            if (a == TARGET) {
+                System.out.printf("\ni = %6d", i);
+                break;
+            }
+        }
+    }
+}

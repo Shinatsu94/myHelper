@@ -1,0 +1,59 @@
+2
+
+改進建議：請重新實作一個能讀取長度與 n 個整數，並進行升序排序後輸出結果的程式，避免原始作答中與題意無關的星號輸出與資料結構使用。
+
+程式改進與說明
+- 正確性：改用標準輸入讀取長度與數值，使用 Arrays.sort 進行升序排序，輸出格式符合題目要求。
+- 邏輯：簡單直接的流程：讀取、排序、輸出，移除原有與題意不符的邏輯。
+- 格式：統一縮排、使用具意義的類別名稱與變數，適當空格與註解（此版本提供註解的頭部說明）。
+- 備註：添加程式頭註解，說明檔案名稱、功能、作者與日期，便於維護。
+
+修改原因與重點
+- 使用 Arrays.sort 提供可靠且高效的排序能力；能正確處理負數與任意長度的輸入。
+- 以讀取整數、排序、輸出為單純且易於維護的流程，避免不相關的輸出與資料結構（如星號矩陣）。
+
+修改後完整程式碼
+/*
+ * File: SortArrayAscending.java
+ * 功能: 讀取使用者輸入的長度 n 與 n 個整數，並以升序輸出
+ * 作者: [請填寫作者姓名]
+ * 日期: 2025-11-14
+ * 備註: 不使用 EOF，單次執行結束
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出結果，元素之間以空格分隔，末尾不留多餘空格，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

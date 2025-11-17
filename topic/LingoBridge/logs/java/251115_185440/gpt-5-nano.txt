@@ -1,0 +1,45 @@
+90
+
+程式功能正確，但排版與註解欠佳，建議加入程式標頭註解、整理縮排，並改用 long 以支援較大數字與負數情況。
+
+改進建議與修改說明
+- 移除不必要的 System.out.print(""); 以避免輸出空字串。
+- 增加程式標頭註解，提供檔案名稱、功能、作者與日期等資訊，提升可讀性與維護性。
+- 變數命名與結構需更清晰，使用 clearer 的變數名。
+- 增加對負數與較大整數的支援，改用 long 型態，並保留負號的正確處理。
+- 確保格式整齊、縮排一致，符合一般 Java 編碼風格。
+
+修改後完整程式碼
+/*
+ File: ReverseDigits.java
+ Description: Reverse digits of an integer input from user.
+ Author: Your Name
+ Date: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) {
+            System.out.println(0);
+            sc.close();
+            return;
+        }
+
+        long n = sc.nextLong();
+        boolean negative = n < 0;
+        long absValue = Math.abs(n);
+
+        long rev = 0;
+        while (absValue != 0) {
+            rev = rev * 10 + (absValue % 10);
+            absValue /= 10;
+        }
+
+        if (negative) rev = -rev;
+
+        System.out.println(rev);
+        sc.close();
+    }
+}

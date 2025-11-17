@@ -1,0 +1,62 @@
+12
+
+改進建議：修正排序與資料保留邏輯，避免覆寫原始資料，並加入程式標頭註解與清晰的命名與格式，以確保正確性與可讀性。
+
+程式改寫說明與修改重點
+- 正確性與邏輯：原程式在排序時使用了錯誤的替換策略（將最大值移到前方且覆寫原值），並在最後把最後一個元素改為 -1，造成輸出不正確。新的版本改用簡單而正確的選擇排序（selection sort）並在交換時妥善交換元素，且不對陣列內容做不必要的修改。
+- 輸出格式：保持元素以空格分隔，最後不多餘空格，並保留原有的輸入約束（接收任意長度的整數陣列，包含負數）。
+- 程式風格與註解：加入標頭註解說明檔案名稱、功能、作者與日期，並在關鍵步驟加入適當註解。變數命名採用具意義的名稱，縮排統一，並維持單一入口點的清晰結構。
+
+修改後完整程式碼
+/* 
+檔案名稱: CSIE_51015105_1031_2.java
+功能: 建立任意長度的一維陣列，輸入長度與元素，輸出升序排序結果
+作者: 教授
+日期: 2025-11-14
+說明: 使用選擇排序（selection sort）將陣列內容由小到大排序，並以空格分隔輸出。
+*/
+import java.util.Scanner;
+
+public class CSIE_51015105_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 選擇排序：由小到大
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[minIndex]
+            if (minIndex != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
+        }
+
+        // 輸出排序結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        scanner.close();
+    }
+}

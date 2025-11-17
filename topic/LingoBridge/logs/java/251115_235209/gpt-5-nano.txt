@@ -1,0 +1,44 @@
+94
+
+建議：請加上完整的程式標頭註解、使用更具可讀性的變數名稱，並在中位數計算時考慮可能的整數溢位風險。
+
+改進說明與修改的原因：
+- 變數命名：將 max、min、mid 的名稱改為更具語意的 maxVal、minVal、midVal，提升可讀性與保養性。
+- 程式標頭註解：加入檔案名稱、功能、作者、日期等註解，符合備註要求。
+- 中位數計算的穩健性：將三數相加改為 long 的計算以降低整數溢位風險，最後再轉回 int，以符合題目整數型態。
+- 保留原有需求：仍以兩個三元運算子分別求最大值與最小值，並以 sum - max - min 的方式求中位數，未使用 if-else，符合題意。
+
+修改後完整程式碼：
+```java
+/*
+檔案名稱: CSIE_41343252_1003.java
+功能說明: 讀入三個整數，使用兩種不同的方式（兩個三元運算子求最大與最小，並用總和減去最大與最小得到中位數）找出最大值、最小值與中位數，並以 min、mid、max 的順序輸出。
+作者: 教授
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343252_1003 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int c = in.nextInt();
+
+        // 使用三元運算子分別找出最大值與最小值
+        int maxVal = (a > b ? (a > c ? a : c) : (b > c ? b : c));
+        int minVal = (a < b ? (a < c ? a : c) : (b < c ? b : c));
+
+        // 中位數透過 sum - max - min，為避免溢位，轉為 long 計算再轉回 int
+        long sum = (long) a + b + c;
+        int midVal = (int) (sum - maxVal - minVal);
+
+        // 輸出順序依題意為 min, mid, max
+        System.out.println(minVal);
+        System.out.println(midVal);
+        System.out.println(maxVal);
+
+        in.close();
+    }
+}
+```

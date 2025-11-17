@@ -1,0 +1,54 @@
+3
+
+改進建議：改用一維整數陣列直接讀入長度 n 與 n 個整數，進行升冪排序並輸出，完整符合題意與支援負數與任意長度，避免與題目無關的矩陣運算。
+
+修改說明與原因：
+- 正確性：原始作業與題目不符，使用 3x3 矩陣與矩陣相關計算，無法解題。新的版本直接處理任意長度的一維整數陣列，符合題意並能處理負數。
+- 邏輯：簡單清晰的讀入、排序與輸出流程，避免不必要的複雜運算與副作用。
+- 格式：使用有意義的變數命名，並適當加上註解與標頭，提升可讀性與維護性。
+- 備註：在程式檔案中加入完整的程式說明註解，方便他人理解。
+
+以下為優化後的完整程式碼：
+
+/*
+檔案名稱: SortArrayAsc.java
+功能: 讀取長度 n 與 n 個整數，將其排序為升冪並輸出，支援負數與任意長度
+作者: 教授
+日期: 2025-11-14
+*/
+import java.util.*;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 進行升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空白分隔，末尾不留空格，並換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

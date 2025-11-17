@@ -1,0 +1,63 @@
+20
+
+一句話改進建議
+此作業在排序邏輯與輸出處理需修正，建議改用正確的選擇排序並避免覆蓋原值；另外加強程式標頭註解與命名以提升可讀性。
+
+改進與修改說明
+- 將排序演算法改為正確的選擇排序（ascending），確保每次把最小數移到前端。
+- 修正原程式的排序邏輯：使用最小值索引並與目前位置互換，而不是直接覆蓋 array[x]，避免資料遺失。
+- 移除不當的 array[nu-1] = -1 操作，避免輸出錯亂與破壞原始資料。
+- 改善輸出格式：逐個輸出且以空格分隔，避免末尾多餘空格，並保留單行輸出。
+- 加入清楚的程式標頭註解（檔案名稱、功能、作者、日期）及適當的內容註解，提高可讀性與維護性。
+- 使用較有意義的變數命名與一致的縮排風格。
+
+修正後完整程式碼
+/*
+檔案名稱: CSIE_41343247_1031_2.java
+功能: 讀取長度與元素，將任意長度的一維陣列內容由小到大排序後印出
+作者: 教師姓名
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int length;
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        length = scanner.nextInt();
+        int[] array = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // 使用選擇排序（升序）
+        for (int i = 0; i < length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < length; j++) {
+                if (array[j] < array[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 array[i] 與 array[minIndex]
+            int tmp = array[i];
+            array[i] = array[minIndex];
+            array[minIndex] = tmp;
+        }
+
+        // 輸出排序後的陣列，元素之間以空格分隔
+        for (int i = 0; i < length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+
+        scanner.close();
+    }
+}

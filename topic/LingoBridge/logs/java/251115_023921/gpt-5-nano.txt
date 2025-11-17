@@ -1,0 +1,62 @@
+85
+- 正確性: 50
+- 邏輯: 28
+- 格式: 7
+- 備註: 0
+
+改進建議（一句話）：
+建議加入程式標頭註解與內部註解，統一輸出格式，並在適當時使用更清晰的輸出與資源管理，同時保留建立下三角陣列的需求。
+
+修改說明與修改後程式碼原因：
+- 加入清晰的程式檔案標頭註解，符合備註要求，提升可維護性與可辨識性。
+- 使用 StringBuilder 統一輸出，避免逐行 I/O 可能帶來的效能問題，並保留每行結束的換行符號以符合題目輸出格式。
+- 保留使用二維陣列的做法以滿足「建立二維陣列」的要求，同時讓輸出僅列印已填入的下三角部分，避免多餘輸出。
+- 適當關閉 Scanner，提升資源管理。
+
+修改後完整程式碼（保持原先需求的同時加入註解與優化）：
+
+```java
+/*
+ * File: LowerTriangle.java
+ * Description: 建立並列印高度為 n 的下三角形二維陣列
+ * Author: 你的名字
+ * Date: 2025-11-14
+ * Notes: 依題意輸入 0 < n <= 20，輸出下三角形的 '*' 圖形
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangle {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+
+        // 輸入範圍檢查
+        if (n <= 0 || n > 20) {
+            in.close();
+            return;
+        }
+
+        // 建立並填入下三角星號的二維陣列
+        char[][] triangle = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                triangle[i][j] = '*';
+            }
+        }
+
+        // 組裝輸出，使用 StringBuilder 提升效能
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(triangle[i][j]);
+            }
+            sb.append('\n'); // 每行結尾換行，符合輸出格式
+        }
+
+        System.out.print(sb.toString());
+
+        in.close();
+    }
+}
+```

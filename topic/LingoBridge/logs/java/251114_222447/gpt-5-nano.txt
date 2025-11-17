@@ -1,0 +1,60 @@
+11
+建議改進方向：請改用直接讀取指定長度的整數、利用 Arrays.sort 進行排序，並以單次執行結束程式，避免不必要的迴圈與複雜資料結構。
+
+修改說明與改進重點
+- 移除不必要的 while (sc.hasNext()) 迴圈，改為單次執行，符合題目要求。
+- 直接建立整數陣列 arr，依序讀入 n 個整數，並處理可能的負數輸入。
+- 使用 Arrays.sort(arr) 進行升冪排序，簡化原有自訂排序邏輯。
+- 輸出以空格分隔，避免尾端多餘空格，輸出格式符合題目需求。
+- 增加適當註解與檔案標頭註解，變數命名清晰，整體格式整齊。
+
+修改後的完整程式碼
+/*
+Filename: CSIE_41343203_1031_3b.java
+Description: 建立一個任意長度的一維整數陣列，讀入長度與數值，將陣列內容由小到大排序後輸出。
+Author: 教師
+Date: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免程式異常
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，空格分隔，尾端不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

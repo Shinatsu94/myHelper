@@ -1,80 +1,45 @@
-6
+總分（0-100）：90
 
-評分明細
-- 正確性: 0 / 50
-- 邏輯: 0 / 30
-- 格式: 6 / 10
-- 備註: 0 / 10
-總分: 6 / 100
+改進意見（一句話）
+建議在程式檔案開頭加入註解與說明，並以更簡潔的寫法填充與資源管理，提升可讀性與符合備註要求。
 
-說明與評語
-- 作業題目要求「建立任意長度的一維陣列，將內容由小至大排序，先輸入長度 n，再輸入 n 個整數，最後印出排序後的結果」。學生的程式與題意完全不符，實作的是建立下三角形及輸出星號矩陣的功能，因此正確性與邏輯皆不及格。
-- 程式格式方面，原程式有基本縮排、註解，但變數命名與整體結構與原始題意不相關，未達到清晰、可讀性高的要求。因此給予格式部分微幅分數。
-- 備註部分缺少標頭註解與檔案說明，未符合要求。
+修改與改進原因說明
+- 加入檔案開頭註解：符合備註要求，讓程式用途及作者資訊清楚，便於維護。
+- 使用 Arrays.fill 取代內層迴圈逐格填充 '*'：讓程式碼更簡潔、效率稍增、易於閱讀。
+- 使用 try-with-resources 自動關閉 Scanner：提升資源管理的安全性與可讀性。
+- 保持輸出格式與題意一致：每列無空白符號，輸出為下三角形。
 
-修改後完整程式碼與說明
-優化後的正確實作（Java，符合題意，支援負數、任意長度 n，且不使用 EOF，輸入結束後輸出排序結果）：
-
+修改後的完整程式碼
 /*
-File: CSIE_41343211_1031_3_a_2.java
-功能: 依題目需求，讀取長度 n、再讀取 n 個整數，並輸出由小到大的排序結果。
-作者: [你的姓名]
-日期: 2025-11-12
-說明: 使用 Arrays.sort 直接對整數陣列排序，輸出為單行，元素以空格分隔。
+檔名: CSIE_41343211_1031_3_a_1.java
+功能: 建立並列印下三角形的二維陣列，高度由使用者輸入 (0<n<=20)
+作者: 教授
+日期: 2025-11-14
 */
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class CSIE_41343211_1031_3_a_2 {
+public class CSIE_41343211_1031_3_a_1 {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        try (Scanner input = new Scanner(System.in)) {
+            int n = input.nextInt();
 
-        // 讀取長度 n
-        if (!input.hasNextInt()) {
-            input.close();
-            return;
-        }
-        int n = input.nextInt();
+            // 只接受 1 <= n <= 20，其他情況直接結束
+            if (n <= 0 || n > 20) {
+                return;
+            }
 
-        // 基本輸入驗證
-        if (n <= 0) {
-            input.close();
-            return;
-        }
+            // 建立下三角形二維陣列並填充 '*'
+            char[][] triangle = new char[n][];
+            for (int i = 0; i < n; i++) {
+                triangle[i] = new char[i + 1];
+                Arrays.fill(triangle[i], '*');
+            }
 
-        // 讀取 n 個整數
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (input.hasNextInt()) {
-                arr[i] = input.nextInt();
-            } else {
-                // 若輸入不足，補零以避免例外；實務上應該避免這種情況，或改為異常處理
-                arr[i] = 0;
+            // 列印下三角形
+            for (int i = 0; i < n; i++) {
+                System.out.println(triangle[i]);
             }
         }
-
-        // 排序
-        Arrays.sort(arr);
-
-        // 輸出結果（單行，元素間以空格分隔）
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
-        System.out.println(sb.toString());
-
-        input.close();
     }
 }
-
-修改說明
-- 將程式任務對應到正確的需求：讀取 n、讀取 n 個整數、對整數陣列作排序、輸出排序結果；原程式與題意不符，改寫為符合題目的流程。
-- 使用 Arrays.sort 進行排序，確保時間複雜度為 O(n log n)，適用任意長度的輸入。
-- 輸出格式固定為單一行，元素以空格分隔，與題目輸出範例一致。
-- 增加檔案 header 注解與清晰註解，提升可讀性與維護性。
-
-改進建議或反饋（一句話）
-- 建議在正式提交前，先針對題意撰寫完整的單元測試案例，確保輸入格式與邊界條件都能正確處理，例如負數、長度極端值與輸入中間換行等情況。
-
-若需要，我也可以再提供其他版本的解法（如使用冒泡排序、快速排序、或使用 Stream API 的排序方式）以及更嚴謹的輸入驗證與錯誤訊息處理。

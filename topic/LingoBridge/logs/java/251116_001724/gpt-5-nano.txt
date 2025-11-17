@@ -1,0 +1,53 @@
+87
+
+改進建議：加入檔案標頭註解、使用較具描述性的變數與主類名（Main），並採用穩定的輸入輸出方式以符合常見評測規範。
+
+優化與修改說明：
+- 將程式主類改為符合大多數評測平台的預設名稱 Main，並提供對應的檔案頭註解，提升可閱讀性與可維護性。
+- 變數命名更具描述性：targetSum、count、num，有助於理解程式用途。
+- 使用 BufferedReader 進行輸入，輸出保持 System.out，確保在大輸入情況下仍具穩定性。
+- 保留原有的 digitSum 邏輯，確保正確性與清晰度。
+- 程式邏輯未改動，仍然逐一檢查 1..100000 之間數字的位數和是否等於輸入值 A，符合題意。
+
+修改後完整程式碼：
+/*
+File: Main.java
+Description: 計算在 1..100000 之間，數字各位數的和等於輸入值 A 的數字個數。
+Author: 教師
+Date: 2025-11-15
+*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        int targetSum;
+        try {
+            targetSum = Integer.parseInt(line != null ? line.trim() : "0");
+        } catch (Exception e) {
+            targetSum = 0;
+        }
+
+        int count = 0;
+        for (int num = 1; num <= 100000; num++) {
+            if (digitSum(num) == targetSum) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+
+    private static int digitSum(int number) {
+        int sum = 0;
+        while (number > 0) {
+            sum += number % 10;
+            number /= 10;
+        }
+        return sum;
+    }
+}

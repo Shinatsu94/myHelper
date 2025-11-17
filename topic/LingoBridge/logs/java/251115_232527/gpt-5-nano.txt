@@ -1,0 +1,45 @@
+總分：74
+
+改進建議（一句話）：
+為了在數字有重複時仍能正確找出最大與最小，改用含等於的比較（>=、<=）以處理重複情況，同時維持以三元運算子求最大/最小與以總和減去最大與最小求中位數的兩種做法。
+
+修改說明：
+- 修正最大的判斷與最小的判斷，改用 >= 與 <= 以正確處理數字重複的情形，避免當最大或最小值重複時輸出錯誤。
+- 保留以三元運算子作為最大與最小值的求解方式，並以三數和 minus 最大值與最小值來計算中位數，符合「兩種不同的方式」的作法策略（三元運算子 + 中位數公式）。
+- 新增程式標頭註解與適度的內文註解，並在結束時關閉 Scanner，提升可讀性與資源管理。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: Main.java
+ * 功能: 讀入三個整數，輸出最小值、中間值、最大值（以兩種方法求解）
+ * 作者: 請自行填寫
+ * 日期: 請自行填寫
+ * 說明: 使用三元運算子求最大與最小，並以三數之和減去最大與最小得到中位數
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
+
+        // 方法1：使用三元運算子求最大值，考慮重複值情況
+        int max = (num1 >= num2 && num1 >= num3) ? num1
+                : (num2 >= num1 && num2 >= num3) ? num2 : num3;
+
+        // 方法2：使用三元運算子求最小值，考慮重複值情況
+        int min = (num1 <= num2 && num1 <= num3) ? num1
+                : (num2 <= num1 && num2 <= num3) ? num2 : num3;
+
+        // 中位數：三數總和減去最大值與最小值
+        int mid = num1 + num2 + num3 - max - min;
+
+        System.out.printf("%d\n%d\n%d\n", min, mid, max);
+
+        sc.close();
+    }
+}

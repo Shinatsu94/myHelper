@@ -1,0 +1,56 @@
+86
+
+建議改用單次遍歷的右側最大值法並加入標頭與註解，以提升效率與可讀性。
+
+修改說明與理由
+- 原作法時間複雜度為 O(n^2)（雙重迴圈計算每個位置右側的最大值），在長度較大時效率較差。改用從右往左的一次遍歷，將每個位置的右側最大值直接填入結果陣列，整體時間降低到 O(n)。
+- 加入清晰的程式標頭註解與內部註解，使用更具可讀性的變數名稱，方便維護與他人閱讀。
+- 加上資源釋放與健壯性檢查，若輸入為空或中途未輸入，程式能妥善結束。
+
+修改後完整程式碼
+/*
+File: CSIE_41343111_1031_2.java
+功能: 將任意長度整數陣列的每個元素替換為其右側的最大值，最後一個元素為 -1，並輸出結果。
+作者: 教師
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343111_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        } else {
+            scanner.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        int[] result = new int[n];
+        if (n > 0) {
+            result[n - 1] = -1;
+            int rightMax = arr[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                result[i] = rightMax;
+                if (arr[i] > rightMax) {
+                    rightMax = arr[i];
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(' ');
+            System.out.print(result[i]);
+        }
+
+        scanner.close();
+    }
+}

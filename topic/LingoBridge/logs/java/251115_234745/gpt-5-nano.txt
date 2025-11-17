@@ -1,0 +1,49 @@
+87
+建議改進方向：加強程式標頭註解與變數命名的清晰度，並在結束時關閉 Scanner，以提高可讀性與資源管理，同時保持不使用 if-else 的要求。
+
+改進與說明
+- 新增程式檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將輸入變數改為 num1、num2、num3，提升命名的可讀性與意義。
+- 加入 sc.close()，以釋放資源，良好習慣。
+- 保留使用兩個三元運算子分別找最大值與最小值的作法，並以 mid = num1 + num2 + num3 - max - min 計算中間值，符合題意且避免使用 if-else。
+- 保持輸出順序為 min、mid、max，與題意輸出一致。
+
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_41343238_1003_2.java
+ * Description: 讀取三個整數，找出最大值、最小值與中間值。不使用 if-else，使用兩個三元運算子分別求最大與最小，並以 sum - max - min 計算中間值。
+ * Author: 教師姓名
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343238_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
+
+        // 計算最大值
+        int max1 = (num1 > num2) ? num1 : num2;
+        int max = (max1 > num3) ? max1 : num3;
+
+        // 計算最小值
+        int min1 = (num1 < num2) ? num1 : num2;
+        int min = (min1 < num3) ? min1 : num3;
+
+        // 中間值
+        int mid = num1 + num2 + num3 - max - min;
+
+        // 輸出順序：min, mid, max
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}
+```

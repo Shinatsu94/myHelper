@@ -1,48 +1,67 @@
-34
+84
+
+改進建議：
+建議補上程式檔案註解、統一命名與縮排，並簡化排序邏輯與改為在輸出末尾加入換行以符合常見輸出格式。
+
+修改與原因說明：
+- 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註標準。
+- 調整變數命名與縮排風格，使程式更具可讀性，例如將輸入來源改為簡潔的 in，陣列改為 a。
+- 將排序函式改為更直覺的遞迴版本風格實作（實作為 selectionSort，並在需要時才進行交換，避免不必要的交換），並移除原始版本中多餘的條件分支。
+- 輸出改為輸出完畢後換行，確保與一般題目輸出的格式相符，避免因缺行尾換行導致出題系統判定錯誤。
+- 使用 StringBuilder 與單次輸出，提升輸出效率與穩定性。
 
 修改後完整程式碼：
-// 文件名稱: CSIE_41343131_1031_1.java
-// 功能: 讀取整數 n 與 n 個整數，將陣列內容升序排序，輸出排序結果
-// 作者: 教授
-// 日期: 2025-11-12
-// 說明: 改用 Arrays.sort 提升穩定性與可讀性，並加上適當註解與統一命名。
-import java.util.Arrays;
+/*
+檔案名稱: CSIE_41343131_1031_1.java
+功能: 讀取整數長度 n 與 n 個整數，並輸出由小到大排序的結果
+作者: 教學改良版
+日期: 2025-11-14
+*/
+
 import java.util.Scanner;
 
 public class CSIE_41343131_1031_1 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         int n = 0;
-        if (sc.hasNextInt()) n = sc.nextInt();
-
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) a[i] = sc.nextInt();
+        if (in.hasNextInt()) {
+            n = in.nextInt();
         }
 
-        Arrays.sort(a);
+        int[] a = new int[Math.max(0, n)];
+        for (int i = 0; i < a.length; i++) {
+            if (in.hasNextInt()) {
+                a[i] = in.nextInt();
+            }
+        }
 
+        // 使用清晰的選擇排序，僅在需要時才交換
+        selectionSort(a);
+
+        // 輸出排序結果，元素以單一空格分隔，末尾換行
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < a.length; i++) {
             if (i > 0) sb.append(' ');
             sb.append(a[i]);
         }
-        System.out.print(sb.toString());
+        System.out.println(sb.toString());
 
-        sc.close();
+        in.close();
+    }
+
+    // 選擇排序：將陣列分成已排序與未排序兩部分，逐步選出最小值放到前方
+    static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min]) min = j;
+            }
+            if (min != i) {
+                int tmp = arr[i];
+                arr[i] = arr[min];
+                arr[min] = tmp;
+            }
+        }
     }
 }
-
-修改說明（為何修改、修改內容重點）：
-- 編譯問題與風格調整：
-  - 移除了原程式中在方法結束後多餘的分號，避免造成語法錯誤。
-  - 將 main 與排序函式改為以標準的 public static 形式，符合 Java 常見慣例。
-- 提升正確性與可讀性：
-  - 使用 Java 標準函式 Arrays.sort 進行排序，確保正確且處理負數等任意整數範圍，並減少自訂排序邏輯可能帶來的錯誤。
-  - 增加程式標頭註解，清楚描述檔案名稱、功能、作者與日期，符合作業要求的備註規範。
-  - 保留輸入格式為：先輸入長度 n，再輸入 n 個整數，輸出排序後的結果，符合題目輸入輸出格式。
-- 輸入與輸出：
-  - 仍然先讀取長度 n，接著讀取 n 個整數，最後以空白分隔輸出排序結果，若 n 為 0，則輸出空字串（符合一般預期）。
-
-改進建議或反饋（用一句話）：
-建議保持一致的程式風格與註解，並在需要時使用標準函式庫（如 Arrays.sort）以提升穩定性與可維護性，同時善用輸入驗證與單元測試確保極端情況的正確性。

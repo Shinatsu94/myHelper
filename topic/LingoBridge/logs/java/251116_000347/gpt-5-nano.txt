@@ -1,0 +1,51 @@
+84
+
+建議改進點：建議補上程式標頭註解、使用有意義的變數命名，並在邊界條件（如 A 超過 45）時提供快速回傳與函式化，以提升可讀性與穩健性。
+
+程式優化與修改說明
+- 加入程式頭註解，註明檔案名稱、功能、作者與日期，提升可維護性。
+- 將變數命名改為具體含意，如 targetSum、count，提高可讀性。
+- 將計算位數和的邏輯抽成內部方法 digitSum，提升可重用性與清晰度。
+- 增加邊界條件判斷：若 targetSum 不在 0~45 的範圍，直接輸出 0，避免不必要的運算。
+- 關閉資源（Scanner），避免資源洩漏。
+- 使用主流的檔案名稱與類別命名結構，方便在 Java 專案中編譯執行。
+
+修改後完整程式碼
+/*
+檔案名稱: Main.java
+功能: 輸入整數 targetSum，統計在 1..100000 範圍內，有多少個數字的各位數字和等於 targetSum。
+作者: 教師
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int targetSum = in.nextInt();
+        in.close();
+
+        int count = 0;
+        // 0 <= targetSum <= 45 為可行範圍，超出則答案為 0
+        if (targetSum >= 0 && targetSum <= 45) {
+            for (int i = 1; i <= 100000; i++) {
+                if (digitSum(i) == targetSum) {
+                    count++;
+                }
+            }
+        }
+
+        System.out.println(count);
+    }
+
+    // 計算整數 n 的各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

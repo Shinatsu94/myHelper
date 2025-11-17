@@ -1,73 +1,67 @@
-3
+74
 
-修改前存在的問題與評分（對應你的標準）
-- 正確性 (0/50)：未依題目取得任意長度的整數陣列、也未進行排序並輸出正確結果，僅以二維三角陣列與尋找特定值為作業偏離，未達成需求。
-- 邏輯 (0/30)：邏輯設計與題意嚴重脫節，使用不必要的二維結構，且輸入與輸出邏輯不符合要求。
-- 格式 (3/10)：變數命名較為簡潔，但縮排不一、結構不清，缺乏一致性與可讀性。
-- 備註 (0/10)：程式缺乏標頭註解說明（檔案名稱、功能、作者、日期等），不符合要求。
+建議在未找到時使用動態訊息、加入標頭與內部註解，並於找到時立即跳出雙重迴圈以提升效率與可讀性。
 
-總分：3
+修改說明與重點
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期。
+- 變數命名改為更具語意的名稱（target、list、found、foundRow、foundCol、val）。
+- 找到目標值時使用外層標籤的 break，提前結束雙層迴圈以提升效率。
+- 未找到時輸出的訊息改為動態輸入值的格式，避免硬編碼 99。
+- 加入系統換行，並在結束時關閉 Scanner，提升資源管理與輸出一致性。
 
-修改後完整程式碼與說明
-修改重點與原因
-- 改用一維整數陣列 (int[]) 來儲存輸入值，符合題目「任意長度的一維陣列」的要求，結構更簡單、可讀性高。
-- 使用 Arrays.sort() 直接排序，避免自訂排序邏輯，降低錯誤率並支援負數與任意長度。
-- 清楚的輸入與輸出處理：先讀 n，接著讀 n 個整數，排序後以空格分隔輸出，符合輸出格式。
-- 程式開頭加上標頭註解，變數命名具備描述性，整體格式與排版整理。
-
-以下為修改後的完整程式碼（可直接在 Java 專案中編譯執行）：
-
-/*
- * File: CSIE_41343128_1031_3b.java
- * 功能: 讀取整數 n，接著讀入 n 個整數，將它們由小到大排序後輸出。
- * 作者: 教師
- * 日期: 2025-11-12
- * 備註: 不使用 EOF，程式執行一次即結束；支援包含負數的輸入。
+修改後完整程式碼
+```java
+/**
+ * File: LowerTriangularMatrixSearch.java
+ * 功能: 建立下三角形二維陣列，輸入高度 n，從 1 開始填入數值，尋找使用者指定的數字與其位置，未在陣列中時輸出提示。
+ * 作者: 學生
+ * 日期: 2025-11-14
  */
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class CSIE_41343128_1031_3b {
+public class LowerTriangularMatrixSearch {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int target = scn.nextInt();
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-
-        // 讀取 n 個整數並存入一維陣列
-        int[] arr = new int[n];
+        int[][] list = new int[n][];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0 以避免 ArrayIndexOutOfBounds
-                arr[i] = 0;
+            list[i] = new int[i + 1];
+        }
+
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                list[i][j] = val++;
             }
         }
-        sc.close();
 
-        // 排序
-        Arrays.sort(arr);
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
 
-        // 輸出，元素以單一空白區隔，末尾不留額外空格
-        StringBuilder sb = new StringBuilder();
+        outer:
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j <= i; j++) {
+                if (list[i][j] == target) {
+                    found = true;
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
         }
-        System.out.println(sb.toString());
+
+        if (found) {
+            System.out.print(target + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        } else {
+            System.out.print("not find " + target + " in array.");
+        }
+
+        System.out.println();
+        scn.close();
     }
 }
-
-修改說明要點
-- 將原本的複雜且不符合題意的 2D 陣列結構與尋找機制移除，改以 1D 陣列直接處理。
-- 使用 Arrays.sort 以確保排序正確且支援負數、任意長度，提升穩定性與可維護性。
-- 增加適當的程式註解與標頭，提升可讀性與維護性。
-
-一句話改進建議
-- 建議在實作前先以題意為核心設計資料結構與流程，並採用標準庫的排序工具以降低自寫排序邏輯的風險，確保輸入輸出格式與測資一致。
+```

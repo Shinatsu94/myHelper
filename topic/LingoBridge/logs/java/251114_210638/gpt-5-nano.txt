@@ -1,0 +1,48 @@
+85
+
+改進建議：改用 Arrays.sort 直接排序以提高效率，並加入適當註解與更有意義的變數命名，提升可讀性與維護性。
+
+修改說明
+- 正確性與邏輯：改用內建排序 Arrays.sort，時間複雜度降低為 O(n log n)，同時保留原本的功能與輸出格式。
+- 格式與可讀性：將變數命名改為更具描述性的名稱（如 n、arr），並加入註解說明每個步驟，提升可讀性。
+- 備註：新增檔案開頭註解，說明檔案名稱、功能、作者與日期；並在程式內容中加入必要註解。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343221_1031_1.java
+功能: 讀取使用者輸入的整數個數與數值，將其排序（由小至大）後輸出
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343221_1031_1 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 排序：從小到大
+        Arrays.sort(arr);
+
+        // 輸出：以單一行、以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

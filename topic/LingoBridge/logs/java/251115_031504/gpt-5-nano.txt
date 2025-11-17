@@ -1,0 +1,77 @@
+總分：82
+
+改進建議（一句話）
+建議移除不必要的多測試迴圈與超過需求的輸入檢查，並加入清晰的程式標頭與註解，以及使用更具可讀性的變數命名與單一執行流程。
+
+程式碼優化與說明
+- 移除不必要的 while (sc.hasNext()) 迴圈，改為單次執行的單測試流程，符合題目輸入格式。
+- 去除對 n 的額外上限限制與過度繫結條件，讓程式在合理範圍內更具普遍性。
+- 使用更具意義的變數名稱，例如 tri 取代 tran，num、target、found、foundRow/foundCol 以增進可讀性。
+- 加入標頭註解說明檔案名稱、功能、作者、日期，並在程式中加入必要的註解。
+- 保留原本的輸出格式與字串，以符合題目給定的輸出樣例。
+
+修改後的完整程式碼如下：
+- 程式碼說明：建立一個下三角形的二維陣列，依序填入 1, 2, 3, …，輸入 n 與欲尋找的數字 target，若找到則輸出 target[row, col]，否則輸出 not find target in array.，並遵循 1-based 的索引。
+
+
+// LowerTriangularMatrix.java
+// 功能: 建立下三角形二維陣列，輸入高度 n 與尋找的數字 target，輸出該數字的位置，若未找到則給出提示。
+// 作者: 以教學用為主
+// 日期: 2025-11-14
+
+import java.util.Scanner;
+
+public class LowerTriangularMatrix {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列
+        int[][] tri = new int[n][];
+        int num = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = num++;
+            }
+        }
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int target = sc.nextInt();
+
+        // 搜尋 target 的位置
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+        for (int i = 0; i < n && !found; i++) {
+            for (int j = 0; j < tri[i].length; j++) {
+                if (tri[i][j] == target) {
+                    found = true;
+                    foundRow = i + 1; // 1-based
+                    foundCol = j + 1; // 1-based
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+
+        sc.close();
+    }
+}

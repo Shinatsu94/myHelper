@@ -1,0 +1,59 @@
+84
+正確性：50
+邏輯：28
+格式：6
+備註：0
+
+改進建議：改用穩定且避免溢位的排序實作（例如插入排序或 Arrays.sort）並加入完整的程式標頭與更清楚的命名與縮排，以提升可讀性與可維護性。
+
+程式優化說明與修改原因：
+- 使用插入排序取代現有的“先找最小值再交換”的做法，避免使用可能造成整數溢位的加減交換，同時程式可讀性更高。
+- 加入完整的程式標頭註解（檔案名稱、功能說明、作者、日期），提升可維護性與評分通過率。
+- 使用更有意義的變數名稱（length、arr、key 等），增強可讀性。
+- 程式碼縮排與排版統一，最後輸出加上換行，提升格式美觀性。
+- 釋放資源：適時關閉 Scanner。
+
+以下為修改後的完整程式碼：
+
+/*
+ * File: CSIE_41343136_1031_1.java
+ * Description: 讀取整數長度 n，接著讀入 n 個整數，將它們由小到大排序後輸出。
+ * Author: 你的名字
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343136_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int length = scanner.nextInt();
+        int[] arr = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 插入排序（從小到大）
+        for (int i = 1; i < length; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+
+        // 輸出排序後的陣列，元素之間以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

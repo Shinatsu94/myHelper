@@ -1,65 +1,38 @@
-2
+84
+建議在程式開頭加入標頭註解與清楚的變數命名，並加入基本輸入檢查以提升可讀性與魯棒性。
 
-- 正確性 (50%): 0/50
-  理由：學生的程式僅輸出星號圖案，並未實作「建立任意長度的一維陣列、輸入該長度的整數、對陣列內容進行升序排序並印出結果」的功能，因此未能產出題目要求的正確輸出。
+修改說明與優化要點：
+- 使用更具語意的變數名稱 n, i, j，提升可讀性。
+- 使用 try-with-resources 包裝 Scanner，確保資源會被正確關閉。
+- 加入輸入範圍檢查，符合題意 0 < n <= 20，非法輸入直接結束。
+- 改用逐行字串拼接後再一次性輸出，降低 I/O 次數並保持輸出不含多餘空白。
+- 加上標頭註解，說明檔案資訊與功能。
 
-- 邏輯 (30%): 0/30
-  理由：程式的邏輯與題意無關，使用兩層迴圈畫星號，與題意無關的輸入處理與輸出邏輯，未展現正確的演算法或流程。
-
-- 格式 (10%): 2/10
-  理由：有基本的語法結構，但命名不具可讀性（y、q、w等），縮排與排版不穩定，缺乏註解與程式標頭的清楚說明。
-
-- 備註 (10%): 0/10
-  理由：缺少檔案標頭註解與說明。
-
-總分: 2/100
-
-修改後完整程式碼
+修改後完整程式碼（已優化）：
 /*
-檔案名稱: CSIE_41343220_1031_3a.java
-功能說明: 讀入長度 n，接著讀入 n 個整數，將它們升序排序後輸出，元素以空格分隔。
-作者: 你的姓名
-日期: 2025-11-12
+File: CSIE_41343220_1031_3a.java
+功能: 產生下三角形星號輸出
+作者: 學生
+日期: 2025-11-14
 */
-import java.util.*;
+import java.util.Scanner;
 
 public class CSIE_41343220_1031_3a {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n;
-        if (sc.hasNextInt()) {
-            n = sc.nextInt();
-        } else {
-            // 沒有輸入長度時，直接結束
-            return;
-        }
+        try (Scanner scanner = new Scanner(System.in)) {
+            int n = scanner.nextInt();
+            // 輸入範圍檢查，符合題意 0 < n <= 20
+            if (n <= 0 || n > 20) {
+                return;
+            }
 
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，預設為 0
+            for (int i = 1; i <= n; i++) {
+                StringBuilder line = new StringBuilder(i);
+                for (int j = 0; j < i; j++) {
+                    line.append('*');
+                }
+                System.out.println(line.toString());
             }
         }
-
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
-
-        System.out.print(sb.toString());
     }
 }
-
-修改說明與改動重點
-- 功能重構：將原本的輸出星號圖案的程式，完全替換為「讀取長度 n、再讀入 n 個整數、排序並輸出」的邏輯，符合題目需求。
-- 資料結構與演算法：使用整數陣列存放輸入值，利用 Arrays.sort 進行升序排序，簡潔且穩定，能處理負數。
-- 輸入與輸出：使用 Scanner 逐一讀取 n 個整數，輸出時以空格分隔且避免尾端多餘空格，輸出格式符合題目預期。
-- 可維護性與註解：加入程式標頭註解（檔名、功能、日期、作者）以及必要的內部註解，提升可讀性與日後維護的方便性。
-
-一句話改進建議或反饋
-建議在輸出結尾加上換行符號以符合常見的輸出端格式，並在輸入不足時給予明確的錯誤訊息或處理策略以增強穩定性。

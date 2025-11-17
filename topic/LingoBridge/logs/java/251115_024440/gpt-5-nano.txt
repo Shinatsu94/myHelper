@@ -1,0 +1,61 @@
+45
+
+改進建議：避免輸出區塊中的空白格，直接輸出左下三角形的星號，並加入程式標頭註解以提升可讀性與可維護性。
+
+- 修改原因與重點：
+  - 正確性：原程式在輸出時會把上三角的空白填充為空格，與題意「元素之間無需任何空白符號」不符；改為只輸出左下三角形的星號。
+  - 邏輯：保留下三角的邏輯，但在輸出階段僅輸出必要的部分，避免無用的空白行或空格。
+  - 格式：加入清晰的程式標頭與註解，提升可讀性，並使用更有意義的變數命名。
+  - 備註：新增標頭註解，說明檔案名稱、功能、作者與日期。
+
+修改後的程式說明：
+- 使用二維陣列儲存高度為 n 的下三角星號位置，僅在下三角填 '*'
+- 輸出時僅印出每一列從左至右的前 i+1 個星號，避免任何空白符號
+- 仍保持原本的輸入驗證，確保 0 < n <= 20
+- 加入檔案標頭註解與適當註解
+
+修改後完整程式碼：
+/*
+ File: LowerTriangularStar.java
+ 功能: 建立並列印高度為 n 的下三角形二維陣列，其元素為 '*'
+ 說明: 不在輸出中出現空白字符，符合題意要求
+ 作者: [你的名字]
+ 日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class LowerTriangularStar {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+
+        // 輸入驗證：0 < n <= 20
+        do {
+            n = sc.nextInt();
+        } while (n <= 0 || n > 20);
+
+        // 使用 n x n 的二維陣列存放星號，僅在下三角填 '*'，上三角留空
+        char[][] tri = new char[n][n];
+
+        // 填入下三角
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
+            }
+        }
+
+        // 印出下三角，僅輸出有星號的位置，避免空白符號
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(tri[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

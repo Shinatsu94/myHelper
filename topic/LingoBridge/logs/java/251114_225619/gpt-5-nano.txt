@@ -1,0 +1,60 @@
+4
+
+改進建議：此作業未符合題目要求，需改用一維整數陣列進行升冪排序，並正確處理任意長度與負數輸入，同時加入標頭註解與格式說明。
+
+修改與原因說明：
+- 將現有的三乘三矩陣 inverse 程式改為讀入一維整數陣列，支援任意長度與負數。
+- 使用 Arrays.sort 進行升冪排序，簡潔且穩定，符合本題需求。
+- 使用 Scanner 逐步讀取長度與各元素，避免遇到跨行輸入的問題，並確保程式執行一次後結束。
+- 輸出格式改為單行空格分隔，末尾換行，避免尾部多餘的空格。
+- 加入完整的標頭註解與適當程式內註解，提升可讀性與維護性。
+
+修改後完整程式碼（已優化並符合題目需求）：
+```java
+/*
+ * File: SortArrayAscending.java
+ * Description: 讀取整數 n，接著讀入 n 個整數，將它們由小到大排序後輸出。
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n（若未提供，直接結束）
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[Math.max(0, n)];
+
+        // 依序讀入 n 個整數，可能分布在不同行
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足的輸入以 0 代替，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 以空格分隔輸出，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

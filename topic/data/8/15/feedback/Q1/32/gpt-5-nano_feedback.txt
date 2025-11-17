@@ -1,14 +1,23 @@
-90
+85
 
-修改後完整程式碼：
+原程式在功能上正確且能完成排序，但缺少程式標頭註解、輸出可能產生尾端空格且命名風格與可讀性略為不足；同時可透過內建排序提升效能與穩定性。建議改用內建排序並調整輸出格式以符合通用測資要求。
+
+優化與修改重點
+- 將自訂的選擇排序改為使用 Arrays.sort 以提升效率，並使程式更簡潔。
+- 修改輸出格式，避免尾端多餘的空白，提高對測資的穩健性。
+- 增加程式頭註解，提供檔案名稱、功能、作者與日期等資訊；使用更具可讀性的變數命名。
+- 保留原有的輸入流程與核心功能，確保負數與任意長度的陣列皆能正確處理。
+
+修改後完整程式碼
 /*
- * 檔案名稱: CSIE_41343205_1031_1.java
- * 功能說明: 讀取整數 n 與 n 個整數，將其升序排序後輸出，元素以空格分隔，末尾換行。
- * 作者: 你
- * 日期: 2025-11-12
- */
+File: CSIE_41343205_1031_1.java
+Description: 讀入整數 n 與 n 個整數，排序後由小到大輸出。
+Author: 教授
+Date: 2025-11-14
+*/
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class CSIE_41343205_1031_1 {
     public static void main(String[] args) {
@@ -22,17 +31,21 @@ public class CSIE_41343205_1031_1 {
         int n = sc.nextInt();
 
         int[] arr = new int[n];
-        // 讀取陣列元素
+        // 讀取 n 個整數
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若不足，預設為 0
+            }
         }
 
-        // 使用內建排序以提升效率與穩定性
+        // 排序：由小到大
         Arrays.sort(arr);
 
-        // 以單一字串輸出，避免結尾多餘的空格
+        // 輸出，避免尾端空格
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (i > 0) sb.append(' ');
             sb.append(arr[i]);
         }
@@ -41,12 +54,3 @@ public class CSIE_41343205_1031_1 {
         sc.close();
     }
 }
-
-修改說明與原因：
-- 將原本的選擇排序改為使用 Arrays.sort(arr)，提升時間效率至 O(n log n)，同時簡化程式邏輯，減少出錯點。
-- 將輸出改為使用 StringBuilder 並在元素間加入單一空格，避免輸出尾端多餘的空格，符合常見的輸出格式要求。
-- 加入程式標頭註解，說明檔案名稱、功能與日期，提升可維護性與可閱讀性。
-- 程式仍支援負數，且對 n=0 之情況亦能正常運作。
-
-一句話改進建議：
-考慮在排序前先檢查輸入的合法性與範圍，並在必要時處理輸入異常情況，以提升魯棒性與使用者體驗。

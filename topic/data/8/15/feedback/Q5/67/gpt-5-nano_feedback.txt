@@ -1,59 +1,92 @@
-11
+總分：87
 
-以下為根據你的標準所給的評分與改寫方案。
+改進建議一句話：
+建議補上程式標頭註解並在對不可逆矩陣的處理上做清楚定義，另外避免過度以近似判定視為零的情況，以提升可讀性與符合題意。
 
-修改後完整程式碼
+修改與原因說明：
+- 新增程式標頭註解，包含檔案名稱、功能、作者、日期，提升可維護性與評分透明度。
+- 對於不可逆矩陣的情形，保留基本處理但以更明確的極小容許誤差判定是否為零，避免誤判。
+- 輸出格式調整為：非零元素輸出四位小數，零元素輸出字串 “0”，符合題目要求的輸出格式。
+- 代碼風格與可讀性提升：加入適當縮排、變數命名與註解，維持清晰結構與邏輯。
+
+修改後完整程式碼：
+
 /*
-檔案名稱: CSIE_51015120_1031_5.java
-功能說明: 讀入一個整數 n，接著讀入 n 個整數，將它們升序排序後輸出。
-作者: 你可以填入姓名
-日期: 2025-11-12
-註解: 程式使用 1 維陣列，配合 Arrays.sort 進行排序；輸出依序以空格分隔，末尾換行。
-*/
+ * File: CSIE_51015120_1031_5.java
+ * 功能: 讀入 3x3 矩陣，輸出其反矩陣，按四位小數顯示；零元素輸出 0
+ * 作者: [你的姓名]
+ * 日期: 2025-11-14
+ */
+
 import java.util.Scanner;
-import java.util.Arrays;
+import java.text.DecimalFormat;
 
 public class CSIE_51015120_1031_5 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
 
-        // 讀取長度 n
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-
-        // 讀取 n 個整數到一維陣列
-        int[] arr = new int[n];
-        int count = 0;
-        while (count < n && sc.hasNextInt()) {
-            arr[count++] = sc.nextInt();
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                A[i][j] = sc.nextDouble();
+            }
         }
         sc.close();
 
-        // 若實際讀入的數量小於 n，僅排序實際讀入的部分
-        if (count > 0) {
-            Arrays.sort(arr, 0, count);
+        double det = determinant(A);
+
+        // 使用較小的容許誤差判定不可逆
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("矩陣不可逆");
+            return;
         }
 
-        // 輸出排序結果，元素之間以單一空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < count; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        double[][] inv = inverse(A, det);
+
+        // 格式化輸出：非零四位小數，零直接輸出 '0'
+        DecimalFormat df = new DecimalFormat("0.0000");
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double val = inv[i][j];
+                if (Math.abs(val) < 1e-8) { // 判定近似為零時輸出 0
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(val));
+                }
+
+                if (j < 2) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
         }
-        System.out.println(sb.toString());
+    }
+
+    // 計算 3x3 矩陣的行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
     }
 }
-
-修改與優化說明
-- 需求對應性：原學生程式與題目不符，原程式處理的是 3x3 矩陣的行列式與反矩陣輸出，與「任意長度的一維陣列升序排序」不相關，因此整體改為專注於題目需求。
-- 資料結構改變：改用一維整數陣列 int[]，符合「任意長度的一維陣列」的要求，並簡化資料型別。
-- 輸入處理與穩健性：先讀取長度 n，接著讀入最多 n 個整數，若輸入不足 n 個仍能正確輸出已讀入的部分並排序，提升健壯性；若需求一定有 n 個數，亦能正常工作。
-- 排序與輸出：使用 Arrays.sort 直接對整數陣列進行升序排序，輸出時以空格分隔，避免尾端多餘空白。
-- 程式註解與標頭：新增檔案頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
-- 格式與命名：保持清晰的變數命名與適當縮排，符合格式評分標準。
-
-單句改進建議
-- 建議在輸入階段就做好輸入長度與數量的嚴格檢查，並可考慮使用 BufferedInputStream 搭配自訂解析器以提升大量資料時的效能。

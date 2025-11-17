@@ -1,46 +1,38 @@
-84
-
-- 正確性: 50/50
-- 邏輯: 28/30
-- 格式: 6/10
-- 備註: 0/10
+86
+建議增加程式標頭註解與變數命名的可讀性，並以更清晰的方式呈現交換邏輯以提升可維護性。
 
 修改與優化說明
-- 變更說明
-  - 將變數名稱改為 more meaningful 的 firstNumber 與 secondNumber，提升可讀性與維護性。
-  - 增加標頭註解，說明檔案名稱、功能、作者、日期，符合備註要求。
-  - 保留題目要求的「不使用額外變數」的交換方式（XOR 交換法），保證在僅有兩個變數的情況下完成交換。
-- 修改後完整程式碼
-  /*
-  文件名稱: SwapTwoNumbers.java
-  功能: 讀入兩個整數並交換輸出交換後的值
-  作者: 教授姓名
-  日期: 2025-11-11
-  */
+- 將變數命名改為 A、B，以提升意義與可讀性。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 使用 try-with-resources 來自動關閉 Scanner，提升資源管理安全性。
+- 保留不使用額外變數的交換方式（XOR 交換），符合題目限制，同時在註解中說明交換邏輯。
+- 程式內容新增內部註解，方便他人理解流程。
 
-  import java.util.Scanner;
+修改後完整程式碼
+import java.util.Scanner;
 
-  public class SwapTwoNumbers {
-      public static void main(String[] args) {
-          Scanner sc = new Scanner(System.in);
-          int firstNumber = sc.nextInt();
-          int secondNumber = sc.nextInt();
+/*
+檔案名稱: CSIE_41343143_1003_1.java
+功能: 讀入兩個整數，交換並輸出交換後的結果（題目要求不使用額外變數進行交換）
+作者: 教師
+日期: 2025-11-15
+*/
 
-          // 使用不使用額外變數的 XOR 交換法
-          firstNumber = firstNumber ^ secondNumber;
-          secondNumber = firstNumber ^ secondNumber;
-          firstNumber = firstNumber ^ secondNumber;
+public class CSIE_41343143_1003_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以確保 Scanner 會被自動關閉
+        try (Scanner sc = new Scanner(System.in)) {
+            int A = sc.nextInt();
+            int B = sc.nextInt();
 
-          System.out.println(firstNumber);
-          System.out.println(secondNumber);
-          sc.close();
-      }
-  }
+            // XOR 交換法，在不使用第三個變數的情況下交換 A 與 B
+            A ^= B;
+            B ^= A;
+            A ^= B;
 
-- 修改該部分的原因
-  - 使用具描述性的變數名稱可提高可讀性與日後維護性。
-  - 加入標頭註解符合題目對程式註解的要求，便於他人理解檔案用途與作者資訊。
-  - 保留無額外變數的交換邏輯，符合題目限制，同時提升後續可讀性與一致性。
-
-一句話改進建議
-- 在不使用額外變數的前提下，使用更具可讀性的名稱與清晰註解，以提升維護性與他人理解度。
+            // 輸出為交換後的結果
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}

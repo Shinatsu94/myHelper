@@ -1,0 +1,45 @@
+86
+改進建議：加入程式標頭與適當註解，改用 Arrays.sort 以提高執行效率並簡化輸出格式。
+
+修改說明與修改項目
+- 增加程式標頭與內部註解，提升可讀性與維護性，符合備註要求。
+- 將自訂的選擇排序改為使用 Arrays.sort 進行整體排序，提升時間複雜度至 O(n log n)。
+- 簡化輸出格式，使用單一迴圈搭配空格連接，避免對於最後元素的特殊判斷，輸出更穩定。
+- 維持原有的輸入方式與單次執行結束的需求。
+
+修改後完整程式碼
+```java
+/*
+File: CSIE_51015120_1031_1.java
+Description: 讀入 n 與 n 個整數，輸出從小到大排序的結果。
+Author: 教授
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_51015120_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升效率
+        Arrays.sort(arr);
+
+        // 簡潔輸出，避免尾端額外判斷
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

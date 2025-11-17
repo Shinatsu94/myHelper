@@ -1,0 +1,53 @@
+17
+改進建議：此程式未實作題目要求的排序與輸出功能，需改為讀入長度與元素後進行排序並輸出結果，並加上適當註解與標頭。
+
+程式碼優化說明與修改原因
+- 取代原先輸出星號的程式邏輯，改成顯示題目需求的排序結果。
+- 使用陣列儲存輸入的整數，並使用 Arrays.sort 進行升序排序，邏輯清晰且效率較高。
+- 加入簡單的程式標頭與註解，提升維護性與可讀性。
+- 讓程式能正確處理負數與任意長度的輸入，符合題意。
+
+修改後的完整程式碼：
+```java
+/**
+ * 檔案名稱: Main.java
+ * 功能說明: 讀取使用者輸入的陣列長度與整數元素，將元素由小到大排序後輸出。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+```

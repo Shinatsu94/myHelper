@@ -1,0 +1,46 @@
+總分：91
+
+改進建議（一句話）：建議改用字串方式判斷數字位數是否嚴格遞增，並加上清晰的註解與換行輸出，以提升可讀性與穩定性。
+
+修改內容與原因：
+- 將原本的數字逐位刪減、比較的邏輯改為使用字串的逐字比較，直接檢查相鄰兩位是否嚴格遞增，避免在特定邏輯分支與邊界條件上的潛在風險，並提升程式可讀性。
+- 增加換行輸出，讓輸出格式更符合常見樣式與題目範例。
+- 增加適當的程式註解與標頭資訊，並維護原有的類別名稱以確保與測試環境的相容性。
+- 關閉 Scanner，養成良好資源管理習慣。
+
+修改後的完整程式碼：
+
+import java.util.Scanner;
+
+public class CSIE_41343128_1017_2 {
+    public static void main(String[] args) {
+        // 讀取單一輸入，直接以字串處理以判斷數位是否嚴格遞增
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        sc.close();
+
+        boolean wellOrdered = true;
+
+        // 檢查相鄰兩位是否嚴格遞增（從左到右）
+        for (int i = 1; i < s.length(); i++) {
+            char prev = s.charAt(i - 1);
+            char cur = s.charAt(i);
+            if (cur <= prev) {
+                wellOrdered = false;
+                break;
+            }
+        }
+
+        if (wellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
+    }
+}
+
+/*
+2025/11/15
+作者: 作業改寫者
+說明: 判斷輸入數字的數位是否從左至右嚴格遞增（well-ordered number）
+*/

@@ -1,0 +1,56 @@
+84
+
+改進建議：建議使用更具可讀性的命名與標頭註解，並考慮採用 Arrays.sort 提升可讀性與穩定性，同時用 StringBuilder 組裝輸出以避免多次輸出。
+
+程式優化與修改說明：
+- 使用更清晰的類別名稱與變數命名，移除未使用的變數，提升可讀性。
+- 使用內建排序 Arrays.sort 直接排序，減少自寫排序程式碼的錯誤風險，提升效率與穩定性（負數亦能正確處理）。
+- 使用 StringBuilder 產出輸出字串，避免逐個輸出造成多次 I/O。
+- 加上程式標頭註解，包含檔案名稱、功能、作者與日期，提升維護性。
+- 移除不必要的 throws 宣告與多餘的例外處理，讓主函式更乾淨。
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能: 讀取長度 n 與 n 個整數，排序後輸出升序結果
+作者: 教授
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取数组
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為0
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出結果，使用空格分隔，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

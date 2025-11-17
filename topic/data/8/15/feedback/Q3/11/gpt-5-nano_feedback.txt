@@ -1,69 +1,61 @@
-8
+88
+
+改進建議：增加輸入值的範圍驗證，並用更直接的列印方式提升可讀性與穩定性，同時整理程式註解與命名。
+
+修改要點與說明：
+- 加入 n 的邊界檢查 (1..20)，以符合題目規範，若不在範圍內則輸出錯誤訊息並結束。
+- 使用直覺且快速的列印方式：直接用 new String(triangle[row]) 一次輸出整行，避免逐字 Console.print，提升效能與可讀性。
+- 加強程式註解與格式，提供清楚的檔案頭註解並使用較一致的變數命名。
+- 避免不必要的複製與複雜結構，仍保留原本的下三角形結構，但將方法與主程式分工清楚。
 
 修改後完整程式碼：
+/*
+    filename: CSIE_41143122_1031_3a.java
+    description: 建立一個下三角形二維陣列，高度 n 由使用者輸入，範圍 1..20，並輸出由 '*' 組成的下三角形。
+    author: 林柏儒 資工四甲 41143122
+    date: 2025/11/14
+    version: 1.1
+*/
 
-import java.io.*;
-import java.util.*;
-
-public class ArraySortAscending {
-    /*
-       filename: ArraySortAscending.java
-       function: 讀入長度 n，接著 n 個整數，將陣列內容由小到大排序，並輸出排序後的陣列。
-       author: 教師改寫版本
-       date: 2025/11/12
-       version: 1.0
-    */
-    private static class FastScanner {
-        BufferedReader br;
-        StringTokenizer st;
-
-        FastScanner(InputStream is) {
-            br = new BufferedReader(new InputStreamReader(is));
+public class CSIE_41143122_1031_3a {
+    // 建立並輸出下三角形的函式
+    private static void buildTriangle(int n) {
+        // 輸入驗證：範圍必須在 1..20
+        if (n <= 0 || n > 20) {
+            System.err.println("Invalid n: must be in [1,20]");
+            return;
         }
 
-        String next() throws IOException {
-            while (st == null || !st.hasMoreElements()) {
-                String line = br.readLine();
-                if (line == null) return null;
-                st = new StringTokenizer(line);
+        // 使用 jagged array 儲存每列的 '*'，第 r 列長度為 r+1
+        char[][] triangle = new char[n][];
+        for (int row = 0; row < n; row++) {
+            triangle[row] = new char[row + 1];
+            for (int col = 0; col <= row; col++) {
+                triangle[row][col] = '*';
             }
-            return st.nextToken();
         }
 
-        Integer nextInt() throws IOException {
-            String s = next();
-            if (s == null) return null;
-            return Integer.parseInt(s);
+        // 逐列輸出，整列不含空白符號
+        for (int row = 0; row < n; row++) {
+            System.out.println(new String(triangle[row]));
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        FastScanner fs = new FastScanner(System.in);
-        Integer nObj = fs.nextInt();
-        if (nObj == null) return;
-        int n = nObj;
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            Integer v = fs.nextInt();
-            a[i] = (v != null) ? v : 0;
-        }
-        Arrays.sort(a);
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        int n;
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+        // 讀取輸入
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        } else {
+            System.err.println("Invalid input");
+            scanner.close();
+            return;
         }
-        System.out.print(sb.toString());
+
+        // 進行輸出
+        buildTriangle(n);
+        scanner.close();
     }
 }
-
-修改說明：
-- 針對題目需求，原學生程式與任務不符，改寫為解決「任意長度的一維整數陣列排序」的程式。
-- 採用快速且穩健的輸入處理（FastScanner，基於 BufferedReader 與 StringTokenizer），避免對 EOF 的依賴，適用多行輸入情境。
-- 使用 Arrays.sort 進行升序排序，並用 StringBuilder 組裝輸出，輸出格式與題目要求一致，且能正確處理負數。
-- 程式檔頭加入檔案名稱、功能、作者、日期等註解，提升可維護性與可讀性。
-- 變數命名清晰、縮排與結構整齊，符合基本的格式要求。
-
-改進建議或反饋（用一句話）：
-建議進一步在輸出末尾加上換行符號，並確保在極大數量輸入時仍保持良好效能與穩定性。

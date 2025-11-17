@@ -1,78 +1,42 @@
-2
-正確性: 0
-邏輯: 0
-格式: 2
-備註: 0
-以下為修改建議與最終改寫程式
+88
 
-修改說明
-- 原始學生作業與題意無關，未實作 pi 近似與指定輸出格式，因此正確性、邏輯皆為0。
-- 新版程式直接依題意輸出 pi 的近似值，並符合輸出格式要求：
-  - 採用勒讓得級數逐步累加，使用增量計算避免不必要的重複計算，提升效率。
-  - 對 i = 10000, 20000, ..., 100000 逐步輸出 pi，格式與題目給定相符（i 以六位寬度印出，pi 以小數點後十位印出）。
-  - 再往後延伸計算，尋找最小的 i，使 pi 四捨五入到小數點五位等於 3.14159，輸出格式為單行 "i = ..."。
-  - 程式插入標頭註解與適當內部註解，改善可閱讀性與維護性。
+建議一句話回饋：建議加入完整的程式標頭註解、改用更具語意的變數命名，以及以字串處理方式判斷數字是否自左至右嚴格遞增，以提升可讀性與穩健性。
 
-修改後的完整程式碼
-（請直接複製執行，無需輸入，會自動輸出題目要求的結果）
+修改與說明：
+- 使用字串方式判斷，避免大數值造成整數溢位與提升可讀性。
+- 變數命名改為更具語意，如 isWellOrdered、str 等，提升可讀性。
+- 加入程式標頭註解與關閉 Scanner，以符合作業要求的備註部分。
+- 保留原本輸出格式，但以輸入字串保持原始顯示。
 
+修改後完整程式碼：
 /*
-File: LeibnizPiPrinter.java
-功能:
-  - 依勒讓得級數輸出 i = 10000, 20000, ..., 100000 時的 pi 值，格式符合要求。
-  - 找出最小的 i，使 pi 四捨五入到五位小數等於 3.14159，並輸出該 i。
-作者: 請填寫
-日期: 2025-11-11
-說明: 使用累積和的方式計算 pi，避免每次重新計算整個序列。
-*/
-import java.util.*;
+ * File: CSIE_41343101_1017_2.java
+ * 功能: 判斷輸入整數的各位數字是否從左到右嚴格遞增(well-ordered number)
+ * 作者: 學生
+ * 日期: 2025-11-15
+ */
 
-public class LeibnizPiPrinter {
-    public static void main(String[] args) {
-        // 設定最大 i 值與輸出條件
-        final int MAX_I = 100000;
-        double sum = 0.0;
+import java.util.Scanner;
 
-        // 逐步累加勒讓得級數的項，輸出當 i 為 10000 的整倍數時的 pi 值
-        for (int i = 1; i <= MAX_I; i++) {
-            int k = i - 1;
-            double term = ( (k % 2 == 0) ? 1.0 : -1.0 ) / (2.0 * k + 1.0);
-            sum += term;
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                // i 以六位寬度對齊，pi 保留十位小數
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
-        }
+public class CSIE_41343101_1017_2 {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    String str = sc.next();
+    boolean isWellOrdered = true;
 
-        // 顯示空行以區隔兩段輸出
-        System.out.println();
-
-        // 從 100000 開始繼續往後找最小的 i，使 pi 四捨五入到五位小數等於 3.14159
-        // 直接用累積和從 MAX_I 開始累加，避免重新計算前面的項
-        double currentSum = sum; // sum 目前為 100000 項的總和
-        int iMin = MAX_I;
-        while (true) {
-            iMin++;
-            int k = iMin - 1;
-            double term = ( (k % 2 == 0) ? 1.0 : -1.0 ) / (2.0 * k + 1.0);
-            currentSum += term;
-            double pi = 4.0 * currentSum;
-            long roundedFive = Math.round(pi * 1e5); // 四捨五入到 5 位小數
-            if (roundedFive == 314159) {
-                System.out.println("i = " + iMin);
-                break;
-            }
-            // 若需要，可加入上限保護以避免無限迴圈
-        }
+    for (int i = 0; i < str.length() - 1; i++) {
+      if (str.charAt(i) >= str.charAt(i + 1)) {
+        isWellOrdered = false;
+        break;
+      }
     }
+
+    if (isWellOrdered) {
+      System.out.println(str + " is well-ordered number.");
+    } else {
+      System.out.println(str + " is not well-ordered number.");
+    }
+
+    sc.close();
+  }
 }
-
-修改後程式碼說明
-- 正確性方面：程式正確計算勒讓德級數的近似值，並輸出符合題目格式的結果，以及找到符合條件的最小 i 值。
-- 邏輯方面：採用增量式累加，避免重新計算整個序列，提高效率，且輸出格式嚴謹。
-- 格式方面：變數命名清晰、縮排統一、輸出格式使用 System.out.printf 並控制寬度與位數。
-- 備註方面：程式頭註解清楚說明檔案名稱、功能、作者、日期及實作要點，內容有適當註解。
-
-一語建議
-- 建議在正式作業中再加上簡短的測試與說明，並考慮將輸入改為使用者可配置的參數，以提高靈活性與可重用性。

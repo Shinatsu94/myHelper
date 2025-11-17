@@ -1,0 +1,58 @@
+87
+
+回饋建議（一句話）：
+建議補充程式標頭註解與日期/作者資訊，並微幅優化驗證迴圈以提升可讀性與效能。
+
+修改重點與原因：
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將判斷邏輯改為使用 prev 變數的單循環，且先取得長度再迭代，避免在迴圈中重複呼叫 num.length()，提高效率與可讀性。
+- 保留原有輸出格式，確保測試案例輸出不變。
+- 保持變數命名清晰，提升可維護性。
+
+修改後完整程式碼（已優化）：
+/*
+File: CSIE_41343236_1017_2.java
+功能: 判斷輸入數字的各位數是否嚴格遞增（left-to-right）。
+作者: 學生
+日期: 2025-11-15
+說明: 程式僅執行一次，輸入為單一數字字串，輸出是否為 well-ordered number。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343236_1017_2 {
+
+    // 判斷數字字串的各位是否嚴格遞增
+    public static boolean isWellOrdered(String num) {
+        if (num == null || num.length() <= 1) {
+            return true;
+        }
+
+        int n = num.length();
+        char prev = num.charAt(0);
+
+        for (int i = 1; i < n; i++) {
+            char cur = num.charAt(i);
+            // 若前一位數字不小於後一位，則不是嚴格遞增
+            if (prev >= cur) {
+                return false;
+            }
+            prev = cur;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine().trim();
+
+        if (isWellOrdered(input)) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+
+        scanner.close();
+    }
+}

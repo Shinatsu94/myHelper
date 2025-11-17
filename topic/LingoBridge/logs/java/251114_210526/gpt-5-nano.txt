@@ -1,0 +1,61 @@
+總分：86
+
+改進建議與回饋（一句話）：
+建議改用內建的排序（Arrays.sort）以提升效率與穩定性，並加上完整註解與更穩健的輸入處理。
+
+程式改動說明（重點摘要）：
+- 使用 Arrays.sort 取代手寫的選擇排序，降低時間複雜度並增加穩定性與可讀性。
+- 增加程式檔案頭註解，描述檔案名稱、功能、作者與日期等，提升可維護性。
+- 增強輸入健壯性：先檢查是否有整數輸入，並在讀取元素時以安全方式進行，避免極端情況造成錯誤。
+- 輸出使用 StringBuilder 並加入換行，並保持數字間以空格分隔的格式。
+
+修改原因與細節：
+- 為了提升性能與穩定性，使用 Arrays.sort 進行排序，避免手寫排序在大陣列時的效能問題。
+- 加入註解有助於他人理解程式目的與設計思路。
+- 增強輸入處理可以減少因格式不確定而導致的執行期錯誤。
+- 使用 StringBuilder 可避免逐次 println 帶來的性能開銷，且輸出格式可控。
+
+修改後完整程式碼（已優化）：
+```java
+/*
+檔案名稱: CSIE_41343219_1031_1.java
+功能: 讀入整數陣列長度與元素，對元素由小到大排序，輸出排序結果
+作者: 您的姓名
+日期: 2025-11-14
+說明: 不使用 EOF，執行一次即可結束；支援負數；輸出格式為以空格分隔的排序結果，末尾換行。
+*/
+
+import java.util.*;
+
+public class CSIE_41343219_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] ary = new int[Math.max(0, n)];
+
+        for (int i = 0; i < ary.length && sc.hasNextInt(); i++) {
+            ary[i] = sc.nextInt();
+        }
+
+        // 使用內建排序提升效率
+        Arrays.sort(ary);
+
+        // 輸出排序結果，數字以單一空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ary.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+        sb.append('\n');
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}
+```

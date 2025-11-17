@@ -1,0 +1,48 @@
+86
+
+改進建議：建議加上程式頭註解、將輸入負數的情況與整數溢位風險考慮在內，並且適當關閉Scanner以釋放資源。
+
+修改要點與原因：
+- 變數命名與可讀性提升：將變數名稱由 sum 改為 rev，語意更清楚為「反轉後的數字」。
+- 增強健壯性：支援負數輸入，對原數的符號做處理，反轉時先對正數反轉再加回符號。
+- 避免溢位風險：使用 long 類型，減少巨大整數反轉時的溢位風險。
+- 資源管理：關閉 Scanner 以釋放資源。
+- 程式頭註解：加入檔案相關註解，符合作業要求。
+
+修改後完整程式碼如下：
+/*
+ * 檔案名稱: CSIE_41343112_1017_3.java
+ * 功能: 將使用者輸入的整數之各位數字反轉，正負號保持原本符號；輸出不保留前導零。
+ * 作者: 自動評測系統
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343112_1017_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n;
+        if (scanner.hasNextLong()) {
+            n = scanner.nextLong();
+        } else {
+            scanner.close();
+            return;
+        }
+        scanner.close();
+
+        // 處理正負號：先對絕對值反轉，最終再乘回符號
+        long sign = (n < 0) ? -1 : 1;
+        long m = Math.abs(n);
+        long rev = 0;
+
+        while (m > 0) {
+            rev = rev * 10 + (m % 10);
+            m /= 10;
+        }
+
+        rev *= sign;
+
+        System.out.println(rev);
+    }
+}

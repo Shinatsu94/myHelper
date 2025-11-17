@@ -1,0 +1,52 @@
+7
+
+改進建議：此作業未符合題意，應改為讀入長度與該長度的一維整數陣列，進行升冪排序後輸出；避免保留與題目不相關的矩陣與反矩陣作法。
+
+修改說明與原因
+- 正確性：改用任意長度的一維整數陣列，讀入 n 與 n 個整數，使用 Arrays.sort 進行升冪排序，輸出排序結果，符合題意。
+- 邏輯：流程改為「讀入長度 -> 讀入元素 -> 排序 -> 輸出」，結構清晰且可讀性高。
+- 格式：使用有意義的變數名稱（n、arr），適當縮排，加入使用說明的註解。
+- 備註：加入檔案標頭註解，說明檔案名稱、功能、作者與日期，且程式內容有適當註解。
+
+修改後完整程式碼
+// File: Sorting1DArray.java
+// 功能: 讀取使用者輸入的長度 n 與 n 個整數，將其由小到大排序，輸出排序後的陣列
+// 作者: 你的名字
+// 日期: 2025-11-14
+
+import java.util.*;
+
+public class Sorting1DArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補零以避免例外
+            }
+        }
+        sc.close();
+
+        // 進行升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

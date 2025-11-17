@@ -1,0 +1,47 @@
+87
+改進建議：此作業基本正確且能輸出下三角形，但缺少程式頭註解與更具描述性的變數命名，並且對非法輸入未給予明確處理，建議同時加強可讀性與可維護性。
+
+優化說明與修改要點
+- 符合題意仍保留使用二維陣列，但僅在需要的位置填 '*'，其餘位置不必要使用；並保持輸出僅含需要的星號，避免多餘的空格影響測資。
+- 加入清楚的檔案頭註解，使用有意義的變數名稱，提升可讀性與維護性。
+- 對非法輸入進行處理，避免無回應或未預期的執行。
+- Final class 名稱與檔案名稱對應，方便編譯與執行。
+
+修改後完整程式碼
+// 檔案名稱: LowerTriangleStars.java
+// 功能: 輸入高度 n (0 < n <= 20)，建立並列印下三角形的二維陣列，內容為 '*'
+// 作者: (未提供)
+// 日期: (以實際日期為准)
+
+import java.util.Scanner;
+
+public class LowerTriangleStars {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 輸入驗證：若不在範圍內，結束程式
+        if (n < 1 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        // 建立 n x n 二維陣列，僅在下三角填 '*'，其他位置保持未使用
+        char[][] arr = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 印出下三角形：每列印出 0..i 的元素
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(arr[i][j]);
+            }
+            System.out.println();
+        }
+
+        sc.close();
+    }
+}

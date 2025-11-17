@@ -1,54 +1,63 @@
-5
+82
 
-評分標準
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 5/10
-- 備註: 0/10
-總分: 5/100
+建議改進說明（一句話）
+建議將判定邏輯拆成可讀性更高的函式、統一命名與註解，並增加輸入健全性與檔案命名規範，以提升可維護性與可讀性。
 
-修改與優化說明
-- 本題原始作業與學生程式毫無相關，需改為實作勒貝奇米斯級數計算圓周率的題意內容。
-- 改用勒貝奇米斯級數公式 pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1) 進行計算，並輸出指定區間的 i 與 pi 值。
-- 輸出格式採用固定寬度以符合題目要求：
-  - i 使用寬度為 6 的整數輸出，與前綴 "i = " 相配，產生像題目示例中的空白排版效果。
-  - pi 使用小數點後 10 位輸出，保證精度的一致性。
-- 為了得到最小的 i 使 pi 穩定落在 3.14159 之五位小數，採用逐步累加的方式，當 pi 四捨五入到五位小數等於 3.14159 時，輸出該 i 值；判定時以將 pi 四捨五入至五位小數後的字串與 "3.14159" 比對，避免浮點誤差導致的判定錯誤。
-- 程式不再需外部輸入，直接輸出題意所需的結果，符合題目輸出格式。
+修改說明與評分細項
+- 正確性(50%)
+  - 現有邏輯在大多數情況下能正確判斷，但為提升穩健性與可讀性，採用更直觀的判斷方式，仍然保持單次輸入結束的需求。原程式對特定邊界情況仍可正確工作，因此維持高分。
+- 邏輯(30%)
+  - 改用從個位數向左掃描的比較法，透過 prev 初始設定為10，依序比較每位數 d 是否小於前一位，若任一位大於等於前一位即判為非遞增，邏輯更清晰、易於理解與維護。
+- 格式(10%)
+  - 原始程式的類別名稱為 test，命名不具可讀性；變數命名與縮排可更一致。新版本採用具描述性的類別名稱、清晰的區段劃分與一致縮排。
+- 備註(10%)
+  - 原程式缺乏檔案標頭註解與說明。新版本加入檔案說明註解、作者與日期欄位，提升可維護性。
 
 修改後完整程式碼
-public class LeibnizPi {
-    public static void main(String[] args) {
-        // Part (a): 依序輸出 i = 10000, 20000, ..., 100000 的 pi 值
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double sum = 0.0;
-            for (int k = 0; k < i; k++) {
-                sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            }
-            double pi = sum * 4.0;
-            System.out.printf(java.util.Locale.US, "i = %6d, pi = %.10f%n", i, pi);
-        }
+```java
+/**
+ * File: WellOrderedNumber.java
+ * 功能: 判斷輸入的整數各位數字是否嚴格遞增（從左到右）
+ * 作者: 您的學生
+ * 日期: 2025-11-15
+ * 說明: 程式僅執行一次就結束，符合題目需求
+ */
 
-        // Part (b): 找出最小的 i 使 pi 四捨五入為 3.14159（五位小數）
-        int minI = -1;
-        double sum = 0.0;
-        for (int i = 1; i <= 1000000; i++) {
-            int k = i - 1;
-            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            double pi = sum * 4.0;
-            String roundedFive = String.format(java.util.Locale.US, "%.5f", pi);
-            if ("3.14159".equals(roundedFive)) {
-                minI = i;
-                break;
-            }
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
         }
-        System.out.println("i = " + minI);
+        int n = sc.nextInt();
+        sc.close();
+
+        if (isWellOrdered(n)) {
+            System.out.printf("%d is well-ordered number.\n", n);
+        } else {
+            System.out.printf("%d is not well-ordered number.\n", n);
+        }
+    }
+
+    private static boolean isWellOrdered(int n) {
+        if (n < 0) return false; // 負數不視為有效位數遞增
+        int temp = n;
+        int prev = 10; // 任何位數都小於 10
+        while (temp > 0) {
+            int d = temp % 10;
+            temp /= 10;
+            if (d >= prev) return false;
+            prev = d;
+        }
+        // 0 或單一位數皆成立
+        return true;
     }
 }
+```
 
-修改說明要點
-- 將原本與題目無關的輸入/判斷邏輯移除，改為符合題意的 pi 計算與格式輸出。
-- 使用字串比對四捨五入至五位小數以確定最小 i，避免浮點數誤差影響判定。
-
-改進建議或反饋（一句話）
-- 建議在實作中將 part (a) 的每個 i 的計算視為可累加的增量過程，以避免每次都從頭計算，提高效率；同時可考慮非對稱輸出需求的國際化設定，如 locale 的統一使用以避免小數分隔符差異。
+修改重點與原因
+- 把判定邏輯分離成獨立方法 isWellOrdered，提升可讀性與重用性。
+- 使用從低位數到高位數的遍歷，並以 prev 與當前位數 d 的大小比較，條件更直觀，且不易誤解邏輯。
+- 加入程式檔案標頭註解，清楚描述檔案名稱、功能與日期，符合評分標準的備註部分。
+- 改用具描述性的類別名稱 WellOrderedNumber，並保留單次輸入需求，提升可維護性與專案整體可讀性。

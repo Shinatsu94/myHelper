@@ -1,0 +1,52 @@
+81
+
+- 正確性: 50/50
+- 邏輯: 25/30
+- 格式: 6/10
+- 備註: 0/10
+
+改進建議（簡述一句話）：
+此作業可採用直接的整數反轉法以簡化邏輯與提升穩健性，並加入註解與標頭以增強可讀性與可維護性。
+
+程式優化說明與修改重點
+- 改用直接的整數反轉法：使用 rev = rev * 10 + value % 10 的方式逐位翻轉，避免原程式中需要額外的旗標變數來處理前導零問題，讓程式更簡潔直覺。
+- 使用 long 類型並處理正負號：擴充到 long 以降低溢位風險，並保留輸入的正負號，使輸出符合常見的數字反轉預期。
+- 提升可讀性與維護性：加入有意義的變數名稱、註解與標頭註解，方便他人閱讀與維護；同時在結尾加入 scanner 關閉。
+- 支援 0 的情況：若輸入為 0，反轉結果應為 0，與常見預期一致。
+
+修改後完整程式碼
+/* 
+ * File: ReverseDigits.java
+ * 功能: 讀取一個整數，輸出其數字反向排列，並帶有正負號處理；若為 0，輸出 0。
+ * 作者: [你的名字]
+ * 日期: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextLong()) {
+            scanner.close();
+            return;
+        }
+
+        long input = scanner.nextLong();
+        boolean isNegative = input < 0;
+        long value = Math.abs(input);
+
+        long reversed = 0;
+        while (value > 0) {
+            reversed = reversed * 10 + (value % 10);
+            value /= 10;
+        }
+
+        if (isNegative) {
+            reversed = -reversed;
+        }
+
+        System.out.println(reversed);
+        scanner.close();
+    }
+}

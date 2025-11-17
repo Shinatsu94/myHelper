@@ -1,0 +1,50 @@
+9
+
+改進建議：請改用簡單且可靠的排序方法（如 Arrays.sort）並正確讀取與輸出整數，以避免原程式的陣列覆蓋與不正確輸出。
+
+修改要点與理由：
+- 正確性與邏輯：取用 Arrays.sort(arr) 直接對整數陣列排序，避免原程式中錯誤的位移與比較邏輯，保證輸出符合從小到大的排序結果。
+- 輸入輸出：維持單輪讀取，避免使用 EOF；輸出格式保持為空格分隔，與題目輸出一致。
+- 格式與註解：加入清晰的檔案標頭註解，改善縮排與變數命名，提升可讀性。
+- 備註：清理不必要的中間運算與多餘的變數，確保程式簡潔且易維護。
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_41343136_1031_2.java
+ * 功能: 讀入長度 n 與 n 個整數，將陣列由小至大排序後輸出
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 版本: 1.1
+ * 備註: 不使用 EOF，單次執行並輸出排序結果
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343136_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```

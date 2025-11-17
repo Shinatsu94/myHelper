@@ -1,0 +1,55 @@
+78
+
+改進建議：雖然輸出符合題意，但未實作二維陣列的建立，建議改為使用 2D 陣列以滿足作業要求並增加註解。
+
+修改內容與原因：
+- 新增使用 2D 陣列 char[][] tri[n][n]，並將下三角部分填上 '*'，以符合「建立並列印下三角形二維陣列」的要求。
+  原因：題目明示要建立二維陣列，直接用字元陣列能更貼近實作需求與教學重點。
+- 改用兩層迴圈分別填充下三角與輸出，確保輸出結果與原本預期相同。
+- 加上檔案標頭註解與適當註解，提升可讀性與可維護性；並加入簡單輸入範圍檢核與資源釋放（關閉 Scanner）。
+  原因：符合程式撰寫的常見規範，並提高穩健性。
+- 程式碼格式整理，變數名稱保持清晰，註解更清楚。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343208_1031_3a.java
+功能: 建立並輸出下三角形的二維陣列
+作者: 學生
+日期: 2025-11-14
+說明: 會建立 n x n 的 char 陣列，僅填充下三角部分為 '*'，再印出下三角形
+*/
+public class CSIE_41343208_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        // 設定範圍，若不在 0 < n <= 20，直接結束
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        // 建立並填充下三角形的二維陣列
+        char[][] tri = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
+            }
+        }
+
+        // 輸出下三角形
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(tri[i][j]);
+            }
+            System.out.println();
+        }
+
+        sc.close();
+    }
+}

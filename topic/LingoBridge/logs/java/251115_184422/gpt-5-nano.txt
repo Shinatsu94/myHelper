@@ -1,0 +1,71 @@
+80
+改進建議：建議改為字串處理以支援任意長度的數字，並補上標頭註解與有意義的變數命名以提升可讀性與正確性。
+
+修改說明：
+- 改用字串方式逐位檢查，適用於任意長度的數字，不再僅限於三位數，避免前綴重複數字或超過三位數時的錯誤判斷。
+- 加入程式檔案標頭註解與內部註解，提升可讀性與可維護性。
+- 使用更具意義的類別名稱與變數命名，保持語法正確且易於理解。
+- 保留單次輸入與單次輸出，符合題目要求。
+
+以下為修改後完整程式碼：
+
+/*
+檔案名稱: WellOrderedNumber.java
+功能: 判斷輸入的數字各位數字是否嚴格自左至右遞增
+作者: 教授
+日期: 2025-11-15
+說明: 使用字串處理，檢查相鄰位數字是否嚴格遞增，支援任意長度的正整數。
+*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            String line = br.readLine();
+            if (line == null) return;
+
+            // 取得第一個 token，避免輸入中有多餘空白
+            line = line.trim();
+            String token = line.split("\\s+")[0];
+
+            // 移除可能的前置 '+'
+            if (token.startsWith("+")) token = token.substring(1);
+
+            boolean isWellOrdered = true;
+
+            // 空字串不是有效數字
+            if (token.length() == 0) {
+                isWellOrdered = false;
+            } else if (token.charAt(0) == '-') {
+                // 負數不在有效的正整數範疇內，視為非遞增
+                isWellOrdered = false;
+            } else {
+                // 檢查每一位是否嚴格遞增
+                for (int i = 1; i < token.length(); i++) {
+                    char prev = token.charAt(i - 1);
+                    char curr = token.charAt(i);
+                    // 非數字字元視為不規範
+                    if (!Character.isDigit(prev) || !Character.isDigit(curr)) {
+                        isWellOrdered = false;
+                        break;
+                    }
+                    if (curr <= prev) {
+                        // 若當前位元不大於前一位，則不符合遞增
+                        isWellOrdered = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isWellOrdered) {
+                System.out.println(token + " is well-ordered number.");
+            } else {
+                System.out.println(token + " is not well-ordered number.");
+            }
+        } catch (Exception e) {
+            // 輸入或處理過程中若有異常，避免輸出莫名其妙內容
+        }
+    }
+}

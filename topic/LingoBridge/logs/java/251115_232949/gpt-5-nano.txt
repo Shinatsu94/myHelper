@@ -1,0 +1,48 @@
+總分：90
+
+改進建議（一句話）
+建議將檔案註解放在檔案頂端、變數命名更具描述性，並把找最大/最小的邏輯抽成獨立方法以提升可讀性與可維護性，同時保留使用三元運算子的作法。
+
+修改說明與原因
+- 將程式標頭註解搬到檔案頂端，方便閱讀與維護，符合程式檔案的慣例。
+- 將變數改為具描述性的名稱（如 a,b,c 改為 num1,num2,num3），提升可讀性。
+- 將找最大值與最小值的邏輯抽成兩個獨立方法 maxOfThree 與 minOfThree，保持原有以三元運算子實作的需求，同時提高可重用性與可測試性。
+- 中間值（mid）的計算改為 sum - max - min 的方式，避免多餘比較，同時顯式使用 long 以降低整數溢位風險。
+- 主函式簽名使用現代風格：public static void main(String[] args)，並在結尾關閉 Scanner 以清理資源。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343119_1003_2.java
+功能: 從輸入中取得三個整數，使用兩種不同的方法找出最大值、最小值與中間值，並輸出最小值、中間值、最大值。不得使用 if-else。
+作者: 金宗翰
+日期: 2025/10/03
+*/
+public class CSIE_41343119_1003_2 {
+    public static void main(String[] args) {
+        java.util.Scanner scn = new java.util.Scanner(System.in);
+        int num1 = scn.nextInt();
+        int num2 = scn.nextInt();
+        int num3 = scn.nextInt();
+
+        int max = maxOfThree(num1, num2, num3);
+        int min = minOfThree(num1, num2, num3);
+        long sum = (long)num1 + num2 + num3;
+        long mid = sum - max - min; // 中間值，使用與最大、最小值不同的計算方式
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scn.close();
+    }
+
+    // 使用三元運算子實作，找出三個數中的最大值
+    private static int maxOfThree(int a, int b, int c) {
+        return (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+    }
+
+    // 使用三元運算子實作，找出三個數中的最小值
+    private static int minOfThree(int a, int b, int c) {
+        return (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+    }
+}

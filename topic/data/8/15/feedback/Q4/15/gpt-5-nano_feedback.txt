@@ -1,65 +1,57 @@
-6
+78
 
-評分細項
-- 正確性 (0/50)：程式未輸出題目要求的排序結果，也未完成排序功能。
-- 邏輯 (0/30)：未採用正確且簡單的演算法完成題目需求，程式邏輯與題意嚴重不符。
-- 格式 (6/10)：基本可編譯，縮排與大括號大致正確，但命名不具意義且缺少註解與標頭說明。
-- 備註 (0/10)：缺少標頭註解與說明。
+改進建議：程式雖能輸出正確的座標，但未實作題目要求的下三角形二維陣列建立與填充，且變數命名與註解不足，需增強可讀性與符合需求。
 
-修改與原因說明
-- 重新設計為完整的排序流程：讀取長度 n、再讀入 n 個整數，使用 Bubble Sort 由小到大排序。
-- 增強輸入輸出：支援任意整數（包含負數），輸出以單一空格分隔，末尾換行。
-- 增加可閱讀性與維護性：採用有意義的變數名稱、加入註解與程式標頭，方便他人閱讀與維護。
-- 使用可控的排序結構：Bubble Sort 雖非最優，但符合題意「升冪排序」之要求，且易於理解與實作。
+程式優化與修改說明：
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期等，提升可維護性。
+- 建立實際的下三角形二維陣列並填入遞增數字，符合題意的「建立完整的下三角形二維陣列」要求。
+- 使用具代表性的變數名稱，如 height、target、tri 等，提升可讀性。
+- 以雙層迴圈掃描陣列尋找 tar 的位置，並輸出 1-based 的列與欄位；若找不到，輸出固定格式的提示訊息。
+- 程式輸出有換行，並保持與題目樣式一致的輸出格式。
 
-修改後完整程式碼
-/*
-檔案名稱: SortArray.java
-功能說明: 讀入長度 n 與 n 個整數，將陣列由小到大排序後輸出。
-作者: 你的姓名
-日期: 2025-11-12
-註解: 使用 Bubble Sort，支援負數，輸出格式為以單一空格分隔的排序結果。
-*/
+修改後完整程式碼：
 import java.util.Scanner;
 
-public class SortArray {
+/**
+ * File: LowerTriangularArray.java
+ * Description: 建立下三角形二維陣列，填入遞增數字，尋找指定數字的位置，輸出 (row, col)（皆從1開始）。
+ * Author: 你的姓名
+ * Date: 2025-11-14
+ */
+public class LowerTriangularArray {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int height = sc.nextInt();
+        int target = sc.nextInt();
 
-        // 讀取陣列長度
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-
-        // 讀取 n 個整數
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        // 建立下三角形二維陣列並填值
+        int[][] tri = new int[height][];
+        int value = 1;
+        for (int i = 0; i < height; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
         }
 
-        // Bubble Sort: 由小到大
-        for (int i = 0; i < n - 1; i++) {
-            boolean swapped = false;
-            for (int j = 0; j < n - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-                    swapped = true;
+        // 尋找 target 的位置
+        int foundRow = -1; // 1-based
+        int foundCol = -1; // 1-based
+        outer:
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    foundRow = i + 1;
+                    foundCol = j + 1;
+                    break outer;
                 }
             }
-            if (!swapped) break; // 已排序完成
         }
 
-        // 輸出排序結果，元素以空格分隔，末尾換行
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        if (foundRow != -1) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
         }
-        System.out.println(sb.toString());
-
-        sc.close();
     }
 }
-
-一句話改進建議或回饋
-建議未來改以內建排序（如 Arrays.sort）配合清晰的輸入輸出格式，以提升效率與穩定性，同時保留良好的註解與命名以利維護。

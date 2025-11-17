@@ -1,0 +1,84 @@
+總分: 74
+
+改進建議（一句話）
+建議改用實作真正的下三角二維陣列並補上標頭與適當註解，同時統一邊界判斷以符合題意與輸出格式。
+
+評分與分析（個別分數）
+- 正確性：40/50
+  - 程式大致能輸出正確位置，當 num 超出下三角範圍時能印出 not find，但對於不合理輸入（例如 num <= 0）使用了不符合題意的輸出「wrong」，可能在測試時出現不預期結果。
+- 邏輯：28/30
+  - 使用迴圈判斷 num 所在的行數，邏輯清晰且能處理超出範圍的情況；但未直接依題意建立實際的下三角陣列以驗證位置。
+- 格式：6/10
+  - 變數命名不夠直觀（例如 l、row 的含義不清），縮排與排版有些不一致，缺少區塊註解。
+- 備註：0/10
+  - 程式缺少檔案標頭註解（檔名、功能、作者、日期等）以及程式內容的註解。
+
+修改與優化重點（概述）
+- 移除不符合題意的「wrong」輸出條件，改以陣列最大值 max = n*(n+1)/2 進行邊界判斷，若 num 不在 [1, max]，輸出 not find。
+- 實作真正的下三角二維陣列，並依順序填入 1, 2, …，以符合題目的填充規則。
+- 直接在陣列中搜尋 num 的位置，並輸出行列（皆從 1 開始）。
+- 增加標頭註解與適當的程式註解，改善可讀性與維護性。
+- 使用較清晰的變數名稱（例如 height、max、row、col、array）。
+
+修改後的完整程式碼
+以下程式會建立一個下三角二維陣列，從左上角往下填充數字，若 num 在陣列範圍內則輸出位置，否則輸出 not find 的訊息。
+
+/**
+ * 檔名: LowerTriangularArray.java
+ * 功能: 建立下三角形二維陣列，輸入高度 n，填入從 1 開始的連續數字，找出 num 的位置（列與行，皆從 1 開始）。
+ * 作者: 教學評分系統
+ * 日期: 2025-11-14
+ * 說明: 未印出三角內容，僅輸出 num 的位置或找不到的訊息。
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularArray {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int num = in.nextInt();
+
+        // 若高度或數字不符合基本條件，直接回傳找不到的訊息
+        if (n <= 0) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        int max = n * (n + 1) / 2; // 下三角陣列的總元素數
+        if (num <= 0 || num > max) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 建立並填充下三角二維陣列
+        int[][] tri = new int[n][n];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 尋找 num 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == num) {
+                    foundRow = i + 1; // 轉換為從 1 開始的列
+                    foundCol = j + 1; // 轉換為從 1 開始的欄
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(num + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            // 理論上不會發生，因為 num 已在範圍內，但仍作安全處理
+            System.out.println("not find " + num + " in array.");
+        }
+    }
+}

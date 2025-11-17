@@ -1,0 +1,45 @@
+總分：86
+
+改進建議（一句話）：建議以更具可讀性的變數名稱與加入程式標頭註解來提升可維護性，同時保持不使用 if-else 的解法。
+
+修改說明與理由：
+- 將變數名稱改為有意義的名稱（num1/num2/num3 改為 first/second/third），提高可讀性。
+- 加入檔案標頭註解，包含檔案名稱、功能、作者與日期，符合作業要求的備註規範。
+- 增加適當的程式內容註解，說明每一段的目的，提升可理解性。
+- 保留使用三元運算子找出最大值與最小值的作法，並以 sum - max - min 的方式計算中間值，符合「兩種不同的方式」的要求。
+- 程式風格與縮排作適度調整，使整體更整潔。
+
+修改後完整程式碼：
+// 檔案名稱: CSIE_41343221_1003_2.java
+// 功能: 讀入三個整數，輸出最小值、中間值、最大值（分別一行輸出）
+// 作者: 你的名字
+// 日期: 2025-11-15
+// 備註: 依需求使用兩種不同的方法計算最大值與最小值，中間值以總和減去最大值與最小值取得
+
+import java.util.Scanner;
+
+public class CSIE_41343221_1003_2 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入三個整數
+        int first  = scanner.nextInt();
+        int second = scanner.nextInt();
+        int third  = scanner.nextInt();
+
+        scanner.close();
+
+        // 使用三元運算子找出最大值與最小值
+        int maxVal = (first > second) ? ((first > third) ? first : third) : ((second > third) ? second : third);
+        int minVal = (first < second) ? ((first < third) ? first : third) : ((second < third) ? second : third);
+
+        // 中間值以 sum - max - min 計算
+        int midVal = first + second + third - maxVal - minVal;
+
+        // 輸出順序：最小值、中間值、最大值
+        System.out.println(minVal);
+        System.out.println(midVal);
+        System.out.println(maxVal);
+    }
+}

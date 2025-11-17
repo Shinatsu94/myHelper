@@ -1,0 +1,39 @@
+76
+建議改進輸入為 0 的情況以及加入完整的程式頭註解與內容註解，以提升穩定性與可維護性。
+
+修改與優化說明（摘要）
+- 處理 0 的情況：若反轉後全為 0，輸出應為 "0" 而非空字串。
+- 使用更清晰的反轉與前導零移除邏輯，避免使用正則表達式带来的額外開銷與可能的誤解。
+- 加入適當的程式頭註解與內部註解，提升可讀性與維護性。
+- 程式命名與格式保持清晰，有利於日後維護。
+
+修改後完整程式碼
+/*
+ * File: ReverseDigits.java
+ * 功能: 將使用者輸入的整數字串反轉順序，並移除前導零；若結果為全零，輸出 0。
+ * 作者: [作者姓名]
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String num = input.nextLine().trim(); // 取得輸入並去除前後空格
+
+        // 反轉字串
+        String reversed = new StringBuilder(num).reverse().toString();
+
+        // 移除前導零；若結果為全為零，輸出 "0"
+        int i = 0;
+        while (i < reversed.length() && reversed.charAt(i) == '0') {
+            i++;
+        }
+        String result = (i == reversed.length()) ? "0" : reversed.substring(i);
+
+        System.out.println(result);
+
+        input.close();
+    }
+}

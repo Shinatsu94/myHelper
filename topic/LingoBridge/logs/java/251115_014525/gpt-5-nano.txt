@@ -1,0 +1,61 @@
+86
+
+改進回饋：
+建議加入程式標頭註解並改用符合 Java 命名慣例的變數命名、在輸出結尾加換行與適當關閉資源，以提升可維護性與穩定性。
+
+評分細項與說明：
+- 正確性（50/50）：程式能正確讀取長度與元素、執行排序，並輸出升冪排序結果，對含負數與任意長度的輸入皆適用。
+- 邏輯（28/30）：選擇排序實作簡單直覺且正確；原作未加入注釋與資源關閉、命名略顯違反慣例，若改善可提升可讀性與魯棒性。
+- 格式（8/10）：變數命名與命名慣例略有違規（如 sort_array、minimumindex），缺乏標頭註解與內文註解少，整體可讀性有待加強。
+- 備註（0/10）：缺少檔案標頭註解與說明，未註明檔名、功能、作者、日期等。
+
+修改說明與優化重點：
+- 使用 Arrays.sort(arr) 取代手寫的選擇排序，提升可讀性與穩定性，且在負數與各種長度輸入上更健全。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 變數命名改為符合 Java camelCase 的風格（如 arr、n），提升可讀性。
+- 使用 StringBuilder 拼接輸出，並在結尾輸出換行，以符合一般輸出格式要求。
+- 關閉 Scanner，釋放資源，提升程式穩定性與資源管理。
+
+修改後完整程式碼：
+以下為優化後的版本，含完整註解與標頭資訊，使用 Arrays.sort 進行排序，並附上換行輸出與資源關閉。
+
+/*
+ * 檔案名稱: CSIE_51015105_1031_1.java
+ * 功能: 讀取整數長度 n，輸入 n 個整數，對陣列做升冪排序，輸出排序結果，元素之間以空格分隔
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 備註: 使用 Arrays.sort 進行排序，輸出結尾換行，並在程式結束時關閉資源。
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_51015105_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = 0;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}

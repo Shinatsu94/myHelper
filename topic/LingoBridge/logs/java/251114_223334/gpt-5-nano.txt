@@ -1,0 +1,57 @@
+4
+
+改進建議：目前程式未符合題意，應改用陣列存放輸入的整數並以排序演算法輸出升冪序列，並支援負數與正確的輸出格式。
+
+修改與評語要點：
+- 正確性與邏輯：改為讀取長度 n、建立整數陣列 arr，讀入 n 個整數，使用 Arrays.sort(arr) 進行升冪排序，輸出整個排序後陣列。
+- 格式：變數命名改為清晰含意，保持適當縮排，並在程式開頭加入註解說明檔案功能與作者資訊。
+- 備註：新增適當的程式標頭註解，包含檔案名稱、功能、作者與日期。
+
+修改後的完整程式碼：
+```java
+/*
+檔案名稱: CSIE_41343226_1031_3B.java
+功能: 讀取一個整數 n，接著讀入 n 個整數，將其升冪排序，輸出排序後的陣列
+作者: 你的名字
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，支援負數，且輸出用空格間隔
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343226_1031_3B {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            // 沒有輸入長度，直接結束
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 輸入不足時用 0 填補，避免未初始化的情況
+                arr[i] = 0;
+            }
+        }
+
+        // 將陣列升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

@@ -1,74 +1,55 @@
-5
+89
+建議改進：改用字串輸入以保留前導零並避免整數溢出，同時加入輸入格式驗證與完整標頭註解，以提升魯棒性與可讀性。
 
-作業評分
-- 正確性：0
-- 邏輯：0
-- 格式：3
-- 備註：2
-總分：5
+修改說明與理由
+- 增加標頭註解：符合作業要求的程式標頭註解與說明，便於理解與維護。
+- 使用字串輸入取代整數轉換：可以保留前導零，避免整數溢出或破壞輸入格式，同時直接對字元進行比較。
+- 增加輸入與字元驗證：若遇到非數字字元或符號（如負號、正號等），會視為非遞增，提升魯棒性。
+- 保留原始輸入輸出：輸出時直接使用使用者輸入的字串，確保輸出與輸入格式一致（含前導零）。
+- 程式註解與命名：增加內部註解，變數命名保持清晰，提升可讀性。
 
-修改與優化說明
-- 原作業內容與題意嚴重不符，學生程式只做「判斷整數是否有序」的輸出，未計算 pi 近似值，也未依題意輸出指定格式。
-- 我提供的版本完整實作題目需求，包含兩個部份：
-  - (a) 依序計算 i = 10000, 20000, ..., 100000 的 pi 近似值，輸出格式為 i 至六位寬、pi 至十位小數，符合題目格式要求。
-  - (b) 找出最小的 i，使得 pi 的五位小數等於 3.14159，使用逐步累加 (累加第 n 項) 的方式逐步逼近，並以四捨五入到五位小數的結果判斷，符合題意。
-- 加入程式標頭註解，包含檔案名稱、功能、作者、日期，以及程式內容的適當註解。
-- 改善變數命名與格式化輸出，使可讀性提高，同時保留清楚的分段註解。
-
-修改後完整程式碼與說明
-檔案名稱: LeibnizPi.java
-功能: 依照 Leibniz 公式計算 pi 的近似值，輸出指定 i 值的 pi，以及找出最小的 i 使 pi 近似到 3.14159。
-作者: 教師
-日期: 2025-11-11
-
+完整修改後程式碼如下
 /*
-檔案名稱: LeibnizPi.java
-功能: 依照 Leibniz 公式計算 pi 的近似值，輸出指定 i 值的 pi，以及找出最小的 i 使 pi 近似到 3.14159。
-作者: 教師
-日期: 2025-11-11
+檔案名稱: CSIE_41343229_1017_2.java
+功能: 判斷輸入數字的各位數是否嚴格遞增，若是輸出 'X is well-ordered number.'，否則 'X is not well-ordered number.'
+作者: 資訊工程系 教授
+日期: 2025-11-15
 */
-public class LeibnizPi {
+public class CSIE_41343229_1017_2 {
     public static void main(String[] args) {
-        // Part (a)：輸出 i = 10000, 20000, ..., 100000 及對應的 pi 近似值
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double sum = 0.0;
-            // sum_{k=0}^{i-1} (-1)^k / (2k+1)
-            for (int k = 0; k < i; k++) {
-                double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-                sum += term;
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        String s = sc.next(); // 直接用字串輸入，保留原始格式
+        boolean wellOrdered = true;
+
+        // 基本檢查與遞增判斷
+        if (s.length() == 0) {
+            wellOrdered = false;
+        } else {
+            // 不是正負號開頭，且全為數字才可判定
+            if (s.charAt(0) == '-' || s.charAt(0) == '+') {
+                wellOrdered = false;
+            } else {
+                for (int i = 0; i < s.length() - 1; i++) {
+                    char a = s.charAt(i);
+                    char b = s.charAt(i + 1);
+                    if (!Character.isDigit(a) || !Character.isDigit(b)) {
+                        wellOrdered = false;
+                        break;
+                    }
+                    if (a >= b) { // 若前一位不小於下一位，則非遞增
+                        wellOrdered = false;
+                        break;
+                    }
+                }
             }
-            double pi = 4.0 * sum;
-            // i：六位寬度，pi：小數點後十位
-            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
         }
 
-        // Part (b)：找出最小的 i，使得 pi 四捨五入到五位小數等於 3.14159
-        double sum = 0.0;
-        int minI = -1;
-        for (int k = 0; ; k++) {
-            sum += ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            double pi = 4.0 * sum;
-            long rounded5 = Math.round(pi * 100000); // 四捨五入到五位小數，轉成整數比較
-            if (rounded5 == 314159) {
-                minI = k + 1;
-                break;
-            }
-            // 安全機制，避免無限迴圈
-            if (k > 20000000) {
-                break;
-            }
+        if (wellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
         }
-        System.out.printf("i = %d%n", minI);
+
+        sc.close();
     }
 }
-
-修改原因說明
-- 重新實作題目需求，讓程式能正確輸出問題中要求的 i 與 pi 之對應值，以及尋找最小 i 的結果。
-- 採用累加格式計算 pi，避免過度複雜化，同時使用適當的輸出格式確保符合題目規範。
-- 為提高可讀性與可維護性，新增程式標頭註解與內部說明註解。
-
-改進建議
-- 建議以單元測試驗證輸出格式與精度，並在正式提交前對輸出格式與數值精度再做一次自動化比對。
-
-一句話改進建議或反饋
-- 建議在正式提交前加入單元測試與格式檢查，並補充完整的程式註解與明確的輸入輸出規格說明。

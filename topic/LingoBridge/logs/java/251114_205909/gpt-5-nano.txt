@@ -1,0 +1,85 @@
+88
+
+改進建議：程式邏輯正確且直覺，但缺少標頭註解與可讀性提升，建議清楚命名與加入註解以利維護。
+
+修改說明與重點變更：
+- 移除不必要的 originalArray 變數，避免混淆與浪費記憶體。
+- 將排序方法從 SS 改名為 sortAscending，並加入註解以提升可讀性與可維護性。
+- 增加程式檔案標頭註解（檔案名稱、功能、作者、日期）以及程式內部註解，符合題目要求的備註規範。
+- 加入基本輸入檢查，對長度為負值時做防護，以及處理輸入不足的情況，提升健壯性。
+- 改善命名慣例與排版，維持一致縮排與更清晰的變數名稱，提升格式分數。
+- 保留原有核心演算法（選擇排序，O(n^2)），因其在任意長度陣列的需求下足以應付，且易於理解。
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_41343202_1031_1.java
+ * Description: 對輸入的一維整數陣列進行升序排序並輸出
+ * Author: 教授
+ * Date: 2025-11-14
+ * Note: 程式不使用 EOF，執行一次即結束。
+ */
+
+public class CSIE_41343202_1031_1 {
+
+    /**
+     * 將整數陣列 arr 以選擇排序法由小到大排序，直接改寫在原陣列中
+     */
+    public static void sortAscending(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+        }
+    }
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        int length = 0;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        }
+
+        // 若長度為負，先以 0 處理，避免無法預期的情況
+        if (length < 0) {
+            length = 0;
+        }
+
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免崩潰
+                array[i] = 0;
+            }
+        }
+
+        sortAscending(array);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+```
+
+說明修改部分的原因：
+- 移除未使用的 originalArray，降低資源浪費並提升程式清晰度。
+- 將方法命名改為 sortAscending，並加上註解，讓功能與用途更易於識別。
+- 新增檔案頭與程式內部註解，符合作業要求，方便他人快速理解程式內容與用途。
+- 增加輸入健壯性，避免在輸入位元不足或長度為負時造成例外或不預期行為。
+- 對輸出使用 StringBuilder 組裝再印出，效能較佳且可讀性提升。

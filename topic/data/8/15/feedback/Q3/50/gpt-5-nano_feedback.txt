@@ -1,50 +1,52 @@
-6
+83
 
-- 批改結果概述
-  - 正確性(50%): 0/50
-  - 邏輯(30%): 0/30
-  - 格式(10%): 6/10
-  - 備註(10%): 0/10
-  - 總分: 6/100
+此作業輸出結果正確且邏輯簡潔，但未依題意實作真正的二維陣列，且缺少程式標頭註解，建議加入完整註解並以 2D 陣列儲存再輸出以符合題意。
 
-- 修改後完整程式碼（可直接編譯執行）
+修改建議與說明：
+- 增加標頭註解與清晰的程式說明，提升可讀性與維護性。
+- 以 2D 陣列 char[][] 儲存下三角形的星號，將“填入”與“列印”分開處理，符合題目描述的建立二維陣列的要求，同時仍保持輸出格式不含空白。
+
+修改後完整程式碼如下：
+
 /*
- * 檔案名稱: Main.java
- * 功能: 將輸入的整數陣列由小到大排序，並輸出結果
- * 作者: 教授
- * 日期: 2025-11-12
- */
-import java.util.Arrays;
+File: PrintStar.java
+Description: 建立並列印下三角形之二維陣列，元素為 '*'
+Author: 教授
+Date: 2025-11-14
+*/
+
+// 依題意建立低三角形（下三角形）之二維陣列並輸出
 import java.util.Scanner;
 
-public class Main {
+public class PrintStar {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        int n = 0;
+
+        // 讀取輸入
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
         }
 
-        Arrays.sort(arr);
+        // 有效範圍檢查
+        if (n > 0 && n <= 20) {
+            // 使用 2D 陣列儲存下三角形的星號
+            char[][] tri = new char[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    tri[i][j] = '*';
+                }
+            }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            // 輸出整個下三角形陣列，未使用空白分隔字元
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    System.out.print(tri[i][j]);
+                }
+                System.out.println();
+            }
         }
-        System.out.println(sb.toString());
-        sc.close();
+
+        scanner.close();
     }
 }
-
-- 修改說明與原因
-  - 取代原本與題意無關的星號輸出邏輯，改為讀取一維整數陣列、排序並輸出，符合題目需求。
-  - 使用 Arrays.sort(int[]) 進行升冪排序，簡潔且穩定，便於閱讀與維護。
-  - 增加合理的程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與可維護性。
-  - 輸出格式使用空白分隔且不在末尾輸出多餘空格，符合常見輸出格式要求。
-  - 變數命名清晰：n 代表長度，arr 代表陣列，提升可讀性。
-  - 支援負數：int 本身支援負數，且 Arrays.sort 會正確排序負數與正數。
-
-- 一句話改進建議
-  建議在實作中加入輸入長度檢查與例外處理，若輸入數量不足或格式有誤，能給出友善的錯誤訊息或補救處理。

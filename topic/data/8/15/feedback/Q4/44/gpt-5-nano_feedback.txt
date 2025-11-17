@@ -1,79 +1,69 @@
-2
+38
 
-批改分數
-- 正確性(50%): 0/50
-  - 學生未實作題目需求的排序與輸入輸出邏輯，程式僅與題意無關的輸出（查找特定值的座標），未產生排序結果。
-- 邏輯(30%): 0/30
-  - 題意需要先讀長度、再讀取該長度的整數並排序，且輸出排序後的結果；目前邏輯與需求脫節，且含混的條件與輸出。
-- 格式(10%): 2/10
-  - 程式有基本縮排，但命名不符合直觀含意且缺乏統一風格與註解，且程式結構不清晰。
-- 備註(10%): 0/10
-  - 無程式標頭註解（檔案名稱、功能、作者、日期等）。
+改進建議：此程式未正確計算數字在下三角陣列中的位置，也未實作實際的下三角2D陣列，只靠數字與公式推算，容易在一般情況出現錯誤；建議改用實作完整的下三角陣列並以穩健的搜尋找出位置，同時補上程式標頭與註解，並符合輸出格式。
 
-修改說明與修改後完整程式碼
-原因與重點變更：
-- 以符合題意的功能實作：讀取整數長度 n，接著讀入 n 個整數，將陣列排序，最後以空格分隔輸出排序結果。
-- 使用 Arrays.sort 進行排序，支援負數與任意長度陣列，時間複雜度 O(n log n)。
-- 輸出格式改為一行中以空格分隔的數字，結束後換行。
-- 增加程式標頭註解，包含檔案名稱、功能、作者與日期等，以符合備註要求。
-- 為適應評測環境，避免使用 EOF 並在一次執行後結束。
+修改說明與原因（要點）
+- 建立真正的下三角陣列：使用 jagged array int[][] tri，讓第 i 行有 i+1 個元素，並逐格填入遞增數字，符合題意。
+- 先計算最大數值上限 maxVal = n(n+1)/2，若 target 大於 maxVal，直接輸出 "not find ..."，避免不必要的搜尋。
+- 若在陣列中搜尋，採用雙層迴圈依序尋找 tri[i][j] == target，找到即輸出 "target[row, col]"，行列編號從 1 開始，與題目輸出格式一致。
+- 加入標頭註解與適當註解，變數命名清晰，提升可讀性與維護性。
 
-修改後完整程式碼（以 SortArrayAscending.java 為檔名，對應類別名稱 SortArrayAscending）：
-
+修改後完整程式碼
 ```java
-/**
- * 檔案名稱: SortArrayAscending.java
- * 功能: 讀取整數長度 n，接著輸入 n 個整數，將陣列排序並輸出排序結果（由小到大）。
- * 作者: 你的名稱
- * 日期: 2025-11-12
- * 註解: 程式標頭包含檔案名稱、功能、作者、日期；內容含必要註解說明
+/*
+ * File: LowerTriangularIndex.java
+ * 功能: 建立下三角形二維陣列，並找到指定數字在陣列中的位置
+ * 作者: 你的名字
+ * 日期: 2025-11-14
  */
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class SortArrayAscending {
+public class LowerTriangularIndex {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 讀取陣列長度
-        if (!scanner.hasNextInt()) {
-            System.out.println();
-            return;
-        }
-        int n = scanner.nextInt();
-        int[] arr = new int[n];
+        int n = scanner.nextInt();      // 陣列高度
+        int target = scanner.nextInt(); // 要尋找的數字
 
-        // 讀取 n 筆整數
+        // 建立下三角形陣列 (jagged array) 並填入遞增值
+        int[][] tri = new int[n][];
+        int val = 1;
         for (int i = 0; i < n; i++) {
-            if (scanner.hasNextInt()) {
-                arr[i] = scanner.nextInt();
-            } else {
-                // 不足元素時，直接結束並輸出空行
-                System.out.println();
-                return;
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
             }
         }
 
-        // 排序
-        Arrays.sort(arr);
-
-        // 輸出，元素以單一空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        int maxVal = n * (n + 1) / 2;
+        if (target > maxVal) {
+            System.out.print("not find " + target + " in array.");
+        } else {
+            boolean found = false;
+            for (int i = 0; i < n && !found; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (tri[i][j] == target) {
+                        // 輸出格式：num[row, col]，row, col 從 1 開始
+                        System.out.print(target + "[" + (i + 1) + ", " + (j + 1) + "]");
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                System.out.print("not find " + target + " in array.");
+            }
         }
-        System.out.println(sb.toString());
+
+        // scanner.close(); // 需要時可關閉資源
     }
 }
 ```
 
-修改部分說明重點：
-- 重新實作成排序輸入輸出功能，移除原本不相關的查找邏輯。
-- 使用 Arrays.sort 直接對整數陣列排序，並確保負數也能正確處理。
-- 輸出格式統一為空格分隔的單行輸出，符合題目範例。
-- 增加標頭註解與適當註解，提升可閱讀性與維護性。
+說明修改影響的部分
+- 將原先的單一循環與不正確的欄位計算改為實作完整下三角陣列，並以雙層搜尋確保在所有合法輸入下都能找出正確位置。
+- 引入最大值檢查，避免不在陣列範圍內的查找浪費計算資源。
+- 增加程式標頭與內部註解，提升可讀性與維護性，同時符合作業題目的註解要求。
 
-一句話改進建議或反饋
-- 建議在提交前先根據題意寫出最小可運作版本，逐步增加元件與註解，並避免引入與需求無關的程式邏輯。
+如需，我也可以針對大數量輸入或不同輸出格式再做微調。

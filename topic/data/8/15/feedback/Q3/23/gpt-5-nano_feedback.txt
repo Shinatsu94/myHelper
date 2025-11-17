@@ -1,39 +1,31 @@
-6
+4
 
-評分明細：
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 6/10
-- 備註: 0/10
-總分：6/100
+此作業未實作排序與輸出，需改為讀取 n 與 n 個整數，使用陣列排序並以空格輸出。
 
-修改後程式碼：
+改進建議與修改說明
+- 修改說明要點：改用陣列存放輸入的整數，使用 Arrays.sort 進行升序排序，最後以空格分隔輸出結果，並加入程式標頭註解與基本註解以提升可讀性與維護性。
+- 修改原因：原程式僅輸出一個星號階層並未讀取完整輸入與排序，與題目需求嚴重不符；使用陣列與排序函式能清楚且正確地完成題目要求，且輸出格式與負數支援皆已涵蓋。
+
+修改後完整程式碼
+```java
 /*
-檔案名稱：SortArray.java
-功能：讀取長度 n，接著讀入 n 個整數，對陣列升冪排序，輸出排序後的陣列內容
-作者：XXX
-日期：YYYY-MM-DD
+檔案名稱: S2.java
+功能: 讀入長度 n 與 n 個整數，輸出升序排序結果
+作者: 教授
+日期: 2025-11-14
 */
-import java.util.Arrays;
-import java.util.Scanner;
 
-public class Main {
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class S2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
         int n = sc.nextInt();
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                a[i] = sc.nextInt();
-            } else {
-                a[i] = 0; // 若輸入不足，預設為 0
-            }
+            a[i] = sc.nextInt();
         }
-        sc.close();
 
         Arrays.sort(a);
 
@@ -42,16 +34,9 @@ public class Main {
             if (i > 0) sb.append(' ');
             sb.append(a[i]);
         }
-        System.out.println(sb.toString());
+
+        System.out.print(sb.toString());
+        sc.close();
     }
 }
-
-修改說明：
-- 由原先的星星輸出改為實作題目需求：先讀取長度 n，接著讀入 n 個整數，最後對整數陣列排序再輸出。
-- 使用 Arrays.sort(a) 進行排序，穩定且效率較高，能正確處理包含負數的情況。
-- 輸出使用 StringBuilder，確保輸出不會出現尾端多餘空格，且效能較直接拼接好。
-- 加入程式頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可讀性。
-- 變數命名與程式結構調整為符合一般 Java實作慣例，使用 public class Main，與簡潔的流程控制。
-
-改進建議（一句話）：
-若要提升效能，建議改用 BufferedInputStream（或 BufferedReader 搭配自訂解析器）取代 Scanner，以便在大輸入量情境中更快地讀取資料，同時保持輸出格式的嚴謹。
+```

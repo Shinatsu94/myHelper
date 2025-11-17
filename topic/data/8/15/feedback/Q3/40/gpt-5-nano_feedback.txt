@@ -1,56 +1,51 @@
-8
+86
 
-修改後完整程式碼：
-```java
+建議改用二維陣列實作以符合題意的資料結構描述，並補上程式檔案標頭註解以提升可讀性與維護性。
+
+修改說明與重點改動
+- 使用二維字元陣列 (char[][]) 存放下三角形的星號，符合「二維陣列」的題意描述。
+- 直接由二維陣列產出輸出，避免不必要的字串聚合與儲存，降低記憶體使用與提高可讀性。
+- 增加標頭註解，說明檔案名稱、功能與日期，提升專案維護性。
+- 使用更符合 Java 常規的類別名稱 LowerTrianglePrinter，並保持合法的輸入驗證機制。
+
+修改後完整程式碼
 /*
- * 檔案名稱: SortArray.java
- * 功能說明: 讀取使用者輸入的長度 n 與 n 個整數，將它們由小到大排序，並輸出排序結果（以空格分隔，一行輸出）
+ * 檔案名稱: LowerTrianglePrinter.java
+ * 功能: 建立並列印高度為 n 的下三角形二維陣列，輸出每行連續的 '*'，且無空格。
  * 作者: 教師
- * 日期: 2025-11-12
+ * 日期: 2025-11-14
  */
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class SortArray {
+public class LowerTrianglePrinter {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // 1) 讀取長度 n
         int n = sc.nextInt();
-        if (n <= 0) {
-            sc.close();
+        sc.close();
+
+        // 0 < n <= 20 的限制檢查
+        if (n <= 0 || n > 20) {
             return;
         }
 
-        // 2) 讀取 n 個整數，存入一維陣列
-        int[] arr = new int[n];
+        // 以二維陣列方式建立下三角形：grid[i][j] = '*' 只在 j <= i 的位置
+        char[][] grid = new char[n][n];
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            for (int j = 0; j <= i; j++) {
+                grid[i][j] = '*';
+            }
         }
 
-        // 3) 將陣列排序（由小到大）
-        Arrays.sort(arr);
-
-        // 4) 輸出排序後的陣列，元素以空格分隔
-        StringBuilder sb = new StringBuilder();
+        // 逐行輸出：每行輸出從 j=0 到 j=i 的 '*'，不輸出其他位置
+        StringBuilder line = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            line.setLength(0);
+            for (int j = 0; j <= i; j++) {
+                line.append(grid[i][j]);
+            }
+            System.out.println(line.toString());
         }
-        System.out.println(sb.toString());
-
-        sc.close();
     }
 }
-```
-
-修改說明與原因：
-- 將原本與題目不符的下三角形字串產生與輸出邏輯移除，改為實作題目需求的單維整數陣列排序與輸出。
-- 使用一維整數陣列存放使用者輸入的 n 個整數，直接呼叫 Arrays.sort 進行排序，語意清晰且效率良好（O(n log n)）。
-- 輸入處理改為逐一讀取 n 個整數，確保能正確處理含負數的情況，且符合「避免使用 EOF、執行一次程式結束」的要求。
-- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升可閱讀性與可維護性；變數與程式碼風格亦做適度命名與縮排調整。
-- 程式結構清楚：輸入 -> 排序 -> 輸出，利於日後維護與單元測試。
-
-一句話建議或反饋：
-- 建議在輸入階段加入基本例外處理與驗證（例如當輸入不足時的錯誤訊息或替代處置），以增強程式的健壯性與可用性。

@@ -1,53 +1,55 @@
-6
+92
+
+改進建議：程式正確完成下三角形輸出，但需提升註解與命名、加入輸入範圍驗證、並整理標頭訊息以符合題意。
+
+優化說明與變更重點：
+- 修正程式標頭與類別名稱，使其語意與題目相符，避免與實際功能不符。
+- 加入輸入範圍驗證（n 在 0 < n <= 20 之間），若不符合則輸出錯誤訊息並結束，提升穩健性。
+- 使用有意義的變數命名與結構，讓程式易讀。
+- 從驅動角度優化：使用 Arrays.fill 直接填滿每列的 '*'，簡化邏輯。
+- 完整關閉 Scanner，避免資源遺漏。
+- 保留原本需要的輸出結果格式，使用 System.out.println 逐行輸出，保持與題意一致。
 
 修改後完整程式碼：
-/*
- 程式名稱: ArraySortAscending
- 作者: 教師批改
- 日期: 2025/11/12
- 功能: 讀取長度 n，接著 n 個整數，將其由小到大排序並輸出
-*/
+```java
 import java.util.Scanner;
 import java.util.Arrays;
 
-public class ArraySortAscending {
+public class LowerTriangularStars {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        int n = 0;
 
-        // 讀取陣列長度
-        if (!in.hasNextInt()) {
+        if (in.hasNextInt()) {
+            n = in.nextInt();
+        } else {
+            in.close();
             return;
         }
-        int n = in.nextInt();
 
-        // 讀取 n 個整數並存入陣列
-        int[] arr = new int[n];
+        // 輸入驗證：n 必須在 (0, 20] 之間
+        if (n <= 0 || n > 20) {
+            System.err.println("n 必須在 (0, 20] 之間");
+            in.close();
+            return;
+        }
+
+        // 建立下三角形的二維陣列，並填入 '*'
+        char[][] arr = new char[n][];
         for (int i = 0; i < n; i++) {
-            if (in.hasNextInt()) {
-                arr[i] = in.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，給定預設值
+            arr[i] = new char[i + 1];
+            Arrays.fill(arr[i], '*');
+        }
+
+        // 列印下三角形矩陣
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(arr[i][j]);
             }
+            System.out.println();
         }
 
-        // 排序
-        Arrays.sort(arr);
-
-        // 輸出排序後的陣列，元素之間以單一空格分隔，末尾不留多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
-        System.out.println(sb.toString());
+        in.close();
     }
 }
-
-修改說明（重點修改的部分以及原因）：
-- 將原程式中使用的二維 char 陣列與星號輸出，改為一維 int 陣列以存放輸入的整數，符合題意的數值型資料處理需求，避免無意義的字符輸出。
-- 使用 Java 標準庫的 Arrays.sort 直接對整數陣列進行升序排序，提升正確性與實作效率，並讓程式更易維護。
-- 以 Scanner 進行輸入，直接逐一讀取 n 與 n 個整數，支援包含負數的情況；最後以 StringBuilder 組裝輸出，避免尾端多餘空格，符合輸出格式要求。
-- 增加程式標頭註解，明確說明檔案名稱、功能、作者與日期，並在程式內加入必要註解，提升可讀性與可維護性。
-
-一句話改進建議或反饋：
-- 請直接按照題目需求處理整數輸入與排序，避免不相關的資料結構與輸出，並在提交前用負數與多組測資進行驗證以確保魯棒性。
+```

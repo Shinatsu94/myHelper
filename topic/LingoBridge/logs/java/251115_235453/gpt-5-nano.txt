@@ -1,0 +1,49 @@
+72
+
+改進建議與反饋（一句話）
+ mid 的計算在出現兩個數值等於最大值的情況下會產生錯誤，建議改以總和減去最小值與最大值的方式取得中間值，並補上程式標頭註解以符合作業規範。
+
+程式優化與修改說明
+- 新增標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與作業規範符合度。
+- 保持使用兩個三元運算子的分步法計算最大值與最小值；新增了 mid 的穩健計算方式：mid = a + b + c - max - min，能正確處理三數中出現重複值的情況。
+- 最後輸出按由小到大順序的 min、mid、max。
+- 關閉 Scanner 以釋放資源，並對程式碼排版做些微整理以提升可讀性。
+
+修改後完整程式碼
+```java
+/*
+Filename: CSIE_51015130_1003_2.java
+Description: 此程式讀取三個整數，利用兩種不同的方式（兩次三元運算分步求最大/最小，並以總和減去最大與最小取得中間值）計算 max、mid、min，並輸出由小到大的順序：min、mid、max。
+Author: 教授
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_51015130_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 最大值：兩步用三元運算子
+        int max = (a > b) ? a : b;
+        max = (max > c) ? max : c;
+
+        // 最小值：兩步用三元運算子
+        int min = (a < b) ? a : b;
+        min = (min < c) ? min : c;
+
+        // 中間值：總和減去最大與最小，適用於任意重複情形
+        int mid = a + b + c - max - min;
+
+        // 輸出：由小到大
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}
+```

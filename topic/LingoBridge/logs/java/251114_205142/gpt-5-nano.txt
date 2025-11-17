@@ -1,0 +1,47 @@
+87
+改進建議：建議補上標頭註解、使用更具意義的變數命名，並在輸出結尾加上換行以提升可讀性與相容性。
+
+修改內容與原因：
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將變數命名改為更具意義的名稱，例如 n（長度）、arr（陣列），提升可讀性與維護性。
+- 輸出結尾加上換行，避免不同測資環境的輸出格式差異。
+- 程式內容加入適當的內部註解，說明步驟與邏輯，增強可維護性。
+- 關閉 Scanner（資源釋放）以良好作法。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * File: CSIE_41343111_1031_1.java
+ * Description: 將輸入的任意長度整數陣列進行升冪排序，輸出排序結果。
+ * Author: 教授
+ * Date: 2025-11-14
+ */
+public class CSIE_41343111_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入陣列元素
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔，並在結尾換行
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        // 關閉資源
+        scanner.close();
+    }
+}

@@ -1,0 +1,52 @@
+88
+
+改進建議（簡要一句話）
+建議改用字串處理以避免整數長度上限造成的溢位，同時提升命名可讀性與加入完整的程式標頭註解。
+
+修改與優化說明
+- 為避免長整數反轉時可能的溢位風險，改用字串方式處理輸入與反轉。
+- 將變數命名改為更具意義的名稱，如 isNegative、input、reversed、trimmed，提升可讀性與維護性。
+- 加入完整的程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註標準。
+- 仍維持單次執行與單輸入、單輸出特性，確保符合題目要求。
+- 保留負號處理，正確輸出如 -120 => -21、2500 => 52、0 => 0。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343229_1017_3.java
+功能: 將使用者輸入的整數之位數反轉，負數保留符號，零與前導零自動移除
+作者: 教授
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343229_1017_3 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            String input = sc.next(); // 以字串方式讀取，避免整數溢位
+            boolean isNegative = false;
+
+            if (input.startsWith("-")) {
+                isNegative = true;
+                input = input.substring(1);
+            } else if (input.startsWith("+")) {
+                input = input.substring(1);
+            }
+
+            // 反轉字元
+            String reversed = new StringBuilder(input).reverse().toString();
+
+            // 移除前導零
+            int idx = 0;
+            while (idx < reversed.length() && reversed.charAt(idx) == '0') idx++;
+            String trimmed = (idx == reversed.length()) ? "0" : reversed.substring(idx);
+
+            if ("0".equals(trimmed)) {
+                System.out.println("0");
+            } else if (isNegative) {
+                System.out.println("-" + trimmed);
+            } else {
+                System.out.println(trimmed);
+            }
+        }
+    }
+}

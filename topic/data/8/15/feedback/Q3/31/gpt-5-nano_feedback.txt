@@ -1,60 +1,42 @@
-4
+86
+改進建議：補上檔案標頭註解，並改用二維陣列實作以符合題意，同時保持清楚的程式結構與註解。
 
-修改後完整程式碼：
-import java.util.*;
+程式碼優化說明與修改重點
+- 需求變更：原程式未真正建立二維陣列，改為使用二維陣列（char[][]）來儲存下三角星號，再輸出。這樣可以更符合題目「建立一個下三角形的二維陣列」的要求。
+- 變數與結構：保留合理的輸入驗證（0 < n <= 20），並用清晰的註解說明，提升可讀性與維護性。
+- 設計原則：先填滿二維陣列中的下三角區域，再逐行輸出，確保輸出不含多餘空白符號，符合題意。
+- 風格：加入適當的註解與更具語意的變數說明，維持良好的縮排與格式。
+
+修改後完整程式碼
+import java.util.Scanner;
 
 public class CSIE_41343203_1031_3a {
-    /*
-     * 檔案名稱: CSIE_41343203_1031_3a.java
-     * 功能說明: 讀取整數 n，接著讀入 n 個整數，將其由小到大排序後輸出成一行，中間以單一空格分隔。
-     * 作者: (請自行填寫)
-     * 日期: 2025-11-12
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // 讀取長度 n
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
         int n = sc.nextInt();
-        if (n <= 0) {
+
+        // 輸入驗證：0 < n <= 20
+        if (n <= 0 || n > 20) {
             sc.close();
             return;
         }
 
-        // 讀入 n 個整數
-        int[] arr = new int[n];
+        // 使用二維陣列儲存下三角形的星號
+        char[][] tri = new char[n][n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
             }
         }
-        sc.close();
 
-        // 升冪排序
-        Arrays.sort(arr);
-
-        // 輸出，中間以空格分隔，無 trailing 空格
-        StringBuilder sb = new StringBuilder();
+        // 輸出：逐行列印前 i+1 個星號，無空格
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j <= i; j++) {
+                System.out.print(tri[i][j]);
+            }
+            System.out.println();
         }
-        System.out.print(sb.toString());
+
+        sc.close();
     }
 }
-
-修改說明：
-- 從原本輸出星號圖形的邏輯，改為正確的數值輸入與排序流程，避免與題目需求不符。
-- 使用陣列 arr 儲存 n 個整數，並用 Arrays.sort(arr) 執行升冪排序，時間複雜度為 O(n log n)，符合一般排序需求。
-- 輸出改為空格分隔，確保沒有多餘的尾端空格，與需求輸出格式一致。
-- 增加程式標頭註解與程式內註解，提升可讀性與維護性。
-- 移除硬性長度限制（原程式限制 n <= 20），改以實際讀入的 n 作為陣列長度，讓題目可以處理任意長度（受限於資源）。
-
-一句話改進建議/反饋：
-直接使用陣列與 Arrays.sort 的方式能正確且高效地完成排序任務，同時加上標頭註解與適當輸出格式可提升可讀性與可維護性。

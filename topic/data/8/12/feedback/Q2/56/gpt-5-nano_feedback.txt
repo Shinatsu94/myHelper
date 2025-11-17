@@ -1,57 +1,55 @@
-0
+總分：90
 
-修改後完整程式碼（請另存為 Main.java，或依需求改名為適當的檔名）：
+建議回饋（一句話）：整體正確且邏輯清晰，但缺少檔案標頭註解與較佳的變數命名與註解，建議加入檔案標頭並將邏輯整理為單一方法以提升可維護性。
 
-/*
-檔案名稱: Main.java
-功能說明: 根據題目要求輸出 pi 的近似值與對應的 i，並計算滿足特定條件的最小 i。
-作者: 教學助理
-日期: 2025-11-12
-說明: (a) 對 i=10000,20000,...,100000 計算 pi 的近似值，輸出 i 及 pi（pi 顯示十位小數）。
-      (b) 找到以 Leibniz 公式近似 pi 時，四捨五入到小數點後五位為 3.14159 的最小 i，並輸出該 i。
-*/
-public class Main {
+修改與優化說明（重點逐條說明）：
+- 新增檔案標頭註解，符合備註欄位的要求，讓程式檔案資訊更清晰。
+- 將核心判定抽成單一方法 isWellOrdered，使主流程簡潔，符合單一職責原則，並提升可維護性與測試性。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源洩漏的風險。
+- 變數命名改為 input 與 isWellOrdered，提升可讀性。
+- 將原本多層的 ok 標誌邏輯改為直接回傳布林值，簡化邏輯與降低錯誤概率。
+
+以下為修改後的完整程式碼：
+
+```java
+/**
+ * File: CSIE_41343238_1017_2.java
+ * Description: Determine whether a given number's digits are strictly increasing from left to right.
+ * Author: 教師
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343238_1017_2 {
     public static void main(String[] args) {
-        // (a) 逐步計算 pi 的近似值，i 為項數，從 10000 到 100000，每次增加 10000
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double sum = 0.0;
-            // sum_{k=0}^{i-1} (-1)^k / (2k+1)
-            for (int k = 0; k < i; k++) {
-                double term = ((k & 1) == 0) ? 1.0 : -1.0;
-                sum += term / (2.0 * k + 1.0);
-            }
-            double pi = 4.0 * sum;
-            System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-        }
+        try (Scanner sc = new Scanner(System.in)) {
+            String input = sc.nextLine().trim();
+            boolean isWellOrdered = isWellOrdered(input);
 
-        // 警告：輸出與題目格式要求中間需要一個空行
-        System.out.println();
-
-        // (b) 找到最小的 i，使得 pi 的近似值四捨五入到小數點後五位等於 3.14159
-        // 也就是 pi 近似值的四捨五入值為 3.14159 時的最小 i
-        double sum = 0.0;
-        int iTerm = 0;
-        final long TARGET_ROUNDED = 314159; // 3.14159 * 1e5
-        while (true) {
-            int k = iTerm;
-            double term = ((k & 1) == 0) ? 1.0 : -1.0;
-            sum += term / (2.0 * k + 1.0);
-            double pi = 4.0 * sum;
-            long rounded = Math.round(pi * 100000.0);
-            if (rounded == TARGET_ROUNDED) {
-                System.out.println("i = " + (iTerm));
-                break;
+            if (isWellOrdered) {
+                System.out.println(input + " is well-ordered number.");
+            } else {
+                System.out.println(input + " is not well-ordered number.");
             }
-            iTerm++;
         }
     }
+
+    // 判斷字串是否為「數字且其數字從左至右嚴格遞增」
+    private static boolean isWellOrdered(String s) {
+        if (s == null || s.length() == 0) return false;
+
+        // 檢查是否全為數字
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) return false;
+        }
+
+        // 檢查嚴格遞增
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i - 1) >= s.charAt(i)) return false;
+        }
+
+        return true;
+    }
 }
-
-修改說明與原因：
-- 內容對應性提升：原學生程式與題目毫無關聯，僅做數字排序檢查與輸出，與「計算 pi 近似值並輸出指定格式」的任務不符；本版本直接實作題目要求的計算與格式輸出。
-- 輸出格式的實作：使用 System.out.printf 帶入格式化輸出，確保 i 顯示為六位寬度且 pi 小數點後十位，符合題目要求的格式；在兩組輸出之間插入一個空行以符合示例。
-- 演算法與效率：對於( a )，使用直接的 Leibniz 公式累加，時間複雜度為 O(i)；對於( b )，採用逐次累加直到滿足四舍五入條件，最多計算到約 1.3 萬次項，實際需求為約 136,121 次項才符合題意的四捨五入條件。均使用 double 以保留精度。
-- 增加可讀性與可維護性：加入檔案頭註解說明檔案名稱、功能、作者與日期，並使用具述意義的變數名稱與註解，提升可讀性及維護性。
-
-一句話改進建議：
-- 建議將輸出格式與計算邏輯分成兩個函式，例如 computePi(int terms) 與 findMinimalIForRoundedPi(double target) 以提升可維護性與單元測試的可行性。
+```

@@ -1,0 +1,44 @@
+100
+改進建議：改用數字運算判斷以避免字串轉換，並加上對負數的處理以提升魯棒性。
+
+修改說明與修改內容：
+- 正確性與邏輯：改用長整數與數字運算逐位比較，避免字串轉換可能的開銷與極端情況，並正確處理單一數字與多位數的情況。
+- 格式：保持清晰的縮排與註解。
+- 備註：維持原有程式標頭註解與說明，同時補充清楚的註解說明。
+
+修改後完整程式碼：
+// date:2025/11/15
+// function: 判斷使用者輸入的數字是否為 well-ordered number
+// name&number: 輸入者資訊
+import java.util.Scanner;
+
+public class CSIE_41343240_1017_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        long num = sc.nextLong(); // 讀取單一輸入，使用 long 以避免整數溢位
+        if (isWellOrdered(num)) {
+            System.out.println(num + " is well-ordered number.");
+        } else {
+            System.out.println(num + " is not well-ordered number.");
+        }
+
+        sc.close();
+    }
+
+    // 判斷是否為 well-ordered number（嚴格遞增，使用數字運算避免字串轉換）
+    public static boolean isWellOrdered(long n) {
+        if (n < 0) return false; // 負數不視為 well-ordered
+        long last = n % 10;      // 最右邊的位數
+        n /= 10;
+        while (n > 0) {
+            long cur = n % 10;    // 往左一位
+            if (cur >= last) {    // 若左位數 >= 右位數，非嚴格遞增
+                return false;
+            }
+            last = cur;
+            n /= 10;
+        }
+        return true;
+    }
+}

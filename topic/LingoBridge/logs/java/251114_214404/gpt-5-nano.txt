@@ -1,0 +1,72 @@
+0
+
+改進建議：此作業的排序邏輯不正確且輸出與題意不符，建議改用直接的整數排序（如 Arrays.sort）並確保程式命名與註解齊全、輸出格式正確。
+
+- 評分說明與修改要點
+  - 正確性 (50%): 原程式會輸出 [12, 12, 5, 1, -1]，與題目預期 [1, 3, 5, 8, 12] 不符，因此判定為不正確。建議採用正統排序方法。
+  - 邏輯 (30%): 原有的「從右往左覆蓋並固定最後一個為 -1」的做法無法正確排序，且與題意不符，邏輯需要重新設計。
+  - 格式 (10%): 類別名稱未符合要求 public class Main，檔案命名與註解缺乏完整性，需符合作業規範。
+  - 備註 (10%): 程式頭註解不足，需包含檔案名稱、功能、作者、日期等。
+
+修改說明與重點
+- 直接使用整數排序（Arrays.sort）可確保負數與各種情況下皆能正確排序，且實作清晰。
+- 使用符合題意的輸入處理與輸出格式，確保輸出為單行、數字以空格分隔，末尾有換行。
+- 將檔案命名改為 Main.java，公有類別改為 public class Main，並加入適當的檔案頭註解以符合作業需求。
+
+修改後的完整程式碼
+```java
+/*
+ * 檔案名稱: Main.java
+ * 功能: 讀取長度 n 與 n 個整數，輸出升序排序結果
+ * 作者: (請填寫)
+ * 日期: (請填寫)
+ */
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String firstLine;
+        // 取得第一行的 n，忽略空白行
+        while ((firstLine = br.readLine()) != null) {
+            firstLine = firstLine.trim();
+            if (!firstLine.isEmpty()) break;
+        }
+        if (firstLine == null || firstLine.isEmpty()) {
+            System.out.println();
+            return;
+        }
+
+        int n = Integer.parseInt(firstLine);
+        int[] arr = new int[n];
+        int idx = 0;
+
+        // 讀取後續的 n 個整數，可能分佈在多行
+        while (idx < n) {
+            String line = br.readLine();
+            if (line == null) break;
+            StringTokenizer st = new StringTokenizer(line);
+            while (st.hasMoreTokens() && idx < n) {
+                arr[idx++] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        // 正確排序並輸出
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改說明摘要
+- 直接使用 Arrays.sort 取代原本的自實作排序，保證正確性且對負數支援良好。
+- 改為符合題目要求的檔案命名與公有類別名稱 Main，並加入檔案頭註解。
+- 增加穩健的輸入處理，能正確解析多行或多個空白分隔的數字，並輸出符合格式的排序結果。

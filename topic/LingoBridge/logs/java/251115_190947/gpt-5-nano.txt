@@ -1,0 +1,47 @@
+82
+
+建議：這份作業邏輯正確，但需考慮整數溢位風險、命名與可讀性，建議改用長整數型別並加入清晰註解與變數命名。
+
+修改內容與原因：
+- 將變數型別由 int 改為 long，並以 long 變數處理輸入與反轉，避免大數字導致溢位的問題。
+- 新增對負數的處理，保留符號並對絕對值進行反轉，符合「整數」的通用情況。
+- 使用更具描述性的變數名稱，如 inputValue、reversedValue、sign，以提升可讀性與維護性。
+- 程式結尾加入 sc.close()，針對資源釋放。
+- 增加檔案標頭註解，說明檔案名稱、功能、作者、日期，提升程式文件化程度。
+- 保留原本一次性執行的需求，輸入僅一次即可結束。
+
+修改後完整程式碼：
+```java
+/*
+File: CSIE_41343241_1017_3.java
+Description: Reverse digit order of an input integer
+Author: Teacher
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343241_1017_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長整數，避免溢位
+        long inputValue = sc.nextLong();
+        sc.close();
+
+        long sign = inputValue < 0 ? -1 : 1;
+        long n = Math.abs(inputValue);
+
+        long reversedValue = 0;
+        // 反轉位數
+        while (n > 0) {
+            reversedValue = reversedValue * 10 + (n % 10);
+            n /= 10;
+        }
+
+        reversedValue *= sign;
+
+        System.out.println(reversedValue);
+    }
+}
+```

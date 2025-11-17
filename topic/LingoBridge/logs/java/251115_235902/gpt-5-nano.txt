@@ -1,0 +1,48 @@
+84
+
+改進建議：建議加入標頭註解、使用更清晰的函式與變數命名，並改用迴圈與方法計算位數和以提升可讀性與維護性。
+
+修改與優化說明：
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註欄位。
+- 將數字各位之和的計算抽成獨立方法 digitSum(int n)，使主程式更簡潔、易讀，也利於復用。
+- 使用有意義的變數名稱，如 target、count、i，提升可讀性。
+- 在結束時關閉 Scanner，拉高資源清理的完整性。
+- 移除多餘且冗長的六個變數的手動位數提取，改用 while 迴圈（透過 digitSum 的實作）以更通用且可維護的方式計算數字的位數和。
+
+修改後完整程式碼如下：
+
+```java
+/**
+ * File: CSIE_41343109_1003_03.java
+ * 功能: 計算在 1~100000 之間，數字各位數字的和等於使用者輸入 A 的數字個數
+ * 作者: 教師
+ * 日期: 2025-11-15
+ * 修改紀錄: 使用函式 digitSum 以提升可讀性與維護性
+ */
+import java.util.Scanner;
+
+public class CSIE_41343109_1003_03 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int target = sc.nextInt();
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
+        System.out.println(count);
+        sc.close();
+    }
+
+    // 計算整數 n 的各位數字之和（不包含前導零，因為其值為 0）
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}
+```

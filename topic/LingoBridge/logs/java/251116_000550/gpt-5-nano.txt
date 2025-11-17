@@ -1,0 +1,58 @@
+86
+
+建議改進方向：建議加上程式標頭註解、將數字位數總和的計算封裝成方法、使用具描述性的變數名稱，並加入對不可能的輸入值的預先檢查與資源自動釋放以提升可讀性與可維護性。
+
+優化與修改說明
+- 將計算數字各位數總和的邏輯封裝成方法 digitSum，提升可重用性與可讀性。
+- 使用描述性變數名稱，如 target、count。
+- 增加前置條件檢查：若 target 小於 0 或大於 45，直接輸出 0，避免不必要的計算（因 1..100000 的數字總和最大為 45）。
+- 使用 try-with-resources 以確保 Scanner 物件適時關閉。
+- 增加程式標頭註解，並建議檔名與 class 名稱一致以符合一般 Java 編碼規範。
+
+修改後完整程式碼
+```java
+/**
+ * File: DigitSumCount.java
+ * 功能: 計算 1..100000 中，數字各位數總和等於指定值的數字個數
+ * 作者: 調整為較清晰的實作
+ * 日期: 2025-11-15
+ * 備註: 內含 digitSum 方法，並加入輸入邊界檢查與資源管理
+ */
+
+import java.util.Scanner;
+
+public class DigitSumCount {
+    private static final int MAX = 100000;
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int target = scanner.nextInt();
+            int count = 0;
+
+            // 最大位數總和為 45，若 target 超過 45，結果必為 0
+            if (target < 0 || target > 45) {
+                System.out.println(0);
+                return;
+            }
+
+            for (int i = 1; i <= MAX; i++) {
+                if (digitSum(i) == target) {
+                    count++;
+                }
+            }
+
+            System.out.println(count);
+        }
+    }
+
+    // 計算整數 n 的各位數總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}
+```

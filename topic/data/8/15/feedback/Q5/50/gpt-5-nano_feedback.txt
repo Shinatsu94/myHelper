@@ -1,60 +1,98 @@
-6
+總分: 83
 
-評分標準與分數細項
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：6/10
-- 備註：0/10
-總分：6/100
+改進建議（一句話）: 請補上程式標頭註解、改用更健全的近似判定並統一輸出格式，讓程式在極小數值情況與格式一致性上更穩定。
 
-修改與說明
-1) 修改目的
-- 直接針對題目需求實作：讀取任意長度的一維整數陣列，進行由小到大的排序後輸出，避免與原始程式題意不符的矩陣運算。
-- 使用動態陣列長度與標準排序，確保能正確處理負數及任意長度的輸入。
+修改說明與重點
+- 新增程式標頭註解，註明檔案名稱、功能、作者與日期，符合作業要求的備註條件。
+- 對行列式判定加入容許誤差判斷（Math.abs(det) < 1e-12），避免浮點數近似為非正確的零而導致誤判。
+- 將輸出格式統一移入格式化函式 format(double)，若絕對值接近於零則輸出 "0"，否則輸出四位小數，確保與題目樣式一致。
+- 移除對 System.in 的提前關閉（不再呼叫 Scanner 的 close），避免潛在的系統輸入流關閉問題。
+- 輸出時每行結尾皆換行，確保最後一行也有換行，且每行元素之間以空格分隔，且最後一行後不多餘空白。
+- 保留核心演算法：直接使用伴隨行列式與伴隨矩陣的方法計算反矩陣，並以四位小數輸出。
 
-2) 修改要點
-- 使用 Scanner 讀取陣列長度 n，建立整數陣列 arr，讀取 n 個整數。
-- 使用 Arrays.sort 進行排序，確保正確性與簡潔性。
-- 輸出時用單行、以空格分隔，符合範例輸出格式。
-- 程式加入基本標頭註解與適當命名，提升可閱讀性與維護性。
+以下為修改后的完整程式碼：
 
-3) 優化後完整程式碼（可直接編譯執行）
+```java
+/**
+ * File: MatrixInverse.java
+ * 功能: 讀入使用者輸入的 3x3 矩陣，輸出其反矩陣，元素若為零則輸出 0；非零數值輸出至小數點後四位。
+ * 作者: 教師批改系統
+ * 日期: 2025-11-14
+ *
+ * 注意: 若矩陣不可逆，顯示相應訊息。
+ * 輸出規格: 各元素以空格分隔，每行 3 個元素，最後一行結束換行，零值輸出 0。
+ */
+
 import java.util.Scanner;
-import java.util.Arrays;
 
-/*
-檔案名稱: ArraySortAscending.java
-功能說明: 讀取一個整數 n，接著讀取 n 個整數，將它們由小到大排序後輸出成一行以空格分隔的字串。
-作者: 提交者
-日期: 2025-11-12
-*/
-
-public class ArraySortAscending {
+public class MatrixInverse {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
+        double[][] a = new double[3][3];
 
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (in.hasNextDouble()) {
+                    a[i][j] = in.nextDouble();
+                } else {
+                    // 不足數值時直接結束
+                    return;
+                }
+            }
         }
-        sc.close();
 
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        double det = determinant(a);
+        // 容忍性判定近似零
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("Matrix is singular and cannot be inverted.");
+            return;
         }
-        System.out.println(sb.toString());
+
+        double[][] inv = inverse(a, det);
+
+        // 輸出結果，格式化處理
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(format(inv[i][j]));
+                if (j < 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
+    }
+
+    // 統一輸出格式：若絕對值近似於零則輸出 "0"，否則輸出四位小數
+    private static String format(double v) {
+        if (Math.abs(v) < 1e-10) return "0";
+        return String.format(java.util.Locale.US, "%.4f", v);
     }
 }
+```
 
-修改原因說明
-- 將原先與題意無關的矩陣與求逆運算移除，改為符合題意的排序實作。
-- 使用動態長度陣列與 Arrays.sort 提升正確性與可維護性，且能正確處理包含負數的情形。
-- 輸出格式改為單行、空格分隔，符合輸出樣例。
-
-一句話改進建議
-- 建議再加上對輸入數量不足或輸入格式錯誤的防呆檢查，以及更完善的保留輸入提示，以提高健壯性。
+若需要改成不輸出錯誤訊息而直接結束，也可以把不可逆情況的輸出改為返回或結束，視題目要求而定。若之後要支持判定更寬鬆的不可逆情況，只需要調整 det 的容忍閾值即可。

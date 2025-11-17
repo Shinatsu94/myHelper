@@ -1,0 +1,71 @@
+77
+
+建議重點：輸出格式需改為單一空格分隔並加上標頭註解與更清晰的變數命名，以提升可讀性與測資通過率。
+
+修改與原因概述
+- 輸出格式修正：原程式在數字之間會出現雙空格，修改為單一空格分隔，並在結尾換行，符合常見測資格式。
+- 命名與註解：使用更具描述性的變數名稱，並在檔案頂部加入標頭註解，提升可維護性與自我說明性。
+- 演算法維持：保留選擇排序的核心邏輯，確保理解與符合題意。
+- 程式結構與資源管理：適當處理 n <= 0 情況，排序後輸出，並在結束前關閉 Scanner。
+
+修改後完整程式碼
+```java
+/**
+ * 文件名稱: CSIE_41343109_1031_01.java
+ * 功能說明: 讀入使用者輸入的任意長度一維整數陣列
+ *          輸入流程：先輸入陣列長度 n，接著輸入 n 個整數
+ *          輸出：對陣列內容進行由小到大的排序，並以單一空格分隔輸出
+ * 作者: 吳育丞
+ * 日期: 1031
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343109_1031_01 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+
+        if (n <= 0) {
+            // 無內容的情況，輸出空行並結束
+            System.out.println();
+            scn.close();
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scn.nextInt();
+        }
+
+        // 選擇排序：將最小值放到前面
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int tmp = a[i];
+            a[i] = a[minIndex];
+            a[minIndex] = tmp;
+        }
+
+        // 輸出，使用單一空格分隔，最後換行
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(a[i]);
+        }
+        System.out.println();
+
+        scn.close();
+    }
+}
+```
+
+說明修改的部分與原因
+- 將輸出改成單一空格分隔，避免多重空格造成輸出格式錯誤。
+- 加入頂部檔案註解，包括檔名、功能、作者與日期，符合作業要求的備註與可讀性。
+- 變數命名與邏輯說明更清楚：minIndex 代表當前區段的最小值索引，提升可讀性。
+- 對 n <= 0 做基本防護，避免不合理輸入造成例外。 
+- 程式結尾加上換行，與一般輸出習慣一致，利於測資比對與日後使用。

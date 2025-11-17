@@ -1,0 +1,61 @@
+53
+
+改進建議（一句話）：
+採用從右到左單次遍歷的做法，既能正確處理負數，也能把時間複雜度降至 O(n)，比原本的 O(n^2) 更高效。
+
+修改與評語：
+- 正確性：原程式在處理含有小於 -1 的負數時會因初始最大值設為 -1 而得到錯誤結果。新版本透過從右到左的一次遍歷，先將最後一個元素結果設為 -1，並逐步維護右側的最大值，能正確處理任意整數，包括負數。
+- 邏輯：從右至左的單遍歷邏輯簡潔且符合需求，避免在每個位置重複掃描右側子陣列，提升效率。
+- 格式：加入適當的註解與檔案標頭，變數命名清楚，縮排一致。
+- 備註：新增程式檔案註解區塊，包含檔名、功能、作者與日期等資訊。
+
+修改原因與要點：
+- 為正確處理包含負數的情況，避免把最大值預設為 -1 所造成的錯誤。
+- 將原本的 O(n^2) 內層迴圈改為單一 O(n) 循環，提升效率。
+- 使用從右到左的累積最大值方式，並在最右邊位置設定為 -1，確保與題意一致。
+
+修改後完整程式碼：
+```java
+/**
+ * File: CSIE_41343233_1031_2.java
+ * 功能: 建立整數陣列，輸入長度與元素，輸出每個位置右側的最大值，最後一個為 -1。
+ * 作者: (作者姓名)
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343233_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        int[] result = new int[n];
+        if (n > 0) {
+            int currentMax = 0;
+            // 由右至左填入結果：最後一個元素為 -1，其左側為右邊的最大值
+            for (int i = n - 1; i >= 0; i--) {
+                if (i == n - 1) {
+                    result[i] = -1;
+                    currentMax = arr[i];
+                } else {
+                    result[i] = currentMax;
+                    if (arr[i] > currentMax) {
+                        currentMax = arr[i];
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(result[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+    }
+}
+```

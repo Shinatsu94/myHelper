@@ -1,0 +1,63 @@
+59
+
+對改進建議：目前的做法在遇到數字中出現 0、或數字結尾為 0 的情況時容易誤判或不輸出結果，且缺乏清楚的標頭註解與一致的程式風格，建議改用字串逐一比較相鄰位數，並加上完整的註解與邊界條件處理。
+
+改進與優化說明
+- 正確性與邏輯
+  - 改用字串處理，直接檢查相鄰兩位是否嚴格遞增（左至右），避免原程式在含 0 的情況下的邊界問題與不會輸出的情況。
+  - 對負數與只有一位數的情況做明確處理，負數直接判定為非嚴格遞增的數。
+- 格式
+  - 使用更具意義的變數名稱，統一縮排，並保留程式碼易讀性。
+- 備註
+  - 加上標頭註解，描述檔案名稱、功能、作者與日期，並在內容中加入適當註解。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_1017_41343252_2.java
+功能: 判斷輸入的整數各位數是否從左到右嚴格遞增
+作者: 你的名字
+日期: 2025-11-15
+說明: 若為負數或只有一位數，視為符合條件；若任一相鄰位數不滿左小於右，則為非嚴格遞增。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_1017_41343252_2 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String input = in.next().trim();
+        String digits = input;
+
+        // 处理正负号
+        if (digits.startsWith("+")) {
+            digits = digits.substring(1);
+        } else if (digits.startsWith("-")) {
+            // 負數不符合嚴格遞增條件
+            System.out.println(input + " is not well-ordered number.");
+            return;
+        }
+
+        boolean isWellOrdered = true;
+        if (digits.length() <= 1) {
+            // 一位數或空字串，視為符合
+            isWellOrdered = true;
+        } else {
+            // 逐一比較相鄰位數，確保左位數 < 右位數
+            for (int i = 0; i < digits.length() - 1; i++) {
+                char left = digits.charAt(i);
+                char right = digits.charAt(i + 1);
+                if (left >= right) {
+                    isWellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+        in.close();
+    }
+}

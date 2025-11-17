@@ -1,0 +1,58 @@
+89
+
+改進建議（一句話）：
+建議補上程式標頭註解與內部註解，並改用單次輸出字串組裝提升可讀性與效能。
+
+修改說明與原因：
+- 加入完整的程式標頭註解，符合備註欄位的要求，提升可維護性與可追蹤性。
+- 使用 try-with-resources 管理 Scanner，確保資源正確關閉，避免資源洩漏。
+- 使用 StringBuilder 組裝輸出，減少多次 System.out.print，提升效能並確保輸出格式穩定（最後再換行）。
+- 將排序函式改為私有靜態，強化封裝性（非必要對外使用的工具函式）。
+- 程式邏輯保持原有正確的選擇排序實作，仍能正確處理負數與任意長度陣列。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343150_1031_1.java
+ * 功能: 讀取長度 n 與 n 個整數，對其進行從小到大排序，並輸出排序後結果
+ * 作者: (作者資訊)
+ * 日期: 2025-11-14
+ * 備註: 程式需一次性讀取輸入並輸出結果，不使用 EOF。
+ */
+public class CSIE_41343150_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以自動關閉 Scanner
+        try (java.util.Scanner in = new java.util.Scanner(System.in)) {
+            int n = in.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = in.nextInt();
+            }
+
+            sort(arr);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+
+    private static void sort(int[] arr) {
+        int n = arr.length;
+        // 選擇排序：將最小的元素放到位置 i
+        for (int i = 0; i < n - 1; i++) {
+            int m = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[m]) {
+                    m = j;
+                }
+            }
+            int temp = arr[m];
+            arr[m] = arr[i];
+            arr[i] = temp;
+        }
+    }
+}

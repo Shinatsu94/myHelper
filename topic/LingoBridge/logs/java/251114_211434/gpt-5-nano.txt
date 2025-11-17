@@ -1,0 +1,63 @@
+48
+改進建議：程式能最終輸出正確的排序結果，但原始程式會在排序過程中多次輸出中間結果，且輸出格式不符合題意，需改為僅輸出單一行排序後結果，並提升程式清晰度與註解。
+
+程式優化與修改說明
+- 將入口函式改為標準寫法 public static void main(String[] args)，符合 Java 常規與編譯器預期。
+- 將排序與輸出分離，證明只有最終排序完成後才輸出一次結果，避免輸出中間狀態。
+- 使用清晰的變數命名與註解，並加入適當的程式標頭註解，提升可讀性與維護性。
+- 使用選擇排序（selection sort）進行排序，與原本邏輯一致但結構更清晰。
+- 使用 StringBuilder 組裝輸出，避免尾端多餘空格，輸出格式符合題意。
+- 程式結束前再關閉輸入來源，避免在迴圈中不合理地 close。
+
+修改後完整程式碼
+/*
+ * File: csie_41343239_1031_1.java
+ * 功能: 讀取長度與整數，對陣列做升冪排序，輸出排序後的單行結果
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 版本: 1.1
+ */
+
+import java.util.Scanner;
+
+public class csie_41343239_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int length = sc.nextInt();
+        int[] a = new int[length];
+
+        // 讀取陣列元素
+        for (int i = 0; i < length; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 進行選擇排序(升冪)
+        for (int i = 0; i < length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < length; j++) {
+                if (a[j] < a[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            int tmp = a[i];
+            a[i] = a[minIndex];
+            a[minIndex] = tmp;
+        }
+
+        // 輸出排序後的陣列，僅一行，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

@@ -1,0 +1,77 @@
+- 正確性: 0/50
+- 邏輯: 0/30
+- 格式: 2/10
+- 備註: 0/10
+
+總分: 2
+
+改進建議：
+這份作業未實作題意的排序與輸出功能，僅輸出一個星號三角形。建議改為依題目需求，讀取長度與數字，進行升冪排序，輸出排序結果，並加上註解與適當的例外處理。
+
+修改與優化說明：
+- 重新實作核心需求：從輸入讀取整數陣列，使用 Arrays.sort 進行升序排序，最後輸出以空格分隔的結果。
+- 移除不相關的 2D char 陣列與星號輸出，避免無法通過測資。
+- 使用有意義的變數名稱（如 n、arr），提升可讀性。
+- 增加程式開頭註解，說明檔案名稱、功能、作者與日期，並在程式中加入適度註解。
+- 額外注意：可處理負數，且一次性讀入不依靠 EOF。
+
+修改後的完整程式碼如下：
+
+```java
+/*
+ * File: ArraySort.java
+ * 功能: 讀取一個整數 n，接著讀入 n 個整數，將它們按照升序排序，並輸出排序後的結果（以空格分隔）。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 注意: 不使用 EOF，程式執行一次即結束。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n < 1) {
+            sc.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免發生例外
+                arr[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```
+
+說明修改部分的原因：
+- 改用整數陣列並使用 Arrays.sort 能簡潔且正確地實作題目需求，且支援負數。
+- 確保僅有一次輸入循環，不會因為 EOF 而造成無法通過測資的情況。
+- 提升可讀性與可維護性，加入註解與清晰的變數命名。

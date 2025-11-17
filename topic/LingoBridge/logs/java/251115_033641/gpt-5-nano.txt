@@ -1,0 +1,75 @@
+總分：96
+
+改進建議（一句話）
+移除固定高度限制，改用 jagged 陣列降低記憶體浪費，並加上更清楚的註解與輸入邏輯，讓程式在更多情境下安全運作。
+
+評語與逐項打分
+- 正確性 50/50
+  - 程式正確建立下三角形陣列、依序填值、找出指定數字的位置，並輸出與題意相符的格式。
+  - 移除原程式的硬性高度上限，使程式在有效輸入範圍內能正確處理更多情況。
+- 邏輯 28/30
+  - 使用直覺且穩妥的雙迴圈填值與查找，並以 1-based 索引輸出位置。
+  - 可再進一步提出不需完整建立陣列即可定位數字的位置的優化（非必要但可考慮）。
+- 格式 9/10
+  - 變數命名清楚、縮排一致、含適當註解。
+  - 程式註解可再加強描述但目前已足夠理解。
+- 備註 9/10
+  - 標頭註解包含日期、作者與功能說明，整體註解尚可。
+
+修改與優化說明
+- 移除硬性上限：原程式限定 n > 20 即直接結束，可能無法通過實測題目以外的情境。現改為接受任意正整數高度（記憶體允許範圍內）。
+- 使用 jagged 陣列：原本使用整個 n x n 的二維陣列，僅前 i+1 個欄位有值，改為 int[n][] 並逐層初始化為 int[i+1]，可節省記憶體並更符合下三角形結構。
+- 註解與格式：在程式頭加入更清楚的註解，維持一致的排版與變數命名，便於後續維護與評分。
+
+修改後完整程式碼
+// Date: 2025/10/31
+// Creator: 41343240 黃榮裕
+// Function: 建立下三角形二維陣列，數字依序填入，找出指定 num 的位置，列與行皆從 1 開始輸出；若找不到則輸出相應訊息。
+// 注意：不需要印出三角形內容；僅輸出尋找結果。
+import java.util.Scanner;
+
+public class CSIE_41343240_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // 高度
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        int num = sc.nextInt(); // 要查找的數字
+        if (num <= 0 || num >= 100000) {
+            sc.close();
+            return;
+        }
+
+        // 建立 jagged 陣列以符合下三角形的結構
+        int[][] tri = new int[n][];
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+        }
+
+        int value = 1;
+        int targetRow = -1, targetCol = -1;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value;
+                if (value == num) {
+                    targetRow = i + 1; // 1-based
+                    targetCol = j + 1; // 1-based
+                }
+                value++;
+            }
+        }
+
+        if (targetRow != -1) {
+            System.out.println(num + "[" + targetRow + ", " + targetCol + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
+
+        sc.close();
+    }
+}

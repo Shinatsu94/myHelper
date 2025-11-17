@@ -1,0 +1,67 @@
+88
+
+建議加入程式標頭註解以說明檔案資訊，並考慮在不破壞「建立完整下三角形二維陣列」條件下，改以數學公式直接計算 num 的位置以提升效能與可讀性。
+
+修改原因與重點說明：
+- 新增程式標頭註解，符合備註評分要點，讓程式檔案資訊一目了然。
+- 使用公式直接計算 num 的位置，避免在搜尋時遍歷整個二維陣列，提升效率；同時仍維持建立完整下三角形陣列的需求。
+- 增加資源釋放與管控，加入 sc.close()。
+- 程式結構清晰，變數命名有意義，且保持合理縮排。
+
+修改後完整程式碼如下：
+```java
+/**
+ * File: CSIE_41343220_1031_3b.java
+ * Description: 建立下三角形二維陣列，從使用者取得高度 n 與搜尋值 num，
+ *              找出 num 的位置 (列、行，皆從 1 開始) 並輸出；若 num 超出範圍，輸出提示訊息。
+ * Author: 教授
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343220_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取高度 n
+        int n = sc.nextInt();
+
+        // 讀取欲尋找的數字 num
+        int num = sc.nextInt();
+
+        // 建立下三角形陣列（每列元素數量為列索引 + 1）
+        int[][] tri = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value;
+                value++;
+            }
+        }
+
+        // 整體最大值
+        int maxValue = n * (n + 1) / 2;
+
+        // 檢查 num 是否在陣列範圍內
+        if (num > maxValue || num < 1) {
+            System.out.print("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 使用數學公式直接計算 num 的位置（row 與 col，皆從 1 開始）
+        int row = 1;
+        while (num > row * (row + 1) / 2) {
+            row++;
+        }
+        int col = num - row * (row - 1) / 2;
+
+        // 輸出結果
+        System.out.print(num + "[" + row + ", " + col + "]");
+
+        sc.close();
+    }
+}
+```

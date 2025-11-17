@@ -1,0 +1,41 @@
+84
+
+建議：建議加入負數處理、移除不必要的空字串輸出，並加上程式頭註解以提升可讀性與健壮性。
+
+修改說明：
+- 正確性與邏輯：改用 long 類型並支援負數輸入，避免 int 溢位，並保持 0 的正確輸出。
+- 格式：修正縮排、使用更具可讀性的變數名稱（n、val、rev、sign），移除不必要的 System.out.print("")。
+- 備註：加入完整的檔案標頭註解，說明檔名、功能、作者與日期，提升可維護性。
+- 其他：仍維持單次執行、單輸入單輸出，符合題目需求。
+
+修改後完整程式碼：
+```java
+/*
+File: ReverseDigits.java
+Description: Read a single integer from input and print its digits reversed. Supports negative numbers.
+Author: YourName
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+
+        long sign = (n < 0) ? -1L : 1L;
+        long val = Math.abs(n);
+        long rev = 0;
+
+        while (val != 0) {
+            rev = rev * 10 + (val % 10);
+            val /= 10;
+        }
+
+        rev *= sign;
+        System.out.println(rev);
+        sc.close();
+    }
+}
+```

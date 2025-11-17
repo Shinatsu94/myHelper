@@ -1,0 +1,50 @@
+5
+
+改進建議：將題目需求改寫為一維整數陣列的讀取與排序，避免不相干的矩陣運算，並加入適當的程式頭註解以提升可讀性與維護性。
+
+修改說明：
+- 需求對應與架構：將原程式的 3x3 矩陣與反矩陣運算移除，改為一維整數陣列的讀取與排序。
+- 輸入處理：先讀取長度 n，接著讀取 n 個整數，支援負數與任意分行輸入，若輸入不足則預設為 0。
+- 排序機制：使用 Arrays.sort 直接對整數陣列排序，簡潔且效能良好。
+- 輸出格式：輸出排序後的數字，以單一空格分隔，末尾換行，符合題意與常見競賽輸出格式。
+- 程式頭註解：加入標頭註解，說明檔案名稱、功能、作者與日期，內容也包含適當註解以增進可閱讀性。
+
+修改後完整程式碼如下：
+/*
+ File: AscendingSort1DArray.java
+ Description: 讀取使用者輸入的長度與元素，將一維陣列內容由小到大排序，並輸出排序結果。
+ Author: 教師
+ Date: 2025-11-14
+*/
+import java.util.*;
+
+public class AscendingSort1DArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        // 排序
+        Arrays.sort(arr);
+        // 輸出，元素以單一空白分隔，末尾不留空白，並換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}

@@ -1,0 +1,60 @@
+9
+
+這份作業的原程式與題目需求不符，建議重構成直接讀入長度與數字、排序並輸出，才能符合題意與測資。
+
+建議改進要點（單句）：
+建議重構為直接讀入長度與數字，使用 Arrays.sort 進行排序並統一輸出格式，以符合題目需求。
+
+修改說明與理由：
+- 重新實作主流程，使程式功能對應「建立任意長度的一維陣列、輸入、排序、輸出」的題意。
+- 使用 Arrays.sort(arr) 提高正確性與效率，避免自訂排序邏輯造成錯誤。
+- 提升變數命名與結構，移除與題目無關的 triangle 相關函式。
+- 改善程式標頭註解，清楚描述檔案名稱、功能、作者、日期，方便維護。
+- 保留適當註解與一致的縮排，提升可讀性與格式分數。
+
+修改後完整程式碼：
+
+// filename: SortArray.java
+// function: 讀取長度 n，接著讀入 n 個整數，進行由小到大排序並輸出排序結果
+// author: 你的教授名稱
+// date: 2025/11/14
+// version: 1.1
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀入 n 個整數，並放入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入數量不足，補 0 以避免例外；實務上可選擇拋出例外或結束
+                arr[i] = 0;
+            }
+        }
+        scanner.close();
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

@@ -1,0 +1,56 @@
+97
+建議改用內建排序或更高效的輸入輸出，並修正標頭註解以準確描述功能。
+
+修改與說明
+- 使用內建排序改寫排序邏輯：用 Arrays.sort(arr) 替代自訂的 selectionSort，原因是效率更高且實作簡潔，符合「正確性與邏輯」的要求，同時利於維護。
+- 改善輸出效能與穩定性：改用 StringBuilder 組合輸出，減少多次 IO 操作，當陣列很長時 performance 更好。
+- 完善與統一註解與標頭：修正註解中的拼寫與描述，新增檔案名稱、日期、作者與功能說明，方便閱讀與評分。
+- 其他小改動：維持原有輸入方式（Scanner.nextInt），避免改動輸入格式，以確保符合題意與測資。
+
+修改後完整程式碼
+```java
+/*
+Date: 2025/10/31
+Author: 黃榮裕 (41343240)
+File: CSIE_41343240_1031_1.java
+Purpose: 讀入使用者輸入的任意長度一維陣列（先輸入長度，再逐一輸入元素），
+         將陣列內容升序排序並輸出。
+Notes: 不使用 EOF，單次執行結束。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343240_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一讀取陣列內容
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 將陣列升序排序（使用內建排序提升效率）
+        sortAscending(arr);
+
+        // 使用 StringBuilder 組合輸出，避免多次 IO
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+
+    // 使用內建排序提升效率與簡潔性
+    public static void sortAscending(int[] arr) {
+        Arrays.sort(arr);
+    }
+}
+```

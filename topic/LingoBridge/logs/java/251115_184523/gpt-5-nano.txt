@@ -1,0 +1,43 @@
+56
+
+改進建議：這份作業的主要問題在於迴圈條件使用 n%10>0 可能在遇到數字中出現 0 時就提前結束，應改以從右到左逐位比較，且保留原始輸入值以便輸出，同時補上標頭註解以符合格式要求。
+
+程式優化與修改說明（重點與原因）
+- 不再改動原始輸入值，用變數 original 保存，方便輸出原始數字。
+- 使用從右至左逐位比較的邏輯，透過一個 sentinel lastDigit 初值為 10，並在每次取出末位 digit 後比較 digit vs lastDigit：若 digit >= lastDigit，說明從左至右不嚴格遞增，輸出不合法。
+- 迴圈條件改為 for (int m = original; m > 0; m /= 10)，避免遇到數字中出現 0 時造成迴圈提前結束。
+- 使用更清晰的變數名稱，並採用 System.out.println 輸出以符合輸出格式。
+- 加入檔案標頭註解，內容包含檔案名稱、功能、作者、日期等說明，並在程式內容中加入必要註解。
+
+修改後完整程式碼
+/*
+ File: WellOrderedNumber.java
+ Description: Determine whether an input number's digits are strictly increasing from left to right.
+ Author: Your Name
+ Date: 2025-11-15
+*/
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int original = sc.nextInt(); // 保存原始輸入，稍後輸出使用
+        int lastDigit = 10; // sentinel，任何單位數都小於這個值
+        boolean isWell = true;
+
+        // 由右至左逐位檢查，確保從左至右的數字是嚴格遞增
+        for (int m = original; m > 0; m /= 10) {
+            int digit = m % 10;
+            if (digit >= lastDigit) {
+                isWell = false;
+                break;
+            }
+            lastDigit = digit;
+        }
+
+        if (isWell) {
+            System.out.println(original + " is well-ordered number.");
+        } else {
+            System.out.println(original + " is not well-ordered number.");
+        }
+    }
+}

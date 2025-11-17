@@ -1,0 +1,47 @@
+2
+此作業需以陣列實作且輸出升序排序的結果，原始程式未依題意讀取與排序整數陣列，需改寫為正確的流程與輸出格式。
+
+修改建議與原因：
+- 重新實作流程：改用整數陣列讀取 n 個元素，並使用 Arrays.sort 進行升序排序，符合題目需求。
+- 提高可讀性與命名：使用有意義的變數名稱，並加入必要註解與標頭，方便維護與評分。
+- 輸出格式統一：輸出以空格分隔的排序結果，符合題目輸出要求。
+- 註解與檔案說明：在檔案開頭加入註解，說明檔案名稱、功能、作者、日期等。
+
+修改後完整程式碼（已優化且符合題意）：
+```java
+/**
+ * File: CSIE_41343150_1031_3b.java
+ * 功能: 讀取正整數 n 及 n 個整數，將陣列內容由小到大排序輸出
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 備註: 會處理負數，輸出為以空格分隔的排序結果
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343150_1031_3b {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = scn.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}
+```

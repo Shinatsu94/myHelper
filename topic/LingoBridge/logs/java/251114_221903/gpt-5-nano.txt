@@ -1,0 +1,64 @@
+13
+
+改進建議（一句話）：此作業未正確讀入與排序整數陣列，請改用陣列接收 n 個整數後，使用排序函式進行排序，並以空格輸出結果以符合題意。
+
+修改與評語要點
+- 正確性：原程式未讀取整數陣列、未排序，輸出與題意嚴重不符；新的版本按題意正確實作。
+- 邏輯：改以清晰的流程（讀取 n、讀入 n 個整數、排序、輸出）實作，邏輯簡單且正確。
+- 格式：採用較有意義的變數名稱、適當縮排與註解，符合一般 Java 編碼規範。
+- 備註：加入檔案標頭註解，並在程式內適當註解，便於維護。
+
+修改內容與原因
+- 使用整數陣列 arr 來存放輸入的 n 個整數，避免原程式的無關迴圈與不必要的變數計算。
+- 使用 Arrays.sort(arr) 以標準且高效的排序方法進行升冪排序，時間複雜度 O(n log n)。
+- 使用 StringBuilder 組裝輸出，並以空格分隔，符合題目輸出格式。
+- 修正程式結構，將輸出放在單行中，避免不預期的格式問題。
+- 加入適當的程式標頭註解與註解，提升可讀性與維護性。
+
+修改後完整程式碼
+```java
+/*
+ * File: Main.java
+ * 功能: 讀取整數個數 n，接著讀入 n 個整數，對陣列做升冪排序，輸出排序結果（以空格分隔）。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            // 沒有輸入時直接結束
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[Math.max(0, n)];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若實際輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```

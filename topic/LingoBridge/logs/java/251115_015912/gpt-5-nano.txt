@@ -1,0 +1,48 @@
+11
+改進建議：不要使用排序，應直接以原始陣列從右向左計算每個位置右側的最大值，這樣才能符合題意並正確處理負數情況。
+
+改動重點與說明：
+- 演算法修正：移除原有的排序步驟，改以從右到左的單次掃描，維護右側原始元素的最大值，正確得到每個位置右方的最大值，最後一個元素置為 -1。
+- 貼近題意的資料處理：保留原始元素順序，支援負數輸入。
+- 程式結構與可讀性：增加適當註解與標頭資訊，將類別名稱改為常見的 Main，改善縮排與命名。
+- 輸出格式：確保輸出數字之間以單個空格分隔，且不在結尾多印到空格。
+
+修改後完整程式碼：
+/*
+ * File: Main.java
+ * 功能: 依題意將陣列中每個元素替換為其右側元素的最大值，最後印出結果。最後一個元素為 -1。
+ * 作者: 請自行填寫
+ * 日期: 2025-11-14
+ */
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 直接從原始陣列右向左計算右側最大值
+        if (n > 0) {
+            int maxRight = arr[n - 1];
+            arr[n - 1] = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i];
+                arr[i] = maxRight;
+                if (current > maxRight) {
+                    maxRight = current;
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+    }
+}

@@ -1,0 +1,37 @@
+88
+建議在程式開頭加入檔案標頭註解，並使用更安全的交換方式（如 XOR）以避免整數溢位，並在結尾關閉 Scanner。
+
+修改說明與優化方向
+- 增加檔案標頭註解，符合作業要求的備註需求，提升可讀性與可維護性。
+- 將兩數交換改用位元異或（XOR）交換，避免使用加法交換時可能發生的整數溢位風險，且仍只使用兩個變數進行交換，符合題目限制。
+- 新增 scanner.close() 以釋放資源，為良好的資源管理習慣。
+- 保持原本的輸出格式：交換後的兩個數值各自換行輸出。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343222_1003_1.java
+功能: 讀入兩個整數 A, B，輸出 A 與 B，之後以不使用其他變數的方式交換兩數並再輸出結果。
+作者: 學生
+日期: 2025-11-15
+註解: 使用 XOR 交換避免整數溢位風險，並在結尾關閉 Scanner
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343222_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+        // 使用位元異或交換，避免加法交換可能造成的溢位
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        scanner.close();
+    }
+}

@@ -1,0 +1,74 @@
+95
+建議：原程式以暴力搜尋方式正確無誤，但缺少程式檔案標頭註解，且以動態規劃的方式實作將更高效且易於擴展。
+
+改進說明與修改重點
+- 將暴力檢查換成動態規劃(DP)方式：計算五位數字（00000~99999）各位數字總和等於 A 的組合數，再排除 00000 的情況，並額外把 100000 的情況單獨加回，以得到 1..100000 的正確計數。此作法複雜度大幅降低，且對 A 的範圍更穩健。
+- 處理邊界情況：A 大於 45 時結果為 0；A=0 時需排除 00000。
+- 程式標頭與註解：加入檔案名稱、功能、日期等標頭註解，並在程式中加入適當註解，提升可讀性與維護性。
+
+修改後的完整程式碼
+```java
+/**
+ * File: CSIE_41343236_1003_3_Optimized.java
+ * 功能: 計算 1..100000 之間，有多少數字的各位數字總和等於輸入值 A
+ * 作者:（作者姓名）
+ * 日期: 2025-11-15
+ * 備註: 以動態規劃計算 00000-99999 的五位數字組合，符合條件後再調整 00000 與 100000 的情況
+ */
+import java.util.Scanner;
+
+public class CSIE_41343236_1003_3_Optimized {
+
+    // 計算五位數字（00000-99999）中，各位數字總和等於 target 的數量
+    private static int countFiveDigitSums(int target) {
+        final int DIGITS = 5;
+        final int MAX_SUM = 9 * DIGITS; // 最大可能的總和
+
+        if (target < 0 || target > MAX_SUM) return 0;
+
+        int[] dp = new int[MAX_SUM + 1];
+        dp[0] = 1; // 0 位數時總和為 0 的情況只有一種
+
+        for (int i = 0; i < DIGITS; i++) {
+            int[] next = new int[MAX_SUM + 1];
+            for (int s = 0; s <= MAX_SUM; s++) {
+                if (dp[s] == 0) continue;
+                for (int d = 0; d <= 9; d++) {
+                    int ns = s + d;
+                    if (ns <= MAX_SUM) next[ns] += dp[s];
+                }
+            }
+            dp = next;
+        }
+
+        // dp[target] 為 00000-99999 中總和為 target 的數量
+        return dp[target];
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        sc.close();
+
+        int result;
+        final int MAX_SUM = 45; // 9*5
+
+        // 先計算 00000-99999 的數量，若 A 超出範圍則為 0
+        if (A <= MAX_SUM) {
+            int countFive = countFiveDigitSums(A);
+            // 排除 00000（當 A == 0 時，00000 的總和為 0，需從 1..99999 移除）
+            if (A == 0) countFive -= 1;
+            result = countFive;
+        } else {
+            result = 0;
+        }
+
+        // 再把 100000 的情況單獨加回來：100000 的數字總和為 1
+        if (A == 1) {
+            result += 1;
+        }
+
+        System.out.println(result);
+    }
+}
+```

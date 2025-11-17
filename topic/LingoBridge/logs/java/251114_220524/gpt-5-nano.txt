@@ -1,0 +1,61 @@
+2
+
+此作業建議：此程式未符合題意，需以排序功能取代輸出星號，並補充註解與命名規範。
+
+修改要點與原因：
+- 將核心功能改為讀取長度 n 與 n 個整數，對陣列升冪排序，符合題意。
+- 使用 Arrays.sort 進行排序，邏輯簡潔且穩定，提升正確性與可讀性。
+- 輸出改為以空白分隔的數字串，確保輸出格式與題目範例一致。
+- 增加標頭註解與適當註解，提升可維護性與可閱讀性；變數命名改為有意義名稱。
+
+修改後完整程式碼：
+/*
+  File: SortingArrayAsc.java
+  功能: 建立一個任意長度的一維陣列，將內容升冪排序，輸出排序結果
+  作者: [姓名]
+  日期: 2025-11-14
+  說明: 讀取長度 n 與 n 個整數，無需使用 EOF，輸出排序後的數字，數字間以空格分隔
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortingArrayAsc {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            // 尚未輸入長度，直接結束
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        int[] numbers = new int[n];
+
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                numbers[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                numbers[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(numbers);
+
+        // 輸出排序後的陣列，元素間以單一空格分隔
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) {
+                output.append(' ');
+            }
+            output.append(numbers[i]);
+        }
+
+        System.out.print(output.toString());
+        scanner.close();
+    }
+}

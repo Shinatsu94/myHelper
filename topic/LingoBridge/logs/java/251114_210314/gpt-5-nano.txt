@@ -1,0 +1,56 @@
+83
+
+改進建議（只用一句話）：
+建議加入完整的程式標頭註解、統一且具意義的變數與縮排命名，並修正輸出格式以避免最後出現多餘的空格。
+
+改動與說明：
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 調整輸出格式，避免輸出結尾多一個空格，印出時在每個數字之間加空格，最後再換行。
+- 程式內部加入註解，提升可讀性與維護性。
+- 保留原有的選擇排序實作，符合「輸入長度動態、可處理負數、一次性結束」的需求；若未來追求更高效，亦可改用 Arrays.sort。
+
+修改後完整程式碼（已優化輸出格式與加入註解）：
+/*
+檔案名稱: csie_1031_41343214.java
+功能: 讀入陣列長度與元素，將元素升序排序，並輸出排序結果
+作者: 設定中
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class csie_1031_41343214 {
+    public static void main(String[] args) {
+        // 建立掃描器，以標準輸入取得資料
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+
+        // 逐個讀入陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用選擇排序 (Selection Sort) 將陣列由小到大排序
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) minIndex = j;
+            }
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+
+        // 輸出排序結果，避免在最後多出一個空格
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}

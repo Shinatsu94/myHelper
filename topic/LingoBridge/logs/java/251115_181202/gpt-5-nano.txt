@@ -1,0 +1,68 @@
+18
+
+改進建議（一句話）：
+建議先確保程式能順利編譯與完整執行兩個部分的需求，再使用穩健的浮點比較（四捨五入到指定小數位）取代直接比對，並加入清楚的程式註解與標頭。
+
+程式優化方向與修改說明：
+- 結構與命名：使用明確的常數與變數名稱，並在適當處加入註解，提升可讀性。
+- 編譯與執行正確性：修正原程式的語法錯誤，確保可編譯。
+- 部分實作（a）與（b）分離處理：分別實作兩個需求，Part (a) 在每個 STEP 輸出 pi 值；Part (b) 使用浮點數四捨五入到五位小數，找出第一個符合條件的 i，並輸出 i。
+- 浮點比較穩健性：改用四捨五入到指定小數位後再比較，以避免直接比較雙精度值的不穩定性。
+- 程式註解與標頭：加入檔案說明的標頭註解，符合作業的備註要求。
+
+修改後的完整程式碼如下（已符合題意並修正語法、結構與判斷邏輯）：
+
+public class LeibnizPi {
+    /**
+     * File: LeibnizPi.java
+     * 功能: 使用莱布尼茲公式近似圓周率，輸出在 i 為 10000 的增量值的 pi；再找出最小 i 使 pi 的五位小數為 3.14159。
+     * 作者: 你可以改成實際姓名
+     * 日期: 2025-11-15
+     */
+    public static void main(String[] args) {
+        final int MAX_I = 100000; // 第（一）部分的最大 i
+        final int STEP = 10000;   // 第（一）部分輸出間隔
+
+        double sum = 0.0;
+
+        // Part (a): 依序計算到 MAX_I，並在 STEP 的倍數輸出 pi 值
+        for (int i = 1; i <= MAX_I; i++) {
+            double term = 1.0 / (2 * i - 1);
+            if ((i & 1) == 1) { // i 為奇數，正號
+                sum += term;
+            } else { // i 為偶數，負號
+                sum -= term;
+            }
+
+            if (i % STEP == 0) {
+                double pi = 4.0 * sum;
+                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+            }
+        }
+
+        // 輕鬆換行，依題目要求使用單個空白進行換行
+        System.out.println(" ");
+
+        // Part (b): 找出最小的 i，使 pi 四捨五入到五位小數為 3.14159
+        sum = 0.0;
+        int iValue = 1;
+        while (true) {
+            double term = 1.0 / (2 * iValue - 1);
+            if ((iValue & 1) == 1) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+            double pi = 4.0 * sum;
+
+            // 近似到五位小數再比較，避免直接比較浮點數
+            double roundedTo5 = Math.round(pi * 100000.0) / 100000.0;
+            if (roundedTo5 == 3.14159) {
+                // 輸出 i，格式保持六位數寬，以符合題目要求
+                System.out.println("i = " + String.format("%6d", iValue));
+                break;
+            }
+            iValue++;
+        }
+    }
+}

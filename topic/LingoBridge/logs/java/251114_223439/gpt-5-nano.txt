@@ -1,0 +1,49 @@
+總分：3
+
+改進建議（用一句話）：此作業未符合題意，未對輸入的整數陣列進行排序與輸出，建議重新實作以符合需求。
+
+程式修改與原因說明
+- 重新設計輸入與輸出流程：原程式上下文與題意不符，未讀取並排序任意長度的一維整數陣列。新版本直接讀取長度 n，接著讀取 n 個整數，並進行排序。
+- 使用標準排序：改用 Arrays.sort 直覺且高效地對整數陣列排序，提升正確性與可讀性。
+- 變數命名與結構清晰：使用 arr、n 等具意義的變數名稱，移除未使用的多維陣列與不相關的計算。
+- 增加程式標頭註解與適當註解：加入檔案說明、功能描述、作者與日期，並在關鍵區塊加上註解。
+- 確保符合題目要求的輸出格式：輸出以空格分隔且不在末尾多餘空格，符合輸出範例。
+
+修改後完整程式碼
+/* 
+ * File: SortArray.java
+ * Description: 讀取長度 n 與 n 個整數，將它們由小到大排序，並輸出排序結果。
+ * Author: Your Name
+ * Date: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 將陣列由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素之間以單一空格分隔，且不在末尾多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

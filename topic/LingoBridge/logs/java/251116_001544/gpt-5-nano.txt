@@ -1,0 +1,54 @@
+85
+
+改進建議與回饋（一句話）：
+建議把可讀性與可維護性再提升（加入標頭註解、分離數字和與邏輯、使用 try-with-resources 管理輸入，並優化變數命名），同時維持正確性與效率。
+
+修改重點與原因：
+- 將數字和邏輯分別放入單獨的輔助方法 digitSum，提升可讀性與重用性。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，提高可維護性。
+- 使用 try-with-resources 管理 Scanner，避免資源洩漏。
+- 變數命名改為更有意義的 target、count、sum 等，增強自我說明性。
+- 引入常數 MAX_N 以避免直寫魔法數字，方便日後修改。
+- 保留原有演算法的正確性與效率，結構更清晰。
+
+修改後完整程式碼如下：
+
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41343238_1003_3.java
+ * 功能: 計算 1 到 100000 中，數字各位數字和等於輸入 A 的數字個數
+ * 作者: 請填寫
+ * 日期: 請填寫
+ */
+public class CSIE_41343238_1003_3
+{
+    private static final int MAX_N = 100000;
+
+    public static void main(String[] args)
+    {
+        // 使用 try-with-resources 確保 Scanner 釋放
+        try (Scanner sc = new Scanner(System.in)) {
+            int target = sc.nextInt();
+            int count = 0;
+
+            for (int i = 1; i <= MAX_N; i++) {
+                if (digitSum(i) == target) {
+                    count++;
+                }
+            }
+
+            System.out.println(count);
+        }
+    }
+
+    // 計算整數 n 的各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

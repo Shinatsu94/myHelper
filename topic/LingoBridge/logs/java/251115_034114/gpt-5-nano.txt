@@ -1,0 +1,73 @@
+66
+
+原作在邊界判定與註解方面有不足，若輸入超出範圍時可能不會輸出提示，且缺少程式頭註解，建議修正並提高可讀性。
+
+修改與優化說明
+- 對範圍判定進行修正：使用 maxVal = count - 1 作為陣列中最大值，正確處理 num 超出範圍的情況，並涵蓋 num 小於 1 的情況。
+- 使用數學公式直接計算 num 的位置：不再逐格掃描整個下三角陣列，而是根據數字序列的填充規律計算其行列位置，提升效率且語意清晰。
+- 增加程式頭註解與適當註解：提高程式的可讀性與可維護性，符合作業要求的備註部分。
+- 小幅度輸入穩健性增強與資源釋放：對輸入進行基本檢查，最後關閉 Scanner。
+
+修改後完整程式碼
+/* 
+ * 檔案名稱: CSIE_51015105_1031_4.java
+ * 功能: 建立下三角形二維陣列，輸入高度 n 與待尋找的數字 num，若 num 在陣列中，輸出其位置 [num, (row, col)]，否則輸出未找到的訊息。
+ * 作者: (請填寫作者)
+ * 日期: 2025-11-14
+ * 內容說明: 程式包含適當註解，並採用合理的變數命名與縮排。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_51015105_1031_4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取高度 n 與欲尋找的數字 find
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int find = scanner.nextInt();
+
+        // 基本的防呆處理
+        if (n <= 0) {
+            System.out.printf("not find %d in array.", find);
+            scanner.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列
+        int[][] lowertri = new int[n][n];
+        int count = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                lowertri[i][j] = count;
+                count++;
+            }
+        }
+
+        int maxVal = count - 1; // 陣列中最多的數字
+
+        // 檢查 num 是否在陣列範圍內
+        if (find < 1 || find > maxVal) {
+            System.out.printf("not find %d in array.", find);
+        } else {
+            // 依照數字填入的規律，計算其所在的行與列
+            // 1-based 的行號 r 與列號 c
+            int r = (int) Math.ceil((Math.sqrt(8.0 * find + 1) - 1) / 2.0);
+            int s = r * (r - 1) / 2; // 前 r-1 行的總數
+            int c = find - s;
+
+            System.out.printf("%d[%d, %d]", find, r, c);
+        }
+
+        scanner.close();
+    }
+}

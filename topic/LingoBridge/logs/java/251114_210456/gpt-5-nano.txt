@@ -1,0 +1,75 @@
+總分（0-100）：89
+
+改進建議（一句話）
+去除未使用的原始陣列原本用於備份的變數，補上完整的程式標頭註解，並在輸出上採用更穩健的格式化方式，以提升可讀性與未來維護性。
+
+修改說明與原因
+- 移除未使用的 original 陣列：原本宣告 original = new int[n]，卻未在程式中使用，造成不必要的記憶體使用與混淆。移除後更乾淨且效率更好。
+- 加入標頭註解：符合題目對程式檔案名稱、功能、作者、日期等註解的要求，提升可維護性與可追蹤性。
+- 輸出格式穩健化：使用 StringBuilder 產出輸出字串再印出，避免尾端空格與潛在格式問題，未來可更容易調整輸出格式。
+- 保留原有的演算法與結構：仍以簡單的選擇排序完成題目需求，保持易讀性與正確性。
+
+修改後的完整程式碼
+// 檔案名稱: CSIE_41343217_1031_1.java
+// 功能: 讀取長度 n 與 n 個整數，輸出升序排序結果
+// 作者: 教師任務
+// 日期: 2025-11-14
+
+import java.util.Scanner;
+
+public class CSIE_41343217_1031_1 {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+
+        // 讀取 n 個整數到陣列 a
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 對陣列進行排序（升序）
+        selectionSort(a);
+
+        // 輸出排序後的陣列
+        printArray(a);
+
+        sc.close();
+    }
+
+    // 選擇排序 (Selection Sort) 的實作
+    public static void selectionSort(int[] a) {
+        int n = a.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            // 交換 a[minIdx] 與 a[i]
+            int temp = a[minIdx];
+            a[minIdx] = a[i];
+            a[i] = temp;
+        }
+    }
+
+    // 印出陣列內容的方法，元素之間以空格分隔
+    public static void printArray(int[] a) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

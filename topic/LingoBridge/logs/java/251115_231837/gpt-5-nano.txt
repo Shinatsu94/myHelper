@@ -1,0 +1,37 @@
+89
+
+解題思路正確，建議在可讀性與資源管理上加入註解、統一變數命名為 A、B，並在結束時關閉 Scanner 以提升可讀性與資源管理。
+
+修改與原因
+- 將變數名稱改為 A、B，提升與題意的語義對應與可讀性。
+- 加入程式標頭註解，並描述功能、檔案名稱、作者與日期，符合備註欄位要求。
+- 保留題目要求的不使用暫存變數的 XOR 交換法，同時在程式中加入註解說明交換邏輯。
+- 結尾呼叫 sc.close()，釋放資源，避免 Scanner 物件未關閉的風險。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343238_1003_1.java
+ * 功能說明: 讀入兩個整數 A、B，先輸出交換後的值，使用不透過臨時變數的 XOR 交換法。
+ * 作者: 你的名字
+ * 日期: 2025-11-15
+ */
+public class CSIE_41343238_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 使用 XOR 交換法，不使用暫存變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}

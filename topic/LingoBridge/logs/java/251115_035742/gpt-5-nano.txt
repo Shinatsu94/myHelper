@@ -1,0 +1,126 @@
+85
+
+建議：程式正確性與輸出格式良好，但缺少標頭註解與更具描述性的命名，且在不可逆情況的輸出慣例需要更清晰的處理，建議統一命名與註解以提升可維護性。
+
+修改說明與優化方向（摘要）
+- 增加程式檔案標頭註解，說明檔案名稱、功能、作者與日期。
+- 將類別命名改為更具描述性的 MatrixInverse3x3，變數命名採用更具語意的名稱，提升可讀性。
+- 保留原有的核心演算法（3x3 矩陣的伴隨矩陣法求反矩陣），確保正確性。
+- 保持輸出格式符合題意：非零四位小數，零輸出為字元 0，且每行不出現尾端空白。
+- 若矩陣不可逆，沿用原程式的不輸出策略，避免輸出不確定內容。
+
+修改後完整程式碼
+若要直接複製執行，請以檔案 MatrixInverse3x3.java 存檔並編譯執行。
+
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+public class MatrixInverse3x3 {
+
+    // 定義輸出格式：非零四位小數
+    private static final DecimalFormat DF = new DecimalFormat("#0.0000");
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // 1. 讀取 3x3 矩陣 A
+        double[][] A = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                A[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        // 2. 計算反矩陣
+        double[][] invA = inverseMatrix3x3(A);
+
+        // 3. 列印結果
+        if (invA != null) {
+            printMatrix(invA);
+        } else {
+            // 矩陣不可逆：此作業假設不輸出特定訊息，與原程式相符
+        }
+    }
+
+    /**
+     * 計算 3x3 矩陣 A 的行列式
+     */
+    private static double determinant(double[][] a) {
+        // det(A) = a00*(a11*a22 - a12*a21)
+        //          - a01*(a10*a22 - a12*a20)
+        //          + a02*(a10*a21 - a11*a20)
+        return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1])
+             - a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0])
+             + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+    }
+
+    /**
+     * 計算 3x3 矩陣 A 的反矩陣 A⁻¹；若不可逆，回傳 null。
+     */
+    public static double[][] inverseMatrix3x3(double[][] a) {
+        double det = determinant(a);
+        final double EPSILON = 1e-9;
+        if (Math.abs(det) < EPSILON) {
+            return null; // 不可逆
+        }
+
+        double invDet = 1.0 / det;
+        double[][] adjA = new double[3][3]; // 伴隨矩陣 Adj(A)
+
+        // 逐元素填入 adjA 以代表 Cofactor 的轉置 (Adjugate)
+        // C(0,0) -> Adj(A)(0,0)
+        adjA[0][0] = (a[1][1] * a[2][2] - a[1][2] * a[2][1]);
+        // C(0,1) -> Adj(A)(1,0)
+        adjA[1][0] = -(a[1][0] * a[2][2] - a[1][2] * a[2][0]);
+        // C(0,2) -> Adj(A)(2,0)
+        adjA[2][0] = (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+
+        // C(1,0) -> Adj(A)(0,1)
+        adjA[0][1] = -(a[0][1] * a[2][2] - a[0][2] * a[2][1]);
+        // C(1,1) -> Adj(A)(1,1)
+        adjA[1][1] = (a[0][0] * a[2][2] - a[0][2] * a[2][0]);
+        // C(1,2) -> Adj(A)(2,1)
+        adjA[2][1] = -(a[0][0] * a[2][1] - a[0][1] * a[2][0]);
+
+        // C(2,0) -> Adj(A)(0,2)
+        adjA[0][2] = (a[0][1] * a[1][2] - a[0][2] * a[1][1]);
+        // C(2,1) -> Adj(A)(1,2)
+        adjA[1][2] = -(a[0][0] * a[1][2] - a[0][2] * a[1][0]);
+        // C(2,2) -> Adj(A)(2,2)
+        adjA[2][2] = (a[0][0] * a[1][1] - a[0][1] * a[1][0]);
+
+        // 將伴隨矩陣乘上 1/det 得到反矩陣
+        double[][] invA = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                invA[i][j] = adjA[i][j] * invDet;
+            }
+        }
+
+        return invA;
+    }
+
+    /**
+     * 列印矩陣，符合題目格式要求：
+     * - 若元素近似為零，輸出字串 "0"
+     * - 否則輸出四位小數
+     * - 每行三個元素，行尾不多餘空格，行結束以換行
+     */
+    private static void printMatrix(double[][] m) {
+        final double ZERO_EPS = 1e-6;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = m[i][j];
+                if (Math.abs(v) < ZERO_EPS) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(DF.format(v));
+                }
+
+                if (j < 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+}

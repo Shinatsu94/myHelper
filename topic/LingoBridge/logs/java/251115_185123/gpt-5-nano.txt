@@ -1,0 +1,39 @@
+82
+
+改進建議：建議加入對負數的處理、改用更具語意的變數命名、並補上程式頭註解與註解以提升可讀性與可維護性。
+
+修改說明與原因：
+- 正確性與健壯性：原程式僅適用非負整數，若輸入為負數會輸出不符合題意的結果；加入對符號的處理，並以 long 以避免整數溢位風險，讓程式能正確處理絕大多數整數情況。
+- 可讀性與格局：將變數命名改為更具意義的名稱（如 num、sign、digit、reversed），並加入註解與適當的程式頭註解，提升可讀性。
+- 容錯與延展：保留 0 的情況，確保輸入為 0 時輸出仍為 0；若未來需要，可很容易再擴充處理浮點或更大整數。
+
+修改後完整程式碼：
+/*
+File: CSIE_41245139_1017_3.java
+Description: Reverse digits of an integer input by the user.
+Author: 使用者自行填寫
+Date: 今日
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41245139_1017_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long num = sc.nextLong();
+        sc.close();
+
+        long sign = (num < 0) ? -1 : 1;    // 記錄符號
+        num = Math.abs(num);               // 取正值進行反轉
+
+        long reversed = 0;
+        while (num > 0) {
+            int digit = (int)(num % 10);
+            reversed = reversed * 10 + digit;
+            num /= 10;
+        }
+
+        reversed *= sign;                   // 還原符號
+        System.out.println(reversed);
+    }
+}

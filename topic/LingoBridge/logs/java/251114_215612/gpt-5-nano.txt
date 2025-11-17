@@ -1,0 +1,64 @@
+6
+- 改進建議：此提交未實作題目需求，僅輸出星號三角形，需改為讀取整數陣列、排序後輸出，並加入標頭註解與適當註解。
+
+改進與修改說明
+- 題意實作重點改為：讀取長度 n、依序讀入 n 個整數、以升序排序後輸出，支援負數，並避免使用 EOF；輸出以空格分隔，結束後不多餘空格。
+- 修改要點：
+  - 移除不相關的星號陣列作法，改用整數陣列。
+  - 使用 Arrays.sort 進行升序排序，簡潔且效率良好。
+  - 增加輸入驗證與合理的預設處理，確保即使輸入不足時也能穩健結束。
+  - 加入程式標頭註解，提供檔名、功能、作者與日期，並在必要處加入程式內容註解。
+  - 變數命名採用有意義名稱，如 n、arr、i、val 等，維持適當縮排與可讀性。
+
+修改後完整程式碼
+// 檔案名稱: CSIE_41343136_1031_3a.java
+// 功能: 依題意讀取整數長度與數值，進行升序排序，輸出排序結果
+// 作者: 您的教師姓名
+// 日期: 2025-11-14
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343136_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            // 無可讀取的整數，結束程序
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 輕量防呆：若 n <= 0，直接輸出空行或不輸出內容
+        if (n <= 0) {
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足的輸入，以 0 代替；也可選擇其他預設策略
+                arr[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，空格分隔且不在末尾多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

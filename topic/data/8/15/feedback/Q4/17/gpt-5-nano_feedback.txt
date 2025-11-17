@@ -1,54 +1,48 @@
-7
+90
 
-修改與評分說明
-- 正確性 (0/50): 作業要求是讀入任意長度的一維整數陣列，對內容做升冪排序並印出結果。學生程式與題目需求嚴重不符，僅採用自訂的三角矩陣與尋找數字的位置，未排序輸入數列，也未印出排序結果。因此給予 0 分。
-- 邏輯 (0/30): 程式邏輯與題目無關，使用不必要的 2D 陣列與定位查找，邏輯與需求不符，判斷此作業的解題邏輯不足以解決本題，給予 0 分。
-- 格式 (3/10): 雖然程式有結構，但變數命名不具語意並且排版不夠整齊，且使用較不直覺的結構（a[][]、b、c 等），未遵循清楚可讀的風格。給 3 分。
-- 備註 (4/10): 作業末尾包含姓名、學號、功能與日期等註解，雖然位置不最佳（在檔案結尾），但內容完整，符合基本的註解需求。給 4 分。
+建議把程式標頭放在檔案頂端、改用有意義的變數命名，並改以數學公式直接計算 num 的位置以避免遍歷整個下三角陣列，提升可讀性與效率。
 
-總分：7
+修改說明與優化重點
+- 將檔案標頭移至檔案頂端，包含檔案名稱、功能、作者與日期等資訊。
+- 修改變數命名為 height（高度）、target（欲尋找的數字）、tri（下三角矩陣）等，使語意更清楚。
+- 先用雙循環填寫完整的下三角陣列（上三角預設為 0），但後續位置查找改用數學公式直接計算，不再逐格搜尋，提升效率。
+- 使用簡潔的輸入結構與資源管理，結束前關閉 Scanner。
 
-修改後的完整程式碼
-注意：以下為符合題意的正確解法，使用單一維陣列並以內建排序完成升冪排序，輸出格式為以空格分隔的數列。
-- 程式放置於檔名 Main.java，類別名稱為 Main。
+完整修改後程式碼如下：
+/*
+檔案名稱: LowerTriangularSearch.java
+功能: 建立下三角形二維陣列，並找出指定數字的位置
+作者: 王世豪
+日期: 2025/10/31
+*/
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class LowerTriangularSearch {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0;
+        Scanner in = new Scanner(System.in);
+        int height = in.nextInt();
+        int target = in.nextInt();
+
+        int[][] tri = new int[height][height];
+        int val = 1;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
             }
         }
-        sc.close();
 
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        int total = height * (height + 1) / 2;
+        if (target >= 1 && target <= total) {
+            // 找到目標值所在的列與欄（1-based）
+            int row = (int) Math.ceil((Math.sqrt(8.0 * target + 1) - 1) / 2.0);
+            int prev = row * (row - 1) / 2;
+            int col = target - prev;
+            System.out.println(target + "[" + row + ", " + col + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
         }
-        System.out.println(sb.toString());
+
+        in.close();
     }
 }
-
-修改原因與說明
-- 結構與需求對齊：題目要求使用任意長度的一維整數陣列並排序，原程式使用二維三角矩陣與尋找座標，與需求嚴重不符。改為使用一維陣列，直接對數值排序，符合題意。
-- 簡潔且正確的排序方法：使用 Java 內建 Arrays.sort，確保正確且高效的排序，避免手寫排序邏輯容易出錯。
-- 清晰的輸入輸出流程：先讀入長度 n，再依序讀入 n 個整數，排序後以空格分隔輸出，與範例輸出格式一致。
-- 可讀性與維護性提升：改用具語意的變數與標準的程式風格（Main 類別名稱、明確的陣列用途），方便他人閱讀與維護；同時建議加入更完整的程式頭註解與檔案命名約定。
-
-一句話改進建議
-盡量使用單一資料結構與內建工具（如 Arrays.sort）來處理排序問題，並在檔案開頭加入標頭註解，明確說明檔案名稱、功能、作者與日期。

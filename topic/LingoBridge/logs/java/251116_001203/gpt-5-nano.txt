@@ -1,0 +1,45 @@
+85
+改進建議：建議加入標頭註解、使用清晰的變數命名並把位數和的計算抽成輔助方法以提升可讀性與相容性。
+
+修改與原因說明：
+- 移除 for 迴圈中的 var，改用整數型別 int，提升相容性與避免編譯版本依賴。
+- 使用更具可讀性的變數名稱，如 num、goal、count、digitSum。
+- 將計算位數和的邏輯抽成一個獨立的輔助方法 digitSum(n)，提高可讀性與可測試性。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期。
+- 其他小幅調整，保留原本的演算邏輯，仍正確計算 1..100000 範圍內位數和等於 goal 的數字個數。
+
+修改後完整程式碼：
+/**
+ * File: CSIE_41343226_1003_3.java
+ * 功能: 計算在 1..100000 之間，數字各位數字和等於輸入值 goal 的數字個數。
+ * 作者: [學生姓名]
+ * 日期: 2025-11-15
+ * 說明: 具備簡單的註解與清晰的命名，使用輔助方法計算位數和。
+ */
+import java.util.Scanner;
+
+public class CSIE_41343226_1003_3 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int goal = scn.nextInt();
+        scn.close();
+
+        int count = 0;
+        for (int num = 1; num <= 100000; num++) {
+            if (digitSum(num) == goal) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+
+    // 計算一個整數的各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

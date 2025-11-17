@@ -1,0 +1,56 @@
+13
+
+改進建議：需要正確實作排序邏輯，直接對整個陣列進行升冪排序並輸出，並加強程式命名與註解，提升可讀性與維護性。
+
+修改與評分細項
+- 正確性（50%）: 0/50
+  - 原程式未能正確完成題目要求的升冪排序，且輸出結果不符合預期。
+- 邏輯（30%）: 8/30
+  - 具備基本閱讀輸入與輸出結構，但排序邏輯錯誤，且最後仍以替換後的值輸出，缺乏正確的排序流程。
+- 格式（10%）: 3/10
+  - 使用一般縮排與簡單命名，但變數命名未具自說明性，且程式結尾缺乏系統性註解。
+- 備註（10%）: 2/10
+  - 程式 header 註解缺乏，註解放在檔案尾端且內容混雜；檔案命名與類別命名不符合清晰命名慣例。
+
+整體評語簡述：原本的排序邏輯無法正確完成題目需求，建議採用穩定的排序方法並加上清楚的註解與命名。
+
+修改後完整程式碼
+以下為優化後的可執行版本，採用標準排序方法 Arrays.sort 以正確實作升冪排序，並附上適當的程式頭註解與清楚的命名。
+
+/*
+File: Main.java
+功能: 讀取使用者輸入的任意長度整數陣列，第一個數字為長度 n，
+再輸入 n 個整數，輸出升冪排序後的陣列內容。
+作者: 你可以填寫
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+
+        int n = scn.nextInt();
+        int[] a = new int[Math.max(0, n)];
+
+        for (int i = 0; i < n && scn.hasNextInt(); i++) {
+            a[i] = scn.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.println(sb.toString());
+        scn.close();
+    }
+}

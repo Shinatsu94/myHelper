@@ -1,0 +1,58 @@
+6
+建議：原作排序邏輯與輸出不符合題意，請改用正確的排序方法並輸出排序後的陣列。
+
+修改與優化說明（為何修改以及重點內容）
+- 將自訂的「找後綴最大值」排序邏輯改為直接使用 Arrays.sort 進行整數排序，正確且效率高，能正確處理負數。
+- 輸出改用 StringBuilder，避免每次輸出時都產生字串拼接，並确保元素之間只有一個空格，結尾不多餘空格。
+- 加上完整的註解標頭，包含檔案名稱、功能、作者與日期，符合題目要求的程式註解風格。
+- 程式風格與命名維持清晰、可讀性高（變數名、縮排、註解合理）。
+
+修改後完整程式碼
+/*
+ * File: CSIE_41343233_1031_2.java
+ * 功能: 將使用者輸入的一維整數陣列由小到大排序並輸出
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343233_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補上預設值以避免例外
+            }
+        }
+
+        // 使用 Arrays.sort 直接對整數陣列由小到大排序
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

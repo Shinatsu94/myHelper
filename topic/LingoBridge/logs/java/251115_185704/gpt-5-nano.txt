@@ -1,0 +1,44 @@
+分數總計（0-100）：88
+
+改進建議（一句話）
+建議加入標頭註解與清楚的變數命名，並以 long 重構以提升穩健性與負數支援。
+
+修改說明與變更點
+- 正確性與邏輯：原本的演算法在大多數情況下正確，新增版本改用 long 且兼容負數，提升穩健性（負數時仍能保留符號、避免溢位）。
+- 格式與命名：改用有意義的變數名稱（如 reverseNumber、number、reversed），並在方法上加註解說明用途。
+- 備註：新增標頭註解，說明檔案名稱、功能、日期與作者（示例作者可改為實際姓名）。同時在程式內加入必要的註解。
+
+修改後的完整程式碼
+/*
+ * File: CSIE_41343202_1017_3.java
+ * Description: 讀入一個整數，輸出其各位數字的反向排列。
+ * Author: YourName
+ * Date: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class CSIE_41343202_1017_3 {
+    // Returns the integer formed by reversing the digits of number.
+    // Works for negative numbers as well by preserving the sign.
+    private static long reverseNumber(long number) {
+        long sign = number < 0 ? -1 : 1;
+        long n = Math.abs(number);
+        long reversed = 0;
+
+        while (n != 0) {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        }
+
+        return sign * reversed;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long number = scanner.nextLong();
+        long result = reverseNumber(number);
+        System.out.println(result);
+        scanner.close();
+    }
+}

@@ -1,0 +1,75 @@
+0
+
+改進建議：請完整實作題目需求，使用整數陣列讀入、排序並正確輸出；移除與題意無關的列印星號的低三角形輸出，並加入適當的註解與統一命名。
+
+修改說明與原因：
+- 正確性：改為讀取長度 n、再讀入 n 個整數，使用 Arrays.sort 進行由小到大的排序，符合題目要求；輸出為一行、以空格分隔的排序結果。
+- 邏輯：使用清楚的流程：輸入驗證、陣列儲存、排序、輸出，避免原作的低三角形輸出與無關邏輯。
+- 格式：重新命名為 ArraySortAscending，並補上有意義的變數名稱與註解，提升可讀性。
+- 備註：新增完整程式標頭註解，描述檔案名稱、功能、作者、日期與說明。
+
+以下為修改後的完整程式碼與說明：
+
+- 程式碼說明
+  - 檔案名稱: ArraySortAscending.java
+  - 功能: 讀取使用者輸入的長度 n 與 n 個整數，將陣列內容由小到大排序後輸出
+  - 作者: 課程助教
+  - 日期: 2025-11-14
+  - 說明: 使用 Scanner 讀取輸入，驗證 n>0，讀入 n 個整數，排序後輸出，確保不使用 EOF，且支援負數
+
+程式碼如下
+// ArraySortAscending.java
+/*
+檔案名稱: ArraySortAscending.java
+功能: 讀取使用者輸入的長度 n 與 n 個整數，將陣列內容由小到大排序後輸出
+作者: 課程助教
+日期: 2025-11-14
+說明: 不使用 EOF，適當處理輸入與輸出格式
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = 0;
+        // 讀取正整數 n，且 n > 0
+        while (true) {
+            if (scanner.hasNextInt()) {
+                n = scanner.nextInt();
+                if (n > 0) {
+                    break;
+                }
+            } else {
+                // 若遇到非整數，略過
+                scanner.next();
+            }
+        }
+
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數，並存入陣列
+        for (int i = 0; i < n; i++) {
+            // 直接取得下一個整數，假設輸入會提供 n 個整數
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+            }
+            arr[i] = scanner.nextInt();
+        }
+
+        // 排序：由小到大
+        Arrays.sort(arr);
+
+        // 輸出結果：一行，數字之間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

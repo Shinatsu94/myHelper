@@ -1,0 +1,53 @@
+87
+
+改進建議：加入標頭註解、改用 Arrays.sort 以提升穩定性與易讀性，並修正輸出格式以避免尾端多餘空格。
+
+修改說明與評分依據：
+- 正確性：使用 Arrays.sort 進行排序，能正確處理任意長度與包含負數的整數陣列，輸出格式也符合要求。若輸出必須完全無尾端空格，原版本的尾端空格會是潛在問題，因此此處修正。
+- 邏輯：採用直覺且簡潔的內建排序，邏輯清晰，避免自寫排序演算法造成的潛在錯誤。
+- 格式：改善輸出格式，避免尾端空格；整體縮排與命名保持清晰。
+- 備註：新增適當的標頭註解，並保留必要註解以說明程式功能。
+
+修改後的核心變更點：
+- 加入標頭註解，說明檔案名稱與功能。
+- 改用 Arrays.sort(arr) 直接排序，替代手寫的選擇排序。
+- 輸出時不再在每個數字後加空格，而是在換行前控制僅在前一個數字之後插入空格，避免尾端空格。
+- 程式碼風格調整，保持命名與縮排清晰。
+
+修改後完整程式碼：
+```java
+/*
+Filename: CSIE_41343205_1031_1.java
+Description: 讀入一個整數 n，接著讀入 n 個整數，將其升序排序後輸出，輸出格式為空格分隔且末尾不帶空格。
+Author: 程式設計講師
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343205_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 使用內建排序以提升穩定性與效率
+        Arrays.sort(arr);
+
+        // 輸出不留尾端空格
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
+```

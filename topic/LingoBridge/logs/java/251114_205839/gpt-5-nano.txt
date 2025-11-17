@@ -1,0 +1,47 @@
+90
+
+建議回饋：功能正確且排序正確，但缺少標頭註解與較佳的變數命名與輸出換行，建議補充註解、優化命名並在末尾加上換行以符合常見格式。
+
+修改與優化重點及原因：
+- 使用內建排序 Arrays.sort(arr) 取代自寫的選擇排序，提升穩定性與效率，且程式更簡潔易讀。
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註部分。
+- 將變數命名改為更具語意的名稱（Scanner 改為 scanner），提高可讀性。
+- 統一在輸出後加上換行，符合大多數測資的輸出格式要求。
+- 保留原本的輸入與輸出邏輯，確保負數支援與邊界情況。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343150_1031_1.java
+Description: 讀取整數個數與元素，對一維整數陣列進行升序排序，並輸出排序結果。
+Author: 教授
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343150_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 使用內建排序提升穩定性與效率
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以空格分隔，結尾換行
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}

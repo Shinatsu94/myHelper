@@ -1,0 +1,49 @@
+84
+
+改進建議：
+- 建議提升變數命名與程式註解，並加入檔案頭說明以提升可讀性與後續維護性。
+
+修改說明與重點：
+- 改用更具描述性的函式與變數名稱（sumDigits、target、count、num）。
+- 增加檔案頭註解，說明檔案名稱、功能、作者與日期。
+- 將原本的 a(n) 函式改為 sumDigits，以提升可讀性與可維護性。
+- 程式結構保持不變但增強可讀性與命名一致性，便於日後擴充。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/**
+ * 文件名稱: CSIE_41343221_1003_3.java
+ * 功能描述: 輸入一個數字 A，計算區間 [1, 100000] 中，使各位數字加總等於 A 的數字個數。
+ * 作者: 請填寫
+ * 日期: 請填寫
+ */
+public class CSIE_41343221_1003_3 {
+
+    // 回傳整數 n 的各位數字總和
+    private static int sumDigits(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int target = scanner.nextInt();
+        scanner.close();
+
+        int count = 0;
+
+        for (int num = 1; num <= 100000; num++) {
+            if (sumDigits(num) == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+}

@@ -1,0 +1,66 @@
+86
+改進建議：加強對邊界的處理與註解，並改用從尾端向前計算的後綴最大值法以提升效率與可讀性。
+
+修改說明與原因：
+- 將原本的 O(n^2) 迴圈改為 O(n) 的後綴最大值法，提升效率，同時保持輸出符合題意的轉換結果。
+- 使用結果陣列保留原始輸入資料，避免在計算過程中覆蓋原始值造成邊界判斷錯誤。
+- 增加程式標頭註解與適當的註解，並加強輸入邊界處理（如 n <= 0）。
+- 改善輸出格式，統一以單一輸出字串印出，避免末尾多餘空格。
+
+修改後完整程式碼：
+
+import java.util.Scanner;
+
+/*
+ 檔案名稱: CSIE_41343128_1031_2.java
+ 功能: 將輸入的陣列，每個元素替換為其後方元素中的最大值，最後一個元素為 -1
+ 作者: 你的姓名或代號
+ 日期: 2025-10-31
+ 說明: 不使用 EOF，讀取單次輸入，輸出轉換後的陣列。
+*/
+public class CSIE_41343128_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        int n;
+        if (!scn.hasNextInt()) {
+            return;
+        }
+        n = scn.nextInt();
+
+        if (n <= 0) {
+            // 無有效元素，結束
+            System.out.println();
+            return;
+        }
+
+        int[] list = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                list[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（不影響題意邏輯，避免异常）
+                list[i] = 0;
+            }
+        }
+
+        // Optimized: 使用後綴最大值，一趟計算完成轉換
+        int[] result = new int[n];
+        result[n - 1] = -1;
+        int maxSoFar = list[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            result[i] = maxSoFar;
+            if (list[i] > maxSoFar) {
+                maxSoFar = list[i];
+            }
+        }
+
+        // 輸出結果，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

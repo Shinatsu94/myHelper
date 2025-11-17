@@ -1,41 +1,48 @@
-6
+11
+改進建議：不要使用排序，應直接以原始陣列從右向左計算每個位置右側的最大值，這樣才能符合題意並正確處理負數情況。
+
+改動重點與說明：
+- 演算法修正：移除原有的排序步驟，改以從右到左的單次掃描，維護右側原始元素的最大值，正確得到每個位置右方的最大值，最後一個元素置為 -1。
+- 貼近題意的資料處理：保留原始元素順序，支援負數輸入。
+- 程式結構與可讀性：增加適當註解與標頭資訊，將類別名稱改為常見的 Main，改善縮排與命名。
+- 輸出格式：確保輸出數字之間以單個空格分隔，且不在結尾多印到空格。
 
 修改後完整程式碼：
 /*
-Filename: Main.java
-功能: 讀取一個整數 n，接著讀入 n 個整數，將其升冪排序，輸出排序結果
-作者: 教授示範
-日期: 2025-11-12
-*/
+ * File: Main.java
+ * 功能: 依題意將陣列中每個元素替換為其右側元素的最大值，最後印出結果。最後一個元素為 -1。
+ * 作者: 請自行填寫
+ * 日期: 2025-11-14
+ */
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
         int[] arr = new int[n];
+
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
-        Arrays.sort(arr);
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 直接從原始陣列右向左計算右側最大值
+        if (n > 0) {
+            int maxRight = arr[n - 1];
+            arr[n - 1] = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i];
+                arr[i] = maxRight;
+                if (current > maxRight) {
+                    maxRight = current;
+                }
+            }
         }
-        System.out.println(sb.toString());
-        sc.close();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
     }
 }
-
-修改說明：
-- 移除原程式中不當的逆向與最大值更新邏輯，直接使用 Arrays.sort(arr) 進行升冪排序，保證輸出正確。
-- 使用 StringBuilder 組裝輸出字串，避免多次 System.out.print 帶來的效能問題，且容易控制空格分隔。
-- 加入檔案說明的註解區塊（檔案名稱、功能、作者、日期），提升可維護性與可讀性。
-- 將類別名稱固定為 Main，與檔名相符，確保編譯與使用更穩定。
-- 程式結尾使用 println，以符合常見輸出慣例並避免末尾缺少換行。
-- 保留原本的掃描器用法，保持簡單且符合題目要求的單次輸入流程。
-
-改進建議（一句話）：
-去除不必要的倒序處理，直接排序並整齊輸出即可，並補充程式註解與適當的檔案命名。

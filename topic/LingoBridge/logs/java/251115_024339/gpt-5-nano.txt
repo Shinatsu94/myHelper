@@ -1,0 +1,45 @@
+總分（0-100）：90
+
+改進意見（一句話）
+建議在程式檔案開頭加入註解與說明，並以更簡潔的寫法填充與資源管理，提升可讀性與符合備註要求。
+
+修改與改進原因說明
+- 加入檔案開頭註解：符合備註要求，讓程式用途及作者資訊清楚，便於維護。
+- 使用 Arrays.fill 取代內層迴圈逐格填充 '*'：讓程式碼更簡潔、效率稍增、易於閱讀。
+- 使用 try-with-resources 自動關閉 Scanner：提升資源管理的安全性與可讀性。
+- 保持輸出格式與題意一致：每列無空白符號，輸出為下三角形。
+
+修改後的完整程式碼
+/*
+檔名: CSIE_41343211_1031_3_a_1.java
+功能: 建立並列印下三角形的二維陣列，高度由使用者輸入 (0<n<=20)
+作者: 教授
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343211_1031_3_a_1 {
+    public static void main(String[] args) {
+        try (Scanner input = new Scanner(System.in)) {
+            int n = input.nextInt();
+
+            // 只接受 1 <= n <= 20，其他情況直接結束
+            if (n <= 0 || n > 20) {
+                return;
+            }
+
+            // 建立下三角形二維陣列並填充 '*'
+            char[][] triangle = new char[n][];
+            for (int i = 0; i < n; i++) {
+                triangle[i] = new char[i + 1];
+                Arrays.fill(triangle[i], '*');
+            }
+
+            // 列印下三角形
+            for (int i = 0; i < n; i++) {
+                System.out.println(triangle[i]);
+            }
+        }
+    }
+}

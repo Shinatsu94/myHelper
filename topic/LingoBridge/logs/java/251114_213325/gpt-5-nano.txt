@@ -1,0 +1,55 @@
+12
+
+改進建議與回饋
+這份作業的排序邏輯不正確，會導致輸出不符合由小到大的排序，且未妥善處理負數與輸入格式。建議改用穩定且正確的排序方法（如 Arrays.sort），並加上適當的程式標頭與註解以提升可讀性與可維護性。
+
+修改說明與變更內容
+- 使用 Arrays.sort(arr) 取代原本的自訂排序邏輯，確保正確性與對負數的支援。
+- 移除不安全的 sentinel 值 (-1) 與「max」變數的錯誤用法，避免產生錯誤的排序結果。
+- 增加清晰的註解與標頭說明檔案名稱、功能、日期等，提升程式的可懂度。
+- 輸入處理更穩健，確保輸出為單行以空白分隔的升序序列，最後再換行。
+- 變數命名保持語意清晰（length、arr），程式格式化與縮排統一。
+
+修改後的完整程式碼
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41343212_1031_2.java
+ * Function: Read length and integers, sort ascending, print results.
+ * Author: YourName
+ * Date: 2025-11-14
+ * Notes: This version uses Arrays.sort for correctness and simplicity.
+ */
+public class CSIE_41343212_1031_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+
+        int length = input.nextInt();
+        int[] arr = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 避免例外
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        for (int i = 0; i < length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        input.close();
+    }
+}

@@ -1,78 +1,60 @@
-4
+77
+建議重視題目要求的「實作二維陣列」與程式標頭註解，現在的版本雖能正確輸出，但未符合「建立並填充二維陣列」的要求，且缺少程式標頭說明。
 
-評分概覽（依您的標準逐項給分，以下總分為 4/100，僅作示範用途）：
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：4/10
-- 備註：0/10
-
-修改與說明
-- 修改前的程式功能與題意嚴重不符，僅輸出一個星號三角形，未處理排序與輸出需求。
-- 修改後的程式說明與變更要點：
-  - 重新實作核心功能：讀取長度 n 與 n 個整數，將陣列內容由小到大排序，並以單行空格分隔輸出。
-  - 使用 Arrays.sort() 進行排序，能正確處理負數與任意長度的整數陣列。
-  - 輸入與輸出風格符合任務需求：不使用 EOF，輸出為一行整數，數字間以空格分隔，結尾換行。
-  - 增加適當的檔案標頭註解與內部註解，提升可維護性。
-  - 變數命名與結構更清楚：
-    - 類別名稱改為與功能對應的 SortArrayAsc
-    - 使用清晰的變數與流程控制
+優化建議與說明
+- 使用實作的 2D 陣列來存放星號，符合題意的資料結構要求。
+- 增加程式標頭註解，說明檔名、功能、作者與日期，提升可維護性。
+- 改用 0-based 索引與明確的命名，提升可讀性。
+- 使用 StringBuilder 組合每行字串，提升效能，避免逐字印出造成大量 I/O。
+- 程式結尾適當關閉 Scanner，避免資源洩漏。
+- 在輸出上仍保持「無空白符號、每行星號數字等於行數」的要求。
 
 修改後完整程式碼
 ```java
-/*
-File: SortArrayAsc.java
-功能: 從使用者讀取整數長度 n 與 n 個整數，將陣列內容由小到大排序，並以空格分隔輸出
-作者: 你的名字
-日期: 2025-11-12
-*/
+/**
+ * LowerTriStar.java
+ * 功能: 建立並列印下三角形的二維陣列（n x n）的前半部分，此部分填 '*'，形成下三角形。
+ * 使用者輸入高度 n (0 < n <= 20)
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
 
 import java.util.Scanner;
-import java.util.Arrays;
 
-public class SortArrayAsc {
+public class LowerTriStar {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 讀取 n
         if (!sc.hasNextInt()) {
             sc.close();
             return;
         }
         int n = sc.nextInt();
-        if (n <= 0) {
+
+        // 邊界檢查：0 < n <= 20
+        if (n <= 0 || n > 20) {
             sc.close();
             return;
         }
 
-        // 讀入 n 個整數
-        int[] a = new int[n];
+        // 建立並填充二維陣列：下三角部分為 '*'
+        char[][] arr = new char[n][n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                a[i] = sc.nextInt();
-            } else {
-                a[i] = 0; // 若輸入不足，補 0
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
             }
         }
 
-        // 由小到大排序
-        Arrays.sort(a);
-
-        // 輸出：以空格分隔，結尾換行
+        // 輸出下三角形：每行輸出前 i+1 個星號
         for (int i = 0; i < n; i++) {
-            if (i > 0) System.out.print(' ');
-            System.out.print(a[i]);
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j <= i; j++) {
+                sb.append(arr[i][j]);
+            }
+            System.out.println(sb.toString());
         }
-        System.out.println();
 
         sc.close();
     }
 }
 ```
-
-修改原因說明
-- 核心需求改為排序與輸出，原本的星號輸出與題意嚴重不符，因此改為實作排序與正確輸出流程。
-- 使用 Arrays.sort 提升效率與穩定性，負數也能正確排序，並讓程式碼更簡潔易讀。
-- 增加檔案標頭與內部註解，符合作業要求的備註規範，提升可維護性與他人閱讀性。
-
-改進建議（一句話）
-- 建議加入更嚴謹的輸入驗證與例外處理，並搭配單元測試以確保在各種輸入情境下仍能穩定輸出正確結果。

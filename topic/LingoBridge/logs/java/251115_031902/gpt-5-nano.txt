@@ -1,0 +1,59 @@
+89
+
+改進建議：此作業在正確性方面表現良，但可透過數學推導直接計算座標而不需建立整個下三角矩陣，且缺少程式開頭註解，建議加入標頭註解並改用常數時間計算以提升效能。
+
+優化說明與修改要點
+- 核心改動：不再建立下三角形矩陣，而是利用數學公式直接計算 num 在哪一列與哪一欄。
+  - 找出行數 r 的公式：r 為滿足 r(r+1)/2 >= num 的最小整數，即 r = ceil((sqrt(8*num + 1) - 1) / 2)
+  - 該行的起始數字 start = (r-1)*r/2 + 1；列號為 r，欄號為 col = num - start + 1
+  - 若 num > total (= n(n+1)/2)，輸出 not find num in array.
+- 優點：時間複雜度 O(1)，空間使用 O(1)，不需要佔用額外的陣列記憶體。
+- 程式標頭與註解：加入檔案開頭的標頭註解，符合題目對註解的要求。
+- 輸出格式維持原有模式，仍輸出 num[row, col] 或 not find X in array.
+
+修改後完整程式碼
+```java
+/*
+File: LowerTriangularLocator.java
+Description: 讀入高度 n 與欲尋找的數字 num，若 num 在下三角矩陣範圍內，直接計算其座標 (row, col)；不實際建立矩陣。
+Author: 教師
+Date: 2025-11-14
+*/
+
+public class LowerTriangularLocator {
+    public static void main(String[] args) {
+        java.util.Scanner input = new java.util.Scanner(System.in);
+
+        // 讀取高度 n
+        int n = input.nextInt();
+
+        // 讀取要尋找的數字 num
+        int num = input.nextInt();
+
+        // 總元素數
+        int total = n * (n + 1) / 2;
+
+        // 若 num 超出範圍，輸出找不到
+        if (num > total) {
+            System.out.println("not find " + num + " in array.");
+        } else {
+            // 直接用數學公式計算 row, col
+            // r 為 num 位於哪一列（1-based），滿足 r(r+1)/2 >= num 的最小 r
+            int r = (int) Math.ceil((Math.sqrt(8.0 * num + 1) - 1) / 2.0);
+            if (r > n) r = n;
+
+            int start = (r - 1) * r / 2 + 1; // 該行起始數字
+            int c = num - start + 1;         // 欄位為 num - start + 1
+
+            System.out.println(num + "[" + r + ", " + c + "]");
+        }
+
+        input.close();
+    }
+}
+```
+
+說明修改的原因
+- 為符合題意「不用印出三角形內容」的同時，提升效能與資源利用，改用數學公式直接推導座標即可解決問題，避免不必要的陣列分配與逐元素搜尋。
+- 加入標頭註解，滿足「程式標頭註解說明該程式檔案名稱、功能、作者、日期」與內容註解的需求，提升程式可讀性與維護性。
+- 輸出格式保持與原作業要求一致，確保測試案例能正確比對。

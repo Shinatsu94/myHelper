@@ -1,0 +1,41 @@
+14
+
+建議改進要點：目前的 XOR 交換寫法不正確，且缺少程式標頭註解與清晰的程式說明，建議採用正確的 XOR 交換演算法，並在開始與結束都印出原始與交換後的值，同時補上註解與標頭資訊。
+
+程式優化說明與修改原因
+- 正確性與邏輯：改用標準的三步驟 XOR 交換法 a = a ^ b; b = a ^ b; a = a ^ b，且在交換前後分別印出原始值與交換後的值，符合「不使用額外變數」的約束。
+- 格式與命名：加入有意義的註解、程式標頭註解，並保持適當縮排，使程式更易讀。
+- 備註：在檔案頂部加入註解區塊，描述檔案名稱、功能、作者與日期。
+
+修改後完整程式碼
+/*
+  文件名稱: CSIE_41343219_1003_1.java
+  功能: 讀入兩個整數，印出原始值，將這二個變數的值交換並印出（不使用臨時變數）
+  作者: 你的姓名
+  日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343219_1003_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取兩個整數
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        sc.close();
+
+        // 印出原始值
+        System.out.println(a);
+        System.out.println(b);
+
+        // 使用不使用額外變數的三步驟 XOR 交換
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        // 印出交換後的值
+        System.out.println(a);
+        System.out.println(b);
+    }
+}

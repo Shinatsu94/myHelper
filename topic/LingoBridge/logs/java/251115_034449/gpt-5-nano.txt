@@ -1,0 +1,64 @@
+44
+
+建議改進方向：建議改用算術方式直接定位列與欄位，並加強輸入驗證與輸出格式修正，避免無窮迴圈與輸出不符。
+
+改進與修改說明：
+- 正確性與穩定性：
+  - 加入對高度與數字的完整驗證，避免 n <= 0 等情況造成無窮迴圈。
+  - 改用數學公式定位位置：找到滿足 t_{r-1} < num <= t_r 的行 r，欄位 c = num - t_{r-1}，若 num > h(h+1)/2 則輸出找不到，符合題意。
+- 邏輯性：
+  - 以穩定且直覺的算術方法取代原始的兩段迴圈，讓程式更易理解與維護。
+- 格式與可讀性：
+  - 修正輸出格式為 num[r, c]，符合題目給的格式要求（如 55[10, 10]）。
+  - 移除不必要的引入與潤飾縮排，並加入清楚的程式標頭註解。
+- 備註：
+  - 加入檔案頭註解，包含檔案名稱、功能、作者與日期等資訊。
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+
+/**
+ * LowerTriangularLocator.java
+ * 功能：尋找下三角形二維陣列中某數字的位置（行、列，皆從 1 開始）。
+ *       若數字不在三角形範圍內，輸出找不到的訊息。
+ * 作者：你可以填寫
+ * 日期：2025-11-14
+ */
+public class LowerTriangularLocator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int height = sc.nextInt();
+        int target = sc.nextInt();
+
+        // 輸入驗證
+        while (height < 1 || height > 20) {
+            System.out.println("請重新輸入三角形高度(介於1～20之間):");
+            height = sc.nextInt();
+        }
+        while (target < 1 || target >= 100000) {
+            System.out.println("請重新輸入(數值必須小於100000且大於0):");
+            target = sc.nextInt();
+        }
+
+        int total = height * (height + 1) / 2;
+        if (target > total) {
+            System.out.println("not find " + target + " in array.");
+        } else {
+            // 找出 target 所在的行 r，與前一行的結尾值
+            int r = 1;
+            int t = 1; // t 為 t_r = r*(r+1)/2
+            while (target > t) {
+                r++;
+                t = r * (r + 1) / 2;
+            }
+            int tPrev = r * (r - 1) / 2; // t_{r-1}
+            int c = target - tPrev;      // 欄位為 target 減去前面所有元素的數量
+            System.out.println(target + "[" + r + ", " + c + "]");
+        }
+
+        sc.close();
+    }
+}
+```

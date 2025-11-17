@@ -1,0 +1,45 @@
+90
+
+建議句子：建議加入檔案頭註解、改用 long 類型以避免溢位，並整理格式以提升可讀性與穩健性。
+
+修改與評語：
+- 修改內容1：加入完整的檔案頭註解，說明檔案名稱、功能、作者與日期，提升備註分數與可維護性。
+  理由：符合備註項目的要求，便於日後維護與交接。
+- 修改內容2：將變數型別改為 long，並在主程式中使用 long 讀取與處理，提升對較大整數的容錯性。
+  理由：原本使用 int 在極端情況下可能溢位，改用 long 提升穩健性。
+- 修改內容3：維持原有算數反轉邏輯，僅增強型別與註解，同時整理程式格式與命名以提升可讀性。
+  理由：原邏輯正確，僅需要小幅格局與可讀性改進。
+
+以下為修改後完整程式碼：
+
+/*
+檔案名稱: csie_41343242_1017_3.java
+功能: 將使用者輸入的整數的數字位反轉，例如 123 -> 321, 2500 -> 52
+作者: 學生
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class csie_41343242_1017_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        long number = scanner.nextLong();
+        long reversedNumber = reverseDigits(number);
+
+        System.out.println(reversedNumber);
+
+        scanner.close();
+    }
+
+    public static long reverseDigits(long number) {
+        long reversed = 0;
+        long n = number;
+        while (n != 0) {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        }
+        return reversed;
+    }
+}

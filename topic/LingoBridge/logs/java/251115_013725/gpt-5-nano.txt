@@ -1,0 +1,84 @@
+89
+建議使用內建排序與加入程式標頭註解以提升可讀性與穩定性。
+
+以下為優化後的完整程式碼與修改說明：
+- 變更要點：
+  - 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+  - 使用快速輸入方法（自訂 FastScanner）提升讀入效能與穩定性，避免掃描器的效能瓶頸。
+  - 改用內建排序 Arrays.sort，簡化邏輯並提升正確性與效能，特別是對於大數量資料與含負數情況。
+  - 輸出格式保持原有需求，數字以空白分隔，末尾換行。
+- 修改原因：
+  - 內建排序較自訂選擇排序更簡潔、可讀且通常更快，同時降低出錯機會；標頭註解提升維護性。
+
+完整程式碼如下：
+
+import java.io.InputStream;
+import java.io.IOException;
+
+public class CSIE_41343227_1031_1 {
+    /*
+     * 檔案名稱: CSIE_41343227_1031_1.java
+     * 功能: 讀取長度與整數陣列，升序排序，輸出結果（以空格分隔）
+     * 作者: 教授
+     * 日期: 2025-11-14
+     */
+
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) { in = is; }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        // 使用內建排序提升穩定性與效率
+        java.util.Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

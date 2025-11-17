@@ -1,0 +1,53 @@
+83
+
+建議改進點：增加程式頭註解與變數命名的清晰度，同時考慮負數情況與輸入的穩定性。
+
+修改與優化說明：
+- 將判斷邏輯改為以字串方式檢查，從左到右逐一比較相鄰位數，避免從 LSD 往 MSD 的反向判斷可能的混淆與邏輯風險。
+- 加入清晰的程式頭註解與更具語意的變數命名，提升可讀性與維護性。
+- 處理負數情況：若輸入為負數，視為非「well-ordered number」。
+- 程式結構更為簡潔，且僅執行一次輸入後輸出結果即可結束。
+
+修改後完整程式碼：
+```java
+/**
+ * File: WellOrderedNumber.java
+ * 功能: 判斷輸入的整數是否為「左至右位數嚴格遞增」的數字
+ * 作者: 請填寫
+ * 日期: 2025-11-15
+ * 註解: 程式會檢查負數、單位數與多位數情況，並輸出標準格式結果。
+ */
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long n;
+        if (sc.hasNextLong()) {
+            n = sc.nextLong();
+        } else {
+            // 非數字輸入直接結束
+            return;
+        }
+
+        boolean isWellOrdered = true;
+        if (n < 0) {
+            isWellOrdered = false;
+        } else {
+            String s = Long.toString(n);
+            for (int i = 1; i < s.length(); i++) {
+                if (s.charAt(i) <= s.charAt(i - 1)) {
+                    isWellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.printf("%d is well-ordered number.", n);
+        } else {
+            System.out.printf("%d is not well-ordered number.", n);
+        }
+    }
+}
+```

@@ -1,0 +1,42 @@
+86
+改進建議：補上檔案標頭註解，並改用二維陣列實作以符合題意，同時保持清楚的程式結構與註解。
+
+程式碼優化說明與修改重點
+- 需求變更：原程式未真正建立二維陣列，改為使用二維陣列（char[][]）來儲存下三角星號，再輸出。這樣可以更符合題目「建立一個下三角形的二維陣列」的要求。
+- 變數與結構：保留合理的輸入驗證（0 < n <= 20），並用清晰的註解說明，提升可讀性與維護性。
+- 設計原則：先填滿二維陣列中的下三角區域，再逐行輸出，確保輸出不含多餘空白符號，符合題意。
+- 風格：加入適當的註解與更具語意的變數說明，維持良好的縮排與格式。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 輸入驗證：0 < n <= 20
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        // 使用二維陣列儲存下三角形的星號
+        char[][] tri = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
+            }
+        }
+
+        // 輸出：逐行列印前 i+1 個星號，無空格
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(tri[i][j]);
+            }
+            System.out.println();
+        }
+
+        sc.close();
+    }
+}

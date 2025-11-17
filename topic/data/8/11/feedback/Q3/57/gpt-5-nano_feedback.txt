@@ -1,31 +1,42 @@
-2
+82
+改進建議：建議改用更簡潔清晰的逐位數字相加方法並使用具描述性的變數命名與適當註解，以提升可讀性與維護性。
+
+修改說明與原因：
+- 變數命名與結構改良：將原本混雜的多個臨時變數改為 targetSum、count 與 簡潔的逐位相加邏輯，提升可讀性與可維護性。
+- 演算法簡化：改用 while 迴圈逐位相加，避免長串的數字分解變數，讓程式更直覺且易於擴充。
+- 程式格式與可讀性：增添必要註解與統一縮排風格，便於他人閱讀理解。
+- 標頭註解與檔案命名：加入程式頭註解與改用更具描述性的檔案名稱，以符合備註要求。
 
 修改後完整程式碼：
+/*
+檔案名稱: SumOfDigitsMatch.java
+功能: 統計 1..100000 範圍內，數字各位數字和等於輸入值 A 的數字個數
+作者: 盡量提供作者資訊
+日期: 2025-11-15
+說明: 讀入整數 A，輸出 1 至 100000 中，數字各位數字和等於 A 的數字個數
+*/
 import java.util.Scanner;
 
-public class Main {
+public class SumOfDigitsMatch {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int A = sc.nextInt();
-        int B = sc.nextInt();
+        int targetSum = sc.nextInt();
+        int count = 0;
 
-        // 使用不額外變數的 XOR 交換法，符合題目限制
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+        for (int i = 1; i <= 100000; i++) {
+            int t = i;
+            int sum = 0;
+            // 逐位相加直到數字結束
+            while (t > 0) {
+                sum += t % 10;
+                t /= 10;
+            }
+            if (sum == targetSum) {
+                count++;
+            }
+        }
 
-        System.out.println(A);
-        System.out.println(B);
-
+        System.out.print(count);
         sc.close();
     }
 }
-
-修改說明：
-- 就題意改為正確讀入兩個整數 A、B，並在交換後輸出交換結果，與樣例輸出相符（先印出經交換的 A，再印出經交換的 B）。
-- 使用不額外變數進行交換：A = A ^ B; B = A ^ B; A = A ^ B，符合「不可使用其他變數進行數字交換」的限制。
-- 移除原作誤用的單變數與多餘運算，簡化邏輯，提升可讀性與穩定性。
-- 程式結構改為公開類名與清晰縮排，便於維護。
-
-一句話改進建議：
-請確認輸出格式完全符合題意（是否只輸出交換後的兩個值，或需同時輸出交換前後的值），以避免評分時因輸出格式不一致而扣分。

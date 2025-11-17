@@ -1,0 +1,50 @@
+4
+正確性: 0 / 50
+邏輯: 0 / 30
+格式: 4 / 10
+備註: 0 / 10
+
+改進建議：此作業目前的排序邏輯不符合題意，需改用正確的排序方法（如 Arrays.sort）並補上程式頭註解與適當的格式。
+
+程式修改與原因說明：
+- 將原有的自訂“取後面最大值再放到前面”的邏輯改為正確的整數排序，使用 Java 標準函式 Arrays.sort 直接對整數陣列排序，保證輸出為升序。
+- 增加程式頭註解，說明檔案名稱、功能、作者與日期等，提升可維護性與可讀性。
+- 輸出格式改為單行空白分隔的排序結果，並在結尾換行，符合常見輸出規範。
+- 關閉 Scanner，養成資源釋放的好習慣。
+- 使用清晰的變數名稱，並避免不必要的額外結果陣列。
+
+修改後完整程式碼：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343233_1031_2.java
+功能: 讀入長度 n，讀入 n 個整數，將其升序排序，輸出結果
+作者: 教師
+日期: 2025-11-14
+說明: 使用 Arrays.sort 排序，輸出以單行空格分隔，末尾換行
+*/
+
+public class CSIE_41343233_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

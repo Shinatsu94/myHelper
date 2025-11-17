@@ -1,0 +1,65 @@
+0
+
+此作業未正確實作題目需求的排序與輸出流程，需重寫為正確讀入長度與元素、排序、再輸出排序結果。
+
+修改建議與說明要點
+- 正確性與邏輯：改以固定流程讀入長度 n、接著讀入 n 個整數，使用 Arrays.sort 進行升序排序，最後以單行輸出排序結果（以空格分隔）。
+- 格式：改善變數命名與縮排，確保程式可閱讀性與維護性。
+- 備註：在程式頂端加入註解（檔案名稱、功能、作者、日期），以及適度的內文註解，提升可讀性與日後維護性。
+- 簡化與穩定性：移除原程式中與題意無關的複雜判斷，避免對輸入格式的假設，確保一輪執行結束就輸出結果並結束程式。
+
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_41343219_1031_3a.java
+ * 功能: 讀入陣列長度與元素，將其升序排序，輸出排序後的內容。
+ * 作者: 教授姓名
+ * 日期: 2025-11-14
+ * 備註: 程式一次執行結束，不使用 EOF。支援負數。
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343219_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+修改原因說明
+- 使用固定的輸入流程（讀長度 n，接著讀入 n 個整數）符合題意，確保程式在單次執行後就輸出結果並結束。
+- Arrays.sort 提供穩定且高效的升序排序，適用於任意長度的整數陣列，且能正確處理負數。
+- 輸出格式改為單行、數字以空格分隔，符合範例輸出。
+- 程式標頭與內部註解提升可讀性與維護性，符合程式設計格式的要求。

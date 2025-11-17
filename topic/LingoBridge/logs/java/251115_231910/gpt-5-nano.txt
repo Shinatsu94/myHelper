@@ -1,0 +1,41 @@
+98
+改進建議：在保留不使用第三變數的交換法同時，提升可讀性與可維護性，增添標頭與必要註解，並統一變數命名與輸出格式。
+
+程式碼優化與修改原因
+- 將變數改為 A, B（符合題意中“變數 A, B”的表述，提升語意清晰度）。
+- 增加檔案標頭註解與程式內註解，提升可維護性與說明性。
+- 使用兩行輸出輸出交換後的結果，採用 System.out.println，確保每個值各自佔一行，並加上適當的註解說明。
+- 仍維持不使用額外變數的要求，採用位元 XOR 交換法。
+
+修改後完整程式碼
+/*
+ * 檔案名稱: csie_41343239_1003_1.java
+ * 功能: 讀入兩個整數 A、B，交換其值，並印出交換後的結果（每行一個值）。
+ * 作者: 你的姓名
+ * 日期: 2025-11-15
+ * 說明: 使用 XOR 交換法在不新增變數的情況下完成交換；程式包含註解與良好格式。
+ */
+
+import java.util.Scanner;
+
+public class csie_41343239_1003_1 {
+  public static void main(String[] args) {
+    // 建立 Scanner 物件以讀取使用者輸入
+    Scanner sc = new Scanner(System.in);
+
+    // 以大寫變數 A、B 取得使用者輸入
+    int A = sc.nextInt();
+    int B = sc.nextInt();
+
+    // 使用 XOR 交換法在不使用第三個變數的情況下交換 A 與 B
+    A = A ^ B;
+    B = A ^ B;
+    A = A ^ B;
+
+    // 交換後的結果各自輸出於新的一行
+    System.out.println(A);
+    System.out.println(B);
+
+    sc.close();
+  }
+}

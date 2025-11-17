@@ -1,0 +1,67 @@
+82
+改進建議：請加入程式頭註解與更清楚的變數命名，並可採用單次掃描的 O(n) 方法以提升效率。
+
+優化說明與修改要點
+- 演算法改進：將原本的 O(n^2) 邏輯改為 O(n) 的單 Pass 解法。透過從尾端向前計算 suffix 最大值，得到每個位置在其之後元素的最大值，最後一個元素設為 -1。
+- 變數命名與結構：使用 original 與 result 作為輸入與輸出陣列，讓程式意圖更清晰，同時加入適當的註解與程式 header，提升可讀性與維護性。
+- 輸出與鲁棒性：保留輸出格式，並在必要時增加對輸入的基本檢查與適當的空格分隔，確保能在不同輸入情境下穩定輸出。
+- 備註與彈性：新增程式頭註解說明檔案名稱、功能、作者與日期，符合備註項目的要求。
+
+修改後完整程式碼如下（請直接複製執行）：
+import java.util.Scanner;
+
+/**
+ * File: CSIE_51015105_1031_2.java
+ * 功能: 讀入整數陣列長度與元素，輸出每個元素在其之後的子陣列中的最大值，最後一個為 -1。
+ * 作者: 作者姓名
+ * 日期: 2025-11-14
+ * 備註: 不依賴 EOF，以單次執行為主。
+ */
+public class CSIE_51015105_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            // 無元素可處理，直接結束
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] original = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                original[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                original[i] = 0;
+            }
+        }
+
+        int[] result = new int[n];
+        int maxSoFar = original[n - 1]; // 從最後一個元素開始
+        // 由 n-2 向 0，賦值 result[i] 為 original[i+1..n-1] 的最大值
+        for (int i = n - 2; i >= 0; i--) {
+            result[i] = maxSoFar;
+            if (original[i] > maxSoFar) {
+                maxSoFar = original[i];
+            }
+        }
+        result[n - 1] = -1;
+
+        // 輸出結果，元素之間以空格分隔
+        for (int i = 0; i < n; i++) {
+            System.out.print(result[i]);
+            if (i != n - 1) {
+                System.out.print(" ");
+            }
+        }
+
+        scanner.close();
+    }
+}

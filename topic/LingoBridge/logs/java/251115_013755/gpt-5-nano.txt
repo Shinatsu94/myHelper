@@ -1,0 +1,44 @@
+88
+
+改進建議（一句話）：
+為了提升可讀性與可維護性，請加上檔案標頭註解、使用具描述性的變數名稱、並在輸出結尾補上換行，同時保持程式結構清晰。
+
+修改說明與理由：
+- 加入檔案標頭註解：說明檔案名稱、功能、作者與日期，符合作業要求的備註部分，方便他人閱讀與追蹤。
+- 使用具描述性的變數名稱：length 取代 n、numbers 取代 a，使變數意義更清楚，提升可讀性與維護性。
+- 輸出結尾加換行並使用 StringBuilder 生成輸出字串：避免多次呼叫 System.out.print 並確保輸出格式穩定，結尾換行符合常見輸出慣例。
+- 保留 try-with-resources，確保 Scanner 自動關閉，針對資源管理更穩健。
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_41343229_1031_1.java
+ * Description: 讀取長度與每個元素，將陣列內容升冪排序後輸出。
+ * Author: 你的名字
+ * Date: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343229_1031_1 {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int length = scanner.nextInt();
+            int[] numbers = new int[length];
+            for (int i = 0; i < length; i++) {
+                numbers[i] = scanner.nextInt();
+            }
+
+            Arrays.sort(numbers);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < numbers.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(numbers[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}
+```

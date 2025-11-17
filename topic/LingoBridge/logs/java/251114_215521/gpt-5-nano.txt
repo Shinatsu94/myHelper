@@ -1,0 +1,55 @@
+3
+
+此作業未實作題意，需以整數陣列排序，並正確輸出排序結果。
+
+修改建議與說明要點
+- 使用整數陣列 int[] 儲存輸入數字，符合題意且便於排序。
+- 使用 Arrays.sort(arr) 進行升冪排序，簡潔且穩定。
+- 輸出時以單一空格分隔，末尾不多餘空格，符合輸出格式要求。
+- 加入程式標頭註解與適當的註解，提升可讀性與維護性。
+
+優化項目與原因
+- 將原本的 char[][] 與星號輸出改為整數處理，因為題目要求排序整數。
+- 使用標準排序 API Arrays.sort，降低自訂排序的錯誤風險並提高可讀性。
+- 精簡輸出為一行、空格分隔，符合題目輸出格式。
+
+變更後完整程式碼（已符合題意與格式要求）
+```java
+/**
+ * File: CSIE_41343128_1031_3a.java
+ * 功能: 讀取長度 n，接著讀入 n 個整數，將其升冪排序並輸出為一行以空格分隔。
+ * 作者: 學生
+ * 日期: 2025-11-14
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343128_1031_3a {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+        scn.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```

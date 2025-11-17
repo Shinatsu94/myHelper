@@ -1,0 +1,58 @@
+90
+
+建議改進一句話：
+建議加入程式標頭註解，並改用數學公式直接計算 num 的位置，避免不必要的逐格搜尋，同時保留建立下三角矩陣以符合題意。
+
+修改說明（重點與原因）：
+- 增加程式標頭註解：提升可讀性與維護性，符合格式要求的備註部分。
+- 改用數學公式直接計算 num 的位置（row 與 col），避免對整個三角陣列進行逐格搜尋，提高效率。
+- 使用 try-with-resources 管理 Scanner，確保資源能自動關閉，提升穩定性。
+- 保留建立完整下三角陣列的步驟，以符合題意的「建立完整的下三角形二維陣列」要求；同時在找尋位置時改用公式計算，確保結果正確且輸出格式與原題相符。
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+
+/*
+Filename: CSIE_41343242_1031_3b.java
+Purpose: 建立下三角形二維陣列，並找出指定數字在陣列中的位置
+Author: YourName
+Date: 2025-11-14
+*/
+
+public class CSIE_41343242_1031_3b {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int num = sc.nextInt();
+
+            // 基本輸入驗證
+            if (n <= 0 || num <= 0 || num >= 100000) {
+                return;
+            }
+
+            // 建立完整的下三角形二維陣列
+            int[][] triangle = new int[n][];
+            int value = 1;
+            for (int i = 0; i < n; i++) {
+                triangle[i] = new int[i + 1];
+                for (int j = 0; j <= i; j++) {
+                    triangle[i][j] = value++;
+                }
+            }
+
+            int maxValue = n * (n + 1) / 2;
+            if (num > maxValue) {
+                System.out.println("not find " + num + " in array.");
+            } else {
+                // 直接用數學公式計算位置：num 為第 row 行第 col 列，且 row 與 col 皆從 1 開始
+                int v = num;
+                int r = (int) Math.ceil((Math.sqrt(1 + 8.0 * v) - 1) / 2.0);
+                int before = r * (r - 1) / 2;
+                int c = v - before;
+                System.out.println(v + "[" + r + ", " + c + "]");
+            }
+        }
+    }
+}
+```

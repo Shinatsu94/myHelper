@@ -1,56 +1,62 @@
-8
+86
 
-- 正確性: 0/50
-- 邏輯: 5/30
-- 格式: 3/10
-- 備註: 0/10
+改進建議：此作業雖已正確完成「右側最大值替換」的邏輯，但缺少程式標頭註解與命名說明，且可將時間複雜度由 O(n^2) 優化為 O(n) 的就地更新，同時輸出與變數命名可再提升清晰度。
 
-評語與作業說明
-- 內容評分說明：原程式的排序邏輯錯誤，最終輸出並非由小到大排序，且最後還把 a[n-1] 設為 -1，與題目需求不符。此外，程式缺少標頭註解、命名與格式也尚可改善。
-- 改善方向：使用穩定且正確的排序方法來滿足題意，並加上適當的註解與頭部說明，輸出格式要符合題目要求，避免不應有的特殊值干擾結果。
+程式優化說明與修改內容：
+- 將原本的雙重迴圈改為單次自右向左的就地更新，時間複雜度從 O(n^2) 降至 O(n)，並保持輸出內容與題意一致。
+- 加入清晰的程式標頭註解（檔案名稱、功能、作者、日期等）與適當內部註解，提高可讀性與維護性。
+- 改善變數命名與輸出格式，使用 StringBuilder 產出以避免多次 I/O，並於結尾加上換行。
+- 增加對 n 的非正情況處理，避免例外情況。
 
-優化後程式碼與說明
-修改後的完整程式碼（使用內建排序，確保正確性，並改善輸出與註解）：
-import java.util.Scanner;
-import java.util.Arrays;
+修改後完整程式碼如下：
 
 /*
-檔案名稱: CSIE_41343150_1031_2.java
-功能: 讀取一個整數長度 n 與 n 個整數，輸出其升序排序結果
-作者: 教授
-日期: 2025-11-12
-說明: 使用 Arrays.sort 進行排序，輸出以空格分隔的整數序列，避免使用 EOF。
-*/
+ * 檔案名稱: CSIE_41343150_1031_2.java
+ * 功能說明: 對輸入的一維整數陣列，將每個元素替換為其右側元素中的最大值（最後一個為 -1），輸出結果。
+ * 作者: 程式設計教學範例
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
 public class CSIE_41343150_1031_2 {
-  public static void main(String[] args) {
-    Scanner scn = new Scanner(System.in);
-    int n = scn.nextInt();
-    int[] a = new int[n];
-    for (int i = 0; i < n; i++) {
-      a[i] = scn.nextInt();
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+
+        int n = scn.nextInt();
+        if (n <= 0) {
+            // 無資料可處理，輸出空行並結束
+            System.out.println();
+            scn.close();
+            return;
+        }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scn.nextInt();
+        }
+
+        // 從右側開始就地更新，先保存最右側的值作為最大值參考
+        int maxRight = a[n - 1];
+        a[n - 1] = -1; // 最後一個元素替換為 -1
+        for (int i = n - 2; i >= 0; i--) {
+            int orig = a[i];  // 保存原值，以便更新 maxRight
+            a[i] = maxRight;
+            maxRight = Math.max(maxRight, orig);
+        }
+
+        // 輸出結果，欄位以空格分隔，無多餘尾碼空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
     }
-
-    // 進行升序排序
-    Arrays.sort(a);
-
-    // 輸出，元素之間以單一空格分隔，末尾不多餘空格
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < n; i++) {
-      if (i > 0) sb.append(' ');
-      sb.append(a[i]);
-    }
-    System.out.print(sb.toString());
-
-    scn.close();
-  }
 }
-
-修改部分說明與原因
-- 將原本不正確的「每次取後綴最大值再寫回前綴」的作法改為使用 Arrays.sort(a)，確保排序結果正確且對負數亦適用。
-- 移除原程式中的 a[n-1] = -1 的特殊值設定與不必要的輸出處理，避免干擾輸出內容與正確性。
-- 增加頭部註解，說明檔案名稱、功能、作者與日期，提升可維護性。
-- 使用 StringBuilder 組裝輸出，避免尾端多餘空格，且輸出格式更符合題意。
-- 關閉 Scanner，養成良好資源管理習慣。
-
-改進建議（一句話）
-建議今後直接使用內建排序函式（如 Arrays.sort）以確保正確性與穩定性，同時加上完整註解與一致的輸出格式，以提升可讀性與測資通過率。

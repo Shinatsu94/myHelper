@@ -1,66 +1,78 @@
-3
+89
+建議補上程式標頭註解與實作下三角形陣列的建立，同時增強輸入邊界檢查與註解以符合題意並提升可讀性。
 
-修改後完整程式碼如下：
-/**
- * 檔案名稱: CSIE_41343217_1031_3b.java
- * 功能簡介: 讀取整數 n，接著讀入 n 個整數，將它們升序排序並輸出排序結果。
- * 作者: 您的助理
- * 日期: 2025-11-12
- */
+修改說明與改進方向
+- 加入完整的程式標頭註解，包含檔案名稱、功能、作者與日期，符合備註欄位的要求。
+- 實作實際建立下三角形二維陣列（tri），並依題意填入從 1 開始的序列，滿足「建立完整的下三角形二維陣列」的要求。
+- 強化輸入邊界檢查：n 若不在合理範圍（非正整數、超過 int 可表示範圍）時，給出相應的 not find 訊息，避免直接嘗試分配過大的陣列。
+- 保留並清晰化核心邏輯：利用公式找出 num 的行 r 與列 c，若 num 超出 n 行範圍，輸出 not find 訊息；否則輸出 num[ r, c ]。
+- 程式風格微調：變數命名更清晰、加入必要註解，提升可讀性與維護性。
 
-import java.util.Arrays;
+修改後完整程式碼
 import java.util.Scanner;
 
+/*
+檔案名稱: CSIE_41343217_1031_3b.java
+功能: 建立下三角形二維陣列，填入 1..T(n)，並找出指定數字在陣列中的位置（row, col），
+      兩者皆以 1 為起始索引。超出範圍則輸出提示訊息。
+作者: 你的姓名
+日期: 2025-11-14
+說明: 程式會先建立下三角形陣列，然後利用數學公式推導 num 的行列位置，符合題意。
+*/
 public class CSIE_41343217_1031_3b {
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 1) 讀取陣列長度 n
-        if (!sc.hasNextInt()) {
+        // 讀取高度 n
+        long nLong = sc.nextLong();
+        // 讀取要尋找的數字 num
+        int num = sc.nextInt();
+
+        // 基本數值檢查
+        if (num <= 0 || num >= 100000) {
+            System.out.println("not find " + num + " in array.");
             sc.close();
             return;
         }
-        int n = sc.nextInt();
-        if (n <= 0) {
-            // 無有效元素，直接結束
-            System.out.println();
+        // 檢查 n 的有效性，避免陣列過大或非正整數
+        if (nLong <= 0 || nLong > Integer.MAX_VALUE) {
+            System.out.println("not find " + num + " in array.");
             sc.close();
             return;
         }
 
-        // 2) 讀取 n 個整數
-        int[] arr = new int[n];
+        int n = (int) nLong;
+        if (n <= 0) {
+            System.out.println("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列並填入 1..T(n)
+        int[][] tri = new int[n][];
+        int value = 1;
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0，避免例外
-                arr[i] = 0;
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
             }
         }
 
-        // 3) 排序（由小到大）
-        Arrays.sort(arr);
-
-        // 4) 輸出排序結果，元素以單一空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 計算 num 的位置：找出 num 位於哪一行 (row)，再算列 (col)
+        int row = 1;
+        while ((long) row * (row + 1) / 2 < num) {
+            row++;
         }
-        System.out.println(sb.toString());
+
+        if (row > n) {
+            // num 超出 n 行的陣列範圍
+            System.out.println("not find " + num + " in array.");
+        } else {
+            int prevMax = (row - 1) * row / 2;
+            int col = num - prevMax;
+            System.out.println(num + "[" + row + ", " + col + "]");
+        }
 
         sc.close();
     }
 }
-
-修改說明：
-- 改為符合題意的流程：先讀入長度、再讀入整數、排序、輸出結果，避免原程式的錯誤邏輯與不相關的輸出。
-- 使用 Java 的 Arrays.sort 進行升序排序，邏輯簡潔且穩健。
-- 增加程式標頭註解，說明檔案名稱、功能、日期等，提升可維護性。
-- 將輸入長度改為 int，因 Java 陣列長度以 int 表示，避免不必要的型別問題；並處理長度為非正數的情況。
-- 輸出格式確保只有一行結果，元素之間以空格分隔，符合題目輸出需求。
-
-改進建議（1 句話）：
-- 建議加強輸入驗證與例外處理，並在極端輸入情況下提供清晰錯誤訊息，以提升魯棒性與可用性。

@@ -1,0 +1,61 @@
+4
+
+改進建議：需依題意實作正確的排序功能，完整處理輸入長度與其後的整數序列（含負數），並給出清晰的變數命名與註解。
+
+程式評語與改進要點
+- 正確性：目前提交的程式與題目需求不符，未實作排序與正確的輸入輸出流程，故得分為0。
+- 邏輯：輸出星號圖形的邏輯與題意無關，缺乏對陣列排序的合理邏輯。
+- 格式：程式有基本縮排，命名較少描述性，仍可勉強通過。但因未符合題意，格式分僅給予少量分數。
+- 備註：缺少程式頭註解（檔案名稱、功能、作者、日期等），未達到良好註解習慣。
+
+修改與優化說明
+- 改良方向：實作一個能讀取長度 n、接著讀入 n 個整數（可有負數且可分多行輸入）的排序程序，採用 Java Arrays.sort 進行升序排序，最後以空格分隔輸出結果，並避免尾端多餘空格。
+- 為何這樣修改：保證符合題目要求的功能與輸出格式，並提高可讀性與可維護性；使用 Arrays.sort 其實作簡潔且效率高，適合此類排序需求。
+- 程式註解與命名：新增檔案頭註解，使用具描述性的變數名稱（如 n、arr），並在程式內加入必要的註解說明。
+
+修改後完整程式碼
+/*
+檔案名稱: Main.java
+功能說明: 讀取長度 n 與 n 個整數，將它們升序排序後輸出，支援負數，單次執行結束
+作者: 你的名字
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，使用空格分隔，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

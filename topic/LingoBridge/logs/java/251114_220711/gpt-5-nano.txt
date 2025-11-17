@@ -1,0 +1,44 @@
+6
+此作業未實作排序功能，僅輸出星號三角形，且未處理使用者輸入的整數與負數等，建議重寫為正確的排序邏輯。
+
+修改建議與說明
+- 以整數陣列讀入 n 個元素，並使用 Arrays.sort 進行從小到大排序，支援負數。
+- 輸出時使用 StringBuilder，避免最後多一個空白，格式符合題目要求。
+- 增加程式標頭註解，清楚說明檔案名稱、功能、作者與日期，並在程式中加入適當的註解以提升可讀性。
+- 保留單次執行、非使用EOF 的輸入限制，確保在測資環境中穩定運作。
+
+修改後完整程式碼
+```java
+/*
+ * File: CSIE_41343227_1031_3a.java
+ * Function: 讀取使用者輸入的長度 n，接著讀入 n 個整數，將它們排序並輸出（由小到大）。
+ * Author: YourName
+ * Date: 2025-11-14
+ * Note: 不使用 EOF，一次執行結束。
+ */
+
+import java.util.*;
+
+public class CSIE_41343227_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```

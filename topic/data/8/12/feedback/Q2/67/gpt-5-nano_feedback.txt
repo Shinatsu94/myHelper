@@ -1,64 +1,49 @@
-2
+總分：86
 
-完整程式碼（優化後，完成題目要求的輸出與最小 i 的計算）：
-import java.util.*;
+改進建議（一句話）：建議加入檔案標頭註解並將判斷邏輯封裝成方法，且使用更清晰的變數命名與適當的註解，以提升可讀性與維護性。
 
-public class LeibnizPiCalculator {
-    /*
-     檔案名稱 : LeibnizPiCalculator.java
-     功能     : 使用勒貝格級數近似 π，輸出 i=10000,20000,...,100000 對應的 π 值（精度 10 位小數）
-                 同時找出最小的 i，使 pi 的近似值四捨五入到小數點後五位為 3.14159，輸出該 i。
-     作者     : 自動評分用範例
-     日期     : 2025-11-12
-    */
+評語與分數細項說明：
+- 正確性 (50/50)：邏輯正確，能正確判斷每一位數是否嚴格遞增，單位數與整數皆適用。
+- 邏輯 (28/30)：核心思路正確但原始寫法缺乏可讀性與封裝；現在的版本將判斷邏輯封裝成方法，並對負數做了處理（取絕對值再判斷），但對輸出層面仍保持原樣，整體邏輯清晰。
+- 格式 (8/10)：原程式命名略顯混亂，且未提供函式與標頭註解；重構後提高可讀性，但若以原作業框架評分，仍有 minor 可改善點（如類別命名風格、註解風格）。
+- 備註 (0/10)：缺少程式標頭註解與說明，未符合要求中的註解規範。
+
+修改與優化說明：
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合題目對程式註解的要求。
+- 將判斷是否為 well-ordered number 的邏輯封裝成一個私有靜態方法 isWellOrdered(int n)，提升可讀性與可重用性。
+- 變數命名改善為 lastDigit/current，增進語意清晰度；使用 abs(number) 處理負數輸入情境，保留原始輸入輸出格式。
+- 關閉 Scanner，避免資源洩露。
+- 保留單次執行、輸出格式不變，確保與題目輸出範例一致。
+
+修改後完整程式碼：
+/*
+File: WellOrderedNumber.java
+Description: Determine if a given integer has strictly increasing digits from left to right.
+Author: 你的姓名
+Date: 2025-11-15
+*/
+
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        final int PRINT_UP_TO = 100000; // 需要輸出 pi 的最大 i
-        StringBuilder sb = new StringBuilder();
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int number = sc.nextInt();
+        int absVal = Math.abs(number);
+        boolean ok = isWellOrdered(absVal);
+        System.out.printf("%d is %swell-ordered number.%n", number, ok ? "" : "not ");
+        sc.close();
+    }
 
-        // 逐項累加勒貝格級數項，i = k+1
-        double sum = 0.0;
-        for (int k = 0; k < PRINT_UP_TO; k++) {
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-            int i = k + 1;
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                sb.append(String.format("i = %6d, pi = %.10f%n", i, pi));
-            }
+    // 判斷 n 的十進位數字是否嚴格由左至右遞增
+    private static boolean isWellOrdered(int n) {
+        if (n < 10) return true; // 單一位數視為 well-ordered
+        int lastDigit = n % 10;
+        n /= 10;
+        while (n > 0) {
+            int current = n % 10;
+            if (current >= lastDigit) return false;
+            lastDigit = current;
+            n /= 10;
         }
-
-        // 找出最小的 i，使 pi 四捨五入到小數點後五位等於 3.14159
-        sum = 0.0;
-        int iMin = -1;
-        for (int k = 0; k < 3000000; k++) { // 設一個上限以避免無限迴圈
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-            double pi = 4.0 * sum;
-            // 四捨五入至五位小數後若等於 3.14159，則條件成立
-            if (Math.round(pi * 100000.0) == 314159) {
-                iMin = k + 1;
-                break;
-            }
-        }
-
-        sb.append("\n");
-        if (iMin != -1) {
-            sb.append(String.format("i = %d%n", iMin));
-        } else {
-            sb.append("未找到符合條件的 i").append(System.lineSeparator());
-        }
-
-        System.out.print(sb.toString());
+        return true;
     }
 }
-
-說明修改之部分與原因：
-- 目的清晰化：原始作業提交的程式與題目不相關，改為實作勒貝格級數近似 π 的計算，符合題意。
-- 逐步累加設計：使用單一循環逐項累加，維持 sum，當 i 達到 10000 的倍數時輸出對應的 pi 值，符合輸出格式需求（i 以 6 位寬度對齊，pi 以小數點後 10 位）。
-- 輸出格式與對齊：採用 System.out.printf 的格式字串 "i = %6d, pi = %.10f%n"，可以對齊 i 兩側的空白，符合題目示範中的對齊效果。
-- 找最小 i 的實作：為題意的部分 (b) 設計了迴圈，使用四捨五入到五位小數的判斷條件 Math.round(pi * 100000.0) == 314159，找出最小的 i 值（預期為 136121，與題目範例相符），並輸出。
-- 程式結構與註解：加上檔案標頭註解，清楚說明檔案名稱、功能、日期與作者，提升可維護性。
-- 移除不必要輸入：原程式使用 Scanner 讀入整數與無關任務，重構為無輸入檔案的自洽計算，符合題目輸出需求。
-
-改進建議（一句話）：
-可將輸出範圍、步長與目標 pi 進一步設成可配置的常數或透過參數傳入，以增加重用性與測試便利性。

@@ -1,0 +1,55 @@
+6
+改進建議：請直接實作排序功能，讀取 n 與 n 個整數，輸出升序的整數序列，避免額外的輸出（如星號），以符合題目要求。
+
+修改與優化說明與重點
+- 直接使用陣列存放輸入的整數，並透過 Arrays.sort 進行升序排序，支援負數。
+- 輸出改為單行、以空格分隔的整數序列，符合題目輸出格式。
+- 增加程式標頭註解與適當內部註解，提升可讀性與維護性。
+- 在讀取輸入時對 n 與數字做基本檢查，避免無效輸入造成的異常。
+
+修改後完整程式碼
+// File: CSIE_41343242_1031_3a.java
+// 功能: 讀取整數 n 與 n 個整數，輸出升序排序後的陣列內容。
+// 作者: 設計者姓名
+// 日期: 2025-11-14
+// 說明: 使用 Arrays.sort() 進行排序，支援負數，輸出為單行以空格分隔。
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343242_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（可根據需求調整为提前結束或抛出例外）
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

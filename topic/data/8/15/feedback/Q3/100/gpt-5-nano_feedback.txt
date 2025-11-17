@@ -1,59 +1,48 @@
-6
+83
 
-評分明細
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：6/10
-- 備註：0/10
+改進建議：請移除未使用的變數與不符合題意的資料型別，改為使用 2D char 陣列儲存 '*'，並補上程式標頭註解與較佳的變數命名與格式化。
 
-修改說明
-- 原程式未實作題目需求的排序與輸出功能，僅建立並印出星號三角形，與題意嚴重不符，因此正確性與邏輯皆為0。雖然格式與註解有基本可讀性，但未符合作業要求，故僅在格式上給予少量分數。
-- 下列為一份可直接用於題目的優化後版本，改以一維陣列讀取、排序並輸出結果，支援負數，且輸出格式符合題目範例。
+改動與理由
+- 移除多餘的 currentNumber 與 int[][] 結構，直接使用 2D char 陣列儲存 '*'，符合「下三角形陣列中元素為 '*'」的要求，並簡化邏輯。
+- 使用清晰的類別名稱與檔案註解，提升可維護性與可讀性。
+- 加入基本輸入檢驗（範圍 1-20），避免非法輸入造成意外行為。
+- 輸出仍保持無空格、逐行顯示下三角星號模式，符合題目輸出格式。
 
 修改後完整程式碼
-import java.util.Arrays;
+/***************************************
+ * File: LowerTriangularStars.java
+ * 功能: 建立並列印下三角形的二維陣列，內容為 '*' 字元。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 說明: 讀取整數 n (1 <= n <= 20)，輸出 n 行的下三角星號模式。
+ ***************************************/
 import java.util.Scanner;
 
-public class Main {
+public class LowerTriangularStars {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
 
-        // 1. 讀取陣列長度
-        int n = 0;
-        if (sc.hasNextInt()) {
-            n = sc.nextInt();
+        // 基本輸入檢驗，遵守題意的範圍限制
+        if (n <= 0 || n > 20) {
+            return;
         }
 
-        // 2. 讀取 n 個整數
-        int[] arr = new int[Math.max(0, n)];
+        // 使用 2D char 陣列表示下三角形，只有下三角填 '*'，其餘位置保持未使用
+        char[][] tri = new char[n][n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，補0以避免例外
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
             }
         }
 
-        // 關閉 Scanner（結束輸入）
-        sc.close();
-
-        // 3. 升序排序
-        Arrays.sort(arr);
-
-        // 4. 輸出排序結果，元素以空格分隔，末尾不多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 輸出以上三角形內容，元素之間不輸出空白符號
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(tri[i][j]);
+            }
+            System.out.println();
         }
-        System.out.print(sb.toString());
     }
 }
-
-修改原因說明
-- 以一維整數陣列取代原本的二維三角矩陣與不相關的星號輸出，直接符合「建立任意長度的一維陣列，對內容進行升序排序，輸入長度與內容由使用者提供，最後印出排序後的內容」的需求。
-- 使用 Arrays.sort 進行排序，時間複雜度為 O(n log n)，適合一般規模輸入，且對負數有原生支援。
-- 使用 StringBuilder 組裝輸出，避免逐個 print 的效能問題，輸出格式與題目要求一致。
-
-改進建議
-建議加上輸入錯誤與邊界情況的處理，例如明確提示使用方式、避免在輸入不足時造成未預期結果，並考慮使用更穩健的輸入讀取機制（如 BufferedInputStream 與自訂解析器）以增強效能與魯棒性。

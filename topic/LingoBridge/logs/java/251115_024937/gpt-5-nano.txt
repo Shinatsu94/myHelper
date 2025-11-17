@@ -1,0 +1,50 @@
+97
+
+建議移除不必要的二維陣列儲存，直接以迴圈輸出星號，並加入輸入範圍驗證以確保 0 < n <= 20。
+
+修改與優化說明（重點）
+- 去除不必要的二維陣列儲存，直接根據行號輸出對應數量的星號，降低記憶體使用與程式複雜度。
+- 加入輸入範圍驗證，若 n 不符合 0 < n <= 20，程式不執行並避免例外。
+- 使用 StringBuilder 組合每行字串再輸出，避免多次字元逐一輸出造成的額外成本。
+- 程式標頭註解保持完整，並確保程式結尾適當關閉資源。
+
+以下為修改後完整程式碼
+
+```java
+/**
+ * 程式名稱 : 下三角星號列印
+ * 功能說明： 根據使用者輸入的高度 n，輸出下三角形星號，且每列不包含空白。
+ * 日期: 2025/11/14
+ * 作者: 教師
+ * 學號: N/A
+ */
+import java.util.Scanner;
+
+public class TriangleStars {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+
+        int n = input.nextInt();
+        // 輸入驗證：0 < n <= 20，若不符合則不輸出任何結果
+        if (n <= 0 || n > 20) {
+            input.close();
+            return;
+        }
+
+        // 直接輸出，不使用中介二維陣列
+        for (int i = 0; i < n; i++) {
+            StringBuilder sb = new StringBuilder(i + 1);
+            for (int j = 0; j <= i; j++) {
+                sb.append('*');
+            }
+            System.out.println(sb.toString());
+        }
+
+        input.close();
+    }
+}
+```

@@ -1,0 +1,58 @@
+4
+你的作業未符合題意（未讀取並排序輸入的整數陣列），且實作內容與題目要求不符，建議改為讀取 n 與 n 個整數後進行排序並輸出。
+
+修改建議與要點：
+- 重新實作核心邏輯：讀取 n，接著讀取 n 個整數，使用 Arrays.sort 進行由小到大排序，最後輸出排序結果。
+- 加入適當的程式標頭與註解，增進可讀性與維護性。
+- 處理負數與可讀性的輸出格式（單行、元素間以空格分隔、無多餘空格）。
+
+修改內容說明與原因：
+- 原程式未讀取陣列元素，也未進行排序，與題目需求嚴重不符；改以標準的排序流程實作，確保正確性。
+- 使用 Arrays.sort 可以簡潔且正確地完成排序，降低出錯風險。
+- 加入標頭註解與適當註解，符合作業評分對格式與說明的要求。
+
+修改後完整程式碼：
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * 文件名稱: CSIE_41343121_1031_3b.java
+ * 功能: 讀取一個整數 n，接著讀取 n 個整數，將它們由小到大排序，並輸出排序後的結果。
+ * 作者: 徐唯祐
+ * 日期: 10/31
+ * 註解: 程式內容包含必要的註解說明與適當的縮排。
+ */
+public class CSIE_41343121_1031_3b {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        }
+
+        // 讀取 n 個整數，若不足以讀取則以 0 作為預設值
+        int[] arr = new int[Math.max(0, n)];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
+}

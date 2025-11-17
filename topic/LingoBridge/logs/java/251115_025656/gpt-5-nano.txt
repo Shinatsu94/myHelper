@@ -1,0 +1,55 @@
+90
+
+建議：加入程式標頭註解，並改用二維陣列結構實作以符合題意並提升可讀性。
+
+修改說明與改進方向
+- 正確性：原程式可正確印出下三角星號，但未以「二維陣列」的概念實作。今改為使用 2D char 陣列存放，符合題意。
+- 邏輯性：採用清晰的雙層迴圈填值與輸出，且使用 StringBuilder 避免頻繁 I/O 呼叫。邏輯更易閱讀與維護。
+- 格式：新增清晰的縮排與命名，整段程式有一致風格。
+- 備註：新增標頭註解，說明檔案名稱、功能、作者與日期，並在程式內容適度註解。
+
+修改後的完整程式碼
+```java
+/*
+檔案名稱: LowerTriangularStars.java
+功能說明: 輸入高度 n (0 < n <= 20)，建立 n x n 的二維陣列，將下三角形位置填入 '*',
+          並印出對應的下三角星號圖樣。要求輸出中元素之間無空白符號。
+作者: 你的名字
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class LowerTriangularStars {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 驗證輸入範圍
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        // 使用 n x n 的二維陣列，填入下三角的 '*'
+        char[][] arr = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 逐行輸出下三角陣列內容
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(arr[i][j]);
+            }
+            sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```

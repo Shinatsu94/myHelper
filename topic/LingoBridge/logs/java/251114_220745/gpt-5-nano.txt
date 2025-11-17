@@ -1,0 +1,55 @@
+2
+
+改進建議：此作業未實作題目要求的排序與輸出功能，需改用一維整數陣列讀入 n 跟 n 個整數，再進行排序後輸出，並加上適當的程式註解與標頭。
+
+修改說明與修改重點
+- 移除不相關的二維 char 陣列與三角形輸出，改用一維整數陣列儲存 n 個整數。原因：題目要求對整數陣列進行排序，使用二維字元陣列與三角形輸出與需求不符，也浪費資源。
+- 使用 Arrays.sort() 對陣列進行由小到大排序，效率高且實作簡單。
+- 輸出格式改為以空格分隔的單行輸出，符合題目輸出樣例。
+- 程式加入標頭註解與適當註解，提升可讀性與可維護性，並使用 try-with-resources 以保證 Scanner 關閉。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343229_1031_3.java
+功能: 讀取使用者輸入的長度 n，接著讀入 n 個整數，將其由小到大排序，並輸出排序後的結果（以空格分隔）。
+作者: 學生
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343229_1031_3 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) return;
+            int n = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sc.hasNextInt()) {
+                    a[i] = sc.nextInt();
+                } else {
+                    a[i] = 0; // 若輸入不足，預設為 0，避免例外
+                }
+            }
+
+            Arrays.sort(a);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.print(sb.toString());
+        }
+    }
+}
+```
+
+評分說明
+- 正確性 (0/50)：程式未完成原題需求，未排序輸出，改正後可達到需求。
+- 邏輯 (0/30)：原程式邏輯嚴重偏離題意，修改後才具備正確邏輯。
+- 格式 (2/10)：基本可讀，但原始程式缺乏必要的說明註解，修改後提高了可讀性與結構。
+- 備註 (0/10)：原程式缺乏標頭與註解說明，修改後加入了完整標頭與註解。
+
+總分：2/100

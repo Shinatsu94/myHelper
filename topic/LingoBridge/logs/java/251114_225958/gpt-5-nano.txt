@@ -1,0 +1,58 @@
+8
+
+改進建議：此作業未符合題意，應改為對一維整數陣列做排序與輸出，並補上適當的註解與檔案標頭。
+
+程式優化與修改說明
+- 問題對應性：原程式處理的是 3x3 矩陣並計算反矩陣，與題目要求的「任意長度的一維整數陣列排序」不符，因而正確性與邏輯都無法取得分數，需改為清楚處理題目的需求。
+- 讀取與輸出設計：改用單一長度 n 與 n 個整數的讀取，確保可以處理任意長度的輸入，且輸出為排序後的整數序列，元素間以空格分隔。
+- 演算法與效能：使用 Arrays.sort 進行排序，時間複雜度 O(n log n)，適合此題需求。
+- 程式風格與可維護性：加入標頭註解、適當的註解與有意義的變數命名；輸入不足情況下提供預設值以避免例外，但實務上可依需求決定錯誤處理策略。
+- 備註：提供完整、可執行的替代程式，符合題目需求且支援負數。
+
+修改後的完整程式碼
+/* 
+ * File: Main.java
+ * 功能: 讀取整數 n，接著讀入 n 個整數，將陣列內容由小到大排序後輸出。
+ * 作者: 你之協助 AI
+ * 日期: 2025-11-14
+ * 說明: 此版本符合題目需求，輸出以空格分隔，尾端不多餘空格。
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔，避免結尾多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

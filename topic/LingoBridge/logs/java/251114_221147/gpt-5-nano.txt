@@ -1,0 +1,78 @@
+0
+
+改進建議摘要（一句話）
+請依題目需求實作完整流程：讀取長度、讀入相對應的整數、將陣列排序（由小到大）、再輸出排序結果，並加上必要的程式標頭與註解。
+
+正確性: 0
+邏輯: 0
+格式: 2
+備註: 0
+
+修改與改進說明
+- 問題對應性：原程式僅輸出一個星號三角形，與題目要求完全不符，需改寫成讀取長度、讀取元素、排序並輸出結果。
+- 邏輯設計：新增數值輸入、排序（使用 Arrays.sort）及格式化輸出，否定了原有的三角形輸出邏輯。
+- 格式與註解：新增檔案標頭註解與有意義的變數命名，提升可讀性與維護性。
+- 負數支援：使用 int 類型與 Arrays.sort，可原生支援負數與整數排序。
+- 安全性：加入基本的輸入存在與正整數長度檢查，避免非法長度造成異常。
+
+修改的核心內容與原因
+- 將功能由“輸出星號三角形”改為“讀取長度 n、讀取 n 個整數、升冪排序、輸出結果”，符合題目需求。
+- 使用 Arrays.sort 直接完成排序，簡潔且效率較高，且易於理解。
+- 加入檔案標頭與註解，符合作業要求中的備註部分。
+
+修改後完整程式碼
+/*
+Filename: SortArrayAscending.java
+功能: 讀入整數陣列長度與元素，排序並輸出升冪序列
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        // 讀取陣列長度
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        // 避免不合理長度
+        if (n <= 0) {
+            System.out.println();
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        // 依序讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足時以 0 補齊，避免 ArrayIndexOutOfBounds
+                arr[i] = 0;
+            }
+        }
+
+        // 升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔，末尾不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

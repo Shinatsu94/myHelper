@@ -1,0 +1,38 @@
+90
+
+建議加入完整的程式標頭註解與適當的程式內文註解以提升可讀性與維護性；同時確保輸出格式符合題意。
+
+修改說明與理由：
+- 新增標頭註解，說明檔案名稱、功能、作者與日期，符合備註滿分的要求。
+- 在交換區塊加入中文註解，說明使用 XOR 交換法以及不使用第三變數的原因，提升可讀性與維護性。
+- 加入 scanner.close()，為資源管理的好習慣。
+- 保持原本的輸出順序與內容，符合題目給定的樣例輸出。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343215_1003_1.java
+Purpose: 讀入兩個整數，輸出交換後的結果
+Author: 你的姓名
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343215_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+
+        // 使用異或交換法，在不宣告額外變數的情況下交換 a 與 b
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        // 關閉 scanner（資源釋放，良好習慣）
+        scanner.close();
+    }
+}

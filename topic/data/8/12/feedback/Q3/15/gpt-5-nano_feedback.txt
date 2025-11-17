@@ -1,42 +1,47 @@
-2
+84
 
-修改後完整程式碼（符合題意的實作與輸出格式）：
+改進建議：補上程式標頭註解並增加對極端情況（負數與溢位）的處理，使用較安全的 long 類型進行反轉以提升健壯性。
+
+修改說明與原因：
+- 使用 long 變數處理輸入與反轉，並支援負數，避免在某些情況下因 int 溢位而發生錯誤。
+- 加入負數處理：先取絕對值進行反轉，最後再加上符號，以回傳與輸入相同的符號。
+- 使用 while 迴圈取代 for 迴圈，讓程式對 0 及任意位數的整數都正確工作。
+- 增加程式標頭與註解，讓程式用途、作者與日期更清楚，便於維護。
+- 關閉 Scanner 以釋放資源。
+
+完整修改後程式碼（Java）：
 ```java
 /*
-檔案名稱: LeibnizPi.java
-功能說明: 計算 pi 的近似值，使用萊布尼茲公式
-作者: 你自行填寫
-日期: 2025-11-12
-備註: 輸出 i 從 10000 到 100000，以 10000 為步長；i 顯示寬度為 6，pi 顯示小數點後 10 位。
+File: CSIE_41343101_1017_3.java
+Description: Reverse digits of an integer input by user.
+Author: Your Name
+Date: YYYY-MM-DD
 */
 
-public class LeibnizPi {
+import java.util.Scanner;
+
+/*
+This program reads a single integer from standard input and prints
+the integer with its digits reversed. It handles positive and
+negative numbers and avoids overflow by using long for the
+reversed value.
+*/
+public class CSIE_41343101_1017_3 {
     public static void main(String[] args) {
-        int maxI = 100000;
-        int step = 10000;
-        double sum = 0.0;
+        Scanner scan = new Scanner(System.in);
+        long n = scan.nextLong();
+        boolean negative = n < 0;
+        long m = negative ? -n : n;
 
-        for (int k = 0; k < maxI; k++) {
-            // 第 k 項：符號(-1)^k，分母為 2k+1
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
-
-            int iVal = k + 1;
-            if (iVal % step == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", iVal, pi);
-            }
+        long rev = 0;
+        while (m > 0) {
+            rev = rev * 10 + (m % 10);
+            m /= 10;
         }
+        if (negative) rev = -rev;
+
+        System.out.println(rev);
+        scan.close();
     }
 }
 ```
-
-修改說明（與原始提交相比的修改要點）：
-- 將題目要求的計算式改以萊布尼茲級數逐項累加，使用單一循環就能得到 10000、20000、…、100000 共 10 個結果，避免了原程式中與題意無關的數字反轉邏輯。
-- 移除不需要的輸入讀取，直接輸出所需的 i 與 pi，呈現固定格式的輸出。
-- 輸出格式改用 printf，負責 i 的寬度為 6 位、pi 為小數點後 10 位，符合題目要求的格式。
-- 程式結構與命名做了改善：使用更具描述性的變數名稱，並在程式開頭加入註解區塊，清晰說明檔案名稱、功能、日期等。
-- 增加註解說明每一步的計算內容，利於後續維護與理解。
-
-一句話改進建議或反饋：
-- 請務必先確認題意再提交程式，並在提交前加入完整註解與清晰的輸出格式說明，以降低因格式或邏輯不符而失分的風險。

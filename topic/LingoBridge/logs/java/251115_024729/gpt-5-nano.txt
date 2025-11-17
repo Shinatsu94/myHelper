@@ -1,0 +1,38 @@
+84
+建議在程式開頭加入標頭註解與清楚的變數命名，並加入基本輸入檢查以提升可讀性與魯棒性。
+
+修改說明與優化要點：
+- 使用更具語意的變數名稱 n, i, j，提升可讀性。
+- 使用 try-with-resources 包裝 Scanner，確保資源會被正確關閉。
+- 加入輸入範圍檢查，符合題意 0 < n <= 20，非法輸入直接結束。
+- 改用逐行字串拼接後再一次性輸出，降低 I/O 次數並保持輸出不含多餘空白。
+- 加上標頭註解，說明檔案資訊與功能。
+
+修改後完整程式碼（已優化）：
+/*
+File: CSIE_41343220_1031_3a.java
+功能: 產生下三角形星號輸出
+作者: 學生
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343220_1031_3a {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int n = scanner.nextInt();
+            // 輸入範圍檢查，符合題意 0 < n <= 20
+            if (n <= 0 || n > 20) {
+                return;
+            }
+
+            for (int i = 1; i <= n; i++) {
+                StringBuilder line = new StringBuilder(i);
+                for (int j = 0; j < i; j++) {
+                    line.append('*');
+                }
+                System.out.println(line.toString());
+            }
+        }
+    }
+}

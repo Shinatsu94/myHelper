@@ -1,0 +1,40 @@
+85
+
+建議改進 (一句話):
+在保持現有輸出結果的不變前提下，加入程式標頭與內部註解、整理縮排並釋放資源，以提升可讀性與專案維護性。
+
+修改說明與理由：
+- 新增程式標頭註解：提供檔案名稱、功能、作者與日期等元資訊，方便維護與評分檢視。
+- 加入行內註解：說明使用 XOR 交換法的原因與步驟，讓邏輯更清楚。
+- 統一縮排與程式風格：提升可讀性與一致性。
+- 關閉 Scanner：釋放資源，避免資源洩漏的風險。
+- 保持原有邏輯不變：仍使用兩變數的 XOR 交換法，符合題目限制。
+
+改進後的完整程式碼（已加入註解與資源釋放，並保持原輸出結果）：
+import java.util.Scanner;
+
+/*
+檔案名稱: Main.java
+功能: 讀入兩個整數，A 與 B，印出其值，將兩數交換後再印出（不使用額外變數進行交換）。
+作者: 你的名字
+日期: 2025-11-15
+說明: 使用 XOR 交換法，僅用 A 與 B 兩個變數，不引入第三變數。
+*/
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        // 使用 XOR 交換法，交換 a 與 b，且不使用其他變數
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+
+        System.out.println(a);
+        System.out.println(b);
+
+        sc.close();
+    }
+}

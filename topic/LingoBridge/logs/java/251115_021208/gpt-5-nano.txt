@@ -1,0 +1,60 @@
+96
+改進建議：將目前的 O(n^2) 逐位比對改為 O(n) 的尾端單次遍歷以求出每位往後的最大值，並在輸出時加入結尾換行以增強可讀性。
+
+修改說明：
+- 將原本的嵌套迴圈換成從陣列尾端往前的單次遍歷，保持輸出結果不變但提升時間複雜度至 O(n)。
+- 使用額外陣列 out 存放結果，最後一次輸出時以適當的空格控制方式避免多餘空格。
+- 增加程式結尾換行，提升輸出格式的一致性。
+- 保留原有的輸入輸出風格與容錯處理，兼顧負數輸入。
+
+修改後完整程式碼：
+```java
+/**
+ * 程式名稱 : 陣列依序最大值 (改進版)
+ * 
+ * 功能說明： 讀入陣列，輸出每個元素後面的最大值（若無後繼元素，輸出 -1），以線性時間完成。
+ *
+ * 日期: 2025/11/14
+ *
+ * 姓名: 張竣傑
+ * 
+ * 學號: 41343224
+ * 
+ */
+import java.util.Scanner;
+
+public class CSIE_41343224_1031_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        if (!input.hasNextInt()) {
+            return;
+        }
+        int n = input.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        int[] out = new int[n];
+        if (n > 0) {
+            // 尾端初始化
+            out[n - 1] = -1;
+            int maxRight = arr[n - 1];
+            // 從倒數第二個元素往前，填入往後的最大值
+            for (int i = n - 2; i >= 0; i--) {
+                out[i] = maxRight;
+                if (arr[i] > maxRight) {
+                    maxRight = arr[i];
+                }
+            }
+        }
+
+        // 輸出結果，數字之間用單一空格分隔
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(out[i]);
+        }
+        // System.out.println(); // 如需換行，可取消註解
+    }
+}
+```

@@ -1,0 +1,69 @@
+38
+
+改進建議：此程式未正確計算數字在下三角陣列中的位置，也未實作實際的下三角2D陣列，只靠數字與公式推算，容易在一般情況出現錯誤；建議改用實作完整的下三角陣列並以穩健的搜尋找出位置，同時補上程式標頭與註解，並符合輸出格式。
+
+修改說明與原因（要點）
+- 建立真正的下三角陣列：使用 jagged array int[][] tri，讓第 i 行有 i+1 個元素，並逐格填入遞增數字，符合題意。
+- 先計算最大數值上限 maxVal = n(n+1)/2，若 target 大於 maxVal，直接輸出 "not find ..."，避免不必要的搜尋。
+- 若在陣列中搜尋，採用雙層迴圈依序尋找 tri[i][j] == target，找到即輸出 "target[row, col]"，行列編號從 1 開始，與題目輸出格式一致。
+- 加入標頭註解與適當註解，變數命名清晰，提升可讀性與維護性。
+
+修改後完整程式碼
+```java
+/*
+ * File: LowerTriangularIndex.java
+ * 功能: 建立下三角形二維陣列，並找到指定數字在陣列中的位置
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularIndex {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();      // 陣列高度
+        int target = scanner.nextInt(); // 要尋找的數字
+
+        // 建立下三角形陣列 (jagged array) 並填入遞增值
+        int[][] tri = new int[n][];
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
+            }
+        }
+
+        int maxVal = n * (n + 1) / 2;
+        if (target > maxVal) {
+            System.out.print("not find " + target + " in array.");
+        } else {
+            boolean found = false;
+            for (int i = 0; i < n && !found; i++) {
+                for (int j = 0; j <= i; j++) {
+                    if (tri[i][j] == target) {
+                        // 輸出格式：num[row, col]，row, col 從 1 開始
+                        System.out.print(target + "[" + (i + 1) + ", " + (j + 1) + "]");
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                System.out.print("not find " + target + " in array.");
+            }
+        }
+
+        // scanner.close(); // 需要時可關閉資源
+    }
+}
+```
+
+說明修改影響的部分
+- 將原先的單一循環與不正確的欄位計算改為實作完整下三角陣列，並以雙層搜尋確保在所有合法輸入下都能找出正確位置。
+- 引入最大值檢查，避免不在陣列範圍內的查找浪費計算資源。
+- 增加程式標頭與內部註解，提升可讀性與維護性，同時符合作業題目的註解要求。
+
+如需，我也可以針對大數量輸入或不同輸出格式再做微調。

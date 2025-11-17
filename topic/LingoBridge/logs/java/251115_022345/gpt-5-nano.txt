@@ -1,0 +1,58 @@
+85
+
+改進建議摘要
+將原本 O(n^2) 的方式改為 O(n) 的後綴最大值計算，同時補齊程式標頭註解、使用較清晰的變數命名，並以 StringBuilder 輸出提升效能。
+
+修改說明
+- 演算法改進：改用單次後綴遍歷，從末尾往前計算後綴的最大值，逐步將每個位置設為其後元素的最大值，最後一個元素設為 -1。時間複雜度由原本 O(n^2) 降為 O(n)。
+- 增強可讀性：加上完整的檔案註解（檔名、功能、作者、日期），並使用較具意義的變數名稱與內嵌註解。
+- 輸出效能：改用 StringBuilder 產出結果，避免頻繁的字串連接。
+- 邏輯穩健性：處理 n > 0 的情況，避免在 n 為 0 時存取陣列邊界。
+
+修改後完整程式碼
+```java
+/*
+File: CSIE_41343247_1031_2.java
+Name: 盧冠宇
+Student_ID: 41343247
+Date: 2025-11-14
+Description: 將一維整數陣列的每個元素替換為其後的最大值，最後一個元素設為 -1。
+*/
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 使用單次遍歷計算尾端的最大值，避免 O(n^2)
+        if (n > 0) {
+            int tailMax = arr[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                int orig = arr[i];
+                arr[i] = tailMax;
+                if (orig > tailMax) tailMax = orig;
+            }
+            arr[n - 1] = -1;
+        }
+
+        // 輸出結果
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        scanner.close();
+    }
+}
+```

@@ -1,53 +1,47 @@
-6
+90
+建議加入程式標頭註解與輸入範圍檢查，並以直接輸出取代陣列存取以簡化邏輯與降低記憶體使用。
+
+修改說明與原因：
+- 移除不必要的二維陣列，直接根據當前列數輸出對應數量的星號，降低記憶體使用與提高效率。
+- 加入程式標頭註解，說明檔案目的、作者與日期，提升可維護性。
+- 增加輸入範圍檢查（0 < n <= 20），符合題目要求並避免非預期行為。
+- 使用更具可讀性的變數與註解，讓邏輯更清晰。
 
 修改後完整程式碼：
 /*
- * 檔案名稱: CSIE_41343229_1031_3.java
- * 功能: 讀入一個整數長度 n，接著讀入 n 個整數並輸出由小到大的排序結果
- * 作者: 教師
- * 日期: 2025-11-12
- * 版本: 1.0
- */
+檔案名稱: CSIE_41343229_1031_3.java
+功能: 建立並列印下三角形的輸出，高度為使用者輸入的 n，範圍為 0 < n <= 20。
+作者: 學生
+日期: 2025-11-14
+說明: 輸出格式為每行逐漸增長的 '*'，不包含空白字元。
+*/
+
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class CSIE_41343229_1031_3 {
     public static void main(String[] args) {
-        // 讀取長度 n
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，預設為 0
-            }
-        }
+        int n = sc.hasNextInt() ? sc.nextInt() : 0;
         sc.close();
 
-        // 排序
-        Arrays.sort(arr);
-
-        // 輸出，單行，元素以空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 輸入範圍檢查，若不在範圍則不輸出
+        if (n <= 0 || n > 20) {
+            return;
         }
+
+        // 使用 StringBuilder 組合輸出，避免過多的 I/O 操作
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= n; i++) {
+            // 在第 i 行輸出 i 個 '*'
+            for (int j = 0; j < i; j++) {
+                sb.append('*');
+            }
+            // 除了最後一行外，加入換行符號
+            if (i < n) {
+                sb.append('\n');
+            }
+        }
+
         System.out.print(sb.toString());
     }
 }
-
-修改原因說明：
-- 將需求聚焦於題目核心：讀取長度 n 與 n 個整數，並對其進行由小到大的排序，最後輸出排序結果。使用 Arrays.sort(arr) 能以簡潔且可靠的方式完成整數排序，且同時支援負數。
-- 讀入與輸出流程改為單次一次性完成：避免使用多餘的 2D 結構與未使用的輸出，確保輸出格式符合題目要求（單行、以空格分隔，不多餘空格）。
-- 變數命名與註解：增加註解以說明輸入、排序與輸出步驟，並保留清楚的變數名稱（arr）。
-
-一句話改進建議或反饋：
-建議在輸入不足時給出明確的錯誤訊息或退出機制，並考慮處理 n 為負數的情況，以及讓使用者知道該程式預期的輸入格式。

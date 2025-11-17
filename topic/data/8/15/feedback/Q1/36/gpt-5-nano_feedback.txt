@@ -1,35 +1,48 @@
-100
+86
 
-修改後完整程式碼與修改說明如下：
+改進意見：移除不必要的 import、加上程式標頭與註解、優化選取排序迴圈範圍與輸出格式以提升可讀性與效率。
 
-修改後程式碼（完整內容）
-```java
+修改說明與原因：
+- 移除未使用的 import（import java.sql.Array;），避免混淆與潛在編譯問題。
+- 增加清晰的標頭註解，說明檔案名稱、功能與日期，提升可維護性。
+- 選取排序的內層迴圈改為從 i+1 開始，外層迴圈遍歷到 arr.length-1，減少不必要的比較。
+- 輸出改用 StringBuilder 組字串，避免多次輸出造成 I/O 開銷，且可避免尾端多空格問題。
+- 保留負數與任意長度支援，且對長度為 0 的情況保持穩定輸出（空行）。
+
+修改後完整程式碼：
 /*
-File: CSIE_41343212_1031_1.java
-功能: 讀入長度與對應長度的整數，輸出其升序排序結果
-作者: 您
-日期: 2025-11-12
+檔案名稱: CSIE_41343212_1031_1.java
+功能: 將任意長度的一維整數陣列作升序排序，輸入長度與元素，輸出排序後結果
+作者: 請填寫
+日期: 2025-11-14
 */
-import java.util.Arrays;
+
 import java.util.Scanner;
 
 public class CSIE_41343212_1031_1 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-
-        // 讀取陣列長度
         int length = input.nextInt();
-        int[] arr = new int[length];
-
-        // 依序讀入陣列元素
+        int[] arr = new int[Math.max(0, length)];
         for (int i = 0; i < length; i++) {
             arr[i] = input.nextInt();
         }
 
-        // 使用內建排序提升穩定性與效能，符合「由小到大」的要求
-        Arrays.sort(arr);
+        // Selection sort: find the minimum in arr[i..] and swap with arr[i]
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
+        }
 
-        // 輸出排序結果，元素以空格分隔
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arr.length; i++) {
             if (i > 0) sb.append(' ');
@@ -40,13 +53,3 @@ public class CSIE_41343212_1031_1 {
         input.close();
     }
 }
-```
-
-修改原因說明
-- 移除不必要的匯入：原程式含有未使用的 import java.sql.Array; 移除以提升程式整潔度與編譯清晰度。
-- 加入檔案註解：加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
-- 使用內建排序 Arrays.sort：以內建穩定且效率更高的排序取代自行實作的選擇排序，提升可讀性與效能，且適用於負數與任意長度的情況。
-- 輸出格式穩健化：使用 StringBuilder 組裝輸出字串，避免多次字串拼接，輸出格式與題目要求一致。
-
-一句話改進建議或反饋
-- 建議在日後的作業中優先使用內建排序以提升可讀性與穩定性，同時保留註解與適當的錯誤處理以提升專案品質。

@@ -1,0 +1,37 @@
+100
+改進建議：補上程式標頭與註解、統一縮排風格，並改用不易溢位的長整數型與 XOR 交換法，以提升穩定性與可讀性。
+
+修改說明與原因：
+- 使用 long 型與 nextLong，減少整數溢位風險（若輸入較大時不會因 int 溢位而錯誤）。
+- 以 XOR 交換法在兩個變數之間交換值，避免使用暫存變數，同時符合「不使用其他變數進行數字交換」的要求。
+- 增加程式標頭註解與內部註解，提升可讀性與維護性，並統一縮排風格。
+- 程式結尾加上 sc.close() 以釋放資源。
+
+改進後完整程式碼：
+import java.util.Scanner;
+
+/*
+ * File: csie_41343211_1003_01.java
+ * Description: 讀入兩個整數，交換其值後輸出交換結果（不使用額外變數）
+ * Author: 教師
+ * Date: 2025-11-15
+ */
+
+public class csie_41343211_1003_01 {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+
+    long a = sc.nextLong();
+    long b = sc.nextLong();
+
+    // 使用 XOR 交換法，避免使用第三個變數，且不會因為加法導致溢位
+    a = a ^ b;
+    b = a ^ b;
+    a = a ^ b;
+
+    System.out.println(a);
+    System.out.println(b);
+
+    sc.close();
+  }
+}

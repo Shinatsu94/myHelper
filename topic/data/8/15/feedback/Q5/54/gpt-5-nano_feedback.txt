@@ -1,64 +1,84 @@
-6
+86
+建議加入標頭註解與更清楚的變數命名，並加入浮點容忍度與 Locale 設定以穩定輸出格式，增加對特例（不可逆矩陣）的處理。
 
-修改後程式碼：
-/*
-  檔案名稱: SortArray.java
-  功能說明: 讀取使用者輸入的長度 n，以及 n 個整數，將它們由小到大排序，輸出排序結果。
-  作者: 教師助理
-  日期: 2025-11-12
-  版本: 1.0
-*/
+以下為優化後的完整程式碼與修改說明：
+
+修改說明與原因：
+- 加入檔案標頭註解，便於識別檔案名稱、功能、作者與日期，符合備註要求。
+- 將程式命名與變數命名變得更具意義（例如使用 A 與 inv 作為矩陣、反矩陣變數）。
+- 增加容忍度檢查 EPS，避免浮點運算造成的極小數值被誤判為非零，且在輸出時避免出現 -0.0000 的情況。
+- 統一輸出格式，透過 Locale.US 以確保小數點分隔符號在不同區域皆為「.」。
+- 將輸出邏輯封裝在簡潔的迴圈中，維持原有「三格換行、每三個元素換行、末行末尾無多餘空白」的輸出格式。
+
+修改後完整程式碼：
+import java.util.Locale;
 import java.util.Scanner;
-import java.util.Arrays;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
-public class SortArray {
+ /*
+  * File: Inverse3x3.java
+  * Description: 讀入 3x3 矩陣，輸出其反矩陣，元素四位小數，若為零則輸出 0。
+  * Author: 你的姓名
+  * Date: 2025-11-14
+  */
+
+public class Inverse3x3 {
+    private static final double EPS = 1e-12;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        if (n <= 0) {
-            // 對於長度為 0 或以下，直接輸出空行並結束
-            System.out.println();
-            sc.close();
-            return;
-        }
-
-        // 讀取 n 個整數到一維陣列
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若不足 n 個數字，預設補 0（需求未明確此情況，此處為穩健處理）
-                arr[i] = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (sc.hasNextDouble()) {
+                    A[i][j] = sc.nextDouble();
+                } else {
+                    sc.close();
+                    return;
+                }
             }
         }
         sc.close();
 
-        // 進行排序（由小到大）
-        Arrays.sort(arr);
+        double det = A[0][0]*(A[1][1]*A[2][2]-A[1][2]*A[2][1])
+                   - A[0][1]*(A[1][0]*A[2][2]-A[1][2]*A[2][0])
+                   + A[0][2]*(A[1][0]*A[2][1]-A[1][1]*A[2][0]);
 
-        // 輸出排序結果，元素以單一空格分隔，末尾不留多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        if (Math.abs(det) < EPS) {
+            System.out.println("Matrix is singular, cannot find inverse.");
+            return;
         }
-        System.out.println(sb.toString());
+
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (A[1][1]*A[2][2] - A[1][2]*A[2][1])/det;
+        inv[0][1] = -(A[0][1]*A[2][2] - A[0][2]*A[2][1])/det;
+        inv[0][2] =  (A[0][1]*A[1][2] - A[0][2]*A[1][1])/det;
+
+        inv[1][0] = -(A[1][0]*A[2][2] - A[1][2]*A[2][0])/det;
+        inv[1][1] =  (A[0][0]*A[2][2] - A[0][2]*A[2][0])/det;
+        inv[1][2] = -(A[0][0]*A[1][2] - A[0][2]*A[1][0])/det;
+
+        inv[2][0] =  (A[1][0]*A[2][1] - A[1][1]*A[2][0])/det;
+        inv[2][1] = -(A[0][0]*A[2][1] - A[0][1]*A[2][0])/det;
+        inv[2][2] =  (A[0][0]*A[1][1] - A[0][1]*A[1][0])/det;
+
+        DecimalFormat df = new DecimalFormat("0.0000");
+        DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.US);
+        df.setDecimalFormatSymbols(dfs);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (Math.abs(inv[i][j]) < EPS) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(inv[i][j]));
+                }
+                if (j != 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
 }
-
-修改說明：
-- 將原本與題意不符的 3x3 矩陣與矩陣求逆的實作，改為符合需求的一維整數陣列排序功能，避免與題目不相關的邏輯與輸出。
-- 讀入方式改為單次讀取長度 n，隨後讀取 n 個整數，直接支援負數，並避免使用 EOF。
-- 使用 Arrays.sort 直接排序，邏輯清晰、效率高，且易於維護。
-- 增加標頭註解，包含檔案名稱、功能、作者、日期，並保留適當的註解，改善可讀性與維護性。
-- 輸出格式調整為「以空格分隔，不在末尾出現多餘空格」，符合常見的輸出規範。
-
-改進建議或反饋（用一句話）：
-建議在實作時先確認題意再設計資料結構與演算法，並加入基本的輸入錯誤處理與輸出格式檢查，以提升健壯性與通用性。

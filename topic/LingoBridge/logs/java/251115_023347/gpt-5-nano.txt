@@ -1,0 +1,66 @@
+82
+
+- 正確性: 50/50
+- 邏輯: 25/30
+- 格式: 7/10
+- 備註: 0/10
+
+改進建議：雖然輸出正確，但未符合「建立一個下三角形的二維陣列」的題意，建議改用二維陣列實作、並加入清晰的程式標頭註解與輸入範圍檢查。
+
+改進說明（修改重點與原因）：
+- 使用二維陣列儲存結果，符合題意的「下三角形二維陣列」要求，提升可讀性與可維護性。
+- 加入適當程式標頭註解與註解說明，讓程式用途與設計更清晰。
+- 加入輸入範圍檢查，避免非法輸入造成不確定行為。
+- 改善變數命名與縮排，提升可讀性。
+- 關閉資源（Scanner）。
+
+修改後完整程式碼：
+```java
+/*
+檔案名稱: LowerTriangularArray.java
+功能: 依輸入的 n (0 < n <= 20)，建立並列印一個下三角形的二維字元陣列，其左下角為 '*'，每行列印至對應的列數。
+作者: 你的名字
+日期: 2025-11-14
+說明: 使用二維陣列儲存下三角形，並只印出有效的三角區域，避免輸出多餘空白。
+*/
+
+import java.util.Scanner;
+
+public class LowerTriangularArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取輸入
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+
+        // 輸入範圍檢查，符合題意 (0 < n <= 20)
+        if (n <= 0 || n > 20) {
+            scanner.close();
+            return;
+        }
+
+        // 建立並填入下三角形的二維陣列
+        char[][] arr = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 逐行列印，只輸出有效的下三角區域
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(arr[i][j]);
+            }
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}
+```

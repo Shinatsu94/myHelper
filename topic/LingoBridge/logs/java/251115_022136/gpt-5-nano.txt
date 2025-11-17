@@ -1,0 +1,101 @@
+88
+
+此作業邏輯與正確性良好，但缺少檔案標頭註解與沒有使用快速輸入的優化，建議加上檔案註解並採用高速輸入以提升穩定性與可維護性。
+
+修改與優化說明與原因
+- 增加檔案標頭註解：說明檔案名稱、功能、作者、日期等，提升可維護性與可追溯性。
+- 替換 Scanner 為快速 I/O：使用自訂 FastScanner 與 StringBuilder 輸出，提升大量資料輸入時的效能與穩定性，避免因 Scanner 過慢而超時。
+- 輸出改為逐字組合再輸出：用 StringBuilder 先組裝再一次性輸出，減少 I/O 次數。
+- 保留原有演算法的邏輯與正確性：仍以自後向前迭代、將每個位置設為右側最大值，最後一個為 -1 的方式完成替換。
+
+修改後完整程式碼
+```java
+/*
+ * 檔案名稱: CSIE_41343240_1031_2.java
+ * 功能簡述: 建立任意長度的一維陣列，將陣列內容以右側元素最大值替換 (最後一個為 -1)，
+ *           最終輸出排序後的陣列內容（由小到大未排序前的右側最大值替換結果）。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ * 備註: 使用快速 I/O 避免 EOF 相關問題，適用於包含負數的輸入。
+ */
+
+import java.io.InputStream;
+import java.io.IOException;
+
+public class CSIE_41343240_1031_2 {
+
+    // 簡易快速輸入實作，支援基本整數讀取（可處理負數）
+    private static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+            } while (c <= ' ' && c != -1);
+
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+
+        int n;
+        try {
+            n = fs.nextInt();
+        } catch (Exception e) {
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        // 將陣列每個位置替換為右側之最大值，最後一個為 -1
+        int maxRight = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            int current = arr[i];
+            arr[i] = (i == n - 1) ? -1 : maxRight;
+            if (current > maxRight) {
+                maxRight = current;
+            }
+        }
+
+        // 輸出結果，使用一個字串構建器以提升效能
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        sb.append('\n');
+        System.out.print(sb.toString());
+    }
+}
+```

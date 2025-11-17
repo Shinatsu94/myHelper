@@ -1,0 +1,56 @@
+2
+
+建議改進：必須實作題目要求的功能（讀取長度與元素、排序並輸出），避免使用與題意不符的二維陣列與圖形輸出，並加上清晰的程式註解。
+
+修改與優化說明：
+- 改善1：改用一維整數陣列來存放輸入長度與元素，正確支援包含負數的情況。
+- 改善2：使用 Arrays.sort(arr) 進行排序，簡潔且正確，效率也較高。
+- 改善3：輸出改為單行、元素之間以空格分隔，符合題目輸出格式。
+- 改善4：移除不必要的 2D char 陣列與星號圖形輸出，專注於實作排序與輸出。
+- 改善5：加入適當的程式註解與 header，包括檔案名稱、功能、作者與日期，符合備註要求。
+
+修改後完整程式碼：
+
+/*
+檔案名稱: Main.java
+功能: 讀取使用者輸入的任意長度整數陣列，將元素由小到大排序，並輸出排序結果
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：單行、元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

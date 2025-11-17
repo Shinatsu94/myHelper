@@ -1,0 +1,48 @@
+78
+
+建議改進重點：程式在大多數情況下能正確判斷，但對單一位數未輸出結果，且原始邏輯較難閱讀與維護；建議改用直覺且穩定的字串比對方式，提升可讀性與魯棒性，並確保任意整數輸入都能輸出唯一的一行結果。
+
+修改說明與原因：
+- 正確性提升：使用字串逐位比較的方式，能正確處理單一位數與任意長度的數字，避免原程式在單位數輸入時不輸出的問題。
+- 邏輯簡化：以 s.charAt(i) > s.charAt(i-1) 的方式判斷是否滿足「左數字嚴格小於右數字」，結構清晰、易於理解。
+- 格式與可讀性：改名為 WellNumberChecker、統一縮排與括號風格，並在檔頭加入清楚的註解說明。
+- 備註：加入適當的檔案註解，描述檔案名稱、功能、作者、日期，提升可維護性。
+
+修改後完整程式碼：
+/*
+檔案名稱: WellNumberChecker.java
+功能: 判斷輸入整數的各數位是否嚴格遞增（從左至右）
+作者: 金宗翰
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class WellNumberChecker {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        } else {
+            scn.close();
+            return;
+        }
+
+        String s = Integer.toString(n);
+        boolean ok = true;
+        // 檢查相鄰的數位是否嚴格遞增
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) <= s.charAt(i - 1)) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (ok) {
+            System.out.println(n + " is well-ordered number.");
+        } else {
+            System.out.println(n + " is not well-ordered number.");
+        }
+        scn.close();
+    }
+}

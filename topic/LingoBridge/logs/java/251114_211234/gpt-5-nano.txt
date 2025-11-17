@@ -1,0 +1,51 @@
+84
+
+改進建議: 建議加上程式標頭註解、統一命名與縮排風格，並採用更清晰的排序與輸出寫法以提升可讀性與穩定性。
+
+優化說明與修改重點
+- 使用標準檔案命名與類別名稱，主方法簽名統一為 public static void main(String[] args)。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期。
+- 以 Arrays.sort 進行排序，提升可讀性與穩定性，並避免手寫排序邏輯的潛在錯誤。
+- 使用 StringBuilder 產生輸出字串，避免每次輸出都呼叫 System.out.print 叢集造成效能影響，並在末端輸出換行符號以符合常見輸出格式。
+- 增加基本的資源管理（關閉 Scanner），並使用更具語意的變數命名。
+
+修改後完整程式碼
+/* File: SortingArray.java
+ * Description: 讀入一個整數 n，接著讀入 n 個整數，將它們由小到大排序並輸出，元素可為負數。
+ * Author: YourName
+ * Date: 2025-11-14
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortingArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 以升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

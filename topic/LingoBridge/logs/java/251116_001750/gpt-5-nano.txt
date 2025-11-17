@@ -1,0 +1,48 @@
+92
+
+改進建議：程式已正確計數，但可改用通用的位數和函式來提升可讀性與維護性，同時補上完整的檔案註解與說明。
+
+修改重點與原因：
+- 使用通用的 digitSum(n) 函式來計算數字和，避免硬編碼「六位數位」的寫法，讓程式可以更容易維護與擴充。
+- 增加清晰的檔案註解與函式註解，提升可讀性與可維護性。
+- 變數命名改為更具描述性的名稱，如 count、digitSum，提升邏輯易懂度。
+- 保留原本的計數邏輯與範圍（1~100000），確保結果與題意一致。
+
+修改後完整程式碼：
+```java
+/*
+File: CSIE_41343247_1003_3.java
+Name: 盧冠宇
+Student_ID: 41343247
+Date: 2025-11-15
+Description: 讀入整數 A，計算 1~100000 中，所有數字的各位數字和等於 A 的數字個數。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343247_1003_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int count = 0;
+
+        for (int n = 1; n <= 100000; n++) {
+            if (digitSum(n) == a) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+
+    // 計算整數 n 的十進位各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}
+```

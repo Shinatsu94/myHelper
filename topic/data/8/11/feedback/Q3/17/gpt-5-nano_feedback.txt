@@ -1,48 +1,47 @@
-4
+96
+建議將變數命名更具描述性、並將程式標頭放在檔案頂端，提升可讀性與維護性。
 
-評分細項
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：3/10
-- 備註：1/10
-- 總分：4/100
+改進建議與作法要點：
+- 將程式標頭註解移動至檔案頂端，符合一般編寫習慣與可讀性。
+- 新增 digitSum 函式，用於計算單一數字的各位數字總和，提升可讀性與可重用性。
+- 變數命名改為更具描述性，如 target、count、scanner 等，提升自說明性。
+- 加入 scanner.close()，養成良好資源管理習慣。
+- 保留原本正確的邏輯與範圍判斷，確保輸出結果正確。
 
-修改與說明
-- 核心問題點：原程式與題目需求嚴重不符，功能與輸出皆不正確，且使用了多餘的變數與不相關的演算法。
-- 修改重點：
-  - 改成符合題目需求的輸入輸出：讀入兩個整數 A, B，交換兩數後印出交換結果。根據題目給的輸出樣例，輸出應為交換後的值，且每個值單獨一行（即輸出原本的 B，再輸出原本的 A）。
-  - 為避免使用臨時變數違反題意，採用不額外變數的交換法：A = A + B; B = A - B; A = A - B。
-  - 增加檔案頭註解與較清晰的變數命名，並保留 Scanner 的使用。
-  - 程式格式與結構調整，提升可讀性與可維護性。
+以下為修改後完整程式碼：
 
-修改後完整程式碼
 /*
-檔案名稱: CSIE_41343107_1003_3_optimized.java
-功能: 讀入兩個整數，印出交換後的結果。不使用額外變數進行交換。
+檔案名稱: CSIE_41343107_1003_3.java
+功能: 輸入一個數字A, 找尋 1 到 100000之間有多少數字每一個位數的加總結果等於A，輸出為1-100000之間，符合要求的數字數量
 作者: 王世豪
-日期: 2025-11-11
+學號: 41343107
+日期: 2025/09/26
 */
 import java.util.Scanner;
 
-public class CSIE_41343107_1003_3_optimized {
+public class CSIE_41343107_1003_3 {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        int target = scanner.nextInt();
+        int count = 0;
 
-        int A = in.nextInt();
-        int B = in.nextInt();
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
 
-        // 不使用額外變數進行交換
-        A = A + B;
-        B = A - B;
-        A = A - B;
+        System.out.println(count);
+        scanner.close();
+    }
 
-        // 輸出交換後的結果，符合題目之輸出樣例
-        System.out.println(A);
-        System.out.println(B);
-
-        in.close();
+    // 計算整數 x 的各位數字總和
+    private static int digitSum(int x) {
+        int sum = 0;
+        while (x > 0) {
+            sum += x % 10;
+            x /= 10;
+        }
+        return sum;
     }
 }
-
-一句話改進建議
-- 建議在提交時嚴格依題意輸出，並在程式開頭提供完整註解與一致的命名，避免包含與題目無關的計算邏輯。

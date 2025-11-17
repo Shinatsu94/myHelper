@@ -1,0 +1,54 @@
+86
+
+改進建議：建議移除未使用變數、補上標頭註解與註解，並改用 try-with-resources 管理 Scanner 並採用 Arrays.sort 提高可讀性與穩定性。
+
+修改說明與修改部分原因：
+- 移除未使用的變數 big、kal，及其他多餘代碼，降低混亂並減少誤導。
+- 加入檔案標頭註解，描述檔案名稱、功能、作者與日期，符合備註要求。
+- 使用 try-with-resources 管理 Scanner，確保資源正確關閉，提升穩定性與良好資源管理。
+- 改用 Arrays.sort(data) 直接排序，提升可讀性與執行效率，且能正確處理負數與任意整數輸入；若仍需自寫排序演算法亦可保留，此處保留內建排序以專注於輸入/輸出流程。
+- 脫胎於原本逐步輸出，改為使用 StringBuilder 進行輸出組裝，提升輸出效能並保持相同格式。
+
+修改後完整程式碼：
+
+/*
+ * File: CSIE_41343220_1031_1.java
+ * 功能: 讀取長度 n，接著讀入 n 個整數，並輸出由小到大排序的序列。
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 備註: 使用 Arrays.sort 提升排序效率與可讀性；加入適當註解與標頭
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343220_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) {
+                return;
+            }
+            int n = sc.nextInt();
+
+            int[] data = new int[Math.max(0, n)];
+
+            for (int i = 0; i < n && sc.hasNextInt(); i++) {
+                data[i] = sc.nextInt();
+            }
+
+            // 排序：採用 Arrays.sort 提升效率與穩定性
+            Arrays.sort(data);
+
+            // 輸出
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(data[i]);
+            }
+            System.out.print(sb.toString());
+        } catch (Exception e) {
+            // 例外處理：保持程式在遇到意外時不會直接崩潰
+        }
+    }
+}

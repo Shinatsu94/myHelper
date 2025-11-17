@@ -1,0 +1,55 @@
+6
+
+建議說明（改進重點一句話）：
+此作業未實作題意的排序功能，且採用與題目不相關的二维三角陣與尋找邏輯，建議改為使用一維陣列直接排序並輸出結果。
+
+修改與評語說明：
+- 將原本的 2D 三角陣與「查找目標值座標」的邏輯移除，改為一維整數陣列處理。
+- 使用 Java 標準庫 Arrays.sort 進行升冪排序，簡單且正確，適用任意長度與包含負數的情況。
+- 輸入改為先讀取長度 n，再讀取 n 個整數，輸出為排序後的數字，以空格分隔，符合題意輸出格式。
+- 增加程式標頭註解與必要的程式內註解以提升可讀性與維護性。
+
+修改後完整程式碼：
+/*
+ * 文件名: CSIE_41343208_1031_3b_sorted.java
+ * 功能: 讀取長度 n，接著讀取 n 個整數，輸出升冪排序結果
+ * 作者: 
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343208_1031_3b_sorted {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 對整數陣列進行升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，數字以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

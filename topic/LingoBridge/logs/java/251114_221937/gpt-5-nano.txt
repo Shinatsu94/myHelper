@@ -1,0 +1,49 @@
+總分: 2
+
+改進建議（一句話）
+此作業需以正確的流程讀入長度與元素、進行排序並輸出，現有程式未讀取陣列也未排序，需改用排序演算法並正確輸出。
+
+修改與原因說明
+- 重新實作核心邏輯：改成讀入長度 n、再讀入 n 個整數，使用內建排序 Arrays.sort 進行由小到大排序，最後輸出排序結果。
+- 提升可讀性與正確性：使用更有意義的變數名稱（如 n、arr），避免原程式中的不相關計算與錯誤輸出。
+- 加入程式檔頭註解：描述檔案名稱、功能、作者與日期，符合格式要求。
+- 輸出格式：將排序結果輸出在同一行，數字以空格分隔，符合題目輸出格式。
+
+修改後完整程式碼
+/*
+檔案名稱: SortArrayAscending.java
+功能: 讀取整數陣列長度與內容，將內容由小到大排序後輸出
+作者: [Your Name]
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，輸出同一列且以空格分隔
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+
+        // 讀取陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

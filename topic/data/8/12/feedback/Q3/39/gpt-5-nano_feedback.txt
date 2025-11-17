@@ -1,39 +1,57 @@
-0
+100
+原作功能正確，但缺少程式標頭註解，且在遇到大整數與負數時的健壯性不足，建議改以字串方式實作並補上註解以提升穩健性。
 
-修改後完整程式碼：
+- 優化與改進說明
+  - 使用字串作法反轉數字，避免整數溢位問題，且可原生支援任意長度的數字。
+  - 新增對負號的處理，負數的符號保持不變，僅反轉絕對值部分。
+  - 加入程式標頭註解與更清晰的變數命名，提升可讀性與維護性。
+  - 保留原始需求：程式一次執行結束，且輸入輸出符合題意。
+
+- 修改後完整程式碼（放在同一個檔案，檔名與 class 名稱保持為 CSIE_41343216_1017_3.java）：
+```java
+import java.util.Scanner;
 
 /*
-檔案名稱: LeibnizPi.java
-功能說明: 使用Leibniz公式計算 pi，輸出 i 為 10000,20000,...,100000 時對應的 pi 值，pi 保留小數點後10位，i 顯示為6位數寬。
-作者: 教師
-日期: 2025-11-12
-*/
+ * 檔案名稱: CSIE_41343216_1017_3.java
+ * 功能: 將使用者輸入的整數數字位元依序反轉，並輸出結果。
+ * 作者: 教師
+ * 日期: 2025-11-15
+ * 說明:
+ *  - 支援正負號，負數時反轉後仍為負數。
+ *  - 使用字串處理以避免整數溢位問題，且對任意長度的輸入皆有效。
+ *  - 輸入為 0 時輸出 0；輸入若含前導零，反轉後會移除反轉結果前方的多餘零。
+ */
 
-// 通過逐步累加的方式計算，避免每次都從頭計算，提高效能
-public class LeibnizPi {
+public class CSIE_41343216_1017_3 {
     public static void main(String[] args) {
-        final int maxN = 100000; // 最大的項數
-        final int step = 10000;  // 每隔多少項輸出一次結果
-
-        double sum = 0.0;
-
-        // n 為項數，計算 1 - 1/3 + 1/5 - ... (+/-) 1/(2n-1)
-        for (int n = 1; n <= maxN; n++) {
-            double term = ((n - 1) % 2 == 0) ? 1.0 : -1.0;
-            sum += term / (2.0 * n - 1.0);
-
-            if (n % step == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", n, pi);
-            }
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) {
+            sc.close();
+            return;
         }
+
+        String input = sc.next().trim();
+        boolean isNegative = input.startsWith("-");
+        if (isNegative) {
+            input = input.substring(1);
+        }
+
+        // 反轉數字字串
+        String reversed = new StringBuilder(input).reverse().toString();
+
+        // 移除反轉後字串前方的多餘零，確保輸出為一個整數字串；若全為零，輸出 "0"
+        reversed = reversed.replaceFirst("^0+(?!$)", "");
+        if (reversed.isEmpty()) {
+            reversed = "0";
+        }
+
+        if (isNegative) {
+            System.out.println("-" + reversed);
+        } else {
+            System.out.println(reversed);
+        }
+
+        sc.close();
     }
 }
-
-修改說明：
-- 將原本僅課堂範例式的單次計算改為逐步累加，語句改為累加 1/(2n-1) 的符號與大小，避免對於每個輸出重新計算整個和，提升時間效率。
-- 使用格式化輸出 System.out.printf，符合題目對 i 的呈現寬度（6 位）與 pi 的小數位數（10 位）。
-- 增添程式標頭註解，包含檔案名稱、功能、作者與日期，符合格式與備註要求。
-
-改進建議：
-- 若要支援不同的輸出範圍與精度，建議把 maxN、step 等值改成可配置的參數，並加入基本的輸入驗證與例外處理。
+```

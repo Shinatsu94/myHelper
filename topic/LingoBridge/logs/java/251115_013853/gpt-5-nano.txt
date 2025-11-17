@@ -1,0 +1,59 @@
+87
+建議在程式開頭加入標頭註解、改善變數命名與輸出格式以提升可讀性與維護性。
+
+修改說明與原因：
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註欄位。
+- 變數命名改為更具語意的名稱：number → n、score → nums，提升可讀性。
+- 以無尾端空格輸出排序結果，避免輸出格式不符合要求。
+- 增加註解區塊，解釋各步驟的用途，提升可維護性。
+- 保留原本的排序邏輯（選擇排序，升序），確保正確性與直覺性。
+
+修改後完整程式碼：
+/*
+ * File: CSIE_41343232_1031_1.java
+ * Description: 讀取長度、依序輸入整數，並輸出升序排序的結果（不使用EOF，單次執行結束）
+ * Author: 教授
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343232_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = input.nextInt();
+        int[] nums = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            nums[i] = input.nextInt();
+        }
+
+        // 選擇排序（升序）
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (nums[j] < nums[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                int tmp = nums[i];
+                nums[i] = nums[minIndex];
+                nums[minIndex] = tmp;
+            }
+        }
+
+        // 輸出排序後的結果，避免尾端多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.print(sb.toString());
+
+        input.close();
+    }
+}

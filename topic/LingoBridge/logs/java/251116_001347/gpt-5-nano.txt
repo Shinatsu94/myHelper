@@ -1,0 +1,48 @@
+98
+改進建議：為了可讀性與效率，建議將數字和的邏輯抽成獨立方法、加入 A 的上下界檢查，並使用更清晰的輸出與變數命名。
+
+修改說明：
+- 將計算數字各位之和的邏輯抽成私有靜態方法 digitSum(int n)，提高可重用性與可維護性。
+- 加入上限檢查：由於 1..100000 的最大位數和為 45，若 A 不在 1..45 之間直接輸出 0，節省不必要運算。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源未關閉問題。
+- 輸出改為 System.out.println，並用更具描述性的變數名稱（count）。
+- 程式內容加入更多註解，提升可讀性與可維護性。
+
+修改後完整程式碼：
+/*檔案名稱:CSIE_41343233_1003_3
+  日期:2025/11/15
+  作者:陳韋廷
+  程式介紹:輸入一個數A,找1到100000之間有多少數字每一個位數的加總等於A
+*/
+import java.util.Scanner;
+public class CSIE_41343233_1003_3 {
+    public static void main(String[] args) {
+        try (Scanner scn = new Scanner(System.in)) {
+            int A = scn.nextInt();
+
+            // 1..100000 內，數字各位數字和的最大值為 45
+            if (A <= 0 || A > 45) {
+                System.out.println(0);
+                return;
+            }
+
+            int count = 0;
+            for (int i = 1; i <= 100000; i++) {
+                if (digitSum(i) == A) {
+                    count++;
+                }
+            }
+            System.out.println(count);
+        }
+    }
+
+    // 計算整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int s = 0;
+        while (n > 0) {
+            s += n % 10;
+            n /= 10;
+        }
+        return s;
+    }
+}

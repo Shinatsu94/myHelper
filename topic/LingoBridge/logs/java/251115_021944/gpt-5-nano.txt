@@ -1,0 +1,63 @@
+92
+
+改進建議（一句話）：
+請將程式改成符合 Main 類別與 Main.java 檔名，並補充完整的檔案註解，以確保編譯通過並提升可讀性與維護性。
+
+修改與評語說明：
+- 將類別名稱改為 Main，檔案名稱改為 Main.java，符合 Java 公開類的命名規範，避免編譯錯誤。
+- 增加完整的檔案標頭註解（檔案名、功能、作者、日期等），提升可維護性與可追溯性。
+- 輸出部分改用 StringBuilder 累積結果再輸出，提升性能，尤其在處理較大陣列時更有效率。
+- 變數命名做小幅調整，例如 maxRight，讓意圖更清楚；並使用簡潔的更新邏輯（使用最大值更新）。
+- 保留原邏輯的正確性與邏輯性，同時確保 n=0 的極端情況輸出一個空行，與原需求一致。
+
+修改後完整程式碼：
+
+```java
+import java.util.Scanner;
+
+/*
+ * 檔案名稱: Main.java
+ * 功能: 依題意對輸入陣列做右側最大值置換，最後一個元素設為 -1，並輸出結果
+ * 作者: 請補充
+ * 日期: 請補充
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 1. 讀取陣列的長度
+        int n = scanner.nextInt();
+
+        // 2. 建立陣列並讀取使用者依序輸入的 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 3. 核心邏輯：從右往左遍歷，將每個位置設為右側的最大值
+        if (n > 0) {
+            int maxRight = arr[n - 1]; // 右側最大值起始於最後一個元素
+            arr[n - 1] = -1;           // 最後一個元素替換為 -1
+
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i]; // 暫存目前元素的值
+                arr[i] = maxRight;    // 置換為目前的右側最大值
+                if (current > maxRight) {
+                    maxRight = current; // 更新右側最大值
+                }
+                // 可簡寫為: maxRight = Math.max(maxRight, current);
+            }
+        }
+
+        // 4. 印出置換後的陣列內容，使用 StringBuilder 提升輸出效能
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}
+```

@@ -1,0 +1,55 @@
+5
+正確性：0
+邏輯：0
+格式：5
+備註：0
+改進建議：此程式與題目需求嚴重不符，需改為讀取長度與整數，排序並輸出結果；目前的功能是計算 3x3 矩陣的反矩陣，與題意無關。
+
+說明與修改
+- 核心改動：將原始程式改為解題所需的一維整數排序程式，使用動態長度的一維整數陣列。
+- 技術重點：
+  - 讀取第一個整數作為長度 n，接著讀入 n 個整數，組成一維整數陣列。
+  - 使用 Arrays.sort 進行升冪排序，支援負數。
+  - 輸出以單一行、數字之間以空格分隔，避免尾端空格。
+  - 加入適當的程式標頭註解，提升可讀性與可維護性。
+
+修改後完整程式碼
+```java
+// File: SortOneDArray.java
+// 功能: 讀取一維整數陣列，升序排序並輸出
+// 作者: 教師
+// 日期: 2025-11-14
+// 說明: 本程式只執行一次，讀入長度與對應的整數，支援負數。
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortOneDArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補 0
+            }
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

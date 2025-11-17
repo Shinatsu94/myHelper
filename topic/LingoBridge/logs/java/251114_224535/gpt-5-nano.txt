@@ -1,0 +1,51 @@
+2
+此作業未依題意完成，需改寫為能排序任意長度的一維整數陣列並輸出結果，並補齊程式標頭註解。
+
+改進建議與修改原因
+- 將核心邏輯改為讀入任意長度的一維整數陣列並進行排序，符合題目需求；原有程式是處理 3x3 矩陣與矩陣運算，與任務無關。
+- 使用 Arrays.sort 進行排序，語意清晰且效率較高，支援負數與任意長度的輸入。
+- 加入清晰的程式標頭註解與適當的內部註解，提升可讀性與維護性。
+- 讓輸入可以跨行輸入並一次性輸出排序後的結果，符合「執行一次結束」的測資需求。
+
+修改內容要點
+- 重新實作為一個通用的一維整數排序程式。
+- 保留使用 Scanner 讀取輸入，先讀長度 n，再讀入 n 個整數。
+- 使用 Arrays.sort 對陣列進行升序排序，輸出時以空格分隔。
+
+修改後的完整程式碼
+/*
+ * 檔案名稱: ArraySortAsc.java
+ * 功能: 讀入一個整數 n，接著讀入 n 個整數，將它們由小到大排序後輸出。
+ * 作者: 教師/評分系統示例
+ * 日期: 2025-11-14
+ * 註解: 具備撰寫清晰的程式標頭與註解，支援負數與任意長度的輸入。
+ */
+import java.util.*;
+
+public class ArraySortAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，使用空格分隔，行末換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

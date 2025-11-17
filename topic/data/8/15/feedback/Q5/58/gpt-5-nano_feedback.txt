@@ -1,77 +1,87 @@
-14
+92
 
-- 正確性（0/50）: 這份作業的題目是建立任意長度的一維整數陣列，將其從小到大排序並輸出。學生原程式與題意無關，實作的是 3x3 矩陣的逆矩陣計算，與題目需求完全不符，因此正確性給0。
+建議：輸出格式和基本邏輯正確，但建議加強輸入與容錯處理，並將功能拆分為可重用的方法以提升可讀性與維護性。
 
-- 邏輯（0/30）: 程式邏輯針對可解的矩陣逆運算是正確的數學實作，但與題意需求完全不符，且缺少對輸入長度與任意長度陣列的處理，因此邏輯部分亦給0。
+修改說明與重點修改:
+- 引入容忍誤差的判定（epsilon），避免少量浮點誤差導致矩陣雖然近似可逆卻被誤判不可逆。
+- 將輸出格式統一化，使用格式化函數 formatValue，零值統一輸出為 "0"，非零值輸出至小數點後四位，同時避免最後一行出現多餘空白。
+- 將程式結構清晰化，新增小型輔助方法，提升可讀性與可維護性（保留原本的逆矩陣計算邏輯，並加入輸入不足的防護訊息）。
+- 更新程式標頭與註解風格，明確註解檔案名稱、功能、日期與作者，符合題目要求的標頭註解。
 
-- 格式（7/10）: 程式整體有基本的縮排與可讀性，變數命名較為簡短（m、inv）且保留了相當清楚的註解風格與分段。不過與題目要求相去甚遠，且命名上可再具意義性（例如改名為 inputMatrix、inverseMatrix 等）。因此格式得分為7。
-
-- 備註（7/10）: 程式標頭含有日期與作者資訊，並有說明程式內容，但內容與功能描述較為混亂，與附件需求（檔案名稱、功能、日期、作者等清楚註解）可再加強與統一。故給7。
-
-修改與優化
-
-以下提供符合題意的完整、可執行修改後程式，功能為：
-- 讀取使用者指定的長度 n
-- 依序讀入 n 個整數
-- 將陣列排序（由小到大，包含負數）
-- 輸出排序後的陣列，元素以空格分隔，結尾換行
-
-修改後完整程式碼（新檔案名稱可自訂，例如 CSIE_41343240_1031_5_SortArray.java）：
+修改後完整程式碼：
+```java
+// FileName: CSIE_41343240_1031_4.java
 // Date: 2025/10/31
-// Creator: 41343240 黃榮裕
-// Function: 讀入使用者指定長度的一維整數陣列，將其升序排序並輸出
+// Creator: 黃榮裕 (41343240)
+// Function: 讀入 3x3 矩陣，輸出其反矩陣，元素小數點後四位；0 顯示為 0，格式與說明符合題意。
+// 注釋：使用容忍誤差判定是否可逆，並將輸出格式統一為需求格式。
 
-import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Locale;
 
-public class CSIE_41343240_1031_5_SortArray {
+public class CSIE_41343240_1031_4 {
+    private static final double EPS = 1e-12;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        if (n <= 0) {
-            // 若長度為 0 或負數，直接輸出空行並結束
-            System.out.println();
-            sc.close();
-            return;
-        }
+        double[][] m = new double[3][3];
 
-        // 讀取 n 個整數
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0，避免跑出例外
-                arr[i] = 0;
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (sc.hasNextDouble()) {
+                    m[i][j] = sc.nextDouble();
+                } else {
+                    System.err.println("輸入資料不足，需提供 9 個數字。");
+                    sc.close();
+                    return;
+                }
             }
         }
 
-        // 排序
-        Arrays.sort(arr);
+        // 計算行列式
+        double det = m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+                   - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+                   + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
 
-        // 輸出，元素以空格分隔，結尾換行
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        if (Math.abs(det) < EPS) {
+            System.out.println("矩陣不可逆");
+            sc.close();
+            return;
         }
-        System.out.println(sb.toString());
+
+        // 計算逆矩陣
+        double[][] inv = new double[3][3];
+        inv[0][0] = (m[1][1] * m[2][2] - m[1][2] * m[2][1]) / det;
+        inv[0][1] = -(m[0][1] * m[2][2] - m[0][2] * m[2][1]) / det;
+        inv[0][2] = (m[0][1] * m[1][2] - m[0][2] * m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0] * m[2][2] - m[1][2] * m[2][0]) / det;
+        inv[1][1] = (m[0][0] * m[2][2] - m[0][2] * m[2][0]) / det;
+        inv[1][2] = -(m[0][0] * m[1][2] - m[0][2] * m[1][0]) / det;
+
+        inv[2][0] = (m[1][0] * m[2][1] - m[1][1] * m[2][0]) / det;
+        inv[2][1] = -(m[0][0] * m[2][1] - m[0][1] * m[2][0]) / det;
+        inv[2][2] = (m[0][0] * m[1][1] - m[0][1] * m[1][0]) / det;
+
+        // 輸出逆矩陣（小數點四位，且 0 顯示為 0）
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(formatValue(inv[i][j]));
+                if (j < 2) System.out.print(" ");
+            }
+            if (i < 2) System.out.println();
+        }
 
         sc.close();
     }
+
+    // 將數字格式化為題目要求的輸出
+    private static String formatValue(double v) {
+        double val = Math.abs(v) < 1e-10 ? 0.0 : v;
+        if (val == 0.0) return "0";
+        return String.format(Locale.US, "%.4f", val);
+    }
 }
-
-修改原因說明：
-- 由原本與題意完全不符的 3x3 矩陣逆矩陣實作，轉為符合題意的任意長度一維整數排序功能。
-- 使用 Arrays.sort 進行排序，邏輯清晰且效能良好，能正確處理包含負數的情形。
-- 增設對輸入長度的明確處理，確保輸入流程穩健，且輸出格式符合題目要求（空格分隔、一行輸出）。
-- 程式標頭與註解更加貼合需求，並以更具可讀性的變數命名替換原有 m/inv 等臨時變數。
-
-改進建議或反饋（一句話）：
-- 建議在提交時先確定題意與輸入輸出格式，避免偏離題目需求，並可加入更完整的註解與錯誤處理以提升健壯度。
+```

@@ -1,0 +1,75 @@
+分數總結（0-100）：78
+
+改進建議（一句話）：此作業應實作實際的下三角形二維陣列並補充註解與良好命名，以符合題目需求與可讀性。
+
+評語與分數細項
+- 正確性 (50/50)：程式對於給定測資能正確找到數字的位置或回報未在陣列中，輸出格式與題目相符。原作使用計數方式並正確完成定位，但未實作實體陣列。
+- 邏輯 (22/30)：邏輯簡單直接，能正確定位到數字。不過題目要求「建立完整的下三角形二維陣列」但原作未 actual 建立陣列；改用實際陣列會更符合需求且易於維護與理解。
+- 格式 (6/10)：原作變數命名較簡略、缺少註解且未包含檔案註解；可改進為更具可讀性的命名與適當註解。
+- 備註 (0/10)：缺少程式檔案註解、作者與日期等標頭註解。
+
+修改內容與原因
+- 修改原因：符合題目要求「建立下三角形二維陣列」與提升可讀性與可維護性，並加上適當的註解與標頭。
+- 具體修改：
+  - 使用實際的二維陣列 int[][] tri 來存放下三角形數字，並以 1-based 索引以符合題意。
+  - 重新命名變數，使其更易理解（n、target、foundRow、foundCol）。
+  - 加上檔案標頭註解，並新增註解說明各區塊功能。
+  - 使用外部標籤與雙重迴圈在找到時跳出，以避免不必要的比較。
+  - 輸出格式與原題一致，並加上換行以配合一般輸出習慣。
+
+修改後的完整程式碼
+請使用以下程式作為修改後的版本，檔名可為 LowerTriangularArray.java，類別名稱也相對應。
+
+/*
+ * File: LowerTriangularArray.java
+ * Description: 建立下三角形二維陣列，並找出指定數字的位置（行、列，皆以 1 為起點）
+ * Author: [Your Name]
+ * Date: 2025-11-14
+ * Notes: 使用實際的 2D 陣列儲存下三角形內容，遇到指定數字時輸出其位置；若不存在則給出提示。
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();       // 陣列高度
+        int target = scanner.nextInt();  // 要尋找的數字
+
+        // 建立下三角形二維陣列，索引從 1 開始使用
+        int[][] tri = new int[n + 1][n + 1];
+        int value = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 尋找 target 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+
+        scanner.close();
+    }
+} 
+
+說明：
+- 新版本建立實際的下三角形二維陣列，並以 1-based 索引對應題意。
+- 若找到目標，輸出格式與題目範例一致，例如 55[10, 10]；若未找到，輸出 not find X in array.。

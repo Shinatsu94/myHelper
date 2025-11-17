@@ -1,0 +1,59 @@
+95
+
+改進建議：已納入二維陣列實作、輸入範圍檢查與註解，並改用更穩定的輸出方式以符合測資需求。
+
+改動說明與原因：
+- 使用二維陣列 char[][] arr(n, n) 來滿足題目「建立下三角形二維陣列」的要求，將下三角填 '*'，上三角以空格填充，確保輸出時不會有多餘空格。
+- 使用 StringBuilder 組裝整體輸出，避免逐格輸出造成大量 I/O，提升效能與穩定性。
+- 加入輸入範圍檢查，若輸入不在 [1,20] 內，直接結束，避免無效輸出。
+- 變數命名更具描述性（n、arr、i、j），並加入程式頭註解與內部註解，提升可讀性與可維護性。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343101_1031_3a.java
+功能說明: 建立下三角形二維陣列，將下三角填 '*'，其餘以空格填充，並輸出不含間隔的星號結果。
+作者: 請自行填寫
+日期: 2025-11-14
+*/
+
+public class CSIE_41343101_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 輸入範圍檢查
+        if (n <= 0 || n > 20) {
+            sc.close();
+            return;
+        }
+
+        // 建立並初始化二維陣列
+        char[][] arr = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                arr[i][j] = ' ';
+            }
+        }
+
+        // 填入下三角的 '*'
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
+            }
+        }
+
+        // 使用 StringBuilder 逐行輸出，避免多次 I/O
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(arr[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

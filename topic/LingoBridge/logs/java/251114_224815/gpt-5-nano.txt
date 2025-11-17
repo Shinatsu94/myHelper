@@ -1,0 +1,57 @@
+總分: 0
+
+改進建議
+此作業尚未依題意完成：未實作任意長度的一維整數陣列排序功能，輸入與輸出格式亦與題目要求不符。建議改用常見的排序方法（如 Arrays.sort），並確保能處理任意長度和負數的情況，輸出格式符合「以空格分隔、無多餘空格、結尾換行」的要求。
+
+修改說明與修改點
+- 目的與邏輯修正
+  - 改用整數陣列，依題意讀取長度 n 與 n 個整數，之後進行從小到大的排序，最後輸出排序後的內容。
+  - 使用 Arrays.sort 以簡潔、穩定地完成排序，支援負數與任意長度。
+- 輸入輸出與效能
+  - 使用直覺且易懂的輸入方式（Scanner），對於一般測資足夠，若需要更高效可改為 BufferedReader 與 StringTokenizer。
+  - 輸出時避免尾端多餘空格，確保與題目輸出格式相符。
+- 程式風格與註解
+  - 增加程式標頭註解，清楚描述檔案名稱、功能、作者與日期。
+  - 適當的變數命名與註解說明，使閱讀更易懂。
+
+修改後完整程式碼
+以下為符合題意的改寫版本（檔案名稱以 AscendingSort.java 為例）：
+
+/*
+File: AscendingSort.java
+功能: 讀取整數 n 與 n 個整數，將它們由小到大排序，輸出排序後的內容
+作者: 學生
+日期: 2025-11-14
+說明: 支援任意長度的整數陣列與負數，輸出格式為「數字1 數字2 ... 數字n」並換行。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class AscendingSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        sc.close();
+
+        // 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出，確保不多餘的空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

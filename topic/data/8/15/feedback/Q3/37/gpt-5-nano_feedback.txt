@@ -1,65 +1,61 @@
-4
+45
+
+改進建議：避免輸出區塊中的空白格，直接輸出左下三角形的星號，並加入程式標頭註解以提升可讀性與可維護性。
+
+- 修改原因與重點：
+  - 正確性：原程式在輸出時會把上三角的空白填充為空格，與題意「元素之間無需任何空白符號」不符；改為只輸出左下三角形的星號。
+  - 邏輯：保留下三角的邏輯，但在輸出階段僅輸出必要的部分，避免無用的空白行或空格。
+  - 格式：加入清晰的程式標頭與註解，提升可讀性，並使用更有意義的變數命名。
+  - 備註：新增標頭註解，說明檔案名稱、功能、作者與日期。
+
+修改後的程式說明：
+- 使用二維陣列儲存高度為 n 的下三角星號位置，僅在下三角填 '*'
+- 輸出時僅印出每一列從左至右的前 i+1 個星號，避免任何空白符號
+- 仍保持原本的輸入驗證，確保 0 < n <= 20
+- 加入檔案標頭註解與適當註解
 
 修改後完整程式碼：
-import java.util.Scanner;
-import java.util.Arrays;
-
 /*
-檔案名稱: Main.java
-功能: 讀取一個整數 n，接著讀入 n 個整數，輸出升序排序結果，元素可為負數。
-作者: 教師
-日期: 2025-11-12
-說明: 使用 Arrays.sort 將整數陣列排序，輸出時以單空格分隔，最後換行。
+ File: LowerTriangularStar.java
+ 功能: 建立並列印高度為 n 的下三角形二維陣列，其元素為 '*'
+ 說明: 不在輸出中出現空白字符，符合題意要求
+ 作者: [你的名字]
+ 日期: 2025-11-14
 */
-public class Main {
+import java.util.Scanner;
+
+public class LowerTriangularStar {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 讀取長度 n，並確保為正整數
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        while (n <= 0) {
-            if (!sc.hasNextInt()) {
-                sc.close();
-                return;
-            }
+        int n;
+
+        // 輸入驗證：0 < n <= 20
+        do {
             n = sc.nextInt();
-        }
+        } while (n <= 0 || n > 20);
 
-        // 讀入 n 個整數，並存入陣列
-        int[] arr = new int[n];
+        // 使用 n x n 的二維陣列存放星號，僅在下三角填 '*'，上三角留空
+        char[][] tri = new char[n][n];
+
+        // 填入下三角
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入數量不足，預設為 0（在此題情境通常會有足夠的數字，因此此分支不常發生）
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
             }
         }
 
-        // 升序排序
-        Arrays.sort(arr);
-
-        // 輸出，元素以單一空格分隔
+        // 印出下三角，僅輸出有星號的位置，避免空白符號
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j <= i; j++) {
+                sb.append(tri[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
         }
-        System.out.println(sb.toString());
+
+        System.out.print(sb.toString());
 
         sc.close();
     }
 }
-
-說明修改部分的原因：
-- 正確性與邏輯：原程式未實作題目需求的排序功能，改以實作完整的“讀取長度與對應的整數、排序、輸出”的流程，且支援負數輸入。使用 Arrays.sort 直接對整數陣列排序，邏輯清晰且穩健。
-- 格式：改用有意義的變數名稱（n、arr），採用較標準的程式結構與註解，提升可讀性與維護性。
-- 備註：加入完整的程式檔頭註解，說明檔案名稱、功能、作者、日期與實作說明。
-- 其他：移除原有的三角陣列與不相關邏輯，避免干擾與不必要的計算；輸出格式固定為「數字空格分隔，結尾換行」，符合題目輸出要求。
-
-一句話改進建議：
-直接按照需求敘述實作排序與輸出，避免加入與題意無關的圖形或額外結構，並使用標準輸入/輸出模式以提升通用性與通過測資的穩定性。

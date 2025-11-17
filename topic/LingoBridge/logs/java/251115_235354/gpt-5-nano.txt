@@ -1,0 +1,38 @@
+84
+建議加入程式標頭與註解，並改用更具描述性的變數名稱與適當關閉資源以提升可讀性與穩定性。
+
+修改後完整程式碼：
+/*
+File: CSIE_51015114_1003_2.java
+Description: 讓使用者輸入三個整數，使用兩種不同的方式計算最大值、最小值，並輸出最小值、中間值、最大值。
+Author: 你的名字
+Date: 2025-11-15
+*/
+import java.util.Scanner;
+
+class CSIE_51015114_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n1 = scanner.nextInt();
+        int n2 = scanner.nextInt();
+        int n3 = scanner.nextInt();
+
+        // 方式一：用兩個三元運算子先求出最大值，再與第三個比較得到最大值
+        int max = (n1 > n2) ? n1 : n2;
+        max = (max > n3) ? max : n3;
+
+        // 方式二：用兩個三元運算子先求出最小值，再與第三個比較得到最小值
+        int min = (n1 < n2) ? n1 : n2;
+        min = (min < n3) ? min : n3;
+
+        // 中間值：總和減去最大值與最小值
+        int mid = n1 + n2 + n3 - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scanner.close();
+    }
+}

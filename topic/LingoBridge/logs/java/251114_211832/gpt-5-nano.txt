@@ -1,0 +1,46 @@
+87
+
+建議加入標頭註解、統一縮排，並改用 Arrays.sort 提升可讀性與效能，最後在輸出結尾加上換行以符合常見慣例。
+
+修改說明與原因：
+- 將排序改用 Java 內建 Arrays.sort，提升可讀性與執行效能，並避免手寫排序可能的細小邏輯錯誤。
+- 增加程式標頭註解，符合作業要求的說明欄位，方便日後維護。
+- 使用 StringBuilder 組裝輸出，避免逐次輸出造成 IO 開銷，並在結尾加上換行符以符合常見輸出格式。
+- 關閉 Scanner，針對資源管理的好習慣。
+- 保留原本的輸入與輸出格式：輸出以單行、數字之間以單一空格分隔。
+
+修改後完整程式碼：
+/*
+ * File: Main.java
+ * 功能: 讀入整數 n 與 n 個整數，輸出從小到大排序的結果
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 備註: 不使用 EOF；單次執行結束
+ *      支援負數，輸出為空格分隔的一行
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = s.nextInt();
+        }
+
+        // 使用 Arrays.sort 進行升序排序，確保正確與效能
+        Arrays.sort(array);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+
+        System.out.println(sb.toString());
+        s.close();
+    }
+}

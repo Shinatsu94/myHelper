@@ -1,61 +1,62 @@
-3
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 2/10
-- 備註: 1/10
-總分: 3/100
+70
+改進建議：此題要求建立並印出下三角形的二維陣列，請改成使用 2D 陣列存放 '*'，再逐行輸出，以符合題意與註解需求，同時提升變數命名的可讀性與添加程式標頭與註解。
 
-修改與優化說明
-- 原作業嚴重偏離題目需求，未讀取陣列長度與元素、也未做排序與輸出，因此正確性與邏輯分皆為0。
-- 修改後的程式核心在於：讀取使用者輸入的長度 n，讀取 n 個整數，使用 Arrays.sort 進行升序排序，再以空格分隔輸出排序後的陣列。此寫法能確保對負數、任意長度的正確處理，且符合題目「一次執行、結束」的要求。
-- 改善點包含：
-  - 遵循標準輸入輸出流程，避免依賴 EOF。
-  - 使用有意義變數名稱與單一職責的流程，提升可讀性。
-  - 增加程式標頭註解與適當的內部註解，說明檔案名稱、功能、日期等。
-  - 使用 StringBuilder 來組合輸出，避免尾端多餘的空格。
+程式評分與說明
+- 正確性 (50/50): 符合輸出規則，能正確印出 n 行、每行前綴為對應數量的 '*'。但尚未使用二維陣列存放資料，單純輸出未符合「二維陣列」的實作要求，故給予滿分但提醒改進。
+- 邏輯 (15/30): 邏輯簡單、直覺；未符合題目「建立二維陣列」的要求，因此扣分。若改用 2D 陣列並合理輸出，邏輯分可提升。
+- 格式 (5/10): 變數命名較簡短不夠描述，缺乏適當註解與風格一致性。
+- 備註 (0/10): 缺少程式檔案標頭註解與內部註解。
 
-修改後完整程式碼（示範檔名可自行調整，例如 CSIE_Sorter.java）：
+以下為改進後的程式與說明
+- 改善重點
+  - 使用 2D 陣列 char[][] 來儲存下三角形的星號，符合題意。
+  - 變數命名更具語意（n、i、j）。
+  - 增加程式標頭註解與內部註解，並處理輸入邊界（0 < n <= 20，超出時截斷為 20）。
+  - 適當使用 System.out.println，並於輸入結束後關閉 Scanner。
+
+修改後完整程式碼
 /*
-檔案名稱: CSIE_Sorter.java
-功能: 讀取整數個數 n 與 n 個整數，將它們升序排序後以空白分隔輸出
-作者: 你的姓名
-日期: 2025-11-12
-說明: 不使用 EOF，程式執行一次即結束
+File: CSIE_41343222_1031_3.java
+Description: 建立並列印高度為 n 的下三角形二維陣列，元素為 '*'
+Author: 你/教授
+Date: 2025-11-14
 */
-import java.util.Arrays;
+
 import java.util.Scanner;
 
-public class CSIE_Sorter {
+public class CSIE_41343222_1031_3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        if (!scanner.hasNextInt()) {
+
+        int n = scanner.nextInt();
+
+        // 邊界處理：符合題目條件範圍，若超出回傳值截斷
+        if (n <= 0) {
             scanner.close();
             return;
         }
+        if (n > 20) {
+            n = 20;
+        }
 
-        int n = scanner.nextInt();
-        int[] arr = new int[n];
+        // 使用二維陣列存放下三角形的 '*'，其餘位置不需要使用
+        char[][] arr = new char[n][n];
 
+        // 填充下三角形部分
         for (int i = 0; i < n; i++) {
-            if (scanner.hasNextInt()) {
-                arr[i] = scanner.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，預設為 0，確保不會發生例外
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = '*';
             }
         }
 
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
+        // 逐行輸出，只印出每行前 i+1 個字元
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j <= i; j++) {
+                System.out.print(arr[i][j]);
+            }
+            System.out.println();
         }
 
-        System.out.print(sb.toString());
         scanner.close();
     }
 }
-
-一句話改進建議
-- 建議使用內建排序與清楚的輸出格式，並在程式開頭加入清楚的註解與檔案資訊，以提升可讀性與可維護性。

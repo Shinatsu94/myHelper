@@ -1,0 +1,46 @@
+88
+
+改進建議：請在程式中加入標頭註解與適當的說明，並使用更清晰的輸出方式與標準的程式結構，以提升可讀性及通用性。
+
+優化與修改說明：
+- 新增標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將類別名稱改為 Main，以符合大多數線上評測對 Java 主類別的預設要求。
+- 使用 StringBuilder 組裝輸出字串，避免多次 System.out.print，並在末尾輸出換行，提高輸出穩定性。
+- 以 try-with-resources 管理 Scanner，確保資源適時釋放。
+- 改用明確的單一用途匯入（非通配符），提升可讀性。
+- 保留原本的排序邏輯與輸出格式，確保對負數與任意長度輸入皆正確。
+
+修改後的完整程式碼如下（已符合上述優化）：
+```java
+/*
+File: Main.java
+功能: 讀取長度 n 與 n 個整數，將它們從小到大排序，輸出排序後的序列，輸出以空格分隔，末尾換行。
+作者: 你的名字（可自行填寫）
+日期: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextInt();
+            }
+
+            Arrays.sort(a);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(a[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}
+```

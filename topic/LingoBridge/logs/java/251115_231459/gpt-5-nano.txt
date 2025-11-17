@@ -1,0 +1,37 @@
+84
+建議加入清晰註解與更具描述性的變數名稱，並改用無溢位風險的交換方法與關閉資源。
+
+修改說明：
+- 將變數命名由 i, j 改為 A, B，提高可讀性與可維護性。
+- 改用位元 XOR 交換法，避免使用加法交換可能造成的整數溢位風險。
+- 增加標頭註解，說明檔案名稱、功能、作者與日期，提升可辨識性。
+- 加入 Scanner 關閉，釋放資源並符合最佳實務。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: CSIE_41343226_1003_1.java
+ * 功能: 讀入兩個整數並交換後印出
+ * 作者: 你的名字
+ * 日期: 2025-11-15
+ * 說明: 僅使用原本兩個變數進行交換，避免額外變數。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343226_1003_1 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int A = scn.nextInt();
+        int B = scn.nextInt();
+
+        // XOR Swap (不需要額外變數，並避免溢位風險)
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scn.close();
+    }
+}

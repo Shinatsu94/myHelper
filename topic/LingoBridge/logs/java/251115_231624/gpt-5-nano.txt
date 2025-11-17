@@ -1,0 +1,43 @@
+84
+
+改進建議：為提升可讀性與可維護性，請加入程式標頭註解、使用具意義的變數名稱，並在邏輯區塊加入說明註解，同時保持不使用額外變數進行交換的限制。
+
+修改與優化說明：
+- 使用具可讀性的變數名稱 numA、numB，取代 a、b，提升變數語意。
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註項目。
+- 保留 XOR 交換法以符合題目限制，並在關鍵步驟加入註解，提升可閱讀性。
+- 程式格式與縮排調整至較一致的風格。
+
+修改後完整程式碼：
+```java
+/*
+ * 檔案名稱: CSIE_41343232_1003_1.java
+ * 功能: 讀入兩個整數，交換其值後輸出交換後的結果（不使用額外變數進行交換）。
+ * 作者: 教師
+ * 日期: 2025-11-15
+ * 備註: 本程式遵守題目要求的「不可使用其他變數進行數字交換」的限制，使用 XOR 交換法。
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343232_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取兩個整數
+        int numA = scanner.nextInt();
+        int numB = scanner.nextInt();
+
+        // 使用 XOR 交換法，無需額外暫存變數
+        numA = numA ^ numB;
+        numB = numA ^ numB;
+        numA = numA ^ numB;
+
+        // 輸出交換後的結果
+        System.out.println(numA);
+        System.out.println(numB);
+
+        scanner.close();
+    }
+}
+```

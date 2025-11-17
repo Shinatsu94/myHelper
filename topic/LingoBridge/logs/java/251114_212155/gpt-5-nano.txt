@@ -1,0 +1,64 @@
+7
+此作業未正確實作排序，輸出與預期不同，建議改用內建排序（Arrays.sort）以正確取得升序，並移除不必要的特例處理。
+
+改進建議與說明：
+- 正確性與邏輯：改用 Arrays.sort 直接對整數陣列升序排序，確保負數也能正確排序，並移除原本的反向最大值替換邏輯與不恰當的特殊案例（如 length==1 顯示 -1）。
+- 格式與註解：加入清晰的程式標頭註解與內部註解，變數命名更具描述性，維持良好縮排。
+- 輸入處理穩健性：保留對輸入不足的資源釋放與結束處理，確保不會因輸入不完整而造成例外。
+
+修改後完整程式碼：
+/*
+檔案名稱: ArrayProcessor.java
+功能: 讀取整數長度與對應的元素，輸出升序排序的陣列內容
+作者: 資訊工程系教授
+日期: 2025-11-14
+註解: 使用 Arrays.sort 進行升序排序，支援包含負數的整數
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArrayProcessor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int length = scanner.nextInt();
+
+        // 長度為非正時，直接結束
+        if (length <= 0) {
+            scanner.close();
+            return;
+        }
+
+        int[] array = new int[length];
+
+        // 讀取長度個整數
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 輸入不足，結束程式
+                scanner.close();
+                return;
+            }
+        }
+
+        // 進行升序排序
+        Arrays.sort(array);
+
+        // 輸出排序後的內容，元素之間以空格分隔
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}

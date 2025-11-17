@@ -1,0 +1,41 @@
+2
+改進建議：請實作將輸入長度決定的整數陣列排序後輸出，目前程式僅輸出星號，未滿足題意。
+
+修改說明與修改內容
+- 正確性與邏輯修正：改為讀取使用者輸入的長度 n，接著讀入 n 個整數，將它們排序並輸出，符合題目需求。
+- 演算法與效能：使用 Java 內建的 Arrays.sort 進行排序，簡潔且效能穩定，適合任意長度的陣列。
+- 變數命名與格式：使用有意義的變數名稱（如 n、arr），加上基本註解與適當縮排，提升可讀性。
+- 程式內容註解與標頭：加入檔案功能說明的註解，滿足備註欄的要求。
+
+修改後完整程式碼
+// File: CSIE_41343111_1031_3a.java
+// 功能: 讀取整數長度與對應的數值，輸出由小到大的排序結果
+// 作者: (請補充)
+// 日期: 2025-11-14
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343111_1031_3a {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

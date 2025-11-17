@@ -1,0 +1,49 @@
+86
+
+改進建議：移除未使用的變數、加入程式標頭註解並整理縮排與命名，同時保持兩種不同的方法以符合題意。
+
+修改說明：
+- 移除未使用的布林變數 f 與 t，降低干擾並避免編譯或靜態檢查的警告。
+- 新增程式檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 調整縮排與變數命名，使可讀性更高；在註解中說明兩種不同的找最大、最小、中間值的方法，確保題意清楚。
+- 保留使用三元運算子找最大與最小值，以及以 sum - max - min 計算中間值的方法，確保滿足「兩種不同的方式」的要求。
+- 關閉資源以避免可能的資源洩漏。
+
+以下為修改後的完整程式碼：
+
+/*
+檔案名稱: CSIE_41343220_1003_2.java
+功能: 從使用者輸入的三個整數中，輸出最小值、中間值、最大值。使用兩種不同的方法：
+      1) 以三元運算子分別找出最大值與最小值。
+      2) 以 mid = x + y + z - max - min 的方式求中間值。
+作者: 教師姓名
+日期: 2025-11-15
+說明: 不使用 if-else 條件敘述。
+*/
+import java.util.Scanner;
+
+public class CSIE_41343220_1003_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        int x = scn.nextInt();
+        int y = scn.nextInt();
+        int z = scn.nextInt();
+
+        // 使用兩種不同的方式找出最大值與最小值
+        int max = (x > y) ? x : y;
+        max = (max > z) ? max : z;
+
+        int min = (x < y) ? x : y;
+        min = (min < z) ? min : z;
+
+        // 中間值透過總和減去最大值與最小值得到
+        int mid = x + y + z - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scn.close();
+    }
+}

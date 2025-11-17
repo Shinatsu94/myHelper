@@ -1,0 +1,53 @@
+7
+
+改進建議：
+請實作完整的輸入、排序與輸出流程，並確保支援負數與一次性結束，現在的作業僅輸出星號圖，與題目需求不符。
+
+修改說明與原因：
+- 將輸入改為先讀取長度 n，然後讀取 n 個整數，符合題意的輸入格式。
+- 使用 Arrays.sort 對整數陣列進行升序排序，簡潔且正確。
+- 以單行輸出排序後的數字，數字之間以空格分隔，符合輸出格式要求。
+- 增加程式標頭註解與適當註解，提升可維護性與可讀性，並使用有意義的變數名稱。
+- 關閉 Scanner，釋放資源，增加程式穩定性。
+- 變數命名統一、縮排清晰，提升格式分數。
+
+修改後完整程式碼：
+```java
+/*
+ * 檔案名稱：CSIE_41343101_1031_3a.java
+ * 功能說明：讀入一個整數 n，接著讀入 n 個整數，將它們升序排序並輸出。
+ * 作者：教授
+ * 日期：2025-11-14
+ * 備註：不使用 EOF，程式執行一次後結束。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343101_1031_3a {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        int n = sc.nextInt();
+        int[] arr = new int[Math.max(0, n)]; // 保證不為負長度
+
+        // 讀入元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，數字以單一行、空格分隔
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
+```

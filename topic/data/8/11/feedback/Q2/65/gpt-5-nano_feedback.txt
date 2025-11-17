@@ -1,37 +1,46 @@
-12
+88
 
-修改說明與優化結果
-- 修改重點
-  - 直接依照題意輸出「交換後的值」，即先印出第二個數字再印出第一個數字，而不進行變數交換或使用額外的變數。
-  - 移除原程式中的多餘變數與三數排序的邏輯，符合「不得使用其他變數進行數字交換」的限制。
-  - 增加必要的程式註解與標頭，提升可讀性與維護性。
-- 修改後完整程式碼
-  /*
-   檔案名稱: SwapTwoNumbers.java
-   功能: 讀入兩個整數，輸出其交換後的順序（先印出第二個數，接著印出第一個數）
-   作者: 教師
-   日期: 2025-11-11
-  */
-  import java.util.Scanner;
+改進建議：原作雖能正確計算並輸出結果，但缺乏註解與可讀性不高，建議增加程式檔案頭註解、改用具描述性的變數名稱、並以方法封裝計算邏輯，同時在結尾適當關閉資源以提升穩健性。
 
-  public class SwapTwoNumbers {
-      public static void main(String[] args) {
-          Scanner sc = new Scanner(System.in);
-          int a = sc.nextInt();
-          int b = sc.nextInt();
+修改說明與原因
+- 增加檔案頭註解，包含檔名、功能、作者與日期，符合備註要求，提升可維護性。
+- 將三個輸入改為具描述性的變數名稱（first、second、third），提升變數語意清晰度。
+- 將最大值與最小值的計算封裝成兩個私有輔助方法 maxOfThree 與 minOfThree，使用三元運算子實作，符合題目「使用三元運算子」的要求，並提升可讀性與維護性。
+- 中位數(mid)改用 sum - max - min 的公式計算，與題目要求的第二種方法搭配，確保不使用 if-else。
+- 程式結尾補上 sc.close()，釋放資源，穩健性提升。
+- 排版與縮排做微調，讓整體結構更清晰。
 
-          // 直接輸出交換後的順序，無需實際改變 a, b 的值
-          System.out.println(b);
-          System.out.println(a);
+修改後的完整程式碼
+文件名稱: CSIE_51015108_1003_2.java
+功能: 輸入三個整數，輸出最小值、中間值與最大值；使用兩種不同的方法計算最大、最小值，並以中位數公式計算中間值；要求不得使用 if-else。
 
-          sc.close();
-      }
-  }
+import java.util.Scanner;
 
-- 修改原因說明
-  - 符合題目要求：僅透過輸出完成「交換」的效果，不用額外變數進行數字交換，滿足題目限制。
-  - 簡化邏輯：移除不必要的三數排序與多餘變數，提升正確性與可讀性。
-  - 強化格式與註解：加入檔案標頭註解，改善程式的可維護性。
+public class CSIE_51015108_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int first = sc.nextInt();
+        int second = sc.nextInt();
+        int third = sc.nextInt();
 
-一句話改進建議
-- 以輸入樣本的輸出需求為基礎，直接輸出交換後的結果即可，避免多餘運算與變數，並在開頭加入清楚的註解與檔案資訊。
+        int max = maxOfThree(first, second, third);
+        int min = minOfThree(first, second, third);
+        int mid = first + second + third - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+
+    // 使用三元運算子計算三個數的最大值
+    private static int maxOfThree(int a, int b, int c) {
+        return (a > b ? (a > c ? a : c) : (b > c ? b : c));
+    }
+
+    // 使用三元運算子計算三個數的最小值
+    private static int minOfThree(int a, int b, int c) {
+        return (a < b ? (a < c ? a : c) : (b < c ? b : c));
+    }
+}

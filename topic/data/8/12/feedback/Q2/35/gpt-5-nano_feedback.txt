@@ -1,67 +1,59 @@
-6
+90
 
-評分與評語
-- 正確性 (50%): 0/50
-  - 學生的程式與題目無關，未實作計算 pi 的近似與輸出格式要求，因此正確性為零。
-- 邏輯 (30%): 0/30
-  - 程式邏輯與需求不符，採用與題目無關的「數字是否遞增」驗證邏輯，無法回答題目。
-- 格式 (10%): 6/10
-  - 程式碼整體縮排與命名尚可，符合基本閱讀性，但與題意無關，且缺少註解與標頭說明，降低可維護性與評分。
-- 備註 (10%): 0/10
-  - 未提供程式檔案說明、功能說明、作者與日期等 header 註解。
+改善建議（一句話）：
+建議在程式開頭加入註解與對輸入的驗證，以提升可讀性與對非預期輸入的穩健性。
 
-修改與優化說明
-- 重新實作題目需求：改用 Leibniz 併式展開計算 pi 的近似值，並輸出 i 依序為 10000、20000、…、100000 的 pi 值，格式符合要求（i 顯示六位寬度，pi 顯示小數點10位）。
-- 使用單一迴圈以 O(n) 的方式累加求和，避免 O(n^2) 的重新計算，提高效率。
-- 加入適當的檔案標頭註解，並使用有意義的變數名稱與標準輸出格式，讓程式更易讀、可維護。
-- 在同一個迴圈中同時輸出每逢 10000 的 pi 值，並在結尾輸出能使 pi 最接近 3.14159 的最小 i 值。
+修改與原因：
+- 加入檔案開頭的註解塊，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 使用 scanner.next() 取代 nextLine，避免可能的行尾空白影響，同時保證只讀取一個連續的數字字串。
+- 新增對輸入是否全為數字的檢查，避免非數字輸入錯誤判斷造成不正確輸出。
+- 程式末尾加入 scanner.close()，針對資源進行適當關閉。
+- 保留原有判斷邏輯，並在可讀性上加入適當註解。
 
-修改後完整程式碼
-以下為符合題意的完整程式碼實作（注意：請存成貴校要求的檔名與類別名，這裡提供一個可直接執行的版本）：
+以下為修改後的完整程式碼：
 
-/**
- * File: LeibnizPi.java
- * 功能: 計算 pi 的近似值，輸出 i = 10000, 20000, ..., 100000 對應的 pi（小數點後10位），
- *       並找出使 pi 值接近 3.14159 的最小 i（誤差小於 0.00001），終端輸出該 i。
- * 作者: 你的名字
- * 日期: 2025-11-11
- */
-public class LeibnizPi {
+/*
+檔案名稱: csie_41343211_1017_2.java
+功能說明: 判斷使用者輸入的數字是否為 well-ordered number（從左到右數位嚴格遞增）。
+作者: 資訊工程系教授
+日期: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class csie_41343211_1017_2 {
+
     public static void main(String[] args) {
-        final double TARGET = 3.14159;
-        final double EPS = 1e-5;
-        final int GOAL_I = 136121; // 用於找出最小 i 的條件值，根據題意
+        // 建立輸入串流
+        Scanner scanner = new Scanner(System.in);
 
-        double sum = 0.0;
-        int iMin = -1;
+        // 讀取一個連續的字串，避免受行尾空白影響
+        String s = scanner.next().trim();
 
-        // 以單一迴圈計算到 GOAL_I，並在每 10000 的 i 時輸出 pi
-        for (int i = 1; i <= GOAL_I; i++) {
-            // 第 i 項的分數為 (-1)^(i-1) / (2*i - 1)
-            double term = ((i - 1) % 2 == 0) ? (1.0 / (2 * i - 1)) : (-1.0 / (2 * i - 1));
-            sum += term;
+        // 檢查是否全為數字
+        boolean isAllDigits = s.chars().allMatch(Character::isDigit);
 
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
+        boolean isWellOrdered = true;
 
-            // 紀錄符合條件的最小 i（若尚未找到）
-            if (iMin == -1 && Math.abs(4.0 * sum - TARGET) < EPS) {
-                iMin = i;
-                // 仍然繼續執行，直到到 GOAL_I，保留完整輸出
+        if (!isAllDigits) {
+            isWellOrdered = false;
+        } else {
+            // 檢查相鄰兩位是否嚴格遞增
+            for (int i = 0; i < s.length() - 1; i++) {
+                if (s.charAt(i) >= s.charAt(i + 1)) {
+                    isWellOrdered = false;
+                    break;
+                }
             }
         }
 
-        // 輸出符合題意的最小 i 值
-        System.out.println("i = " + iMin);
+        if (isWellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
+
+        // 關閉 scanner
+        scanner.close();
     }
 }
-
-說明修改該部分的原因
-- 以單一迴圈結合累加與輸出，避免多次重複計算，提升效能與穩定性。
-- 使用適當的輸出格式確保 i 與 pi 的位數符合題目要求（i 為六位寬，pi 保留十位小數）。
-- 增加標頭註解與清晰變數命名，提升程式可讀性與維護性。
-
-改進建議或反饋（一句話）
-- 建議在提交前先確定作業需求與輸出格式的一致性，並以實作單元測試驗證不同 i 值的 pi 近似與終端條件，以避免與題意脫節。

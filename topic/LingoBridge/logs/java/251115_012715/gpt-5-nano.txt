@@ -1,0 +1,51 @@
+74
+
+改進建議：建議使用更穩健的輸入處理、避免輸出尾端有多餘空格，並加入標頭註解與說明性註解以提升可讀性與維護性。
+
+程式優化與修改說明：
+- 輸入處理改為直接逐一讀取 n 個整數，無論這些數字分佈在幾行都能正確取得，提升魯棒性。
+- 取代自訂的泡沫排序為內建排序 Arrays.sort，避免手寫排序帶來的潛在錯誤與效率問題。
+- 輸出改為使用 StringBuilder 組裝，避免在最後產生多餘的結尾空格，輸出格式更符合常見測資要求。
+- 新增完整的標頭註解，並保留原本的類別名稱以免影響編譯環境。
+- 變數命名改為更具描述性的名稱，並維持整潔的縮排與註解。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_41343143_1031_1.java
+功能: 依序輸入長度與該長度的整數，輸出升序排序的結果
+作者: 教授
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343143_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+        int n = input.nextInt();
+        int[] array = new int[n];
+
+        // 逐一讀取 n 個整數，適用於多行輸入情況
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                array[i] = input.nextInt();
+            } else {
+                array[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        Arrays.sort(array);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.print(sb.toString());
+        input.close();
+    }
+}

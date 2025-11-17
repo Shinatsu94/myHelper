@@ -1,0 +1,38 @@
+90
+
+建議在程式開頭加入標頭註解並使用更具語意的變數名稱，同時保留不使用額外變數的交換寫法以提高可讀性。
+
+修改說明
+- 將變數名稱從 a, b 改為 A, B，提升可讀性與語意。
+- 增加檔案標頭註解，說明檔案名稱、功能、日期等，符合備註要求。
+- 保留原本的 XOR 交換法，以滿足「不可使用其他變數進行數字交換」的限制，並在程式內加入簡單註解以提升可讀性。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343202_1003_1.java
+功能: 讀入兩個整數 A 與 B，印出交換後的兩個數值
+作者: 請自行填寫
+日期: 2025-11-15
+說明: 不使用額外變數進行交換，採用位元運算 XOR 交換法
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343202_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int A = scanner.nextInt();
+        int B = scanner.nextInt();
+
+        // 使用 XOR 交換法，不使用額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        scanner.close();
+    }
+}

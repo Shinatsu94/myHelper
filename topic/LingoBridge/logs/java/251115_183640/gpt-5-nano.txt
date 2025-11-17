@@ -1,0 +1,47 @@
+21
+改進建議：此程式的邏輯雖能在某些情況正確判斷，但若遇到數字中出現0，或以ASCII比較方式混用數值，容易產生錯誤分類，應統一以數字值比較並加上註解說明。
+
+程式改進說明
+- 正確性：改用每位數轉換成整數值後再比較 (prevDigit vs currentDigit)，避免使用字符的ASCII值比較造成錯誤，同時處理前後位的逐一比較。
+- 邏輯：保留簡單直接的逐位比較邏輯，且在輸入為空字串時能穩健處理（返回非嚴格 well-ordered）。
+- 格式：改用更具可讀性的變數名稱（inputStr、prevDigit、currDigit、idx），並加入註解與適當換行，整體風格更一致、易於維護。
+- 備註：加入檔案標頭註解，說明檔案名稱、功能、作者與日期，方便日後維護。
+
+修改後完整程式碼
+/*
+檔案名稱: WellOrderedNumber.java
+功能說明: 判斷使用者輸入的數字是否為「嚴格遞增的數字」（自左至右每一位皆嚴格遞增）。
+作者: 你的名字
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String inputStr = sc.nextLine().trim();
+        sc.close();
+
+        boolean isWellOrdered = true;
+        if (inputStr.length() == 0) {
+            isWellOrdered = false;
+        } else {
+            int prevDigit = inputStr.charAt(0) - '0';
+            for (int idx = 1; idx < inputStr.length(); idx++) {
+                int currDigit = inputStr.charAt(idx) - '0';
+                if (prevDigit >= currDigit) {
+                    isWellOrdered = false;
+                    break;
+                }
+                prevDigit = currDigit;
+            }
+        }
+
+        System.out.print(inputStr);
+        if (isWellOrdered) {
+            System.out.println(" is well-ordered number.");
+        } else {
+            System.out.println(" is not well-ordered number.");
+        }
+    }
+}

@@ -1,0 +1,47 @@
+96
+建議將變數命名更具描述性、並將程式標頭放在檔案頂端，提升可讀性與維護性。
+
+改進建議與作法要點：
+- 將程式標頭註解移動至檔案頂端，符合一般編寫習慣與可讀性。
+- 新增 digitSum 函式，用於計算單一數字的各位數字總和，提升可讀性與可重用性。
+- 變數命名改為更具描述性，如 target、count、scanner 等，提升自說明性。
+- 加入 scanner.close()，養成良好資源管理習慣。
+- 保留原本正確的邏輯與範圍判斷，確保輸出結果正確。
+
+以下為修改後完整程式碼：
+
+/*
+檔案名稱: CSIE_41343107_1003_3.java
+功能: 輸入一個數字A, 找尋 1 到 100000之間有多少數字每一個位數的加總結果等於A，輸出為1-100000之間，符合要求的數字數量
+作者: 王世豪
+學號: 41343107
+日期: 2025/09/26
+*/
+import java.util.Scanner;
+
+public class CSIE_41343107_1003_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int target = scanner.nextInt();
+        int count = 0;
+
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        scanner.close();
+    }
+
+    // 計算整數 x 的各位數字總和
+    private static int digitSum(int x) {
+        int sum = 0;
+        while (x > 0) {
+            sum += x % 10;
+            x /= 10;
+        }
+        return sum;
+    }
+}

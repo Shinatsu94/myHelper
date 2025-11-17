@@ -1,0 +1,69 @@
+90
+
+建議：加入檔案標頭註解以符合作業規範，同時加強輸入容錯與輸出格式的清晰度。
+
+改進說明與修改重點
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 增加基本輸入檢查：若輸入的長度 n 為非正值，直接輸出換行並結束，避免不合法的陣列長度造成問題。
+- 使用 StringBuilder 組裝輸出字串，避免在迴圈中頻繁呼叫 System.out.print，提升效率與可讀性。
+- 保留原本排序邏輯（Arrays.sort），仍支援負數輸入。
+- 程式仍會在輸出結束後關閉 Scanner，維護資源釋放。
+
+修改後完整程式碼
+/**
+ * 檔案名稱: CSIE_41343236_1031_1.java
+ * 功能: 讀取長度 n 與 n 個整數，排序後輸出由小到大的序列
+ * 作者: (你的名字)
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343236_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 取得陣列長度
+        if (!scanner.hasNextInt()) {
+            System.out.println();
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 非正長度的情況，直接輸出換行並結束
+        if (n <= 0) {
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數到陣列
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，可依需求調整
+                arr[i] = 0;
+            }
+        }
+
+        // 由小到大排序
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder 組裝輸出，避免每次輸出造成 IO 負擔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        // 輸出結果並換行
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

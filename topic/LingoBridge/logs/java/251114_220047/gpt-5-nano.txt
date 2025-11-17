@@ -1,0 +1,80 @@
+4
+建議：此作業未符合題目需求，需實作輸入長度與排序邏輯，並輸出排序結果，另外加上註解與輸入檢查。
+
+修改與改進說明（摘要）
+- 移除原程式中不相關的星號三角形輸出，改以實作題目要求的排序功能。
+- 使用整數陣列讀取 n 個元素，並使用 Arrays.sort 進行排序，輸出以空格分隔、單行顯示。
+- 加入輸入檢查：n 應為正整數，且必須有足夠的輸入數字；若輸入失敗，輸出 "invalid input."。
+- 增加程式 header 與程式內容註解，提升可讀性與維護性。
+- 變數命名與結構更清晰，格式較整齊。
+
+修改原因
+- 需求核心在於排序與輸出，原程式未完成題目邏輯且輸出與題意不符；透過簡潔的陣列與內建排序，提升正確性與效率，並加入健全的輸入驗證，避免測資錯誤。
+
+修改後完整程式碼
+```java
+/*
+ * 文件名稱: CSIE_41343212_1031_3a.java
+ * 功能說明: 讀入一個整數 n，接著讀入 n 個整數，將它們排序後以單行、以空格分隔輸出
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343212_1031_3a {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 先確定有輸入整數 n
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+
+        int n = input.nextInt();
+
+        // 輸入長度資料檢查
+        if (n <= 0) {
+            System.out.println("invalid input.");
+            input.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數，若輸入不足視為無效輸入
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                arr[i] = input.nextInt();
+            } else {
+                System.out.println("invalid input.");
+                input.close();
+                return;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：單行、以空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}
+```
+
+說明：
+- 此版本符合題目需求，能正確處理包含負數的整數輸入，並輸出排序後的結果，例如輸入
+  5
+  8 3 12 5 1
+  將輸出
+  1 3 5 8 12
+- 也對不正確輸入提供了基本的錯誤訊息，方便測資判斷與除錯。若你想讓系統在遇到無效輸入時不輸出特定訊息，也可以改成直接結束即可。

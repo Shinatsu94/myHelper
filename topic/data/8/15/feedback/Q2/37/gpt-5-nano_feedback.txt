@@ -1,27 +1,23 @@
-7
-- 正確性: 0
-- 邏輯: 0
-- 格式: 7
-- 備註: 0
+57
 
-程式優化與修改說明
-- 原因與修改重點：
-  - 原程式使用了從右到左的「最大值傳遞」邏輯，實際上無法實作升序排序，輸出結果與預期相差甚遠，且對負數的處理不穩定（max 初始值為 -1，遇到全為負數會出現錯誤）。
-  - 使用 Arrays.sort 直接對整數陣列進行升序排序，能正確處理任意長度與包含負數的情況，語法簡潔且效率穩定。
-  - 加入程式標頭註解，並在輸出時避免尾端多餘的空格，輸出格式更加穩定。
-- 修改後完整程式碼（保持原檔案名稱 csie_1031_41343214_2.java，以利編譯與比對）：
+建議：為了在含負數的情況下仍能正確計算，應將 max 的初始值改為整數最小值並特別處理最後一個元素，並改用更清楚的輸出與程式註解。
 
-import java.util.Arrays;
+優化說明與修改原因：
+- 正確性與穩健性：將 max 初始值設為 Integer.MIN_VALUE，並在處理最後一個元素時強制設為 -1，確保即便最後一個元素以及右邊元素都為負數時也能正確取得右側的最大值。
+- 風格與可讀性：使用更普遍的類名 Main，增加程式 header 註解與行內註解，避免長 classname；使用 StringBuilder 輸出，避免尾端多余空格並提升效率。
+- 兼容性：保持原有輸入輸出格式與行為，確保與測資相容。
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能說明: 讀入一個整數 n 及 n 個整數，將陣列由右至左替換為右側元素的最大值（最後一位為 -1），
+          最後輸出結果。此轉換不等同於排序，而是依序用右側最大值替換。
+作者: 你
+日期: 2025-11-14
+*/
 import java.util.Scanner;
 
-/*
-檔案名稱: csie_1031_41343214_2.java
-功能說明: 將讀入的任意長度整數陣列進行升序排序，輸出排序結果
-作者: 你的姓名
-日期: 2025-11-12
-說明: 使用 Arrays.sort 以正確處理負數與任意長度的輸入，輸出以單行空格分隔的排序結果。
-*/
-public class csie_1031_41343214_2 {
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -34,14 +30,18 @@ public class csie_1031_41343214_2 {
         int[] arr = new int[n];
 
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0;
-            }
+            arr[i] = sc.nextInt();
         }
 
-        Arrays.sort(arr);
+        // 最大值初始化為整數的最小值，確保負數情況也正確
+        int max = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            int c = arr[i];
+            arr[i] = (i == n - 1) ? -1 : max;
+            if (c > max) {
+                max = c;
+            }
+        }
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
@@ -49,15 +49,7 @@ public class csie_1031_41343214_2 {
             sb.append(arr[i]);
         }
 
-        System.out.println(sb.toString());
+        System.out.print(sb.toString());
         sc.close();
     }
 }
-
-改動說明要點：
-- 將原先的自訂排序邏輯改為直接使用 Arrays.sort，以確保正確性與可讀性。
-- 加入清楚的程式註解與檔案標頭，符合備註欄要求。
-- 輸出格式改為避免尾端多餘的空格，提升穩定性。
-
-改進建議（一句話）
-- 建議採用內建排序工具（如 Arrays.sort）並確保輸出格式穩定，這樣能快速且穩健地滿足題目需求。

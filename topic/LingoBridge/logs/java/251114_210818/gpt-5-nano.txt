@@ -1,0 +1,50 @@
+96
+
+建議使用內建排序提升可讀性與效能，並在輸出末尾加入換行以符合常見測資格式。
+
+修改說明與原因
+- 將自訂的選擇排序改為 Arrays.sort(array)，可簡化程式、提升可讀性與穩定性，且對整數陣列的時間複雜度為 O(n log n)，在長度較大時更有效。
+- 輸出改用 StringBuilder 組裝輸出字串，降低逐個 System.out.print 的呼叫次數，提高效率，並於最後使用 System.out.println 達成輸出後換行的需求。
+- 程式標頭與註解維持清楚說明，並避免不專業的文字（移除「請給我100分!!」等內容），保留基本註解以符合教學評分標準。
+
+修改後完整程式碼
+/**
+ * 程式名稱 : 陣列排序（使用 Arrays.sort）
+ * 
+ * 功能說明： 從使用者取得長度與元素，將陣列內容進行升序排序後輸出
+ * 
+ * 日期:2025/10/31
+ * 
+ * 姓名: 張竣傑
+ * 
+ * 學號: 41343224
+ */
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343224_1031_1 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int n = input.nextInt(); // 讀取陣列長度
+        int[] array = new int[n]; // 建立長度為 n 的整數陣列
+
+        // 讀取使用者輸入的陣列元素
+        for (int i = 0; i < n; i++) {
+            array[i] = input.nextInt();
+        }
+
+        // 使用 Java 內建的排序方法排序
+        Arrays.sort(array);
+
+        // 輸出排序後的陣列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+
+        System.out.println(sb.toString());
+        input.close();
+    }
+}

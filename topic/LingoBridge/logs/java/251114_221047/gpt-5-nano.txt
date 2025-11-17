@@ -1,0 +1,61 @@
+5
+改進建議：應改用陣列排序並輸出結果，避免原本的星號輸出，並補充妥善的檔案註解與清晰的變數命名與排版。
+程式優化說明與原因：
+- 以排序取代原本的星號輸出，符合題意與正確性需求，採用 Arrays.sort 進行穩定且簡潔的排序。
+- 使用單行輸出格式將排序後的整數以空白分隔，避免多餘的換行與星號輸出。
+- 增加檔案標頭註解，清楚描述檔案名稱、功能、作者與日期，提升可維護性。
+- 加強輸入防護：讀取 n 後檢查有效範圍，並正確讀取之後的 n 個整數，支援負數，且程式結束於一次執行。
+- 提升變數命名及格式整潔，提升可讀性。
+
+修改後的完整程式碼：
+import java.util.*;
+
+public class CSIE_41343236_1031_3a_sorted {
+
+    /**
+     * File name: CSIE_41343236_1031_3a_sorted.java
+     * 功能: 依題意接收一個長度 n 與 n 個整數，將陣列由小到大排序後輸出。
+     * 作者: 你的姓名
+     * 日期: 2025-11-14
+     * 備註: 不使用 EOF，會在一次執行結束；支援負數。
+     */
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        if (n <= 0) {
+            scanner.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出：一行，以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scanner.close();
+    }
+}

@@ -1,72 +1,107 @@
-6
+總分：92
 
-評分細項
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 6/10
-- 備註: 0/10
-- 總分: 6/100
+改進建議（概述一句話）
+建議加強對特例處理與可讀性：加入程式標頭與可重用的輸出格式設計，使用 epsilon 判定特異矩陣，並確保小數格式在所有環境中一致顯示。
 
-修改後程式碼
-以下為符合題意的優化版本，完整程式碼已包含檔案說明與註解，並能正確處理任意長度的一維整數陣列，進行升冪排序後輸出：
+程式評語與修改要點
+- 正確性：原程式能正確計算非奇異矩陣的反矩陣，但對特異矩陣的處理與浮點極小值的輸出判定可改進。
+- 邏輯：採用標準的行列式與反矩陣公式，結構清晰。建議把常數與輸出格式分離，提升可維護性。
+- 格式：具備可讀性良好的縮排與命名，但缺少程式標頭與使用 Locale 保障小數點符號一致性。
+- 備註：缺少檔案標頭註解（檔案名稱、功能、作者、日期等），以及對輸出格式的說明。內部註解有提供基本說明，但整體仍可增補。
 
-```java
+以下為修改後的完整程式碼，說明隨後給出。
+
+修改說明
+- 新增程式標頭註解，包含檔名、功能、作者、日期。
+- 將小數輸出改用 DecimalFormat 並指定 Locale.US，確保小數點為點號。
+- 引入 epsilon 檢查特異矩陣（det near 0 以 epsilon 判斷），避免浮點誤差導致的不可預期行為。
+- 對於矩陣元素的輸出，若值近似為 0（Math.abs(v) < 1e-9），直接輸出 0，避免出現 -0.0000。
+- 變數命名與結構略作整理，保留原有的核心演算法（行列式與反矩陣計算）。
+
+修改後完整程式碼：
+
 /*
- * 檔案名稱: SortingArray.java
- * 功能說明: 讀取使用者輸入的整數長度 n，以及 n 個整數，對其進行升序排序，並輸出結果
- * 作者: 你的姓名
- * 日期: 2025-11-12
+ * File: Inverse3x3.java
+ * 功能: 讀入 3x3 矩陣，輸出其反矩陣，若元素為 0 輸出 0，否則顯示到小數點後四位
+ * 作者: 你的教師姓名
+ * 日期: 2025-11-14
+ * 註: 輸出使用 '.' 作為小數點，並對特異矩陣給出提示訊息
  */
 
-import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
-public class SortingArray {
+public class Inverse3x3 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        if (n <= 0) {
-            sc.close();
-            return;
-        }
-
-        // 讀取陣列內容
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0（可依需求調整為拋出例外）
-                arr[i] = 0;
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                A[i][j] = sc.nextDouble();
             }
         }
         sc.close();
 
-        // 排序
-        Arrays.sort(arr);
+        final double EPS = 1e-9;
+        double det = determinant(A);
 
-        // 輸出
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        if (Math.abs(det) < EPS) {
+            // 根據題意未指定特殊輸出，這裡給出清楚的提示訊息
+            System.out.println("矩陣不可逆");
+            return;
         }
-        System.out.println(sb.toString());
+
+        double[][] inv = inverse(A, det);
+
+        // 格式化輸出，確保小數點為 '.'，且四位小數
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("0.0000", symbols);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = inv[i][j];
+                // 若近似為 0，直接輸出 0，避免出現 -0.0000
+                if (Math.abs(v) < 1e-9) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(v));
+                }
+
+                if (j < 2) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算 3x3 矩陣的行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
     }
 }
-```
-
-修改原因與說明
-- 將原本的 3x3 矩陣與行列式/反矩陣相關程式改為處理一維整數陣列，符合題目需求：任意長度的一維陣列、升序排序、輸出。
-- 使用 Arrays.sort(...) 進行排序，簡潔且效率高，且能自動處理包含負數的情況。
-- 新增完整程式檔案註解區塊，包含檔案名稱、功能、作者與日期等資訊，符合備註部分的要求。
-- 加入基本的輸入檢查與防呆設計（如長度為非正數時結束程式、輸入不足時預設為 0），提高穩定性。
-
-一句話改進建議
-- 建議在正式題庫環境中再增加輸入格式的嚴謹驗證與例外處理，並將使用者輸入的格式限制在單行或多行皆可，提升測資容錯性。

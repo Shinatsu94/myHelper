@@ -1,0 +1,49 @@
+52
+
+改進建議：
+請修正輸出格式以符合題目要求，並採用更簡潔的字串比較方式提高可讀性與穩健性。
+
+修改說明與重點：
+- 改用字串逐位比較的方式檢查數字各位是否嚴格遞增，避免使用 div 計算較易出錯的位元處理。
+- 輸出改為完全符合題目規格：輸出 "<原數字> is well-ordered number." 或 "<原數字> is not well-ordered number."，末尾含句點。
+- 將類別名稱改為符合 Java 命名慣例的 WellOrderedNumber，並新增適當的檔案註解與程式內容註解。
+- 提升變數命名與可讀性，讓程式更易維護。
+
+修改後的完整程式碼：
+
+/*
+ * File: WellOrderedNumber.java
+ * Description: Determine whether the input number's digits are strictly increasing from left to right.
+ * Author: Your Name
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 以字串方式讀取輸入，保留原始數字格式以便輸出
+        String input = sc.next();
+
+        boolean isWellOrdered = true;
+        // 從第二位開始，與前一位比較是否嚴格遞增
+        for (int i = 1; i < input.length(); i++) {
+            char prev = input.charAt(i - 1);
+            char curr = input.charAt(i);
+            if (curr <= prev) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+
+        sc.close();
+    }
+}

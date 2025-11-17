@@ -1,0 +1,69 @@
+9
+
+改進建議：你的程式在題意與輸出樣例之間存在不一致，建議直接依序列的右側最大值來計算並最後置-1，避免不必要的排序，並將演算法簡化為O(n)以提升效率。
+
+修改說明與重點：
+- 移除不必要的升冪排序，直接對原始輸入序列計算每個位置右側的最大值。
+- 使用單次從右到左的後綴最大值計算，將時間複雜度降為 O(n)，並避免改動原始序列前的順序。
+- 增加程式標頭註解與適當的註解說明，並使用較具描述性的變數名稱。
+- 將類別改為常見的 Main 類名以符合一般 Java 程式的命名慣例。
+
+修改後完整程式碼：
+```java
+/*
+ * File: Main.java
+ * 功能: 讀取長度 n 與 n 個整數，輸出一個新陣列，其中每個元素被其右側元素的最大值替換，最後一個元素為 -1。
+ * 說明: 本實作不進行排序，改用單次右到左的後綴最大值計算，時間複雜度為 O(n)。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀入陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            // 無資料直接結束
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        int[] orig = new int[n];
+        for (int i = 0; i < n; i++) {
+            orig[i] = scanner.nextInt();
+        }
+
+        int[] ans = new int[n];
+        // 最後一個元素設定為 -1
+        ans[n - 1] = -1;
+
+        // 從右到左維護右側的最大值，填入結果陣列
+        int maxRight = orig[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            ans[i] = maxRight;
+            if (orig[i] > maxRight) {
+                maxRight = orig[i];
+            }
+        }
+
+        // 輸出結果
+        for (int i = 0; i < n; i++) {
+            System.out.print(ans[i]);
+            if (i < n - 1) {
+                System.out.print(" ");
+            }
+        }
+
+        scanner.close();
+    }
+}
+```

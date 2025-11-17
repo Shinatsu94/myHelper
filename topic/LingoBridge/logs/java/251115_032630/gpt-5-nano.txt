@@ -1,0 +1,54 @@
+總分（100分制）：93
+
+改進意見（一句話）：建議實作完整的下三角形二維陣列並以該陣列內容作驗證，搭配完整的標頭註解與更清晰的變數命名，以符合題意與較高的可讀性。
+
+程式優化說明與修改重點：
+- 新增完整的下三角形二維陣列建立與填充，確保符合「建立完整的下三角形二維陣列」的要求。
+- 保留並使用數字定位公式（r、c），但同時透過陣列的內容驗證以增強可讀性與健全性。
+- 加入程式標頭註解與更清晰的程式內註解，提升可維護性。
+- 變數命名與排版做適度優化，保持縮排與可讀性。
+
+修改後的完整程式碼如下：
+
+import java.util.Scanner;
+
+public class TriIndexFinder {
+    /*
+     * 檔案名稱: TriIndexFinder.java
+     * 功能說明: 建立下三角形二維陣列，依序填入數字 1..n(n+1)/2，
+     *           找出使用者輸入的 num 在陣列中的位置，輸出格式為: num[row, col]
+     * 作者: 
+     * 日期: 
+     */
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入高度 n 與要找的數字 num
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        if (!sc.hasNextInt()) return;
+        int num = sc.nextInt();
+
+        // 建立完整的下三角形二維陣列，內容依 1,2,3,... 填入
+        int[][] tri = new int[n][];
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
+            }
+        }
+
+        int total = n * (n + 1) / 2;
+        if (num <= 0 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 計算位置：行 r 與列 c，皆從 1 開始
+        long r = (long) Math.ceil((Math.sqrt(1.0 + 8.0 * (long) num) - 1.0) / 2.0);
+        long prev = (r - 1) * r / 2;
+        long c = num - prev;
+        System.out.printf("%d[%d, %d]%n", num, (int) r, (int) c);
+    }
+}

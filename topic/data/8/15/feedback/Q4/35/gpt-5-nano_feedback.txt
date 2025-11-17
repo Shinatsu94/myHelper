@@ -1,78 +1,59 @@
-6
+89
 
-- 正確性 (0/50)
-  - 目前提交的程式與題目需求嚴重不符。原程式不是對任意長度的一維陣列進行升冪排序並輸出，而是與三角形數列與查找特定數字相關的邏輯，且輸入與輸出格式皆不符合題意。因此正確性評分為 0 / 50。
+改進建議：此作業在正確性方面表現良，但可透過數學推導直接計算座標而不需建立整個下三角矩陣，且缺少程式開頭註解，建議加入標頭註解並改用常數時間計算以提升效能。
 
-- 邏輯 (0/30)
-  - 程式的邏輯並未針對題目需求建立清晰解法，反而混入不相關的「尋找數字在三角形中的位置」等邏輯，且缺乏排序流程的正確實作與穩健性考量。邏輯評分為 0 / 30。
+優化說明與修改要點
+- 核心改動：不再建立下三角形矩陣，而是利用數學公式直接計算 num 在哪一列與哪一欄。
+  - 找出行數 r 的公式：r 為滿足 r(r+1)/2 >= num 的最小整數，即 r = ceil((sqrt(8*num + 1) - 1) / 2)
+  - 該行的起始數字 start = (r-1)*r/2 + 1；列號為 r，欄號為 col = num - start + 1
+  - 若 num > total (= n(n+1)/2)，輸出 not find num in array.
+- 優點：時間複雜度 O(1)，空間使用 O(1)，不需要佔用額外的陣列記憶體。
+- 程式標頭與註解：加入檔案開頭的標頭註解，符合題目對註解的要求。
+- 輸出格式維持原有模式，仍輸出 num[row, col] 或 not find X in array.
 
-- 格式 (6/10)
-  - 程式有基本縮排與可讀性，但缺乏清晰、描述性的變數命名與整潔的結構。仍需改善註解與命名以提升可維護性。格式評分為 6 / 10。
+修改後完整程式碼
+```java
+/*
+File: LowerTriangularLocator.java
+Description: 讀入高度 n 與欲尋找的數字 num，若 num 在下三角矩陣範圍內，直接計算其座標 (row, col)；不實際建立矩陣。
+Author: 教師
+Date: 2025-11-14
+*/
 
-- 備註 (0/10)
-  - 程式缺乏標頭註解（檔案名稱、功能、作者、日期等），並且缺少對程式目的的整體說明與註解。備註評分為 0 / 10。
-
-- 總分: 6 / 100
-
-以下為經過優化的完整程式碼與修改說明。
-
-修改後程式碼
-// File: SortArray.java
-// 功能: 讀取整數長度 n，接著讀入 n 個整數，對其升冪排序，輸出排序後的內容（以空格分隔）。
-// 作者: 你的姓名
-// 日期: 2025-11-12
-
-import java.util.Arrays;
-import java.util.Scanner;
-
-public class SortArray {
+public class LowerTriangularLocator {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        java.util.Scanner input = new java.util.Scanner(System.in);
 
-        // 讀取長度 n
-        if (!input.hasNextInt()) {
-            input.close();
-            return;
-        }
+        // 讀取高度 n
         int n = input.nextInt();
-        if (n <= 0) {
-            // 若 n 非正，直接結束
-            System.out.println();
-            input.close();
-            return;
-        }
 
-        // 讀取 n 個整數
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (input.hasNextInt()) {
-                arr[i] = input.nextInt();
-            } else {
-                // 如果輸入不足，預設為 0
-                arr[i] = 0;
-            }
-        }
+        // 讀取要尋找的數字 num
+        int num = input.nextInt();
 
-        // 升冪排序
-        Arrays.sort(arr);
+        // 總元素數
+        int total = n * (n + 1) / 2;
 
-        // 輸出排序結果，以空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 若 num 超出範圍，輸出找不到
+        if (num > total) {
+            System.out.println("not find " + num + " in array.");
+        } else {
+            // 直接用數學公式計算 row, col
+            // r 為 num 位於哪一列（1-based），滿足 r(r+1)/2 >= num 的最小 r
+            int r = (int) Math.ceil((Math.sqrt(8.0 * num + 1) - 1) / 2.0);
+            if (r > n) r = n;
+
+            int start = (r - 1) * r / 2 + 1; // 該行起始數字
+            int c = num - start + 1;         // 欄位為 num - start + 1
+
+            System.out.println(num + "[" + r + ", " + c + "]");
         }
-        System.out.println(sb.toString());
 
         input.close();
     }
 }
+```
 
-修改部分原因與說明
-- 直接對題目需求作答：將「任意長度的一維陣列」的元素進行升冪排序並輸出，符合題意的最小實作。
-- 使用 Arrays.sort 提升效率與穩定性：Java 標準庫的 Arrays.sort 對整數陣列的排序具備良好效能與穩定性，簡化程式邏輯。
-- 清晰的輸入與輸出流程：先讀長度再讀取對應數量的元素，最終以空格分隔輸出結果，符合常見的競賽/作業輸出格式。
-- 提升可維護性與可讀性：加入標頭註解，使用清晰的檔名與功能描述，便於他人閱讀與維護；變數命名與程式結構較為清晰。
-
-改進建議
-- 進一步加強錯誤處理與使用者提示：若輸入格式錯誤或數值超出範圍，應給出友善的訊息並結束程式，避免未預期的行為。
+說明修改的原因
+- 為符合題意「不用印出三角形內容」的同時，提升效能與資源利用，改用數學公式直接推導座標即可解決問題，避免不必要的陣列分配與逐元素搜尋。
+- 加入標頭註解，滿足「程式標頭註解說明該程式檔案名稱、功能、作者、日期」與內容註解的需求，提升程式可讀性與維護性。
+- 輸出格式保持與原作業要求一致，確保測試案例能正確比對。

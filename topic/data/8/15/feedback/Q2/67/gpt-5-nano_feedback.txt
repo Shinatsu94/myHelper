@@ -1,60 +1,62 @@
-6
-以下為評分與修改內容：
+89
 
-- 正確性（0/50）：0
-  原作程式在排序演算法上有嚴重錯誤，最後輸出結果並非由小到大排序，且最後把 arr[n-1] 設為 -1，造成資料遺失與非預期輸出。
+改進建議：建議改用原始陣列的後綴最大值計算，並用更清晰的變數命名與更穩健的輸入輸出方式，以提升效能與可讀性，同時加入程式標頭註解。
 
-- 邏輯（0/30）：0
-  選取最大值並覆蓋前面的元素的做法並不能產生排序結果，邏輯不符合題意。
+程式優化說明與修改重點
+- 使用原始值來源：先將輸入的原始陣列複製到 orig，避免在同一個陣列中前後混用造成混淆。
+- 後綴最大值法則：從右側向左計算，建立 res[i] 為 orig[i+1..n-1] 的最大值，整體時間複雜度降為 O(n)，並正確處理負數。
+- 風格與可讀性：引入更具語意的變數名 orig、res，使用 StringTokenizer 和 StringBuilder 提升效能與穩定性；新增標頭註解以符合評分標準。
+- 移除 Scanner：以 BufferedReader 與 StringTokenizer 提高效能，避免大量輸入造成的延遲。
 
-- 格式（6/10）：6
-  程式有基本縮排與結構，但未提供可理解且有意義的命名與註解，且缺乏標頭註解與適當的註解說明。
-
-- 備註（0/10）：0
-  缺少程式檔案註解（檔名、功能、作者、日期等說明），未符合要求。
-
-- 總分：6/100
-
-修改後完整程式碼（可直接編譯執行）：
+修改後完整程式碼
+```java
 /*
-檔案名稱: CSIE_51015120_1031_2.java
-功能說明: 讀取一個整數 n，接著讀入 n 個整數，將它們由小到大排序，最後輸出排序後的陣列。
-作者: 研究助理
-日期: 2025-11-12
-*/
+ * 檔案名稱: CSIE_51015120_1031_2_OPT.java
+ * 功能說明: 將輸入陣列中每一個元素替換為其右側所有元素的最大值（最後一個為 -1）。
+ *        例如：{17, 18, 5, 4, 6, 1} -> {18, 6, 6, 6, 1, -1}
+ * 作者: 系統評分示例
+ * 日期: 2025-11-14
+ */
 
-import java.util.Scanner;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class CSIE_51015120_1031_2 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+public class CSIE_51015120_1031_2_OPT {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        String line = br.readLine();
+        while (line != null && line.trim().isEmpty()) line = br.readLine();
+        int n = Integer.parseInt(line.trim());
+
+        int[] orig = new int[n];
+        int count = 0;
+        while (count < n) {
+            line = br.readLine();
+            if (line == null) break;
+            StringTokenizer st = new StringTokenizer(line);
+            while (st.hasMoreTokens() && count < n) {
+                orig[count++] = Integer.parseInt(st.nextToken());
+            }
         }
 
-        // 使用內建排序確保正確性與效率
-        Arrays.sort(arr);
-
-        // 以空格分隔輸出，避免尾端多餘空格
-        for (int i = 0; i < n; i++) {
-            if (i > 0) System.out.print(" ");
-            System.out.print(arr[i]);
+        int[] res = new int[n];
+        if (n > 0) {
+            int max = orig[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                max = Math.max(max, orig[i + 1]);
+                res[i] = max;
+            }
+            res[n - 1] = -1;
         }
-        System.out.println();
 
-        sc.close();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(res[i]);
+        }
+        System.out.println(sb.toString());
     }
 }
-
-修改說明與原因：
-- 將排序邏輯改為使用 Arrays.sort(arr) 直接對整個陣列排序，能保證正確性與效率，且對負數亦正確處理。
-- 導入 java.util.Arrays 並保留同樣的輸入方式（先讀 n，再讀 n 個整數），符合題意且不需額外輸入結束條件。
-- 輸出改為單一迴圈，避免尾端多餘的空白字元，輸出格式符合題目要求。
-- 新增程式檔案註解區塊，包含檔名、功能、作者、日期等，提升可讀性與維護性。
-
-改進建議（一句話）：
-- 建議直接使用 Arrays.sort 進行排序，並加上完整的程式註解與標頭，以提高正確性、可讀性與維護性。
+```

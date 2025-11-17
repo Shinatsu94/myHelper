@@ -1,0 +1,49 @@
+總分：86
+
+改進建議（一句話）：
+程式正確且邏輯清晰，但缺少程式標頭與註解，建議補充檔案資訊、作者與日期等註解，並加強對負數與溢位的處理以提升魯棒性。
+
+修改與原因說明：
+- 將類別名稱改為 ReverseDigits，並建議檔案命名為 ReverseDigits.java，符合 Java 的檔案與類別命名規範。
+- 使用 long 類型取代 int，以降低整數反轉時的溢位風險，並提高對較大輸入的容錯性。
+- 加入對負數的處理，若輸入為負數，輸出為對應的負數符號逆序，提升穩健性。
+- 使用 do-while 迴圈處理 0 的情形，確保 0 也能正確輸出 0。
+- 加入程式標頭註解與必要的行內註解，便於維護與閱讀。
+- 程式結尾關閉 Scanner，釋放資源。
+
+修改後的完整程式碼：
+```java
+/**
+ * File: ReverseDigits.java
+ * Description: 讀入一個整數，輸出其數位逆序；支援非正整數，若為負數，輸出亦為負數的逆序
+ * Author: 你的名字
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入長整數，適度提升容錯性
+        long num = sc.nextLong();
+
+        boolean negative = num < 0;
+        long n = Math.abs(num);
+        long reversed = 0;
+
+        //do-while 確保即使 n 為 0 也能輸出 0
+        do {
+            long digit = n % 10;
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        } while (n != 0);
+
+        if (negative) reversed = -reversed;
+
+        System.out.println(reversed);
+        sc.close();
+    }
+}
+```

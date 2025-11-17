@@ -1,0 +1,76 @@
+67
+
+建議改用實作完整的下三角形二維陣列並加入適當註解以提升可讀性與可維護性。
+
+修改與改進說明（要點）：
+- 改用實際的二維陣列存放下三角形內容，而非僅以計數器模擬，符合題意「建立完整的下三角形二維陣列」。
+- 使用更具語意的變數名稱並整理縮排與註解，提升可讀性。
+- 於檔案頂部加入程式標頭註解，並在程式內部補充說明（註解有助於理解功能與使用方法）。
+- 使用單次搜尋完成後就結束，並確保在找不到時輸出符合格式的訊息。
+
+以下為修改後完整程式碼：
+
+import java.util.Scanner;
+
+/*
+  檔案名稱: LowerTriangularArraySearch.java
+  功能說明: 建立下三角形二維陣列並找出指定數字的位置
+  作者: 金宗翰
+  日期: 2025/10/31
+*/
+
+public class LowerTriangularArraySearch {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取下三角形的高度 n 與要尋找的數字 target
+        int height;
+        int target;
+        if (sc.hasNextInt()) {
+            height = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        if (sc.hasNextInt()) {
+            target = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列並填入 1..n(n+1)/2
+        int[][] tri = new int[height][height];
+        int value = 1;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 尋找 target 在陣列中的位置 (列為 row+1, 行為 col+1)
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    found = true;
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
+        }
+
+        if (found) {
+            System.out.print(target + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        } else {
+            System.out.print("not find " + target + " in array.");
+        }
+
+        sc.close();
+    }
+}

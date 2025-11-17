@@ -1,0 +1,70 @@
+88
+
+改進建議（一句話）
+改進檔案標頭註解與變數命名，修正位數和的實際上限說明，並使用穩健的 I/O 與分層邏輯以提升可讀性與維護性。
+
+程式改寫與修改原因摘要
+- 將最大位數和的說明修正為 MAX_DIGIT_SUM = 45（因 1..99999 的最大位數和為 45，100000 的和為 1），並在 A 不在允許範圍時直接輸出 0，避免不必要計算。
+- 新增程式檔案標頭註解，包含檔案名稱、功能、作者與日期，符合作業要求中的註解規範。
+- 重構程式結構，將核心邏輯分成更清晰的方法（digitSum 與 countNumbersWithDigitSum），提高可讀性與重用性。
+- 使用 BufferedReader 取代 Scanner，提升 I/O 效率，尤其在學習範例中較常見。
+- 移除多餘的註解與不一致的排版，統一命名與縮排。
+
+修改後的完整程式碼
+```java
+/*
+File: DigitSumCounter.java
+Description: 對於輸入的整數 A，計算 1..100000 的數字各位數字和等於 A 的數字個數
+Author: YourName
+Date: 2025-11-15
+*/
+
+import java.io.*;
+
+public class DigitSumCounter {
+    private static final int LIMIT = 100000;
+    private static final int MAX_DIGIT_SUM = 45; // 9 * 5 ︱ 1..99999 的最大位數和
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+
+        line = line.trim();
+        if (line.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
+
+        int A = Integer.parseInt(line);
+
+        // 若超出實際可能的位數和，直接輸出 0
+        if (A < 0 || A > MAX_DIGIT_SUM) {
+            System.out.println(0);
+            return;
+        }
+
+        int count = countNumbersWithDigitSum(A, LIMIT);
+        System.out.println(count);
+    }
+
+    // 回傳一個數字的各位數字加總
+    private static int digitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    // 計算 1..limit 中，其各位數字和等於 target 的數量
+    private static int countNumbersWithDigitSum(int target, int limit) {
+        int cnt = 0;
+        for (int i = 1; i <= limit; i++) {
+            if (digitSum(i) == target) cnt++;
+        }
+        return cnt;
+    }
+}
+```

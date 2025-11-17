@@ -1,60 +1,105 @@
-8
+42
 
-評分明細
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：8/10
-- 備註：0/10
-總分：8/100
+建議重點：需依題目要求輸出四位小數，且當元素為零時輸出 0，並加上檔案頭註解與適當的容錯處理。
+
+改進說明與評分
+- 正確性 (15/50)
+  - 原程式能計算 3x3 矩陣的反矩陣但輸出格式不符合題意，且若矩陣不可逆的情況下未定義輸出格式。改用四位小數並對零元素輸出「0」，同時對不可逆情況給出明確訊息。
+- 邏輯 (22/30)
+  - 採用行列式和共因式法計算反矩陣，邏輯清楚且在數值穩定性上有基本處理（使用容忍度判斷矩陣是否可逆）。但原程式使用直等於 0 的判斷不穩健，且未考量四捨五入後的零值顯示問題。
+- 格式 (5/10)
+  - 原程式輸出格式以 3 位小數顯示，與題目要求的四位小數不符；且缺乏檔案標頭註解與命名等風格細節。
+- 備註 (0/10)
+  - 缺少檔案頭註解（檔名、功能、作者、日期），以及較少的程式內容註解。
+
+總分: 42/100
+
+修改後的解法重點
+- 輸出格式改為四位小數，並對值為零的元素顯示為 0；遇到四捨五入後接近於零的值也視為零，以避免出現 -0.0000。
+- 對矩陣不可逆情況加入容錯處理，若 det 幾乎為 0，輸出提示訊息。
+- 加入清楚的檔案註解頭與更清晰的變數命名，提升可讀性與維護性。
+- 以 3x3 的一般化反矩陣方法實作，並以四捨五入至 4 位小數輸出。
 
 修改後完整程式碼
 ```java
 /*
-檔案名稱: Main.java
-功能: 依序讀入陣列長度與元素，輸出升序排序的結果
-作者: 教授
-日期: 2025-11-12
-*/
-import java.util.Arrays;
+ * File: Inverse3x3.java
+ * Description: 讀取 3x3 矩陣，若可逆則輸出其反矩陣，元素以四位小數輸出；若為 0 則輸出 0，
+ *              其餘情況四捨五入後輸出，元素間以空格分隔；每列結尾換行，最後一列結尾不加多餘空白。
+ * Author: 教授
+ * Date: 2025-11-14
+ */
+
+import java.util.Locale;
 import java.util.Scanner;
 
-public class Main {
+public class Inverse3x3 {
     public static void main(String[] args) {
-        // 需求對應實作：
-        // 1) 先讀入整數 n，代表陣列長度
-        // 2) 依序讀入 n 個整數
-        // 3) 將陣列內容由小到大排序，並輸出成同一行，元素以空格分隔
+        Locale.setDefault(Locale.US); // 確保小數點使用 . 分隔
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
-            sc.close();
+        double[][] m = new double[3][3];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!sc.hasNextDouble()) {
+                    sc.close();
+                    return;
+                }
+                m[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        double det = det3(m);
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("This matrix is not invertible.");
             return;
         }
 
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        double[][] inv = invert3(m, det);
+
+        // 輸出反矩陣，保留四位小數；若值經四捨五入後為 0，輸出 0
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = inv[i][j];
+                // 四捨五入到 4 位小數
+                double r = Math.round(v * 10000.0) / 10000.0;
+                if (Math.abs(r) < 1e-9) {
+                    System.out.print("0");
+                } else {
+                    System.out.printf("%.4f", r);
+                }
+                if (j < 2) System.out.print(" ");
+            }
+            if (i < 2) System.out.println();
         }
+    }
 
-        Arrays.sort(arr);
+    // 計算 3x3 矩陣行列式
+    public static double det3(double[][] m) {
+        return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+             - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+             + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+    }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
+    // 計算 3x3 矩陣反矩陣
+    public static double[][] invert3(double[][] m, double det) {
+        double[][] inv = new double[3][3];
 
-        System.out.println(sb.toString());
-        sc.close();
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
     }
 }
 ```
-
-修改說明與原因
-- 將原始學生程式的 3x3 矩陣反矩陣計算改為一維整數陣列的升序排序，符合題目要求的「任意長度的一維陣列升幕排序」需求。
-- 使用 Java 標準的 Main 類與合理的變數命名，提升可讀性與相容性（避免特定作業系統或編譯環境需求）。
-- 加上完整的程式註解與標頭註解，說明檔案名稱、功能、日期與作者，提升可維護性與可追溯性。
-- 輸出格式調整為單行空格分隔，與題目範例一致，且自動處理負數，因 Arrays.sort 對整數型別自動排序，無需額外邏輯。
-
-改進建議
-- 後續可以採用更高效的輸入方式（例如使用自訂快速掃描器與 StringTokenizer）以提升大數量輸入時的效能，但對此題規模而言 Scanner 與 Arrays.sort 已足夠。

@@ -1,42 +1,68 @@
-4
+總分：74
 
-修改後完整程式碼：
-import java.util.Arrays;
+改進建議（一句話）：
+修正尾端極端負數時的邊界問題、改善變數命名與註解、並加上程式標頭註解以符合程式撰寫標準。
+
+評分依據與說明：
+- 正確性（50%）：原程式在尾元素為 Integer.MIN_VALUE 等極端負數時會造成錯誤，經修改後可穩定計算正確的結果；原程式在一般情況正確。得分約為 40/50（邊界情況存在風險）。
+- 邏輯（30%）：邏輯清晰，使用一趟反向遍歷即可得到右側最大值，效率良好；但原本的實作在極端負數邊界上可能失效，因此給予 28/30。
+- 格式（10%）：原始程式變數命名較不具意義且缺乏註解與標頭註解，改進後命名更有意義並加入註解；給予 6/10。
+- 備註（10%）：缺少程式標頭註解與說明，未符合要求；給予 0/10。
+
+修改說明與優化點（重點改動）
+- 尾端邊界處理：改為使用 arr[n-1] 作為右側最大值的初始值，先將 arr[n-1] 設為 -1，然後從 i = n-2 向左遍歷。這樣能穩定處理最後一個元素為 Integer.MIN_VALUE 的情況，避免 maxRight 永遠不更新的問題。
+- 變數命名與註解：採用 arr、maxRight、current 等具意義的變數名稱，並加上程式前言註解與適當的區塊註解說明算法步驟。
+- 程式標頭註解與格式：加入檔案標頭註解，說明檔案名稱、功能、作者、日期與使用說明；最後加入必要的輸入邊界檢查，輸出結束以換行以符合常見 judging 標準。
+
+修改後完整程式碼
+不含 EOF 的一次性執行版本，包含清晰註解與更穩健的邊界 handling。
+
 import java.util.Scanner;
 
-/*
- * 檔案名稱: CSIE_41343229_1031_2.java
- * 功能: 對輸入的整數陣列進行升冪排序並輸出
- * 作者: 教師
- * 日期: 2025-11-12
- * 註解: 使用 Arrays.sort 進行排序，確保正確性與效率；輸出格式以空格分隔，無多餘空格。
+/**
+ * File: CSIE_41343229_1031_2.java
+ * 功能: 依序讀取長度 n 與 n 個整數，將每個元素替換為其右側元素中的最大值，
+ *       最末尾元素替換為 -1，最後輸出處理後的陣列。
+ * 作者: （請填寫作者姓名）
+ * 日期: （請填寫日期）
+ * 備註: 不使用 EOF，執行一次程式即可結束。
  */
 public class CSIE_41343229_1031_2 {
     public static void main(String[] args) {
-        try (Scanner sc = new Scanner(System.in)) {
-            if (!sc.hasNextInt()) return;
+        Scanner sc = new Scanner(System.in);
+        try {
+            if (!sc.hasNextInt()) {
+                return;
+            }
             int n = sc.nextInt();
-            int[] a = new int[n];
-            for (int i = 0; i < n; i++) {
-                a[i] = sc.nextInt();
+            if (n <= 0) {
+                return;
             }
 
-            Arrays.sort(a);
-
-            StringBuilder sb = new StringBuilder();
+            int[] arr = new int[n];
             for (int i = 0; i < n; i++) {
-                if (i > 0) sb.append(' ');
-                sb.append(a[i]);
+                arr[i] = sc.nextInt();
             }
-            System.out.print(sb.toString());
+
+            // 使用最後一個元素作為初始的右側最大值
+            int maxRight = arr[n - 1];
+            arr[n - 1] = -1; // 最後一個元素替換為 -1
+            for (int i = n - 2; i >= 0; i--) {
+                int current = arr[i];
+                arr[i] = maxRight;
+                if (current > maxRight) {
+                    maxRight = current;
+                }
+            }
+
+            // 輸出結果，以空格分隔，末尾換行
+            for (int i = 0; i < n; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(arr[i]);
+            }
+            System.out.println();
+        } finally {
+            sc.close();
         }
     }
 }
-
-修改說明：
-- 將原先以自訂的「逐步追溯最大右值」邏輯改為使用 Arrays.sort 直接對整數陣列升冪排序，理由是原本的邏輯無法正確產生排序結果，且在含有多種數值（含負數）時容易產生錯誤；使用內建排序可保證正確性與效能。
-- 加入清晰的檔案頭註解與外部說明，方便維護與評分。
-- 輸出格式改為以單一空格分隔，避免尾端多餘空格，符合題意。
-
-改進建議或反饋（一句話）：
-本次作業核心問題在於排序邏輯，建議直接採用內建排序函式並加上適當註解與輸出格式控制，以確保正確性與可讀性。

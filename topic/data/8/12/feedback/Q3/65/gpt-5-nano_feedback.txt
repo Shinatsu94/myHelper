@@ -1,34 +1,56 @@
-100
+68
+改進建議：加入對 0 與負數的處理、改善變數命名與加入程式標頭註解，以提升穩健性與可維護性。
+
+優化內容與修改原因：
+- 加入程式標頭註解與良好檔名、Class 名稱：提升可讀性與維護性。
+- 支援 0 與負數情況：原程式遇到 0 不輸出，負數輸出不明；新版本對這些情況給予正確處理。
+- 使用 StringBuilder 收集反轉結果，並去除前導零：符合題意的輸出格式，同時保持效能。
+- 更清晰的變數命名與註解：提升程式可讀性與維護性。
 
 修改後完整程式碼（Java）：
 /*
-檔案名稱: LeibnizPi.java
-功能說明: 計算並輸出 pi 的近似值，對於 i = 10000, 20000, ..., 100000，使用 Leibniz 公式
-作者: 你的姓名
-日期: 2025-11-12
-*/
-public class LeibnizPi {
-    public static void main(String[] args) {
-        double sum = 0.0;
-        // 使用增量累加方式，避免每次都從頭計算
-        for (int i = 1; i <= 100000; i++) {
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
+ * File: ReverseDigits.java
+ * Description: 讀入一個整數，輸出其數字反轉結果；反轉後若開頭出現零則移除，輸入為 0 時輸出 0；支援正負數。
+ * Author: 你的姓名
+ * Date: 2025-11-15
+ */
+import java.util.Scanner;
 
-            // 輸出要求：每到 10000 的倍數就輸出一次
-            if (i % 10000 == 0) {
-                double pi = sum * 4.0;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
-            }
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取單一整數輸入
+        if (!sc.hasNextLong()) {
+            return;
+        }
+        long n = sc.nextLong();
+
+        // 特殊情況：0
+        if (n == 0) {
+            System.out.println(0);
+            return;
+        }
+
+        boolean negative = n < 0;
+        long m = Math.abs(n);
+
+        // 逐位反轉，透過 StringBuilder 累積結果
+        StringBuilder sb = new StringBuilder();
+        while (m > 0) {
+            sb.append(m % 10);
+            m /= 10;
+        }
+
+        // 去除前導零（反轉後的左側可能出現 '0'，需移除，直到只剩下一位為止）
+        int i = 0;
+        while (i < sb.length() && sb.charAt(i) == '0') i++;
+        String res = (i == sb.length()) ? "0" : sb.substring(i);
+
+        if (negative) {
+            System.out.print("-" + res);
+        } else {
+            System.out.print(res);
         }
     }
 }
-
-修改說明：
-- 改以符合題目要求的算法實作：採用 Leibniz 級數進行 pi 的近似，並在 i 為 10000 的倍數時輸出，符合題目提供的輸出格式與數值精度要求。
-- 增量累加（sum）方式：避免重複計算，效率較高；若改用重算方式，時間會增加。
-- 輸出格式調整：使用 System.out.printf("i = %6d, pi = %.10f%n", i, pi) 以符合 i 顯示到6位數和 pi 顯示到小數點後10位的要求，且縮排與換行符合單一空白換行的格式規範。
-- 程式結構與註解：新增檔案開頭註解，明確說明檔案名稱、功能、作者與日期；變數命名清晰，便於閱讀與維護。
-
-一句話改進建議或反饋：
-建議在正式提交前，附上簡短測試說明與輸出範例，並考慮加入自動化測試以確保不同版本下輸出格式與數值一致。

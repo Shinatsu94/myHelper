@@ -1,0 +1,37 @@
+總分：88
+
+改進建議（一句話）
+建議增補程式標頭註解並使用更具描述性的變數名稱，同時維持原有兩種計算方法以符合題意。
+
+修改說明（為何修改及重點）
+- 新增程式標頭註解，包含檔案名稱、功能、作者、日期等，提升可維護性與可追蹤性。
+- 將變數名稱由 A,B,C 改成更具描述性的 n1,n2,n3，以提升可讀性與維護性。
+- 保留使用三元運算子計算最大值與最小值，並以 mid = n1 + n2 + n3 - max - min 計算中位數，符合題目「不可使用 if-else」的限制且使用兩種不同的方法。
+- 使用 try-with-resources 以自動關閉 Scanner，提升資源管理穩健性。
+
+修改後完整程式碼
+/*
+File: CSIE_41343236_1003_2.java
+Description: 從標準輸入讀取三個整數，使用三元運算子分別計算最大值和最小值，並以 sum - max - min 計算中位數，輸出順序為最小、中位、最大。
+Author: 教師
+Date: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343236_1003_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n1 = sc.nextInt();
+            int n2 = sc.nextInt();
+            int n3 = sc.nextInt();
+
+            int max = (n1 > n2) ? ((n1 > n3) ? n1 : n3) : ((n2 > n3) ? n2 : n3);
+            int min = (n1 < n2) ? ((n1 < n3) ? n1 : n3) : ((n2 < n3) ? n2 : n3);
+            int mid = n1 + n2 + n3 - max - min;
+
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
+    }
+}

@@ -1,0 +1,61 @@
+4
+
+此作業未實作排序與輸出需求，建議重寫以完成長度與整數輸入、升序排序並輸出結果，並補充註解與標頭資訊。
+
+修改與優化說明（重點）：
+- 改用一維整數陣列存放輸入的數字，直接讀入 n 個整數，符合題目需求。
+- 使用 Arrays.sort 進行升序排序，簡潔且效率高，避免自訂排序邏輯的錯誤。
+- 結果輸出以空格分隔且無尾端多餘空白，符合常見輸出格式要求。
+- 增加完整的檔案註解與標頭資訊，並在程式中加入適當註解以提升可讀性與維護性。
+
+修改後完整程式碼（保留檔名與作者資訊風格，並加入完整註解）：
+```java
+/*
+Name: 盧冠宇
+Student_ID: 41343247
+File: CSIE_41343247_1031_3a.java
+Description: 依題目需求，讀取長度 n，接著 n 個整數，將陣列升序排序並輸出。
+Author: 盧冠宇
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_3a {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!scanner.hasNextInt()) {
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數並存入陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（防呆處理，實務可改為例外拋出）
+                arr[i] = 0;
+            }
+        }
+
+        // 將陣列內容升序排序
+        Arrays.sort(arr);
+
+        // 輸出結果，元素間以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        // 關閉 Scanner（可選，資源管理）
+        scanner.close();
+    }
+}
+```

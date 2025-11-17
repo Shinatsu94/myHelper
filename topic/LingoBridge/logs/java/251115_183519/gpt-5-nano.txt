@@ -1,0 +1,47 @@
+88
+
+建議改進重點：應補上程式標頭註解與適當的程式註解，並統一使用大括號與提升可讀性；此外可加入輸入前置處理（如去除前後空白）以提升魯棒性。
+
+程式碼評語與修改說明
+- 正確性：原程式已正確判斷數字的數字是否嚴格遞增，修改後仍保持相同邏輯，並增添註解以提升可讀性。
+- 邏輯：使用逐位比較的方式，若發現前一位大於或等於後一位即回傳 false，符合題意。
+- 格式：將內部條件改成帶大括號的多行寫法，提升可讀性與維護性；輸入改為 trim 以避免前後空白影響判定。
+- 備註：新增完整的標頭註解與適當的註解說明程式內容。
+
+修改後的完整程式碼
+```java
+/*
+File: CSIE_41343215_1017_2.java
+Description: 判斷輸入的數字各位是否嚴格遞增（從左至右）。
+Author: Student
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343215_1017_2 {
+
+    // 檢查數字字串的每一位是否嚴格遞增
+    public static boolean isWellOrdered(String numberStr) {
+        for (int i = 0; i < numberStr.length() - 1; i++) {
+            if (numberStr.charAt(i) >= numberStr.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 讀取單行輸入並去除前後空白
+        String userInput = scanner.nextLine().trim();
+
+        if (isWellOrdered(userInput)) {
+            System.out.println(userInput + " is well-ordered number.");
+        } else {
+            System.out.println(userInput + " is not well-ordered number.");
+        }
+        scanner.close();
+    }
+}
+```

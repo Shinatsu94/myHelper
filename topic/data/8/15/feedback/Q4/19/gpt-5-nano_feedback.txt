@@ -1,71 +1,75 @@
-總分：4
+分數總結（0-100）：78
 
-以下根據您的評分標準逐項評分與說明。
+改進建議（一句話）：此作業應實作實際的下三角形二維陣列並補充註解與良好命名，以符合題目需求與可讀性。
 
-- 正確性（0/50）：原程式沒有完成排序功能，也未正確讀入整數陣列與輸出排序結果，與題意嚴重不符，因此給0分。
-- 邏輯（0/30）：原程式的邏輯與流程嚴重偏離題目需求，未實作排序，故給0分。
-- 格式（4/10）：程式有基本的縮排與大括號配對，變數命名雖簡短但可理解，但整體可讀性與命名清晰度不足，因此給4分。
-- 備註（0/10）：缺少程式標頭註解（檔案名稱、功能、作者、日期等），因此給0分。
+評語與分數細項
+- 正確性 (50/50)：程式對於給定測資能正確找到數字的位置或回報未在陣列中，輸出格式與題目相符。原作使用計數方式並正確完成定位，但未實作實體陣列。
+- 邏輯 (22/30)：邏輯簡單直接，能正確定位到數字。不過題目要求「建立完整的下三角形二維陣列」但原作未 actual 建立陣列；改用實際陣列會更符合需求且易於維護與理解。
+- 格式 (6/10)：原作變數命名較簡略、缺少註解且未包含檔案註解；可改進為更具可讀性的命名與適當註解。
+- 備註 (0/10)：缺少程式檔案註解、作者與日期等標頭註解。
 
-修改說明與優化後程式碼
-以下提供可直接執行的正確解法，以及對原始程式的改動說明。
+修改內容與原因
+- 修改原因：符合題目要求「建立下三角形二維陣列」與提升可讀性與可維護性，並加上適當的註解與標頭。
+- 具體修改：
+  - 使用實際的二維陣列 int[][] tri 來存放下三角形數字，並以 1-based 索引以符合題意。
+  - 重新命名變數，使其更易理解（n、target、foundRow、foundCol）。
+  - 加上檔案標頭註解，並新增註解說明各區塊功能。
+  - 使用外部標籤與雙重迴圈在找到時跳出，以避免不必要的比較。
+  - 輸出格式與原題一致，並加上換行以配合一般輸出習慣。
 
-修改後完整程式碼（可直接執行）
-import java.util.Arrays;
-import java.util.Scanner;
+修改後的完整程式碼
+請使用以下程式作為修改後的版本，檔名可為 LowerTriangularArray.java，類別名稱也相對應。
 
 /*
-檔案名稱：Main.java
-功能：讀取一個整數長度 n，以及 n 個整數，將其升冪排序後輸出
-作者：教學助理
-日期：2025-11-12
-說明：支援負數，使用 Arrays.sort 進行排序，輸出以空格分隔的一行。
-*/
-public class Main {
+ * File: LowerTriangularArray.java
+ * Description: 建立下三角形二維陣列，並找出指定數字的位置（行、列，皆以 1 為起點）
+ * Author: [Your Name]
+ * Date: 2025-11-14
+ * Notes: 使用實際的 2D 陣列儲存下三角形內容，遇到指定數字時輸出其位置；若不存在則給出提示。
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularArray {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
+        int n = scanner.nextInt();       // 陣列高度
+        int target = scanner.nextInt();  // 要尋找的數字
 
-        int n = sc.nextInt();
-        int[] a = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                a[i] = sc.nextInt();
-            } else {
-                // 若輸入數不足，以 0 填補以避免例外，實務上題目通常會保證數量正確
-                a[i] = 0;
+        // 建立下三角形二維陣列，索引從 1 開始使用
+        int[][] tri = new int[n + 1][n + 1];
+        int value = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                tri[i][j] = value++;
             }
         }
 
-        Arrays.sort(a);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+        // 尋找 target 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    foundRow = i;
+                    foundCol = j;
+                    break outer;
+                }
+            }
         }
 
-        System.out.println(sb.toString());
-        sc.close();
+        if (foundRow != -1) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+
+        scanner.close();
     }
 }
 
-修改原因與重點說明
-- 將問題核心改為正確的資料結構與演算法：
-  - 使用一維整數陣列儲存輸入的 n 個整數，符合「建立一個任意長度的一維陣列」的需求。
-  - 使用 Arrays.sort 直接進行升序排序，清楚且高效，時間複雜度 O(n log n)。
-  - 輸出格式改為純數字以空格分隔，符合題目輸出範例。
-- 增加程式標頭註解與說明：
-  - 新增檔案說明（名稱、功能、作者、日期），有助於維護與評分。
-- 提升健壯性與可讀性：
-  - 使用有意義的類名 Main，符合 Java 公認慣例。
-  - 保留負數可支援的特性，因為 Java 的整數排序天然支援負數。
-  - 使用簡潔的字串組裝與輸出，避免不必要的字元混淆。
-
-改進建議（一句話）
-- 建議在正式提交時，確保有清楚的程式標頭與註解，並以清晰的變數命名與單元測試驗證邏輯，以避免相似的排序型題目混淆。
+說明：
+- 新版本建立實際的下三角形二維陣列，並以 1-based 索引對應題意。
+- 若找到目標，輸出格式與題目範例一致，例如 55[10, 10]；若未找到，輸出 not find X in array.。

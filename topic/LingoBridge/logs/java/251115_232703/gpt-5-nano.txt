@@ -1,0 +1,52 @@
+81
+
+建議加強程式註解與格式化，同時為避免整數溢位，輸出部分改用清晰的三行輸出與使用長整數計算。
+
+修改說明與改進要點
+- 增加檔案頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 將變數名稱改為更具語意的 num1、num2、num3，提升可讀性。
+- 所有輸出統一為三行 println，確保輸出格式與題目一致。
+- 為避免整數溢位，將求和的部分改用 long 計算再轉回 int，提升穩健性。
+- 保留使用三元運算子尋找最大值與最小值的做法，符合題目要求；中值以 mid = num1 + num2 + num3 - max - min 計算，且以 long 提前防溢位。
+- 程式結尾增加 sc.close()，管理資源。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343101_1003_2.java
+功能: 讀取三個整數，輸出三個數的最小值、中間值與最大值。
+      中間值透過總和減去最大值與最小值得到；不使用 if-else
+作者: 你的名字
+日期: 2025-11-15
+說明: 使用三元運算子求最大值與最小值，並以 long 計算總和以避免溢位
+*/
+import java.util.Scanner;
+
+public class CSIE_41343101_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
+
+        // 找最大值
+        int max = (num1 > num2 ? (num1 > num3 ? num1 : num3)
+                             : (num2 > num3 ? num2 : num3));
+
+        // 找最小值
+        int min = (num1 < num2 ? (num1 < num3 ? num1 : num3)
+                             : (num2 < num3 ? num2 : num3));
+
+        // 中間值：透過總和減去最大與最小，為避免溢位使用 long 計算
+        int mid = (int)((long)num1 + num2 + num3 - max - min);
+
+        // 輸出三個值，各佔一行
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}
+```

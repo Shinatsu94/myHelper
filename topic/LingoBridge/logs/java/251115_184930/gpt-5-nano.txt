@@ -1,0 +1,49 @@
+總分：86
+
+改進建議（一句話）：建議加入檔案標頭註解並將判斷邏輯封裝成方法，且使用更清晰的變數命名與適當的註解，以提升可讀性與維護性。
+
+評語與分數細項說明：
+- 正確性 (50/50)：邏輯正確，能正確判斷每一位數是否嚴格遞增，單位數與整數皆適用。
+- 邏輯 (28/30)：核心思路正確但原始寫法缺乏可讀性與封裝；現在的版本將判斷邏輯封裝成方法，並對負數做了處理（取絕對值再判斷），但對輸出層面仍保持原樣，整體邏輯清晰。
+- 格式 (8/10)：原程式命名略顯混亂，且未提供函式與標頭註解；重構後提高可讀性，但若以原作業框架評分，仍有 minor 可改善點（如類別命名風格、註解風格）。
+- 備註 (0/10)：缺少程式標頭註解與說明，未符合要求中的註解規範。
+
+修改與優化說明：
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合題目對程式註解的要求。
+- 將判斷是否為 well-ordered number 的邏輯封裝成一個私有靜態方法 isWellOrdered(int n)，提升可讀性與可重用性。
+- 變數命名改善為 lastDigit/current，增進語意清晰度；使用 abs(number) 處理負數輸入情境，保留原始輸入輸出格式。
+- 關閉 Scanner，避免資源洩露。
+- 保留單次執行、輸出格式不變，確保與題目輸出範例一致。
+
+修改後完整程式碼：
+/*
+File: WellOrderedNumber.java
+Description: Determine if a given integer has strictly increasing digits from left to right.
+Author: 你的姓名
+Date: 2025-11-15
+*/
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        int number = sc.nextInt();
+        int absVal = Math.abs(number);
+        boolean ok = isWellOrdered(absVal);
+        System.out.printf("%d is %swell-ordered number.%n", number, ok ? "" : "not ");
+        sc.close();
+    }
+
+    // 判斷 n 的十進位數字是否嚴格由左至右遞增
+    private static boolean isWellOrdered(int n) {
+        if (n < 10) return true; // 單一位數視為 well-ordered
+        int lastDigit = n % 10;
+        n /= 10;
+        while (n > 0) {
+            int current = n % 10;
+            if (current >= lastDigit) return false;
+            lastDigit = current;
+            n /= 10;
+        }
+        return true;
+    }
+}

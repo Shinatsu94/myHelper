@@ -1,0 +1,57 @@
+85
+
+建議改進：改用字串逐位比對並加上完整的程式標頭註解，以提升可讀性與可維護性。
+
+修改說明與變更內容：
+- 將輸入改為字串處理，直接逐位比較字元，避免模數運算可能帶來的邊界問題，且與題意更貼近。
+- 使用更具語意的變數名稱，如 wellOrdered、input，提升可讀性。
+- 增加程式檔案標頭註解，描述檔案名稱、功能、日期等資訊，符合備註欄的要求。
+- 統一輸出格式，仍保持原題目所要求的輸出字串結構。
+
+修改後完整程式碼：
+```java
+/*
+ File: WellOrderedNumber.java
+ Description: Determine if a given number's digits are strictly increasing from left to right.
+ Author: (請填寫)
+ Date: 2025-11-15
+*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String input = line.trim();
+
+        boolean wellOrdered = true;
+
+        if (input.startsWith("-") || input.startsWith("+")) {
+            // 對於帶符號的數字，依題意通常視為非 well-ordered
+            wellOrdered = false;
+        } else {
+            for (int i = 1; i < input.length() && wellOrdered; i++) {
+                char prev = input.charAt(i - 1);
+                char curr = input.charAt(i);
+                if (!Character.isDigit(prev) || !Character.isDigit(curr)) {
+                    wellOrdered = false;
+                    break;
+                }
+                // 必須左邊的數字嚴格小於右邊的數字
+                if (prev >= curr) {
+                    wellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (wellOrdered)
+            System.out.println(input + " is well-ordered number.");
+        else
+            System.out.println(input + " is not well-ordered number.");
+    }
+}
+```

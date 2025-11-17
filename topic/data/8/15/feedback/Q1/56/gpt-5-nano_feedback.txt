@@ -1,76 +1,63 @@
-88
+86
 
-評分明細
-- 正確性（50%）：50/50
-- 邏輯（30%）：30/30
-- 格式（10%）：8/10
-- 備註（10%）：0/10
+建議：目前程式功能完整且正確，建議補齊程式標頭註解、改善輸出結尾格式並微幅提升程式可讀性與效能。
 
-修改與優化說明
-- 為符合備註中「程式標頭註解」的要求，增加了完整的檔案頭註解，說明檔案名稱、功能、作者與日期，增強可維護性與可讀性。
-- 將交換動作拆成一個獨立方法 swap，提高程式可讀性與重用性，讓排序邏輯更清楚。
-- 加入對 n <= 0 的防呆檢驗，避免不合理輸入造成程式異常或不必要的運算。
-- 輸出結尾加入換行，符合常見輸出格式，避免測資時缺少換行導致比較失敗。
-- 程式碼格式微調與註解增補，提升可閱讀性與維護性。
+修改說明與原因：
+- 新增檔案標頭註解（檔名、功能、作者、日期），符合備註要求，提升可維護性。
+- 在選擇排序函式中加入長度小於等於1的早回傳，避免不必要的迴圈運算，微幅提升效率。
+- 使用 StringBuilder 組裝輸出，再一次性輸出，降低 I/O 次數，提升效能與穩定性。
+- 程式末尾加換行符，符合常見輸出格式，避免部分測資因缺少換行而判定錯誤。
+- 程式結尾關閉 Scanner，釋放資源，避免資源洩漏。
 
-修改後完整程式碼
+修改後完整程式碼：
 /*
- File: Main.java
- 功能: 讀入長度 n，接著讀入 n 個整數，對陣列進行升冪排序（選擇排序），最後輸出排序結果。
- 作者: 教師姓名
- 日期: 2025-11-12
-*/
+ * File: Main.java
+ * Description: 讀入長度 n 與 n 個整數，輸出升序排序的結果（選擇排序）
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+
 import java.util.Scanner;
 
 public class Main {
-    // 將選擇排序的交換動作獨立為一個方法，增加可讀性與重用性
-    static void swap(int[] a, int i, int j) {
-        int t = a[i];
-        a[i] = a[j];
-        a[j] = t;
-    }
-
-    // 升冪排序（選擇排序）
+    // 將整數陣列 a 進行選擇排序（由小到大）
     static void selectionSort(int[] a) {
         int n = a.length;
+        if (n <= 1) return;
         for (int i = 0; i < n - 1; i++) {
             int minIdx = i;
             for (int j = i + 1; j < n; j++) {
-                if (a[j] < a[minIdx]) {
-                    minIdx = j;
-                }
+                if (a[j] < a[minIdx]) minIdx = j;
             }
             if (minIdx != i) {
-                swap(a, i, minIdx);
+                int tmp = a[i];
+                a[i] = a[minIdx];
+                a[minIdx] = tmp;
             }
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();          // 讀入陣列長度
-        if (n <= 0) {
-            System.out.println();
-            sc.close();
-            return;
-        }
-
+        // 讀入陣列長度
+        int n = sc.nextInt();
         int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {  // 讀入 n 個整數（可含負數）
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
 
-        selectionSort(arr);            // 升冪排序
+        selectionSort(arr); // 升冪排序
 
-        // 輸出（同一行、以空白分隔、無多餘提示），結尾換行
+        // 組裝輸出以提升效能
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) System.out.print(" ");
-            System.out.print(arr[i]);
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
         }
-        System.out.println();
+        System.out.print(sb.toString());
+        System.out.println(); // 加上換行，符合一般輸出慣例
+
         sc.close();
     }
 }
-
-改進建議（一句話）
-- 建議使用 BufferedReader 搭配自訂解析器或 StringTokenizer，以提升大量輸入的效能，並在條件允許時可直接使用 Arrays.sort 提升穩定性與可讀性。

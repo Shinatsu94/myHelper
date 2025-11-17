@@ -1,0 +1,107 @@
+總分：92
+
+改進建議（概述一句話）
+建議加強對特例處理與可讀性：加入程式標頭與可重用的輸出格式設計，使用 epsilon 判定特異矩陣，並確保小數格式在所有環境中一致顯示。
+
+程式評語與修改要點
+- 正確性：原程式能正確計算非奇異矩陣的反矩陣，但對特異矩陣的處理與浮點極小值的輸出判定可改進。
+- 邏輯：採用標準的行列式與反矩陣公式，結構清晰。建議把常數與輸出格式分離，提升可維護性。
+- 格式：具備可讀性良好的縮排與命名，但缺少程式標頭與使用 Locale 保障小數點符號一致性。
+- 備註：缺少檔案標頭註解（檔案名稱、功能、作者、日期等），以及對輸出格式的說明。內部註解有提供基本說明，但整體仍可增補。
+
+以下為修改後的完整程式碼，說明隨後給出。
+
+修改說明
+- 新增程式標頭註解，包含檔名、功能、作者、日期。
+- 將小數輸出改用 DecimalFormat 並指定 Locale.US，確保小數點為點號。
+- 引入 epsilon 檢查特異矩陣（det near 0 以 epsilon 判斷），避免浮點誤差導致的不可預期行為。
+- 對於矩陣元素的輸出，若值近似為 0（Math.abs(v) < 1e-9），直接輸出 0，避免出現 -0.0000。
+- 變數命名與結構略作整理，保留原有的核心演算法（行列式與反矩陣計算）。
+
+修改後完整程式碼：
+
+/*
+ * File: Inverse3x3.java
+ * 功能: 讀入 3x3 矩陣，輸出其反矩陣，若元素為 0 輸出 0，否則顯示到小數點後四位
+ * 作者: 你的教師姓名
+ * 日期: 2025-11-14
+ * 註: 輸出使用 '.' 作為小數點，並對特異矩陣給出提示訊息
+ */
+
+import java.util.Locale;
+import java.util.Scanner;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+public class Inverse3x3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                A[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        final double EPS = 1e-9;
+        double det = determinant(A);
+
+        if (Math.abs(det) < EPS) {
+            // 根據題意未指定特殊輸出，這裡給出清楚的提示訊息
+            System.out.println("矩陣不可逆");
+            return;
+        }
+
+        double[][] inv = inverse(A, det);
+
+        // 格式化輸出，確保小數點為 '.'，且四位小數
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("0.0000", symbols);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = inv[i][j];
+                // 若近似為 0，直接輸出 0，避免出現 -0.0000
+                if (Math.abs(v) < 1e-9) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(v));
+                }
+
+                if (j < 2) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算 3x3 矩陣的行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
+    }
+}

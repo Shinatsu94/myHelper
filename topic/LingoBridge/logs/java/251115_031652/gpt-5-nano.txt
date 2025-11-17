@@ -1,0 +1,68 @@
+90
+
+- 正確性（50%）: 50/50
+- 邏輯（30%）: 30/30
+- 格式（10%）: 10/10
+- 備註（10%）: 0/10
+
+改進建議或反饋（一句話）：
+請補齊程式標頭註解與作者資訊，並可利用數學公式直接定位數字位置以提升找尋效率，同時保留建立完整下三角形的需求。
+
+修改與優化說明：
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可追蹤性。
+- 關閉 Scanner，釋放資源。
+- 保留建立完整下三角形二維陣列的作法以符合題意，但在尋找數字時改用數學公式直接定位位置，避免不必要的逐格搜尋；同時仍可在必要時以原始方法驗證輸出正確性。
+- 變數命名與註解更清楚，整體格式與排版維持一致性。
+
+修改後完整程式碼：
+/*
+ 檔案名稱: CSIE_41343208_1031_3b.java
+ 功能: 建立下三角形二維陣列，填入數字，找出指定數字的位置
+ 作者: 教授
+ 日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343208_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 建立並填入下三角形二維陣列
+        int[][] tri = new int[n][n];
+        int num = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = num++;
+            }
+        }
+
+        int target = sc.nextInt();
+
+        // 使用數學公式定位位置，避免不必要的逐格搜尋
+        int max = n * (n + 1) / 2;
+        if (target < 1 || target > max) {
+            System.out.printf("not find %d in array.\n", target);
+        } else {
+            int sumLen = 0;     // 當前行結束時的總長度（包含該行）
+            int sumPrev = 0;    // 先前行的總長度
+            int iFound = -1;
+            for (int i = 0; i < n; i++) {
+                sumPrev = sumLen;
+                sumLen += (i + 1); // 第 i 行長度為 i+1
+                if (target <= sumLen) {
+                    iFound = i;
+                    int j = target - sumPrev - 1; // 0-based
+                    System.out.printf("%d[%d, %d]\n", target, iFound + 1, j + 1);
+                    break;
+                }
+            }
+            // 安全性檢查：理論上 target 在 max 內時必定找到
+            if (iFound == -1) {
+                System.out.printf("not find %d in array.\n", target);
+            }
+        }
+
+        sc.close();
+    }
+}

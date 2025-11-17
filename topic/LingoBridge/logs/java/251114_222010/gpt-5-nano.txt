@@ -1,0 +1,54 @@
+5
+建議改進：此作業未實作排序與正確的輸入輸出流程，需改成直接讀入 n 與 n 個整數，使用 Arrays.sort 進行升序排序並輸出結果。
+
+程式優化與修改說明：
+- 正確性與邏輯：改用標準的輸入讀取 n 與 n 個整數，直接對整數陣列使用 Arrays.sort 進行升序排序，輸出排序後的結果，符合題意且能處理負數。
+- 格式與命名：重新命名為 SortArrayAsc，並加入清晰的程式檔案標頭註解與適當縮排與註解，提升可讀性。
+- 其他改進：避免原程式的無關邏輯，確保程式在適當狀況下結束，且輸出格式為一行以空格分隔的數字序列。
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * File: SortArrayAsc.java
+ * Description: 讀入一個整數 n，接著讀取 n 個整數，將陣列內容由小到大排序，最後輸出排序結果（以空格分隔）。
+ * Author: 金宗翰
+ * Date: 2025-11-14
+ */
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

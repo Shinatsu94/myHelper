@@ -1,0 +1,52 @@
+94
+
+改進建議：程式正確性良好，但建議改用具象變數名稱、統一輸出格式並加入適當換行，以提升可讀性與維護性。
+
+修改說明與重點修改：
+- 變數命名與結構
+  - 將不具意義的變數名如 i、j、temp、flag 改為更清晰的命名，例如 row、col、current、foundRow、foundCol。
+  - 將核心邏輯封裝在單獨的方法 buildAndFind，提升可讀性與重用性。
+- 輸出格式與換行
+  - 統一在輸出時使用 System.out.println，確保輸出結束後有換行，與常見輸出格式一致。
+  - 將找到的位置在輸出時使用坐標格式 m[col,row]，並以 1-based 索引符合需求。
+- 保留題意要求
+  - 仍建立完整的下三角形二維陣列並以逐格填入 1、2、3、…，最後找出目標數字的位置；若找不到，輸出 "not find X in array."。
+
+優化後的完整程式碼：
+public class CSIE_41143122_1031_3b {
+
+    // 建立一個高度為 n 的下三角形二維陣列，內容依序為 1, 2, 3, ...
+    // 找出指定數字 target 在陣列中的位置，輸出格式為: target[col,row]，欄與列皆從 1 開始。
+    public static void buildAndFind(int n, int target) {
+        int[][] tri = new int[n][];
+        int foundRow = -1; // 1-based
+        int foundCol = -1; // 1-based
+        int current = 0;
+
+        for (int row = 0; row < n; row++) {
+            tri[row] = new int[row + 1];
+            for (int col = 0; col <= row; col++) {
+                current++;
+                tri[row][col] = current;
+                if (current == target) {
+                    foundRow = row + 1;
+                    foundCol = col + 1;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(target + "[" + foundCol + "," + foundRow + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        buildAndFind(n, m);
+        scanner.close();
+    }
+}

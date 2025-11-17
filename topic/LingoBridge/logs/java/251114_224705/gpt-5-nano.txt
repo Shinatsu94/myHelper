@@ -1,0 +1,65 @@
+4
+
+這份作業的提出內容與學生提交的程式不符，未實作題目要求的升序排序功能，評分如下。
+
+- 改善建議（一句話）：請依題目需求實作單一一維整數陣列的讀取與升序排序，並以正確的格式輸出結果，避免無關的矩陣運算或其他演算法干擾。
+
+程式優化與修改說明
+- 修改原因與要點：
+  - 需求不再是矩陣運算與求逆，而是讀取長度 n 與 n 個整數並進行升序排序，因此必須以 1 維整數陣列作為資料結構。
+  - 使用 Arrays.sort 以簡潔且正確地完成升序排序，替換原本的自訂矩陣行列運算與逆矩陣計算邏輯。
+  - 改用 int 類型與 Scanner.nextInt，直接讀取整數，並確保能處理負數。
+  - 輸出時以空格分隔，避免尾端多餘空格，並在結尾加換行符號，符合常見輸出格式。
+  - 程式內容增加適當註解與 Header，提升可讀性與維護性。
+- 其他注意：
+  - 原程式以 while 迴圈與 3x3 矩陣處理不符合題意，且會造成錯誤或無法通過測資。新程式避免 EOF 使用，於輸入滿足時結束。
+
+修改後完整程式碼
+以下為修改後的正確實作，請使用者依題目需求進行測試：
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: Sort1DArrayAscending.java
+ * 功能說明: 讀取一個整數 n，接著讀入 n 個整數，將它們升序排列，輸出排序結果。
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ */
+
+public class Sort1DArrayAscending {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 先讀取陣列長度 n
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        int[] arr = new int[n];
+
+        // 逐一讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 輸入不足時，預設為 0（實務上應該保證輸入完整，此處為避免例外）
+                arr[i] = 0;
+            }
+        }
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出結果，元素以單一空格分隔，末尾換行
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}

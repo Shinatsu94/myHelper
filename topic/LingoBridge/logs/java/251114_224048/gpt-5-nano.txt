@@ -1,0 +1,63 @@
+6
+
+改進建議：此作業需讀取 n 個整數並將它們升冪排序再輸出，現有程式與題意嚴重不符，建議改為使用陣列儲存輸入值，使用 Arrays.sort 進行排序，並輸出排序後的陣列。
+
+程式碼優化與修改說明：
+- 重新設計資料結構：改用單維陣列 int[] arr 來儲存 n 個整數，符合題意與直覺。
+- 正確的排序邏輯：使用 Arrays.sort(arr) 直接對整數陣列進行升冪排序，支援負數。
+- 輸入處理與輸出：逐一讀入 n 個整數，排序後以空白分隔輸出，結尾換行，符合範例輸出格式。
+- 增加程式標頭註解：包含檔名、功能、作者、日期等，提升可維護性。
+- 縮排與命名：變數命名清晰，程式縮排整齊，符合一般 Java 編碼風格。
+
+修改後完整程式碼：
+
+/*
+ * File: SortArrayAscending.java
+ * Description: 讀取整數長度 n，接著輸入 n 個整數，輸出升冪排序的結果。
+ * Author: Your Name
+ * Date: 2025-11-14
+ * Notes: 使用 Arrays.sort，支援負數，單次執行。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足的輸入時預設為 0，仍然輸出排序結果
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

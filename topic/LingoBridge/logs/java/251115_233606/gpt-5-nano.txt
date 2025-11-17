@@ -1,0 +1,42 @@
+81
+
+建議補充程式標頭註解與註解、改用更具描述性的變數命名、移除不必要的 '+' 符號，並在結尾加入資源關閉與適當註解。
+
+修改與優化說明：
+- 增加標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 變數命名改為 a、b、c，並在註解中說明三個輸入值代表的意義，增強可讀性。
+- 移除輸出中的不必要「+」符號，保持輸出格式乾淨。
+- 使用兩種不同的方法來取得中位數：最大值與最小值使用三元運算子求出，再以 mid = a + b + c - max - min 計算中位數，符合題目要求且不使用 if-else。
+- 關閉 Scanner 以釋放資源，避免資源洩漏。
+- 提及可能的溢位風險（若輸入極大時可考慮使用 long），作為額外改進方向。
+
+修改後完整程式碼：
+/*
+ 檔案名稱: CSIE_41343208_1003_2.java
+ 功能: 讀取三個整數，輸出最小值、中間值、最大值，使用兩種不同的方法計算。
+ 作者: your_name
+ 日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343208_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 使用三元運算子分別找出最大值與最小值
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+        // 透過總和減去最大最小值得到中間值
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

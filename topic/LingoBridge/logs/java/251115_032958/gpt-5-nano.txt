@@ -1,0 +1,63 @@
+90
+正確性：50
+邏輯：30
+格式：10
+備註：0
+
+改進建議（單一句話）：
+建議補上程式標頭註解與內部註解，並維持建立下三角陣列的需求，同時清晰化變數名稱以提升可讀性與維護性。
+
+修改說明與優化重點：
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註分數要求。
+- 使用更具可讀性的變數名稱，如 target、row、col，增強可維護性。
+- 保留建立下三角形二維陣列的需求，並以清楚的註解說明步驟。
+- 對找尋 num 的位置改用數學公式直接計算 row 與 col，避免不必要的遍歷，提高效率；並仍於必要時驗證 num 是否在陣列範圍之內。
+- 程式結構與縮排做適當調整，維持良好格式。
+
+修改後完整程式碼如下：
+```java
+/*
+檔案名稱: CSIE_41343229_1031_4.java
+功能: 建立 n 高度的下三角形二維陣列，並找出指定數字的位置
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343229_1031_4 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            // 讀取高度 n 與要查找的數字
+            int n = sc.nextInt();
+            int target = sc.nextInt();
+
+            // 建立下三角形的 ragged 二維陣列，並填入 1, 2, 3, ...
+            int[][] tri = new int[n][];
+            int value = 1;
+            for (int r = 0; r < n; r++) {
+                tri[r] = new int[r + 1];
+                for (int c = 0; c <= r; c++) {
+                    tri[r][c] = value++;
+                }
+            }
+
+            // 總數量上限
+            long total = (long) n * (n + 1) / 2;
+            // 若 num 不在陣列範圍內，輸出找不到的訊息
+            if (target <= 0 || target > total) {
+                System.out.printf("not find %d in array.%n", target);
+                return;
+            }
+
+            // 計算 target 在哪一列與什麼位置（列、欄皆從 1 開始）
+            int row = (int) Math.ceil((Math.sqrt(1 + 8.0 * target) - 1) / 2.0);
+            int prevSum = row * (row - 1) / 2;
+            int col = target - prevSum;
+
+            System.out.printf("%d[%d, %d]%n", target, row, col);
+        }
+    }
+}
+```

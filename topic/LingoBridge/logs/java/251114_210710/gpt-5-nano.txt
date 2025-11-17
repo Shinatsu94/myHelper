@@ -1,0 +1,47 @@
+90
+
+建議改進要點（一句話）: 建議加入程式檔案標頭註解、改用 Arrays.sort 以避免尾端空格問題並簡化排序，同時改善變數命名與資源釋放。
+
+修改說明與內容要點：
+- 正確性：改用 Arrays.sort 進行排序，確保排序正確且穩定；輸出改為不含尾端多餘空格，符合題意。
+- 邏輯：保留功能需求，僅優化排序方式與輸出格式，維持原有的輸入流程。
+- 格式：新增檔案標頭註解與清晰的變數命名，並在結束時關閉 Scanner，提升資源管理。
+- 備註：完整的程式標頭註解，讓程式檔案資訊清楚可讀。
+
+以下為修改後的完整程式碼：
+
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * 檔案名稱: CSIE_41343222_1031_1.java
+ * 功能: 依序輸入長度與元素，輸出排序後的一維整數陣列（由小到大）
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ * 備註: 以標準輸入讀取整數，輸出排序後的數字，輸出不含尾端空格並換行。
+ */
+public class CSIE_41343222_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] ary = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            ary[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(ary);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ary.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+
+        System.out.println(sb.toString());
+        scanner.close();
+    }
+}
+```

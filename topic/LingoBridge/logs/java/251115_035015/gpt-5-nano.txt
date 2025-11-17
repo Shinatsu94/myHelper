@@ -1,0 +1,99 @@
+38
+
+改進建議（一句話）
+應正確計算逆矩陣：將 cofactor 矩陣轉置成 adjugate 後再除以行列式，並加入浮點容忍度判斷、適當註解與統一的命名與格式化以提升穩健性與可讀性。
+
+程式碼優化與修改說明
+- 問題重點在於計算逆矩陣，原程式使用的 adj 檢視為伴隨矩陣，但實際上它是 Cofactor 矩陣，缺乏轉置成 adjugate 的步驟，因此輸出為原逆矩陣的轉置，容易造成結果錯誤。
+- 增加對 det 的容忍度判斷，避免接近 0 導致數值不穩定的情況。
+- 使用 Cofactor 矩陣後再轉置成 Adjugate，最後 inv = adjugate / det，確保結果是正確的逆矩陣。
+- 加入檔案標頭註解與適當註解，並對程式命名與排版做些許調整，以符合基本的 Java 編碼風格。
+- 保留原題目對輸出格式的要求：三個元素一列、元素以空白分隔、每三個元素換行、最後一行無多餘空白；數值四位小數，若為零直接輸出 0。
+
+修改後完整程式碼（可直接執行）
+
+import java.util.Locale;
+import java.util.Scanner;
+
+/*
+ * File: MatrixInverse3x3.java
+ * 功能: 讀入使用者輸入的 3x3 矩陣，輸出其反矩陣，元素顯示到小數點後四位
+ *       若元素為零，直接輸出 '0'；格式要求：每行三個元素，以空白分隔，末行無多餘空格與換行。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+public class MatrixInverse3x3 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        double[][] A = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!input.hasNextDouble()) {
+                    return;
+                }
+                A[i][j] = input.nextDouble();
+            }
+        }
+
+        // 計算行列式
+        double det = A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1])
+                   - A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0])
+                   + A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]);
+
+        double EPS = 1e-9;
+        if (Math.abs(det) < EPS) {
+            System.out.println("This matrix has no inverse (det≈0)");
+            return;
+        }
+
+        // Cofactor 矩陣
+        double[][] cof = new double[3][3];
+        cof[0][0] =  (A[1][1]*A[2][2] - A[1][2]*A[2][1]);
+        cof[0][1] = -(A[1][0]*A[2][2] - A[1][2]*A[2][0]);
+        cof[0][2] =  (A[1][0]*A[2][1] - A[1][1]*A[2][0]);
+
+        cof[1][0] = -(A[0][1]*A[2][2] - A[0][2]*A[2][1]);
+        cof[1][1] =  (A[0][0]*A[2][2] - A[0][2]*A[2][0]);
+        cof[1][2] = -(A[0][0]*A[2][1] - A[0][1]*A[2][0]);
+
+        cof[2][0] =  (A[0][1]*A[1][2] - A[0][2]*A[1][1]);
+        cof[2][1] = -(A[0][0]*A[1][2] - A[0][2]*A[1][0]);
+        cof[2][2] =  (A[0][0]*A[1][1] - A[0][1]*A[1][0]);
+
+        // adjugate = transpose(cof)
+        double[][] adj = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adj[i][j] = cof[j][i];
+            }
+        }
+
+        // inv = adj / det
+        double[][] inv = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inv[i][j] = adj[i][j] / det;
+            }
+        }
+
+        // 輸出：每行三個元素；元素間以空白分隔；四位小數；值為 0 時輸出 "0"
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double val = inv[i][j];
+                if (Math.abs(val) < 5e-7) {
+                    System.out.print("0");
+                } else {
+                    System.out.printf(Locale.US, "%.4f", val);
+                }
+                if (j < 2) System.out.print(" ");
+            }
+            if (i < 2) System.out.println();
+        }
+    }
+}
+
+說明
+- 主要修正點在於正確使用 adjugate 矩陣（轉置自 Cofactor 矩陣）並以 det 相除，這才是矩陣的正確逆矩陣計算方式。
+- 加入了容忍度判斷 det 的接近 0 的情況，避免數值上不穩定造成誤判。
+- 程式加入頭部註解與適當註解，並保持符合題意的輸出格式。

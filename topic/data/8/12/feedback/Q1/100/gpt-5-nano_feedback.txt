@@ -1,0 +1,61 @@
+88
+
+改進建議與回饋（一句話）
+此作業在正確性與邏輯方面表現良好，但缺少標頭註解與更具描述性的變數命名，建議補上註解並使用更清楚的變數名稱以提升可讀性。
+
+修改與優化要點（說明與原因）
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將變數命名改為更具描述性：將 val 改為 sum，讓意義更清楚；i 改為 index（或保留 i 作為計數，但在關鍵區塊可再用更清晰的命名），提升可讀性。
+- 將兩段核心邏輯分別清楚區分：第一段用於計算並輸出 pi 的近似值（每 10000 次輸出一次），第二段用於找到滿足條件的最小 i，讓程式結構更清晰。
+- 使用常量提高可維護性（例如 MAX_I、PRINT_INTERVAL），避免魔數。
+- 保留原輸出格式要求（i 以 6 位寬度、pi 以小數點後 10 位輸出，並在第一段與第二段之間留一個空行）。
+- 增加必要註解，提升可維護性。
+
+修改後的完整程式碼
+/*
+ * J_1011_01.java
+ * 功能: 計算 pi 的近似值在 i = 10000、20000、...、100000 的情況下的值，並找出最小的 i 使 pi 落在區間 [3.14159, 3.14160)
+ * 作者: 以教育用途為假設作者
+ * 日期: 2025-11-15
+ */
+
+public class J_1011_01 {
+    public static void main(String[] args) {
+        final int MAX_I = 100000;
+        final int PRINT_INTERVAL = 10000;
+
+        // 計算 pi 的近似值並在每到達 10000 的倍數時輸出
+        double sum = 0.0;
+        for (int index = 1; index <= MAX_I; index++) {
+            double term = 1.0 / (2 * index - 1);
+            if ((index & 1) == 1) { // 奇數項，符號為正
+                sum += term;
+            } else { // 偶數項，符號為負
+                sum -= term;
+            }
+            double pi = 4.0 * sum;
+            if (index % PRINT_INTERVAL == 0) {
+                System.out.printf("i = %6d, pi = %.10f\n", index, pi);
+            }
+        }
+
+        // 空一行分隔兩段輸出
+        System.out.println();
+
+        // 找出最小的 i，使得 pi 在 [3.14159, 3.14160) 之間
+        double sum2 = 0.0;
+        int i2 = 0;
+        while (true) {
+            i2++;
+            double term = 1.0 / (2 * i2 - 1);
+            if ((i2 & 1) == 1) sum2 += term;
+            else sum2 -= term;
+            double pi = 4.0 * sum2;
+            if (pi >= 3.14159 && pi < 3.14160) {
+                break;
+            }
+        }
+
+        System.out.printf("i = %6d\n", i2);
+    }
+}

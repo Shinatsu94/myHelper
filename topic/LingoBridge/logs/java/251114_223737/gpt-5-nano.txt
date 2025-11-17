@@ -1,0 +1,53 @@
+4
+
+改進建議：
+請按照題意實作：讀入長度 n 後再讀入 n 個整數，將它們升序排序，輸出排序後的數列（以空格分隔在同一行），同時支援負數與任意長度。去除不相關的資料結構與邏輯，並加入清楚的程式註解與適當的變數命名。
+
+修改內容與原因：
+- 重新實作排序功能，使用 Arrays.sort 對整數陣列排序，能正確處理負數與任意長度的輸入，時間複雜度為 O(n log n)。
+- 移除原程式中的二維三角形陣列與搜尋邏輯，因其與題意不符。
+- 改用符合常見競賽/OJ 的類別名稱 Main，並加上檔案頭註解，提升可讀性與可維護性。
+- 輸出格式改為單行用空格分隔的排序結果，符合題目範例。
+
+修改後完整程式碼：
+
+/*
+ * 檔案名稱: Main.java
+ * 功能描述: 讀取整數個數 n 與 n 個整數，輸出其升序排序結果
+ * 作者: YourName
+ * 日期: 2025-11-14
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0，避免例外
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}

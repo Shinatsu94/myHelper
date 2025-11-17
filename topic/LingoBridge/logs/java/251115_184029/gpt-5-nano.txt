@@ -1,0 +1,59 @@
+100
+建議增加程式標頭註解並改用數字運算避免字串轉換，以提升效能與可讀性。
+
+以下為優化後完整程式碼說明:
+- 主要改動：改用純數字運算來逐位比較，避免對整數轉成字串的成本，並加入程式標頭註解與適當註解以提升可維護性。
+- 原因：字串轉換在大量數字或高頻呼叫時會產生額外的記憶體與時間成本；數字運算雖略顯複雜，但在此問題上更高效且避免非數字字元的風險。此外，標頭註解符合作業需求的備註要求。
+
+程式碼 (修改後)：
+/*
+  檔案名稱: csie_41343227_1017_2.java
+  功能說明: 判斷使用者輸入的整數各位數字是否從左至右嚴格遞增。
+  作者: 你的姓名
+  日期: 2025-11-15
+  備註: 本程式支援單次執行輸入，適用於正整數與單一數字的判斷。若輸入為負數，預設返回不符合。
+*/
+
+import java.util.Scanner;
+
+public class csie_41343227_1017_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int number = scanner.nextInt();
+        if (isWellOrdered(number)) {
+            System.out.println(number + " is well-ordered number.");
+        } else {
+            System.out.println(number + " is not well-ordered number.");
+        }
+    }
+
+    // Optimized: 使用純數字運算逐位比較，避免字串轉換帶來的開銷
+    public static boolean isWellOrdered(int num) {
+        if (num < 0) return false; // 對於負數，定義為不符合
+        int temp = num;
+        int div = 1;
+
+        // 找到最高位數的位值 (例如 258 -> div = 100, msd = 2)
+        while (temp >= 10) {
+            temp /= 10;
+            div *= 10;
+        }
+        int msd = temp; // 最高位數字
+        int remaining = num - msd * div; // 最高位之右邊的數字組成的數字
+
+        int currentDiv = div;
+        int prev = msd;
+
+        // 逐位從左到右比較
+        while (currentDiv > 1) {
+            currentDiv /= 10;
+            int cur = remaining / currentDiv; // 下一位數字
+            if (cur <= prev) {
+                return false;
+            }
+            prev = cur;
+            remaining = remaining - cur * currentDiv;
+        }
+        return true;
+    }
+}

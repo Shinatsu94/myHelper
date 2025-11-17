@@ -1,66 +1,51 @@
-3
+85
 
-修改後完整程式碼：
+改進建議（一句話）：此作業正確輸出下三角星號陣列，但缺少程式標頭註解與輸入範圍檢查，且可藉由使用字串拼接提升輸出效率與可讀性。
+
+修改與優化說明：
+- 增加程式標頭註解，說明檔案名稱、功能、作者、日期，提升可維護性。
+- 變數命名與結構微調，使用較具語意的命名與一致的縮排，提升可讀性。
+- 新增輸入範圍檢查，確保 0 < n <= 20 之限制被滿足，避免極端情況造成錯誤或異常行為。
+- 改用 StringBuilder 組裝每一列再輸出，減少多次 System.out.print 呼叫，提升執行效率（尤其在較大 n 時）。
+- 移除與題目無關的註解，避免混淆。
+
+修改後完整程式碼（保留原始檔案名稱與公開類別名以便編譯執行）：
 /*
- * 檔案名稱: CSIE_41343109_1031_03.java
- * 功能: 讀入使用者輸入的任意長度一維陣列（先輸入長度n，接著輸入n個整數），將陣列內容由小到大排序，並輸出排序後的陣列。
- * 作者: 學生
- * 日期: 2025-11-12
- */
-
-import java.util.Arrays;
+File: CSIE_41343109_1031_03.java
+Description: 建立並列印下三角形的二維陣列，高度由使用者輸入，範圍 0<n<=20
+Author: 學號 41343109
+Date: 2025-11-14
+*/
 import java.util.Scanner;
 
 public class CSIE_41343109_1031_03 {
     public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
 
-        // 讀取陣列長度
-        if (!scn.hasNextInt()) {
-            scn.close();
+        // 輸入範圍檢查，符合題意 0 < n <= 20
+        if (n <= 0 || n > 20) {
+            sc.close();
             return;
         }
-        int n = scn.nextInt();
 
-        // 讀取陣列內容
-        int[] arr = new int[n];
+        char[][] a = new char[n][n];
+        // 填入下三角形 '*' 符號
         for (int i = 0; i < n; i++) {
-            if (scn.hasNextInt()) {
-                arr[i] = scn.nextInt();
-            } else {
-                // 若輸入不足，預設為0，避免例外
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                a[i][j] = '*';
             }
         }
 
-        // 進行升冪排序
-        Arrays.sort(arr);
-
-        // 輸出排序後的陣列，元素以空格分隔，末尾換行
-        StringBuilder sb = new StringBuilder();
+        // 逐列輸出，使用 StringBuilder 提升輸出效率
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j <= i; j++) {
+                sb.append(a[i][j]);
+            }
+            System.out.println(sb.toString());
         }
-        System.out.println(sb.toString());
 
-        scn.close();
+        sc.close();
     }
 }
-
-修改說明：
-- 將原先的 2D char 陣列與輸出無關的邏輯移除，改用整數一維陣列來儲存使用者輸入的數值，符合題意。
-- 使用 Arrays.sort(arr) 進行升冪排序，簡單且可靠，支援負數與任意長度的陣列。
-- 改善輸出格式，使用空格分隔且不產生多餘空格，輸出與題目範例相符。
-- 進行基本的輸入檢查與資源釋放（關閉 Scanner），提高穩定性。
-- 程式命名與註解新增檔案名稱、功能說明，提升可讀性與維護性。
-
-一句話改進建議：
-- 如要提升效能與穩定性，考慮改用緩衝輸入/輸出（如 BufferedInputStream 與 StringBuilder 輸出）以應對大數量資料的情況。
-
-評分小結（依照你的標準）
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：3/10
-- 備註：0/10
-總分：3/100

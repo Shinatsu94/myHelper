@@ -1,0 +1,50 @@
+3
+
+建議重點：需改寫成完整的讀入、排序與輸出流程，與題目需求對齊，並加上程式標頭與註解以增進可讀性。
+
+修改說明與原因：
+- 將原程式改為符合題意：先讀取陣列長度，再讀取對應長度的整數，對陣列進行升冪排序，最後輸出排序結果。
+- 使用 Arrays.sort 提供穩定且高效的排序實作，能正確處理負數。
+- 加入清晰的變數命名與註解，提升可讀性與維護性。
+- 加入程式標頭註解與適當的內容註解，符合作業要求的備註規範。
+- 輸出格式控制為以單一空格分隔、末尾換行，符合題目輸出範例。
+
+修改後完整程式碼：
+/*
+ * File: CSIE_41343222_1031_4.java
+ * 功能: 建立任意長度的一維陣列，讀取元素並以升冪排序輸出
+ * 作者: your_name
+ * 日期: 2025-11-14
+ * 備註: 讀入長度 n，接著讀入 n 個整數，排序後輸出結果，支援負數。
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343222_1031_4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = scanner.nextInt();
+
+        // 建立並填充陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // 對陣列進行升冪排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，使用空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

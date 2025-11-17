@@ -1,0 +1,69 @@
+84? Wait, you asked for a score first. I need to pick one. I previously estimated 85. I will present 85 as the score.
+
+第一行分數：85
+
+建議回饋（單句）：改進方向是將作業改用實作的下三角形二維陣列並加上清晰的程式註解與命名慣例，以提升可讀性與符合題意。
+
+改作業評語與修改要點：
+- 正確性（50%）：原程式輸出符合題意，能正確印出長度為 n 的下三角形星號序列，範圍檢驗也在接受範圍內。因此仍然維持正確性。
+- 邏輯（30%）：原本的雙巢迴圈邏輯正確且簡單。不過題意描述「下三角形二維陣列」暗示可藉由實作一個二維陣列來呈現，現有版本未實作二維陣列。建議利用 2D 陣列來符合題目要求的設計觀念。
+- 格式（10%）：變數命名上使用了大寫的 N，偏離常見的 Java 小寫變數命名慣例；缺乏程式標頭註解與在檔案內容的註解。
+- 備註（10%）：缺少檔案標頭註解（檔案名稱、功能、作者、日期）與程式內容註解。
+
+修改說明與修改後程式碼的改動理由：
+- 新增檔案標頭註解，提供檔案名稱、功能、作者、日期等資訊，提升可維護性。
+- 將變數命名改為小寫 n，符合 Java 命名慣例。
+- 以 2D 字元陣列（char[][]）儲存下三角形的星號，雖然最終輸出仍為無空白的星號串，但實作上符合「二維陣列」的題意要求。
+- 使用 StringBuilder 組裝整個輸出內容，減少多次 System.out.print 呼叫，提高效能與穩定性。
+- 仍保留輸入的有效性檢查，確保 n 在 (0, 20] 範圍內。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+ 檔案名稱: CSIE_41343221_1031_3.java
+ 功能: 建立並列印下三角形的二維陣列，高度 n 由使用者輸入，範圍 0 < n <= 20
+ 作者: 教師
+ 日期: 2025-11-14
+*/
+
+public class CSIE_41343221_1031_3 {
+
+    public static void main(String[] args) {
+        int n;
+        StringBuilder sb = new StringBuilder();
+
+        // 使用 try-with-resources 以確保 Scanner 在使用完畢後自動關閉
+        try (Scanner scanner = new Scanner(System.in)) {
+            if (!scanner.hasNextInt()) {
+                return;
+            }
+            n = scanner.nextInt();
+
+            // 驗證高度範圍
+            if (n <= 0 || n > 20) {
+                return;
+            }
+
+            // 建立下三角形的二維陣列，並填入 '*'
+            char[][] tri = new char[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    tri[i][j] = '*';
+                }
+            }
+
+            // 輸出下三角形，避免在每次輸出時呼叫 System.out.print
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    sb.append(tri[i][j]);
+                }
+                if (i < n - 1) {
+                    sb.append('\n');
+                }
+            }
+
+            System.out.print(sb.toString());
+        }
+    }
+}

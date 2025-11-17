@@ -1,0 +1,43 @@
+86
+
+改進建議（一句話）
+程式邏輯正確且符合不使用 if-else 的要求，但缺乏標頭註解與一致的命名/縮排風格，建議加入註解與清晰命名以提升可讀性與維護性。
+
+修改與原因
+- 增加標頭註解：符合作業備註的要求，方便他人知道檔案用途、作者與日期。
+- 變數命名與命名風格：將 Scanner 變數改為 scanner，並保持一致的縮排與風格，提升可讀性。
+- 程式內容註解：在重要步驟加入註解，說明為何用三元運算子取得最大／最小值，以及中間值的計算方式。
+- 保留原有正確邏輯：最大值與最小值使用三元運算子，中間值透過 a+b+c - max - min 計算，符合題目要求且避免使用 if-else。
+- 格式與可讀性：統一縮排，讓結構更清晰，方便維護與評分。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41245139_1003_2.java
+ * Description: 找出三個整數的最大值、中間值、最小值，使用兩種不同的方式（註解中說明：最大與最小以三元運算子實作，中間值透過總和減去最大與最小得到）。
+ * Author: 作者
+ * Date: 日期
+ */
+public class CSIE_41245139_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
+
+        // 最大值：使用嵌套的三元運算子
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+        // 最小值：使用嵌套的三元運算子
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+        // 中間值：透過總和減去最大與最小得到
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scanner.close();
+    }
+}

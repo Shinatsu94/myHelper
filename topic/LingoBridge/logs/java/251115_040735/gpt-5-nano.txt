@@ -1,0 +1,97 @@
+總分（0-100）：85
+
+改進建議（一句話）
+此作業整體正確性高，但缺少完整的程式標頭註解、對不可逆矩陣的處理較單一，以及小數輸出在極小值下的穩健性待加強，建議加入容差判斷、統一輸出格式與增加註解。
+
+修改與優化說明
+- 新增容差判斷：將行列式的零判斷改為容差判斷（det 值接近零時視為不可逆），避免浮點誤差造成的誤判。
+- 加入程式標頭與註解：提供檔案名稱、功能、日期等註解，提升可維護性與可讀性。
+- 變數命名與結構改善：將矩陣變數命名為 matrix，增強語意；保留原有的邏輯清晰性。
+- 統一輸出零值：用 printValue 處理輸出，若絕對值小於容差就輸出 0，避免出現 -0.0000 或類似的小數表示。
+- 關閉資源：使用完 Scanner 後關閉，避免資源洩漏。
+- 提供可讀性與穩健性提升的輸出格式控制，使符合題目對輸出格式的要求。
+
+修改後的完整程式碼
+/*
+檔案名稱: CSIE_41343233_1031_4.java
+功能說明: 讀入 3x3 矩陣，輸出其反矩陣，元素顯示到小數點後四位；若元素為零，輸出 0。
+作者: 你可以填寫
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343233_1031_4 {
+    private static final double ZERO_TOLERANCE = 5e-7;
+
+    // 輸出單一元素，若絕對值接近0則輸出 0，否則輸出四位小數
+    private static void printValue(double v) {
+        if (Math.abs(v) < ZERO_TOLERANCE) {
+            System.out.print("0");
+        } else {
+            System.out.printf("%.4f", v);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        double[][] matrix = new double[3][3];
+
+        // 讀入矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (in.hasNextDouble()) {
+                    matrix[i][j] = in.nextDouble();
+                } else {
+                    matrix[i][j] = 0; // 若輸入不足，預設為0
+                }
+            }
+        }
+
+        // 計算行列式
+        double det = matrix[0][0]*(matrix[1][1]*matrix[2][2]-matrix[1][2]*matrix[2][1])
+                   - matrix[0][1]*(matrix[1][0]*matrix[2][2]-matrix[1][2]*matrix[2][0])
+                   + matrix[0][2]*(matrix[1][0]*matrix[2][1]-matrix[1][1]*matrix[2][0]);
+
+        // 容差判斷避免浮點誤差引起的錯誤
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("The matrix is not invertible.");
+            in.close();
+            return;
+        }
+
+        // 計算伴隨矩陣（cofactor 矩陣再轉置）
+        double[][] cofactor = new double[3][3];
+
+        cofactor[0][0] =  matrix[1][1]*matrix[2][2] - matrix[1][2]*matrix[2][1];
+        cofactor[0][1] = -(matrix[1][0]*matrix[2][2] - matrix[1][2]*matrix[2][0]);
+        cofactor[0][2] =  matrix[1][0]*matrix[2][1] - matrix[1][1]*matrix[2][0];
+
+        cofactor[1][0] = -(matrix[0][1]*matrix[2][2] - matrix[0][2]*matrix[2][1]);
+        cofactor[1][1] =  matrix[0][0]*matrix[2][2] - matrix[0][2]*matrix[2][0];
+        cofactor[1][2] = -(matrix[0][0]*matrix[2][1] - matrix[0][1]*matrix[2][0]);
+
+        cofactor[2][0] =  matrix[0][1]*matrix[1][2] - matrix[0][2]*matrix[1][1];
+        cofactor[2][1] = -(matrix[0][0]*matrix[1][2] - matrix[0][2]*matrix[1][0]);
+        cofactor[2][2] =  matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
+
+        // 轉置並除以行列式得到反矩陣
+        double[][] inverse = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inverse[i][j] = cofactor[j][i] / det;
+            }
+        }
+
+        // 輸出結果
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                printValue(inverse[i][j]);
+                if (j != 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+
+        in.close();
+    }
+}

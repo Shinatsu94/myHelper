@@ -1,0 +1,78 @@
+84
+
+改進建議（一句話）：
+建議採用更清晰的變數命名與適當的註解，並採用內建排序與快速輸入輸出方式提升穩定性與效能，同時讓程式更易維護。
+
+程式評語與修改要點說明：
+- 正確性：原作已正確完成題意的排序與輸出，修改後保持同等功能並提升穩定性。
+- 邏輯：原作採用選擇排序，邏輯正確但較耗時；改用內建排序陣列排序，提升效率，邏輯更簡潔。
+- 格式：原作縮排與命名不統一，且缺少註解與標頭。新增清晰註解、統一縮排與有意義的命名，提升可讀性。
+- 備註：原作缺乏檔案標頭註解。新版本加入標頭註解，便於維護與分工。
+
+修改說明與修改內容要點：
+- 使用內建 Arrays.sort 進行排序，時間複雜度降至 O(n log n)，比原先的選擇排序更高效。
+- 使用快速輸入輸出（BufferedReader + StringTokenizer，搭配 StringBuilder 輸出）提升效能，適合較大輸入。
+- 增加適當的程式標頭註解，並以 Main 作為公開類別名稱以提升相容性與通用性。
+- 引入更有意義的變數命名與結構化的註解，改善可讀性與維護性。
+- 考慮 n=0 的極端情況，確保輸出為空行（有 newline）。
+
+修改後完整程式碼如下：
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+/*
+檔案名稱: Main.java
+功能: 讀取整數 n，接著讀入 n 個整數，將它們由小到大排序並輸出
+作者: 課堂作業評分者
+日期: 2025-11-14
+說明: 使用內建 Arrays.sort 進行排序並使用快速 I/O 提升效能
+*/
+
+public class Main {
+    // 輕量型快速輸入工具，避免使用 Scanner 的效能問題
+    private static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        FastScanner() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        int nextInt() throws IOException {
+            while (st == null || !st.hasMoreElements()) {
+                String line = br.readLine();
+                if (line == null) return Integer.MIN_VALUE; // 不預期，輸入已知
+                st = new StringTokenizer(line);
+            }
+            return Integer.parseInt(st.nextToken());
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner();
+
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        // 使用內建排序提升效率
+        Arrays.sort(arr);
+
+        // 使用 StringBuilder；避免逐個 print 導致的性能問題
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+```

@@ -1,0 +1,69 @@
+6
+建議：改為以長度 n 的一維整數陣列輸入，使用排序演算法升序輸出，避免與題目不相關的矩陣運算，並正確處理負數與多行輸入。
+
+修改說明：
+- 將原本的 3x3 矩陣及其相關的行列式與反矩陣計算移除，改為處理任意長度的一維整數陣列。
+- 使用 Arrays.sort 對整數陣列做升序排序，效能與穩定性較佳，且符合題意。
+- 改用 BufferedReader 與 StringTokenizer 進行輸入，以支援多行輸入與任意長度，且不依賴 EOF。
+- 增加程式標頭註解，並保留適當的程式內註解以說明功能與流程。
+
+修改後完整程式碼：
+/*
+檔案名稱: Main.java
+功能: 讀取長度 n 的整數陣列，將其內容由小到大排序並輸出
+作者: 教師
+日期: 2025-11-14
+*/
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // 讀取 n（長度）
+        String line;
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {
+            // 跳過空白行
+        }
+        if (line == null) return;
+        int n;
+        try {
+            n = Integer.parseInt(line.trim());
+        } catch (Exception e) {
+            // 若第一行含有其他內容，嘗試取第一個整數作為 n
+            StringTokenizer st = new StringTokenizer(line);
+            if (st.hasMoreTokens()) {
+                n = Integer.parseInt(st.nextToken());
+            } else {
+                return;
+            }
+        }
+
+        int[] arr = new int[n];
+        int idx = 0;
+
+        // 讀取接下來的 n 個整數，支援跨行輸入
+        while (idx < n) {
+            String l = br.readLine();
+            if (l == null) break;
+            StringTokenizer st = new StringTokenizer(l);
+            while (st.hasMoreTokens() && idx < n) {
+                arr[idx++] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

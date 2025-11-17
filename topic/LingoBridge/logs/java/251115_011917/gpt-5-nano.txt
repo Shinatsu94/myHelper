@@ -1,0 +1,63 @@
+總分：16
+
+改進意見（單一句話）：建議直接使用正確的升序排序方法（如 Arrays.sort），移除原本的右向最大值替換邏輯，並加上標頭註解與健全的輸入處理以符合題意與可讀性。
+
+作業評分與評論
+- 正确性 (0/50): 程式並未完成正確的升序排序，輸出與題意不符。
+- 邏輯 (10/30): 原程式使用「由右到左的最大值替換」的邏輯，這不是排序且在多數情況下會得到錯誤結果，邏輯錯誤且不符合需求。
+- 格式 (6/10): 程式碼可讀性尚可，變數命名清晰；但缺少程式標頭註解與說明，且對某些邊界情況處理不符合需求。
+- 備註 (0/10): 缺少檔案標頭註解（檔名、功能、作者、日期等）。 
+
+修改與重點
+- 直接採用正確的排序方法，避免自訂的錯誤演算法。
+- 保留輸入長度並讀取固定數量的元素，避免超出或不足輸入造成問題。
+- 增加檔案標頭註解，明確說明檔案名稱、功能、作者與日期。
+- 使用有意義的變數命名，並保持一致的程式格式與註解。
+
+修改後的完整程式碼
+/*
+File: ArraySorting.java
+用途: 讀取整數長度 n，接著讀入 n 個整數，輸出其升序排序結果。
+作者: 您的教授
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，避免先前的錯誤邏輯，並處理可能的輸入不足情況。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArraySorting {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int length = sc.nextInt();
+
+        // 建立陣列並讀入元素，若輸入不足以填滿，預設為 0；若長度為負，視為 0
+        int[] arr = new int[Math.max(0, length)];
+        for (int i = 0; i < length; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 不足輸入時，預設為 0
+                arr[i] = 0;
+            }
+        }
+
+        // 進行排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

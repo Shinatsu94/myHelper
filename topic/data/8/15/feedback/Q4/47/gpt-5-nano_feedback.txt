@@ -1,67 +1,62 @@
-3
+84
 
-以下為修改後的完整程式碼與修改說明：
+改進建議：需要實作完整的下三角二維陣列並加上標頭註解與變數命名，以提升可讀性與符合題目要求。
 
-修改後完整程式碼
-import java.util.Scanner;
-import java.util.Arrays;
+修改說明與原因：
+- 建立實際的下三角二維陣列並填充數字，符合題目「建立完整的下三角形二維陣列」的要求。
+- 使用更具語意的變數名稱，如 height、target，提升閱讀性與維護性。
+- 加入適當的註解與程式頭註解，說明檔案名稱、功能、作者與日期。
+- 於結束時關閉 Scanner，釋放資源。
+- 直接在框架中找出座標，若未找到則輸出相應訊息，符合題目輸出格式。
 
+修改後的完整程式碼：
 /*
- 檔案名稱: Main.java
- 功能: 依輸入長度與對應整數，輸出由小到大排序後的結果
- 作者: 教師
- 日期: 2025-11-12
- 使用說明: 讀取第一個整數為陣列長度 n，接著讀入 n 個整數，將其由小到大排序後輸出，元素以空格分隔。
+File: CSIE_41343226_1031_3B.java
+功能: 建立下三角二維陣列，填入 1..n(n+1)/2，尋找指定數字的座標
+作者: 作者姓名
+日期: 2025-11-14
 */
-public class Main {
+import java.util.Scanner;
+
+public class CSIE_41343226_1031_3B {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int height = sc.nextInt();  // 陣列高度 n
+        int target = sc.nextInt();  // 要尋找的數字
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            return;
-        }
-        int n = sc.nextInt();
+        int[][] tri = new int[height][height];
 
-        int[] arr = new int[Math.max(0, n)];
-
-        // 依序讀取 n 個整數
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，補 0，避免例外
+        // Fill lower-triangular part with sequential numbers
+        int val = 1;
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c <= r; c++) {
+                tri[r][c] = val++;
             }
         }
 
-        // 排序
-        Arrays.sort(arr);
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
 
-        // 輸出，空格分隔，末端不留多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // Search for target
+        for (int r = 0; r < height; r++) {
+            for (int c = 0; c <= r; c++) {
+                if (tri[r][c] == target) {
+                    found = true;
+                    foundRow = r + 1; // 1-based
+                    foundCol = c + 1; // 1-based
+                    break;
+                }
+            }
+            if (found) break;
         }
-        System.out.println(sb.toString());
+
+        if (found) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
 
         sc.close();
     }
 }
-
-修改說明與原因
-- 將原本不符合題意的邏輯（只是用 sum/i 的推演）改為直覺且正確的解法：先讀取長度 n、再讀入 n 個整數，然後使用 Arrays.sort 對整數陣列排序，最後輸出排序結果。
-- 使用更清晰的變數命名與結構，提升可讀性與維護性，例如改用 arr（整數陣列）與 Main 類別。
-- 加入檔案頭註解與逐步註解，符合作業要求的註解與說明，方便評分與日後維護。
-- 處理負數與包含多個相同值的情況，Arrays.sort 能正確處理，符合題意。
-- 每次輸出以空格分隔且無尾端多餘空格，符合題目輸出格式規範。
-
-一句話改進建議
-建議在提交前先用題目給定的範例自行測試，確保輸入輸出完全符合要求，並再加入清晰註解與一致的命名以提升可讀性。
-
-評分總結（按你的標準逐項）
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：3/10
-- 備註：0/10
-- 總分：3/100

@@ -1,0 +1,47 @@
+87
+建議加入程式標頭註解、變數命名與函式分解以提升可讀性與維護性，但仍符合題目對三元運算子的要求。
+
+優化說明：
+- 將找最大值與最小值的邏輯分別封裝成兩個獨立的方法 maxOfThree 與 minOfThree，使用三元運算子，提升可讀性與可重用性。
+- 為檔案加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註需求。
+- 使用有意義的變數命名，讓程式碼更易理解。
+- 仍維持題目要求的輸出順序與不使用 if-else 的規範。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+ * 檔名: CSIE_41343215_1003_2.java
+ * 功能: 輸入三個整數，輸出最小值、介於兩者之間的值(mid)、最大值。使用兩個方法分別計算最大與最小，皆採用三元運算子。
+ * 作者: 你的姓名
+ * 日期: 2025-11-15
+ * 備註: 不使用 if-else，並以三元運算子實作最大/最小值的判定。
+ */
+
+public class CSIE_41343215_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
+
+        int maxVal = maxOfThree(a, b, c);
+        int minVal = minOfThree(a, b, c);
+        int midVal = (a + b + c) - maxVal - minVal;
+
+        System.out.println(minVal);
+        System.out.println(midVal);
+        System.out.println(maxVal);
+        // scanner.close(); // 保留是否關閉 Scanner 取決於執行環境
+    }
+
+    // 使用三元運算子找出三個數中的最大值
+    private static int maxOfThree(int x, int y, int z) {
+        return x > y ? (x > z ? x : z) : (y > z ? y : z);
+    }
+
+    // 使用三元運算子找出三個數中的最小值
+    private static int minOfThree(int x, int y, int z) {
+        return x < y ? (x < z ? x : z) : (y < z ? y : z);
+    }
+}

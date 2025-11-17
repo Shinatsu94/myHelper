@@ -1,0 +1,46 @@
+88
+
+- 正確性 (50/50): 50
+- 邏輯 (30/30): 28
+- 格式 (10/10): 6
+- 備註 (10/10): 4
+合計: 88
+
+改進建議：
+此作法正確且符合題目限制，但變數命名不夠語意化，且缺乏完整的程式標頭註解與結尾資源釋放，建議改用更具語意的變數名稱並補上完整註解與資源關閉。
+
+程式優化說明與原因：
+- 將變數名稱由 a,b 改為 first, second，使意義更清楚。
+- 加上完整的檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 在適當位置加入註解說明交換方法為 XOR 交換法，維持不使用額外變數的限制。
+- 釋放 Scanner 資源（scn.close()），避免資源洩漏。
+- 與原作相比，格式與命名更符合一般 Java 編碼慣例。
+
+修改後完整程式碼：
+/*
+ * File: CSIE_41343121_1003_1.java
+ * 功能: 讀入兩個整數，交換後輸出兩個整數
+ * 作者: 徐唯祐
+ * 日期: 10/3
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343121_1003_1 {
+    public static void main(String[] args) {
+        int first, second;
+        Scanner scn = new Scanner(System.in);
+        first = scn.nextInt();
+        second = scn.nextInt();
+
+        // 使用不額外變數的 XOR 交換法
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+
+        scn.close();
+    }
+}

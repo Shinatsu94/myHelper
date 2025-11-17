@@ -1,0 +1,64 @@
+10
+
+正確性: 0/50
+邏輯: 0/30
+格式: 10/10
+備註: 0/10
+
+改進反饋: 你的程式未實作升序排序，採用的右邊最大值替換法與題意不符，建議改用正確的排序方法如 Arrays.sort 以保證正確輸出。
+
+修改說明與原因:
+- 正確性與邏輯
+  - 使用 Arrays.sort 將整數陣列從小到大排序，確保結果符合題意的升序輸出，並且處理包含負數的情況。
+  - 去除原本的「逐步用右側最大值覆蓋」的錯誤邏輯，這個邏輯不等於排序，會造成輸出不正確。
+- 格式與註解
+  - 加入程式標頭註解，說明檔案名稱、功能、作者、日期等，提升可維護性。
+  - 保持良好縮排與有意義的變數命名，輸出格式維持單行空格分隔。
+- 備註
+  - 程式仍包含輸入驗證，如輸入的長度 n 必須大於 0，若不符合則輸出錯誤訊息並結束。
+
+修改後完整程式碼：
+```java
+/*
+ * 檔名: CSIE_41343211_1031_2.java
+ * 功能: 讀入一維整數陣列，將內容由小到大排序後輸出
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343211_1031_2 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = input.nextInt();
+        if (n <= 0) {
+            System.out.println("陣列長度必須大於 0");
+            input.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 使用內建排序，從小到大排序
+        Arrays.sort(arr);
+
+        // 輸出結果
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        input.close();
+    }
+}
+```

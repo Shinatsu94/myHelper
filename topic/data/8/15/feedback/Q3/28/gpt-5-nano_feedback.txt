@@ -1,62 +1,62 @@
-6
+85
+- 正確性: 50
+- 邏輯: 28
+- 格式: 7
+- 備註: 0
 
-修改後完整程式碼：
+改進建議（一句話）：
+建議加入程式標頭註解與內部註解，統一輸出格式，並在適當時使用更清晰的輸出與資源管理，同時保留建立下三角陣列的需求。
+
+修改說明與修改後程式碼原因：
+- 加入清晰的程式檔案標頭註解，符合備註要求，提升可維護性與可辨識性。
+- 使用 StringBuilder 統一輸出，避免逐行 I/O 可能帶來的效能問題，並保留每行結束的換行符號以符合題目輸出格式。
+- 保留使用二維陣列的做法以滿足「建立二維陣列」的要求，同時讓輸出僅列印已填入的下三角部分，避免多餘輸出。
+- 適當關閉 Scanner，提升資源管理。
+
+修改後完整程式碼（保持原先需求的同時加入註解與優化）：
+
 ```java
 /*
- * 檔案名稱: CSIE_41343143_1031_3a.java
- * 功能說明: 讀取整數 n，接著讀入 n 個整數，將陣列內容由小到大排序，輸出排序後的結果。
- * 作者: 教學助理
- * 日期: 2025-11-12
+ * File: LowerTriangle.java
+ * Description: 建立並列印高度為 n 的下三角形二維陣列
+ * Author: 你的名字
+ * Date: 2025-11-14
+ * Notes: 依題意輸入 0 < n <= 20，輸出下三角形的 '*' 圖形
  */
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class CSIE_41343143_1031_3a {
+public class LowerTriangle {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
 
-        // 讀取長度 n
-        if (!input.hasNextInt()) {
-            return;
-        }
-        int n = input.nextInt();
-        if (n <= 0) {
-            // 沒有元素，直接結束
+        // 輸入範圍檢查
+        if (n <= 0 || n > 20) {
+            in.close();
             return;
         }
 
-        // 讀取 n 個整數
-        int[] arr = new int[n];
+        // 建立並填入下三角星號的二維陣列
+        char[][] triangle = new char[n][n];
         for (int i = 0; i < n; i++) {
-            if (input.hasNextInt()) {
-                arr[i] = input.nextInt();
-            } else {
-                // 若不足 n 個數字，預設為 0（避免例外）
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                triangle[i][j] = '*';
             }
         }
 
-        // 進行排序
-        Arrays.sort(arr);
-
-        // 輸出：單行，數字以空格分隔，末尾不留超過的空格
+        // 組裝輸出，使用 StringBuilder 提升效能
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j <= i; j++) {
+                sb.append(triangle[i][j]);
+            }
+            sb.append('\n'); // 每行結尾換行，符合輸出格式
         }
+
         System.out.print(sb.toString());
+
+        in.close();
     }
 }
 ```
-
-修改說明與原因：
-- 功能修正：原程式與題意完全不符，改為實作「讀取 n、讀入 n 個整數、排序、輸出」。核心流程改為使用一維整數陣列並對其排序，符合題目要求。
-- 使用內建排序：採用 Arrays.sort(arr) 以簡潔且有效的排序演算法，時間複雜度 O(n log n)，適用任意長度的整數序列。
-- 輸入與輸出處理魯棒性：增加對 n 的基本驗證（n > 0），並在輸入數量不足時以預設值 0 仍能穩定執行，避免例外。
-- 程式結構與命名：改用清晰的變數 arr 代表陣列，並加入前置註解與標頭註解，提升可讀性與維護性。
-- 程式註解與標頭：依照要求加入檔案名稱、功能、作者、日期等註解，提升文檔性。
-
-改進建議（一句話）：
-- 建議加入使用者輸入格式檢查與錯誤訊息，並在輸入不足時提示使用者重新輸入，以提升使用體驗與穩定性。

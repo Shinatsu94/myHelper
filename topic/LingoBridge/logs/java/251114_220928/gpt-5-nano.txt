@@ -1,0 +1,65 @@
+總分：9
+
+改進建議：此作業需正確讀入整數陣列、以升序排序並輸出，請改用一維整數陣列並實作排序（可利用 Arrays.sort），避免使用不相干的 char 陣列或不相關的輸出。
+
+評分與分析要點：
+- 正確性(50%)：0/50
+  - 原始作業未實作題目要求的功能，僅輸出一個 '*' 二維陣列，與題目需求嚴重不符。
+- 邏輯(30%)：0/30
+  - 程式邏輯與題意完全不符，沒有任何排序或輸入輸出正確流程。
+- 格式(10%)：3/10
+  - 有基本的程式標頭與相對整齊的縮排，但命名不具可維護性，且使用不合適的資料型別（char[][]）與多餘輸入流程，需改善命名與結構。
+- 備註(10%)：6/10
+  - 程式標頭有基本資訊（名稱、作者、日期、功能說明等），但缺少更完整的內部註解，且檔案命名與類別命名未符合實作需求，註解層級較為簡單。
+
+修改與優化說明：
+- 將資料型別與資料結構改為符合要求的一維整數陣列 int[]，避免使用不相關的 char[]/char[][]。
+- 使用標準輸入流程讀取整數長度與陣列內容，並利用 Arrays.sort 進行升序排序，保證正確性與效率。
+- 輸出改為以單行、空格分隔輸出排序後的整數，符合題目輸出格式。
+- 提升程式可讀性與可維護性：使用有意義的變數名稱、統一的類別名稱，補充必要的內部註解，並保留合適的程式標頭註解。
+
+修改後完整程式碼如下：
+// 檔案名稱: SortArrayAsc.java
+// 功能: 讀取整數長度與陣列內容，做升序排序，輸出排序後的陣列
+// 作者: 由使用者提供
+// 日期: 2025/11/14
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (in.hasNextInt()) {
+            n = in.nextInt();
+        } else {
+            in.close();
+            return;
+        }
+
+        // 讀取陣列內容
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0，避免例外
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，空格分隔，結尾不附加額外換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        in.close();
+    }
+}

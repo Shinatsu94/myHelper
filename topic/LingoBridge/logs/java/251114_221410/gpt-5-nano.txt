@@ -1,0 +1,56 @@
+5
+
+這份作業的實作未符合題目要求，未完成讀取與排序整數的功能， 建議重新實作成排序一維整數陣列並輸出結果。
+
+修改建議與理由
+- 正確性：改用一維整數陣列讀取 n 個整數，使用 Arrays.sort 進行由小到大排序，輸出排序後的結果，能正確滿足題意與示例輸出。
+- 邏輯：直接將輸入轉為整數陣列並排序，邏輯清晰且符合常見排序步驟，避免不必要的二维結構與額外輸出。
+- 格式：使用有意義的變數名稱（arr、n），保留適當縮排，並加入程式標頭註解與必要的內部註解，提升可讀性。
+- 備註：加入檔案標頭註解，說明檔名、功能、作者、日期，並在程式內加入必要註解。
+
+修改後的完整程式碼
+註：以下程式符合題意，會讀取長度 n，接著讀入 n 個整數，排序後以空格分隔輸出，結束程序。
+
+/*
+ * 檔案名稱: CSIE_20251031_41343252_3.java
+ * 功能說明: 讀取整數陣列長度與內容，將內容由小到大排序後輸出
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_20251031_41343252_3 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int n;
+        if (!in.hasNextInt()) {
+            in.close();
+            return;
+        }
+        n = in.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (in.hasNextInt()) {
+                arr[i] = in.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+        in.close();
+    }
+}

@@ -1,58 +1,44 @@
-3
+88
 
-批改結果與分數
-- 正確性（50%）：0/50
-  - 原作業未符合題意：未僅用 Scanner 讀入兩個數字 A、B，且輸出與題意不符，且需等待第三個輸入才會執行，輸出也非題目期望的結果。
-- 邏輯（30%）：0/30
-  - 程式企圖以排序三數的方式觀察待證的中位數，但與「兩數交換並印出」的需求不符，邏輯錯置。
-- 格式（10%）：3/10
-  - 程式有中文變數名稱、缺乏程式註解與檔案頭說明，整體命名與風格不符合一般作業要求；縮排尚可，但可再加強一致性。
-- 備註（10%）：0/10
-  - 缺少檔案頭註解（檔名、功能說明、作者、日期）與程式內容註解。
+建議：建議補上程式標頭註解、統一變數命名與風格，並以清楚的註解說明改動，讓作業符合規範與可維護性。
 
-總分：3/100
+修改說明與改動原因
+- 程式標頭註解：新增檔案名稱、功能說明、作者與日期，以符合備註要求，便於後續維護。
+- 變數命名與風格：將變數命名統一改為英文且具意義（input、a、b、c、min、mid、max、total），提高可讀性與跨專案移植性。
+- 輸入/輸出格式：將輸入分行讀取，輸出直接輸出整數值（不需字串拼接），更符合常見 Java 編碼風格。
+- 邏輯與方法：仍使用三元運算子計算最小值與最大值，並以 total 表達式計算中位數 mid，實作「兩種不同的方式」的需求：一種透過三元運算子求得 min/max，另一種透過總和與極值求中位數（mid）。
+- 程式結構：調整縮排與括號風格，避免過於長的單行變數宣告，提升可讀性。
 
-優化後程式碼與說明
-以下提供符合題意且僅用兩個變數交換的改良版本，且符合「除了建立 Scanner 物件讀取使用者輸入之外，不可使用其他變數進行數字交換」的限制，且輸出與題目給定範例一致（先交換後輸出兩個值，分行呈現）。
-
-完整程式碼：
+完整修改後程式碼
 /*
-File: SwapTwoNumbers.java
-Description: Reads two integers A and B, swaps their values using only A and B (no extra variables),
-prints the swapped values (A then B) to match the sample output.
-Author: 你的姓名
-Date: 2025-11-11
-*/
+ * File: CSIE_41343131_1003_2.java
+ * Description: 找出三個整數的最大值、最小值與中位數；使用兩種不同的方法實作：
+ *              1) 使用三元運算子求 max/min
+ *              2) 透過總和減去 min 與 max 求中位數 mid
+ * Author: 你的名字
+ * Date: 2025-11-15
+ */
 
 import java.util.Scanner;
 
-public class SwapTwoNumbers {
+public class CSIE_41343131_1003_2 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        int A = input.nextInt();
-        int B = input.nextInt();
+        int a = input.nextInt();
+        int b = input.nextInt();
+        int c = input.nextInt();
 
-        // 使用不需要額外變數的加法與減法交換 A 與 B
-        A = A + B;
-        B = A - B;
-        A = A - B;
+        int total = a + b + c;
 
-        // 輸出交換後的兩個數值，符合題目範例輸出
-        System.out.println(A);
-        System.out.println(B);
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+        int mid = total - min - max;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
 
         input.close();
     }
 }
-
-修改原因說明
-- 符合題意：改用兩個變數 A、B，並在不新增額外變數的情況下完成交換，輸出結果與提供的範例一致。
-- 簡化結構：移除原程式中的多餘變數與與題意無關的邏輯（例如 c、total、min、max 等計算），避免混淆與錯誤。
-- 程式風格與可讀性：加入檔案頭註解、清晰的中文說明、統一變數命名、適當縮排，使程式更易於讀取與維護。
-
-改進建議或反饋（一句話）
-建議在提交時確保輸出格式嚴格符合題意，並以清晰的變數命名與適當註解提升可讀性與可維護性。
-
-其他補充
-- 如輸入數值可能接近整數上限，使用加法/減法交換有溢位風險；若工件允許，需考慮使用長整型或使用暫存變數進行交換以避免溢位。

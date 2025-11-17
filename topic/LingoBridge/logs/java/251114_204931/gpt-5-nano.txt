@@ -1,0 +1,62 @@
+86
+
+建議改用內建排序並加上標頭註解與適當的輸出換行，以提升正確性、可讀性與維護性。
+
+評分明細
+- 正確性：50/50
+- 邏輯：30/30
+- 格式：6/10
+- 備註：0/10
+總分：86/100
+
+修改意見與原因
+- 使用內建排序 Arrays.sort，取代自製的排序邏輯，提升穩定性、效率與可讀性。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，符合作業規範並利於維護。
+- 使用有意義的變數命名（n、arr），提高可讀性。
+- 使用 StringBuilder 組裝輸出並增加換行，輸出格式更穩定且效率較高。
+- 關閉 Scanner，培養良好資源管理習慣。
+- 處理極端情況（例如無輸入）以避免例外狀況。
+
+修改後完整程式碼
+若檔名為 CSIE_41343101_1031_1.java，改寫如下：
+
+/**
+ * 檔案名稱: CSIE_41343101_1031_1.java
+ * 功能說明: 建立任意長度的一維整數陣列，讀入元素，並以升序排序後輸出
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343101_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = null;
+        try {
+            sc = new Scanner(System.in);
+            if (!sc.hasNextInt()) {
+                System.out.println();
+                return;
+            }
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            // 使用內建排序提升穩定性與效率
+            Arrays.sort(arr);
+
+            // 輸出結果，元素以單一空格分隔，末尾換行
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        } finally {
+            if (sc != null) sc.close();
+        }
+    }
+}

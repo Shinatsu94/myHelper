@@ -1,0 +1,40 @@
+88
+
+建議：建議加入程式標頭註解以符合規範，並採用更健壯的交換寫法與具描述性的變數命名，以提升可讀性與避免溢位風險。
+
+修改說明與理由:
+- 為符合備註要求，新增程式標頭註解，說明檔案名稱、功能、作者與日期，並說明交換方式與型別。
+- 將變數改為描述性名稱 (first、second)，提升可讀性。
+- 為避免整數溢位風險，改採長整數型別 long。
+- 使用位元異或（XOR）交換法，避免使用臨時變數，符合「不可使用其他變數進行數字交換」的需求，同時避免加法/減法可能的溢位問題。
+- 保留原本的輸出行為（交換後的兩個數值各自換行輸出），符合題目輸出範例。
+
+修改後完整程式碼:
+```java
+/*
+檔案名稱: csie_41343137_1003_1.java
+功能: 讀入兩個整數，將其值交換後印出
+作者: 教師
+日期: 2025-11-15
+說明: 僅使用兩個變數進行交換，避免使用臨時變數；採用 XOR 交換以避免溢位風險。
+*/
+
+import java.util.Scanner;
+
+public class csie_41343137_1003_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        long first = scanner.nextLong();
+        long second = scanner.nextLong();
+
+        // 使用位元運算交換，避免使用臨時變數
+        first = first ^ second;
+        second = first ^ second;
+        first = first ^ second;
+
+        System.out.println(first);
+        System.out.println(second);
+    }
+}
+```

@@ -1,53 +1,47 @@
-2
-評分明細
-- 正確性 (50%): 0
-- 邏輯 (30%): 0
-- 格式 (10%): 2
-- 備註 (10%): 0
+67
 
-修改與建議
-- 原程式與題意無關，僅做數字位數判斷，無法解答題目要求的 π 近似與輸出格式需求。
-- 提供的修改版本以 Leibniz 公式計算 π，並符合題目要求的輸出格式：i 輸出到六位寬度，π 輸出小數點後十位；另外尋找最小 i 使 π 四捨五入至小數點後五位為 3.14159。
-- 為了可維護性，新增了計算函式 computePi，其餘流程保持清晰的結構與註解。
+改進建議：改用字串逐位比較的方式判斷是否為單調遞增的數字，並補上程式標頭與註解以提升可讀性與正確性，確保單一數字情況也正確輸出。
 
-修改後的完整程式碼（可直接執行）：
+修改說明：
+- 將原先的整數逐位分解邏輯改為字串處理，直接從左到右比較相鄰數字，避免輸出單一數字時格式缺失問題。
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，並在程式中加入適當註解。
+- 使用具語意的變數名稱，並在必要處關閉 Scanner，提升資源管理與可讀性。
+- 保持一次讀取、一輪判斷的需求，輸出格式與題目要求一致。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
 /*
- 檔案名稱: LeibnizPi.java
- 功能: 計算使用 Leibniz 公式近似圓周率 pi；輸出 i=10000,20000,...,100000 的 pi，並找出最小 i 使 pi 四捨五入至小數點第五位為 3.14159。
- 作者: AI 助手
- 日期: 2025-11-12
-*/
-public class LeibnizPi {
-    private static double computePi(int terms) {
-        double sum = 0.0;
-        int sign = 1;
-        for (int k = 1; k <= terms; k++) {
-            sum += sign * (1.0 / (2 * k - 1));
-            sign = -sign;
-        }
-        return 4.0 * sum;
-    }
-
+ * File: WellOrderedNumber.java
+ * Purpose: Determine whether a given positive integer's digits are strictly increasing
+ *          from left to right.
+ * Author: (Your Name)
+ * Date: 2025-11-15
+ * Notes: This program reads one number from standard input and prints whether it is a
+ *        well-ordered number according to the definition:
+ *        digits strictly increasing from left to right.
+ */
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        // 輸出 i = 10000, 20000, ..., 100000 的 pi 值
-        for (int i = 10000; i <= 100000; i += 10000) {
-            double pi = computePi(i);
-            System.out.println("i = " + String.format("%6d", i) + ", pi = " + String.format("%.10f", pi));
-        }
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();  // 直接以字串處理，方便逐位比較
+        sc.close();
 
-        // 找出最小的 i 使 pi 四捨五入到小數點後五位為 3.14159
-        int iMin = -1;
-        for (int i = 1; i <= 2000000; i++) {
-            double pi = computePi(i);
-            long rounded = Math.round(pi * 100000); // 四捨五入到小數點後五位
-            if (rounded == 314159) {
-                iMin = i;
+        boolean wellOrdered = true;
+        for (int i = 0; i < s.length() - 1; i++) {
+            char a = s.charAt(i);
+            char b = s.charAt(i + 1);
+            // 若任意相鄰兩位不嚴格遞增，則不是 well-ordered
+            if (a >= b) {
+                wellOrdered = false;
                 break;
             }
         }
-        System.out.println("i = " + String.format("%6d", iMin));
+
+        if (wellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
     }
 }
-
-一句話改進建議
-- 建議在提交作業前，先確保程式內容與題意高度一致，並補充完整註解與標頭資訊，以利評分與後續維護。

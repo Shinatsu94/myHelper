@@ -1,0 +1,53 @@
+86
+
+建議的改進方向：建議改用字串處理以提高可讀性與健壯性，同時改善變數命名與程式註解以符合題意。
+
+修改說明與評分依據
+- 正確性（50/50）：原程式在數字各位從右至左檢查是否嚴格遞增，對於常見案例皆正確。輸出格式也符合題目要求。給分：50。
+- 邏輯（30/30）：邏輯清晰且正確地反向驗證左到右的遞增關係；結構簡單、易於理解。給分：30。
+- 格式（6/10）：原程式在縮排與命名方面略顯零散，例如使用 a 作為輸入值且缺乏統一註解與一致的風格。給分此處僅6分，鼓勵改用更具可讀性的命名與一致縮排。給分：6。
+- 備註（0/10）：原作業缺少標頭註解（檔案名稱、功能、作者、日期等以及內容註解）。給分：0。
+
+總結分數：86/100
+
+改進建議或反饋（一句話）
+建議採用字串方式做前後位元的比較以提升可讀性與穩健性，同時加上標頭註解與更具語意的變數命名以提升維護性。
+
+修改重點與修改原因
+- 主要改動點：將邏輯改為左到右的檢查，直接用字串表示輸入，避免反轉位元的判斷，並保留輸出與輸入一致的格式。
+- 原因與好處：字串方式直覺且易於理解，對於長度變動的數字也更穩健，且便於在輸出時直接回傳原始輸入的字串。
+- 其他改動：加入更具意義的變數命名、保留輸入原值以便輸出一致性、及針對程式開發的基本註解與結尾資源釋放（sc.close）。
+
+修改後完整程式碼
+注：以下提供修改後的完整程式碼，使用字串方式檢查每一位是否嚴格遞增，並包含基本註解與更清晰的命名。
+
+/**
+ * File: WellOrderedNumber.java
+ * Description: 判斷輸入數字的各位是否從左到右嚴格遞增
+ * Author: 你自己
+ * Date: 2025-11-15
+ */
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        String s = sc.next(); // 直接取得輸入內容，保留原始表示以便輸出
+        sc.close();
+
+        boolean isWellOrdered = true;
+
+        for (int i = 0; i < s.length() - 1; i++) {
+            char c1 = s.charAt(i);
+            char c2 = s.charAt(i + 1);
+            if (c1 >= c2) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.printf("%s is well-ordered number.\n", s);
+        } else {
+            System.out.printf("%s is not well-ordered number.\n", s);
+        }
+    }
+}

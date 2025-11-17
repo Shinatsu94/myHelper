@@ -1,0 +1,44 @@
+87
+
+改進建議：加強對負數與極大整數的情況處理，採用符合 Java 命名慣例的函式命名與完善註解，避免潛在的溢位風險，並增補程式頭註解。
+
+修改說明與修改部分：
+- 新增了 reverseDigits(long n) 方法，支援負數的符號保持與更大的整數範圍（使用 long），避免整數溢位。
+- 將方法命名改為小寫開頭的 camelCase，符合 Java 常規風格。
+- 為程式新增頭註解，描述檔案名稱、功能、作者與日期，並在核心邏輯處理部分加入註解，提升可讀性與可維護性。
+- 主程式仍只執行一次，從標準輸入讀取單一整數並輸出逆序結果。
+
+完整修改後程式碼：
+
+/*
+ * File: CSIE_41343205_1017_3.java
+ * Description: Reverse the digit order of a given integer.
+ * Author: 請填寫作者
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343205_1017_3 {
+
+    // 將整數的位數反轉，若為負數則保留符號
+    public static long reverseDigits(long n) {
+        boolean negative = n < 0;
+        long m = Math.abs(n);
+        long reversed = 0;
+        while (m != 0) {
+            long digit = m % 10;
+            reversed = reversed * 10 + digit;
+            m /= 10;
+        }
+        return negative ? -reversed : reversed;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long num = sc.nextLong();
+        long result = reverseDigits(num);
+        System.out.println(result);
+        sc.close();
+    }
+}

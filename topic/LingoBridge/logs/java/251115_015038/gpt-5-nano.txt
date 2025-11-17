@@ -1,0 +1,64 @@
+89
+
+這份作業的改進建議：此題核心在於用一次遍歷就能得到每個位置之後的最大值，建議改用單次尾端掃描以降低時間複雜度，同時把檔案標頭放在開頭並提升變數命名與輸出寫法的可讀性。
+
+修改與優化說明：
+- 時間複雜度改為 O(n)：使用從尾端往前掃描的單遍歷方法，維護當前右側的最大值，避免原始程式的巢狀迴圈。
+- 輸出改用 StringBuilder，提高輸出效率，並一次性輸出整個陣列。
+- 加入 try-with-resources 管理 Scanner，並在可能的情況下做基本輸入健全性檢查。
+- 將檔案標頭註解放在開頭，並調整變數命名以提升可讀性。
+- 保留最後一個元素為 -1 的要求。
+
+以下為修改後的完整程式碼：
+
+/*
+ 檔案名稱: CSIE_41343107_1031_2.java
+ 功能: 將陣列每一元素置換為出現在它之後的最大值(最後一個元素替換為-1)，並印出結果
+ 作者: 王世豪
+ 日期: 2025/10/31
+ 註解: 使用單次尾端掃描以達成 O(n) 的計算效率，並較佳地管理輸出與資源。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343107_1031_2 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) {
+                return;
+            }
+            int n = sc.nextInt();
+            if (n <= 0) {
+                // 無效長度，直接結束
+                return;
+            }
+
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sc.hasNextInt()) {
+                    a[i] = sc.nextInt();
+                } else {
+                    // 輸入不足，預設為0
+                    a[i] = 0;
+                }
+            }
+
+            int[] b = new int[n];
+            b[n - 1] = -1;
+            int currentMax = a[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                b[i] = currentMax;
+                if (a[i] > currentMax) {
+                    currentMax = a[i];
+                }
+            }
+
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) output.append(' ');
+                output.append(b[i]);
+            }
+            System.out.print(output.toString());
+        }
+    }
+}

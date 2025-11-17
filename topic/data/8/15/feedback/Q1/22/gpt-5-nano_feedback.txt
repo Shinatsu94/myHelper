@@ -1,72 +1,70 @@
-86
+85
 
-評分明細
-- 正確性：50/50
-  - 程式能正確讀取長度、讀入元素、執行排序，並以空格分隔輸出排序結果，符合題意。
-- 邏輯：28/30
-  - 使用簡單且穩健的排序思路。原作註解寫為「泡沫排序法」，實際為選擇式排序風格並含有互換，雖然邏輯正確且可行，但註解與實作的對應略有不符，影響可讀性。
-- 格式：8/10
-  - 變數名稱簡潔，但命名可再具描述性（如 arr、n 已較清楚）。程式縮排基本整齊，輸出格式正確（無尾部多餘空格）。缺少標頭註解的完整要求。
-- 備註：0/10
-  - 缺少完整的程式標頭註解（檔案名稱、功能、作者、日期等），雖有底部註解，但未符合要求的標頭格式。
+改進建議（一句話）：原程式正確地排序並輸出，但缺少標頭註解與清晰的命名與排版，建議改用更規範的程式結構與註解，並改用清楚的冒泡排序寫法以提升可讀性與可維護性。
 
-總分：86/100
+程式優化說明與修改重點
+- 加上檔案標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的說明性註解。
+- 使用更有意義的變數名稱，例如 n、arr，提升可讀性。
+- 改用標準的 bubble sort 版本與早期結束機制（當一趟排序沒有交換時停止），讓邏輯更清晰且效率略有改善。
+- 使用 StringBuilder 組裝輸出，避免在迴圈中頻繁輸出與處理空格問題。
+- 程式結尾加入資源釋放（scn.close()），提升資源管理。
+- 對輸入數量不足或零長度做適當預防處理，避免例外情況。
 
-修改後完整程式碼（優化與修正後的版本）
-注意：以下為完整程式碼，使用內建排序提升效率，並加入清晰註解與標頭。
-
-import java.util.Scanner;
-import java.util.Arrays;
-
-/*
+修改後完整程式碼
+檔案說明與檔案標頭註解
 檔案名稱: CSIE_41343121_1031_1.java
-功能: 從使用者輸入取得長度為 n 的整數陣列，將陣列內容升序排序，並輸出排序後結果（以空格分隔）。
+功能: 將輸入的一維整數陣列由小到大排序，輸出排序結果
 作者: 徐唯祐
-日期: 1031
-說明: 使用 Arrays.sort 以提高效率；變數命名更具描述性；加入必要註解與資源關閉。
-*/
+日期: 10/31
+
 public class CSIE_41343121_1031_1 {
-  public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) {
+        // 讀取整數輸入，第一個為陣列長度 n，接著 n 個整數為陣列元素
+        java.util.Scanner scn = new java.util.Scanner(System.in);
 
-    if (!sc.hasNextInt()) {
-      sc.close();
-      return;
+        if (!scn.hasNextInt()) {
+            scn.close();
+            return;
+        }
+
+        int n = scn.nextInt();
+        if (n <= 0) {
+            scn.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                // 若輸入不足，提前結束
+                break;
+            }
+        }
+
+        // 冒泡排序法：由小到大
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break; // 若整趟沒交換，表示已排序完成
+        }
+
+        // 輸出排序結果，元素以空白分隔，結尾不多餘空白
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        scn.close();
     }
-
-    int n = sc.nextInt();
-    int[] arr = new int[n];
-
-    for (int i = 0; i < n; i++) {
-      arr[i] = sc.nextInt();
-    }
-
-    // 使用內建排序提升效率，並確保對負數亦正確處理
-    Arrays.sort(arr);
-
-    // 使用 StringBuilder 組裝輸出，避免多次 System.out.print 造成效率下降
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < n; i++) {
-      if (i > 0) sb.append(' ');
-      sb.append(arr[i]);
-    }
-
-    System.out.print(sb.toString());
-    sc.close();
-  }
 }
-
-修改說明與理由
-- 將原先自訂的排序替換為 Arrays.sort，原因如下：
-  - 效率提升：時間複雜度由 O(n^2) 降為 O(n log n)。
-  - 穩定性與正確性：內建排序在邏輯上更少出錯，負數與任意整數皆可正確排序。
-- 增加標頭註解與說明性命名：
-  - 增設完整檔案標頭（檔案名稱、功能、作者、日期、說明），符合作業要求。
-  - 將變數名稱由 a、j、k 等改為 arr、n 等較具描述性的名稱，提升可讀性。
-- 輸出處理：
-  - 使用 StringBuilder 組裝輸出內容，避免多次 System.out.print 導致效率下降，且確保輸出格式符合題目（元素以單一空格區隔，且不在末尾出現多餘空格）。
-- 資源管理：
-  - 加入 sc.close() 以釋放資源，良好程式風格。
-
-一句話改進建議或反饋
-建議在正式提交時，採用內建排序與清晰的程式標頭註解，並以少量但穩妥的註解配合描述性命名來提升可讀性與維護性。

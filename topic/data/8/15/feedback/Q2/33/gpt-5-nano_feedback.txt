@@ -1,67 +1,67 @@
-6
+86
+改進建議：採用後綴最大值法將時間複雜度降至 O(n) 並補上適當的程式標頭註解與清晰變數命名。
 
-評分明細
-- 正確性 (50%): 0
-- 邏輯 (30%): 0
-- 格式 (10%): 6
-- 備註 (10%): 0
-合計: 6/100
+改寫說明與重點修改：
+- 將原本的 O(n^2) 內層搜尋改為使用後綴最大值陣列，降低時間複雜度至 O(n)。
+- 加入適當的檔案標頭註解，提升可讀性與可維護性。
+- 使用更清晰的變數命名與輸出方式，並在輸出前關閉 Scanner，避免資源洩漏。
+- 仍符合題意：將每個元素替換為其右側元素的最大值，最後一個元素改為 -1，最後輸出整個結果。
 
-修改後完整程式碼
+修改後完整程式碼（Java）：
 /*
-   檔案名稱: CSIE_41343208_1031_2.java
-   功能: 讀入長度 n，接著讀入 n 個整數，輸出升冪排序後的數字，支援負數。
-   作者: 教師姓名
-   日期: 2025-11-12
-*/
-import java.util.Arrays;
+ * File: ArrayRightMax.java
+ * Description: 將陣列中每個元素替換為其右側元素的最大值，最後一個為 -1；並輸出結果。
+ * Author: 作業提交者（請填寫姓名）
+ * Date: 2025-11-14
+ * Usage: 編譯執行，依題意輸入資料
+ */
+
 import java.util.Scanner;
 
-public class CSIE_41343208_1031_2 {
+public class ArrayRightMax {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) {
+        int n;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        } else {
             sc.close();
             return;
         }
 
-        int n = sc.nextInt();
         int[] arr = new int[n];
-
         for (int i = 0; i < n; i++) {
             if (sc.hasNextInt()) {
                 arr[i] = sc.nextInt();
             } else {
-                // 若輸入不足，預設為 0
-                arr[i] = 0;
+                arr[i] = 0; // 預設，實務上應該避免此情況
+            }
+        }
+        sc.close();
+
+        // 計算每個位置右邊的最大值（不包含該位置）
+        int[] rightMax = new int[n];
+        if (n > 0) {
+            int maxRight = arr[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                rightMax[i] = maxRight;
+                if (arr[i] > maxRight) {
+                    maxRight = arr[i];
+                }
+            }
+            // 最後一個元素改為 -1
+            arr[n - 1] = -1;
+            // 將原陣列的前 n-1 個位置更新為 rightMax
+            for (int i = 0; i < n - 1; i++) {
+                arr[i] = rightMax[i];
             }
         }
 
-        // 使用內建排序以確保正確性、效能與對負數的支援
-        Arrays.sort(arr);
-
-        // 輸出，避免尾差的空格
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
             sb.append(arr[i]);
         }
         System.out.println(sb.toString());
-
-        sc.close();
     }
 }
-
-修改說明與原因
-- 使用 Arrays.sort 取代手寫排序邏輯
-  - 原程式採用錯誤的選擇排序邏輯（每次取最大值放入前段，且最後把最後一個元素設為 -1），會產生錯誤結果且無法處理負數。
-  - 使用 Java 內建排序方法 Arrays.sort 能正確、簡潔地完成升冪排序，並天然支援負數與任意長度的整數陣列，且效能穩定。
-- 輸出格式處理
-  - 原程式在輸出時使用特定方式輸出，且最後附加 -1，會造成輸出錯誤。
-  - 改用 StringBuilder 逐步加入元素，確保輸出格式只有空格分隔，並在最後印出換行，避免尾端多餘空格。
-- 程式註解與頭部說明
-  - 原程式缺少檔案註解與功能說明，影響可維護性。
-  - 新增完整的檔案註解與功能說明，符合「備註」需求與可讀性。
-
-改進建議或反饋（一句話）
-- 建議今後直接使用內建的排序函式並重視輸出格式與程式註解，能快速確保正確性與可維護性。

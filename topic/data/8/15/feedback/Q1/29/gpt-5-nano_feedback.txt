@@ -1,63 +1,58 @@
-90
+89
 
-- 正確性：50/50
-- 邏輯：30/30
-- 格式：10/10
-- 備註：0/10
+改進建議（一句話）：
+建議補上程式標頭註解與內部註解，並改用單次輸出字串組裝提升可讀性與效能。
 
-評分說明與建議
-- 這份作業在正確性與邏輯上都正確地完成了排序與輸出，能處理負數與任意長度的整數陣列，輸出格式亦符合範例（以空格分隔，不多於一個空格）。
-- 缺點在於程式缺乏標頭註解與說明，未滿足附件的註解要求，因此備註部分未給分。
-- 另外，原程式使用手寫的選擇排序實作，表現尚可，但為可讀性與穩定性考量，改用內建排序能讓程式更簡潔且減少錯誤風險。
+修改說明與原因：
+- 加入完整的程式標頭註解，符合備註欄位的要求，提升可維護性與可追蹤性。
+- 使用 try-with-resources 管理 Scanner，確保資源正確關閉，避免資源洩漏。
+- 使用 StringBuilder 組裝輸出，減少多次 System.out.print，提升效能並確保輸出格式穩定（最後再換行）。
+- 將排序函式改為私有靜態，強化封裝性（非必要對外使用的工具函式）。
+- 程式邏輯保持原有正確的選擇排序實作，仍能正確處理負數與任意長度陣列。
 
-修改說明與修改後程式碼
-- 變更要點
-  - 加入適當的檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
-  - 使用 Java 的內建排序 Arrays.sort，取代自訂的排序函式，提升可靠性與可讀性，尤其對負數與重複值的處理更穩定。
-  - 將輸出結尾改為 System.out.println，確保輸出結尾有換行，增加相容性。
-  - 使用 StringBuilder 組裝輸出字串，避免多次 System.out.print 的效能開銷。
-  - 變數命名更具可讀性，並在關鍵區塊加上註解。
-
-修改後完整程式碼（可直接編譯執行）：
+修改後完整程式碼：
 /*
-檔案名稱：CSIE_41343150_1031_1.java
-功能說明：讀取使用者指定長度的整數陣列，將陣列內容升冪排序，並印出排序結果。
-作者：改為具體作者姓名或學號（此處示範）
-日期：YYYY-MM-DD
-*/
-import java.util.Scanner;
-import java.util.Arrays;
-
+ * 檔案名稱: CSIE_41343150_1031_1.java
+ * 功能: 讀取長度 n 與 n 個整數，對其進行從小到大排序，並輸出排序後結果
+ * 作者: (作者資訊)
+ * 日期: 2025-11-14
+ * 備註: 程式需一次性讀取輸入並輸出結果，不使用 EOF。
+ */
 public class CSIE_41343150_1031_1 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        // 使用 try-with-resources 以自動關閉 Scanner
+        try (java.util.Scanner in = new java.util.Scanner(System.in)) {
+            int n = in.nextInt();
+            int[] arr = new int[n];
 
-        int n = sc.nextInt();
-        int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = in.nextInt();
+            }
 
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+            sort(arr);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
         }
+    }
 
-        // 使用內建排序，確保對負數與重複值的穩定處理
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+    private static void sort(int[] arr) {
+        int n = arr.length;
+        // 選擇排序：將最小的元素放到位置 i
+        for (int i = 0; i < n - 1; i++) {
+            int m = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[m]) {
+                    m = j;
+                }
+            }
+            int temp = arr[m];
+            arr[m] = arr[i];
+            arr[i] = temp;
         }
-
-        System.out.println(sb.toString());
-        sc.close();
     }
 }
-
-修改原因說明
-- 加入標頭註解能滿足作業的備註要求，提升可維護性與可讀性。
-- 使用 Arrays.sort 提升正確性與穩定性，減少自訂排序可能引入的邊界錯誤與程式碼複雜度。
-- 使用 StringBuilder 與單一輸出呼叫提高輸出效率，且更易於未來擴充格式（如加入換行、分隔符等）。
-- 對輸入與輸出做細部調整，使程式在多種輸入格式下具有更好的相容性。
-
-一句話改進建議
-- 建議在輸入屬性不符合預期時加入基本的輸入驗證（例如檢查 n 的正整數性與陣列長度是否與輸入數量一致），以提升魯棒性。

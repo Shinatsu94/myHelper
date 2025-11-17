@@ -1,58 +1,48 @@
-第一行總分數：4
+88
 
-評語與分項打分（依照您的標準逐項評分，並給出原因）：
-- 正確性（0/50）：原始提交與題意嚴重不符，未完成排序與輸出任務，僅輸出星號三角形。
-- 邏輯（0/30）：程式邏輯與需求無關且不合理，未實作排序、讀取多個整數等步驟。
-- 格式（4/10）：程式有基本縮排與結構，但變數命名不具意義，且未包含註解與說明，整體可讀性中等偏低。
-- 備註（0/10）：缺少標頭註解（檔案名稱、功能、作者、日期）與程式內註解。
+建議：建議加入程式標頭註解、使用具可讀性的變數名稱，並採用 StringBuilder 與 try-with-resources 提升穩定性與效率。
 
-修改與改進說明
-- 目標：依題意讀取長度 n 與 n 個整數，對整數陣列做升序排序，最後輸出排序結果，逐一以空格分隔，結尾可換行。
-- 變更要點：
-  1) 使用 Arrays.sort 對整數陣列進行排序，符合「由小至大」的需求。
-  2) 透過 StringBuilder 組裝輸出字串，避免多次 print，且能控制不產生尾端多餘的空格。
-  3) 加入標頭註解與程式內容註解，提升可維護性與可讀性。
-  4) 變數命名改為具意義的名稱（n、arr），增強可讀性與維護性。
-  5) 處理輸入的基本健全性檢查（若沒有整數則提前結束、或遇不到數字時給予預設），提高穩定性。
-- 修改後的完整程式碼如下：
+程式優化說明與修改：
 
+- 為何修改：
+  - 增加程式標頭註解，提升可讀性與維護性。
+  - 將變數名稱從 c 改為 n，讓用途更清楚。
+  - 使用 StringBuilder 合併輸出，較直接的逐行 System.out.print 方式更有效率，尤其在較大輸出時。
+  - 使用 try-with-resources 自動關閉 Scanner，以避免資源未關閉的風險。
+  - 增加基本輸入範圍檢查，避免非法輸入造成不預期行為。
+
+- 修改內容摘要：
+  - 將原有程式改為有標頭與註解的版本，並使用新命名與輸出優化。
+  - 保留原功能與輸出結果的正確性，同時提升可讀性與穩定性。
+
+- 修改後完整程式碼：
 ```java
-/*
+/**
  * File: CSIE_41343226_1031_3A.java
- * 功能: 讀入整數陣列長度 n 及 n 個整數，輸出升序排序後的陣列
- * 作者: 教授
- * 日期: 2025-11-12
+ * 功能: 輸入高度 n，輸出下三角形 '*' 矩陣
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 內容: 使用 Scanner 讀取整數 n，輸出長度為 n 的下三角形 '*' 行列
  */
-
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class CSIE_41343226_1031_3A {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n;
-        if (!sc.hasNextInt()) { sc.close(); return; }
-        n = sc.nextInt();
-
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) arr[i] = sc.nextInt();
-            else arr[i] = 0; // 預設值，遇不到數字時的保守處理
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            if (n <= 0 || n > 20) {
+                // 若輸入不在允許範圍，直接結束
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= n; i++) {
+                for (int j = 0; j < i; j++) {
+                    sb.append('*');
+                }
+                sb.append('\n');
+            }
+            System.out.print(sb.toString());
         }
-
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
-
-        System.out.println(sb.toString());
-        sc.close();
     }
 }
 ```
-
-單句建議或反饋
-- 建議在實作時先釐清輸入輸出格式與邏輯步驟，並加入適當的註解與清晰的命名，以提升可讀性與可維護性。

@@ -1,54 +1,57 @@
-11
+90
 
-修改後完整程式碼（已優化為正確排序並處理負數，輸出格式符合題目要求）：
+改進建議（一句話）:
+建議以單次掃描的方式從右往左計算右側最大值以降低時間複雜度，並加入清晰的程式標頭與可讀性更高的變數命名。
+
+程式優化與修改說明：
+- 優化點: 將原本 O(n^2) 的雙重迴圈改為單次掃描的 O(n) 做法，從右邊往左邊計算每個位置右側的最大值，最後一個元素設為 -1。
+- 可讀性提升: 加入程式檔案標頭註解，改用語意較清楚的變數名稱，輸出避免尾端多餘空格，並在結尾換行。
+- 結構與註解: 新版本提供清晰的檔案名稱、功能、作者與日期註解，並保留必要的行內註解以說明演算法步驟。
+
+修改後完整程式碼（已優化為 O(n) 並含完整註解與良好格式）：
+/*
+檔案名稱: TransformAfterMax.java
+功能: 讀取長度 n 與 n 個整數，輸出每個元素在其右側子陣列中的最大值；最後一個為 -1。
+作者: 教師
+日期: 2025-11-14
+*/
 import java.util.Scanner;
-import java.util.Arrays;
 
-public class CSIE_41343222_1031_2 {
-	public static void main(String[] args) {
-		// 檔案名稱: CSIE_41343222_1031_2.java
-		// 功能: 讀取長度與對應的整數，將陣列內容由小到大排序，輸出排序後結果
-		Scanner scanner = new Scanner(System.in);
+public class TransformAfterMax {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-		if (!scanner.hasNextInt()) {
-			scanner.close();
-			return;
-		}
-		int n = scanner.nextInt();
-		if (n <= 0) {
-			scanner.close();
-			return;
-		}
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
 
-		int[] a = new int[n];
-		for (int i = 0; i < n; i++) {
-			if (scanner.hasNextInt()) {
-				a[i] = scanner.nextInt();
-			} else {
-				// 若輸入不足，預設為 0，仍能執行完畢
-				a[i] = 0;
-			}
-		}
-		// 使用內建排序，支援負數與任意長度的陣列
-		Arrays.sort(a);
+        int n = scanner.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
 
-		// 輸出，元素之間以單一空格分隔，末尾不多出空格
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < n; i++) {
-			if (i > 0) sb.append(' ');
-			sb.append(a[i]);
-		}
-		System.out.print(sb.toString());
-		scanner.close();
-	}
+        int[] res = new int[n];
+        if (n > 0) {
+            // 最後一個元素替換為 -1
+            res[n - 1] = -1;
+            // 從右往左掃描，currentMax 為目前右側的最大值
+            int currentMax = a[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                res[i] = currentMax;
+                if (a[i] > currentMax) {
+                    currentMax = a[i];
+                }
+            }
+        }
+
+        // 輸出，避免尾端多餘空格
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(res[i]);
+        }
+        System.out.println();
+        scanner.close();
+    }
 }
-
-修改說明：
-- 正確性與邏輯：原程式使用一個自訂的最大值邏輯，無法正確完成排序且輸出格式錯誤。改用 Arrays.sort 進行整數陣列排序，能正確處理負數與任意長度的輸入，且時間複雜度為 O(n log n)。
-- 格式與變數命名：保留清晰的變數命名並補充註解，讓程式易於閱讀與維護。
-- 程式註解與標頭：加入檔案功能描述、檔名、作者及日期等註解，提升可維護性與遵循作業要求。
-- 輸出格式：改為逐個輸出，避免尾端多餘空格，符合輸出樣本要求。
-- 其他穩健性：加入輸入存在性檢查與邊界處理，遇不到足夠的輸入時不會拋出例外。
-
-改進建議：
-- 若要更穩定，考慮在輸出後加上換行，以符合大多數測資的輸出格式習慣。一句話建議：採用內建排序與嚴格的輸出格式可確保正確性與相容性。

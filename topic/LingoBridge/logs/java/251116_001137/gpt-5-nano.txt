@@ -1,0 +1,60 @@
+86
+
+建議重點：在輸入範圍上加入明確的邊界檢查、將數位和拆分邏輯抽離成獨立方法以提升可讀性與測試性，同時使用自動關閉資源的寫法以確保資源釋放。
+
+修改與優化說明
+- 將輸入範圍檢查移至最前端，若 A 不在 [0, 45]，直接輸出 0，避免不必要的迴圈。
+- 將計算數位和的邏輯抽成獨立方法 digitSum(int n)，提升可讀性與測試性。
+- 使用 try-with-resources 關閉 Scanner，避免資源洩漏。
+- 保留原有的範圍 1 到 100000，確保與題目需求相符；保持輸出格式簡潔。
+- 以較標準的類別命名維持與檔案對應，避免編譯時命名不一致的問題。
+
+修改後完整程式碼
+```java
+/**
+ * 程式名稱 : 找出1到100000中 數位相加符合使用者輸入的數量
+ * 
+ * 功能說明： 使用者輸入A，程式輸出符合數量
+ *
+ * 日期: 2025/10/03
+ *
+ * 姓名:張竣傑
+ * 學號:41343224
+ * 
+ * 改善說明：加入邊界檢查、分離數位和計算邏輯、資源自動關閉
+ */
+import java.util.Scanner;
+
+public class CSIE_41343224_1003_3 {
+
+    public static void main(String[] args) {
+        try (Scanner input = new Scanner(System.in)) {
+            int A = input.nextInt();
+            int count = 0;
+
+            // 只在有效範圍內計算，否則輸出 0
+            if (A >= 0 && A <= 45) {
+                for (int i = 1; i <= 100000; i++) {
+                    if (digitSum(i) == A) {
+                        count++;
+                    }
+                }
+            } else {
+                count = 0;
+            }
+
+            System.out.println(count);
+        }
+    }
+
+    // 計算整數 n 的數位加總
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}
+```

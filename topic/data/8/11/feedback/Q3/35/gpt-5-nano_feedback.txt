@@ -1,44 +1,64 @@
-4
+98
+改進建議：改用動態規劃達成同樣結果，能在保證正確性的前提下提高效率與可維護性，同時補充程式標頭與註解以符合作業規範。
 
-修改後完整程式碼：
-/*
-檔案名稱: SwapTwoNumbers.java
-功能說明: 讀入兩個整數 A, B，先印出原值，然後在不使用第三個變數的情況下交換兩數，再印出交換後的值。
-作者: 你
-日期: 2025-11-11
-*/
+修改內容與原因：
+- 由暴力枚舉 1..100000 的每個數字，改為對 00000-99999 的五位數字使用動態規劃計算各位數總和為 A 的組合數，提升效能並降低時間成本。
+- 追加對 100000 的特殊處理：若 A 為 1，額外加上一個符合條件的數字 100000。
+- 保留原始輸入驗證，但改進程式結構與註解，讓程式更易理解與維護。
+- 將檔案改為標準的主類名 Main，並加入完整程式頭註解，符合題目對檔案註解的要求。
 
+以下為修改後完整程式碼：
 import java.util.Scanner;
 
-public class SwapTwoNumbers {
+/*
+Filename: Main.java
+Description: 計算 1..100000 範圍中，數字各位數字加總等於 A 的數字個數。
+Author: 教師
+Date: 2025-11-15
+*/
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        // 允許的輸入範圍，如需更嚴格可改為 A < 0 || A > 45
+        if (A < 0 || A > 100) {
+            System.out.println("A 的值無效，應為 0 到 100 之間");
+            scanner.close();
+            return;
+        }
 
-        // 輸出初始值
-        System.out.println(A);
-        System.out.println(B);
-
-        // 使用位元運算（XOR）進行交換，且不引入第三個變數
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
-
-        // 輸出交換後的值
-        System.out.println(A);
-        System.out.println(B);
-
+        int result = countNumbersWithDigitSum(A);
+        System.out.println(result);
         scanner.close();
     }
+
+    private static int countNumbersWithDigitSum(int A) {
+        // 動態規劃：計算 00000-99999 五位數字，其各位數字總和為 A 的組合數
+        // dp[sum] 在當前位數條件下的組合數，初始為 0，只有 sum=0 的基底為 1（空字串）。
+        int[] dp = new int[A + 1];
+        dp[0] = 1;
+
+        for (int pos = 0; pos < 5; pos++) {
+            int[] next = new int[A + 1];
+            for (int sum = 0; sum <= A; sum++) {
+                int ways = dp[sum];
+                if (ways == 0) continue;
+                for (int d = 0; d <= 9; d++) {
+                    if (sum + d <= A) {
+                        next[sum + d] += ways;
+                    }
+                }
+            }
+            dp = next;
+        }
+
+        int countFrom1to99999 = dp[A]; // 00000-99999 中，總和為 A 的組合
+        // 處理排除 00000 的情況（因為實際範圍是 1-99999）
+        if (A == 0) countFrom1to99999 -= 1;
+
+        // 100000 的數字只有在 A == 1 時才會符合
+        int extraFor100000 = (A == 1) ? 1 : 0;
+
+        return countFrom1to99999 + extraFor100000;
+    }
 }
-
-修改說明與原因：
-- 針對題目要求改寫輸入與輸出流程，直接讀入兩個整數 A、B，並先後輸出未交換前的值與交換後的值，以符合題目兩次輸出各自的需求。
-- 使用不引入第三變數的交換方法（XOR 交換法），符合「不可使用其他變數進行數字交換」的限制，避免新增臨時變數，並保留整數型態的可行性。
-- 移除原始程式中的無關邏輯與檢查，專注於題意的正確實作。
-- 加入程式頭註解，說明檔案名稱、功能、作者、日期，並在程式適當處增加註解以提升可讀性與維護性。
-
-一句話改進建議：
-若日後需要更穩健的交換，考慮同時處理極端情況（如極大整數範圍或溢位可能）並提供使用者輸入格式說明與錯誤處理，以提升使用者體驗與容錯性。

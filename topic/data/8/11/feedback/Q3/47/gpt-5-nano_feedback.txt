@@ -1,48 +1,45 @@
-6
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 6/10
-- 備註: 0/10
+85
+改進建議：建議加入標頭註解、使用清晰的變數命名並把位數和的計算抽成輔助方法以提升可讀性與相容性。
 
-修改說明與優化
-- 問題對應性：原始程式與題目要求完全不符，原程式只讀入一個數字並計算符合該數字與總數的個數，未印出 A、B 的值 nor 交換後的結果。
-- 修正重點：
-  - 依題意改為讀入兩個整數 A 與 B，先印出初始值，再以不使用額外變數的方式交換兩數，最後再印出交換後的值。
-  - 使用兩數位元運算交換法（XOR 交換）以避免額外變數，且無風險的整數溢位問題（相對於 A+B 方式）。
-  - 加入標頭註解，提升可讀性與維護性；整理縮排與命名以符合格式標準，並在結尾回收資源（關閉 Scanner）。
+修改與原因說明：
+- 移除 for 迴圈中的 var，改用整數型別 int，提升相容性與避免編譯版本依賴。
+- 使用更具可讀性的變數名稱，如 num、goal、count、digitSum。
+- 將計算位數和的邏輯抽成一個獨立的輔助方法 digitSum(n)，提高可讀性與可測試性。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期。
+- 其他小幅調整，保留原本的演算邏輯，仍正確計算 1..100000 範圍內位數和等於 goal 的數字個數。
 
-修改後完整程式碼
-/*
-  File: CSIE_41343226_1003_3.java
-  Title: 讀取兩個整數並在交換後輸出
-  Author: 論文機器人
-  Date: 2025-11-11
-  Description: 讀入兩個整數 A 與 B，先印出 A、B，接著不使用第三變數交換兩數，最後印出交換後的結果。
-*/
+修改後完整程式碼：
+/**
+ * File: CSIE_41343226_1003_3.java
+ * 功能: 計算在 1..100000 之間，數字各位數字和等於輸入值 goal 的數字個數。
+ * 作者: [學生姓名]
+ * 日期: 2025-11-15
+ * 說明: 具備簡單的註解與清晰的命名，使用輔助方法計算位數和。
+ */
 import java.util.Scanner;
 
 public class CSIE_41343226_1003_3 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int A = sc.nextInt();
-        int B = sc.nextInt();
+        Scanner scn = new Scanner(System.in);
+        int goal = scn.nextInt();
+        scn.close();
 
-        // 原值輸出
-        System.out.println(A);
-        System.out.println(B);
+        int count = 0;
+        for (int num = 1; num <= 100000; num++) {
+            if (digitSum(num) == goal) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
 
-        // 不使用額外變數，利用 XOR 交換法
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
-
-        // 交換後輸出
-        System.out.println(A);
-        System.out.println(B);
-
-        sc.close();
+    // 計算一個整數的各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
     }
 }
-
-改進建議或反饋
-- 建議在提交作業時，先確認題目需求與測資，避免偏離題意；本次修改透過安全且無需新增變數的交換法，符合題目限制並提升可讀性。

@@ -1,50 +1,52 @@
-88
+90
 
-評分細項
-- 正確性：50/50
-- 邏輯：28/30
-- 格式：8/10
-- 備註：2/10
+改進建議：
+- 加入程式標頭註解與適當內部註解，提升可讀性與維護性；輸出避免尾端多餘的空格與換行，以符合嚴格輸出格式。
+- 使用較具描述性的變數名稱，並在結束時關閉 Scanner，釋放資源。
 
-修改後的完整程式碼（已優化重點說明在下方）
+程式優化與修改原因：
+- 移除輸出尾端的多餘空格，改以先輸出第一個元素再逐一輸出剩餘元素的方式，避免與題目輸出格式不一致。
+- 加入標頭註解，提供檔案資訊與功能說明，便於日後維護。
+- 新增內部註解說明流程步驟，提升可讀性。
+- 關閉 Scanner，釋放資源，避免資源洩漏。
+- 將變數名稱改成 nums，讓變數名稱更貼近內容含義。
+
+修改後完整程式碼：
+
 /*
-File: CSIE_51015130_1031_1.java
-Description: 將輸入的一維整數陣列由小到大排序，輸出排序後結果。
-Author: (尚未提供)
-Date: 2025-11-12
+檔案名稱: CSIE_51015130_1031_1.java
+功能: 建立任意長度的一維整數陣列，讀入元素後升冪排序並輸出
+作者: 教授
+日期: 2025-11-14
+說明: 不使用 EOF，只接受先輸入長度再輸入元素；支援負數；輸出以空格分隔，末尾不多餘空格
 */
 
 import java.util.Scanner;
 import java.util.Arrays;
 
-public class CSIE_51015130_1031_1{
-    public static void main(String[] args){
+public class CSIE_51015130_1031_1 {
+    public static void main(String[] args) {
+        // 讀取使用者輸入的長度
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[] score = new int[n];
 
-        for(int i = 0; i < n; i++){
-            score[i] = sc.nextInt();
+        int[] nums = new int[n];
+        // 讀入元素
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
         }
 
-        Arrays.sort(score); // 自然排序
+        // 進行升冪排序
+        Arrays.sort(nums);
 
-        // 輸出時避免尾端多餘的空格，並確保輸出換行
-        for(int i = 0; i < n; i++){
-            if(i > 0) System.out.print(" ");
-            System.out.print(score[i]);
+        // 輸出結果，避免尾端多餘的空格
+        if (n > 0) {
+            System.out.print(nums[0]);
+            for (int i = 1; i < n; i++) {
+                System.out.print(" " + nums[i]);
+            }
         }
-        System.out.println();
-
+        System.out.println(); // 換行結束輸出
         sc.close();
     }
 }
-
-修改說明
-- 輸出格式改進：原本輸出在結尾有可能出現多餘的空格，改為僅在數字之間插入空格，避免尾端空白，符合常見比較嚴格的測資要求。
-- 加入換行：輸出結尾加上換行符號，提升可讀性與相容性。
-- 程式標頭註解：加入檔案名稱、描述等註解，方便維護與溝通。
-- 純粹語法與結構：保留原本的演算法與邏輯，僅改善輸出與註解的品質。
-
-改進建議（一句話）
-建議在輸出結尾加入換行並避免尾端空格，同時補上完整的檔案標頭註解，提升可讀性與測資相容性。

@@ -1,0 +1,42 @@
+89
+
+改進建議：加入程式標頭註解與負數、溢位處理，統一縮排與結構，並在結尾關閉資源以提升穩健性。
+
+修改說明與重點
+- 新增檔案標頭註解，說明檔案名稱、功能、作者與日期等資訊，符合備註要求。
+- 使用 long 類型處理，避免大整數逆轉時的溢位問題，並對負數做適當處理（保留符號）。
+- 轉換過程中先取得絕對值再逆轉，最後再乘回符號，確保負數輸入也能輸出正確的結果（例如 -123 -> -321）。
+- 關閉 Scanner，避免資源洩露。
+- 語法與命名更具可讀性，類別名稱改為與檔案意義相符的 ReverseDigits。
+
+修改後完整程式碼
+
+import java.util.Scanner;
+
+/**
+ * File: ReverseDigits.java
+ * 功能: 將輸入整數的位數顛倒；若為負數，結果亦為負數。
+ * 作者: 尚未設定
+ * 日期: 2025-11-15
+ * 說明: 讀取單一整數，輸出其位數顛倒的結果。
+ */
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        long num = sc.nextLong();
+        long sign = (num < 0) ? -1 : 1;
+        long n = Math.abs(num);
+
+        long rev = 0;
+        while (n != 0) {
+            long digit = n % 10;
+            rev = rev * 10 + digit;
+            n /= 10;
+        }
+
+        rev *= sign;
+        System.out.println(rev);
+        sc.close();
+    }
+}

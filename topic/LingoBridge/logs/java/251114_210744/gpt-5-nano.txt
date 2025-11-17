@@ -1,0 +1,64 @@
+13
+
+改進建議:
+此作業在排序邏輯與輸出格式方面皆有問題，需修正為正確的升序排序，並移除多餘的輸出提示以符合題目給定的輸出格式。
+
+程式評語與修改重點:
+- 正確性與邏輯：原程式的排序邏輯會把陣列元素覆蓋，結果不正確；本次改用正確的選擇排序演算法，或直接使用標準函式排序，確保由小到大排序。
+- 輸出格式：題目輸出只有排序後的數字，以空格分隔，且結尾有換行；原程式會輸出多餘的提示文字與前後陣列內容，需改為只輸出排序結果。
+- 格式與命名：提升變數命名與縮排，保持一致性；移除不必要的輔助函式，直接輸出結果，程式結構更清晰。
+- 備註/註解：新增程式開頭註解，包含檔案名稱、功能、作者、日期等資訊，提高可維護性。
+
+修改後完整程式碼:
+/*
+File: SelectionSortExample.java
+Description: 將任意長度的一維整數陣列進行升序排序，輸入長度與元素，輸出排序後結果
+Author: 教師
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class SelectionSortExample {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+        int n = input.nextInt();
+        int[] arr = new int[n];
+
+        // 逐一輸入陣列內容
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 選擇排序：由小到大
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+
+        // 輸出排序後的陣列，格式與題目要求相符
+        if (n > 0) {
+            System.out.print(arr[0]);
+            for (int i = 1; i < n; i++) {
+                System.out.print(" " + arr[i]);
+            }
+        }
+        System.out.println();
+
+        input.close();
+    }
+}

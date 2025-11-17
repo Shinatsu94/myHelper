@@ -1,45 +1,61 @@
-4
+88
 
-修改後完整程式碼：
+建議一句話改進：程式正確且邏輯清晰，但建議加入檔案頭註解、適當縮排，並改用直接計算取得位置以減少記憶體使用與提高效率。
+
+改進與評分點說明
+- 正確性（50/50）：符合題意，能正確找出 num 的位置或回報未在陣列中的情況。
+- 邏輯（30/30）：使用簡潔的數學思路（對應到三角數與位置的對應）定位行列，邏輯正確。
+- 格式（8/10）：變數命名清楚、縮排基本合理；原始程式缺乏檔案頭註解與更完善的縮排，導致格式分數略降。
+- 備註（0/10）：原始程式無檔案頭註解與說明，因此未符合備註要求。
+
+程式優化與修改原因
+- 改善點1：去除不必要的下三角陣列填充，直接用數學推導定位 num 的行列，降低記憶體與執行時間成本。
+- 改善點2：加入對 num 的範圍檢查，避免不可合理的輸入造成不預期輸出。
+- 改善點3：增加程式頭註解與更整齊的縮排，以提升可讀性與可維護性。
+
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_41343212_1031_3b.java
+ * Description: 找尋下三角形陣列中某數字的位置，直接計算取得行列位置，避免建立完整的下三角形陣列。
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+import java.util.Scanner;
+
 public class CSIE_41343212_1031_3b {
     public static void main(String[] args) {
-        // 需求：建立一個任意長度的一維陣列，將內容升序排序，先輸入長度再輸入元素，最後輸出排序結果
-        java.util.Scanner input = new java.util.Scanner(System.in);
-        int n = 0;
-        if (input.hasNextInt()) {
-            n = input.nextInt();
-        } else {
+        Scanner input = new Scanner(System.in);
+
+        int n = input.nextInt();
+        long num = input.nextLong();
+
+        long totalElements = (long) n * (n + 1) / 2;
+
+        // 檢查 num 是否在陣列的有效範圍內
+        if (num < 1 || num > totalElements) {
+            System.out.println("not find " + num + " in array.");
             input.close();
             return;
         }
 
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (input.hasNextInt()) {
-                arr[i] = input.nextInt();
-            } else {
-                arr[i] = 0; // 缺少輸入時，以 0 作為預設值
-            }
+        // 直接透過三角數定位 num 的位置
+        long sum = 0;
+        int row = 0;
+        while (sum < num) {
+            row++;
+            sum += row;
         }
+        long prevSum = sum - row;
+        int col = (int)(num - prevSum);
 
-        java.util.Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
-        }
-        System.out.println(sb.toString());
-
+        System.out.println(num + "[" + row + ", " + col + "]");
         input.close();
     }
 }
+```
 
-修改說明：
-- 直接以一維整數陣列存放輸入值，符合題目的需求；原始程式使用了與題目無關的二維三角陣列與座標計算，與排序無關，因此無法達成作業目標。
-- 使用 Java 標準的 Arrays.sort(陣列) 進行排序，時間複雜度為 O(n log n)，簡單且適用於負數與任意長度的輸入。
-- 輸入與輸出的流程改為：先讀取長度 n，再讀取 n 個整數，最後輸出排序後的陣列，輸出使用空格分隔且結尾換行，符合常見的 judging 規範。
-- 程式中加入基本的容錯處理：若輸入不足，會以預設值或直接結束，避免例外發生；並保持程式結束時關閉 Scanner。
-
-一句話改進建議或反饋：
-建議盡量以內建排序方式實作，並在輸入不足時報錯或給出清晰的訊息，同時在程式開頭加入標頭註解以符合作業要求。
+修改說明
+- 移除了不必要的 2D 陣列 tri 的建立與填充，直接用累加的方式找出 num 所在的行(row)與列(col)，減少記憶體使用與避免多餘計算。
+- 加入對 num 的有效範圍檢查，若 num 超出陣列範圍或為非正數，輸出 not find … in array. 的訊息。
+- 增加了檔案頭註解，並整理了縮排與命名，使程式更具可讀性與可維護性。

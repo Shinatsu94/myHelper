@@ -1,0 +1,50 @@
+15
+建議：此作業的排序邏輯不正確，建議改用穩健的排序方法（如 Arrays.sort）來正確處理包含負數的情況，並加上清晰的註解與統一的命名慣例。
+
+修改說明與改進重點
+- 正確性與邏輯：改用 Arrays.sort(nums) 進行升序排序，確保對任意整數（包括負數）的正確排序，並避免原始程式的邏輯錯誤。
+- 格式與可讀性：改為符合一般 Java 命名與結構，加入檔案頭註解與清晰註解；移除未使用的 import 與多餘輸出。
+- 效能與穩健性：使用 StringBuilder 組裝輸出，避免多次 I/O 操作，並在輸入不足時維持穩健行為。
+
+修改後完整程式碼
+// File: SortArray.java
+// 功能: 讀取長度與對應元素，將其升序排序後輸出。
+// 作者: • 自動評分示例 •
+ // 日期: 2025-11-14
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int len = 0;
+        if (sc.hasNextInt()) {
+            len = sc.nextInt();
+        }
+
+        int[] nums = new int[len];
+
+        // 讀取陣列元素
+        for (int i = 0; i < len; i++) {
+            if (sc.hasNextInt()) {
+                nums[i] = sc.nextInt();
+            } else {
+                nums[i] = 0; // 若輸入不足，預設為 0
+            }
+        }
+        sc.close();
+
+        // 排序（升序）
+        Arrays.sort(nums);
+
+        // 輸出結果，元素以空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(nums[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

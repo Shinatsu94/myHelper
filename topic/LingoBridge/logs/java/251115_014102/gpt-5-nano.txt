@@ -1,0 +1,61 @@
+90
+改進概評：已保留原有功能並提升健壯性與可讀性，建議未來確保檔案名稱與 public 類別名稱一致，並加強對非預期輸入的容錯處理。
+
+改進建議或反饋的一句話：
+已加入程式標頭註解與更健壯的輸入處理，建議未來確保檔案名稱與類別名稱一致，並加強對錯誤輸入的容錯處理。
+
+程式優化說明與修改內容：
+- 加入標頭註解，明確說明檔案名稱、功能、作者與日期，提升維護性。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源洩漏。
+- 對 n 進行負數容錯處理，若 n 為負數則視為 0，避免 NegativeArraySizeException。
+- 使用 StringBuilder 組裝輸出，避免在循序輸出時每次都呼叫 println，提升效率並避免多餘空格。
+- 維持原本的排序邏輯（Arrays.sort）且支援負數。
+
+完整修改後程式碼如下：
+
+/*
+ * 檔案名稱: CSIE_41343236_1031_1.java
+ * 功能簡述: 讀取整數長度 n 與 n 個整數，將它們排序後輸出（升冪）
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343236_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以自動關閉 Scanner
+        try (Scanner scanner = new Scanner(System.in)) {
+            // 若沒有輸入，直接結束
+            if (!scanner.hasNextInt()) {
+                return;
+            }
+
+            int n = scanner.nextInt();
+            if (n < 0) {
+                // 負數長度視為 0，避免產生例外
+                n = 0;
+            }
+
+            int[] arr = new int[n];
+
+            // 讀取 n 個整數到陣列
+            for (int i = 0; i < n; i++) {
+                arr[i] = scanner.nextInt();
+            }
+
+            // 排序：升冪
+            Arrays.sort(arr);
+
+            // 使用 StringBuilder 組裝輸出，避免最後多餘空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+
+            System.out.println(sb.toString());
+        }
+    }
+}

@@ -1,0 +1,47 @@
+93
+
+此作業需改正排序邏輯並維持輸入輸出格式，建議改用內建排序以確保正確性並提升可維護性。
+
+改進建議與評語
+- 正確性與邏輯：使用不正確的自訂排序邏輯導致資料遺失與輸出錯誤，建議改用正確的排序法（如 Arrays.sort）以確保結果正確且可讀性高。
+- 輸入輸出與結構：讀完固定數量的元素後輸出升序陣列，輸出格式為以空格分隔且無多餘空格，符合題意；同時避免使用 EOF。
+- 程式格式與註解：加入檔案註解、統一 main 方法簽名、使用有意義的變數命名與一致的縮排，提升可維護性。
+- 備註：保留簡潔且清楚的輸出格式，避免不必要的改動。
+
+修改要點與原因
+- 采用內建排序 Arrays.sort 來確保正確且高效的排序行為，避免自訂排序邏輯錯誤造成的資料遺失。
+- 使用固定長度讀取，確保不需依賴結束標示（EOF），符合題目要求“執行一次程式後結束”。
+- 增加標準的 Java 程式結構與註解，提升可讀性與維護性。
+
+修改後完整程式碼
+import java.util.Arrays;
+import java.util.Scanner;
+
+/*
+ * 名稱: CSIE_41343242_1031_2.java
+ * 功能: 讀取長度與整數陣列，進行升序排序，輸出排序後的內容。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 說明: 此程式避免使用 EOF，固定讀取指定元素數量並輸出結果。
+ */
+public class CSIE_41343242_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] ary = new int[n];
+        for (int i = 0; i < n; i++) {
+            ary[i] = sc.nextInt();
+        }
+        sc.close();
+
+        Arrays.sort(ary);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

@@ -1,0 +1,52 @@
+90
+
+改進建議：可用單趟從右至左的遍歷把右側最大值計算出來，降低時間複雜度至 O(n)，並補充程式頭註解以符合格式規範。
+
+修改說明與優化點
+- 時間複雜度優化：原本使用雙層迴圈查找右側最大值，為 O(n^2)。新版本改為單趟從右向左遍歷，同時保持一個 maxRight 變數，將每個位置的值改為目前的右側最大值，並更新 maxRight，總複雜度降為 O(n)。
+- 程式格式與可讀性：將變數命名與註解清晰化，加入程式檔頭註解說明檔名、功能、作者與日期（此處示意性填寫，請改成你的資訊）。
+- 輸出格式：確保輸出以空格分隔且行尾有換行。
+
+修改後完整程式碼
+```java
+/*
+File: csie_41343235_1031_2.java
+Description: 將陣列元素依序替換為其右側的最大值，最後輸出結果（最後一個元素為 -1）。
+Author: 教師名稱
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class csie_41343235_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 從右往左單趟遍歷，把每個位置替換為其右側的最大值
+        int maxRight = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            int current = arr[i]; // 原始值，用於更新 maxRight
+            arr[i] = maxRight;  // 右側最大值
+            if (current > maxRight) {
+                maxRight = current;
+            }
+        }
+
+        // 輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

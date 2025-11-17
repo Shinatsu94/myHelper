@@ -1,0 +1,39 @@
+87
+
+建議：在程式中加入檔案標頭註解並使用 try-with-resources 管理 Scanner，並保持清楚的註解以提升可讀性與健全性。
+
+程式碼優化與說明：
+- 使用 try-with-resources 自動關閉 Scanner，避免手動調用 sc.close() 的風險。
+- 加入檔案頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的註解標準。
+- 保持不使用額外變數進行交換（僅使用 A、B），仍使用 XOR 交換法。
+- 內文增加註解，說明每個步驟的用途，提升可讀性。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+ * File: CSIE_41343229_1003_1.java
+ * Description: 讀入兩個整數，存在變數 A、B，進行不使用其他變數的交換，並輸出交換後的結果。
+ * Author: 你的姓名
+ * Date: 2025-11-15
+ */
+
+public class CSIE_41343229_1003_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 確保 Scanner 自動關閉
+        try (Scanner sc = new Scanner(System.in)) {
+            // 讀入兩個整數
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+
+            // 使用 XOR 交換法，不需要額外變數
+            A ^= B;
+            B ^= A;
+            A ^= B;
+
+            // 輸出交換後的值（符合題目輸出樣例）
+            System.out.println(A);
+            System.out.println(B);
+        }
+    }
+}

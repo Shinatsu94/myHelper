@@ -1,0 +1,53 @@
+總分：78
+
+改進建議（一句話）
+原作雖能輸出正確的下三角星號，但未實作 2D 陣列並缺少程式標頭註解，建議實作 2D 陣列與完整註解以符合題意與品質要求。
+
+程式優化與修改說明（重點與原因）
+- 使用 2D 陣列存放下三角形的 '*'，符合題目「建立一個下三角形的二維陣列」的要求，便於理解與未來擴充。
+- 添加完整的程式標頭註解：檔案名稱、功能、作者、日期，符合作業格式規範。
+- 改善變數命名與格式，使用 row、col 等自描述變數，使可讀性提升。
+- 加入基本的輸入範圍檢查（0 < n <= 20），避免不合法輸入造成非預期行為。
+- 印出時僅輸出三角形部分，不輸出陣列中不需要的空格，符合題目「元素之間無需任何空白符號」的要求。
+
+修改後完整程式碼
+/* 
+檔案名稱: LowerTriangularMatrix.java
+功能: 建立並列印高度為 n 的下三角形二維陣列，元素為 '*'
+作者: 徐唯祐
+日期: 2025-11-14
+描述: 讀取輸入 n（0 < n <= 20），在 2D 陣列中填入下三角星號，然後逐行輸出三角形。
+*/
+import java.util.Scanner;
+
+public class LowerTriangularMatrix {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+
+        // 基本輸入檢查，符合題意的範圍才執行
+        if (n <= 0 || n > 20) {
+            scanner.close();
+            return;
+        }
+
+        // 建立並填入下三角形的二維陣列
+        char[][] tri = new char[n][n];
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col <= row; col++) {
+                tri[row][col] = '*';
+            }
+        }
+
+        // 輸出結果：每列輸出前 (row+1) 個 '*'，其餘位置不輸出
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col <= row; col++) {
+                System.out.print(tri[row][col]);
+            }
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}

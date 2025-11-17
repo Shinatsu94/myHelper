@@ -1,0 +1,47 @@
+87
+
+改進建議：整體功能正確，但缺少註解與有意義的命名，建議改用 Arrays.sort 以提升可讀性與維護性，並加入程式標頭與內文註解。
+
+程式優化說明與原因
+- 使用 Arrays.sort(arr) 直接排序，簡潔且可靠，時間複雜度通常為 O(n log n)，比雙循環交換的自訂排序更高效且易懂。
+- 將變數名稱改為更具語意的 n、arr，提升可讀性。
+- 新增程式標頭註解與適當的內文註解，符合作業要求的備註規範。
+- 輸出改為結尾換行，並確保元素之間以單一空格分隔避免多餘空格。
+- 關閉 Scanner，避免資源浪費。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343226_1031_1.java
+功能說明: 讀取長度與整數序列，輸出升序排序結果
+作者: 教授
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343226_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();      // 取得陣列長度
+        int[] arr = new int[n];           // 建立整數陣列
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();   // 讀取每個整數
+        }
+
+        // 使用內建排序，升序排列
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以單一空格分隔，末尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

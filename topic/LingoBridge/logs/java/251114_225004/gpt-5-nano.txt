@@ -1,0 +1,82 @@
+總分（0-100）：6
+
+改進建議（簡述一句）：此作業未符合題意，請改成能讀取長度 n 與 n 個整數並將其由小到大排序的實作，並補上適當的程式標頭與註解。
+
+評分與說明：
+- 正確性：0/50
+  - 學生程式與題目需求完全不符，實作的是 3x3 矩陣的反矩陣與輸出，與題目「任意長度的一維陣列升冪排序」不相關，因此分數為 0。
+- 邏輯：0/30
+  - 程式邏輯針對解題方向完全錯置，雖然具備矩陣反轉的邏輯與結構，但並非題意所需。
+- 格式：6/10
+  - 程式在一般縮排與註解方面算不錯，且變數命名還算清楚；但未提供整體程式標頭註解，且整體用途與功能與題意不符，影響評分。
+- 備註：0/10
+  - 缺少檔案級別的註解說明（檔案名稱、功能、作者、日期）等標頭註解，未符合作業要求。
+
+修改與優化說明：
+- 目標改為：讀取第一個整數 n，接著讀入 n 個整數，將它們由小到大排序，最後輸出排序後的內容，且支援負數與任意長度；避免依賴 EOF，輸入完整後結束。
+- 新版實作要點：
+  - 使用 BufferedReader 與 StringTokenizer 來快速且穩定地讀取輸入，並能處理跨行分布的數字。
+  - 使用 Arrays.sort 進行排序，時間複雜度 O(n log n)。
+  - 輸出時以單一字串拼接，元素以單一空格分隔，結尾不多餘空格，符合常見輸出格式。
+  - 增加檔案標頭註解，說明檔案名稱、功能、作者與日期等。
+
+修改後完整程式碼（符合題目需求，含標頭註解）：
+```java
+/**
+ * 檔案名稱: Main.java
+ * 功能: 讀取長度 n 及 n 個整數，將它們由小到大排序後輸出。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // 讀取長度 n
+        String line = br.readLine();
+        while (line != null && line.trim().isEmpty()) {
+            line = br.readLine();
+        }
+        if (line == null) return;
+        int n = Integer.parseInt(line.trim());
+
+        int[] arr = new int[n];
+        int idx = 0;
+
+        // 讀取接下來的數字，可能分布在多行
+        while (idx < n) {
+            line = br.readLine();
+            if (line == null) break;
+            StringTokenizer st = new StringTokenizer(line);
+            while (st.hasMoreTokens() && idx < n) {
+                arr[idx++] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以空格分隔，末尾不多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.print(sb.toString());
+    }
+}
+```
+
+說明修改部分的原因：
+- 改用適當的輸入處理，讓程式能正確讀取任意長度的整數陣列，並支援負數。
+- 以內建的排序工具 Arrays.sort 提升穩定性與效率，符合常見作業需求。
+- 輸出格式控制清晰，避免尾端多餘空格，符合常見評測標準。
+- 加入檔案標頭註解，提高可讀性與評分符合性。

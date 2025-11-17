@@ -1,55 +1,47 @@
-4
+100
+正確性: 50/50
+邏輯: 30/30
+格式: 10/10
+備註: 10/10
+改進建議: 此程式已正確且符合題意，但建議加入可讀性註解與處理溢位的考量，並以較嚴謹的資源管理方式編寫。
 
-評分細項:
-- 正確性（50%）：0/50
-  - 原作業未正確解題，且會根據題意只用兩個輸入變數進行交換，且輸出順序與要求不符，測資可能無法得到預期結果。
-- 邏輯（30%）：0/30
-  - 未遵循「僅用 A 與 B 交換，且先印原值再印交換後值」的邏輯，且多使用不需要的變數進行三數比較與排序，與題意不符。
-- 格式（10%）：4/10
-  - 程式有基本縮排與命名，但使用了多餘變數及不必要的換行，整體可讀性不足，且未包含適當的程式標頭註解。
-- 備註（10%）：0/10
-  - 未提供程式標頭註解說明檔案名稱、功能、作者、日期等。
+修改說明與原因
+- 使用 try-with-resources 包裝 Scanner，讓資源自動關閉，提升穩定性與可維護性。
+- 改用 long 類型計算，以避免在極端數值下 mid 的計算可能發生整數溢位的風險；輸出仍為整數但計算更安全。
+- 保留兩次使用三元運算子分別取得最大值與最小值的作法，符合題目「不可使用 if-else」的限制，並清晰呈現邏輯。
+- 程式碼加入基本註解與更具語意的排版，使讀者容易理解變數的用途與流程。
 
-修改說明與優化內容
-- 修改重點
-  - 提供符合題意的正確解法：僅使用 A 與 B 兩個變數，透過不使用額外變數的交換方式完成 swap。
-  - 首先印出原始值，再印出交換後的值，符合「讀入兩個數字並印出其值，交換後印出」的需求。
-  - 為符合題目限制，交換使用 A = A + B; B = A - B; A = A - B 的方法，僅使用 A、B 兩個變數。
-  - 加入程式標頭註解與內部註解，提升可讀性與可維護性。
-- 修改後完整程式碼
-  /*
-   檔案名稱: SwapTwoNumbers.java
-   功能: 讀入兩個整數 A、B，印出原值，然後在不使用其他變數的情況下交換兩數的值，並印出交換後的值。
-   作者: 你的姓名
-   日期: 2025-11-11
-   */
-  public class SwapTwoNumbers {
-      public static void main(String[] args) {
-          // 使用 Scanner 讀取使用者輸入
-          java.util.Scanner sc = new java.util.Scanner(System.in);
-          int A = sc.nextInt();
-          int B = sc.nextInt();
+修改後完整程式碼
+import java.util.Scanner;
 
-          // 印出原始值
-          System.out.println(A);
-          System.out.println(B);
+/**
+ * CSIE_41343203_1003_2
+ * 功能：讀入三個整數，使用兩種不同的方式找出最大值、最小值、以及中間值，且不使用 if-else。
+ * 作者：改進示例
+ * 日期：2025-11-15
+ */
+public class CSIE_41343203_1003_2 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            long c = sc.nextLong();
 
-          // 不使用額外變數，僅用 A、B 進行交換
-          A = A + B;
-          B = A - B;
-          A = A - B;
+            // 找最大值（使用兩次三元運算子）
+            long max = (a > b) ? a : b;
+            max = (c > max) ? c : max;
 
-          // 印出交換後的值
-          System.out.println(A);
-          System.out.println(B);
+            // 找最小值（使用兩次三元運算子）
+            long min = (a < b) ? a : b;
+            min = (c < min) ? c : min;
 
-          sc.close();
-      }
-  }
+            // 中間值等於 sum - max - min
+            long mid = a + b + c - max - min;
 
-修改原因說明
-- 依據題目要求，必須使用兩個變數 A、B，且不可用額外變數進行交換。採用 A = A + B; B = A - B; A = A - B 的方法能在不新增變數的前提下完成交換，且適用於整數型態，滿足題意限制。
-- 另外加入標頭註解與內部註解，提升程式的可讀性與可維護性，符合備註評分項的要求。
-
-改進建議
-- 一般情況下要考慮整數溢位風險，若輸入數值可能接近整數上限，建議改用 XOR 交換法（A ^= B; B ^= A; A ^= B）或使用輔助變數，但仍需遵守「不可使用額外變數」的限制。若允許使用第三方變數，可提高安全性與可讀性。
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
+    }
+}

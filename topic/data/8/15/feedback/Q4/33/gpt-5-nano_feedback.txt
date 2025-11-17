@@ -1,71 +1,68 @@
-6
+90
 
-- 正確性評分：0/50
-- 邏輯評分：0/30
-- 格式評分：6/10
-- 備註評分：0/10
-總分：6/100
+- 正確性（50%）: 50/50
+- 邏輯（30%）: 30/30
+- 格式（10%）: 10/10
+- 備註（10%）: 0/10
 
-修改後完整程式碼與說明：
+改進建議或反饋（一句話）：
+請補齊程式標頭註解與作者資訊，並可利用數學公式直接定位數字位置以提升找尋效率，同時保留建立完整下三角形的需求。
 
-檔案說明與改動理由
-- 改善點：將輸入改為讀取一維陣列長度 n 後再讀入 n 個整數，使用 Arrays.sort 直接升序排序，輸出成一行用空格分隔，符合題目需求。
-- 原程式存在大幅偏離題意的結構（使用二維三角矩陣、查找某個數字的位置等），且未依題目要求輸出排序結果，因此分數為全0。以下為改進後的完整程式碼與說明。
+修改與優化說明：
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性與可追蹤性。
+- 關閉 Scanner，釋放資源。
+- 保留建立完整下三角形二維陣列的作法以符合題意，但在尋找數字時改用數學公式直接定位位置，避免不必要的逐格搜尋；同時仍可在必要時以原始方法驗證輸出正確性。
+- 變數命名與註解更清楚，整體格式與排版維持一致性。
 
-修改後程式碼（完整內容）
+修改後完整程式碼：
 /*
-File: CSIE_41343208_1031_3b.java
-關鍵字: 排序、輸入長度、升序輸出
-功能: 讀取一個整數 n，接著讀入 n 個整數，輸出它們的升序排序結果，並以空格分隔於同一行
-作者: 作業評分系統
-日期: 2025-11-12
-說明: 未使用 EOF，直接檢查輸入是否為整數。包含適當註解與清晰變數名稱。
+ 檔案名稱: CSIE_41343208_1031_3b.java
+ 功能: 建立下三角形二維陣列，填入數字，找出指定數字的位置
+ 作者: 教授
+ 日期: 2025-11-14
 */
-
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class CSIE_41343208_1031_3b {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // 讀取長度 n
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
         int n = sc.nextInt();
 
-        // 讀入 n 個整數，存入一維陣列
-        int[] arr = new int[n];
+        // 建立並填入下三角形二維陣列
+        int[][] tri = new int[n][n];
+        int num = 1;
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0，避免跑出例外
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = num++;
             }
         }
 
-        // 升序排序
-        Arrays.sort(arr);
+        int target = sc.nextInt();
 
-        // 輸出，同一行以空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 使用數學公式定位位置，避免不必要的逐格搜尋
+        int max = n * (n + 1) / 2;
+        if (target < 1 || target > max) {
+            System.out.printf("not find %d in array.\n", target);
+        } else {
+            int sumLen = 0;     // 當前行結束時的總長度（包含該行）
+            int sumPrev = 0;    // 先前行的總長度
+            int iFound = -1;
+            for (int i = 0; i < n; i++) {
+                sumPrev = sumLen;
+                sumLen += (i + 1); // 第 i 行長度為 i+1
+                if (target <= sumLen) {
+                    iFound = i;
+                    int j = target - sumPrev - 1; // 0-based
+                    System.out.printf("%d[%d, %d]\n", target, iFound + 1, j + 1);
+                    break;
+                }
+            }
+            // 安全性檢查：理論上 target 在 max 內時必定找到
+            if (iFound == -1) {
+                System.out.printf("not find %d in array.\n", target);
+            }
         }
-        System.out.println(sb.toString());
 
         sc.close();
     }
 }
-
-修改說明重點
-- 使用一維陣列與 Arrays.sort 進行升序排序，符合題意且簡潔易懂。
-- 增加輸入完整性檢查，避免因為輸入不足導致異常。
-- 程式標頭加入檔案資訊與簡要註解，符合備註要求。
-
-改進建議或反饋（一句話）
-- 建議在輸出結尾加上換行與錯誤處理更完整，並在遇到非整數輸入時顯示使用者提示或錯誤訊息以利除錯。

@@ -1,0 +1,98 @@
+84
+
+建議改進方向：應加入完整的程式標頭註解與更健全的極值處理，並將輸入輸出與演算法分工清楚，以提高可讀性與魯棒性。
+
+修改與改進說明（要點與原因）
+- 加入標頭註解與說明，符合作業要求的程式檔案資訊與用途描述。
+- 將核心邏輯拆分為清晰的方法（ determinant、inverse、printMatrix），提升可讀性與維護性。
+- 增加近似為零的判斷，以避免輸出出現 -0.0000 的情況，且仍符合「元素為零時輸出 0」的需求。
+- 對輸入做基本健全性檢查，避免輸入不足時程式異常結束。
+- 保留原計算方式（伴隨浮點運算的穩健性），但使用近似零判斷以增強魯棒性。
+
+以下為修改後完整程式碼：
+
+/*
+ * File: MatrixInverse3x3.java
+ * 功能: 讀入 3x3 矩陣，計算其反矩陣，輸出到小數點後四位；元素為零時輸出 '0'
+ * 作者: 性質/學生
+ * 日期: 2025-11-14
+ * 說明: 若矩陣不可逆，輸出提示訊息。
+ */
+
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+public class MatrixInverse3x3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
+
+        // 讀取 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (sc.hasNextDouble()) {
+                    A[i][j] = sc.nextDouble();
+                } else {
+                    System.err.println("Insufficient input for 3x3 matrix.");
+                    sc.close();
+                    return;
+                }
+            }
+        }
+        sc.close();
+
+        // 計算行列式
+        double det = determinant(A);
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("Matrix is singular, cannot find inverse.");
+            return;
+        }
+
+        // 計算反矩陣
+        double[][] inv = inverse(A, det);
+
+        // 輸出
+        printMatrix(inv);
+    }
+
+    // 計算 3x3 行列式
+    private static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣（利用伴隨矩陣 / 附矩陣法）
+    private static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1])/det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1])/det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1])/det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0])/det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0])/det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0])/det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0])/det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0])/det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0])/det;
+        return inv;
+    }
+
+    // 以指定格式輸出矩陣，若元素近似為零則輸出 '0'
+    private static void printMatrix(double[][] inv) {
+        DecimalFormat df = new DecimalFormat("0.0000");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = inv[i][j];
+                if (Math.abs(v) < 1e-9) {
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(v));
+                }
+                if (j != 2) System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+}

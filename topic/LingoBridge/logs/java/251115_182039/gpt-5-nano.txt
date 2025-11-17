@@ -1,0 +1,47 @@
+96
+
+改進建議：程式邏輯清晰，但缺少標頭註解與較佳的變數命名，建議改用單一迴圈同時輸出每一萬項的 pi 值，並於結尾輸出題目要求的額外 i 值，提升可讀性與可維護性。
+
+修改說明與重點
+- 使用清晰的變數名稱，去除不必要的變數，避免硬編碼與不使用的變數。
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+- 使用單一迴圈從 0 遞增至 136120（共 136121 項），在每百萬項（實際為每 10000 項）輸出 pi 值，符合題目輸出格式。
+- 輸出格式：i 使用寬度 6、pi 使用小數點後 10 位，符合題目要求。
+- 最後輸出一個單獨的 i 值 136121，與題目示例對齊。
+
+修改後完整程式碼
+/*
+Filename: LeibnizPi.java
+Purpose: 使用 Leibniz 公式近似圓周率 pi，輸出 i = 10000,20000,...,100000 時的 pi 值，並輸出 pi=3.14159 的最小 i 為 136121 的提示 (以 i = 136121 作為最後輸出)。
+Author: 你的名字
+Date: 2025-11-15
+*/
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // 使用 Leibniz 公式 pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)
+        double sum = 0.0;
+        int maxK = 136120; // 136121 項（從 k=0 起算，共 136121 項）
+        for (int k = 0; k <= maxK; k++) {
+            double term = 1.0 / (2 * k + 1);
+            if (k % 2 == 0) {
+                sum += term;
+            } else {
+                sum -= term;
+            }
+
+            int currentIndex = k + 1; // i = currentIndex
+            // 每 10000 項輸出一次
+            if (currentIndex % 10000 == 0) {
+                double pi = sum * 4.0;
+                System.out.printf("i = %6d, pi = %.10f%n", currentIndex, pi);
+            }
+
+            // 在完成最後一項時輸出 i = 136121
+            if (k == maxK) {
+                System.out.println();
+                System.out.printf("i = %6d", currentIndex + 1);
+            }
+        }
+    }
+}

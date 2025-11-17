@@ -1,79 +1,114 @@
-0
+24
 
-正確性: 0/50
-邏輯: 0/30
-格式: 0/10
-備註: 0/10
+建議：把輸出改為符合題意的格式，僅輸出 3×3 的反矩陣，元素四位小數；遇到值為 0 的元素直接輸出 0；移除不必要的矩陣式與標示文字，並使用二維陣列與清晰的函式分工提升可讀性與可維護性。
 
-修改後完整程式碼與說明
+修改重點與原因
+- 使用二維陣列取代九個獨立變數，提升可讀性與維護性。
+- 輸出格式改為四位小數，並對零值採用閾值處理，遇到近似為 0 的數值避免輸出成 -0.0000。
+- 移除原程式的多餘輸出（行列式值與說明文字），嚴格符合題目輸出格式。
+- 拆分成輔助方法（det3、invert3x3），使主流程更清晰。
+- 加入檔案頭註解與合理變數命名，提升格式性與可讀性。
 
-修改後程式碼（符合題目需求，能讀取長度與對應的整數、排序並輸出）：
+修改後完整程式碼
 ```java
-/*
-File: SortArray.java
-功能: 讀入整數 n，接著讀入 n 個整數，將它們由小到大排序後輸出
-作者: 資訊工程系教授
-日期: 2025-11-12
-說明: 使用動態長度陣列與 Arrays.sort 進行排序，輸出以空格分隔。
-*/
-
-import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
-public class SortArray {
+public class MatrixInverse3x3 {
+    /*
+     * 文件名稱: MatrixInverse3x3.java
+     * 功能: 讀入 3x3 矩陣，輸出其反矩陣，元素以四位小數輸出；若元素為 0，直接輸出 0。
+     * 作者: 謝老師（示例）
+     * 日期: 2025-11-14
+     */
+
     public static void main(String[] args) {
+        Locale.setDefault(Locale.US); // 確保小數點為 '.'
         Scanner sc = new Scanner(System.in);
 
-        // 讀入長度 n
-        if (!sc.hasNextInt()) {
-            System.err.println("輸入格式錯誤：未提供長度 n。");
-            return;
-        }
-        int n = sc.nextInt();
-        if (n < 0) {
-            System.err.println("長度 n 不可為負數。");
-            return;
-        }
-
-        // 讀入 n 個整數
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (!sc.hasNextInt()) {
-                System.err.println("輸入不足，缺少第 " + (i + 1) + " 個整數。");
-                return;
+        // 讀入 3x3 矩陣
+        double[][] A = new double[3][3];
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (!sc.hasNextDouble()) {
+                    System.err.println("輸入格式錯誤：請輸入 9 個數字。");
+                    sc.close();
+                    return;
+                }
+                A[r][c] = sc.nextDouble();
             }
-            arr[i] = sc.nextInt();
+        }
+        sc.close();
+
+        // 計算行列式
+        double det = det3(A);
+        double EPS = 1e-12;
+        if (Math.abs(det) < EPS) {
+            System.err.println("矩陣不可逆：行列式近似為 0。");
+            return;
         }
 
-        // 排序
-        Arrays.sort(arr);
+        // 計算反矩陣
+        double[][] inv = invert3x3(A, det);
 
-        // 輸出結果，元素以空格分隔
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        // 輸出 A^{-1}，格式為三行，每行三個數，值為 0 時輸出 0，其他採四位小數
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                double val = inv[r][c];
+                String out;
+                if (Math.abs(val) < 0.00005) {
+                    out = "0";
+                } else {
+                    out = String.format(Locale.US, "%.4f", val);
+                }
+                System.out.print(out);
+                if (c < 2) System.out.print(" ");
+            }
+            if (r < 2) System.out.println();
         }
-        System.out.println(sb.toString());
+    }
+
+    // 計算 3x3 矩陣的行列式
+    private static double det3(double[][] M) {
+        return M[0][0] * (M[1][1] * M[2][2] - M[1][2] * M[2][1])
+             - M[0][1] * (M[1][0] * M[2][2] - M[1][2] * M[2][0])
+             + M[0][2] * (M[1][0] * M[2][1] - M[1][1] * M[2][0]);
+    }
+
+    // 計算 3x3 矩陣的反矩陣
+    private static double[][] invert3x3(double[][] M, double det) {
+        double a = M[0][0], b = M[0][1], c = M[0][2];
+        double d = M[1][0], e = M[1][1], f = M[1][2];
+        double g = M[2][0], h = M[2][1], k = M[2][2];
+
+        // 計算餘子式矩陣 Cofactor
+        double C00 =  e * k - f * h;
+        double C01 = -(d * k - f * g);
+        double C02 =  d * h - e * g;
+
+        double C10 = -(b * k - c * h);
+        double C11 =  a * k - c * g;
+        double C12 = -(a * h - b * g);
+
+        double C20 =  b * f - c * e;
+        double C21 = -(a * f - c * d);
+        double C22 =  a * e - b * d;
+
+        // adj(A) = transpose(Cofactor), 然後除以 det
+        double[][] inv = new double[3][3];
+        inv[0][0] = C00 / det;
+        inv[0][1] = C10 / det;
+        inv[0][2] = C20 / det;
+
+        inv[1][0] = C01 / det;
+        inv[1][1] = C11 / det;
+        inv[1][2] = C21 / det;
+
+        inv[2][0] = C02 / det;
+        inv[2][1] = C12 / det;
+        inv[2][2] = C22 / det;
+
+        return inv;
     }
 }
 ```
-
-修改內容與原因說明：
-- 由原本的 3x3 矩陣與矩陣運算，改為符合題意的任意長度一維整數陣列排序：
-  - 原程式與題目需求不符，且編譯會失敗（類別名稱包含空白、讀取 9 個數字等）。
-  - 新程式直接讀取長度 n，接著 n 個整數，符合「先輸入長度，再輸入陣列內容，最後輸出排序結果」的流程。
-- 使用 Arrays.sort 進行升序排序：
-  - 簡潔且高效，時間複雜度 O(n log n)。
-- 輸入與輸出處理：
-  - 使用 Scanner 進行簡單的輸入，確保對負數也能正確處理。
-  - 加入基本的輸入驗證與錯誤訊息，提升穩健性。
-  - 輸出以單行、空格分隔，符合常見的線上評測格式。
-- 程式結構與命名：
-  - 類別名稱改為 SortArray，檔案命名也相容（SortArray.java）。
-  - 變數命名具有表意性，增加可讀性。
-- 程式註解與標頭：
-  - 加入檔案註解（文件名、功能、作者、日期、說明），符合備註要求。
-
-一句話改進建議：
-若想提升穩健性且更適合大型輸入，建議改用緩衝輸入（例如 BufferedInputStream 配合自訂解析器）並加入例外處理，以提升效能與容錯能力。

@@ -1,0 +1,59 @@
+75
+
+改進建議：將排序演算法簡化，避免多餘的外層迴圈，並使用 Arrays.sort 提高可讀性與效能，另外補上程式檔案註解與統一命名。
+
+程式優化與修改說明：
+- 將 main 參數改為慣用的 String[] args，並將類別名稱改為更常見的 Main。
+- 移除原程式中的多餘外層迴圈，改以 Arrays.sort 直接做升序排序，提升效率 (原本的雙層迴圈外再加一層無用的外層迴圈，造成 O(n^3) 的時間複雜度)。
+- 為程式加入標頭註解，說明檔案名稱、功能、作者與日期，並加入適當的程式內註解。
+- 使用 StringBuilder 組裝輸出，確保輸出格式為以空白分隔的數字串，並在末尾換行。
+- 嚴格遵循題目輸入輸出要求，支援負數與多行輸入，結尾輸出換行。
+
+修改後完整程式碼：
+/*
+File: SortArray.java
+Description: 讀入長度 N 與 N 個整數，輸出升序排序後的陣列。
+Author: 教師
+Date: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int length = 0;
+        if (sc.hasNextInt()) {
+            length = sc.nextInt();
+        } else {
+            sc.close();
+            return;
+        }
+
+        int[] a = new int[length];
+        // 讀取陣列元素
+        for (int i = 0; i < length; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 預設值，若輸入不足
+            }
+        }
+
+        // 排序（由小到大）
+        Arrays.sort(a);
+
+        // 輸出排序後的陣列，元素以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

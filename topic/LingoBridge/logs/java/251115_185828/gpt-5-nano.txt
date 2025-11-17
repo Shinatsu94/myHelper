@@ -1,0 +1,40 @@
+84
+改進建議：增加對負數及極值的處理、改善變數命名與註解，以提升穩健性與維護性。
+
+優化說明：
+- 使用 long 類型以降低整數溢位風險，並支援更大的輸入範圍。
+- 增加對負數的處理，保留符號並反轉其絕對值的數字。
+- 使用具意義的變數名稱（n、sign、x、rev）提升可讀性。
+- 增加檔案標頭註解，並在結尾關閉 Scanner，提升程式品質與資源管理。
+- 保持程式僅執行一次的需求，不使用 EOF。
+
+修改後完整程式碼：
+/**
+ * File: ReverseDigits.java
+ * 功能: 讀取整數，輸出其數字反轉后的值（保持符號）。
+ * 作者: CSIE 教師
+ * 日期: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        long n = scanner.nextLong();
+        long sign = n < 0 ? -1 : 1;
+        long x = Math.abs(n);
+
+        long rev = 0;
+        while (x > 0) {
+            int d = (int) (x % 10);
+            rev = rev * 10 + d;
+            x /= 10;
+        }
+
+        rev *= sign;
+
+        System.out.println(rev);
+        scanner.close();
+    }
+}

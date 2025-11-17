@@ -1,0 +1,48 @@
+11
+
+改進建議：改用正確且簡潔的排序方法（如 Arrays.sort）來輸出從小到大的結果，並修正輸出格式與加入程式註解以提升可讀性與可維護性。
+
+優化說明與修改原因：
+- 正確性：原本的演算法無法正確排序，輸出會是錯誤序列。改用 Arrays.sort 進行整數排序，確保輸出符合題目要求的升序。
+- 邏輯：簡單且穩定的實作邏輯，避免自創複雜的替換/遞迴邏輯，降低出錯機會。
+- 格式：輸出不應有多餘空格，使用 StringBuilder 組裝輸出字串，並在結尾換行，使格式整齊。
+- 備註：新增檔案頭註解，說明檔案名稱、功能、作者與日期，提升可閱讀性與作業提交的一致性。
+
+修改後完整程式碼（已改為正確排序與適當註解）：
+/*
+檔案名稱: csie_1031_optimized.java
+功能: 讀入整數長度 n 與 n 個整數，輸出從小到大的排序結果
+作者: 教師
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，輸出中間不留多餘空格，最後換行
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class csie_1031_optimized {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0，避免例外
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

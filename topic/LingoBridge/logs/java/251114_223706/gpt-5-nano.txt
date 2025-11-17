@@ -1,0 +1,109 @@
+總分：10
+
+改進建議（一句話）
+此作業並未實作題目要求的排序功能，建議重新設計輸入輸出流程，改以讀入長度與對應元素後進行排序，並以合適的輸出格式輸出結果。
+
+評分與評語
+- 正確性: 0/50
+  - 作業目的在於將輸入的一維整數陣列由小到大排序並輸出，但學生的程式與題意無關，未完成排序與輸出陣列的要求。
+- 邏輯: 0/30
+  - 程式邏輯與題意不符，使用了與題目無關的數字尋找與三角陣列的概念，未呈現解題邏輯。
+- 格式: 5/10
+  - 程式有基本的結構與註解，但變數命名不佳、註解與實作不一致，且缺少清楚的程式標頭。
+- 備註: 5/10
+  - 已有完整的程式版本與註解，但未達題意；建議在程式頂部加入檔案說明、作者、日期等，並於關鍵步驟加上說明性註解，同時提供排序與輸出邏輯的實作。
+
+修改與優化說明
+- 將功能完整性重新設計：改用一維整數陣列，先讀取長度 n，再讀取 n 個整數，最後使用內建排序 Arrays.sort 由小到大排序，並以空白分隔輸出排序後的內容。
+- 提升效能與穩定性：避免使用慢速的 Scanner，改用快速 I/O（FastScanner）或以 StringBuilder 輸出結果，適用於較大量資料。
+- 提高可讀性與可維護性：使用有意義的變數命名、加上程式標頭註解，並清楚分離輸入、排序、輸出三個步驟。
+
+修改後完整程式碼
+文件名稱：Main.java
+用途：讀取整數長度與元素，排序後輸出升冪序列
+
+/*
+File: Main.java
+功能: 讀取整數長度 n 與 n 個整數，將它們由小到大排序，輸出排序結果（以空格分隔）。
+作者: 輸入者
+日期: 2025-11-14
+說明: 使用快速輸入，防止 Scanner 的效能瓶頸；使用 Arrays.sort 進行排序；使用 StringBuilder 避免不必要的字串連接。
+*/
+
+import java.io.InputStream;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        if (!fs.hasNext()) return;
+
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = fs.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+
+    // 簡易快速輸入工具
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        FastScanner(InputStream is) {
+            in = is;
+        }
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        boolean hasNext() throws IOException {
+            int c;
+            while ((c = read()) != -1) {
+                if (!Character.isWhitespace(c)) {
+                    ptr--;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        int nextInt() throws IOException {
+            int c;
+            int sign = 1;
+            int val = 0;
+
+            do {
+                c = read();
+            } while (c != -1 && c <= ' ');
+
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+
+            while (c >= '0' && c <= '9') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}

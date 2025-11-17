@@ -1,0 +1,57 @@
+90
+
+改進建議（一句話）:
+建議以單次掃描的方式從右往左計算右側最大值以降低時間複雜度，並加入清晰的程式標頭與可讀性更高的變數命名。
+
+程式優化與修改說明：
+- 優化點: 將原本 O(n^2) 的雙重迴圈改為單次掃描的 O(n) 做法，從右邊往左邊計算每個位置右側的最大值，最後一個元素設為 -1。
+- 可讀性提升: 加入程式檔案標頭註解，改用語意較清楚的變數名稱，輸出避免尾端多餘空格，並在結尾換行。
+- 結構與註解: 新版本提供清晰的檔案名稱、功能、作者與日期註解，並保留必要的行內註解以說明演算法步驟。
+
+修改後完整程式碼（已優化為 O(n) 並含完整註解與良好格式）：
+/*
+檔案名稱: TransformAfterMax.java
+功能: 讀取長度 n 與 n 個整數，輸出每個元素在其右側子陣列中的最大值；最後一個為 -1。
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class TransformAfterMax {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
+
+        int[] res = new int[n];
+        if (n > 0) {
+            // 最後一個元素替換為 -1
+            res[n - 1] = -1;
+            // 從右往左掃描，currentMax 為目前右側的最大值
+            int currentMax = a[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                res[i] = currentMax;
+                if (a[i] > currentMax) {
+                    currentMax = a[i];
+                }
+            }
+        }
+
+        // 輸出，避免尾端多餘空格
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(res[i]);
+        }
+        System.out.println();
+        scanner.close();
+    }
+}

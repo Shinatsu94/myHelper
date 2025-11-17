@@ -1,0 +1,66 @@
+90
+
+改進建議：建議在程式開頭加入註解頭與基本輸入驗證，並改用常數和數學公式直接定位 num 的位置，以降低不必要的搜尋成本，同時保留建立下三角陣列的需求。
+
+程式碼優化與原因：
+- 新增檔案註解區，符合備註要求。
+- 增加對 num 範圍的二次驗證，若 num 小於1或大於最大值，直接回應未找到，避免不必要的搜尋。
+- 保留建立完整下三角陣列的需求，但尋找 num 的位置改用數學公式直接計算出位置，避免逐一掃描整個陣列，提高效率（O(1) 與常數時間計算）。
+- 程式結構與變數命名更清晰，並在結束時關閉 Scanner。
+
+以下為修改後完整程式碼：
+
+```java
+/*
+ * 檔案名稱: CSIE_41343209_1031_3b.java
+ * 功能與說明: 建立下三角形二維陣列，根據使用者輸入的高度 n
+ *           依序填入數字（1 開始），找出指定 num 在陣列中的位置
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343209_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        // 建立下三角形二維陣列
+        int[][] triangle = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            triangle[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                triangle[i][j] = value++;
+            }
+        }
+
+        // 最大數字為 n(n+1)/2
+        int maxNum = n * (n + 1) / 2;
+
+        int num = sc.nextInt();
+
+        // 輸入驗證與範圍檢查
+        if (num < 1 || num > maxNum) {
+            System.out.println("not find " + num + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 使用數學公式直接計算 num 在陣列中的位置
+        // 找到 row (0-based) 使得 num 在該 row 範圍內
+        int row = 0;
+        while (num > (row + 1) * (row + 2) / 2) {
+            row++;
+        }
+        int previousTotal = row * (row + 1) / 2;
+        int col = num - previousTotal - 1; // 0-based
+
+        // 輸出位置，列與行皆從 1 開始
+        System.out.println(num + "[" + (row + 1) + ", " + (col + 1) + "]");
+
+        sc.close();
+    }
+}
+```

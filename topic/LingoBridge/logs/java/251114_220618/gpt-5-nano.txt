@@ -1,0 +1,47 @@
+11
+改進建議：請依題意改寫成讀入長度 n、再讀入 n 個整數，對陣列進行升序排序後以空格分隔輸出，並確保能正確處理負數與單次執行結束。
+
+修改說明與修改要點
+- 問題理解與對應：原學生程式與題目需求無關，僅輸出一個二維三角形星號。改為實作題目要求的單維整數排序。
+- 資料結構與演算法：使用一維整數陣列存放 n 個整數，利用 Arrays.sort(arr) 進行升序排序，符合題目「由小至大」的需求。
+- 輸入與輸出格式：先讀取整數 n，接著讀入 n 個整數，輸出排序後的數字並以空格分隔，最後換行。支援負數與單次執行結束。
+- 程式風格與註解：加入清晰的標頭註解與適當的變數命名，提升可讀性與維護性。
+
+修改後完整程式碼
+// 程式名稱: 一維陣列升序排序
+// 功能說明：讀入長度 n 的整數陣列，排序後以空格輸出。
+// 日期: 2025/11/14
+// 作者: 教師批改(示例)
+// 學號: N/A
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = input.nextInt();
+
+        // 讀取 n 個整數，存入一維陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，使用空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+說明
+- 修改的核心在於把原本的二維三角形輸出改為符合題意的單一一維整數排序與輸出。
+- 為了避免不必要的輸入問題，程式僅執行一次讀取與輸出流程，符合「執行一次程式後結束程序」的要求。若需要更強的輸入驗證，可在讀取每個整數前加入檢查。

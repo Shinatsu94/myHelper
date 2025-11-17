@@ -1,0 +1,55 @@
+4
+
+改進建議：此程式未實作題目需求，缺少陣列讀入與昇序排序與正確輸出，建議改用整數陣列讀入並使用排序函式，並加上適當的檔案註解與清晰的變數命名。
+
+修改說明與原因：
+- 重新改寫為可讀取長度 n 與 n 個整數，並存入一維整數陣列，符合題意。
+- 使用 Arrays.sort 進行升序排序，簡潔且正確，能處理負數。
+- 輸出格式改為以空格分隔，結尾無多餘空格，符合預期輸出。
+- 加入檔案頭註解與清晰變數命名，提升可維護性與可讀性。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+檔案名稱: CSIE_41343101_1031_3b.java
+功能: 讀取長度 n 與 n 個整數，將其升序排序後輸出
+作者: 教師
+日期: 2025-11-14
+說明: 內容包含適當註解，並遵循良好格式與命名規範
+*/
+
+public class CSIE_41343101_1031_3b {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數，存入陣列
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出，元素以單一空格分隔，末尾不帶多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}

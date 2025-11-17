@@ -1,0 +1,55 @@
+12
+此程式未正確排序，使用了錯誤的右側最大值替換法，建議改用 Arrays.sort 直接排序，並移除不必要的邏輯。
+
+修改說明：
+- 核心修正：改用 Arrays.sort 對整數陣列進行排序，確保輸出為從小到大排序的正確結果。
+- 移除不必要的邏輯：刪除原程式中的 max_right 相關邏輯及特殊長度處理，避免產生錯誤輸出。
+- 邊界與輸入穩定性：保持原有輸入方式，對長度為0的情況也能正確輸出空行；若輸入元素不足，程式會依現有輸入計算。
+- 程式格式與註解：新增檔案標頭註解與適當內部註解，提升可讀性。
+- 輸出格式：用單行輸出排序後的數字，數字間以一個空白分隔，結尾换行。
+
+修改後完整程式碼：
+/*
+ * 檔案名稱: ArrayReplacement.java
+ * 功能: 將輸入的一維整數陣列由小到大排序並輸出
+ * 作者: 教授
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArrayReplacement {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int length = 0;
+        if (scanner.hasNextInt()) {
+            length = scanner.nextInt();
+        }
+
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (scanner.hasNextInt()) {
+                array[i] = scanner.nextInt();
+            } else {
+                // 若輸入不足，提前結束輸入讀取
+                break;
+            }
+        }
+
+        // 直接排序，確保由小到大
+        Arrays.sort(array);
+
+        // 輸出排序結果
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(array[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

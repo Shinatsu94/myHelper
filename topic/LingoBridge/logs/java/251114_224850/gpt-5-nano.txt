@@ -1,0 +1,58 @@
+3
+
+改進建議：將程式改為讀取長度 n 與 n 個整數，進行升序排序並輸出，並加入標頭註解與更清晰的變數命名，避免不相關的矩陣運算。
+
+修改說明與原因
+- 需求符合性：原程式與題目無關，實作的是 3x3 矩陣的反矩陣計算。新的實作直接滿足「讀入長度、讀入整數、排序、輸出」的需求。
+- 輸入與輸出：使用 Scanner 讀取整數，處理任意長度的整數陣列，輸出以空格分隔的一行，符合題意的輸出格式。
+- 類型與數值支援：使用 int 類型，支援負數，且排序使用 Arrays.sort，簡潔且穩定。
+- 程式可維護性與可讀性：加入適當的檔案註解（檔案名稱、功能、作者、日期），使用有意義的變數命名，減少不必要的複雜運算與引用。
+- 程式穩定性：若輸入不足 n 個整數，會預設為 0，避免例外；實務上可依需求調整為異常處理。
+
+修改後完整程式碼
+```java
+/*
+File: Main.java
+Description: 讀取整數 n，接著讀入 n 個整數，將它們升序排序後輸出為一行，數字間以空格分隔
+Author: 你的名字
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n;
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0 避免例外
+                arr[i] = 0;
+            }
+        }
+        sc.close();
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+```

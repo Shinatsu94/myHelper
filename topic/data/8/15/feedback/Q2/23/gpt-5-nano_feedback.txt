@@ -1,78 +1,69 @@
-8
+85
 
-評分說明（依照你給的標準逐項評分）：
-- 正確性：0
-  - 原程式的排序邏輯無法正確將輸入排序，最終輸出也不符合樣例（例如 5 個數字 8 3 12 5 1 的正確排序應為 1 3 5 8 12，但原程式輸出並非如此）。
-- 邏輯：5
-  - 程式有嘗試進行排序的邏輯，但實作錯誤且混亂，未清楚定義排序步驟，且最後用 -1 作為結尾的做法也不合理且易造成混亂。
-- 格式：3
-  - 變數命名不夠清晰、縮排與大括號風格不穩定、程式碼缺乏可讀的說明與註解。
-- 備註：0
-  - 程式檔案缺乏標頭註解（檔案名稱、功能、作者、日期等說明）。
+建議加強程式風格與效能，例如使用更具描述性的變數名稱、加入標頭註解，以及改用從右到左的單次遍歷以降低時間複雜度。
 
-修改說明與修改後完整程式碼
-修改重點與原因：
-- 使用清晰的變數命名與良好格式：將 a->arr、x->n 等改為更具語意的命名，統一縮排。
-- 移除錯誤且混亂的排序邏輯，改用簡單且可靠的排序演算法（選擇排序）實作升序排序，確保正確性與可理解性。
-- 加入適當的程式標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
-- 輸出格式改為每個數字以單一空格分隔、結尾換行以符合常見輸出格式。
-- 程式結構調整為一個清晰的可閱讀版本，便於日後維護和擴充。
+修改說明
+- 將演算法改為 O(n) 時間複雜度：利用一個原始值副本 orig，從右到左遍歷，將 a[i] 設為 orig 右側元素的最大值，最後再把 a[n-1] 設為 -1。
+- 使用更具描述性的變數名稱（orig、suffixMax、n、a），提高可讀性。
+- 增加程式標頭註解與註解，並在結尾關閉 Scanner，提升程式健全性與可維護性。
+- 保留原輸入輸出格式，確保在 sample/input 下輸出與題意一致。
 
-修改後完整程式碼（Java，檔名建議 SortArray.java）：
-/*
-檔案名稱: SortArray.java
-功能說明: 讀取整數長度 n 與 n 個整數，將其升序排序，輸出排序結果
-作者: 依需求填寫
-日期: 2025-11-12
-*/
+修改後完整程式碼
+```java
 import java.util.Scanner;
 
-public class SortArray {
+/**
+ * ArraySuffixMaxReplacement
+ * 功能：
+ *   1) 讀取一維整數陣列長度與內容
+ *   2) 將陣列中每個元素替換為其右側元素中的最大值
+ *      (最後一個元素替換為 -1)
+ *   3) 輸出替換後的陣列，元素之間以空格分隔
+ * 作者：你
+ * 日期：2025-11-14
+ */
+public class ArraySuffixMaxReplacement {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // 讀取長度
         if (!sc.hasNextInt()) {
             sc.close();
             return;
         }
+
         int n = sc.nextInt();
-        int[] arr = new int[n];
-
-        // 讀取陣列元素
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，以 0 佔位
+            a[i] = sc.nextInt();
+        }
+
+        // 使用原始值副本以避免覆寫影響右側計算
+        int[] orig = a.clone();
+        int suffixMax = Integer.MIN_VALUE;
+        // 從右到左，a[i] 取 orig[i+1..n-1] 的最大值
+        for (int i = n - 1; i >= 0; i--) {
+            a[i] = suffixMax;
+            if (orig[i] > suffixMax) {
+                suffixMax = orig[i];
             }
         }
 
-        // 使用選擇排序將陣列升序排序
-        for (int i = 0; i < n - 1; i++) {
-            int minIdx = i;
-            for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[minIdx]) {
-                    minIdx = j;
-                }
-            }
-            // 交換 arr[i] 與 arr[minIdx]
-            int tmp = arr[i];
-            arr[i] = arr[minIdx];
-            arr[minIdx] = tmp;
+        // 最後一個元素設定為 -1
+        if (n > 0) {
+            a[n - 1] = -1;
         }
 
-        // 輸出排序結果，元素之間以單一空格分隔
+        // 輸出，避免末尾多餘空格
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            sb.append(a[i]);
         }
         System.out.print(sb.toString());
 
         sc.close();
     }
 }
+```
 
-一語話改進建議或反饋
-- 建議使用明確且穩定的排序演算法實作（如選擇排序、泡泡排序或自己實作的排序），或直接使用 Arrays.sort 以提高可讀性與可靠性，並加上輸入驗證與完整註解，以利日後維護與測資通過。
+說明修改部分的效果
+- 主要改動在於提升時間效率，將原本的兩層迴圈（O(n^2)）改為單次從右到左的遍歷（O(n)），且透過 orig 複本保留原始值，避免覆寫造成計算錯誤。此外，加入了適當的註解與更清晰的命名，提升程式維護性。

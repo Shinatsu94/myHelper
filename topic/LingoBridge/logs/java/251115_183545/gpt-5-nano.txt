@@ -1,0 +1,53 @@
+87
+
+改進建議與回饋
+- 建議改用字串直接判斷數字的遞增性，避免 int 與字串之間的轉換，並加上程式標頭與適當註解以提升可讀性與可維護性。
+
+修改說明與評分細項
+- 正確性 (50/50)：在數字為單位數或多位數的情況下皆能正確判斷是否字元序列嚴格遞增，符合題意。
+- 邏輯 (28/30)：核心邏輯仍是逐個相鄰數字比較，若前者>=後者則非遞增，語意清楚且正確；以字串處理避免了整數範圍問題，但原始版本在極端輸入下也能工作。此處改以更穩健的字串處理提升魯棒性。
+- 格式 (9/10)：變數命名較為清晰，但原始版本缺乏檔案標頭與內部註解，影響可讀性；新的版本新增標頭與註解，並維持一致縮排。
+- 備註 (0/10)：原始程式缺少標頭註解與說明，未符合系統要求。修改版補充了標頭註解與內部註解。
+
+修改後完整程式碼與說明
+修改重點：
+- 直接以字串 input 處理，避免整數轉字串的冗餘與可能的溢位問題，並更易於處理任意長度的數字。
+- 新增檔案標頭註解，提供檔案名稱、功能、作者與日期，增強可維護性。
+- 使用更具描述性的變數命名，並加入內部註解以說明判斷邏輯。
+
+程式碼：
+/*
+File: WellOrderedNumber.java
+Description: Determine whether a given non-negative integer's digits are strictly increasing from left to right.
+Author: Auto-grader
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next().trim();
+
+        boolean isWellOrdered = true;
+        // Check adjacent digits are strictly increasing
+        for (int i = 0; i < input.length() - 1; i++) {
+            char current = input.charAt(i);
+            char next = input.charAt(i + 1);
+            // If any pair is not strictly increasing, mark as false
+            if (current >= next) {
+                isWellOrdered = false;
+                break;
+            }
+        }
+
+        if (isWellOrdered) {
+            System.out.printf("%s is well-ordered number.\n", input);
+        } else {
+            System.out.printf("%s is not well-ordered number.\n", input);
+        }
+
+        sc.close();
+    }
+}

@@ -1,0 +1,80 @@
+86
+
+改進建議（一句話）：
+整體正確且高效，但缺少程式檔案註解，建議以 Header 註解說明並採用高效 I/O 以增進可讀性與效能。
+
+程式優化與修改說明：
+- 將 I/O 從 Scanner 轉換為自訂的快速輸入（FastScanner，使用 Buffered 讀取），可顯著提升大量輸入時的效能。
+- 使用 StringBuilder 來組裝輸出字串，減少多次 System.out.print 呼叫，提升執行效率。
+- 加入檔案註解頭，符合題目要求的「備註」部分，並提供檔案名稱、功能、作者與日期等資訊。
+- 保留原本的核心演算法：從陣列右端往左端維護右側最大值，最後一個元素設為 -1；此法時間複雜度為 O(n)，空間為 O(1)（除輸出外）。
+- 增加對 n = 0 的處理，避免對空陣列進行索引存取。
+
+以下為修改後的完整程式碼：
+
+import java.io.*;
+
+ /*
+  檔案名稱: CSIE_41343215_1031_2.java
+  功能: 建立任意長度的一維陣列，輸入後將每個元素替換為其右側出現的最大值，最後一個為 -1，最後輸出結果
+  作者: 你可自行填寫
+  日期: 2025-11-14
+ */
+
+public class CSIE_41343215_1031_2 {
+    private static class FastScanner {
+        private final InputStream in = System.in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            do {
+                c = read();
+                if (c == -1) return Integer.MIN_VALUE; // end of input
+            } while (c <= ' ');
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner();
+        int n = fs.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = fs.nextInt();
+
+        if (n > 0) {
+            int maxFromRight = arr[n - 1];
+            arr[n - 1] = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                int temp = arr[i];
+                arr[i] = maxFromRight;
+                if (temp > maxFromRight) maxFromRight = temp;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

@@ -1,0 +1,57 @@
+78
+
+改進建議：程式雖能輸出正確的座標，但未實作題目要求的下三角形二維陣列建立與填充，且變數命名與註解不足，需增強可讀性與符合需求。
+
+程式優化與修改說明：
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期等，提升可維護性。
+- 建立實際的下三角形二維陣列並填入遞增數字，符合題意的「建立完整的下三角形二維陣列」要求。
+- 使用具代表性的變數名稱，如 height、target、tri 等，提升可讀性。
+- 以雙層迴圈掃描陣列尋找 tar 的位置，並輸出 1-based 的列與欄位；若找不到，輸出固定格式的提示訊息。
+- 程式輸出有換行，並保持與題目樣式一致的輸出格式。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/**
+ * File: LowerTriangularArray.java
+ * Description: 建立下三角形二維陣列，填入遞增數字，尋找指定數字的位置，輸出 (row, col)（皆從1開始）。
+ * Author: 你的姓名
+ * Date: 2025-11-14
+ */
+public class LowerTriangularArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int height = sc.nextInt();
+        int target = sc.nextInt();
+
+        // 建立下三角形二維陣列並填值
+        int[][] tri = new int[height][];
+        int value = 1;
+        for (int i = 0; i < height; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
+            }
+        }
+
+        // 尋找 target 的位置
+        int foundRow = -1; // 1-based
+        int foundCol = -1; // 1-based
+        outer:
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    foundRow = i + 1;
+                    foundCol = j + 1;
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + target + " in array.");
+        }
+    }
+}

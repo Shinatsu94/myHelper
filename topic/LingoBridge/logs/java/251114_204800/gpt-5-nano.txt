@@ -1,0 +1,71 @@
+97
+
+建議改進：將排序與輸出再分離，讓排序函式專注排序，輸出由主程式負責，並加上適當註解與換行處理，以提升可讀性與可維護性。
+
+修改說明與原因：
+- 將輸出從選取排序函式中移出，讓 selectionSort 只負責排序，符合單一職責原則，方便重複使用與測試。
+- 調整選取排序邏輯為更直觀的 minIndex 追蹤，減少變數混亂，易於理解。
+- 新增 printArray 輸出輔助函式，統一輸出格式，並在結尾加上換行，符合一般輸出格式要求。
+- 保留原本支援負數與任意長度輸入的能力，並避免使用 EOF 結束條件，符合題意。
+- 程式風格與註解略作整理，並維持原檔案名稱與類別名稱以便評分時核對。
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+
+/*
+    filename: CSIE_41143122_1031_1.java
+    function: 讀入使用者輸入的任意長度一維陣列(, 使用者先輸入陣列長度，然後逐一輸入陣列內容)，程式可以輸出 selection sort 排序前後陣列的內容
+      author: 林柏儒 資工四甲 41143122
+    datetime: 2025/10/31
+     version: 1.1
+*/
+public class CSIE_41143122_1031_1 {
+    // 將陣列進行 selection sort，但不負責輸出
+    public static void selectionSort(int[] array) {
+        if (array == null || array.length < 2) return;
+        for (int j = 0; j < array.length - 1; j++) {
+            int minIndex = j;
+            for (int i = j + 1; i < array.length; i++) {
+                if (array[i] < array[minIndex]) {
+                    minIndex = i;
+                }
+            }
+            int temp = array[j];
+            array[j] = array[minIndex];
+            array[minIndex] = temp;
+        }
+    }
+
+    // 輔助輸出函式，輸出整數陣列，元素以空格分隔，結尾換行
+    private static void printArray(int[] array) {
+        if (array == null || array.length == 0) {
+            System.out.println();
+            return;
+        }
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(array[i]);
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        selectionSort(array);
+        printArray(array);
+        scanner.close();
+    }
+}
+```

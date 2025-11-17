@@ -1,0 +1,69 @@
+95
+
+建議改進重點：加入對 A 超過 45 的特例處理、改用更快的 I/O 與完善的程式標頭註解，並以更清楚的變數命名提升可讀性與效能。
+
+改進說明與修改要點
+- 將 I/O 換成 BufferedReader，提升效率，因為只有單行輸入，效益有限但仍有助於在大量測試下穩定表現。
+- 增加 A 的前置檢查：若 A <= 0 或 A > 45，直接輸出 0，因 1..100000 的數字位數和最大為 45，且 100000 的位數和為 1。
+- 變數命名改為 targetSum 與 count，以提升語意清晰度。
+- 程式標頭改為標準的區塊註解，並保留原有功能性註解，增加可讀性與維護性。
+
+修改後的完整程式碼如下：
+
+/*
+ * 文件名稱: CSIE_41343240_1003_3.java
+ * 功能: 輸入整數 A，統計在 1..100000 之間，數字各位數字總和等於 A 的數字個數
+ * 作者: 黃榮裕 (41343240)
+ * 日期: 2025-10-03
+ * 備註: 包含對輸入的基本檢查與效能優化
+ */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class CSIE_41343240_1003_3 {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) {
+            System.out.println(0);
+            return;
+        }
+        line = line.trim();
+        if (line.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
+        int targetSum;
+        try {
+            targetSum = Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            System.out.println(0);
+            return;
+        }
+
+        // 若 targetSum 超過 45，因 1..99999 最大位數之和為 45；100000 的位數和為 1
+        if (targetSum <= 0 || targetSum > 45) {
+            System.out.println(0);
+            return;
+        }
+
+        int count = 0;
+        for (int i = 1; i <= 100000; i++) {
+            if (digitSum(i) == targetSum) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

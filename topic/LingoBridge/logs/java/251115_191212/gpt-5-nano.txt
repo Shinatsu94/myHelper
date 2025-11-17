@@ -1,0 +1,41 @@
+43
+
+建議改用通用的反轉演算法，確保中間的零也會正確處理，並對 0 與負數等邊界情況有妥善處理，同時提升程式的可讀性與可維護性。
+
+修改說明（重點與原因）
+- 使用字串反轉法處理，避免整數溢位與中間零被遺漏的問題，並能正確處理 0、以及負數情況。
+- 針對輸入為 0 的情況，顯示 0；對負數保留負號，輸出如 -321。
+- 讓程式結構更清晰，變數命名與流程容易理解。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        if (!in.hasNext()) {
+            in.close();
+            return;
+        }
+
+        String s = in.next().trim();
+        boolean neg = s.startsWith("-");
+        if (neg) s = s.substring(1);
+
+        // 反轉數字字串
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+        // 移除前導零，但確保至少有一位數
+        String reversed = sb.toString().replaceFirst("^0+(?!$)", "");
+        if (reversed.isEmpty()) reversed = "0";
+
+        // 加回負號（若原始為負數）
+        if (neg && !reversed.equals("0")) {
+            System.out.print("-" + reversed);
+        } else {
+            System.out.print(reversed);
+        }
+
+        in.close();
+    }
+}

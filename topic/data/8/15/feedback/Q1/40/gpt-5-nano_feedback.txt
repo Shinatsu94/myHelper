@@ -1,46 +1,53 @@
-87
+100
+改進建議：建議移除未使用的 original 陣列、補上標頭註解，並在可接受時使用 Arrays.sort 提升效能與可讀性。
 
-修改後完整程式碼（優化版）
-```java
+修改說明與修改後完整程式碼
+修改說明：
+- 移除未使用的 original 陣列，減少記憶體與維護成本。
+- 加入檔案級標頭註解，清楚說明檔案名稱、功能、作者與日期。
+- 改用 Arrays.sort 直接對整數陣列排序，提升執行效率與程式簡潔度；同時保留輸出格式與輸出方式的一致性。
+- 對變數命名與註解做適度整理，以提升可讀性。
+
+修改後完整程式碼：
+/*
+ File: CSIE_41343217_1031_1.java
+ Description: 讀入長度 n，讀入 n 個整數，排序並輸出升序陣列
+ Author: 你的名字
+ Date: 2025-11-14
+*/
+
 import java.util.Arrays;
 import java.util.Scanner;
 
-/*
- * File: SortArray.java
- * 功能: 讀入長度 n、n 個整數，將陣列內容由小至大排序，並輸出排序結果。
- * 作者: 你的姓名
- * 日期: 2025-11-12
- */
-public class SortArray {
+public class CSIE_41343217_1031_1 {
+
     public static void main(String[] args) {
+        // 建立 Scanner 物件，用於讀取使用者輸入
         Scanner sc = new Scanner(System.in);
+
+        // 讀取接下來要輸入的整數數量 n
         int n = sc.nextInt();
+
+        // 取得長度為 n 的整數陣列，讀入 n 個整數
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
 
-        // 使用內建快速排序，時間複雜度 O(n log n)
+        // 將陣列 a 依照升序排序（使用內建排序以提升效能與穩定性）
         Arrays.sort(a);
 
-        // 使用 StringBuilder 進行輸出拼接，避免多次 System.out.print
+        // 印出排序後的陣列，元素以單一空格區隔
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < a.length; i++) {
-            if (i > 0) sb.append(' ');
+        for (int i = 0; i < n; i++) {
+            if (i > 0) {
+                sb.append(' ');
+            }
             sb.append(a[i]);
         }
         System.out.println(sb.toString());
 
+        // 關閉 Scanner 物件，釋放資源
         sc.close();
     }
 }
-```
-
-修改說明與原因
-- 移除未使用的 original 陣列，降低記憶體使用與混淆性。
-- 改用 Arrays.sort 進行排序，將時間複雜度提升至 O(n log n)，相較原本的選擇排序（O(n^2)）更高效，且可正確處理包含負數的情況。
-- 使用 StringBuilder 結合單次輸出，避免逐個 System.out.print 造成的效能降低。
-- 增加程式標頭註解，說明檔案名稱、功能、日期等，提升可維護性與可閱讀性。
-
-改進建議或反饋（一句話）
-建議採用內建排序（Arrays.sort）並加上檔案標頭註解，以提升效能與可維護性。

@@ -1,0 +1,73 @@
+81
+改進建議：建議避免輸出尾端多餘的空格並補上換行，同時加入程式標頭註解與更具描述性的函式命名以提升可讀性與維護性。
+
+改進說明與評分依據
+- 正確性（50%）：學生的排序邏輯正確，能對任意長度的整數陣列進行由小到大排序，負數亦支援。僅在輸出格式的嚴謹度上略有欠缺（尾端空格與換行未定），因此給予 45/50。
+- 邏輯（30%）：採用簡單直覺的選擇排序，程式邏輯清晰且能正確地進行原地排序，給予 28/30。
+- 格式（10%）：變數命名基本妥當，但方法命名較不直覺且缺少註解與標頭註解，格式各層次縮排尚可再提升，給予 7/10。
+- 備註（10%）：缺乏程式標頭註解說明與註解，扣 3-5 點，此處給 0/10。
+
+優化重點
+- 修正輸出格式：以單一空格分隔，結尾加上換行，避免尾端空格造成測資不通。
+- 增加標頭註解與更具可讀性的命名：加入檔案說明的註解，將排序函式改名為更具描述性的名稱。
+- 程式健壯性：保留適度的輸入健全性檢查，並在終端釋放資源（關閉 Scanner）。
+- 保留原有功能與支援負數：排序演算法未改動，保持對負數的支援。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343203_1031_1.java
+功能: 讀取一個整數 n，接著讀取 n 個整數，將其由小到大排序，最後輸出排序結果。
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343203_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+        int[] arr = new int[Math.max(n, 0)];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
+            }
+        }
+
+        selectionSortAscending(arr);
+        printArray(arr);
+        sc.close();
+    }
+
+    // 將陣列進行選取排序，從小到大
+    private static void selectionSortAscending(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+            if (min != i) {
+                int temp = arr[min];
+                arr[min] = arr[i];
+                arr[i] = temp;
+            }
+        }
+    }
+
+    // 輸出陣列，使用單一空格分隔，結尾換行，避免尾端空格
+    private static void printArray(int[] arr) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

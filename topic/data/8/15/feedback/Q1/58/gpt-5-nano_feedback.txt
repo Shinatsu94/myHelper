@@ -1,57 +1,53 @@
-100
+97
 
-修改後完整程式碼
+改進建議：作業已正確排序並輸出，但可以改用 Arrays.sort 提升效率與可讀性，並加入基本輸入驗證與更清晰的註解；另外避免過度依賴自訂排序函式以提升穩定性。
+
+程式碼優化與修改說明
+- 使用 Arrays.sort 取代自訂的 selectionSort，提升排序效能與簡化程式。
+- 加入對 n <= 0 的基本檢查，避免非預期情況。
+- 保留直覺的輸入輸出流程，輸出格式維持「用空格分隔、結尾換行」。
+- 程式標頭與註解更完整，便於維護與評分。
+
+修改後完整程式碼如下（已以較清晰的命名與註解呈現）：
+
 //Date:2025/10/31
-//Creator:黃榮裕
 //File: CSIE_41343240_1031_1.java
-//Function: 讀入使用者輸入的任意長度一維陣列，先取得長度再讀入元素，之後使用內建排序法 Arrays.sort 進行升序排序，最後輸出排序結果
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+//Author: 黃榮裕 (41343240)
+//Description: 讀入使用者輸入的任意長度整數陣列，先輸入長度，然後依序輸入元素，輸出升序排序結果。
+//此版本使用 Arrays.sort 以提升排序效率，並包含基本輸入檢查與清晰註解。
+
 import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class CSIE_41343240_1031_1 {
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder input = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            input.append(line).append(' ');
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        // 基本輸入檢查，若長度為非正，輸出空行後結束
+        if (n <= 0) {
+            System.out.println();
+            sc.close();
+            return;
         }
 
-        StringTokenizer st = new StringTokenizer(input.toString());
-        if (!st.hasMoreTokens()) return;
-
-        int n = Integer.parseInt(st.nextToken());
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            if (st.hasMoreTokens()) {
-                arr[i] = Integer.parseInt(st.nextToken());
-            } else {
-                arr[i] = 0; // 若輸入元素不足，預設為 0
-            }
+            arr[i] = sc.nextInt();
         }
 
+        // 使用內建排序提升效能
         Arrays.sort(arr);
 
-        StringBuilder out = new StringBuilder();
+        // 輸出排序後的內容，元素之間以空格分隔
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            if (i > 0) out.append(' ');
-            out.append(arr[i]);
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
         }
-        System.out.println(out.toString());
+        System.out.println(sb.toString());
+
+        sc.close();
     }
 }
-
-修改說明與原因
-- 將自訂的 selectionSort 改為使用 Arrays.sort（變更後的核心改動）
-  - 原因：Arrays.sort 使用更高效的 O(n log n) 排序，適合任意長度的輸入，能提升執行效率，特別是較大數據量時性能明顯改善，同時程式碼更簡潔。
-- 使用 BufferedReader + StringTokenizer 以一次性將整個輸入內容轉換成 tokens
-  - 原因：讓輸入處理對換行、空白、以及多行輸入更為 robust，避免依賴特定換行格式，且仍能在不使用 EOF 的情況下準確取得 n 與 n 個元素。
-- 保留輸出格式，確保數字之間以單一空格分隔，末尾換行
-  - 原因：符合題目要求的輸出格式，且避免多餘的空格。
-- 標頭與註解增加檔案名稱與功能說明，保持變數命名有意義
-  - 原因：符合備註要求，讓程式維護性提升。
-
-一句話的改進建議或反饋
-- 建議進一步加入基本的輸入驗證與邊界處理（如 n <= 0 的情況），並在需要時針對不同測資規模選擇合適的排序與 I/O 策略。

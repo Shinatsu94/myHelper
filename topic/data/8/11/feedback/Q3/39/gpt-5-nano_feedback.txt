@@ -1,31 +1,45 @@
-0
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 2/10
-- 備註: 0/10
+86
+建議補上檔案標頭與註解，並把計算邏輯拆成方法以提升可讀性與可維護性。
 
-修改後完整程式碼與說明：
+優化與修改說明：
+- 加入清楚的檔案標頭註解，符合備註要求，方便日後維護。
+- 將「位數加總」的邏輯提取成獨立方法 digitSum(int n)，提升程式可讀性與重用性。
+- 使用常數 MAX 與有意義的變數名稱，例如 target、count，讓程式意圖更清楚。
+- 其他保持原有正確性與結構，僅做結構化與命名上的優化。
+
+修改後完整程式碼：
 /*
- * 檔案名稱: SwapTwoNumbers.java
- * 功能: 讀入兩個整數 A、B，印出 B 與 A，達成交換的輸出效果（不使用額外變數做交換）。
- * 作者: 教授
- * 日期: 2025-11-11
- * 備註: 使用 Scanner 讀取輸入，直接輸出交換後的順序。
- */
-public class SwapTwoNumbers {
+個人檔案名稱: CSIE_41343216_1003_3.java
+功能說明  : 計算 1~100000 之間，數字各位數字總和等於輸入 A 的數量。
+作者　　  : （請填寫作者姓名）
+日期　　  : 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343216_1003_3 {
     public static void main(String[] args) {
-        java.util.Scanner sc = new java.util.Scanner(System.in);
-        int A = sc.nextInt();
-        int B = sc.nextInt();
-        // 直接輸出交換後的結果，不使用額外變數進行交換
-        System.out.println(B);
-        System.out.println(A);
+        Scanner sc = new Scanner(System.in);
+        int target = sc.nextInt();
+        int count = 0;
+        final int MAX = 100000;
+
+        for (int i = 1; i <= MAX; i++) {
+            if (digitSum(i) == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
         sc.close();
     }
+
+    // 計算正整數 n 的各位數字總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
 }
-
-修改原因與說明：
-- 移除原作的多餘邏輯與迴圈，直接根據題意讀取兩個整數並以 B 先於 A 的順序輸出，達成「交換後的印出」需求，符合不可使用外部變數進行交換的限制，且避免不必要的計算與變數造成混亂。
-
-一句話改進建議或反饋：
-- 直接依題意輸出交換後的值即可，避免不必要的複雜邏輯與變數，能提升正確性與可讀性。

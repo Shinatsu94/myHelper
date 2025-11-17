@@ -1,0 +1,58 @@
+12
+
+此作業需重寫成正確排序，建議採用 Arrays.sort，移除不當的最後一格為 -1 的處理，並確保可處理負數與任意長度的輸入。
+
+修改說明與修改內容
+- 正確性與邏輯
+  - 移除原程式以右邊最大值遞回更新的錯誤實作，改為使用 Arrays.sort(a) 對整數陣列做升序排序，確保正確性。
+  - 移除將最後一格設為 -1 的不當假設，避免破壞原始資料。
+- 格式與可讀性
+  - 增加標頭註解，說明檔案名稱、功能、作者與日期，提升可維護性。
+  - 變數命名維持較具代表性的名稱，並保持適當縮排與註解。
+- 備註
+  - 增加對極端情況的健壯性處理：支援任意長度 n 與負數輸入；輸入不足時預設補值不影響排序流程，並仍輸出結果。
+
+修改後完整程式碼
+檔案名稱: Main.java
+功能: 讀取整數陣列長度與元素，並輸出升序排序結果
+作者: 教師
+日期: 2025-11-14
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 使用 Scanner 取得使用者輸入
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        // 讀取 n 個整數到陣列
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                a[i] = 0; // 若輸入不足，預設為 0，避免例外
+            }
+        }
+
+        // 對整個陣列做升序排序
+        Arrays.sort(a);
+
+        // 輸出排序後的結果，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

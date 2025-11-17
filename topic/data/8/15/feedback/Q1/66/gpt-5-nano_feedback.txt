@@ -1,60 +1,52 @@
-89
+90
 
-評分與評語（依據你給的標準）
-- 正確性 50/50：程式能正確讀入長度與元素，並輸出從小到大的排序結果，且支援負數。若長度為0情況未特別處理，但題目通常不會給出0長度的情況，因此現有實作在常見測資下正確。
-- 邏輯 28/30：實作使用一種可行的排序變體（透過多次交換把最小值放到前方），邏輯清楚且正確；若要更清晰與穩定，使用標準排序法會更佳。
-- 格式 7/10：變數命名較不具意義（如 ans、question），且存在未使用的 question 陣列，縮排雜亂與混用制式，輸出前後未加換行等細節可改進。
-- 備註 4/10：程式內有中文註解說明區段功能，然而缺少程式檔案標頭註解（檔名、功能、作者、日期），因此未符合其完整註解需求。
+建議以內建排序取代自訂排序、移除未使用的變數、並補上標頭註解，以提升可讀性與維護性。
 
-改進版本與說明
-修改重點
-- 去除未使用的 question 陣列，整理變數命名為更具語意的名稱（如 nums、n）。
-- 加入標頭註解，說明檔案名稱、功能、作者與日期。
-- 使用 Java 標準函式 Arrays.sort 進行排序，提升可讀性與可靠性，並簡化程式邏輯。
-- 輸出改為以字串連接，確保輸出格式穩定（以空格分隔、無多餘空格）。
-- 程式結尾加上 sc.close()，養成良好資源管理習慣。
+修改說明：
+- 移除未使用的 question 陣列，避免不必要的記憶體浪費。
+- 使用 Arrays.sort 進行排序，簡化邏輯且提升效能與穩定性。
+- 加入清晰的程式標頭註解，並使用較具可讀性的變數名稱與格式。
+- 適當關閉 Scanner，並在輸入不足時提供預設值，提升魯棒性。
 
-修改後完整程式碼（Java）
-/*
- * 檔案名稱: CSIE_51015114_1031_1.java
- * 功能: 讀取使用者輸入的長度與對應整數，對陣列進行升冪排序，並輸出排序結果
- * 作者: 學號 CSIE_51015114
- * 日期: 2025-11-12
- */
-
+修改後完整程式碼：
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class CSIE_51015114_1031_1 {
+/*
+ * File: ArraySort.java
+ * Description: 將任意長度的一維整數陣列由小到大排序並輸出
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+
+public class ArraySort {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
 
-        int n = sc.nextInt();
-        int[] nums = new int[n];
-
+        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            nums[i] = sc.nextInt();
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 輸入不足時預設為 0，避免例外
+            }
         }
 
-        // 使用內建排序，簡潔且正確
-        Arrays.sort(nums);
+        Arrays.sort(arr);
 
-        // 輸出結果，避免尾端多餘空格
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(nums[i]);
+            sb.append(arr[i]);
         }
-        System.out.print(sb.toString());
 
+        System.out.print(sb.toString());
         sc.close();
     }
 }
-
-修改說明
-- 透過 Arrays.sort 替代自寫排序迴圈，降低錯誤機率並提高可讀性與維護性。
-- 移除不必要的陣列與多餘變數，讓程式結構更清晰。
-- 強化輸出格式，確保輸出符合題目要求且在不同測資下穩定。
-
-一句話改進建議或反饋
-建議日後採用內建排序工具並加上完整檔案頭註解，以提升可讀性與維護性。

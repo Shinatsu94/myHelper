@@ -1,0 +1,63 @@
+86
+
+建議：目前程式功能完整且正確，建議補齊程式標頭註解、改善輸出結尾格式並微幅提升程式可讀性與效能。
+
+修改說明與原因：
+- 新增檔案標頭註解（檔名、功能、作者、日期），符合備註要求，提升可維護性。
+- 在選擇排序函式中加入長度小於等於1的早回傳，避免不必要的迴圈運算，微幅提升效率。
+- 使用 StringBuilder 組裝輸出，再一次性輸出，降低 I/O 次數，提升效能與穩定性。
+- 程式末尾加換行符，符合常見輸出格式，避免部分測資因缺少換行而判定錯誤。
+- 程式結尾關閉 Scanner，釋放資源，避免資源洩漏。
+
+修改後完整程式碼：
+/*
+ * File: Main.java
+ * Description: 讀入長度 n 與 n 個整數，輸出升序排序的結果（選擇排序）
+ * Author: 教師
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    // 將整數陣列 a 進行選擇排序（由小到大）
+    static void selectionSort(int[] a) {
+        int n = a.length;
+        if (n <= 1) return;
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIdx]) minIdx = j;
+            }
+            if (minIdx != i) {
+                int tmp = a[i];
+                a[i] = a[minIdx];
+                a[minIdx] = tmp;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 讀入陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        selectionSort(arr); // 升冪排序
+
+        // 組裝輸出以提升效能
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+        System.out.println(); // 加上換行，符合一般輸出慣例
+
+        sc.close();
+    }
+}

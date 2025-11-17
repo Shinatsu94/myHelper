@@ -1,43 +1,41 @@
-10
+88
+建議加入標頭註解與更具描述性的變數名稱，同時保留兩種不同的方法來計算最大、最小值以提升可讀性與可維護性。
 
-修改後完整程式碼：
+修改說明與改進建議
+- 新增程式標頭註解，說明檔案名稱、功能、作者與日期，符合備註需求。
+- 使用更具描述性的變數名稱 a, b, c，並保留原有的兩種不同方式計算最大值與最小值的做法（以三元運算子計算 max/min，並以 a+b+c-max-min 計算中間值 mid）。
+- 使用 try-with-resources 來自動關閉 Scanner，提升資源管理的穩定性。
+- 保留目前的輸出順序與格式，確保與題目輸出一致。
+- 為程式加入適當註解以提升可讀性。
+
+修改後的完整程式碼
 /*
-檔案名稱: Main.java
-功能: 讀入兩個整數 A, B，先印出兩個數值，再在不新增其他變數的情況下交換兩數，最後印出交換後的結果。
-作者: 你的名字
-日期: 2025-11-11
-*/
-
+ * 檔案名稱: ThreeNumbers.java
+ * 功能說明: 從標準輸入讀入三個整數，輸出最小值、中間值、最大值（各占一行）。
+ * 作者: 教授
+ * 日期: 2025-11-15
+ */
 import java.util.Scanner;
 
-public class Main {
+public class ThreeNumbers {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        // 使用 try-with-resources 以確保 Scanner 會被關閉
+        try (Scanner scanner = new Scanner(System.in)) {
+            int a = scanner.nextInt();
+            int b = scanner.nextInt();
+            int c = scanner.nextInt();
 
-        // 先印出初始值
-        System.out.println(A);
-        System.out.println(B);
+            // 方式一：用三元運算子分別找出最大值與最小值
+            int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+            int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
 
-        // 不使用額外變數，使用位元 XOR 互換
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+            // 方式二：以總和減去最大與最小，得到中間值
+            int mid = a + b + c - max - min;
 
-        // 輸出交換後的結果
-        System.out.println(A);
-        System.out.println(B);
-
-        scanner.close();
+            // 輸出順序：最小值、中間值、最大值
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
     }
 }
-
-修改說明與原因：
-- 移除了原作中多餘的第三個變數 C，符合題目要求僅用 A、B 兩個變數完成交換。
-- 直接用兩變數進行交換，使用 XOR 交換法（A = A ^ B; B = A ^ B; A = A ^ B;）避免新增變數，符合「不可使用其他變數進行數字交換」的限制。
-- 依照題意，保持輸出格式：先印出初始的 A、B 值，再印出交換後的結果，輸出每個數字一行。
-- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與維護性。
-
-改進建議（一句話）：
-若對於整數溢位有顧慮，可以改用兩次臨時變數的暫存法或使用更穩定的輸入驗證機制，但在此情境的整數範圍內 XOR 交換法已符合需求且簡潔。

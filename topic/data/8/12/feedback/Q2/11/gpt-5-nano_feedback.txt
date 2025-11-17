@@ -1,68 +1,48 @@
-15
+58
 
-評分與理由
-- 正確性：0/50
-  - 程式根本未實作題目要求的 pi 收斂計算與輸出格式，僅是與題意無關的良序數判定程式。
-- 邏輯：0/30
-  - 程式邏輯與題目需求完全不符，沒有進行逐項計算或輸出要求的流程。
-- 格式：6/10
-  - 程式結構尚可閱讀，有基本註解與命名，但與題意相悖，且剩餘的不相關程式碼使可讀性下降。
-- 備註：9/10
-  - 程式標頭註解齊全，包含檔名、功能、作者與日期，內容亦有註解說明。不過實作內容與標題不一致，降低了實用性。
+改進建議：目前的判斷條件是依相鄰差是否相等（等差數列），但題目要求的是從左到右的位數嚴格遞增，因此需改用直接比對相鄰位數字是否遞增的邏輯，並且精簡程式、避免不必要的資料結構與變數。
 
-修改後完整程式碼（已符合題意，實作 pi 收斂計算與指定輸出格式）
-// 程式檔案：PiLeibnizCalculator.java
-import java.util.Locale;
+修改內容與原因：
+- 問題在於原程式將數字的位數反轉後再判斷是否形成等差數列，這對於像 975 這類從左到右遞增但反向為遞增的數字會誤判不符合題意。修正為直接檢查字串中相鄰的兩個字元是否嚴格遞增，以符合從左至右的定義。
+- 移除不必要的資料結構與變數（如 ArrayList、sum、first 等），簡化邏輯，提升可讀性與正確性。
+- 直接以字串方式處理輸入，確保輸出格式與題目一致，且單一輸入即可結束。
 
-public class PiLeibnizCalculator {
+修改後完整程式碼：
+// filename: WellOrderedNumber.java
+import java.util.Scanner;
+
+/*
+    filename: WellOrderedNumber.java
+    function: 判斷輸入的整數位數是否從左至右嚴格遞增
+    author: 改寫版本
+    datetime: 2025/11/15
+    version: 1.0
+*/
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        // 設定 locale 避免小數點區分在不同地區造成的逗點差異
-        Locale.setDefault(Locale.US);
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next().trim();
 
-        // Part (a): 計算 pi 值，i 為 10000, 20000, ..., 100000 並輸出
-        double sum = 0.0;
-        int maxI = 100000;
-        // k 從 0 到 i-1，共 i 項
-        for (int k = 0; k < maxI; k++) {
-            double term = (k % 2 == 0) ? 1.0 : -1.0;
-            sum += 4.0 * term / (2.0 * k + 1.0);
-
-            // 當已累加到 i 為 10000 的倍數時輸出結果
-            if ((k + 1) % 10000 == 0) {
-                int i = k + 1;
-                System.out.printf("i = %6d, pi = %.10f%n", i, sum);
+        boolean wellOrdered = true;
+        // 若字串長度不足2，視為 well-ordered（單一位數的情況）
+        if (input.length() >= 2) {
+            for (int i = 0; i < input.length() - 1; i++) {
+                char c1 = input.charAt(i);
+                char c2 = input.charAt(i + 1);
+                // 嚴格遞增：前一位必須小於後一位
+                if (c1 >= c2) {
+                    wellOrdered = false;
+                    break;
+                }
             }
         }
 
-        // Part (b): 找到最小的 i，使得 pi 的近似值落在 3.14159 的 ±0.000005 範圍內
-        double target = 3.14159;
-        sum = 0.0;
-        int minI = -1;
-        // 設定上限避免無限迴圈；根據經驗大約需要數十萬次以上
-        int limit = 2000000;
-        for (int k = 0; k < limit; k++) {
-            double term = (k % 2 == 0) ? 1.0 : -1.0;
-            sum += 4.0 * term / (2.0 * k + 1.0);
-            if (Math.abs(sum - target) < 0.000005) {
-                minI = k + 1;
-                break;
-            }
-        }
-
-        System.out.println();
-        if (minI != -1) {
-            System.out.printf("i = %6d%n", minI);
+        if (wellOrdered) {
+            System.out.println(input + " is well-ordered number.");
         } else {
-            System.out.println("i not found within limit");
+            System.out.println(input + " is not well-ordered number.");
         }
+
+        scanner.close();
     }
 }
-
-修改說明與原因
-- 將原程式與題目需求嚴格對齊，實作 Leibniz 公式的 pi 收斂計算並依題意輸出：i 值以 6 位寬對齊、pi 值輸出至小數點後 10 位。
-- 以逐步累加的方式計算 pi 值，避免每次都重新求和，提升效能並確保輸出在 i 為 10000、20000、…、100000 時分別得到正確的 pi 近似值。
-- 針對 (b) 的需求，加入尋找最小的 i 以使近似值落在 3.14159 ± 0.000005 的區間，並在結果後輸出該 i，符合題意。
-- 加入適當的格式化輸出與註解，提升可讀性與可維護性。
-
-改進建議（一句話）
-在作業中直接把題目需求實作為主功能，避免提交與題意無關的程式；並考慮使用逐步累加以提升效能與可讀性，同時加強輸出格式的穩定性與可測試性。

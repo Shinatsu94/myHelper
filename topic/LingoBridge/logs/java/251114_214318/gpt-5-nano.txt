@@ -1,0 +1,47 @@
+11
+此程式未正確完成升序排序，輸出與題意不符，建議改用正確的排序方法並補齊註解與格式。
+
+改進與說明：
+- 改進1: 使用 Arrays.sort 進行升序排序，正確且簡潔，能正確處理含負數的情況。
+- 改進2: 再加入程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與維護性。
+- 改進3: 輸出格式修正，避免尾端有多餘空格，並確保輸出符合題意的一行結果，最後可換行以提高可讀性。
+
+修改後完整程式碼：
+```java
+/*
+檔案名稱: SortAscending.java
+功能: 讀入長度 N 與 N 個整數，輸出升序排序結果
+作者: 教授
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，支援負數並輸出方式為以空格分隔的單行結果
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int length = sc.nextInt();
+        int[] a = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+
+        System.out.print(sb.toString());
+        System.out.println();
+
+        sc.close();
+    }
+}
+```

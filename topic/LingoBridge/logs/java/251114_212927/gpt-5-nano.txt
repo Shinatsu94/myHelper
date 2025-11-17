@@ -1,0 +1,43 @@
+2
+改進方向：此作業目前未正確實作排序與輸出格式，需要改用正確的排序方法並確保輸出符合題目要求。
+
+修改與原因說明：
+- 將原先的 MA 與 pA 邏輯完全移除，改用 Arrays.sort 直接對整數陣列排序，能正確處理任意長度與負數情況，並且效率更高。
+- 輸出改為以空格分隔的排序結果，結尾換行，避免額外的 -1 或其他非預期數字。
+- 增加標頭註解，並使用更清晰的程式結構與常規命名，提升可讀性與可維護性。
+- 使用 StringBuilder 進行輸出組裝，提升輸出效率並避免尾端多餘的空格。
+- 保持一次性執行、讀取完畢即結束的行為，符合題目的需求。
+
+修改後完整程式碼：
+/*
+文件名稱: CSIE_41343202_1031_2.java
+功能: 讀取長度與整數序列，將序列排序後輸出
+作者: 教學助理
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，輸出為空格分隔的排序結果
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343202_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

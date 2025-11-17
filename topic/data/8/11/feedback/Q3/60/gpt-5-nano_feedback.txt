@@ -1,59 +1,53 @@
-2
+87
 
-作業評分與說明
-- 正確性(0/50)：0
-  原始程式未實作題目要求的「讀入兩個數字 A、B，印出其值，將兩數交換並印出」的功能，改寫前的程式與題目需求嚴重不符。
-- 邏輯(0/30)：0
-  程式邏輯與題意不符，且使用了與題目不相關的數字和函式，未提供正確的解決思路。
-- 格式(2/10)：2
-  程式有基本縮排與宣告，但檔案命名與類別名稱不具可讀性，缺乏註解與適當的程式標頭。內容結構基本正確，但因需求錯誤，整體評分仍偏低。
-- 備註(0/10)：0
-  未提供程式標頭註解與說明。
+改進建議：加入檔案標頭註解、使用較具描述性的變數與主類名（Main），並採用穩定的輸入輸出方式以符合常見評測規範。
 
-修改後完整程式碼與修改說明
-修改目的與原則
-- 依照題目需求：讀入兩個整數 A、B，先印出原始值，之後在不使用額外變數（只能使用 A 與 B）進行交換，並印出交換後的值。
-- 為符合「不得用其他變數進行交換」的限制，採用位元異或交換法（XOR swap），僅使用 A、B 兩個變數完成交換，避免額外變數。
-- 加入適當的檔案標頭註解與清晰的變數與程式結構命名，提升可讀性。
+優化與修改說明：
+- 將程式主類改為符合大多數評測平台的預設名稱 Main，並提供對應的檔案頭註解，提升可閱讀性與可維護性。
+- 變數命名更具描述性：targetSum、count、num，有助於理解程式用途。
+- 使用 BufferedReader 進行輸入，輸出保持 System.out，確保在大輸入情況下仍具穩定性。
+- 保留原有的 digitSum 邏輯，確保正確性與清晰度。
+- 程式邏輯未改動，仍然逐一檢查 1..100000 之間數字的位數和是否等於輸入值 A，符合題意。
 
-修改後的完整程式碼如下：
+修改後完整程式碼：
 /*
-檔案名稱: SwapTwoNumbers.java
-功能: 讀入兩個整數，印出原始值，之後在不使用第三變數的情況下交換並印出新值
-作者: (請填寫)
-日期: 2025-11-11
-說明: 使用 XOR 交換法以符合「不可再新增變數」的限制。
+File: Main.java
+Description: 計算在 1..100000 之間，數字各位數的和等於輸入值 A 的數字個數。
+Author: 教師
+Date: 2025-11-15
 */
-import java.util.Scanner;
 
-public class SwapTwoNumbers {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        int targetSum;
+        try {
+            targetSum = Integer.parseInt(line != null ? line.trim() : "0");
+        } catch (Exception e) {
+            targetSum = 0;
+        }
 
-        // 印出原始值
-        System.out.println(A);
-        System.out.println(B);
+        int count = 0;
+        for (int num = 1; num <= 100000; num++) {
+            if (digitSum(num) == targetSum) {
+                count++;
+            }
+        }
 
-        // 不使用第三變數，僅用 A, B 進行交換
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+        System.out.println(count);
+    }
 
-        // 印出交換後的值
-        System.out.println(A);
-        System.out.println(B);
-
-        scanner.close();
+    private static int digitSum(int number) {
+        int sum = 0;
+        while (number > 0) {
+            sum += number % 10;
+            number /= 10;
+        }
+        return sum;
     }
 }
-
-修改部分的原因與說明
-- 原因1：符合題意輸出格式與功能需求。先印出原始兩數值，接著在不使用額外變數下交換，最後印出交換後的兩數值。
-- 原因2：遵守「不可使用其他變數進行數字交換」的限制，使用 XOR swap 技巧避免引入臨時變數，符合題目約束。
-- 原因3：提升可讀性與維護性。使用更具描述性的檔案與類別名稱，同時加入標頭註解與內文註解，方便他人閱讀與維護。
-
-改進建議或反饋（一句話）
-- 建議在實作時嚴格依照題目輸出格式與限制，若規範說明不清可先與授課老師確認；如允許，使用更易讀的交換方式（例如暫存變數）可提升程式可讀性。

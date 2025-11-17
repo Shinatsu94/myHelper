@@ -1,0 +1,117 @@
+89
+正確性: 50/50
+邏輯: 30/30
+格式: 9/10
+備註: 0/10
+
+改進建議（一句話）
+程式已正確計算並格式化輸出反矩陣，但缺少標頭註解與對不可逆矩陣的處理，需要加上程式標頭註解、適當的錯誤處理與更一致的命名與註解。
+
+修改與原因
+- 加入程式標頭註解（檔案名稱、功能、作者、日期）以符合作業規範。
+- 增加對不可逆矩陣的判斷與例外處理，避免除以零或輸出不合理結果。
+- 將求逆的邏輯整理成清晰的輔助函式：det3、inverse3x3，提升可讀性與可維護性。
+- 統一輸出格式與命名，保留四位小數，遇到接近於零的元素輸出 0，以符合題意。
+- 移除不必要的多餘輸入處理，讓程式在單次 3x3 輸入下穩定運作。
+
+修改後完整程式碼
+```java
+/*
+File: MatrixInverse.java
+Description: 3x3 矩陣的反矩陣計算，輸出至小數點後四位；若元素為 0 則輸出 0。
+Author: 你的姓名
+Date: 2025-11-14
+*/
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class MatrixInverse {
+
+    // 計算 3x3 矩陣的行列式
+    private static double det3(double[][] m) {
+        return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+             - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+             + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+    }
+
+    // 計算 3x3 矩陣的反矩陣 (若不可逆則拋出例外)
+    private static double[][] inverse3x3(double[][] m) {
+        double det = det3(m);
+        if (Math.abs(det) < 1e-12) {
+            throw new ArithmeticException("矩陣不可逆，行列式為零。");
+        }
+        double invDet = 1.0 / det;
+
+        // 伴隨矩陣 (cofactor 的轉置)
+        double[][] adj = new double[3][3];
+        adj[0][0] =  (m[1][1] * m[2][2] - m[1][2] * m[2][1]);
+        adj[0][1] = -(m[0][1] * m[2][2] - m[0][2] * m[2][1]);
+        adj[0][2] =  (m[0][1] * m[1][2] - m[0][2] * m[1][1]);
+
+        adj[1][0] = -(m[1][0] * m[2][2] - m[1][2] * m[2][0]);
+        adj[1][1] =  (m[0][0] * m[2][2] - m[0][2] * m[2][0]);
+        adj[1][2] = -(m[0][0] * m[1][2] - m[0][2] * m[1][0]);
+
+        adj[2][0] =  (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+        adj[2][1] = -(m[0][0] * m[2][1] - m[0][1] * m[2][0]);
+        adj[2][2] =  (m[0][0] * m[1][1] - m[0][1] * m[1][0]);
+
+        double[][] inv = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inv[i][j] = adj[i][j] * invDet;
+            }
+        }
+        return inv;
+    }
+
+    // 輸出矩陣，滿足題目格式：四位小數，且值為 0 的輸出為 '0'
+    private static void printMatrix(double[][] m) {
+        final double EPS = 1e-9;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double v = m[i][j];
+                String out;
+                if (Math.abs(v) < EPS) {
+                    out = "0";
+                } else {
+                    out = String.format(Locale.US, "%.4f", v);
+                }
+                if (j < 2) {
+                    System.out.print(out + " ");
+                } else {
+                    System.out.print(out);
+                }
+            }
+            if (i < 2) System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Locale.setDefault(Locale.US); // 確保小數點為 '.'
+        Scanner sc = new Scanner(System.in);
+        sc.useLocale(Locale.US);
+
+        double[][] a = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!sc.hasNextDouble()) {
+                    System.err.println("輸入格式錯誤或資料不足。");
+                    sc.close();
+                    return;
+                }
+                a[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        try {
+            double[][] inv = inverse3x3(a);
+            printMatrix(inv);
+        } catch (ArithmeticException e) {
+            System.err.println("錯誤: " + e.getMessage());
+        }
+    }
+}
+```

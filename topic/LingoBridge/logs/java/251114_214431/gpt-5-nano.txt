@@ -1,0 +1,54 @@
+0
+此題的解法未實作排序，需改用正確排序演算法並正確輸出。
+
+修改建議與評語要點：
+- 你的演算法用法並非升序排序，請改用正確排序法（如 Arrays.sort）來排序整數陣列，並確保能處理負數。
+- 加入程式標頭註解，說明檔案名稱、功能、作者與日期，以及在內容中加入必要的註解，符合格式規範。
+- 輸入輸出格式需符合題意：先讀長度、再讀取整數，最後輸出同一行、以空白分隔的排序結果。可考慮使用 StringBuilder 以避免多次 I/O。
+- 變數命名與縮排可再統一與清晰，提升可讀性。
+
+修改內容與原因：
+- 使用 Arrays.sort(a) 直接對整數陣列排序，保證正確且能處理包含負數的情況，解題邏輯與需求完全符合。
+- 增加程式標頭註解，提供檔案名稱、功能、作者、日期等資訊，符合備註要求。
+- 以 StringBuilder 組裝輸出，避免在循環中頻繁 I/O，提升效率與可讀性。
+- 保留原有輸入方式（Scanner），符合「一次執行結束、不使用 EOF」的需求。
+
+修改後完整程式碼：
+```java
+// 檔案名稱: Main.java
+// 功能: 讀入長度 n，接著讀入 n 個整數，將其升序排序並輸出，以空格分隔
+// 作者: 你的名字
+// 日期: 2025-11-14
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入陣列長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        int[] a = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        // 升序排序
+        Arrays.sort(a);
+
+        // 輸出排序結果（同一行、以空格分隔）
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+    }
+}
+```

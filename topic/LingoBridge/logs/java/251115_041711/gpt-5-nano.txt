@@ -1,0 +1,92 @@
+總分：87
+
+改進建議一句話：
+建議補上程式標頭註解並在對不可逆矩陣的處理上做清楚定義，另外避免過度以近似判定視為零的情況，以提升可讀性與符合題意。
+
+修改與原因說明：
+- 新增程式標頭註解，包含檔案名稱、功能、作者、日期，提升可維護性與評分透明度。
+- 對於不可逆矩陣的情形，保留基本處理但以更明確的極小容許誤差判定是否為零，避免誤判。
+- 輸出格式調整為：非零元素輸出四位小數，零元素輸出字串 “0”，符合題目要求的輸出格式。
+- 代碼風格與可讀性提升：加入適當縮排、變數命名與註解，維持清晰結構與邏輯。
+
+修改後完整程式碼：
+
+/*
+ * File: CSIE_51015120_1031_5.java
+ * 功能: 讀入 3x3 矩陣，輸出其反矩陣，按四位小數顯示；零元素輸出 0
+ * 作者: [你的姓名]
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+public class CSIE_51015120_1031_5 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                A[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        double det = determinant(A);
+
+        // 使用較小的容許誤差判定不可逆
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("矩陣不可逆");
+            return;
+        }
+
+        double[][] inv = inverse(A, det);
+
+        // 格式化輸出：非零四位小數，零直接輸出 '0'
+        DecimalFormat df = new DecimalFormat("0.0000");
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                double val = inv[i][j];
+                if (Math.abs(val) < 1e-8) { // 判定近似為零時輸出 0
+                    System.out.print("0");
+                } else {
+                    System.out.print(df.format(val));
+                }
+
+                if (j < 2) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    // 計算 3x3 矩陣的行列式
+    public static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算反矩陣
+    public static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[3][3];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
+    }
+}

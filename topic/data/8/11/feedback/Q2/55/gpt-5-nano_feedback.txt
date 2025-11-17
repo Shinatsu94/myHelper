@@ -1,47 +1,37 @@
-4
+總分：88
 
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 4/10
-- 備註: 0/10
+改進建議（一句話）
+建議增補程式標頭註解並使用更具描述性的變數名稱，同時維持原有兩種計算方法以符合題意。
 
-修改後完整程式碼與說明
+修改說明（為何修改及重點）
+- 新增程式標頭註解，包含檔案名稱、功能、作者、日期等，提升可維護性與可追蹤性。
+- 將變數名稱由 A,B,C 改成更具描述性的 n1,n2,n3，以提升可讀性與維護性。
+- 保留使用三元運算子計算最大值與最小值，並以 mid = n1 + n2 + n3 - max - min 計算中位數，符合題目「不可使用 if-else」的限制且使用兩種不同的方法。
+- 使用 try-with-resources 以自動關閉 Scanner，提升資源管理穩健性。
 
-程式碼（符合題目要求：僅用 Scanner 讀取，交換不使用其他變數，使用位元運算避免額外變數）
-```java
-/**
- * File: CSIE_41343236_1003_2.java
- * 功能: 讀入兩個整數，交換其值後輸出
- * 作者: 使用者
- * 日期: 2025-11-11
- * 備註: 除了使用 Scanner 讀取之外，交換過程不使用其他變數
- */
+修改後完整程式碼
+/*
+File: CSIE_41343236_1003_2.java
+Description: 從標準輸入讀取三個整數，使用三元運算子分別計算最大值和最小值，並以 sum - max - min 計算中位數，輸出順序為最小、中位、最大。
+Author: 教師
+Date: 2025-11-15
+*/
 import java.util.Scanner;
 
 public class CSIE_41343236_1003_2 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
+            int n1 = sc.nextInt();
+            int n2 = sc.nextInt();
+            int n3 = sc.nextInt();
 
-        int A = sc.nextInt();
-        int B = sc.nextInt();
+            int max = (n1 > n2) ? ((n1 > n3) ? n1 : n3) : ((n2 > n3) ? n2 : n3);
+            int min = (n1 < n2) ? ((n1 < n3) ? n1 : n3) : ((n2 < n3) ? n2 : n3);
+            int mid = n1 + n2 + n3 - max - min;
 
-        // 使用 XOR 交換，無需額外變數，符合題目限制
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
-
-        System.out.println(A);
-        System.out.println(B);
-
-        sc.close();
+            System.out.println(min);
+            System.out.println(mid);
+            System.out.println(max);
+        }
     }
 }
-```
-
-修改說明
-- 原始作業讀取了三個數字並輸出三個值，且使用多於兩個變數與不符合「僅用 Scanner 讀取，交換不使用其他變數」的需求，故在正確性與邏輯上皆不符合題意。
-- 改用兩個變數 A、B，並利用 XOR 交換法在不額外宣告新變數的情況下完成交換，符合題目限制與需求。
-- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，提升可讀性與維護性。
-
-改進建議（一句話）
-- 下一次請務必直接依題目要求實作：僅兩個輸入變數並在不新增變數的情況下完成交換，避免使用多餘的輸入與變數造成與題目不符的結果。

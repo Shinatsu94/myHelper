@@ -1,0 +1,52 @@
+6
+
+改進建議：直接以一維整數陣列讀入 n 個整數並排序，輸出結果，避免不相關的二維陣列操作與多餘輸出。
+
+修改說明與原因：
+原程式與題目需求嚴重不符，未讀取或排序題目要求的整數，且使用了不必要的二維下三角陣列與輸出。新版本改用一維整數陣列，依序讀入 n 個整數，利用 Arrays.sort 進行升序排序，輸出符合題意的結果；同時加入適當的程式標頭註解與清晰的命名，提升可讀性與可維護性。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/**
+ * File: ArraySortAscending.java
+ * 功能: 讀入 n 與 n 個整數，排序並輸出升序陣列
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ */
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!input.hasNextInt()) {
+            input.close();
+            return;
+        }
+        int n = input.nextInt();
+        if (n <= 0) {
+            input.close();
+            return;
+        }
+
+        // 讀入 n 個整數到一維陣列
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = input.nextInt();
+        }
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以空白分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        input.close();
+    }
+}

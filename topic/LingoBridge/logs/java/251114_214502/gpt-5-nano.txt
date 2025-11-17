@@ -1,0 +1,67 @@
+12
+改進建議：請使用正確且穩定的排序方式，搭配清晰的程式註解與命名，以達成題目需求並提升可維護性。
+
+評分與理由：
+- 正確性(0/50)：原程式的排序邏輯錯誤，輸出不符合由小到大排序的要求，因此給予0分。
+- 邏輯(6/30)：原程式有想要排序的邏輯雛形（以輸出最後一個改為 -1 的策略等），但實作錯誤，影響結果與邏輯清晰度，因此給6分以反映仍有「嘗試排序」的邏輯，但不正確。
+- 格式(6/10)：基本縮排與排版尚可，但命名不佳且缺少一致的註解與標準化風格，因此給6分。
+- 備註(0/10)：缺乏檔案標頭註解與說明，因此0分。
+
+總分：12/100
+
+改進說明（一句話）：採用正確的排序實作或內建排序，並補上清楚的標頭與程式註解，以符合題意並提升可讀性。
+
+修改與優化說明：
+- 使用內建 Arrays.sort 進行排序，確保正確性與效率。
+- 增加程式標頭註解，說明檔案名稱、功能、作者與日期，並對程式主要區塊加入註解。
+- 改用有意義的類別與變數命名，並維持統一的程式格式與縮排。
+- 輸入輸出依題目格式印出，數字以空格分隔，結尾不多餘空格。
+
+修改後完整程式碼：
+import java.util.Scanner;
+import java.util.Arrays;
+
+/*
+ * 檔案名稱: SortArray.java
+ * 功能說明: 讀入整數陣列的長度與元素，輸出由小到大排序後的結果
+ * 作者: 請填寫
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ * 備註: 使用 Arrays.sort 以正確實作排序，輸出格式為數字以單一空格分隔
+ */
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int length = 0;
+        if (sc.hasNextInt()) {
+            length = sc.nextInt();
+        }
+
+        // 讀取陣列元素
+        int[] a = new int[length];
+        for (int i = 0; i < length; i++) {
+            if (sc.hasNextInt()) {
+                a[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預先填充 0
+                a[i] = 0;
+            }
+        }
+
+        // 排序 (由小到大)
+        Arrays.sort(a);
+
+        // 輸出結果，數字之間以空格分隔，末尾無多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

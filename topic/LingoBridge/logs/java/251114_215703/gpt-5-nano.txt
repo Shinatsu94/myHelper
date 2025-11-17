@@ -1,0 +1,56 @@
+0
+
+此作業未正確實作排序功能，需改為讀取 n 個整數並進行排序，並改善輸出格式與註解。
+
+改進建議與說明
+- 移除原始程式中與題意不符的星號三角形輸出，改以讀取整數陣列並進行升序排序。
+- 移除固定長度限制，改為支援任意長度的輸入陣列。
+- 使用 Java 內建的排序（Arrays.sort）以正確且高效地排序整數，並且原生支援負數。
+- 改善輸入與輸出處理，輸出格式為一行以空格分隔的排序結果。
+- 增加程式標頭註解與使用較有意義的變數名稱，提升可讀性與維護性。
+
+修改後的完整程式碼
+/*
+File: Main.java
+Description: 讀入整數 n 與 n 個整數，輸出升序排列的結果。支援任意長度與負數，且不使用 EOF。
+Author: AI-助理
+Date: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        if (!input.hasNextInt()) {
+            return;
+        }
+
+        int n = input.nextInt();
+        if (n <= 0) {
+            System.out.println("wrong");
+            return;
+        }
+
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (input.hasNextInt()) {
+                numbers[i] = input.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外；實務上可改為錯誤處理
+                numbers[i] = 0;
+            }
+        }
+
+        Arrays.sort(numbers);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(numbers[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

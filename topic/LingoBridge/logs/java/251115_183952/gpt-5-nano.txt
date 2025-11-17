@@ -1,0 +1,68 @@
+82
+
+改進建議：使用字串逐位比較能更清楚地判斷從左至右是否嚴格遞增，並且能更容易處理特殊情況（如負數、空輸入、前導+號等），同時補上程式標頭註解以符合備註要求。
+
+- 正確性：50/50
+- 邏輯：26/30
+- 格式：6/10
+- 備註：0/10
+總分：82/100
+
+修改理由與改進方向
+- 改用字串方式逐位比對：避免對整數位數的操作帶來的歧義，直接驗證相鄰位數是否嚴格遞增。
+- 增加健壯性與註解：新增程式標頭註解，對輸入做基本檢查（避免負數等情況被誤判）。
+- 變數命名與縮排：提升可讀性，統一縮排風格，但原先的縮排混雜略顯凌亂，仍需再加強格式美化。
+
+修改後完整程式碼
+/*
+檔案名稱: CSIE_41343226_1017_2_Optimized.java
+功能: 判斷輸入的十進位數字的數字是否嚴格遞增
+作者: 教授
+日期: 2025-11-15
+*/
+public class CSIE_41343226_1017_2_Optimized {
+    public static void main(String[] args) {
+        java.util.Scanner in = new java.util.Scanner(System.in);
+        String s = "";
+        if (in.hasNextLine()) {
+            s = in.nextLine().trim();
+        }
+        String original = s;
+
+        boolean wellOrdered = true;
+
+        if (s.length() == 0) {
+            wellOrdered = false;
+        } else {
+            int start = 0;
+            // 若有前導符號，視為非正整數的情況
+            if (s.charAt(0) == '-') {
+                wellOrdered = false;
+            }
+            if (wellOrdered && s.charAt(0) == '+') {
+                start = 1;
+            }
+            for (int i = start; i < s.length() - 1; i++) {
+                char a = s.charAt(i);
+                char b = s.charAt(i + 1);
+                // 確保都是數字
+                if (a < '0' || a > '9' || b < '0' || b > '9') {
+                    wellOrdered = false;
+                    break;
+                }
+                // 檢查嚴格遞增
+                if (a >= b) {
+                    wellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (wellOrdered) {
+            System.out.printf("%s is well-ordered number.%n", original);
+        } else {
+            System.out.printf("%s is not well-ordered number.%n", original);
+        }
+        in.close();
+    }
+}

@@ -1,0 +1,45 @@
+85
+
+整體評分說明：整體正確，但建議加上負數處理、註解與命名改善，以及移除未使用的變數以提升可讀性與穩健性。
+
+修改建議與原因：
+- 移除未使用的變數 i，避免程式內有冗餘與混淆。
+- 使用 long 類型以降低溢位風險，提升對較大整數的魯棒性。
+- 增加對負數的處理，正負數分別反轉後再輸出，符合更一般的需求。
+- 加上程式標頭註解與適當內部註解，增進可讀性與維護性。
+- 使用有意義的變數名稱（如 n、negative、m、reversed）。
+- 關閉 Scanner 以釋放資源（程式結束前）。
+
+修改後完整程式碼：
+文件名稱建議：ReverseDigits.java
+
+/*
+檔案: ReverseDigits.java
+功能: 讀取整數，輸出其位元數字反轉的結果。負數亦會保持符號並反轉數字。
+作者: 匿名
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        long n = in.nextLong();          // 原始數字
+        boolean negative = n < 0;          // 判斷是否為負數
+        long m = Math.abs(n);              // 取絕對值以便逐位處理
+
+        long reversed = 0;
+        while (m != 0) {
+            reversed = reversed * 10 + (m % 10);
+            m /= 10;
+        }
+
+        if (negative) {
+            reversed = -reversed;
+        }
+
+        System.out.println(reversed);
+        in.close();
+    }
+}

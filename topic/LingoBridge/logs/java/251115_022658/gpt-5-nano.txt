@@ -1,0 +1,55 @@
+89
+程式正確完成需求，但建議加入標頭註解、使用更清晰的變數命名，並改用O(n)時間的一次掃描以提升效率。
+
+程式優化與修改說明：
+- 加入檔案頭註解，說明檔案名稱、功能、作者與日期，符合作業需求的備註部分。
+- 將變數名稱從 ans 改為 arr，提升可讀性與語意清晰性。
+- 將原本的雙層迴圈改為單次從右到左的掃描，使用 O(n) 的時間複雜度，效率提升。
+- 使用 StringBuilder 進行輸出拼接，避免多次系統輸出提升效能。
+- 加入對 n 為非正整數的防護，以及使用 sc.close() 關閉資源。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+class CSIE_51015114_1031_2 {
+    /*
+     * File: CSIE_51015114_1031_2.java
+     * Description: 將陣列中每個元素替換為其右側元素的最大值，最後一個元素替換為 -1，最後輸出結果。
+     * Author: 你的姓名
+     * Date: 2025-11-14
+     */
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.hasNextInt() ? sc.nextInt() : 0;
+        if (n <= 0) {
+            sc.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.hasNextInt() ? sc.nextInt() : 0;
+        }
+
+        // 從右向左單次掃描，將每個位置設為其右側的最大值
+        int maxRight = arr[n - 1];
+        arr[n - 1] = -1;
+        for (int i = n - 2; i >= 0; i--) {
+            int original = arr[i]; // 儲存原始值，避免被覆蓋的值影響後續計算
+            arr[i] = maxRight;
+            if (original > maxRight) {
+                maxRight = original;
+            }
+        }
+
+        // 輸出結果
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
+        sc.close();
+    }
+}

@@ -1,0 +1,51 @@
+92
+
+改進建議：
+建議加入檔案標頭與註解、統一處理正負號與溢位風險，並避免在讀取後關閉 System.in，以提高健壯性。
+
+修改與變更內容說明：
+- 輸入與資料型別  
+  - 改用 long 讀入，並用 sign 與絕對值來處理負數，提升對極值與符號的穩健性，避免簡單整數溢位問題。
+- 結構與命名  
+  - 新增檔案標頭註解，提供檔名、功能、日期等資訊，提升可讀性與維護性。
+  - 將反轉邏輯封裝成一個 static 方法 reverseDigits(long)，主程式保持清晰易讀，方便日後重用。
+  - 將類別名稱改為 ReverseDigits，並建議對應檔名同名，以符合常見命名慣例。
+- 輸入/輸出穩定性  
+  - 不在程式結束時關閉 Scanner，以避免某些執行環境對 System.in 的影響。
+- 其他  
+  - 保留原有邏輯的同時，讓程式在面對邊界情況時更穩健。
+
+修改後的完整程式碼：
+/*
+ * File: ReverseDigits.java
+ * Description: 讀取一個整數，輸出其數字反轉後的值，保留符號，忽略前導零。
+ * Author: 改進版本
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n = scanner.nextLong();
+        // 不關閉 System.in 以提高穩定性
+        long sign = n < 0 ? -1 : 1;
+        long abs = Math.abs(n);
+
+        long reversedAbs = reverseDigits(abs);
+        long result = sign * reversedAbs;
+        System.out.println(result);
+        // scanner.close(); // 避免關閉 System.in
+    }
+
+    // 將非負整數的數字反轉
+    public static long reverseDigits(long x) {
+        long r = 0;
+        while (x != 0) {
+            r = r * 10 + (x % 10);
+            x /= 10;
+        }
+        return r;
+    }
+}

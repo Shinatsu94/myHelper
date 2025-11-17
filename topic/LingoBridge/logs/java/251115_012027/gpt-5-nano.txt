@@ -1,0 +1,74 @@
+85
+
+建議：加強程式的健全性與可讀性，例如使用更具描述性的變數名稱、補上頂部標頭註解與內部註解，並在 n<=0 的情況下妥善處理以增強穩健性。
+
+改動說明與理由
+- 增加標頭註解與程式註解：符合題目要求的程式標頭註解，並在關鍵區段加上說明，提升可讀性與維護性。
+- 變數命名與結構：將 a、b、c 改為 arr、minIndex、tmp 等具一定語意的命名，提升可讀性。
+- 邊界條件處理：若 n <= 0，直接結束並不輸出，避免執行期錯誤，提升穩健性。
+- 輸出格式與穩定性：改用 StringBuilder 集中輸出，確保輸出格式正確且易於維護。
+- 釋放資源：最後關閉 Scanner，符合資源管理的好習慣。
+- 風格與一致性：整理縮排與程式風格，使整體更一致。
+
+修改後完整程式碼
+/* 
+ 文件名: CSIE_41343107_1031_1.java
+ 功能: 將輸入的整數序列進行升序排序(選擇排序)，輸出排序後的陣列
+ 作者: 王世豪
+ 日期: 2025/11/14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343107_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 邊界處理：若長度為0或負值，直接結束
+        if (n <= 0) {
+            scanner.close();
+            return;
+        }
+
+        // 讀取陣列元素
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 若不足數字，預設為0以避免例外
+                arr[i] = 0;
+            }
+        }
+
+        // 選擇排序：由小到大
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[minIndex]
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+
+        // 輸出排序結果，元素之間以單一空格分隔，且末尾不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

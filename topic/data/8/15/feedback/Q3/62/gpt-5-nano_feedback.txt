@@ -1,59 +1,59 @@
-3
+86
 
-評分明細
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 3/10
-- 備註: 0/10
-總分: 3/100
+改進建議：原程式正確產生下三角形，但缺乏程式註解與輸入驗證，且使用 String[][] 結構較不適合；建議改用 char 陣列以提升記憶體效率、加入標頭註解與適當的變數命名與輸入驗證，讓程式更具可讀性與穩定性。
 
-修改後完整程式碼與說明
-修改後程式碼：
-/*
-檔案名稱: SortArray.java
-功能: 讀取長度 n 與接著的 n 個整數，對其升序排序，輸出結果（以空白分隔，僅輸出一行）。
-作者: 你的教授
-日期: 2025-11-12
-*/
-import java.util.Arrays;
+修改說明與原因：
+- 使用 char[][] 取代 String[][]：降低記憶體與建立物件的成本，因元素只是 '*'，不需要用到字串物件。
+- 加入輸入範圍驗證 (0 < n <= 20)：避免極端或非法輸入造成不預期行為。
+- 加入程式頭註解與清楚的變數名稱：提升可讀性與可維護性。
+- 關閉 Scanner：避免資源未被釋放的情況。
+- 保留原題意的下三角形輸出方式，且每行不包含空格。
+
+修改後完整程式碼：
+```java
 import java.util.Scanner;
 
-public class SortArray {
+/**
+ * File: CSIE_20251031_41343252_3.java
+ * 功能: 建立並列印下三角形的二維陣列，元素為 '*'
+ * 作者: [請填寫]
+ * 日期: [請填寫]
+ * 備註: 程式以整數 n (0 < n <= 20) 作為高度，輸出 1..n 個 '*' 的下三角形。
+ */
+public class CSIE_20251031_41343252_3 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        int n;
+
+        // 讀入並簡單驗證
         if (!in.hasNextInt()) {
             in.close();
             return;
         }
-        int n = in.nextInt();
-        int[] arr = new int[n];
+        n = in.nextInt();
+        if (n <= 0 || n > 20) {
+            in.close();
+            return;
+        }
+
+        // 使用 char 陣列以降低記憶體開銷
+        char[][] a = new char[n][];
         for (int i = 0; i < n; i++) {
-            if (in.hasNextInt()) {
-                arr[i] = in.nextInt();
-            } else {
-                arr[i] = 0; // 若輸入不足，預設為 0
+            a[i] = new char[i + 1];
+            for (int j = 0; j < a[i].length; j++) {
+                a[i][j] = '*';
             }
         }
-        in.close();
 
-        Arrays.sort(arr);
-
-        StringBuilder sb = new StringBuilder();
+        // 輸出下三角形
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+            for (int j = 0; j < a[i].length; j++) {
+                System.out.print(a[i][j]);
+            }
+            System.out.println();
         }
-        System.out.print(sb.toString());
+
+        in.close();
     }
 }
-
-修改原因說明：
-- 將原本程式的 2D 字串陣列與無關的輸出邏輯移除，改為一維整數陣列以符合題目需求「任意長度的一維陣列」且能正確處理負數。
-- 使用 Arrays.sort 對整數陣列排序，邏輯清晰、穩定且效能高。
-- 讀入流程改為先取得 n，再逐一讀取 n 個整數，確保一次執行結束，避免依賴 EOF。
-- 輸出格式改為一行空白分隔的整數序列，符合題目範例。
-- 增加程式標頭註解（檔案名稱、功能、作者、日期），並在程式內加入必要註解，提升可讀性。
-- 變數命名改為具含義的名稱，提升可讀性。
-
-改進建議一句話
-- 發布前請先確認題意輸入與輸出格式，一次性讀完所需資料並正確處理負數與輸出格式即可避免常見測資錯誤。
+```

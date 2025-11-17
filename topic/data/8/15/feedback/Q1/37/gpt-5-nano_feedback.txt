@@ -1,39 +1,45 @@
-85
+88
 
-修改後完整程式碼（已優化輸出格式，並補充標頭註解與說明）：
-import java.util.Scanner;
+改進建議：建議加入程式標頭註解、將排序邏輯獨立成方法，並改為不產生尾端多餘空格的輸出，以提升可讀性與可重用性。
 
-/**
- * File: csie_1031_41343214.java
- * 功能: 依使用者輸入的長度與數值，對整數陣列進行升序排序，並輸出排序結果（以空格分隔，無尾隨空格）。
- * 作者: 你的名字
- * 日期: 2025-11-12
- */
+程式優化重點與原因
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將排序邏輯抽成私有方法 selectionSort，提高可重用性與可測試性。
+- 使用 StringBuilder 產出輸出，避免尾端多餘的空格，輸出格式更符合題目期望。
+- 增加基本的輸入健壯性檢查，確保在極端情況下不會發生例外（例如少於預期的輸入）。
+- 保留負數支援，與原作一致。
+
+修改後完整程式碼
+/*
+檔案名稱: csie_1031_41343214.java
+功能: 建立任意長度的一維陣列，將內容進行升序排序 (由小到大)，輸入長度與元素，輸出排序結果
+作者: 教授
+日期: 2025-11-14
+說明: 使用選擇排序，輸出使用空格分隔且不留 trailing space
+*/
 public class csie_1031_41343214 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        java.util.Scanner sc = new java.util.Scanner(System.in);
 
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
         }
 
-        // 使用簡單的選取排序（Selection Sort）排序 arr
-        for (int i = 0; i < n - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                if (arr[j] < arr[minIndex]) minIndex = j;
+        int[] arr = new int[Math.max(0, n)];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0;
             }
-            int temp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = temp;
         }
 
-        // 輸出時避免尾隨空格
+        selectionSort(arr);
+
+        // 輸出：避免尾端多餘空格
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (i > 0) sb.append(' ');
             sb.append(arr[i]);
         }
@@ -41,13 +47,18 @@ public class csie_1031_41343214 {
 
         sc.close();
     }
+
+    // 需要的排序演算法：選擇排序
+    private static void selectionSort(int[] a) {
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (a[j] < a[minIndex]) minIndex = j;
+            }
+            int t = a[i];
+            a[i] = a[minIndex];
+            a[minIndex] = t;
+        }
+    }
 }
-
-修改說明與原因：
-- 輸出格式修正：原程式在最後輸出時會在每個數字後補一個空格，造成尾隨空格與題目示例不同。改用 StringBuilder 先組裝輸出字串，僅在數字之間插入單一空格，避免尾端有多餘空格，符合常見自動化測資的格式檢查。
-- 標頭註解與檔案說明：加入檔案頭註解，說明檔案名稱、功能、作者與日期，提升程式可讀性與可維護性，以符合備註需求。
-- 讓程式具備更清楚的結構註解：在排序區段保留原本的選取排序邏輯，並在重要步驟上加入註解，方便日後維護與理解。
-- 未改動核心演算法：保留原本的選取排序實作，保持與原作業意圖一致，確保正確性與可理解性。
-
-改進建議或反饋（一句話）：
-若要更簡潔且效能更好，建議改用內建排序 Arrays.sort(arr)，並保持輸出格式的同樣要求。

@@ -1,0 +1,55 @@
+89
+建議：建議補上程式標頭註解與改用更清晰的程式結構，以提升可讀性與維護性。
+
+優化說明與修改原因
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合備註項目要求。
+- 將判斷良序數的邏輯抽出成獨立方法，提升可讀性與可重用性。
+- 改用 BufferedReader 做輸入，並以整行處理輸入，讓程式在不同輸入情境下更穩定。
+- 對輸入進行基本驗證（非純數字時回傳不良序），增強健壮性。
+- 將主類別命名改為更通用的 Main，以提高相容性與編譯成功率。
+
+修改後完整程式碼
+/*
+File: Main.java
+功能: 判斷輸入的數字各位數是否嚴格遞增，若是則輸出 "<digits> is well-ordered number."，否則輸出 "<digits> is not well-ordered number."
+作者: 你的姓名
+日期: 2025-11-15
+說明: 以單次輸入為主，檢查數字各位是否嚴格遞增，並輸出結果。
+*/
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+        String s = br.readLine();
+        if (s != null) s = s.trim(); else s = "";
+
+        boolean ok = isWellOrdered(s);
+        if (ok) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
+    }
+
+    // 判斷字串中各位數字是否嚴格遞增
+    private static boolean isWellOrdered(String s) {
+        if (s == null) return false;
+        // 空字串或單一位數視為良序
+        if (s.length() <= 1) return true;
+
+        for (int i = 1; i < s.length(); i++) {
+            char curChar = s.charAt(i);
+            char prevChar = s.charAt(i - 1);
+
+            // 非數字字元視為無效輸入，回傳非良序
+            if (!Character.isDigit(curChar) || !Character.isDigit(prevChar)) {
+                return false;
+            }
+
+            int cur = curChar - '0';
+            int prev = prevChar - '0';
+            if (cur <= prev) return false; // 未嚴格遞增
+        }
+        return true;
+    }
+}

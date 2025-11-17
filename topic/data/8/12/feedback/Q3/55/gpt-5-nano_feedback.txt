@@ -1,75 +1,51 @@
-8
+81
 
-正確性: 0/50
-邏輯: 0/30
-格式: 8/10
-備註: 0/10
+建議回饋：此作業基本邏輯與結果正確，但缺少標頭註解且對極端情況（如整數最小值的反轉）尚未完全健壯，建議採用更穩健的整數處理方式並增加註解。
 
-以下是改寫後的完整程式碼與修改說明。
+改進與修改說明（重點改動與原因）
+- 新增程式標頭註解：包含檔案名稱、功能、作者與日期，符合作業格式要求，便於維護與評分。
+- 避免直接對整數取絕對值以防止溢位：改為逐位取模後取絕對值的方式，並以 long 類型保存反轉結果，降低溢位風險，對 Integer.MIN_VALUE 這類情況也更穩健。
+- 使用 long 類型處理反轉結果：能容納更大的反轉結果，減少溢位風險，且與 int 的輸入範圍兼容。
+- 保留原本的符號處理邏輯：若輸入為負數，輸出仍為負數，符合數字反轉的語意。
+- 其他：加入對輸入存在性的檢查，避免沒有輸入時程序意外執行。
 
-修改後完整程式碼（Java）
-```java
+修改後完整程式碼
+import java.util.Scanner;
+
 /*
- * 檔案名稱: LeibnizPi.java
- * 功能說明: 使用萊布尼茨級數計算圓周率近似值，輸出
- *          i 為 10000, 20000, ..., 100000 時的 pi 值，格式為：
- *          i = 6位數, pi = 10位小數
- *          另找出最小的 i 使 pi >= 3.14159，並輸出該 i
- * 作者: 你的姓名
- * 日期: 2025-11-12
- */
+檔案名稱: CSIE_41343236_1017_3.java
+功能: 將使用者輸入之整數的位數反轉，並保留符號；例如 123 -> 321, 2500 -> 52, 8531 -> 1358
+作者: 教師
+日期: 2025-11-15
+說明: 優化點: 不直接對整數取絕對值，改用逐位取模的絕對值以避免 Integer.MIN_VALUE 的溢位問題；使用 long 避免溢位風險；增加對輸入存在性檢查。
+*/
 
-public class LeibnizPi {
+public class CSIE_41343236_1017_3 {
     public static void main(String[] args) {
-        // 輸出 i 為 10000, 20000, ..., 100000 對應的 pi 值
-        System.out.printf("i = %6d, pi = %.10f%n", 10000, computePiByTerms(10000));
-        for (int i = 20000; i <= 100000; i += 10000) {
-            System.out.printf("i = %6d, pi = %.10f%n", i, computePiByTerms(i));
+        Scanner scanner = new Scanner(System.in);
+        long num;
+        if (scanner.hasNextLong()) {
+            num = scanner.nextLong();
+        } else {
+            scanner.close();
+            return;
         }
 
-        // 找出最小的 i 使 pi >= 3.14159
-        int minI = findMinIForPiAtLeast(3.14159);
-        System.out.println("i = " + minI);
-    }
+        long n = num;
+        long reversed = 0;
 
-    // 計算使用 i 項的萊布尼茨級數 pi 值
-    private static double computePiByTerms(int terms) {
-        double sum = 0.0;
-        for (int k = 0; k < terms; k++) {
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
+        // 逐位反轉，對餘數取絕對值避免整數溢位
+        while (n != 0) {
+            int digit = (int) Math.abs(n % 10);
+            reversed = reversed * 10 + digit;
+            n /= 10;
         }
-        return 4.0 * sum;
-    }
 
-    // 漸進計算直到 pi >= target，回傳最小的項數 i
-    private static int findMinIForPiAtLeast(double target) {
-        double sum = 0.0;
-        int terms = 0;
-        while (true) {
-            double term = ((terms % 2 == 0) ? 1.0 : -1.0) / (2.0 * terms + 1.0);
-            sum += term;
-            double pi = 4.0 * sum;
-            terms++;
-            if (pi >= target) {
-                break;
-            }
-            // 安全上限，避免極端情況造成無窮迴圈
-            if (terms > 2000000) {
-                break;
-            }
+        if (num < 0) {
+            reversed = -reversed;
         }
-        return terms;
+
+        System.out.println(reversed);
+        scanner.close();
     }
 }
-```
-
-修改說明（重點改動與原因）
-- 從原本與題目無關的數字翻轉程式改為專注於題目需求的演算法實作，提升正確性與可用性。
-- 新增萊布尼茨級數計算 pi 的實作，並針對題目要求輸出格式使用 System.out.printf，確保 i 以 width 6 的格式輸出、pi 以小數點後 10 位輸出。
-- 針對部分輸出需求，使用分段輸出：先輸出 i=10000, 20000, …, 100000 的 pi 值，再單獨計算出最小的 i 使 pi >= 3.14159。
-- 增加程式標頭註解，清楚描述檔案名稱、功能、作者與日期，提升可維護性與可讀性。
-- 內部演算法採用逐項累加的方式計算 pi，對於 10000、20000、…、100000 的多次計算，採用獨立函式計算，結構清晰且易於測試。
-
-改進建議（一句話）
-- 建議在正式作業中，先以單一輸入來源與單一輸出格式設計再實作不同輸出需求，避免多段輸出邏輯混雜造成維護困難。

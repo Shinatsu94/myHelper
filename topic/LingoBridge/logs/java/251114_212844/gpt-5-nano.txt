@@ -1,0 +1,55 @@
+14
+改進建議：請使用正確的排序演算法，避免覆蓋與改動原始陣列造成錯誤，並確保以空格分隔輸出整數序列。
+
+修改內容與原因：
+- 使用 Arrays.sort(a) 進行正確的升序排序，取代原程式中自訂的錯誤排序邏輯，確保題目需求正確性。
+- 移除原程式中將最後一個元素設為 -1 的做法，以及前面錯誤的排序過程，改為直接輸出排序結果。
+- 使用 StringBuilder 進行輸出，避免輸出尾端有不必要的空格，格式符合題意。
+- 增加檔案標頭與適當註解，提升可讀性與維護性，變數命名保持清晰。
+
+完整改寫程式碼如下：
+```java
+/**
+ * File: CSIE_41343150_1031_2.java
+ * 功能: 讀入長度 n 與 n 個整數，將陣列內容升序排序，並輸出。
+ * 作者: 學生
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343150_1031_2 {
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+
+        // 讀取長度
+        int n;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
+        } else {
+            scn.close();
+            return;
+        }
+
+        // 讀取陣列元素
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scn.nextInt();
+        }
+
+        // 排序（升序）
+        Arrays.sort(a);
+
+        // 輸出，避免尾端多餘空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(a[i]);
+        }
+        System.out.print(sb.toString());
+
+        scn.close();
+    }
+}
+```

@@ -1,0 +1,104 @@
+70
+
+建議：建議在輸出時依題目要求使用四位小數輸出，且遇到值為零時直接輸出 0，同時補充程式註解與統一的程式風格。
+
+修改說明與修改重點
+- 輸出格式修正：改為四位小數輸出，且對於近似於零的值輸出 0，符合題目「若元素為零，直接列印 '0'」的需求。
+- 關於零值判定：加入容忍度判斷 Math.abs(val) < 5e-7 即視為零，避免負零或極小浮點數帶來的顯示問題。
+- 程式結構與註解：加入程式頭註解，並在程式內部加入必要的說明，提升可讀性與維護性。
+- 類別名稱與風格：改用通用的 Main 類別名稱，並整理變數命名與縮排，增進可讀性。
+
+修改後完整程式碼
+```java
+/*
+ * 文件名稱: Main.java
+ * 功能說明: 讀入 3x3 矩陣，輸出其反矩陣，元素以四位小數顯示；若元素為零，輸出 0
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 備註: 若矩陣不可逆，輸出提示訊息並結束
+ */
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] A = new double[3][3];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!sc.hasNextDouble()) {
+                    sc.close();
+                    return;
+                }
+                A[i][j] = sc.nextDouble();
+            }
+        }
+        sc.close();
+
+        // 計算行列式(det)
+        double det =
+                A[0][0]*(A[1][1]*A[2][2] - A[1][2]*A[2][1]) -
+                A[0][1]*(A[1][0]*A[2][2] - A[1][2]*A[2][0]) +
+                A[0][2]*(A[1][0]*A[2][1] - A[1][1]*A[2][0]);
+
+        if (Math.abs(det) < 1e-12) {
+            System.out.println("此矩陣沒有反矩陣。");
+            return;
+        }
+
+        // 計算伴隨矩陣 (Adjugate Matrix)
+        double[][] adj = new double[3][3];
+
+        adj[0][0] =  (A[1][1]*A[2][2] - A[1][2]*A[2][1]);
+        adj[0][1] = -(A[1][0]*A[2][2] - A[1][2]*A[2][0]);
+        adj[0][2] =  (A[1][0]*A[2][1] - A[1][1]*A[2][0]);
+
+        adj[1][0] = -(A[0][1]*A[2][2] - A[0][2]*A[2][1]);
+        adj[1][1] =  (A[0][0]*A[2][2] - A[0][2]*A[2][0]);
+        adj[1][2] = -(A[0][0]*A[2][1] - A[0][1]*A[2][0]);
+
+        adj[2][0] =  (A[0][1]*A[1][2] - A[0][2]*A[1][1]);
+        adj[2][1] = -(A[0][0]*A[1][2] - A[0][2]*A[1][0]);
+        adj[2][2] =  (A[0][0]*A[1][1] - A[0][1]*A[1][0]);
+
+        // 轉置（因為 adj = Cofactor^T）
+        double[][] adjT = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adjT[i][j] = adj[j][i];
+            }
+        }
+
+        // 反矩陣 = 1/det * adjT
+        double[][] inv = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                inv[i][j] = adjT[i][j] / det;
+            }
+        }
+
+        // 印出反矩陣：四位小數，若值近似為零則輸出 0
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String toPrint;
+                double val = inv[i][j];
+                if (Math.abs(val) < 5e-7) {
+                    toPrint = "0";
+                } else {
+                    toPrint = String.format(java.util.Locale.US, "%.4f", val);
+                }
+                if (j > 0) System.out.print(" ");
+                System.out.print(toPrint);
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
+說明
+- 修改了輸出格式，符合題目要求的四位小數輸出與零值顯示規則。
+- 引入容忍度判斷以避免浮點數微小值造成的顯示問題。
+- 增加程式標頭註解與適當註解，提升可讀性與維護性。

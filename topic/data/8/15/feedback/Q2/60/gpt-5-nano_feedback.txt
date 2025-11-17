@@ -1,64 +1,64 @@
-16
+83
 
-評分明細
-- 正確性：0/50
-- 邏輯：10/30
-- 格式：6/10
-- 備註：0/10
+建議說明（一句話）：
+此作法正確且易讀，但可把時間複雜度由 O(n^2) 優化為 O(n)，並加入邊界檢查與標頭註解提升魯棒性與可維護性。
 
-修改後完整程式碼與說明
+改進要點與修改理由：
+- 改善演算法效率：改用單次向後掃描的方式計算右側最大值，將時間複雜度從 O(n^2) 降至 O(n)，適用於任意長度的陣列。
+- 增強健壯性：考慮 n <= 0 的情況，避免對不存在的元素取值造成例外。
+- 程式格式與可維護性提升：加入程式標頭註解與改善變數命名，方便他人閱讀與維護。
 
-修改後的完整程式碼
-/*
- * 檔案名稱: CSIE_41343242_1031_2.java
- * 功能: 讀入長度與元素，將整數陣列由小到大排序，並輸出排序結果
- * 作者: 教師
- * 日期: 2025-11-12
- * 版本: 1.0
- */
+修改後的完整程式碼如下（已加入標頭註解與邊界檢查，並使用 O(n) 的演算法）：
 
 import java.util.Scanner;
 
+/**
+ * File: CSIE_41343242_1031_2.java
+ * 功能: 讀取一維整數陣列，將每個元素取代為其右側的最大值，最後一個元素設為 -1，最後輸出結果。
+ * 作者: 你的名字
+ * 日期: 2025-11-14
+ * 版本: 1.1
+ * 備註: 此實作避免使用 EOF，處理邊界條件，並優化時間複雜度。
+ */
 public class CSIE_41343242_1031_2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
         int n = sc.nextInt();
-        int[] ary = new int[n];
-        for (int i = 0; i < n; i++) {
-            ary[i] = sc.nextInt();
+        if (n <= 0) {
+            // 無元素時直接結束
+            sc.close();
+            return;
         }
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        int[] res = new int[n];
+        if (n == 1) {
+            res[0] = -1;
+        } else {
+            int currentMax = a[n - 1];
+            // 從右往左填入每個位置應該變為的值
+            for (int i = n - 2; i >= 0; i--) {
+                res[i] = currentMax;
+                currentMax = Math.max(currentMax, a[i]);
+            }
+            res[n - 1] = -1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(res[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
         sc.close();
-
-        // 使用簡單的選擇排序，將陣列由小到大排序
-        for (int i = 0; i < n - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                if (ary[j] < ary[minIndex]) {
-                    minIndex = j;
-                }
-            }
-            if (minIndex != i) {
-                int tmp = ary[i];
-                ary[i] = ary[minIndex];
-                ary[minIndex] = tmp;
-            }
-        }
-
-        // 輸出排序後的結果，元素以空白分隔，無尾部多餘空格
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(ary[i]);
-        }
-        System.out.print(sb.toString());
     }
 }
-
-修改說明
-- 將錯誤的排序邏輯改為正確的選擇排序，避免覆蓋元素、未移動原值的情況，且不再對最後一個元素做任意替換 (-1)，以免破壞排序結果。
-- 加入清晰的註解與 header 注解，說明檔案名稱、功能與作者等資訊，提升可維護性。
-- 使用更具可讀性的命名與格式，並在輸出端避免尾端多餘的空格。
-
-改進建議（一句話）
-若要提升效能且簡化程式，建議改用 Arrays.sort(ary) 直接排序，或改用更穩定的排序演算法（如歸併排序或快速排序）的實作，同時保持輸入輸出格式不變。

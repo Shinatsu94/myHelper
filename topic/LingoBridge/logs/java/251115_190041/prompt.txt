@@ -1,0 +1,87 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 用一句話說明改進建議或反饋
+3. 將程式碼進行優化，以及說明修改該部分的原因，最後展示修改後完整程式碼
+
+
+題目：
+reverse digit order of an integer given by the user.
+e.g. 123 --> 321, 2500 --> 52, 8531 --> 1358
+
+題目要求:
+- 程式僅執行一次就結束，無需使用EOF
+
+【INPUT】
+123
+
+【OUTPUT】
+321
+
+【INPUT】
+2500
+
+【OUTPUT】
+52
+
+【INPUT】
+8531
+
+【OUTPUT】
+1358
+
+
+學生作答程式：
+import java.util.Scanner;
+
+public class CSIE_41343217_1017_3 {
+    public static void main(String[] args) {
+        // 建立 Scanner 物件來讀取使用者輸入
+        Scanner scanner = new Scanner(System.in);
+        
+        // 讀取一個整數
+        int n = scanner.nextInt();
+        
+        // 關閉 Scanner
+        scanner.close();
+
+        // 呼叫反轉數字的方法
+        int reversed_n = reverseDigits(n);
+        
+        // 輸出結果
+        System.out.println(reversed_n);
+    }
+    
+    /**
+     * 反轉整數的數字順序。
+     * @param n 要反轉的整數
+     * @return 反轉後的整數 (會自動處理前導零)
+     */
+    public static int reverseDigits(int n) {
+        int reversed_n = 0;
+        
+        // 處理 0 的情況
+        if (n == 0) {
+            return 0;
+        }
+
+        // 反轉數字
+        while (n != 0) {
+            int digit = n % 10;
+            // 檢查反轉後的數字是否會超出 int 範圍 (雖然題目範例不會，但在實際應用中是必要的)
+            // 這裡假設輸入符合 int 範圍且反轉後不會溢位
+            reversed_n = reversed_n * 10 + digit;
+            n /= 10;
+        }
+        
+        return reversed_n;
+    }
+}

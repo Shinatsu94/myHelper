@@ -1,0 +1,44 @@
+97
+
+改進建議：改以兩個獨立的三元運算子分別計算最大值與最小值，並以兩種不同的思路（三元運算子與總和減法）來取得中位數，讓題意中的「兩種不同的方式」更加明確與符合。
+
+修改重點與原因：
+- 使用兩個獨立的三元運算子分別計算最大值與最小值，符合題意要求且避免使用 if-else。
+- 中位數保留以 sum - max - min 的方式計算，同時加入長整數型別以避免整數溢位風險。
+- 變數命名改為 a, b, c 並新增程式標頭註解與適當的內部註解，提升可讀性與可維護性。
+- 輸出順序維持 min, mid, max，與題意輸出一致。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343229_1003_2.java
+Purpose: 讀入三個整數，使用兩個三元運算子分別找出最大值與最小值，利用總和減法計算中位數，輸出最小值、中間值、最大值。
+Author: 教師姓名
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343229_1003_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        // 使用三元運算子計算最大值與最小值
+        int max = (a >= b && a >= c) ? a : ((b >= c) ? b : c);
+        int min = (a <= b && a <= c) ? a : ((b <= c) ? b : c);
+
+        // 中位數使用 sum - max - min，並轉成 long 以避免溢位
+        long sum = (long) a + b + c;
+        int mid = (int) (sum - max - min);
+
+        // 輸出順序：最小值、中間值、最大值
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        sc.close();
+    }
+}

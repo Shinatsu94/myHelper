@@ -1,66 +1,84 @@
-90
+總分（0-100）: 85
 
-- 正確性：50/50
-- 邏輯：30/30
-- 格式：6/10
-- 備註：4/10
-總分：90/100
+改進建議（一句話）:
+建議採用更清晰的選擇式排序實作、補上檔案標頭註解，並使程式對空陣列更穩健，同時改善輸出格式與變數命名。
 
-以下為修改後的完整程式碼與修改說明：
+修改與優化說明（重點）
+- 加上檔案標頭註解，內容包含檔案名稱、功能、作者、日期，符合作業要求的紀錄需求。
+- 改用標準的 Selection Sort 實作（minIndex 方式），讓邏輯更清晰易讀，且在每次尋找最小值後再做交換，避免不必要的交換次數。
+- 增加對邊界情況的處理，特別是 n = 0 的情況，避免可能的索引錯誤或空輸出問題。
+- 輸出改為使用 StringBuilder 並統一輸出格式，避免尾端多餘空格，且易於維護。
+- 變數命名改為更具語意的 arr(陣列) 與 n(長度)，提高可讀性。
+- 程式結尾與資源釋放（關閉 Scanner）。
 
-修改後完整程式碼
-（請以檔案 CSIE_41343119_1031_1.java 作為檔名，或自行命名時保持類別名稱一致）
+以下為修改後的完整程式碼：
+
+```java
 /*
 檔案名稱: CSIE_41343119_1031_1.java
-功能: 建立任意長度的一維陣列，並對內容進行由小到大排序輸出
+功能: 將輸入任意長度的一維整數陣列，進行升序排序 (使用 Selection Sort)，並輸出結果。
 作者: 金宗翰
-學號: 41343119
-日期: 2025-10-31
-說明: 使用選擇排序實作，支援負數，並輸出以空格分隔的排序結果
+日期: 2025-11-14
 */
+
 import java.util.Scanner;
 
 public class CSIE_41343119_1031_1 {
-  public static void main(String[] args) {
-    Scanner scn = new Scanner(System.in);
 
-    int n = scn.nextInt();
-    int[] arr = new int[n];
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
 
-    for (int i = 0; i < n; i++) {
-      arr[i] = scn.nextInt();
-    }
-
-    // 選擇排序：每一輪找出當前區段的最小值，與起始位置交換
-    for (int i = 0; i < n - 1; i++) {
-      int minIdx = i;
-      for (int j = i + 1; j < n; j++) {
-        if (arr[j] < arr[minIdx]) {
-          minIdx = j;
+        int n = 0;
+        if (scn.hasNextInt()) {
+            n = scn.nextInt();
         }
-      }
-      int tmp = arr[i];
-      arr[i] = arr[minIdx];
-      arr[minIdx] = tmp;
-    }
 
-    // 輸出：避免尾端多餘空格
-    for (int i = 0; i < n; i++) {
-      if (i > 0) System.out.print(" ");
-      System.out.print(arr[i]);
-    }
-    System.out.println();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scn.hasNextInt()) {
+                arr[i] = scn.nextInt();
+            } else {
+                arr[i] = 0; // 預設值，若輸入不足，避免例外
+            }
+        }
 
-    scn.close();
-  }
+        // Selection sort: sort arr ascending
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // swap
+            if (minIndex != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
+        }
+
+        // Output
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scn.close();
+    }
 }
+```
 
-修改說明與原因
-- 標頭註解：在檔案頂部加入標頭註解，說明檔名、功能、作者、日期與簡要說明，符合備註要求，提升可維護性與可讀性。
-- 變數命名：將陣列名稱 A 改為 arr，提升語意清晰度。
-- 排序演算法：改為標準的選擇排序作法（明確在每輪中找到當前區間的最小值再與起始位置交換），可讀性更高，且避免不必要的多次交換。
-- 輸出格式：改為逐步輸出並避免尾端多餘空格，輸出格式更穩定，且對 n=0 的情況也具容錯性（不會出現 A[-1] 的存取）。
-- 程式內容註解：加入內部註解，解釋排序與輸出邏輯，增加可維護性。
+評分根據與依據
+- 正確性（50%）: 45/50
+  - 對非零長度陣列能正確排序且輸出；對 n=0 的情況有穩健處理，避免程式崩潰，但若測資包含完全空陣列輸出，仍可能輸出空行，符合現實測資多數情境，但邊界仍有小幅改進空間。
+- 邏輯（30%）: 28/30
+  - 使用清晰的 Selection Sort（minIndex 概念）實作，邏輯簡潔且正確；仍可再註解核心步驟以提升可讀性。
+- 格式（10%）: 6/10
+  - 已有基本縮排與一致性，但原先缺乏標頭註解與變數命名不夠直覺，修改後有改善但若以原有風格評分可略降。
+- 備註（10%）: 6/10
+  - 原先的註解位於檔案末端，缺乏檔案開頭的標頭註解，修改後加入完整標頭註解並放在檔案開頭，整體符合需求但原始版本在此項仍有不足。
 
-改進建議
-- 若日後需求為，可更進一步使用 Arrays.sort(arr) 直接排序，並搭配自訂輸出格式以提高效率，但若作業要強調排序演算法的理解，現有的選擇排序實作已相當適合。
+如需，我可以再提供不同輸入情境的測試案例與相對應的輸出，協助驗證程式穩健性。

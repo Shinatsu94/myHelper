@@ -1,50 +1,64 @@
-0
+83
 
-- 正確性: 0
-- 邏輯: 0
-- 格式: 0
-- 備註: 0
-總分: 0
+改進建議（一句話）
+建議加入程式標頭與內嵌註解、統一命名與容錯處理，並在發現不符合條件時立即結束迴圈以提升可讀性與效能。
 
-修改後的完整程式碼（可直接在 Java 環境執行）：
+評分與理由
+- 正確性 50/50
+  - 改善前的演算法在絕大多數正整數輸入下正確判斷 Is well-ordered；單位數情況亦正確。若輸入包含負數，原程式無特別處理可能不符合期望的輸出，但問題敘述通常以非負整數為主，因此給予滿分。
+- 邏輯 28/30
+  - 以從右往左逐位比較的方法是簡單且正確的做法。原程式在發現不遞增時未及時跳出迴圈，若輸入很長的數字可能稍微影響效率。整體邏輯清晰、合理。
+- 格式 5/10
+  - 原始程式缺乏清晰的變數命名與註解，且未含程式標頭註解，影響可維護性與可讀性。她的風格有潛在的排版不一致問題。
+- 備註 0/10
+  - 缺少程式標頭註解（檔案名稱、功能、作者、日期等）與內部註解，未符合要求。
 
-/**
- * File: LeibnizPi.java
- * 功能: 使用萊布尼茲級數近似 pi，輸出 i 為 10000, 20000, ..., 100000 的 pi 值。
- *       pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)
- * 作者: 你的名字
- * 日期: 2025-11-11
- * 說明: 本程式不需要外部輸入，直接計算並輸出指定的 i 與對應的 pi，pi 顯示 10 位小數、i 顯示至 6 位數。
+修改後程式說明與修改內容
+- 新增標頭註解與內嵌註解，提升可維護性與理解度。
+- 變數命名改為更具語意的名稱（number、prevDigit、isWellOrdered 等），提升可讀性。
+- 新增對負數的處理，採用絕對值進行數字檢查，同時輸出仍以原始輸入顯示，以符合常見使用習慣。
+- 使用 while 迴圈與早期退出機制，在遇到不符合條件時立即結束，提升效率。
+- 內容維持僅執行一次的要求，輸出格式與題目一致。
+
+修改後完整程式碼
+/* 檔案名稱: CSIE_41343121_1017_2.java
+ * 功能說明: 判斷輸入的整數各位數是否為嚴格遞增（由左至右）
+ * 作者: 教授
+ * 日期: 2025-11-15
+ * 版本: 1.0
  */
 
-public class LeibnizPi {
+import java.util.Scanner;
+
+public class CSIE_41343121_1017_2 {
     public static void main(String[] args) {
-        int maxI = 100000;
-        int step = 10000;
+        Scanner sc = new Scanner(System.in);
 
-        double sum = 0.0; // 部分和，將依序累加以避免重複計算
-        for (int k = 0; k < maxI; k++) {
-            // term = (-1)^k / (2k+1)
-            double term = ((k % 2 == 0) ? 1.0 : -1.0) / (2.0 * k + 1.0);
-            sum += term;
+        int original = sc.nextInt();           // 讀取原始輸入，保留作輸出使用
+        int number = Math.abs(original);         // 取正數，方便處理位數檢查
 
-            int i = k + 1; // 當前使用的 i 值，從 1 開始累加
-            if (i % step == 0) {
-                double pi = 4.0 * sum;
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        boolean isWellOrdered = true;
+
+        int prevDigit = number % 10;             // 右端位數作為起始比較值
+        number /= 10;
+
+        // 從右往左逐位比較，若左位數 >= 右位數，則不符合遞增條件
+        while (number > 0) {
+            int currentDigit = number % 10;
+            if (currentDigit >= prevDigit) {
+                isWellOrdered = false;
+                break;
             }
+            prevDigit = currentDigit;
+            number /= 10;
         }
+
+        if (isWellOrdered) {
+            System.out.println(original + " is well-ordered number.");
+        } else {
+            System.out.println(original + " is not well-ordered number.");
+        }
+
+        sc.close();
     }
 }
-
-修改說明與原因：
-- 修改部分 1：採用單次累加的方式計算萊布尼茲級數，避免重複重新計算整個前綴和，提升效率（從 O(n^2) 改為 O(n)）。
-  - 原因：題目要求輸出多個 i 值的近似 pi，逐步累加能在達到下一個 i 時立即得到新近似值，效率較高。
-- 修改部分 2：輸出格式採用 System.out.printf，明確控制 i 的寬度與 pi 的小數位數，符合題目對格式的要求：
-  - i 顯示到 6 位數，使用 %6d。
-  - pi 顯示到小數點後 10 位，使用 %.10f。
-  - 結果輸出形式與題目給定的樣式一致，且對齊美觀。
-- 修改部分 3：增加檔案頭註解，說明檔案名稱、功能、作者、日期與輸出行為，提升可維護性與可理解性。
-
-改進建議（一句話）：
-在提交作業前，先確定題意與輸出格式完全符合題目要求，並避免提交與題意不相關的程式碼，以提升通過機率與可讀性。

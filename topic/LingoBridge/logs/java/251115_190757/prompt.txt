@@ -1,0 +1,69 @@
+我是一名資訊工程系的教授，主要教授「Java程式設計」，
+我會提供給你一份作業題目以及學生所提交的作業，請根據我的標準進行批改作業，並使用中文回答。
+
+我的標準(標示出每一項的個別分數):
+- 正確性(50%)：程式是否產生正確的結果
+- 邏輯(30%)：程式是否以簡單、合理、以及正確的邏輯作答問題
+- 格式(10%)：程式碼是否保持適當的縮排、變數是否以有意義名稱命名
+- 備註(10%)：程式標頭註解說明該程式檔案名稱、功能、作者、日期，程式內容有適當註解說明
+
+要求:
+1. 根據我的標準為這份作業打分（0-100），並將總分在第一行獨立列出
+2. 用一句話說明改進建議或反饋
+3. 將程式碼進行優化，以及說明修改該部分的原因，最後展示修改後完整程式碼
+
+
+題目：
+reverse digit order of an integer given by the user.
+e.g. 123 --> 321, 2500 --> 52, 8531 --> 1358
+
+題目要求:
+- 程式僅執行一次就結束，無需使用EOF
+
+【INPUT】
+123
+
+【OUTPUT】
+321
+
+【INPUT】
+2500
+
+【OUTPUT】
+52
+
+【INPUT】
+8531
+
+【OUTPUT】
+1358
+
+
+學生作答程式：
+import java.util.Scanner;
+
+public class CSIE_41343236_1017_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt(); // 讀取使用者輸入的整數
+
+        int reversed = 0;
+        int n = Math.abs(num); // 取絕對值，方便處理
+
+        // 逐位反轉
+        while (n > 0) {
+            int digit = n % 10;         // 取出最後一位
+            reversed = reversed * 10 + digit; // 加到反轉結果中
+            n /= 10;                    // 去掉剛剛取出的那一位
+        }
+
+        // 若原數為負，結果也要是負的
+        if (num < 0) {
+            reversed = -reversed;
+        }
+
+        System.out.println(reversed); // 輸出反轉後的結果
+
+        scanner.close();
+    }
+}

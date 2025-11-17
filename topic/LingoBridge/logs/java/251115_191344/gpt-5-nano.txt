@@ -1,0 +1,31 @@
+97
+改進建議：整體正確且直覺，但建議加強變數命名與註解，並考慮使用更穩健的型別以避免溢位。
+
+優化內容與原因：
+- 使用 long 類型並保留負號逆序的邏輯，提升數值範圍與對負數的魯棒性。
+- 重新命名變數為更具語意的名稱（num、rev、digit 等），提升可讀性。
+- 加入適當的註解與在程式結尾關閉資源，增強可維護性。
+- 保留原本「一次讀入、一個輸出」的要求，確保行為與題意一致。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_51015120_1017_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取一個整數，保留其正負號，進行位數反轉
+        long num = sc.nextLong();
+        long rev = 0;
+
+        // 只要 num 不為 0，就把最低位取出並拼接到 rev 的末尾
+        while (num != 0) {
+            long digit = num % 10;
+            rev = rev * 10 + digit;
+            num /= 10;
+        }
+
+        System.out.println(rev);
+        sc.close();
+    }
+}

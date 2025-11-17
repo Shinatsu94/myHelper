@@ -1,0 +1,69 @@
+87
+
+正確性: 50
+邏輯: 28
+格式: 6
+備註: 3
+
+改進建議（一句話）：建議改用逆向單次遍歷的做法以降低時間複雜度，同時補上標頭註解以符合規範。
+
+修改說明與修改點：
+- 時間複雜度優化：將原本的 O(n^2) 兩層迴圈改成 O(n) 的逆向單次遍歷。利用 currentMax 記錄「右邊原始值的最大值」，從右到左逐步設定 arr[i]，再更新 currentMax。
+- 正確性與可讀性：在不破壞原始陣列值的前提下，透過先保存原值再覆寫，確保正確地取得 arr[i+1..n-1] 的最大值。
+- 程式頭註解與說明：新增檔案說明與 inline 注解，提升維護性與符合作業規範。
+- 其他小改：保持輸出格式一致（以空格分隔，結尾換行）。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+/*
+ * 檔案名稱: CSIE_41343209_1031_2.java
+ * 功能說明: 將一維陣列中每個元素替換為其之後的元素的最大值，最後一個元素替換為 -1。
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ * 備註: 請確保輸入符合題目格式，程式不使用 EOF，僅執行一次後結束。
+ */
+
+public class CSIE_41343209_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取長度
+        if (!sc.hasNextInt()) {
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，提前結束
+                break;
+            }
+        }
+
+        // 使用逆向單次遍歷，將每位元替換為其右側原始值的最大值
+        if (n > 0) {
+            int currentMax = arr[n - 1]; // 先保存最後一個元素的原始值
+            arr[n - 1] = -1;              // 最後一個元素替換為 -1
+
+            for (int i = n - 2; i >= 0; i--) {
+                int original = arr[i]; // 儲存原始值，便於更新 currentMax
+                arr[i] = currentMax;   // arr[i] 變為右側原始最大值
+                if (original > currentMax) {
+                    currentMax = original; // 更新右側原始最大值
+                }
+            }
+        }
+
+        // 輸出結果
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+    }
+}

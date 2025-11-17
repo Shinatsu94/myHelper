@@ -1,0 +1,64 @@
+2
+
+改進建議：原程式未實作排序與輸出需求，需改為讀取整數陣列、進行升序排序並正確輸出結果。
+
+修改說明與重點
+- 輸入與資料結構
+  - 重新設計為讀取整數 n，接著讀取 n 個整數，存入整數陣列 arr。
+- 演算法
+  - 使用 Arrays.sort(arr) 進行升序排序，簡化實作且效率良好，能正確處理負數。
+- 輸出格式
+  - 輸出排序後的陣列，元素間以單一空格分隔，末尾不多餘空格，符合題目輸出格式。
+- 程式風格與可維護性
+  - 使用更具描述性的類別名稱 Main，檔案命名為 Main.java。
+  - 新增檔案頭註解，說明檔案名稱、功能、作者與日期。
+  - 增加必要的註解與程式健壯性處理（例如讀取不足時的防護）。
+  - 清理資源：使用完畢後關閉 Scanner。
+
+修改後完整程式碼（Main.java）
+```java
+/*
+ * File: Main.java
+ * 功能: 讀取整數 n，再讀取 n 個整數，對陣列進行升序排序，輸出排序結果（以空格分隔）。
+ * 作者: ChatGPT
+ * 日期: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                arr[i] = 0;
+            }
+        }
+
+        sc.close();
+
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素之間以單一空格分隔，末尾不留空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

@@ -1,0 +1,50 @@
+90
+
+改進建議（一句話）
+建議改用 Java 內建的排序 Arrays.sort 以提升效率與可讀性，同時加入程式檔案標頭註解與適當的註解。
+
+程式改動與原因
+- 使用 Arrays.sort(arr) 取代自訂的選擇排序，降低程式複雜度並提升排程效率（O(n log n) 而非 O(n^2)）。
+- 新增檔案標頭註解，清楚描述檔案名稱、功能、作者與日期，符合作業要求的備註部分。
+- 程式中加入適當註解，提升可讀性。
+- 使用 StringBuilder 組合輸出字串，避免在迴圈中頻繁字串拼接，提升效能並保持原輸出格式。
+
+修改後完整程式碼
+```java
+/*
+ * File: CSIE_41343242_1031_1.java
+ * 功能: 讀取整數陣列長度 n，讀入 n 個整數，並輸出升序排序後的結果
+ * 作者: (請自行填寫)
+ * 日期: 2025-11-14
+ * 備註: 使用內建排序提升效能，包含必要的程式註解
+ */
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343242_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 升序排序（使用內建排序提高效率與可讀性）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素間以空白分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(arr[i]);
+            if (i < n - 1) sb.append(' ');
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

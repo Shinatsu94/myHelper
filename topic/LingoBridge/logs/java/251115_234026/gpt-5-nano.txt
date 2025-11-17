@@ -1,0 +1,48 @@
+67
+
+建議重點：中位數在出現重複數字時原程式的判定邏輯容易出錯，建議改用 mid = a + b + c - max - min 的方式，並改善變數命名與加入註解提升可讀性與穩定性。
+
+修改說明與修改後完整程式碼
+修改原因與內容要點：
+- 中位數寫法改進：使用 mid = n1 + n2 + n3 - max - min 的通用做法，能正確處理重複值的情況，且語意更清晰。
+- 變數命名改良：將 a,b,c 改為 n1, n2, n3，提升可讀性。
+- 程式頭註解與內文註解：新增檔案說明註解、分段註解，符合「程式標頭註解」的要求。
+- 其他：保留 max、min 的三元運算寫法，符合題目要求「使用三元運算子找出最大值與最小值」。
+
+修改後完整程式碼如下：
+```java
+/**
+ * CSIE_41343219_1003_2.java
+ * 功能: 讀取三個整數，輸出最小值、中位數與最大值。
+ * 說明: 使用兩種不同方式求解最大/最小與中位數：
+ *        - 最大值與最小值使用三元運算子
+ *        - 中位數使用 mid = n1 + n2 + n3 - max - min 的方式
+ * 作者: 教師
+ * 日期: 2025-11-15
+ */
+import java.util.Scanner;
+
+public class CSIE_41343219_1003_2 {
+    public static void main(String[] args) {
+        int n1, n2, n3;
+        Scanner sc = new Scanner(System.in);
+        n1 = sc.nextInt();
+        n2 = sc.nextInt();
+        n3 = sc.nextInt();
+        sc.close();
+
+        // 使用三元運算子計算最大值
+        int max = (n1 > n2) ? (n1 > n3 ? n1 : n3) : (n2 > n3 ? n2 : n3);
+
+        // 使用三元運算子計算最小值
+        int min = (n1 < n2) ? (n1 < n3 ? n1 : n3) : (n2 < n3 ? n2 : n3);
+
+        // 中位數：sum - max - min（適用於任意三數，包含重複值）
+        int mid = n1 + n2 + n3 - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+    }
+}
+```

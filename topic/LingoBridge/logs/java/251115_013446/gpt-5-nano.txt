@@ -1,0 +1,46 @@
+88
+建議：增寫程式標頭註解、使用更具描述性的變數名稱、採用自動資源管理與內建排序以提升可讀性與穩定性。
+
+修改說明：
+- 程式標頭與註解：加入檔案說明、功能、作者與日期，符合備註評分標準。
+- 變數命名：使用更具意義的名稱，例如 n、arr，提升可讀性。
+- 資源管理：改用 try-with-resources 以自動關閉 Scanner，避免資源遺漏。
+- 排序策略：改用 Arrays.sort 取代自寫的氣泡排序，提升執行效率與穩定性。
+- 輸出效率與格式：改用 StringBuilder 組合輸出字串，避免多次 I/O 呼叫，輸出格式維持元素間空格且無尾端空格。
+
+修改後完整程式碼：
+/*
+ * File: CSIE_41343221_1031_1.java
+ * Title: 一維整數陣列排序（升序）
+ * Description: 讀取長度與元素，將陣列內容升序排序，輸出結果。
+ * Author: 你的姓名
+ * Date: 2025-11-14
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343221_1031_1 {
+
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner scanner = new Scanner(System.in)) {
+            int n = scanner.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = scanner.nextInt();
+            }
+
+            // 使用內建排序提升效率與穩定性
+            Arrays.sort(arr);
+
+            // 使用 StringBuilder 輸出，避免多次 I/O
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}

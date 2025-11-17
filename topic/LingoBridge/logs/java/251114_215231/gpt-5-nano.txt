@@ -1,0 +1,62 @@
+5
+
+改進建議
+此作業未實作題目需求的升序排序與正確的輸入輸出格式，需改用一維整數陣列接收長度與元素，並使用排序後輸出。也應加入適當的註解、變數命名與關閉資源。
+
+修改與理由
+- 重新實作成一個符合題意的解法：讀取長度 n、再讀入 n 個整數，使用 Arrays.sort 進行升序排序，最後在同一行用空格分隔輸出。
+- 改善命名與格式：使用有意義的變數名稱（如 arr、n），並加入程式標頭註解與適當的內部註解，方便維護與評分。
+- 避免不必要的多維陣列與雜亂輸出，確保能處理負數與任意長度的輸入。
+- 程式結構清晰，並在結束時關閉資源。
+
+以下為修改後的完整程式碼與說明
+
+程式說明
+- 功能：讀入整數長度 n，接著讀入 n 個整數，將它們由小到大排序，最後輸出排序後的陣列，元素以單個空格分隔，並換行。
+- 主要步驟：讀取輸入 -> 排序 -> 輸出 -> 關閉資源。
+- 效能：排序時間為 O(n log n)，適用任意長度的陣列，且支援包含負數的情況。
+
+修改後完整程式碼（Java）
+
+/*
+檔案名稱: SortingArray.java
+功能: 讀入使用者輸入的任意長度一維陣列，先輸入長度，再輸入元素，將陣列內容由小到大排序，最後輸出排序後的內容（以空格分隔在同一行）。
+作者: 你的姓名
+日期: 2025-11-14
+描述: 使用 Scanner 讀取長度與元素，Arrays.sort 排序，使用 StringBuilder 組裝輸出以避免多次 I/O。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortingArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取陣列元素
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 對陣列內容進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果，元素以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        // 關閉資源
+        sc.close();
+    }
+}
+
+說明
+- 修改後的程式會正確處理正數與負數的輸入，並符合題目所要求的輸入與輸出格式。
+- 若你有特定的命名風格或要放在某個套件裡，也可以微調類別名稱與封裝結構。

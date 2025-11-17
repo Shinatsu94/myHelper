@@ -1,47 +1,47 @@
-97
+89
 
-修改後完整程式碼及說明：
-- 目的與符合度說明
-  - 根據題意，讀入兩個整數 A, B，交換後輸出交換結果（依題意樣本顯示，只輸出交換後的兩個值，分別在新的一行），不使用額外變數進行交換。
-  - 使用位元運算的 XOR 交換法，避免使用額外變數，符合題意限制。
-  - 程式中加入完整註解與標頭，提升可讀性與維護性。
+改進建議：建議加入完整的程式標頭註解、改用有意義的變數名稱與適當的型別以提升可讀性與穩定性，並在輸入完畢後關閉 Scanner。
 
-修改後的程式碼：
-/**
- * 文件名稱: CSIE_41343223_1003_2.java
- * 功能說明: 讀入兩個整數 A, B，交換後輸出新順序的兩個值（不使用其他變數進行交換）。
- * 作者: 教師姓名
- * 日期: 2025-11-11
- */
+修改說明與程式優化要點
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，以符合備註要求。
+- 將變數名稱改為小寫 a、b、c，符合 Java 命名慣例，提升可讀性。
+- 將計算型別改為 long，降低整數溢位風險，尤其在求 mid 時以避免溢出。
+- 保留「使用三元運算子找最大值與最小值」的要求，並用 sum - max - min 計算中間值 mid。
+- 關閉 Scanner 以釋放資源。
+- 程式保留原本不使用 if-else 的特性，符合題目限制。
 
+修改後完整程式碼
+/*
+檔案名稱: ThreeNumbersMaxMidMin.java
+功能: 讀入三個整數，計算最大值、最小值與中間值（中間值 = a + b + c - max - min），
+      使用兩種不同的方式透過三元運算子找出最大值與最小值，避免使用 if-else。
+作者: 教授
+日期: 2025-11-15
+*/
 import java.util.Scanner;
 
-public class CSIE_41343223_1003_2 {
+public class ThreeNumbersMaxMidMin {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // 讀取兩個整數
-        int A = scanner.nextInt();
-        int B = scanner.nextInt();
+        long a = scanner.nextLong();
+        long b = scanner.nextLong();
+        long c = scanner.nextLong();
 
-        // 使用位元運算交換兩個整數，且不使用額外變數
-        A = A ^ B;
-        B = A ^ B;
-        A = A ^ B;
+        // 最大值 max（使用三元運算子）
+        long max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
 
-        // 輸出交換後的結果（符合題目樣本：先輸出原本的 B，即現在的 A）
-        System.out.println(A);
-        System.out.println(B);
+        // 最小值 min（使用三元運算子）
+        long min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+        // 中間值 mid，利用總和減去最大與最小值
+        long mid = a + b + c - max - min;
+
+        // 輸出結果：先最小值、再中間值、最後最大值
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
 
         scanner.close();
     }
 }
-
-修改部分原因說明：
-- 移除了不必要的第三個讀入變數 C，因題目只需兩個數字，因此移除相關運算以避免歧義並提升正確性。
-- 以 XOR 交換法取代原程序中的多重變數運算，符合「不可用額外變數」的要求，同時避免整數溢位問題（相較於加減法）。
-- 程式輸出改為交換後的值，以符合題目提供的輸出樣本。
-- 加入完整檔案標頭與適當註解，提升可讀性與維護性。
-
-一句話改進建議：
-若日後需要更清晰的輸出格式與輸入驗證，建議加入對輸入數字範圍與有效性檢查，並在適當情境下提供說明性輸出，以提高使用者友善度。

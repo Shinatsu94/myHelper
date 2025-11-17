@@ -1,0 +1,46 @@
+6
+
+改進建議：此作業的排序邏輯錯誤，輸出不是升序，建議改用 Arrays.sort 或實作簡單的排序法，並在輸出加入換行與適當的程式註解與標頭。
+
+修改與說明
+- 將原本自訂的「取後綴最大值」邏輯改為直接使用內建的升序排序（Arrays.sort），避免邊界條件與邏輯錯誤。
+- 移除不必要的 result 陣列，直接對原始陣列 arr 進行排序，降低記憶體使用與複雜度。
+- 使用 Arrays.sort 能正確處理包含負數的情況。
+- 加入適當的檔案標頭註解，並在輸出部分加入換行，提升可讀性與符合題意。
+- 保持變數命名清晰，程式結構簡潔。
+
+完整修改後程式碼
+```java
+/*
+File: CSIE_41343233_1031_2.java
+功能: 將輸入的一維整數陣列做升序排序，輸出排序後的結果
+作者: [Your Name]
+日期: 2025-11-14
+描述: 讀入長度 n 及 n 個整數，對陣列排序後輸出，以空格分隔，最後換行。
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CSIE_41343233_1031_2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
+```

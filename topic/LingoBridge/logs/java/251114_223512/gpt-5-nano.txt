@@ -1,0 +1,54 @@
+0
+
+改進建議：請依題目要求實作，直接讀取整數長度與對應的 n 個整數，進行升序排序並輸出結果，避免使用與題目無關的三角形陣列與尋找數字的邏輯。
+
+- 評分說明與修改要點
+  - 改善方向：將程式改為一維整數陣列的排序實作，直接輸入長度 n 與 n 個整數，輸出排序後的結果。
+  - 演算法選擇：使用 Arrays.sort 進行升序排序，簡單且對負數亦支援良好。
+  - 輸出格式：輸出為單行、以空格分隔，末尾換行，符合題意。
+  - 程式標頭與註解：加入檔案名稱、功能、作者與日期等註解，提升可讀性與維護性。
+  - 變數命名與格式：改用有意義的變數名稱，並維持一致的縮排與風格。
+
+修改後完整程式碼：
+/*
+檔案名稱: SortArray.java
+功能: 讀取整數長度 n 與 n 個整數，將其升序排序並輸出排序後的結果
+作者: 你的名字
+日期: 2025-11-14
+說明: 使用單一的一維陣列與 Arrays.sort 進行排序，支援負數，輸出為以空格分隔的一行結果。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0（實務上應有錯誤處理；此處保持容錯）
+                arr[i] = 0;
+            }
+        }
+
+        // 進行排序（升冪）
+        Arrays.sort(arr);
+
+        // 輸出排序後的結果，空格分隔，換行結尾
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

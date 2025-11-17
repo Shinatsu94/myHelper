@@ -1,0 +1,54 @@
+34
+輸出順序與題目要求不符，且缺少檔案標頭與註解，建議改用 min, mid, max 的輸出順序並補充註解與檔案資訊。
+
+改進建議與修改重點
+- 正確性：依題意輸出順序應為 min、mid、max；目前程式輸出順序為 max、min、mid，需修正。
+- 邏輯： maksimal 與 minimal 的邏輯正確，中間值透過 sum - max - min 計算無誤，建議保留並改為第二種取得最小值的方法以符合「兩種不同的方式」的要求。
+- 格式：變數命名可更具意義（如 a, b, c），並保持良好縮排。
+- 備註：加入檔案標頭註解，註明檔案名稱、功能、作者、日期等。
+
+修改說明與修改的部分
+- 將輸出順序改為 min、mid、max，以符合範例輸出。
+- 採用兩種不同的方式取得最大值與最小值：最大值仍使用三元運算子，最小值改用 Math.min(A, Math.min(B, C))，以符合「兩種不同的方式」的要求。
+- 增加檔案標頭註解與程式內註解，提升可讀性與維護性。
+- 優化變數命名，並保持適當縮排。
+
+修改後完整程式碼（檔名假設為 CSIE_41343217_1003_2.java）
+/*
+檔案名稱: CSIE_41343217_1003_2.java
+功能: 輸入三個整數，找出最大值、最小值、中間值，輸出順序為 min、mid、max。
+作者: 作者姓名
+日期: 2025-11-15
+說明:
+- 使用兩種不同的方法分別求最大值與最小值：最大值使用三元運算子；最小值使用 Math.min。
+- 中間值透過 mid = a + b + c - max - min 計算。
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343217_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取三個整數
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
+
+        // 方式1：使用三元運算子計算最大值
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+
+        // 方式2：使用內建方法計算最小值
+        int min = Math.min(a, Math.min(b, c));
+
+        // 中間值
+        int mid = a + b + c - max - min;
+
+        // 輸出順序依題意：min、mid、max
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scanner.close();
+    }
+}

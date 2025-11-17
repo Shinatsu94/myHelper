@@ -1,0 +1,57 @@
+100
+原作功能正確，但缺少程式標頭註解，且在遇到大整數與負數時的健壯性不足，建議改以字串方式實作並補上註解以提升穩健性。
+
+- 優化與改進說明
+  - 使用字串作法反轉數字，避免整數溢位問題，且可原生支援任意長度的數字。
+  - 新增對負號的處理，負數的符號保持不變，僅反轉絕對值部分。
+  - 加入程式標頭註解與更清晰的變數命名，提升可讀性與維護性。
+  - 保留原始需求：程式一次執行結束，且輸入輸出符合題意。
+  
+- 修改後完整程式碼（放在同一個檔案，檔名與 class 名稱保持為 CSIE_41343216_1017_3.java）：
+```java
+import java.util.Scanner;
+
+/*
+ * 檔案名稱: CSIE_41343216_1017_3.java
+ * 功能: 將使用者輸入的整數數字位元依序反轉，並輸出結果。
+ * 作者: 教師
+ * 日期: 2025-11-15
+ * 說明:
+ *  - 支援正負號，負數時反轉後仍為負數。
+ *  - 使用字串處理以避免整數溢位問題，且對任意長度的輸入皆有效。
+ *  - 輸入為 0 時輸出 0；輸入若含前導零，反轉後會移除反轉結果前方的多餘零。
+ */
+
+public class CSIE_41343216_1017_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) {
+            sc.close();
+            return;
+        }
+
+        String input = sc.next().trim();
+        boolean isNegative = input.startsWith("-");
+        if (isNegative) {
+            input = input.substring(1);
+        }
+
+        // 反轉數字字串
+        String reversed = new StringBuilder(input).reverse().toString();
+
+        // 移除反轉後字串前方的多餘零，確保輸出為一個整數字串；若全為零，輸出 "0"
+        reversed = reversed.replaceFirst("^0+(?!$)", "");
+        if (reversed.isEmpty()) {
+            reversed = "0";
+        }
+
+        if (isNegative) {
+            System.out.println("-" + reversed);
+        } else {
+            System.out.println(reversed);
+        }
+
+        sc.close();
+    }
+}
+```

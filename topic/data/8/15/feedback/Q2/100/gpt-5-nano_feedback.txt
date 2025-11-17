@@ -1,64 +1,58 @@
-9
+85
 
-- 正確性: 0/50
-- 邏輯: 5/30
-- 格式: 4/10
-- 備註: 0/10
+該作業評語（一句話簡評）：
+原作在邏輯上能正確將每個位置改為右側的最大值且輸出格式符合，但缺少程式標頭註解與命名慣例，且可採用更清晰且效率更佳的實作方式。
 
-總分：9/100
+改進建議與說明：
+- 提升演算法清晰度與效率：改用從右到左單次遍歷，利用 currentMax 保存右側最大值，直接把 arr[i] 設為該值，最後一個設為 -1。這樣時間複雜度為 O(n)，且為就地修改，邏輯更直觀。
+- 程式碼風格與命名：改用符合 Java 常用命名（如 Main 類別與變數 n、arr），移除未使用的匯入，保持程式碼整潔。
+- 加入程式標頭註解：在檔案頂端加入檔案名稱、功能、作者、日期等註解，方便日後維護。
+- 輸出格式維持：仍以空格分隔且結束換行，與題目輸出一致。
 
-說明與評語：
-- 這份作業的原始程式未正確實作排序邏輯，輸出與題意不符；內層邏輯混亂且會覆蓋變數，結果會是未排序的數列。
-- 已提供改善版本，採用健全且穩定的排序方式，並加上適當的程式標頭與註解，提升可讀性與可維護性。
+修改要點與原因：
+- 原始做法使用多層迴圈並在迴圈中修改原陣列，雖能得到正確結果，但可讀性較差且時間複雜度為 O(n^2)。右到左一次遍歷法更直覺、快速且易於維護。
+- 將類名改為 Main，符合大多數線上評測的檔名與載入規範，避免編譯錯誤。
+- 加入 header 註解，符合作業要求的備註欄位需求。
 
-修改說明與重點修改內容：
-- 使用內建排序 Arrays.sort 取代原本錯誤的排序邏輯
-  - 原因：原程式的排序邏輯錯誤，容易導致輸出與預期不符；使用 Arrays.sort 可確保正確且穩定地把整數由小到大排序，且支援負數。
-- 改善輸入與輸出流程
-  - 原因：原程式在排序邏輯上有誤，輸出格式雖然正確，但內容不對；使用 StringBuilder 來拼接輸出字串，避免逐次 printf 造成成本較高。
-- 加入標頭註解與命名與格式優化
-  - 原因：符合作業要求的標頭註解，並使用清晰的類別名 Main，提升可讀性與符合常見的編譯慣例。
-- 完整改寫後的程式碼（修改後的完整程式碼）：
+修改後完整程式碼：
+/*
 檔案名稱: Main.java
-功能: 讀取長度與該長度個整數，輸出由小到大排序的結果
-作者: 學生
-日期: 2025-11-12
+功能說明: 對任意長度整數的一維陣列，將每個元素替換為其右側元素的最大值，最後一個元素為 -1。輸出以空格分隔。
+作者: 你的名字
+日期: 2025-11-14
+*/
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        java.util.Scanner sc = new java.util.Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
         // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int len = sc.nextInt();
-        int[] nums = new int[len];
+        int n = sc.nextInt();
+        int[] arr = new int[n];
 
         // 讀取陣列元素
-        for (int i = 0; i < len; i++) {
-            nums[i] = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
         }
         sc.close();
 
-        // 排序：由小到大，負數亦適用
-        java.util.Arrays.sort(nums);
+        // 從右到左一次完成：維護右側的最大值
+        int currentMax = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            int original = arr[i];
+            arr[i] = currentMax;
+            if (original > currentMax) {
+                currentMax = original;
+            }
+        }
 
-        // 輸出排序後的陣列
+        // 輸出結果，空格分隔，末尾換行
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < n; i++) {
             if (i > 0) sb.append(' ');
-            sb.append(nums[i]);
+            sb.append(arr[i]);
         }
         System.out.println(sb.toString());
     }
 }
-
-修改部分說明:
-- 使用 Arrays.sort 取代自訂排序邏輯，理由是正確性、效率與穩定性均提升，且能正確處理負數。
-- 使用 StringBuilder 組裝輸出，提升可讀性與效能，避免多次字串拼接。
-- 加入基本的輸入檢查與註解，提升程式的可維護性與清晰度。
-
-改進建議（一句話）：
-- 建議後續若要支援更大量資料，除了使用 Arrays.sort 外，也可以考慮自訂排序演算法的時間與空間複雜度分析，並加入輸入驗證以對抗非整數輸入情形。

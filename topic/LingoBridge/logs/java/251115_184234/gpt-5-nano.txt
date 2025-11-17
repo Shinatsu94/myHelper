@@ -1,0 +1,61 @@
+總分：89
+
+回饋摘要（一句話改進建議）
+建議加入程式標頭註解與符合 Java 慣例的類別命名，並以更模組化的方式處理輸入與判斷，同時增加資源釋放與負數輸入的處理。
+
+評分細項與理由
+- 正確性 (50/50)
+  - 程式能正確判斷每位數字是否嚴格遞增，單一數字也視為符合條件，符合題意與輸出格式。
+- 邏輯 (30/30)
+  - 透過字元比較相鄰數字大小，若任何前一位大於等於後一位即判為非 well-ordered，邏輯清晰且正確。
+- 格式 (9/10)
+  - 程式碼縮排與命名以保持可讀性，變數命名有意義。唯一扣分點在於類別名稱未遵循常見的 Java 命名慣例（以小寫開頭的長名字），非語法問題但屬於小幅度格式評分扣分。
+- 備註 (0/10)
+  - 缺少程式標頭註解（檔案名稱、功能、作者、日期等），因此此部分未加分。
+
+改進改動的重點與修改原因
+- 新增標頭註解，清楚說明檔案用途與作者資訊，提升可維護性與可追蹤性。
+- 將類別名稱改為符合 Java 命名慣例的 WellOrderedNumber，提升可讀性與專案整體風格一致性。
+- 將判斷邏輯抽成私有方法 isWellOrdered，提升可測試性與重用性。
+- 使用 try-with-resources 來自動關閉 Scanner，避免資源泄漏。
+- 對負數輸入作合理處理（回傳 false），以釐清非合法輸入的情況。
+- 保留原有核心邏輯（字元逐一比較相鄰位是否嚴格遞增），確保功能正確性。
+
+修改後的完整程式碼
+/*
+Filename: WellOrderedNumber.java
+Description: Determine whether input number's digits are strictly increasing from left to right.
+Author: Your Name
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            if (!scanner.hasNextInt()) {
+                return;
+            }
+            int number = scanner.nextInt();
+            if (isWellOrdered(number)) {
+                System.out.println(number + " is well-ordered number.");
+            } else {
+                System.out.println(number + " is not well-ordered number.");
+            }
+        }
+    }
+
+    private static boolean isWellOrdered(int number) {
+        if (number < 0) {
+            return false;
+        }
+        String s = Integer.toString(number);
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) >= s.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

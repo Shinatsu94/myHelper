@@ -1,0 +1,58 @@
+91
+
+改進建議：此作業基本正確，建議加強命名與註解、加入輸入驗證，並用一次性輸出整行以提升效能，同時完善標頭註解。
+
+修改重點與原因：
+- 增加完整的檔案標頭註解（檔案名稱、功能、作者、日期），提升可維護性。
+- 使用更具描述性的變數名稱（例如 n、array）提高可讀性。
+- 關閉 Scanner，避免資源洩漏。
+- 輸出改為一次性建立字串再輸出，降低 System.out.print 的呼叫次數，提升執行效能。
+- 加入輸入範圍檢查，符合題意的 0 < n <= 20 的限制，輸入不符合時直接結束。
+
+修改後完整程式碼：
+/*
+File: CSIE_41343247_1031_3a.java
+功能: 產生並輸出下三角形的二維字元陣列，其大小由使用者輸入 n(0 < n <= 20)，各列印出對應數量的 '*'，不含間隔符號。
+作者: 盧冠宇
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_41343247_1031_3a {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取並驗證輸入
+        int n;
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        n = scanner.nextInt();
+        if (n <= 0 || n > 20) {
+            // 違反題意的輸入，直接結束
+            scanner.close();
+            return;
+        }
+
+        // 建立下三角形的 jagged 陣列
+        char[][] array = new char[n][];
+        for (int i = 0; i < n; i++) {
+            array[i] = new char[i + 1];
+        }
+
+        // 填入 '*' 符號
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                array[i][j] = '*';
+            }
+        }
+
+        // 逐列輸出，使用一次性字串輸出提高效能
+        for (int i = 0; i < n; i++) {
+            System.out.println(new String(array[i]));
+        }
+
+        scanner.close();
+    }
+}

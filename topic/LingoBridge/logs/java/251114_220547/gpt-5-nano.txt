@@ -1,0 +1,57 @@
+總分：8
+
+改作業建議摘要（一句話）
+題意未被滿足，需改為讀取整數長度 n 後再讀入 n 個整數，對整數陣列進行由小到大的排序，並正確輸出排序結果，同時補上適當的程式註解。
+
+修改與優化說明
+- 正確性與邏輯：
+  - 改為按題意讀取長度 n，接著讀入 n 個整數，支援負數，使用 Arrays.sort 進行排序，並將排序結果以空格分隔輸出。
+  - 移除原先的星號三角形輸出，避免與題目需求混淆。
+- 輸入與輸出：
+  - 使用 Scanner 逐步讀取整數，並避免使用 EOF 作法，符合單次執行完畢的規範。
+  - 將輸出格式固定為一行、數字間以空格分隔，結尾換行。
+- 程式可讀性與維護性：
+  - 增加檔案標頭註解（檔案名稱、功能、作者、日期）與適當內嵌註解。
+  - 使用有意義的變數名稱與清楚的流程控制，便於後續維護與測試。
+
+修改後完整程式碼
+/*
+檔案名稱: SortIntArray.java
+功能: 讀入長度 n，接著讀入 n 個整數，將整數陣列由小到大排序，並輸出排序結果，支援負數；避免使用 EOF，單次執行結束。
+作者: 你的名字
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortIntArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        // 基本輸入驗證
+        if (n <= 0) return;
+
+        // 讀入 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (!sc.hasNextInt()) return;
+            arr[i] = sc.nextInt();
+        }
+
+        // 排序（由小到大）
+        Arrays.sort(arr);
+
+        // 輸出排序結果，數字以空格分隔，避免尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

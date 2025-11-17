@@ -1,0 +1,71 @@
+93
+
+改進建議：
+此題用暴力遍歷約 100000 個數字即可完成，但若日後要處理更大範圍時效能可能下降。建議採用動態規劃統計 0..99999 的各位數和再做調整，並加強程式標頭註解與輸入檢驗以提升可讀性與魯棒性。
+
+程式的修改與原因要點：
+- 使用動態規劃統計 0..99999 的5位數字（含前導零）各位數和分佈，時間複雜度降至常數級別，適合大範圍擴展。
+- 透過 dp[5][a] 得到 0..99999 的數字中，位數和為 a 的個數，並依需求把 00000 的情況排除、以及 100000 的情況納入。
+- 增加清晰的程式標頭註解與命名，提升可讀性；加入對輸入 a 的有效性檢查，避免不合理輸入造成混淆。
+- 保留原本功能：最終輸出為 1..100000 中位數和為 a 的數字個數。
+
+修改後完整程式碼：
+```java
+/*
+ file name: CSIE_41343212_1003_3.java
+ author: 李品劭
+ id: 41343212
+ date: 2025-11-15
+ purpose: count numbers in [1,100000] whose sum of digits equals A
+ approach: use DP to count 5-digit numbers (with leading zeros) whose digit sum equals A,
+           then adjust for 100000
+*/
+
+import java.util.Scanner;
+
+public class CSIE_41343212_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int a = sc.nextInt();
+        int result = countNumbersWithDigitSum(a);
+        System.out.println(result);
+        sc.close();
+    }
+
+    private static int countNumbersWithDigitSum(int a) {
+        // 0..99999 的位數和最大為 45，超出此範圍結果為 0
+        if (a < 0 || a > 45) {
+            return 0;
+        }
+
+        // dp[pos][sum]: 填完 pos 位數後，總和為 sum 的數量
+        int[][] dp = new int[6][46];
+        dp[0][0] = 1;
+
+        for (int pos = 1; pos <= 5; pos++) {
+            for (int sum = 0; sum <= 9 * (pos - 1); sum++) {
+                int ways = dp[pos - 1][sum];
+                if (ways == 0) continue;
+                for (int d = 0; d <= 9; d++) {
+                    dp[pos][sum + d] += ways;
+                }
+            }
+        }
+
+        int waysFrom00000To99999 = dp[5][a];
+        // 排除 00000（代表數字 0）若 a == 0
+        int exclude00000 = (a == 0) ? 1 : 0;
+        // 如果 a == 1，100000 的位數和為 1，需加回來
+        int include100000 = (a == 1) ? 1 : 0;
+
+        return waysFrom00000To99999 - exclude00000 + include100000;
+    }
+}
+```
+
+說明：
+- 本程式透過 dp 計算 0..99999 的所有五位數字（含前導零）之位數和為 a 的數量，然後再把 00000 的情況排除（若 a 為 0）並將 100000 的情況單獨判斷是否符合 a 的條件，最後輸出符合條件的數字數量（範圍為 1..100000）。如此即可得到與原題相同的結果，同時在日後需要處理更大範圍時具備更好的性能與擴展性。

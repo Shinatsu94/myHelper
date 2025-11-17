@@ -1,0 +1,50 @@
+90
+此作業基本正確，建議加上標頭註解與適當註解以提升可讀性與維護性。
+
+修改建議與說明
+- 增加程式檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註欄位要求。
+- 變數命名以 a, b, c 規範化，並將 min、mid、max 的宣告與計算區分清楚，提升可讀性。
+- 保留使用三元運算子找最大值與最小值的作法，並以中間值公式 mid = a + b + c - max - min 作為另一種方法來取得中間值，符合題意「使用兩種不同的方式」。
+- 程式內容加入適當註解，提升可維護性。
+- 注意：若輸入數字極大，以 a + b + c 計算中間值可能產生整數溢位，實務上可改用不會溢位的比較方式來取得中間值。
+
+以下為修改後的完整程式碼與說明
+
+修正要點
+- 新增標頭註解
+- 重新整理變數名稱與註解
+- 保留三元運算子求最大、最小，並以求和再減去最大與最小取得中間值（作法二）
+
+完整程式碼
+import java.util.Scanner;
+
+/*
+File: CSIE_41343202_1003_2.java
+功能: 讀取三個整數，輸出其最小值、中間值、最大值（各一行）
+作者: 你的名字
+日期: 2025-11-15
+說明: 使用兩種不同的方法求最大、最小與中間值；不得使用 if-else。
+*/
+
+public class CSIE_41343202_1003_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int c = scanner.nextInt();
+
+        // 方法一：使用三元運算子找出最小值與最大值
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+
+        // 方法二：利用三個數的和減去最大值與最小值得到中間值
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scanner.close();
+    }
+}

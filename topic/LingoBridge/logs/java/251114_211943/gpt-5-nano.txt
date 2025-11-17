@@ -1,0 +1,55 @@
+89
+
+建議補上檔案標頭註解與適當的程式註解，並使用 StringBuilder 提升輸出效能與可讀性，同時保持原有的排序邏輯。
+
+改進說明：
+- 增加檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註需求。
+- 在關鍵區塊添加簡要註解，提升可讀性。
+- 將輸出改為使用 StringBuilder，一次性輸出可避免多次呼叫 System.out.print，提升效能並讓格式控制更簡潔。
+- 保留原本的選擇排序邏輯，未變更排序結果。
+
+修改後完整程式碼：
+/*
+檔案名稱: CSIE_51015120_1031_1.java
+功能: 建立任意長度的一維陣列並對其內容進行升序排序，最後輸出排序結果
+作者: 教師
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class CSIE_51015120_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            // 讀取陣列長度
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+
+            // 讀取陣列元素
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            // 使用簡單的選擇排序 (升序)
+            for (int i = 0; i < n - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[minIndex]) {
+                        minIndex = j;
+                    }
+                }
+                int temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+
+            // 使用 StringBuilder 儲存輸出內容，最後一次性輸出
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}

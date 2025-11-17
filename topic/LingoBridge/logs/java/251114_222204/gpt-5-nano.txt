@@ -1,0 +1,60 @@
+7
+你的程式未依題意讀取全部輸入與完成排序，建議重寫成正確的輸入與輸出流程，並使用標準的排序方法進行排序與輸出。
+
+改進建議與回饋要點
+- 重新設計輸入流程：先讀取陣列長度 n，接著讀入 n 個整數。
+- 實作排序：使用 Arrays.sort(arr) 進行升序排序，確保對負數也正確處理。
+- 輸出格式：以單行輸出排序後的數字，數字之間以空格分隔，且結尾換行。
+- 命名與註解：使用有意義的變數名稱，加入適當的檔案註解（檔案名稱、功能、作者、日期）。
+
+修改與修改原因
+- 讀取範圍修正：原程式只讀取兩個整數，未完成題目需求；修正為讀取 n 個整數。
+- 排序邏輯新增：原程式無排序邏輯，新增排序步驟保證結果正確。
+- 輸出格式化：統一輸出格式，避免不必要的字串拼接與不穩定輸出。
+- 程式結構與註解：提供標頭註解與整潔的程式結構，提升可讀性與維護性。
+
+修改後完整程式碼
+/* 
+檔案名稱: SortArrayAsc.java
+功能: 讀取整數陣列長度 n，接著讀入 n 個整數，輸出從小到大排序的結果
+作者: 你的名字
+日期: 2025-11-14
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度 n
+        int n = 0;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        }
+
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，預設為 0（但題目通常應該有足夠的輸入）
+            }
+        }
+
+        scanner.close();
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出：以空格分隔，單行輸出
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

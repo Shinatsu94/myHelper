@@ -1,65 +1,54 @@
-0
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 0/10
-- 備註: 0/10
+85
+建議改進：採用更慣用的 0-based 陣列編碼、加入輸入範圍檢查與註解，並用 StringBuilder 提升輸出效能與可讀性。
 
-評語與改進重點
-- 這份作業的核心需求是讀取長度與對應的整數，將陣列內容由小到大排序後輸出。學生原始程式僅建立了一個二維字元陣列並以星號輸出，未處理輸入數字、也未進行排序，與題目需求嚴重不符，需重新設計為整數陣列並使用排序。
+修改內容說明：
+- 使用 0-based 陣列與清晰變數名稱，使程式更符合 Java 常用寫法。
+- 加入輸入範圍檢查，避免非預期情況。
+- 使用 StringBuilder 組裝輸出，避免多次頻繁輸出，提升效能。
+- 加上程式頭註解與必要註解，提升可維護性與可讀性。
+- 保留下三角形的輸出格式（每行 i 個 '*'，無多餘空格）。
 
-修改說明與原因
-- 使用整數陣列 int[] 代替 char 陣列，以正確儲存與比較數值。
-- 使用 Arrays.sort 對整數陣列進行升冪排序，簡潔且正確。
-- 正確讀取 n 與 n 個整數，並以空格分隔輸出排序結果，符合題目輸出格式。
-- 加入程式標頭與註解說明，提升可讀性與維護性。
-- 程式風格與命名改為更具意義的變數名稱，並避免不必要的 1-based 索引或不這麼直覺的結構。
+修改後完整程式碼如下：
+```java
+/*
+文件名稱: Main.java
+功能說明: 根據使用者輸入高度 n(0 < n <= 20)，建立並輸出下三角形的二維陣列，元素為 '*'
+作者: 導師
+日期: 2025-11-14
+*/
 
-修改後完整程式碼
-// 程式檔案名稱: Main.java
-// 功能: 讀取整數長度 n，接著讀入 n 個整數，將它們升冪排序，最後輸出排序結果。
-// 作者: 你
-// 日期: 2025-11-12
-// 說明: 使用整數陣列與 Arrays.sort 以符合題目需求，並提供適當註解。
-
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
 
-        // 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
+        // 根據題目約束檢查輸入範圍
+        if (n <= 0 || n > 20) {
+            scanner.close();
             return;
         }
-        int n = sc.nextInt();
 
-        // 讀取 n 個整數並存入陣列
-        int[] arr = new int[Math.max(0, n)];
+        // 使用 0-based 二維陣列表示下三角形
+        char[][] tri = new char[n][n];
         for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                arr[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，預設為 0
-                arr[i] = 0;
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
             }
         }
 
-        // 升冪排序
-        Arrays.sort(arr);
-
-        // 輸出排序後的結果，元素以空格分隔
+        // 使用 StringBuilder 組裝輸出，提升效能
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(arr[i]);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(tri[i][j]);
+            }
+            if (i < n - 1) sb.append('\n');
         }
-        System.out.println(sb.toString());
 
-        sc.close();
+        System.out.print(sb.toString());
+        scanner.close();
     }
 }
-
-一句話改進建議
-- 建議使用整數陣列搭配 Arrays.sort 直接實作排序，並加入清晰註解與輸入檢查，能夠穩定符合題目需求與輸出格式。
+```

@@ -1,0 +1,42 @@
+89
+
+改進建議：此作業基本正確，建議改用位元異或交換法以避免整數溢位風險，同時加入檔案註解與符合命名慣例的類別名稱。
+
+程式評語與修改要點：
+- 正確性與邏輯：保留原有需求「不使用額外變數交換」的限制，改用 XOR 交換法，確保在整數範圍內不易產生溢位，結果仍符合題意的輸出格式。
+- 格式：將類別名稱改為符合慣例的英文開頭大寫名稱，保留整潔縮排。
+- 備註：提供標頭註解，描述檔案名稱、功能、作者與日期，以滿足作業需要的註解要求。
+
+修改原因與說明：
+- 為避免 A+B 造成整數溢位的風險，改用三步驟的 XOR 交換法，仍可在不增加新變數的情況下完成交換。
+- 將類別名稱改為 SwapTwoNumbers，符合 Java 命名慣例，提升可讀性與可維護性。
+- 增加標頭註解，清楚說明檔案功能與來源，符合備註要求。
+
+完整修改後程式碼：
+/*
+ * File: SwapTwoNumbers.java
+ * Description: Reads two integers A and B, prints the swapped values using XOR swap without extra variables.
+ * Author: 教授
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class SwapTwoNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+
+        // 使用 XOR 交換，避免整數溢位且不使用額外變數
+        A = A ^ B;
+        B = A ^ B;
+        A = A ^ B;
+
+        System.out.println(A);
+        System.out.println(B);
+
+        sc.close();
+    }
+}

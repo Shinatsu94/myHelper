@@ -1,0 +1,42 @@
+總分：80
+
+建議：建議改用兩種不同的方法來計算中位數：先用三元運算找出最大值與最小值，再用 a+b+c - max - min 計算中位數，以符合題目要求並提升可讀性。
+
+修改與優化說明：
+- 變更點1：加入檔案標頭註解，說明檔案名稱、功能、作者、日期等，以符合格式規範的 10%。
+- 變更點2：保留原本的最大值與最小值計算，但改用一種不同的方法計算中位數：mid 由 a+b+c - max - min 直接得到，避免全部使用三元運算子，符合「兩種不同的方式」的要求。
+- 變更點3：改善程式排版與註解，提升閱讀性與可維護性。
+- 風險注意：若整數相加超過 int 範圍，可能造成溢位；在題目輸入範圍內通常可接受。
+
+修改後完整程式碼（已符合兩種不同方法的要求）：
+
+/*
+檔案名稱: CSIE_41343232_1003_1.java
+功能說明: 讀取三個整數，輸出最小值、 中位數、 最大值。最大值與最小值使用三元運算子求得，中位數則採用 a+b+c - max - min 的方法。
+作者: 你的名字
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class CSIE_41343232_1003_1 {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        int a = scan.nextInt();
+        int b = scan.nextInt();
+        int c = scan.nextInt();
+
+        // 方法1：最大值與最小值使用三元運算子
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+        // 方法2：中位數透過總和 minus max 與 min
+        int mid = a + b + c - max - min;
+
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scan.close();
+    }
+}

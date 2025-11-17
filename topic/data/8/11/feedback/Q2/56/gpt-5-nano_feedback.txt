@@ -1,25 +1,20 @@
-3
+87
+建議改進方向：加強程式標頭註解與變數命名的清晰度，並在結束時關閉 Scanner，以提高可讀性與資源管理，同時保持不使用 if-else 的要求。
 
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 3/10
-- 備註: 0/10
-總分: 3/100
+改進與說明
+- 新增程式檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將輸入變數改為 num1、num2、num3，提升命名的可讀性與意義。
+- 加入 sc.close()，以釋放資源，良好習慣。
+- 保留使用兩個三元運算子分別找最大值與最小值的作法，並以 mid = num1 + num2 + num3 - max - min 計算中間值，符合題意且避免使用 if-else。
+- 保持輸出順序為 min、mid、max，與題意輸出一致。
 
-說明與修改建議
-- 原程式對題意的解法完全偏離，讀入三個數字並輸出最小-中位-最大，與「讀入兩個數字並在不使用額外變數的情況下交換並印出」的要求不符，因此正確性與邏輯皆為0分。命名不具描述性、缺少程式標頭註解等也影響格式與備註分數。
-- 修改要點（核心：遵守題意且不使用額外變數進行交換）：
-  - 只讀入兩個整數 A、B。
-  - 使用不新增變數的就地交換方法：A = A + B; B = A - B; A = A - B。
-  - 交換後輸出 A、B，各佔一行，符合題目提供的輸出樣例。
-  - 新程式加上適當的註解與檔案標頭以符合備註要求，並盡量使用有意義的變數命名。
-
-修改後完整程式碼（符合題意，使用就地交換且不使用第三變數）：
-/*
- * 檔名: CSIE_41343238_1003_2.java
- * 功能: 讀入兩個整數 A, B，將兩者就地交換，並分別印出交換後的值
- * 作者: 批改者
- * 日期: 2025-11-11
+修改後完整程式碼
+```java
+/**
+ * File: CSIE_41343238_1003_2.java
+ * Description: 讀取三個整數，找出最大值、最小值與中間值。不使用 if-else，使用兩個三元運算子分別求最大與最小，並以 sum - max - min 計算中間值。
+ * Author: 教師姓名
+ * Date: 2025-11-15
  */
 
 import java.util.Scanner;
@@ -27,23 +22,28 @@ import java.util.Scanner;
 public class CSIE_41343238_1003_2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
 
-        // 不使用額外變數，直接就地交換 a 與 b
-        a = a + b;
-        b = a - b;
-        a = a - b;
+        int num1 = sc.nextInt();
+        int num2 = sc.nextInt();
+        int num3 = sc.nextInt();
 
-        System.out.println(a);
-        System.out.println(b);
+        // 計算最大值
+        int max1 = (num1 > num2) ? num1 : num2;
+        int max = (max1 > num3) ? max1 : num3;
+
+        // 計算最小值
+        int min1 = (num1 < num2) ? num1 : num2;
+        int min = (min1 < num3) ? min1 : num3;
+
+        // 中間值
+        int mid = num1 + num2 + num3 - max - min;
+
+        // 輸出順序：min, mid, max
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
 
         sc.close();
     }
 }
-
-修改原因說明：
-- 以就地交換方法在不引入額外變數的前提下完成任務，符合題目限制與輸出要求；並將輸出改為僅輸出交換後的兩個值，以符合輸出樣本的格式與預期。
-
-改進建議一句話：
-建議在實作時同時考慮輸入值的範圍與溢位風險，並加入輸入驗證與更完整的註解以提升健全性與可讀性。
+```

@@ -1,0 +1,50 @@
+80
+
+改進建議: 程式在輸入不符合範圍時未明確處理，且未依題意使用完整的 2D 陣列概念建立與顯示下三角形，建議加入合理的輸入驗證並以 2D 陣列儲存再輸出，確保在所有測資下行為穩定。
+
+改動與原因說明：
+- 加入嚴格輸入驗證，若 n 不在 (0, 20] 範圍內直接結束，避免輸出與題意不符的結果。
+- 使用 2D 陣列儲存下三角形的星號，符合題目「建立一個下三角形二維陣列」的要求。
+- 使用 0-based 的索引與僅輸出有效區間的方式，避免輸出多餘的空白，符合「元素之間無需任何空白符號」的要求。
+- 使用 try-with-resources 以確保 Scanner 物件正確關閉，提升穩健性。
+- 將輸出累積在 StringBuilder 中，避免多次 I/O 呼叫，提升效能，且能保留輸出格式（每行星號數增加，且不在最後一行後多出空行）。
+
+完整修改後程式碼：
+```java
+//Date:2025/10/31
+//Creator:41343240黃榮裕
+//Function:建立一個下三角形二維陣列，輸入高度 n（0 < n <= 20），輸出對應的 '*' 下三角形，且不輸出多餘空格。
+import java.util.Scanner;
+
+public class CSIE_41343240_1031_3a {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+
+            // 嚴格範圍檢查：0 < n <= 20
+            if (n <= 0 || n > 20) {
+                return; // 輸入不符合規範，直接結束以避免錯誤輸出
+            }
+
+            // 建立 n x n 的二維陣列
+            char[][] tri = new char[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    tri[i][j] = '*';
+                }
+            }
+
+            // 輸出下三角形，僅輸出有效區段，避免不必要的空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    sb.append(tri[i][j]);
+                }
+                if (i < n - 1) sb.append('\n');
+            }
+
+            System.out.print(sb.toString());
+        }
+    }
+}
+```

@@ -1,50 +1,82 @@
-6
+90
 
-作業評分與說明
-- 正確性 (50%): 0/50
-- 邏輯 (30%): 0/30
-- 格式 (10%): 6/10
-- 備註 (10%): 0/10
-總分：6/100
+改進的建議：
+建議補上程式標頭與內部註解、加入基本輸入驗證以及使用較具描述性的變數名稱，以提升可讀性與維護性。
 
-修改後完整程式碼
+修改與優化說明：
+- 加入檔案標頭註解，說明檔案名稱、功能、作者與日期，符合備註要求。
+- 將類別命名與檔案名稱對應為 LowerTriangularArray，提升可讀性與專案風格一致性。
+- 增加基本輸入驗證，避免非整數或不合理高度造成異常。
+- 變數命名改為更具描述性（如 n、num、foundRow、foundCol）。
+- 仍維持原本的下三角陣列建立與搜尋邏輯，但在找不到時給出相同的提示輸出，確保輸出格式與題意一致。
+
+修改後完整程式碼：
 /*
- * File: Main.java
- * 功能: 從輸入讀取一維整數陣列，對其升冪排序，輸出排序後的內容
- * 作者: 教授
- * 日期: 2025-11-12
+ 檔案名稱: LowerTriangularArray.java
+ 功能: 建立下三角形二維陣列，輸入高度 n 與要尋找的數字 num，輸出該數字在陣列中的位置，若找不到則輸出提示。
+ 作者: 教授
+ 日期: 2025-11-14
+ 版本: 1.0
  */
 
-import java.util.*;
-
-public class Main {
+public class LowerTriangularArray {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+
+        // 讀取高度 n，並做基本驗證
         if (!sc.hasNextInt()) {
             sc.close();
             return;
         }
         int n = sc.nextInt();
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            a[i] = sc.nextInt();
+        if (n <= 0) {
+            sc.close();
+            return;
         }
-        Arrays.sort(a);
-        StringBuilder sb = new StringBuilder();
+
+        // 建立下三角形二維陣列，並依序填入 1, 2, ...
+        int[][] triangle = new int[n][];
+        int count = 1;
         for (int i = 0; i < n; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+            triangle[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                triangle[i][j] = count++;
+            }
         }
-        System.out.println(sb.toString());
+
+        // 讀取要尋找的數字 num
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int num = sc.nextInt();
+
+        // 在陣列中搜尋 num 的位置
+        boolean found = false;
+        int foundRow = -1;
+        int foundCol = -1;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (triangle[i][j] == num) {
+                    found = true;
+                    foundRow = i;
+                    foundCol = j;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+
+        // 輸出結果
+        if (found) {
+            System.out.println(num + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
+
         sc.close();
     }
 }
-
-改動說明與原因
-- 直接將輸入的 n 個整數排序並輸出，符合題目要求的「一次性輸入、升冪排序後輸出」的功能；原程式與題意相去甚遠，採用了不相關的三角形資料結構和查找流程。
-- 使用 Arrays.sort 排序，語法清晰易懂，且對負數有完善支援，不需額外處理。
-- 使用簡潔的輸入處理（Scanner），程式結構更直覺，便於維護。
-- 程式標頭註解完善，包含檔案名稱、功能、作者與日期，符合備註要求。若要更嚴格的註解，可在程式內容關鍵步驟加上簡短說明。
-
-改進建議（一句話）
-- 建議在實作中避免不必要的資料結構，直接對輸入的陣列進行排序並輸出以符合題意與增進可讀性與效率。

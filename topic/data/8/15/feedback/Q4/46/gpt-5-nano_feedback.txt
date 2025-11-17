@@ -1,77 +1,78 @@
-0
-- 正確性: 0/50
-  作業題目要求建立一個任意長度的一維陣列，先讀長度再讀入長度個整數，最後輸出升序排序的結果。學生的程式與題意毫無關聯，實作的是尋找三角形數列中某個數值的位置，且輸入與輸出格式不符合題意，因此正確性為 0。
-- 邏輯: 0/30
-  程式邏輯與題意麼毫無相符之處，屬於另一種問題的解法，缺乏解題合理性。
-- 格式: 0/10
-  雖然原程式有基本縮排，但檔案標頭與說明與實際功能不符，且未提供一致且清晰的註解與命名約定，故視為格式方面缺失。
-- 備註: 0/10
-  頁首註解與實際功能不符，且題目要求與提交內容嚴重脫節，未提供清楚且符合要求的檔案說明。
+44
 
-改良後的完整程式碼（可直接執行，符合題意）
-/**
- * 檔案名稱 : Main.java
- * 功能說明 : 讀取一個整數 n，接著讀入 n 個整數，將它們升序排序後輸出，空格分隔。
- * 作者 : 教師
- * 日期 : 2025-11-12
+改進建議（一句話）
+應建立真正的下三角陣列並以正確的前綴和/逐列定位法找出 num 的位置，避免以「起始數字是否大於等於 num」作為唯一條件而導致座標計算錯誤。
+
+作業評分與分析
+- 正確性 (15/50)
+  - 原程式未建立完整的下三角矩陣，且用錯誤的判斷邏輯找尋數字的位置，導致如 num=55 時輸出不正確的座標，與題目要求不符。
+- 邏輯 (12/30)
+  - 嘗試使用列起始值的判斷來定位，但邏輯易混淆且易產生錯位（超出最後列時也會誤判），缺乏健全的界限檢查與一致的行列推算。
+- 格式 (8/10)
+  - 程式碼可讀性尚可，變數命名一般，註解雖有但不夠完整，且標頭註解未完整符合「檔案名稱、功能、作者、日期、註解說明」之要求。
+- 備註 (9/10)
+  - 程式頭有基本資訊，但內容與專案慣例不夠嚴謹，且包含不專業語句，需改進註解與與外部說明。
+
+總分：44/100
+
+修改與優化說明（要點）
+- 建立真正的下三角矩陣：改用 jagged 陣列 (int[][]) 其中第 i 行有 i+1 個元素，並依序填入 1,2,...。
+- 檢查數字範圍：若 num 超出陣列範圍，直接輸出 not find。
+- 正確計算座標：以前綴和的方式判斷 num 所在的列，並計算該列中的欄位；或直接遍歷整個下三角陣列尋找 num。以下採用基於前綴和的定位，避免逐個元素比對的成本並保證正確性。
+- 程式風格與註解：加入完整的檔案開頭註解、清楚的變數命名與適當註解，提升可維護性。
+
+修改後完整程式碼
+/*
+ * 程式名稱: LowerTriangularSearch.java
+ * 功能說明: 依輸入的高度 n，建立一個下三角形二維陣列，並找出指定數字 num 在陣列中的位置（列、欄，皆從1開始）。
+ * 使用方式: 先輸入 n，再輸入要查找的數字 num。
+ * 輸出格式: 找到時輸出 num[row, col]，未找到輸出 not find num in array.
+ * 日期: 2025-11-14
+ * 作者: 你填寫
  */
+import java.util.Scanner;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.StringTokenizer;
-
-public class Main {
+public class LowerTriangularSearch {
     public static void main(String[] args) {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner in = new Scanner(System.in);
 
-            // 讀取 n
-            String line = br.readLine();
-            while (line != null && line.trim().isEmpty()) {
-                line = br.readLine();
+        if (!in.hasNextInt()) return;
+        int n = in.nextInt();
+
+        if (!in.hasNextInt()) return;
+        int num = in.nextInt();
+
+        // 建立下三角形矩陣：第 i 行有 i+1 個元素
+        int[][] tri = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = value++;
             }
-            if (line == null) return;
-            int n = Integer.parseInt(line.trim());
-
-            int[] a = new int[n];
-            int idx = 0;
-
-            // 讀取後續 n 個整數，可能分布在多行
-            while (idx < n) {
-                line = br.readLine();
-                if (line == null) break;
-                StringTokenizer st = new StringTokenizer(line);
-                while (st.hasMoreTokens() && idx < n) {
-                    a[idx++] = Integer.parseInt(st.nextToken());
-                }
-            }
-
-            // 排序
-            Arrays.sort(a);
-
-            // 輸出：單行、空格分隔，尾端不多餘空格
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < n; i++) {
-                if (i > 0) sb.append(' ');
-                sb.append(a[i]);
-            }
-            System.out.println(sb.toString());
-
-        } catch (IOException e) {
-            // 簡單的錯誤處理，遇到 IO 問題就結束
-            e.printStackTrace();
         }
+
+        int total = n * (n + 1) / 2;
+        if (num < 1 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            return;
+        }
+
+        // 直接透過前綴和推算 num 所在的列與欄
+        int cumulative = 0;
+        int rowIndex = -1; // 0-based
+        for (int i = 0; i < n; i++) {
+            cumulative += (i + 1);
+            if (num <= cumulative) {
+                rowIndex = i;
+                int prevTotal = cumulative - (i + 1);
+                int colIndex = num - prevTotal - 1; // 0-based
+                System.out.println(num + "[" + (rowIndex + 1) + ", " + (colIndex + 1) + "]");
+                return;
+            }
+        }
+
+        // 安全兜底
+        System.out.println("not find " + num + " in array.");
     }
 }
-
-修改說明（重點說明為何要這些改動）
-- 將原本與題意無關的三角形定位邏輯移除，改以實作題目需求的核心功能：讀取長度、讀入長度個整數、排序並輸出。
-- 直接使用 Arrays.sort 進行升序排序，邏輯清晰、正確且高效。
-- 改用 BufferedReader 結合 StringTokenizer 的穩健輸入方法，能容忍輸入跨多行或多個空白分隔，符合「任意長度陣列、含負數」的情境。
-- 輸出格式固定為單行空格分隔，符合常見自動評分測資格式。
-- 加入標頭註解，說明檔案名稱、功能、日期與作者，提升可閱讀性與維護性。
-
-改進建議或反饋（一句話）
-建議日後直接以排序作為核心解法，並確保輸入與輸出格式嚴謹對應題目需求，避免與題意無關的實作分支混入。

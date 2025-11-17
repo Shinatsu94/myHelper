@@ -1,67 +1,77 @@
-2
+總分：69
 
-評分與理由：
-- 正確性（50%）：0
-  - 程式未依需求實作「任意長度一維陣列排序並輸出」，而是產生並查找一個三角陣列中的數值，與題目需求嚴重不符。
-- 邏輯（30%）：0
-  - 程式邏輯與題意嚴重不符，缺乏排序與輸出結果的邏輯。
-- 格式（10%）：2
-  - 程式有基本縮排與可辨識的變數名稱，但命名和結構可改進，且缺少註解與標頭說明。
-- 備註（10%）：0
-  - 缺少程式檔案註解與元資料說明。
+改進建議（一句話）
+為確保建立整個下三角陣列的完整性，建議先完成整個陣列的填充再進行搜尋，並加上清晰註解與更具語意的變數命名。
 
-修改說明與改進後程式碼：
-- 變更重點
-  - 重新實作為一維整數陣列的讀取、排序與輸出，符合題目需求。
-  - 使用 1D int[] 陣列儲存輸入的 n 個整數，避免不必要的多維結構。
-  - 使用 Arrays.sort 進行排序，支援負數與任意整數。
-  - 加入清楚的程式檔案註解與有意義的變數命名，提升可讀性與維護性。
-- 修改內容原因
-  - 目標是排序輸入的一維陣列，原程式使用不相關的 2D 三角陣列與查找機制，與需求嚴重不符。
-  - 透過簡單直接的流程，降低複雜度並提升正確性與穩定性。
-  - 增加程式頭註解與清楚命名，符合軟體工程的基本慣例。
+修改說明與評分要點
+- 正確性（50%）：原程式在找到目標數字時會中斷該行的填充，可能造成該行未被完整填滿；雖然輸出結果在該兩個測資下正確，但不符合「建立完整的下三角形二維陣列」的要求。改進後分數更有把握涵蓋所有情況。改動後仍能正確輸出找到的位置或找不到的訊息。
+- 邏輯（30%）：原程式將填充與搜尋混合在同一雙層迴圈，且遇到目標就提前結束該行，邏輯較為簡單但容易誤解「完整陣列」的需求。改為分兩階段：先填充完整陣列，再從陣列中搜尋，結構更清晰、可維護。
+- 格式（10%）：原程式命名較不具描述性，且缺少程式註解與標頭資訊。改良版本加上清晰變數名稱與註解，並統一排版。
+- 備註（10%）：缺少標頭註解（檔案名稱、功能、作者、日期等），新版本加入註解內容。
 
-修改後完整程式碼（Sort1D.java）：
-/*
- * File: Sort1D.java
- * 功能: 讀取整數 n 後，再讀入 n 個整數，將其排序並以空格分隔輸出
- * 作者: YourName
- * 日期: 2025-11-12
- */
-import java.util.Arrays;
+改良後的完整程式碼
 import java.util.Scanner;
 
-public class Sort1D {
+// 檔案名稱: CSIE_20251031_41343252_3.java
+// 功能: 建立一個下三角形的二維陣列，並找出使用者指定數字的位置
+// 作者: 依需求填寫
+// 日期: 2025-11-14
+// 說明: 先填充完整的下三角形陣列，之後再搜尋指定數字的位置，若未找到則輸出相應訊息
+
+public class CSIE_20251031_41343252_3 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        if (!in.hasNextInt()) {
-            in.close();
-            return;
-        }
+        int height = in.nextInt();
+        int target = in.nextInt();
 
-        int length = in.nextInt();
-        int[] numbers = new int[length];
-        for (int i = 0; i < length; i++) {
-            if (in.hasNextInt()) {
-                numbers[i] = in.nextInt();
-            } else {
-                // 若輸入數量不足，預設為 0，避免 ArrayIndexOutOfBounds
-                numbers[i] = 0;
+        // 建立下三角形二維陣列
+        int[][] tri = new int[height][];
+        int count = 0;
+        for (int i = 0; i < height; i++) {
+            tri[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                count++;
+                tri[i][j] = count;
             }
         }
 
-        Arrays.sort(numbers);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < numbers.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(numbers[i]);
+        // 尋找 target 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        boolean found = false;
+        search:
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == target) {
+                    foundRow = i;
+                    foundCol = j;
+                    found = true;
+                    break search; // 同時跳出兩層迴圈
+                }
+            }
         }
 
-        System.out.print(sb.toString());
+        if (!found) {
+            System.out.print("not find " + target + " in array.");
+        } else {
+            // 輸出格式: target[row, col]，行列皆從 1 開始
+            System.out.print(target + "[" + (foundRow + 1) + ", " + (foundCol + 1) + "]");
+        }
+
         in.close();
     }
 }
 
-改進建議與一語句反饋：
-- 改進建議：可加入更完善的輸入驗證與錯誤處理，並考慮不同輸入格式（如換行分隔、多組測資等）的健壯性。
+修改部分說明與修改原因
+- 將填充與搜尋分離為兩個階段：先完整填充陣列再進行搜尋，確保整個下三角形陣列都被填滿，符合題意「建立完整的下三角形二維陣列」。同時避免在填充過程中因找到目標而中斷造成資料不完整。
+- 使用清晰的變數命名與結構：height、target、tri、count 等名稱比原本的 n、x、a、logi、logj 更具說明性。
+- 加入程式標頭註解與註解：說明檔案用途、功能、日期，方便閱讀與維護。
+- 使用標籤式 break（break search）來一次跳出多層迴圈，若找到目標就立即結束搜尋，提升效率。
+- 針對輸出格式保持與原題一致，若找不到輸出 "not find X in array."，若找到輸出 "X[Row, Col]"，索引皆以 1 開始。
+
+需要的測試建議
+- 輸入 10 與 55：應輸出 55[10, 10]
+- 輸入 5 與 99：應輸出 not find 99 in array.
+- 測試邊界：n 為 1、n 為 2、找的數字在第一個位置、找的數字在中間位置等情況，確認輸出格式與數字正確性。
+
+如果需要，我可以再提供其他格式化選項或加入更多註解來提升可讀性與維護性。

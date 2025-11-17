@@ -1,0 +1,61 @@
+按您的標準評分如下（分數皆為0-100，第一行單獨列出總分）：
+89
+
+改進建議（一句話）：
+建議在輸出時避免尾端空格、加入程式標頭與內部註解，並以 try-with-resources 管理 Scanner 以提升可讀性與穩定性。
+
+修改重點與原因：
+- 加入程式標頭與適當註解，符合備註要求，提高可維護性（格式與備註分）。
+- 使用 try-with-resources 自動關閉 Scanner，避免資源未關閉的風險與簡化結尾處理（格式）。
+- 變數命名改為更具語意的名稱（n、arr），提升可讀性與維護性（格式）。
+- 優化輸出格式，避免在最後多餘的空格，符合常見輸出規範（格式）。
+- 保留原本的排序邏輯（選擇排序）以維持作業精神與邏輯清晰度（邏輯）。
+
+修改後完整程式碼：
+```java
+/*
+ * File: CSIE_41343232_1031_1.java
+ * Description: 將使用者輸入的一維整數陣列按升序排序並輸出
+ * Author: 你的名字
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343232_1031_1 {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 確保 Scanner 會被自動關閉
+        try (Scanner input = new Scanner(System.in)) {
+            int n = input.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = input.nextInt();
+            }
+
+            // 選擇排序：由小到大
+            for (int i = 0; i < n - 1; i++) {
+                int minIdx = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (arr[j] < arr[minIdx]) {
+                        minIdx = j;
+                    }
+                }
+                if (minIdx != i) {
+                    int tmp = arr[i];
+                    arr[i] = arr[minIdx];
+                    arr[minIdx] = tmp;
+                }
+            }
+
+            // 輸出時避免最後出現尾端空格
+            for (int i = 0; i < n; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(arr[i]);
+            }
+            // 若需要換行，可取消下列註解
+            // System.out.println();
+        }
+    }
+}
+```

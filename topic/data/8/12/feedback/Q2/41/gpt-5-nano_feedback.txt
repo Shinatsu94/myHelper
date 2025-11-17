@@ -1,72 +1,47 @@
-4
+21
+改進建議：此程式的邏輯雖能在某些情況正確判斷，但若遇到數字中出現0，或以ASCII比較方式混用數值，容易產生錯誤分類，應統一以數字值比較並加上註解說明。
 
-評分明細
-- 正確性：0/50
-- 邏輯：0/30
-- 格式：4/10
-- 備註：0/10
+程式改進說明
+- 正確性：改用每位數轉換成整數值後再比較 (prevDigit vs currentDigit)，避免使用字符的ASCII值比較造成錯誤，同時處理前後位的逐一比較。
+- 邏輯：保留簡單直接的逐位比較邏輯，且在輸入為空字串時能穩健處理（返回非嚴格 well-ordered）。
+- 格式：改用更具可讀性的變數名稱（inputStr、prevDigit、currDigit、idx），並加入註解與適當換行，整體風格更一致、易於維護。
+- 備註：加入檔案標頭註解，說明檔案名稱、功能、作者與日期，方便日後維護。
 
-程式驗證與評語
-- 你提供的作業程式並未依題意計算 pi 值或輸出指定格式，僅做了某種數字序列的排序判斷與訊息輸出，與題目需求相去甚遠，因此正確性與邏輯評分皆為零。
-- 程式風格方面，變數命名較不具意義，整體排版尚可，但未遵循良好命名慣例與註解需求，故格式得分僅4/10。
-- 程式標頭註解與說明缺失，未符合備註要求，故備註評分為0。
+修改後完整程式碼
+/*
+檔案名稱: WellOrderedNumber.java
+功能說明: 判斷使用者輸入的數字是否為「嚴格遞增的數字」（自左至右每一位皆嚴格遞增）。
+作者: 你的名字
+日期: 2025-11-15
+*/
+import java.util.Scanner;
 
-修改與改進點
-- 需求實作：改寫成使用 Leibniz 公式計算 pi，分段輸出 i = 10000, 20000, ..., 100000 對應的 pi 值，並輸出到小數點後10位，i 將以六位數寬度顯示，且格式符合題目要求。
-- 輸出格式：使用 System.out.printf，格式為 "i = %6d, pi = %.10f"，確保與範例輸出相符。
-- 計算效率與穩定性：使用單一累加變數 sum，分兩階段完成：先計算到 100000 的十個點輸出，之後再單獨從頭累加找出最小的 i 使 pi >= 3.14159，(以 pi = 4 * sum)，符合題(b)的要求。
-- 註解與命名：加入檔案名稱、功能簡述、作者與日期的註解，並在程式中加入清楚的註解說明每個區塊用途。
-
-修改後完整程式碼（Java）
-
-```java
-/**
- * 檔案名稱: LeibnizPi.java
- * 功能: 使用 Leibniz 公式計算 pi：
- *       pi = 4 * sum_{k=0}^{i-1} (-1)^k / (2k+1)
- *       輸出 i 於 10000, 20000, ..., 100000 對應的 pi 值，格式為
- *       i =  10000, pi = 3.1414926536
- *       且 pi 保留小數點後十位；i 顯示為六位寬度並靠右對齊。
- * 作者: 你的名稱
- * 日期: 2025-11-12
- */
-public class LeibnizPi {
+public class WellOrderedNumber {
     public static void main(String[] args) {
-        // Part (a): 輸出 i = 10000, 20000, ..., 100000 對應的 pi 值
-        double sum = 0.0;
-        int maxI = 100000;
-        for (int i = 1; i <= maxI; i++) {
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
-            if (i % 10000 == 0) {
-                double pi = 4.0 * sum;
-                // i 使用六位寬度，pi 保留十位小數
-                System.out.printf("i = %6d, pi = %.10f%n", i, pi);
+        Scanner sc = new Scanner(System.in);
+        String inputStr = sc.nextLine().trim();
+        sc.close();
+
+        boolean isWellOrdered = true;
+        if (inputStr.length() == 0) {
+            isWellOrdered = false;
+        } else {
+            int prevDigit = inputStr.charAt(0) - '0';
+            for (int idx = 1; idx < inputStr.length(); idx++) {
+                int currDigit = inputStr.charAt(idx) - '0';
+                if (prevDigit >= currDigit) {
+                    isWellOrdered = false;
+                    break;
+                }
+                prevDigit = currDigit;
             }
         }
 
-        // Part (b): 找出最小的 i，使 pi >= 3.14159
-        sum = 0.0;
-        int iTarget = 0;
-        // 這裡預設至少需要到某個較大的 i 值才會達成
-        for (int i = 1; i <= 200000; i++) {
-            double term = ((i % 2 == 1) ? 1.0 : -1.0) / (2.0 * i - 1.0);
-            sum += term;
-            double pi = 4.0 * sum;
-            if (pi >= 3.14159) {
-                iTarget = i;
-                break;
-            }
+        System.out.print(inputStr);
+        if (isWellOrdered) {
+            System.out.println(" is well-ordered number.");
+        } else {
+            System.out.println(" is not well-ordered number.");
         }
-        System.out.printf("i = %d%n", iTarget);
     }
 }
-```
-
-修改說明
-- 以 Leibniz 公式逐項累加，確保計算 pi 的過程正確且可控。
-- 使用格式化輸出，確保 i 顯示為六位寬度，pi 顯示為小數點後十位，符合題目輸出格式。
-- 兩段式計算：先輸出 10000 到 100000 的預定點，再單獨找出使 pi 首次大於等於 3.14159 的最小 i，與題眼 (b) 的需求相符。
-
-改進建議或反饋（一句話）
-- 建議在正式提交前先完整實作題目需求的演算法、加上清楚註解與符合題意的輸出格式，並考慮使用更穩定的浮點處理與測試案例驗證。

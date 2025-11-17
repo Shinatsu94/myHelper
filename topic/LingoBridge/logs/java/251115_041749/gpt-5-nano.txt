@@ -1,0 +1,96 @@
+80
+
+建議回饋：請確保輸出嚴格符合題目規範，並在缺貨矩陣情況下定義輸出格式，同時補上程式標頭註解以提升可讀性與維護性。
+
+程式修改與優化說明（要點）
+- 加入程式標頭註解，說明檔案名稱、功能、作者、日期，並在內容中加入適當註解。
+- 使用常數 SIZE 提高可維護性，便於未來若要改為 n×n 矩陣時的修改。
+- 將單一奇異矩陣的情況改為輸出全零矩陣（保持輸出格式一致），避免輸出與題意不符的文字訊息。
+- 保留原有的四捨五入到小數點後四位的輸出邏輯，但若為 0 則輸出單一字元 0，符合題意「若元素為零，請直接列印 '0'」。
+- 加強程式結構與縮排，增加條件分支的可讀性。
+
+修改後的完整程式碼如下：
+
+```java
+/**
+ * 檔案名稱: Main.java
+ * 功能簡述: 讀入一個 3x3 矩陣，輸出其反矩陣，非零元素輸出至小數點後四位；若元素為零則輸出 '0'。
+ *          若矩陣為奇異，輸出全 0 的矩陣以符合輸出格式。
+ * 作者: 研究生
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class Main {
+    private static final int SIZE = 3;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[][] m = new double[SIZE][SIZE];
+
+        // 讀入 3x3 矩陣
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (sc.hasNextDouble()) {
+                    m[i][j] = sc.nextDouble();
+                }
+            }
+        }
+        sc.close();
+
+        double det = determinant(m);
+        double[][] inv = new double[SIZE][SIZE];
+
+        // 確認是否為奇異矩陣；若非奇異則計算反矩陣，否則保持 inv 為全 0
+        if (Math.abs(det) >= 1e-9) {
+            inv = inverse(m, det);
+        }
+
+        // 輸出反矩陣，四捨五入至小數點後四位，若為 0 則輸出 0
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                double val = inv[i][j];
+                // 四捨五入到小數點後四位
+                val = Math.round(val * 10000.0) / 10000.0;
+                if (Math.abs(val) < 1e-9) {
+                    sb.append("0");
+                } else {
+                    sb.append(String.format("%.4f", val));
+                }
+                if (j < SIZE - 1) sb.append(' ');
+            }
+            if (i < SIZE - 1) sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+    }
+
+    // 計算 3x3 行列式
+    private static double determinant(double[][] m) {
+        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+    }
+
+    // 計算 3x3 矩陣的反矩陣
+    private static double[][] inverse(double[][] m, double det) {
+        double[][] inv = new double[SIZE][SIZE];
+
+        inv[0][0] =  (m[1][1]*m[2][2] - m[1][2]*m[2][1]) / det;
+        inv[0][1] = -(m[0][1]*m[2][2] - m[0][2]*m[2][1]) / det;
+        inv[0][2] =  (m[0][1]*m[1][2] - m[0][2]*m[1][1]) / det;
+
+        inv[1][0] = -(m[1][0]*m[2][2] - m[1][2]*m[2][0]) / det;
+        inv[1][1] =  (m[0][0]*m[2][2] - m[0][2]*m[2][0]) / det;
+        inv[1][2] = -(m[0][0]*m[1][2] - m[0][2]*m[1][0]) / det;
+
+        inv[2][0] =  (m[1][0]*m[2][1] - m[1][1]*m[2][0]) / det;
+        inv[2][1] = -(m[0][0]*m[2][1] - m[0][1]*m[2][0]) / det;
+        inv[2][2] =  (m[0][0]*m[1][1] - m[0][1]*m[1][0]) / det;
+
+        return inv;
+    }
+}
+```

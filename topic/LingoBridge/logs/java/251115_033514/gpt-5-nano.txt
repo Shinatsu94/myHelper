@@ -1,0 +1,53 @@
+88
+這份作業的邏輯與正確性良好，但缺少程式標頭註解與資源管理方面的細節，建議增強可讀性與可維護性。
+
+修改重點與原因：
+- 增加程式標頭註解與註解，並以 try-with-resources 管理 Scanner，以提升可讀性與資源管理安全性。
+- 將變數命名調整為更具語意的名稱（如 target、triangle、foundRow、foundCol），提高可讀性。
+- 保留原本核心邏輯與功能，確保仍能正確建立下三角陣列並找出目標數字的位置。
+- 就輸出格式維持原樣，以符合題目要求的輸出格式。
+
+修改後完整程式碼：
+```java
+/*
+檔案名稱: Main.java
+功能: 建立下三角形二維陣列，並找出指定數字在其中的位置
+作者: 你的姓名
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自動關閉 Scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();       // 陣列高度
+            int target = sc.nextInt();  // 要尋找的數字 (num < 100000)
+
+            int[][] triangle = new int[n][];
+            int val = 1;
+            int foundRow = -1, foundCol = -1; // 1-based
+
+            // 建立並填入下三角形（第 i 列長度 i+1），同時記錄 target 位置
+            for (int i = 0; i < n; i++) {
+                triangle[i] = new int[i + 1];
+                for (int j = 0; j <= i; j++) {
+                    triangle[i][j] = val;
+                    if (val == target) {
+                        foundRow = i + 1; // 1-based
+                        foundCol = j + 1; // 1-based
+                    }
+                    val++;
+                }
+            }
+
+            if (foundRow != -1) {
+                System.out.println(target + "[" + foundRow + ", " + foundCol + "]");
+            } else {
+                System.out.println("not find " + target + " in array.");
+            }
+        }
+    }
+}
+```

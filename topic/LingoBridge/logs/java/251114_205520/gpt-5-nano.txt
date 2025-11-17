@@ -1,0 +1,60 @@
+92
+
+改進建議：程式整體正確，但標頭註解未放在檔案最上方、命名與排版可再統一，且輸出可改用單一字串拼接以避免尾端空白處理的細微問題，並加強程式註解以利閱讀。
+
+改進說明與修改重點
+- 將程式檔頭註解放在檔案最上方，包含檔案名稱、功能、作者、日期等，提升可讀性與維護性。
+- 使用 try-with-resources 管理 Scanner，確保資源在結束時自動關閉。
+- 變數命名改為更具語意，如 minIdx、arr，提升可讀性。
+- 使用 StringBuilder 進行輸出組裝，避免尾端空格處理問題，並在最後輸出換行。
+- 保留原本的選擇排序邏輯，維持題意要求的排序演算法。
+
+修改後完整程式碼
+/*
+檔案名稱: SortArrayAscending.java
+功能說明: 讀取任意長度整數陣列，將內容升序排序，輸出排序結果
+作者: 你選擇的名字
+日期: 2025-11-14
+*/
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 以確保 Scanner 正確關閉
+        try (Scanner sc = new Scanner(System.in)) {
+            if (!sc.hasNextInt()) {
+                // 無有效輸入時結束
+                return;
+            }
+
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            // 選擇排序：由小到大
+            for (int i = 0; i < arr.length - 1; i++) {
+                int minIdx = i;
+                for (int j = i + 1; j < arr.length; j++) {
+                    if (arr[j] < arr[minIdx]) {
+                        minIdx = j;
+                    }
+                }
+                // 交換 arr[i] 與 arr[minIdx]
+                int tmp = arr[i];
+                arr[i] = arr[minIdx];
+                arr[minIdx] = tmp;
+            }
+
+            // 輸出：使用單一字串拼接，避免尾端多餘空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < arr.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(arr[i]);
+            }
+            System.out.println(sb.toString());
+        }
+    }
+}

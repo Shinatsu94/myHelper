@@ -1,0 +1,55 @@
+89
+建議改進：改用字串輸入以保留前導零並避免整數溢出，同時加入輸入格式驗證與完整標頭註解，以提升魯棒性與可讀性。
+
+修改說明與理由
+- 增加標頭註解：符合作業要求的程式標頭註解與說明，便於理解與維護。
+- 使用字串輸入取代整數轉換：可以保留前導零，避免整數溢出或破壞輸入格式，同時直接對字元進行比較。
+- 增加輸入與字元驗證：若遇到非數字字元或符號（如負號、正號等），會視為非遞增，提升魯棒性。
+- 保留原始輸入輸出：輸出時直接使用使用者輸入的字串，確保輸出與輸入格式一致（含前導零）。
+- 程式註解與命名：增加內部註解，變數命名保持清晰，提升可讀性。
+
+完整修改後程式碼如下
+/*
+檔案名稱: CSIE_41343229_1017_2.java
+功能: 判斷輸入數字的各位數是否嚴格遞增，若是輸出 'X is well-ordered number.'，否則 'X is not well-ordered number.'
+作者: 資訊工程系 教授
+日期: 2025-11-15
+*/
+public class CSIE_41343229_1017_2 {
+    public static void main(String[] args) {
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        String s = sc.next(); // 直接用字串輸入，保留原始格式
+        boolean wellOrdered = true;
+
+        // 基本檢查與遞增判斷
+        if (s.length() == 0) {
+            wellOrdered = false;
+        } else {
+            // 不是正負號開頭，且全為數字才可判定
+            if (s.charAt(0) == '-' || s.charAt(0) == '+') {
+                wellOrdered = false;
+            } else {
+                for (int i = 0; i < s.length() - 1; i++) {
+                    char a = s.charAt(i);
+                    char b = s.charAt(i + 1);
+                    if (!Character.isDigit(a) || !Character.isDigit(b)) {
+                        wellOrdered = false;
+                        break;
+                    }
+                    if (a >= b) { // 若前一位不小於下一位，則非遞增
+                        wellOrdered = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (wellOrdered) {
+            System.out.println(s + " is well-ordered number.");
+        } else {
+            System.out.println(s + " is not well-ordered number.");
+        }
+
+        sc.close();
+    }
+}

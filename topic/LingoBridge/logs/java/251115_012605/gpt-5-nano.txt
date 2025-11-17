@@ -1,0 +1,61 @@
+76
+
+改進建議：建議改用穩定的排序實作並以臨時變數進行換位，並加上適當的程式註解與清晰的變數命名，以避免整數溢位風險並提升可讀性。
+
+程式優化與修改說明：
+- 將原本的浮動交換改為使用暫存變數的標準交換，避免可能的整數溢位風險。
+- 改為正規的選擇排序（外圈 i，內圈尋找最小值的索引再交換）。
+- 增加程式註解、並加入 header 註解以說明檔案名稱、功能與作者等資訊。
+- 程式結尾列印換行，並在適當時機關閉 Scanner，提升資源管理與輸出格式的一致性。
+
+修改後完整程式碼：
+```java
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343136_1031_1.java
+ * 功能: 讀入長度 n，接著讀入 n 個整數，將其升冪排序後輸出。
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 內容註解: 使用標準的選擇排序，避免溢位風險，並提供適當註解與輸出格式。
+ */
+public class CSIE_41343136_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 標準選擇排序：每次找出最小元素放到前面
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // 交換 arr[i] 與 arr[minIndex]
+            int tmp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = tmp;
+        }
+
+        // 輸出
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+
+        sc.close();
+    }
+}
+```

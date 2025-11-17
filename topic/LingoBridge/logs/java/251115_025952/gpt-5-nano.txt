@@ -1,0 +1,52 @@
+88
+
+此作業雖能正確輸出下三角星號，但建議改用動態大小的二維陣列並加入註解與輸入驗證以提升可讀性與健壯性。
+
+修改與改進要點:
+- 改用動態大小的二維陣列 (n x n) 以符合輸入 n 的需求，避免無用的固定尺寸浪費。
+- 移除未使用的變數 max，避免編譯時警告與潛在混亂。
+- 加入程式標頭註解與必要註解，提升可閱讀性與維護性。
+- 使用更具描述性的變數名稱，例如 n、stars。
+- 额外加入簡單的輸入範圍驗證（0 < n <= 20），避免非法輸入造成問題。
+- 維持不在輸出中出現多餘空白字元的要求，保留逐行輸出。
+
+優化後的完整程式碼如下：
+```java
+/**
+ * File: TriangleDownMatrix.java
+ * Description: 建立高度為 n 的下三角形二維陣列，並印出 '*'
+ * Author: 教師改良版本
+ * Date: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class TriangleDownMatrix {
+    public static void main(String[] args) {
+        // 取得使用者輸入的高度 n
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 輸入有效性檢查，符合題意 0 < n <= 20
+        if (n <= 0 || n > 20) {
+            return;
+        }
+
+        // 動態建立 n x n 的二維陣列，並填入下三角星號
+        char[][] stars = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                stars[i][j] = '*';
+            }
+        }
+
+        // 依序輸出下三角形
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(stars[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
+```

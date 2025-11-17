@@ -1,0 +1,54 @@
+58
+此作業雖能輸出正確的下三角星號圖形，但未符合「建立一個下三角形的二維陣列」的題意，且程式缺乏適當註解與清晰的程式結構，建議加強資料結構的使用與註解。
+
+程式改進說明
+- 強化需求滿足：改用實作 2D 陣列（char[][]），將下三角區域填入 '*'，其餘無需特別處理，最後再依行輸出對應長度的星號。
+- 提升可讀性與魯棒性：加入程式標頭註解、使用較有意義的變數名稱、移除未使用的變數、加入輸入邊界檢查。
+- 輸出控制：每一行輸出完畢後換行，確保輸出格式與題意一致。
+- 效率與風格：避免多次直接長時間的 I/O 操作，改以單一字串建構器輸出整體內容，增加可讀性及效率。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * File: CSIE_41343131_1031_3a.java
+ * 功能: 建立並印出下三角形的二維陣列
+ * 作者: 你的姓名
+ * 日期: 2025-11-14
+ */
+public class CSIE_41343131_1031_3a {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = 0;
+
+        if (in.hasNextInt()) {
+            n = in.nextInt();
+        }
+
+        // 簡單的輸入邊界防護，符合題意 0 < n <= 20
+        if (n <= 0 || n > 20) {
+            in.close();
+            return;
+        }
+
+        // 建立下三角形的二維陣列，並填入 '*'
+        char[][] a = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                a[i][j] = '*';
+            }
+        }
+
+        // 以字串構建的方式輸出，避免不必要的 I/O 呼叫
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                sb.append(a[i][j]);
+            }
+            sb.append('\n');
+        }
+
+        System.out.print(sb.toString());
+        in.close();
+    }
+}

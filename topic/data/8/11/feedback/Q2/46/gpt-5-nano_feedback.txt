@@ -1,39 +1,51 @@
-15
+92
 
-修改後完整程式碼：
+這份作業的實作基本正確且符合「不可使用 if-else」的要求，但可再增強註解與可讀性，並確保資源使用的完善性。
+
+改進建議要點（一句話）：
+- 程式正確且符合題意，但建議加強註解與資源處理，並在變數命名與輸出說明上再提升可讀性，讓後續維護更容易。
+
+修改與優化說明：
+- 加入對 Scanner 的關閉，避免資源未關閉的風險。
+- 保持兩種不同的計算方式來得到三個數的最大、最小與中值：最大與最小用巢狀三元運算子，中值使用總和減去最大與最小，清楚區分兩種方法。
+- 增強註解，說明每一步計算的邏輯與輸出順序，提升可讀性。
+- 稍微整理縮排與註解位置，讓程式碼風格更統一。
+
+修改後完整程式碼如下：
+
 /**
- * 程式名稱: 讀入兩個整數並交換並印出（不使用額外變數）
- * 功能說明： 讀入變數 A、B，印出交換後的值（每行一個）
- * 日期: 2025/11/11
- * 姓名: 教授範例
- * 學號: XXXXX
+ * 程式名稱 : 找出最小、中間與最大值，且中值不使用判斷
+ * 功能說明： 使用者輸入 a, b, c，程式輸出由小到大的三個值：min, mid, max
+ *
+ * 日期: 2025/10/03
+ *
+ * 姓名: 張竣傑
+ * 學號: 41343224
  */
+
 import java.util.Scanner;
 
 public class CSIE_41343224_1003_2 {
 
     public static void main(String[] args) {
-        // 使用 try-with-resources 以自動關閉 Scanner
-        try (Scanner input = new Scanner(System.in)) {
-            int A = input.nextInt();
-            int B = input.nextInt();
+        Scanner input = new Scanner(System.in);
 
-            // 不使用額外變數，利用算術交換法：
-            // A = A + B; B = A - B; A = A - B;
-            // 注意：此法可能因極大數值而造成溢位風險
-            A = A + B;
-            B = A - B;
-            A = A - B;
+        int a = input.nextInt();
+        int b = input.nextInt();
+        int c = input.nextInt();
 
-            // 交換後的值即為 swapped 結果，依序印出
-            System.out.println(A);
-            System.out.println(B);
-        }
+        // 使用兩種不同的方式計算：
+        // 1) 最大值與最小值使用巢狀三元運算子
+        // 2) 中值利用 sum - max - min 的方式計算出來
+        int max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+        int min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+        int mid = a + b + c - max - min;
+
+        // 輸出順序為：最小、中值、最大值
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        input.close();
     }
 }
-
-修改原因：
-- 針對題目要求，必須把兩個數字交換並印出交換後的結果；原本的程式讀取三個數字並輸出排序結果，與需求不符，因此需要改為讀取兩個變數、在不使用額外變數的條件下完成交換，並依題意印出交換後的值。
-
-改進建議（一句話）：
-- 為避免溢位風險，長遠看可以改用位元異或交換法（若確保整數型別不影響位元運算），或在可接受的情況下使用一個暫存變數以提升穩定性與可讀性；同時建議對輸入範圍做基本檢核。

@@ -1,0 +1,48 @@
+58
+
+改進建議：目前的判斷條件是依相鄰差是否相等（等差數列），但題目要求的是從左到右的位數嚴格遞增，因此需改用直接比對相鄰位數字是否遞增的邏輯，並且精簡程式、避免不必要的資料結構與變數。
+
+修改內容與原因：
+- 問題在於原程式將數字的位數反轉後再判斷是否形成等差數列，這對於像 975 這類從左到右遞增但反向為遞增的數字會誤判不符合題意。修正為直接檢查字串中相鄰的兩個字元是否嚴格遞增，以符合從左至右的定義。
+- 移除不必要的資料結構與變數（如 ArrayList、sum、first 等），簡化邏輯，提升可讀性與正確性。
+- 直接以字串方式處理輸入，確保輸出格式與題目一致，且單一輸入即可結束。
+
+修改後完整程式碼：
+// filename: WellOrderedNumber.java
+import java.util.Scanner;
+
+/*
+    filename: WellOrderedNumber.java
+    function: 判斷輸入的整數位數是否從左至右嚴格遞增
+    author: 改寫版本
+    datetime: 2025/11/15
+    version: 1.0
+*/
+public class WellOrderedNumber {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next().trim();
+
+        boolean wellOrdered = true;
+        // 若字串長度不足2，視為 well-ordered（單一位數的情況）
+        if (input.length() >= 2) {
+            for (int i = 0; i < input.length() - 1; i++) {
+                char c1 = input.charAt(i);
+                char c2 = input.charAt(i + 1);
+                // 嚴格遞增：前一位必須小於後一位
+                if (c1 >= c2) {
+                    wellOrdered = false;
+                    break;
+                }
+            }
+        }
+
+        if (wellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+
+        scanner.close();
+    }
+}

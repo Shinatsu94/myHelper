@@ -1,0 +1,54 @@
+84
+建議改用更清晰的排序方法並修正輸出格式以避免尾端空格，同時增加程式註解與命名上的可讀性。
+
+修改說明與原因
+- 將原本自行實作的排序改為使用 Arrays.sort：原因是更穩定、可讀且正確性高，且時間複雜度相近，能減少邏輯錯誤的可能。
+- 優化輸出格式，避免尾端多餘空格，並加入換行：符合常見題目輸出格式要求。
+- 增加程式標頭註解與更具可讀性的變數名稱：提升可維護性與可理解性，也符合備註要求。
+- 針對可能的輸入長度為非正數的情況做基本處理，確保程式在邊界情況下不會异常。
+
+修改後完整程式碼
+/**
+ * File: CSIE_41343222_1031_1.java
+ * 功能: 讀入長度與整數陣列，將內容由小到大排序，並輸出排序後結果。
+ * 作者: 資訊工程系教授
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343222_1031_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // 讀取陣列長度
+        int n = 0;
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+        }
+
+        if (n <= 0) {
+            // 沒有有效長度，直接結束
+            scanner.close();
+            return;
+        }
+
+        int[] ary = new int[n];
+        for (int i = 0; i < n && scanner.hasNextInt(); i++) {
+            ary[i] = scanner.nextInt();
+        }
+
+        // 進行排序，採用內建方法提高正確性與可讀性
+        Arrays.sort(ary);
+
+        // 輸出：中間以空格分隔，結尾不帶多餘空格，並換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ary.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(ary[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

@@ -1,0 +1,47 @@
+92
+
+這份作業基本正確，建議提升變數命名與註解，並以字串拼接優化輸出與加強標頭說明以提升可讀性與可維護性。
+
+修改說明與改進點
+- 變數命名：將 n、i、j 改為 height、row、col，使變數含意更清楚。
+- 輸出優化：使用 StringBuilder 一次性組裝整個輸出字串，避免大量 System.out.print 呼叫，並在最後一次輸出，提升效能與可讀性（對於本題尺寸雖小，但習慣上更佳）。
+- 資源管理：改用 try-with-resources 以自動關閉 Scanner，確保資源釋放。
+- 程式標頭與註解：補全檔案說明（檔名、功能、作者、日期），增強維護性；程式內容增添必要註解，說明每段作用。
+- 邏輯與容錯：保持原有輸入範圍檢核 (height > 0 && height <= 20)，符合題目要求，若不在範圍內不輸出任何內容，避免影響測資。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343236_1031_3a.java
+ * 功能: 讀取整數 height，輸出高度為 height 的下三角星號矩陣（每行星號數分別為 1..height）
+ * 作者: 作者姓名
+ * 日期: 2025-11-14
+ * 備註: 使用 StringBuilder 組裝整體輸出，並採用有意義的變數命名與註解以提升可讀性與可維護性
+ */
+public class CSIE_41343236_1031_3a {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            int height = scanner.nextInt();
+
+            // 只處理有效範圍的 height
+            if (height > 0 && height <= 20) {
+                StringBuilder sb = new StringBuilder();
+
+                // 列(row)從 0 到 height-1，列數同高度
+                for (int row = 0; row < height; row++) {
+                    // 在該列印出 row+1 個 '*'
+                    for (int col = 0; col <= row; col++) {
+                        sb.append('*');
+                    }
+                    // 不是最後一列才換行，以避免尾端多餘換行
+                    if (row < height - 1) {
+                        sb.append('\n');
+                    }
+                }
+
+                System.out.print(sb.toString());
+            }
+        }
+    }
+}

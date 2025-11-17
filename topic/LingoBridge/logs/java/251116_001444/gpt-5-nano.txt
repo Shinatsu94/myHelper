@@ -1,0 +1,42 @@
+88
+改進建議：增加邊界處理與更清晰的變數命名與註解，並加入程式標頭以符合作業規範，提升可讀性與可維護性。
+
+import java.util.Scanner;
+
+/*
+ * 檔案名稱: csie_41343235_1003_3.java
+ * 功能: 計算在 1..100000 中，數字各位數字之和等於輸入 A 的數字個數
+ * 作者: [作者]
+ * 日期: 2025-11-15
+ * 備註: 程式內容包含適當註解說明
+ */
+public class csie_41343235_1003_3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int targetSum = sc.nextInt();
+        sc.close();
+
+        int count = 0;
+
+        // 邊界條件：若 targetSum 不在可行範圍，直接輸出 0
+        if (targetSum >= 1 && targetSum <= 45) {
+            for (int i = 1; i <= 100000; i++) {
+                if (digitSum(i) == targetSum) {
+                    count++;
+                }
+            }
+        }
+
+        System.out.println(count);
+    }
+
+    // 計算正整數 n 的位數總和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

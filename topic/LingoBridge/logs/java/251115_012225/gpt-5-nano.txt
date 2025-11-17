@@ -1,0 +1,56 @@
+92
+改進建議：可改用內建排序與完善程式標頭與輸出格式，以提升穩定性與可讀性，同時避免自訂排序邏輯可能的誤解。
+
+修改與原因說明
+- 將自寫的氣泡排序改為使用 Arrays.sort，提升效率與可靠性，且對負數與各種整數值皆正確。
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合程式設計習慣。
+- 改用清晰的變數命名與簡潔的輸出，輸出結束後加換行，結果更穩定且符合一般輸出慣例。
+- 加入對輸入的基本健壯性檢查，並在結束時關閉 Scanner。
+
+修改後完整程式碼
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * 檔案名稱: CSIE_41343112_1031_1.java
+ * 功能: 讀入任意長度的整數陣列，升序排序，並輸出結果
+ * 作者: 李宗懌
+ * 日期: 103/10/31
+ */
+public class CSIE_41343112_1031_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        n = sc.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，提前結束
+                break;
+            }
+        }
+
+        // 使用內建排序以提升穩定性與效率
+        Arrays.sort(arr, 0, n);
+
+        // 輸出排序結果，空格分隔，結尾換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}
+```

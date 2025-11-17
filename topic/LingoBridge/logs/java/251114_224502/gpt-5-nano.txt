@@ -1,0 +1,50 @@
+3
+
+改進建議：請改用單一一維陣列讀入與排序，輸出排序結果，並加入適當的程式標頭與註解，以符合題意與基本程式設計規範。
+
+修改說明與變更重點：
+- 原程式與題意不符，改為實作題目需求：使用一維整數陣列讀入長度與元素，對陣列內容進行升序排序，輸出排序後的結果。
+- 移除不相干的二維三角形結構與「尋找數字位置」邏輯，避免混亂與錯誤。
+- 使用 Arrays.sort 進行排序，支援正負整數。
+- 輸出為以空格分隔的排序結果，符合題目輸出格式。
+- 增加標頭註解與清晰變數命名，提升可讀性與維護性。
+
+修改後完整程式碼：
+
+/*
+ File: Main.java
+ 功能: 讀入長度 n 與 n 個整數，將陣列內容由小到大排序，輸出排序後的結果。
+ 作者: 教師姓名
+ 日期: 2025-11-14
+*/
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀入陣列長度
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀入 n 個整數
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        sc.close();
+
+        // 升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序後的陣列，元素以空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}

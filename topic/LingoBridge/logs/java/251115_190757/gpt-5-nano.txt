@@ -1,0 +1,51 @@
+81
+
+建議回饋：此作業基本邏輯與結果正確，但缺少標頭註解且對極端情況（如整數最小值的反轉）尚未完全健壯，建議採用更穩健的整數處理方式並增加註解。
+
+改進與修改說明（重點改動與原因）
+- 新增程式標頭註解：包含檔案名稱、功能、作者與日期，符合作業格式要求，便於維護與評分。
+- 避免直接對整數取絕對值以防止溢位：改為逐位取模後取絕對值的方式，並以 long 類型保存反轉結果，降低溢位風險，對 Integer.MIN_VALUE 這類情況也更穩健。
+- 使用 long 類型處理反轉結果：能容納更大的反轉結果，減少溢位風險，且與 int 的輸入範圍兼容。
+- 保留原本的符號處理邏輯：若輸入為負數，輸出仍為負數，符合數字反轉的語意。
+- 其他：加入對輸入存在性的檢查，避免沒有輸入時程序意外執行。
+
+修改後完整程式碼
+import java.util.Scanner;
+
+/*
+檔案名稱: CSIE_41343236_1017_3.java
+功能: 將使用者輸入之整數的位數反轉，並保留符號；例如 123 -> 321, 2500 -> 52, 8531 -> 1358
+作者: 教師
+日期: 2025-11-15
+說明: 優化點: 不直接對整數取絕對值，改用逐位取模的絕對值以避免 Integer.MIN_VALUE 的溢位問題；使用 long 避免溢位風險；增加對輸入存在性檢查。
+*/
+
+public class CSIE_41343236_1017_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long num;
+        if (scanner.hasNextLong()) {
+            num = scanner.nextLong();
+        } else {
+            scanner.close();
+            return;
+        }
+
+        long n = num;
+        long reversed = 0;
+
+        // 逐位反轉，對餘數取絕對值避免整數溢位
+        while (n != 0) {
+            int digit = (int) Math.abs(n % 10);
+            reversed = reversed * 10 + digit;
+            n /= 10;
+        }
+
+        if (num < 0) {
+            reversed = -reversed;
+        }
+
+        System.out.println(reversed);
+        scanner.close();
+    }
+}

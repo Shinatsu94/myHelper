@@ -1,69 +1,50 @@
-8
-- 正確性: 0/50
-- 邏輯: 0/30
-- 格式: 6/10
-- 備註: 2/10
+80
 
-程式評語與改進方向
-- 評語：學生提交的程式與題意完全不符，實作的是一個輸出星號三角形的功能，未對任意長度整數陣列進行升序排序，也未按要求處理輸入格式與輸出格式。僅有基本的程式格局與縮排，尚需大量修正以符合題目需求。
-- 改進方向：改寫成能讀取第一個整數作為長度，接著讀入該長度的整數並排序，最後輸出排序結果。增加基本的輸入驗證、使用適當的資料結構與輸出格式，以及完善的程式註解。
+改進建議: 程式在輸入不符合範圍時未明確處理，且未依題意使用完整的 2D 陣列概念建立與顯示下三角形，建議加入合理的輸入驗證並以 2D 陣列儲存再輸出，確保在所有測資下行為穩定。
 
-修改後完整程式碼與說明
-修改後的程式碼 (完整可執行版本)：
+改動與原因說明：
+- 加入嚴格輸入驗證，若 n 不在 (0, 20] 範圍內直接結束，避免輸出與題意不符的結果。
+- 使用 2D 陣列儲存下三角形的星號，符合題目「建立一個下三角形二維陣列」的要求。
+- 使用 0-based 的索引與僅輸出有效區間的方式，避免輸出多餘的空白，符合「元素之間無需任何空白符號」的要求。
+- 使用 try-with-resources 以確保 Scanner 物件正確關閉，提升穩健性。
+- 將輸出累積在 StringBuilder 中，避免多次 I/O 呼叫，提升效能，且能保留輸出格式（每行星號數增加，且不在最後一行後多出空行）。
 
-// Date: 2025-11-12
-// File: SortArrayAsc.java
-// Function: 讀入任意長度的一維整數陣列，並輸出其升序排序結果（由小到大）。
-import java.util.Arrays;
+完整修改後程式碼：
+```java
+//Date:2025/10/31
+//Creator:41343240黃榮裕
+//Function:建立一個下三角形二維陣列，輸入高度 n（0 < n <= 20），輸出對應的 '*' 下三角形，且不輸出多餘空格。
 import java.util.Scanner;
 
-public class SortArrayAsc {
+public class CSIE_41343240_1031_3a {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
 
-        // 1) 讀取陣列長度
-        if (!sc.hasNextInt()) {
-            sc.close();
-            return;
-        }
-        int n = sc.nextInt();
-        if (n <= 0) {
-            sc.close();
-            return;
-        }
-
-        // 2) 依長度讀入整數
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (sc.hasNextInt()) {
-                a[i] = sc.nextInt();
-            } else {
-                // 若輸入不足，以預設0補齊，避免例外
-                a[i] = 0;
+            // 嚴格範圍檢查：0 < n <= 20
+            if (n <= 0 || n > 20) {
+                return; // 輸入不符合規範，直接結束以避免錯誤輸出
             }
-        }
-        sc.close();
 
-        // 3) 排序
-        Arrays.sort(a);
+            // 建立 n x n 的二維陣列
+            char[][] tri = new char[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    tri[i][j] = '*';
+                }
+            }
 
-        // 4) 輸出（以空格分隔，避免尾端多空格）
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < a.length; i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(a[i]);
+            // 輸出下三角形，僅輸出有效區段，避免不必要的空格
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j <= i; j++) {
+                    sb.append(tri[i][j]);
+                }
+                if (i < n - 1) sb.append('\n');
+            }
+
+            System.out.print(sb.toString());
         }
-        System.out.println(sb.toString());
     }
 }
-
-修改說明與原因
-- 將任務改為符合題意：原程式與題目不符，改為讀取長度與對應的整數，並用 Arrays.sort 進行升序排序。
-- 增強輸入驗證與穩定性：若長度 n <= 0，直接結束程式；若輸入不足提供預設值，避免兌現例外。
-- 提升效能與可讀性：使用 Arrays.sort 進行排序，並以 StringBuilder 組合輸出，避免不必要的字串拼接。
-- 變數與檔案命名清晰：類別名稱改為 SortArrayAsc，檔案註解清楚說明檔名、功能與日期。
-
-改進建議
-- 建議在競賽或測資環境中採用快速輸入/輸出（如 BufferedInputStream 與自訂解析器）以提升效能，特別是在大資料量時。
-
-若你需要，我也可以提供更嚴謹的測資驗證與更多防呆處理的版本。
+```

@@ -1,0 +1,48 @@
+83
+
+改進建議：請移除未使用的變數與不符合題意的資料型別，改為使用 2D char 陣列儲存 '*'，並補上程式標頭註解與較佳的變數命名與格式化。
+
+改動與理由
+- 移除多餘的 currentNumber 與 int[][] 結構，直接使用 2D char 陣列儲存 '*'，符合「下三角形陣列中元素為 '*'」的要求，並簡化邏輯。
+- 使用清晰的類別名稱與檔案註解，提升可維護性與可讀性。
+- 加入基本輸入檢驗（範圍 1-20），避免非法輸入造成意外行為。
+- 輸出仍保持無空格、逐行顯示下三角星號模式，符合題目輸出格式。
+
+修改後完整程式碼
+/***************************************
+ * File: LowerTriangularStars.java
+ * 功能: 建立並列印下三角形的二維陣列，內容為 '*' 字元。
+ * 作者: 教師
+ * 日期: 2025-11-14
+ * 說明: 讀取整數 n (1 <= n <= 20)，輸出 n 行的下三角星號模式。
+ ***************************************/
+import java.util.Scanner;
+
+public class LowerTriangularStars {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+
+        // 基本輸入檢驗，遵守題意的範圍限制
+        if (n <= 0 || n > 20) {
+            return;
+        }
+
+        // 使用 2D char 陣列表示下三角形，只有下三角填 '*'，其餘位置保持未使用
+        char[][] tri = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = '*';
+            }
+        }
+
+        // 輸出以上三角形內容，元素之間不輸出空白符號
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(tri[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}

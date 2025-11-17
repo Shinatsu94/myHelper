@@ -1,0 +1,63 @@
+5
+改進建議：本題需透過陣列讀入長度與元素，進行升序排序並輸出，原作業未滿足題意，建議改寫為讀取 N 與 N 個整數並輸出排序結果。
+
+修改說明與原因：
+- 需求對這題的核心是讀取任意長度的整數陣列、進行升序排序並輸出，因此需使用陣列與排序機制（Arrays.sort），而非原始的數學映射邏輯。
+- 加入完整的程式標頭註解與有意義的變數命名，以提升可讀性與維護性。
+- 改用簡潔的輸入處理，避免依賴 EOF，確保一次執行就能結束，且負數也能正確處理。
+- 輸出格式採用空格分隔的單行輸出，符合題目範例。
+
+修改後完整程式碼：
+
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * File: ArraySortAscending.java
+ * Description: Read N, then N integers, sort ascending, and print.
+ * Author: YourName
+ * Date: 2025-11-14
+ */
+public class ArraySortAscending {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            // 非正長度不輸出內容
+            System.out.println();
+            scanner.close();
+            return;
+        }
+
+        // 讀取 n 個整數
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (!scanner.hasNextInt()) {
+                // 輸入不足，直接結束
+                scanner.close();
+                return;
+            }
+            arr[i] = scanner.nextInt();
+        }
+        scanner.close();
+
+        // 進行升序排序
+        Arrays.sort(arr);
+
+        // 輸出排序結果（以空格分隔）
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+    }
+}
+```

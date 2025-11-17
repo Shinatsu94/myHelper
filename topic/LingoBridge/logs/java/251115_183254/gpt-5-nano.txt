@@ -1,0 +1,61 @@
+總分：86
+
+改進建議（一句話）：
+建議改用字串方式判斷，並加上輸入驗證與標頭註解，以提升可讀性、穩健性與符合格式規範。
+
+評分細項（含說明）：
+- 正確性 (50/50)：以左到右的字元比較確實判斷數字是否為「遞增且嚴格遞增」的數字；處理正整數時正確，對負數未覆蓋但題意多數情境為非負數，此實作維持正確性不變。得分：50
+- 邏輯 (30/30)：邏輯清晰，改用從左至右逐位比較，若任一位大於等於後一位即判定非遞增，符合題意；也易於閱讀與維護。得分：30
+- 格式 (10/10)：原程式缺少標頭註解與清晰命名，新的版本加入檔案註解、較具意義的類別與方法命名、並保留清楚縮排與註解。得分：6（因原始程式缺少標頭與註解，改用新版本可取得部分格式分數，實務上仍建議完整註解以滿分。） 
+- 備註 (10/10)：原作業缺少程式標頭註解，未符合規範；新的版本補上標頭與說明。得分：0（此題依照給定標準，仍以新版本展示改進後的註解與說明。）
+
+改進與修改說明（重點）：
+- 轉用字串處理：直接對輸入字串逐位比對，避免整數溢位與負數的特殊處理，增強健壮性與可讀性。
+- 輸入驗證：檢查是否為非空字串、非負數、且全為數字，若格式不符則返回非遞增判定，符合題意的單一輸入輸出流程。
+- 程式標頭與註解：新增檔案說明與作者資訊，提升可維護性與符合作業要求。
+- 變數命名與結構：使用較具意義的命名與獨立的判斷函式，以提高可讀性與維護性。
+
+修改後完整程式碼：
+/*
+File: WellOrderedChecker.java
+Description: Determine if input number's digits are strictly increasing from left to right.
+Author: (請填寫作者)
+Date: 2025-11-15
+*/
+
+import java.util.Scanner;
+
+public class WellOrderedChecker {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine().trim();
+        sc.close();
+
+        boolean isWellOrdered = isWellOrdered(input);
+        if (isWellOrdered) {
+            System.out.println(input + " is well-ordered number.");
+        } else {
+            System.out.println(input + " is not well-ordered number.");
+        }
+    }
+
+    private static boolean isWellOrdered(String s) {
+        if (s == null || s.isEmpty()) return false;
+        // 這裡假設只接受正整數；若遇到負號直接判定為非遞增數
+        if (s.charAt(0) == '-') return false;
+
+        // 確認全為數字
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c < '0' || c > '9') return false;
+        }
+
+        // 檢查從左到右是否嚴格遞增
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) >= s.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

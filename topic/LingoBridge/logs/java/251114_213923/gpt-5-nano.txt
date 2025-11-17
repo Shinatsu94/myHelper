@@ -1,0 +1,60 @@
+10
+這份程式的排序邏輯嚴重錯誤，輸出還會出現-1作為元素，建議改用正確的排序方式並完善輸入與輸出處理。
+
+改進建議或反饋（一句話）
+排序邏輯需正確實作或使用可靠的排序方法（如 Arrays.sort），並避免改動原始輸入以免輸出出現不該有的值，同時加入適當的註解與標頭資訊。
+
+優化說明與修改重點
+- 正確性與穩定性：改用 Java 標準的 Arrays.sort 進行升序排序，能正確處理負數與任意長度的輸入。
+- 清晰命名與結構：改用具意義的變數名稱，增加必要的輸入與輸出檢查，確保程式健壯。
+- 程式格式與註解：加入檔案標頭註解說明檔案名稱、功能、作者、日期，並在程式內部加上適當註解。
+- 運算效率：Arrays.sort 為 O(n log n)，簡潔且高效。
+
+修改後完整程式碼
+```java
+/*
+檔案名稱: CSIE_41343226_1031_2.java
+功能: 讀取一個整數 n，接著讀入 n 個整數，將它們升序排序並輸出
+作者: 你的名字
+日期: 2025-11-14
+說明: 使用 Arrays.sort 進行排序，支援負數，並在輸出時保持空格分隔與換行結尾。
+*/
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class CSIE_41343226_1031_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取長度 n
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        // 讀取 n 個整數
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                nums[i] = scanner.nextInt();
+            } else {
+                // 不足的輸入以 0 代替（保證不會發生未初始化情況）
+                nums[i] = 0;
+            }
+        }
+
+        // 升序排序
+        Arrays.sort(nums);
+
+        // 輸出，空格分隔，末尾換行
+        for (int i = 0; i < n; i++) {
+            if (i > 0) System.out.print(" ");
+            System.out.print(nums[i]);
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
+```

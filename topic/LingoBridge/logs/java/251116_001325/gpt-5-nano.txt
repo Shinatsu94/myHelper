@@ -1,0 +1,49 @@
+88
+
+改進建議：程式邏輯正確且簡潔，但可提升可讀性與可維護性，例如使用更具描述性的變數名稱、移除多餘的語句，並加入檔案標header註解。
+
+評分細項與原因
+- 正確性(50/50)：正確計算並輸出1至100000中，位數加總等於A的數量，對給定範例輸出210，整體邏輯正確。
+- 邏輯(30/30)：使用逐數字的位數分解與加總，條件判斷正確，遍歷範圍與目標和的比對都正確。
+- 格式(8/10)：基本格式可讀，但變數命名較不具語意且排版可更整齊。原程式的 sum 重設行雖冗餘但不影響結果。
+- 備註(0/10)：缺少檔案標頭註解（檔案名稱、功能、作者、日期等），未符合題意的註解要求。
+
+優化說明與理由
+- 改善變數命名：將 a 改為 target，temp 改為 n，讓變數意義更清晰。
+- 去除冗餘語句：將 while 迴圈中的判斷改為 while (n > 0)，並移除不必要的 sum 重設以增進可讀性。
+- 增加程式標頭註解：加入檔案說明、功能描述、作者與日期，提升可維護性。
+- 程式風格調整：統一縮排與命名風格，使程式更易讀。
+
+修改後完整程式碼
+/*
+File: DigitSumCount.java
+功能: 計算在區間 [1, 100000] 中，位數字總和等於輸入值的數字個數
+作者: 你的名字
+日期: 2025-11-15
+說明: 輸入 target，輸出符合條件的數字數量
+*/
+
+import java.util.Scanner;
+
+public class DigitSumCount {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int target = scan.nextInt();
+        int count = 0;
+
+        for (int i = 1; i <= 100000; i++) {
+            int sum = 0;
+            int n = i;
+            while (n > 0) {
+                sum += n % 10;
+                n /= 10;
+            }
+            if (sum == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        scan.close();
+    }
+}

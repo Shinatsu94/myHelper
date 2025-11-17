@@ -1,0 +1,90 @@
+86
+
+改進建議：
+建議改用實作下三角形二維陣列的方式來滿足「建立完整的下三角形二維陣列」的要求，同時加入程式標頭註解與適當的變數命名與註解，並以單次輸入處理結束，讓結構更清晰。
+
+改動與原因說明：
+- 加入下三角形二維陣列的實作：建立 jagged array tri，並將 1 逐一填入，符合題意的結構要求。
+- 以直接填充與搜尋的方式定位 num：先填滿整個陣列，再在其中搜尋 num 的位置，確保即使未使用數字位置也有完整陣列結構可用於後續擴展。
+- 移除不必要的迴圈輸入（while），改為單次輸入處理：符合題目對單一測資的預期，避免多組測資帶來的混淆。
+- 提供較清晰的程式註解與可讀性：關鍵步驟有註解，變數命名更具意義，程式結構更易維護。
+- 加入標頭註解：說明檔案名稱、功能、作者、日期，符合作業要求的備註部分。
+
+修改後完整程式碼：
+```java
+/**
+ * File: LowerTriangularMatrix.java
+ * 功能: 建立一個下三角形的二維陣列，並找出指定數字在陣列中的位置
+ * 作者: 教授
+ * 日期: 2025-11-14
+ * 備註: 程式包含註解，並遵循下三角形的填充規則與尋找邏輯
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularMatrix {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // 讀取高度 n 與要尋找的數字 num
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int n = scanner.nextInt();
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+        int num = scanner.nextInt();
+
+        // 計算三角總數與範圍檢查
+        int total = n * (n + 1) / 2;
+        if (num < 1 || num > total) {
+            System.out.println("not find " + num + " in array.");
+            scanner.close();
+            return;
+        }
+
+        // 建立下三角形二維陣列並填入數字
+        int[][] tri = new int[n][];
+        for (int i = 0; i < n; i++) {
+            tri[i] = new int[i + 1];
+        }
+        int val = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                tri[i][j] = val++;
+            }
+        }
+
+        // 在陣列中搜尋 num 的位置
+        int foundRow = -1;
+        int foundCol = -1;
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (tri[i][j] == num) {
+                    foundRow = i + 1; // 1-based
+                    foundCol = j + 1; // 1-based
+                    break outer;
+                }
+            }
+        }
+
+        if (foundRow != -1) {
+            System.out.println(num + "[" + foundRow + ", " + foundCol + "]");
+        } else {
+            System.out.println("not find " + num + " in array.");
+        }
+
+        scanner.close();
+    }
+}
+```
+
+修改部分的原因與影響：
+- 以實作下三角形二維陣列符合題目「建立完整的下三角形二維陣列」的要求，方便日後擴充與教材示範。
+- 使用單次輸入處理，避免多組測資混淆，並與一般題目測資格式一致。
+- 透過填充與搜尋確保在任何合法的 num 廣度下都能正確找出位置，且保留 1-based 的列/欄輸出格式。

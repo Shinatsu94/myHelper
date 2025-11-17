@@ -1,0 +1,59 @@
+0
+
+建議改進點：請依題意實作一維陣列排序與正確的輸入輸出格式，避免使用與需求不符的二維結構與搜尋邏輯，並加入適當的註解與標頭資訊。
+
+修改說明與重點
+- 改用一維整數陣列直接存放輸入的元素，符合題目需求。
+- 使用 Arrays.sort 對陣列進行由小到大排序，簡潔且效率良好。
+- 輸出以空格分隔，結尾換行，符合輸出格式要求。
+- 增加程式頭註解與必要註解，提升可讀性與維護性，變數命名改為具意義的名稱。
+- 使用穩健的輸入處理，避免因輸入不足而崩潰。
+
+修改後完整程式碼如下（請以檔案命名與課程風格適度調整）：
+
+/*
+ * File: SortArrayAscending.java
+ * 功能: 讀取任意長度的一維整數陣列，將元素由小到大排序，並輸出排序後結果。
+ * 作者: 教學助理
+ * 日期: 2025-11-14
+ * 版本: 1.0
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortArrayAscending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        int n = 0;
+        if (sc.hasNextInt()) {
+            n = sc.nextInt();
+        }
+
+        // 讀取 n 個整數，存入一維陣列
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                numbers[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免例外
+                numbers[i] = 0;
+            }
+        }
+
+        // 對陣列排序（由小到大）
+        Arrays.sort(numbers);
+
+        // 輸出排序後的結果，空格分隔，最後換行
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(numbers[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

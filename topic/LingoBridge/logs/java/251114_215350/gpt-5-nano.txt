@@ -1,0 +1,60 @@
+4
+
+改進建議：
+- 作業未實作題目需求的排序與輸出，需要改為讀取長度與對應的整數陣列，執行升冪排序後輸出。
+- 加入完整的標頭註解與適當的程式內註解，提升可維護性與可讀性。
+
+修改與優化說明（重點與原因）：
+- 改為符合題目需求的功能：先讀取長度 n，接著讀入 n 個整數，對陣列進行升序排序，最後以單行、空格分隔輸出。
+- 使用 Arrays.sort 提供穩定且高效的排序能力，程式邏輯更簡潔。
+- 輸出格式調整為單行輸出，避免多餘的換行與星號等無關內容。
+- 程式標頭註解與檔案命名：加入檔案名稱、功能說明、作者、日期等註解，符合作業要求。
+
+以下為修改後的完整程式碼：
+
+/*
+檔案名稱: SortArrayAsc.java
+功能: 讀入長度 n 與 n 個整數，對陣列做升冪排序，輸出排序後的陣列內容（以空格分隔，單行輸出）
+作者: 金宗翰
+日期: 2025-11-14
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class SortArrayAsc {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 讀取陣列長度
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 讀取 n 個整數
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                // 若輸入不足，預設為 0，避免 ArrayIndexOutOfBounds
+                arr[i] = 0;
+            }
+        }
+
+        // 排序
+        Arrays.sort(arr);
+
+        // 輸出，單行、空格分隔，無尾端空格
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        sc.close();
+    }
+}

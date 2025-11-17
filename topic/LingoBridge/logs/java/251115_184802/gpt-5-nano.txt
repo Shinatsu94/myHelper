@@ -1,0 +1,49 @@
+90
+
+改進建議或反饋：建議改用字串判斷提升可讀性與穩定性，同時補上程式標頭註解與輸出格式統一，讓維護與評分更清晰。
+
+改進與修改說明（要點）
+- 類別與函式命名改為更明確的慣例名稱，改用 isWellOrdered，以提升可讀性。
+- 將數字判斷改為字串遍歷方式，直接比較相鄰兩位字元的大小，簡潔且不易出錯。
+- 加入程式檔案標頭註解，說明檔案名稱、功能、作者、日期，並在程式內容加入適當註解。
+- 輸出加入換行，且輸出格式與題目範例完全一致。
+- 程式在 main 中加入基本輸入檢測，避免非整數輸入造成問題。
+
+修改後完整程式碼如下：
+
+```java
+/**
+ * File: WellOrderedNumber.java
+ * Description: Determine whether a given positive integer has strictly increasing digits from left to right.
+ * Author: [Your Name]
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class WellOrderedNumber {
+
+    // 判斷整數的每一位是否嚴格遞增（從左到右）
+    public static boolean isWellOrdered(int n) {
+        String s = Integer.toString(n);
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) >= s.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        boolean ok = isWellOrdered(n);
+        System.out.println(n + (ok ? " is well-ordered number." : " is not well-ordered number."));
+        sc.close();
+    }
+}
+```

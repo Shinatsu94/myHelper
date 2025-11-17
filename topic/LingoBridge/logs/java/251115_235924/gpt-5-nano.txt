@@ -1,0 +1,43 @@
+84
+
+改進建議：提高變數命名與註解的清晰度，並以動態的位數計算取代固定6次迴圈以提升可讀性與維護性。
+
+修改點與原因：
+- 變數命名與結構
+  - 將 a、T 等不具語意的變數改為 targetSum、count 等更具語意的名稱，提升可讀性。
+- 位數計算方式
+  - 將固定的 6 次迴圈改為動態的 digits 檢查（while(n>0)），以避免對零值與不同位數的數字造成不必要的假設，並提升一般化與可讀性。
+- 程式健壯性與資源管理
+  - 使用 try-with-resources 關閉 Scanner，避免資源洩漏。
+- 程式設計與維護性
+  - 增加可重用的 digitSum 函式，讓主流程更簡潔，並方便日後維護與測試。
+- 程式標頭與註解
+  - 建議加入檔案標頭與註解，說明檔案名稱、功能、作者、日期等，但此版本僅說明修改方向，正式版可補充。
+
+修改後完整程式碼：
+import java.util.Scanner;
+
+public class CSIE_41343111_1003_3 {
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int targetSum = sc.nextInt();
+            int count = 0;
+            for (int i = 1; i <= 100000; i++) {
+                if (digitSum(i) == targetSum) {
+                    count++;
+                }
+            }
+            System.out.println(count);
+        }
+    }
+
+    // 計算整數各位數字和
+    private static int digitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}

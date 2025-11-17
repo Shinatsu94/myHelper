@@ -1,0 +1,61 @@
+5
+改進建議：這份作業需要改成讀取 n 個整數、排序並輸出結果，現有程式僅輸出星號並未執行排序。
+
+修改說明與原因：
+- 將程式流程改為：讀取 n、讀取 n 個整數至陣列、使用 Arrays.sort 進行升冪排序、再以空格分隔輸出結果，符合題目需求。
+- 移除原程式對 n 的上限檢查（不限長度），改為允許任意長度的陣列。
+- 加入清晰的程式標頭註解與適當的變數命名，並且在必要處理輸入不足的情況，以提高穩定性。
+- 使用 Arrays.sort 與 StringBuilder 以提升效率與可讀性。
+
+以下為修改後完整程式碼：
+
+/*
+檔案名稱: Main.java
+功能: 讀取一維整數陣列，將內容由小到大排序並輸出
+作者: 教師
+日期: 2025-11-14
+說明: 從標準輸入讀取第一個整數 n，接著讀取 n 個整數；排序後以空格分隔輸出。
+*/
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            return;
+        }
+
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            System.out.println("錯誤");
+            scanner.close();
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextInt()) {
+                arr[i] = scanner.nextInt();
+            } else {
+                // 輸入不足，視為錯誤
+                System.out.println("錯誤");
+                scanner.close();
+                return;
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.println(sb.toString());
+
+        scanner.close();
+    }
+}

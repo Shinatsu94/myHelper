@@ -1,0 +1,47 @@
+89
+
+改進建議：建議加入完整的程式標頭註解、改用有意義的變數名稱與適當的型別以提升可讀性與穩定性，並在輸入完畢後關閉 Scanner。
+
+修改說明與程式優化要點
+- 增加程式標頭註解，包含檔案名稱、功能、作者與日期，以符合備註要求。
+- 將變數名稱改為小寫 a、b、c，符合 Java 命名慣例，提升可讀性。
+- 將計算型別改為 long，降低整數溢位風險，尤其在求 mid 時以避免溢出。
+- 保留「使用三元運算子找最大值與最小值」的要求，並用 sum - max - min 計算中間值 mid。
+- 關閉 Scanner 以釋放資源。
+- 程式保留原本不使用 if-else 的特性，符合題目限制。
+
+修改後完整程式碼
+/*
+檔案名稱: ThreeNumbersMaxMidMin.java
+功能: 讀入三個整數，計算最大值、最小值與中間值（中間值 = a + b + c - max - min），
+      使用兩種不同的方式透過三元運算子找出最大值與最小值，避免使用 if-else。
+作者: 教授
+日期: 2025-11-15
+*/
+import java.util.Scanner;
+
+public class ThreeNumbersMaxMidMin {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        long a = scanner.nextLong();
+        long b = scanner.nextLong();
+        long c = scanner.nextLong();
+
+        // 最大值 max（使用三元運算子）
+        long max = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c);
+
+        // 最小值 min（使用三元運算子）
+        long min = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c);
+
+        // 中間值 mid，利用總和減去最大與最小值
+        long mid = a + b + c - max - min;
+
+        // 輸出結果：先最小值、再中間值、最後最大值
+        System.out.println(min);
+        System.out.println(mid);
+        System.out.println(max);
+
+        scanner.close();
+    }
+}

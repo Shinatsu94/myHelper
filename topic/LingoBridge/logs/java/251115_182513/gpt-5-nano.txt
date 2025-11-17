@@ -1,0 +1,42 @@
+88
+
+建議一句話回饋：建議加入完整的程式標頭註解、改用更具語意的變數命名，以及以字串處理方式判斷數字是否自左至右嚴格遞增，以提升可讀性與穩健性。
+
+修改與說明：
+- 使用字串方式判斷，避免大數值造成整數溢位與提升可讀性。
+- 變數命名改為更具語意，如 isWellOrdered、str 等，提升可讀性。
+- 加入程式標頭註解與關閉 Scanner，以符合作業要求的備註部分。
+- 保留原本輸出格式，但以輸入字串保持原始顯示。
+
+修改後完整程式碼：
+/*
+ * File: CSIE_41343101_1017_2.java
+ * 功能: 判斷輸入整數的各位數字是否從左到右嚴格遞增(well-ordered number)
+ * 作者: 學生
+ * 日期: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class CSIE_41343101_1017_2 {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    String str = sc.next();
+    boolean isWellOrdered = true;
+
+    for (int i = 0; i < str.length() - 1; i++) {
+      if (str.charAt(i) >= str.charAt(i + 1)) {
+        isWellOrdered = false;
+        break;
+      }
+    }
+
+    if (isWellOrdered) {
+      System.out.println(str + " is well-ordered number.");
+    } else {
+      System.out.println(str + " is not well-ordered number.");
+    }
+
+    sc.close();
+  }
+}

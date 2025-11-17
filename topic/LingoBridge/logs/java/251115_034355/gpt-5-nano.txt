@@ -1,0 +1,57 @@
+86
+
+建議改進：在不降低可讀性的前提下，使用數學公式直接定位數字的位置，並補充程式標頭註解與更清晰的命名。
+
+修改說明與重點
+- 正確性與邏輯：保留建構下三角形陣列的需求，同時用常數時間或線性時間的公式直接計算目標值的位置，避免不必要的巢狀迴圈搜尋。
+- 格式與可讀性：加入清晰的檔案標頭註解與更具描述性的變數命名，並維持一致的縮排與換行。
+- 備註：提供完整的程式標頭註解，說明檔案名稱、功能、作者與日期。
+
+修改後的完整程式碼如下
+/*
+ * 檔案名稱: LowerTriangularArray.java
+ * 功能: 建立下三角形二維陣列，並找出指定數字的位置
+ * 作者: 教師
+ * 日期: 2025-11-14
+ */
+
+import java.util.Scanner;
+
+public class LowerTriangularArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // 建立下三角形二維陣列
+        int[][] arr = new int[n][];
+        int value = 1;
+        for (int i = 0; i < n; i++) {
+            arr[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = value++;
+            }
+        }
+
+        int target = sc.nextInt();
+
+        int maxValue = n * (n + 1) / 2;
+        if (target <= 0 || target > maxValue) {
+            System.out.println("not find " + target + " in array.");
+            sc.close();
+            return;
+        }
+
+        // 使用數學公式直接定位目標值的位置
+        int row = 1;
+        // 找到最小的 row 使 target <= row*(row+1)/2
+        while (row <= n && target > row * (row + 1) / 2) {
+            row++;
+        }
+        // 1-based 的欄位
+        int col = target - (row - 1) * row / 2;
+
+        System.out.println(target + "[" + row + ", " + col + "]");
+
+        sc.close();
+    }
+}

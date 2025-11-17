@@ -1,0 +1,43 @@
+86
+
+改進建議：建議從範圍 1..100000 開始遍歷、加入程式標頭與註解、並使用有意義的變數名稱與格式化，以提升可讀性與符合題意。
+
+程式優化說明與修改原因
+- 循序範圍修正：將迴圈起始值由 0 改為 1，嚴格符合題目要求的範圍 [1, 100000]。
+- 程式標頭與註解：加入檔案頭與內部註解，方便維護與理解程式用途。
+- 變數命名與風格：將變數重新命名為更具語意的名稱（target、count、num、digitSum），並改善縮排與括號位置。
+- 資源管理：在結束時關閉 Scanner，避免資源洩漏。
+- 綜合可讀性提升：增加適當註解，並統一程式風格。
+
+修改後完整程式碼
+// 檔案名稱與功能說明：DigitSumCounter.java
+// 功能：計算在區間 [1, 100000] 內，數字位數總和等於輸入值 target 的數字個數
+// 作者：<作者姓名>
+// 日期：2025-11-15
+
+import java.util.Scanner;
+
+public class DigitSumCounter {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int target = sc.nextInt(); // 需要的數字位數總和
+        int count = 0;              // 符合條件的數字數量
+
+        // 遍歷區間 [1, 100000]
+        for (int num = 1; num <= 100000; num++) {
+            int digitSum = 0;
+            int x = num;
+            // 計算該數字的各位數字總和
+            while (x != 0) {
+                digitSum += x % 10;
+                x /= 10;
+            }
+            if (digitSum == target) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        sc.close();
+    }
+}

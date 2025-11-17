@@ -1,0 +1,53 @@
+6
+正確性: 0/50
+邏輯: 0/30
+格式: 6/10
+備註: 0/10
+改進建議: 請實作一個接收 n 個整數的陣列，直接對陣列排序並印出結果，避免使用與題目無關的二維不規則陣列與尋找邏輯。
+
+修改說明與重點
+- 重新實作核心任務：改為讀入長度 n、接著讀入 n 個整數，對陣列使用 Arrays.sort 進行升序排序，最後輸出排序結果。
+- 輸入處理更具魯棒性：逐一讀取 n 個整數，若輸入不足則補零，避免程序異常。
+- 增加程式標頭註解與變數命名：加入檔案說明註解、使用直覺的變數名稱，提升維護性與可讀性。
+- 輸出格式確保符合題目：以空格分隔輸出所有排序後的整數，末尾換行，避免尾端多餘空格。
+
+修改後的完整程式碼
+/*
+檔案名稱: Main.java
+功能: 讀取使用者輸入的整數個數 n，接著讀入 n 個整數，升序排序並印出結果
+作者: [Your Name]
+日期: 2025-11-14
+*/
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) {
+            return;
+        }
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 若輸入不足，補充 0
+            }
+        }
+
+        Arrays.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+
+        System.out.println(sb.toString());
+    }
+}

@@ -1,0 +1,54 @@
+总分: 72
+
+改進建議（一句話）:
+程式雖可正確逆序單一整數，但現行實作包含多輸入處理與缺乏註解與檔案頭資訊，建議改為只讀取單一輸入並提升命名與註解清晰度。
+
+修改與優化說明:
+- 移除不必要的迴圈，改為僅讀取單一整數並輸出逆序結果，符合「程式僅執行一次」的要求。
+- 將類別名稱改為更具描述性的 ReverseDigits，提升可讀性。
+- 增加檔案頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註部分。
+- 保留原先的正負號處理與長整數避免溢位的設計，但註意 Integer.MIN_VALUE 的邊界問題，若要更健壯可改用字串處理或更嚴謹的溢位檢查。
+- 增加內部註解與統一縮排，提升程式可讀性。
+- 讓程式結構更整潔，讓以後維護更方便。
+
+修改後完整程式碼:
+
+/*
+ * File: ReverseDigits.java
+ * Description: 讀入單一整數，輸出其數位反向排列的結果。
+ * Author: 你們的教授
+ * Date: 2025-11-15
+ */
+
+import java.util.Scanner;
+
+public class ReverseDigits {
+
+    // 將整數的數字反向排列，保留符號
+    public static int reverseDigits(int num) {
+        int sign = (num < 0) ? -1 : 1;
+        num = Math.abs(num);
+
+        long reversed = 0;
+
+        // 針對 num 為 0 的情況也能正常反轉
+        do {
+            reversed = reversed * 10 + (num % 10);
+            num /= 10;
+        } while (num != 0);
+
+        return (int) (reversed * sign);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        if (scanner.hasNextInt()) {
+            int inputNumber = scanner.nextInt();
+            int reversed = reverseDigits(inputNumber);
+            System.out.println(reversed);
+        }
+
+        scanner.close();
+    }
+}

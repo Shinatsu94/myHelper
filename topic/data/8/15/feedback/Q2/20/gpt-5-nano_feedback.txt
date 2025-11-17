@@ -1,51 +1,60 @@
-22
-評分明細（以 0-100 計分，分項如下）：
-- 正確性：0 / 50
-- 邏輯：15 / 30
-- 格式：7 / 10
-- 備註：0 / 10
-總分：22 / 100
+89
+建議改動：透過從右至左的單次遍歷即可同時生成每個位置右側的最大值，降低時間複雜度並保持正確性，並在程式開頭加入標頭註解與統一的排版。
 
-評語與分析：
-- 正確性方面：原程式排序結果錯誤，最終輸出為 [12, 12, 5, 1, -1]，與題意的由小到大排序不符；原因是排序邏輯不正確，且在迴圈中間就把 arr[i] 覆蓋，影響後續比較。
-- 邏輯方面：學生嘗試用巢狀循環找後方的最大值並放到前面，但邏輯未考慮到原始陣列值被覆蓋後會影響後續比較，且並未真正實作升序排序法。給予少量分數是因為有嘗試建立排序過程，但方法錯誤且不穩定。
-- 格式方面：基本語法與縮排尚可，但變數命名與檔案敘述不足，且缺乏必要的程式註解與標頭（例如檔案名稱、功能、作者、日期等）。
-- 備註方面：缺少標頭註解與說明，僅有少量零散註解，未符合良好程式檔案的註解要求。
+改進說明與修改內容
+- 主要改動點：將原本的雙層迴圈改為單次逆向遍歷，使用 currentMax 保存右側已知的最大值，逐步填入 arr[i]，再更新 currentMax。最後把最後一個元素設為 -1。此法時間複雜度由 O(n^2) 降為 O(n)，並避免不必要的比較。
+- 優化原因：符合題意需要取得「右側最大值」，且對任意長度陣列皆適用，且負數亦支援。
+- 其他改善：增加程式標頭註解與更清楚的輸出格式，保留原有功能與輸出格式。
 
-修改與優化說明（核心改動點）：
-- 使用內建排序方法 Arrays.sort 取代自訂排序邏輯，確保正確且能處理負數與任意長度的整數陣列。
-- 完整處理輸入與輸出格式，輸出以單一空格分隔，且在結尾換行，符合題目輸出格式。
-- 加入程式檔案標頭註解與關閉 Scanner 的資源，提升可讀性與穩定性。
-
-修改後的完整程式碼（已修正為正確的升序排序）：
-// 檔案名稱: CSIE_41343112_1031_2.java
-// 功能: 讀取使用者輸入的陣列長度與元素，將陣列內容由小到大排序，並輸出排序結果
-// 作者: 助手
-// 日期: 2025-11-12
+修改後完整程式碼
 import java.util.Scanner;
-import java.util.Arrays;
+
+/*
+ * File: CSIE_41343112_1031_2.java
+ * 功能: 依序輸入整數，建立任意長度的一維陣列，將陣列內容替換為其右側的最大值，最後將最後一個元素設為 -1，並輸出結果。
+ * 作者: 李宗懌
+ * 日期: 2025-11-14
+ */
 
 public class CSIE_41343112_1031_2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int arrSize = sc.nextInt();        // 設定陣列大小
-        int[] arr = new int[arrSize];
-        for (int i = 0; i < arrSize; i++) {
-            arr[i] = sc.nextInt();
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
         }
 
-        // 使用內建排序，確保正確性且支援負數
-        Arrays.sort(arr);
-
-        // 輸出格式：以單一空格分隔，結尾換行
-        for (int i = 0; i < arrSize; i++) {
-            if (i > 0) System.out.print(" ");
-            System.out.print(arr[i]);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                arr[i] = sc.nextInt();
+            } else {
+                arr[i] = 0; // 不足的輸入補0，避免例外
+            }
         }
-        System.out.println();
+
+        if (n > 0) {
+            int currentMax = arr[n - 1];
+            // 從右到左填入右側最大值
+            for (int i = n - 2; i >= 0; i--) {
+                int temp = arr[i];   // 保留原值，方便更新目前的右側最大值
+                arr[i] = currentMax;
+                if (temp > currentMax) {
+                    currentMax = temp;
+                }
+            }
+            arr[n - 1] = -1;
+        }
+
+        // 印出結果，元素之間以單一空格分隔
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(arr[i]);
+        }
+        System.out.print(sb.toString());
+
         sc.close();
     }
 }
-
-一句話改進建議或反饋：
-- 建議直接使用 Arrays.sort 等標準排序工具，並加強程式標頭與輸出格式註解，能提高正確性與可維護性。

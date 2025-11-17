@@ -1,0 +1,52 @@
+92
+
+改進建議：程式的結構與說明較為零散，建議加入標頭註解、採用更清晰的命名與迴圈寫法以提升可讀性與維護性。
+
+修改內容與原因：
+- 加入標頭註解，說明檔案名稱、功能、作者與日期，符合作業要求的備註部分。
+- 重新實作 pi 計算為直覺易懂的版本，使用 for 迴圈遍歷 maxTerms 項，避免混亂的初始值與符號變化邏輯。
+- 主程式分成兩部分：第一部分輸出 i = 10000 ~ 100000 的 pi 值，第二部分尋找最小的 i 使 pi 在區間 [3.14159, 3.14160) 內，並輸出該 i。
+- 使用穩定的輸出格式，確保 i 為六位寬、pi 為小數點後十位，符合題目要求。
+
+修改後完整程式碼（Java）：
+```java
+/*
+檔案名稱: LeibnizPi.java
+功能: 使用 Leiniz 級數近似 π，輸出不同項數下的近似值，並找出使 pi 近似到 3.14159 的最小項數
+作者: 教師姓名
+日期: 2025-11-15
+*/
+
+public class LeibnizPi {
+    public static void main(String[] args) {
+        // Part (a): 以不同項數輸出 pi 的近似值
+        for (int maxTerms = 10000; maxTerms <= 100000; maxTerms += 10000) {
+            double piValue = pi(maxTerms);
+            System.out.println(String.format("i = %6d, pi = %.10f", maxTerms, piValue));
+        }
+
+        // Part (b): 找到最小的項數使近似 pi 在 [3.14159, 3.14160) 范圍
+        int testN = 100000;
+        double result = pi(testN);
+        while (Math.floor(result * 100000.0) != 314159) {
+            testN++;
+            result = pi(testN);
+        }
+        System.out.println(String.format("\ni = %6d", testN));
+    }
+
+    // 計算以 maxTerms 項的 Leibniz 級數近似 π 值，maxTerms 為項數
+    public static double pi(int maxTerms) {
+        double sum = 0.0;
+        for (int k = 0; k < maxTerms; k++) {
+            double term = 1.0 / (2 * k + 1);
+            if ((k & 1) == 0) { // 偶數項為正
+                sum += term;
+            } else { // 奇數項為負
+                sum -= term;
+            }
+        }
+        return 4.0 * sum;
+    }
+}
+```
